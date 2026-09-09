@@ -10,6 +10,9 @@ import samsung_fl_dryer_dv6000_bundles_samsungdv6000_smart_install_entry from '.
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
+import samsung_flexwash_bundles_samsungflexwash_diagnostic_code_check from './seed/samsung_flexwash/bundles/samsungflexwash-diagnostic-code-check.json';
+import samsung_flexwash_bundles_samsungflexwash_manual_check_mode from './seed/samsung_flexwash/bundles/samsungflexwash-manual-check-mode.json';
+import samsung_flexwash_bundles_samsungflexwash_smart_install_entry from './seed/samsung_flexwash/bundles/samsungflexwash-smart-install-entry.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_engineer_mode_rf23bb_inner from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-engineer-mode-rf23bb-inner.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-fhub-engineer-entry.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-self-diagnosis-entry.json';
@@ -109,6 +112,27 @@ import samsung_fl_washer_bb8700_samsungbb8700_power_supply from './seed/samsung_
 import samsung_fl_washer_bb8700_samsungbb8700_wash_heater from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-heater.json';
 import samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-thermistor.json';
 import samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor from './seed/samsung_fl_washer_bb8700/samsungbb8700-water-level-sensor.json';
+import samsung_flexwash_samsungflexwash_communication from './seed/samsung_flexwash/samsungflexwash-communication.json';
+import samsung_flexwash_samsungflexwash_door_lock from './seed/samsung_flexwash/samsungflexwash-door-lock.json';
+import samsung_flexwash_samsungflexwash_drain_pump from './seed/samsung_flexwash/samsungflexwash-drain-pump.json';
+import samsung_flexwash_samsungflexwash_hmi_check from './seed/samsung_flexwash/samsungflexwash-hmi-check.json';
+import samsung_flexwash_samsungflexwash_inlet_valves from './seed/samsung_flexwash/samsungflexwash-inlet-valves.json';
+import samsung_flexwash_samsungflexwash_interload_communication from './seed/samsung_flexwash/samsungflexwash-interload-communication.json';
+import samsung_flexwash_samsungflexwash_inverter_communication from './seed/samsung_flexwash/samsungflexwash-inverter-communication.json';
+import samsung_flexwash_samsungflexwash_inverter_thermal from './seed/samsung_flexwash/samsungflexwash-inverter-thermal.json';
+import samsung_flexwash_samsungflexwash_leak_check from './seed/samsung_flexwash/samsungflexwash-leak-check.json';
+import samsung_flexwash_samsungflexwash_mems_sensor from './seed/samsung_flexwash/samsungflexwash-mems-sensor.json';
+import samsung_flexwash_samsungflexwash_motor_circuit from './seed/samsung_flexwash/samsungflexwash-motor-circuit.json';
+import samsung_flexwash_samsungflexwash_overflow from './seed/samsung_flexwash/samsungflexwash-overflow.json';
+import samsung_flexwash_samsungflexwash_power_supply from './seed/samsung_flexwash/samsungflexwash-power-supply.json';
+import samsung_flexwash_samsungflexwash_system_fault from './seed/samsung_flexwash/samsungflexwash-system-fault.json';
+import samsung_flexwash_samsungflexwash_unbalance from './seed/samsung_flexwash/samsungflexwash-unbalance.json';
+import samsung_flexwash_samsungflexwash_upper_door from './seed/samsung_flexwash/samsungflexwash-upper-door.json';
+import samsung_flexwash_samsungflexwash_upper_motor from './seed/samsung_flexwash/samsungflexwash-upper-motor.json';
+import samsung_flexwash_samsungflexwash_wash_heater from './seed/samsung_flexwash/samsungflexwash-wash-heater.json';
+import samsung_flexwash_samsungflexwash_wash_thermistor from './seed/samsung_flexwash/samsungflexwash-wash-thermistor.json';
+import samsung_flexwash_samsungflexwash_water_level_sensor from './seed/samsung_flexwash/samsungflexwash-water-level-sensor.json';
+import samsung_flexwash_samsungflexwash_wifi_communication from './seed/samsung_flexwash/samsungflexwash-wifi-communication.json';
 import samsung_fridge_bespoke_samsungbespoke_ambient_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-ambient-sensor.json';
 import samsung_fridge_bespoke_samsungbespoke_autofill_overflow from './seed/samsung_fridge_bespoke/samsungbespoke-autofill-overflow.json';
 import samsung_fridge_bespoke_samsungbespoke_compressor_inverter from './seed/samsung_fridge_bespoke/samsungbespoke-compressor-inverter.json';
@@ -447,6 +471,9 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
+  samsung_flexwash_bundles_samsungflexwash_diagnostic_code_check as ServiceModeBundle,
+  samsung_flexwash_bundles_samsungflexwash_manual_check_mode as ServiceModeBundle,
+  samsung_flexwash_bundles_samsungflexwash_smart_install_entry as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_engineer_mode_rf23bb_inner as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry as ServiceModeBundle,
@@ -548,6 +575,27 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_washer_bb8700_samsungbb8700_wash_heater as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_communication as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_door_lock as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_drain_pump as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_hmi_check as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_inlet_valves as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_interload_communication as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_inverter_communication as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_inverter_thermal as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_leak_check as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_mems_sensor as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_motor_circuit as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_overflow as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_power_supply as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_system_fault as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_unbalance as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_upper_door as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_upper_motor as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_wash_heater as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_wash_thermistor as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_water_level_sensor as ServiceProcedureSeed,
+  samsung_flexwash_samsungflexwash_wifi_communication as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_ambient_sensor as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_autofill_overflow as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_compressor_inverter as ServiceProcedureSeed,

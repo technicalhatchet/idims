@@ -523,6 +523,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w10785366a_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w10785366a_service_modes.py"
       }
+    },
+    {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "seedDir": "samsung_flexwash",
+      "label": "Samsung FlexWash WV55M9600 dual-load washer",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_flexwash/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_flexwash_washer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_flexwash_washer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_flexwash_washer_service_modes.py"
+      }
     }
   ]
 }

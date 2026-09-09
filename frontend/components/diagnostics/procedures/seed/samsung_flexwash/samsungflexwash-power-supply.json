@@ -1,0 +1,86 @@
+{
+  "id": "samsungflexwash-power-supply",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Power (9C1, 9C2)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "9C1",
+    "9C2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Power Check 9C",
+    "pages": [
+      30,
+      40
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "voltage_check"
+    },
+    {
+      "id": "voltage_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Supply voltage",
+      "body": "Verify operating voltage during Boil. Check for plug receptacle extension causing voltage drop (up to 10 V on 1 m cord).",
+      "sourceExcerpt": "Verify operating voltage during Boil. Check for plug receptacle extension causing voltage drop (up to 10 V on 1 m cord).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_verified"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct outlet and dedicated circuit."
+        }
+      ]
+    },
+    {
+      "id": "fix_supply_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Fix supply",
+      "oemOutcome": "Correct installation voltage and wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Power OK",
+      "oemOutcome": "Supply verified \u2014 replace main PBA if 9C persists.",
+      "requiresInput": false
+    }
+  ]
+}

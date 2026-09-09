@@ -1,0 +1,84 @@
+{
+  "id": "samsungflexwash-hmi-check",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Control panel (BC2)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "BC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Switch Check BC2",
+    "pages": [
+      33,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "button_gap"
+    },
+    {
+      "id": "button_gap",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Button gap check",
+      "body": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s. Loosen over-tightened sub PBA screws.",
+      "sourceExcerpt": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s. Loosen over-tightened sub PBA screws.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gap_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified"
+        },
+        {
+          "id": "loosen_screws",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "loosen_screws_out",
+          "terminal": true,
+          "oemOutcome": "Loosen service screws; replace main PBA if IC fault."
+        }
+      ]
+    },
+    {
+      "id": "loosen_screws_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Adjust panel",
+      "oemOutcome": "Loosen service screws and verify button free play.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "HMI OK",
+      "oemOutcome": "Control panel and tact switches verified.",
+      "requiresInput": false
+    }
+  ]
+}

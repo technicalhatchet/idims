@@ -1,0 +1,84 @@
+{
+  "id": "samsungflexwash-inverter-thermal",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Inverter over-temperature (TC4)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "inverter"
+  ],
+  "tags": [
+    "TC4",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Inverter Thermal TC4",
+    "pages": [
+      41,
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "tc4_cooling"
+    },
+    {
+      "id": "tc4_cooling",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inverter cooling",
+      "body": "TC4 occurs when inverter PBA motor driver temperature is high or IPM thermistor open/short.",
+      "sourceExcerpt": "TC4 occurs when inverter PBA motor driver temperature is high or IPM thermistor open/short.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cool_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tc4_verified"
+        },
+        {
+          "id": "replace_inverter_tc4",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_tc4_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA (lower) or main PBA (upper)."
+        }
+      ]
+    },
+    {
+      "id": "replace_inverter_tc4_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace inverter/main PBA",
+      "oemOutcome": "Replace inverter PBA on lower; main PBA on upper per manual.",
+      "requiresInput": false
+    },
+    {
+      "id": "tc4_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "TC4 resolved",
+      "oemOutcome": "Inverter thermal path addressed.",
+      "requiresInput": false
+    }
+  ]
+}

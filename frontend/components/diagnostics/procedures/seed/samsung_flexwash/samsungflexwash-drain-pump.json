@@ -1,0 +1,225 @@
+{
+  "id": "samsungflexwash-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Drain pump (5C)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "5C",
+    "drain_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Drain Pump 5C",
+    "pages": [
+      37,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_debris"
+    },
+    {
+      "id": "pump_debris",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Pump housing",
+      "body": "Check drain pump for foreign material. Verify wiring connections on main PBA and pump ASSY.",
+      "sourceExcerpt": "Check drain pump for foreign material. Verify wiring connections on main PBA and pump ASSY.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms"
+        },
+        {
+          "id": "clear_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_out",
+          "terminal": true,
+          "oemOutcome": "Remove debris from pump housing."
+        }
+      ]
+    },
+    {
+      "id": "pump_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Main drain pump resistance",
+      "body": "Measure main (lower) drain pump motor \u2014 13\u201316.5 \u03a9. Upper bubble pump (if equipped) is separate: 40\u201350 \u03a9.",
+      "sourceExcerpt": "Measure main (lower) drain pump motor \u2014 13\u201316.5 \u03a9. Upper bubble pump (if equipped) is separate: 40\u201350 \u03a9.",
+      "measurementKnowledgeId": "samsungFlexWashDrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "Motor terminals",
+        "label": "Main drain pump resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "pump_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "pump_pass",
+          "label": "13\u201316.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_run_check",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_run_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Pump runs",
+      "body": "Natural drain test \u2014 pump operates?",
+      "sourceExcerpt": "Natural drain test \u2014 pump operates?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified"
+        },
+        {
+          "id": "replace_pump_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump motor."
+        }
+      ]
+    },
+    {
+      "id": "clear_pump_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Clear pump",
+      "oemOutcome": "Remove obstruction and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace pump when open or inoperative.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "drain_verified"
+    },
+    {
+      "id": "drain_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Drain OK",
+      "oemOutcome": "Pump resistance and operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungflexwash-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "pump_run_check",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungflexwash-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "drain_verified"
+    }
+  ]
+}

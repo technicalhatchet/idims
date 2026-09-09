@@ -1,0 +1,185 @@
+{
+  "id": "samsungflexwash-wash-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Wash heater (HC, HC1)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "wash_heater",
+    "wash_ntc"
+  ],
+  "tags": [
+    "HC",
+    "HC1",
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Heater Check HC",
+    "pages": [
+      39,
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_wiring"
+    },
+    {
+      "id": "heater_wiring",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Heater connections",
+      "body": "Verify wire connections to wash heater.",
+      "sourceExcerpt": "Verify wire connections to wash heater.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_wired",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms"
+        },
+        {
+          "id": "repair_wiring",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring_out",
+          "terminal": true,
+          "oemOutcome": "Repair heater wiring."
+        }
+      ]
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Heater resistance",
+      "body": "Measure heater A\u2013B \u2014 26.2\u201327.1 \u03a9 depending on wattage variant.",
+      "sourceExcerpt": "Measure heater A\u2013B \u2014 26.2\u201327.1 \u03a9 depending on wattage variant.",
+      "measurementKnowledgeId": "samsungFlexWashHeaterOhms",
+      "testPoint": {
+        "connector": "Wash heater",
+        "pins": "A-B",
+        "label": "Heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "26.2\u201327.1 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok",
+              "componentId": "wash_heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_thermistor",
+      "order": 4,
+      "type": "instruction",
+      "title": "Thermistor follow-up",
+      "body": "If heater ohms OK, replace wash thermistor (TYPE 2) at back of tub.",
+      "sourceExcerpt": "If heater ohms OK, replace wash thermistor (TYPE 2) at back of tub.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_verified"
+    },
+    {
+      "id": "repair_wiring_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Repair wiring",
+      "oemOutcome": "Correct heater harness connections.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace wash heater when open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Heater path OK",
+      "oemOutcome": "Heater/thermistor service completed.",
+      "requiresInput": false
+    }
+  ]
+}

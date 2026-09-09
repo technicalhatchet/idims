@@ -1,0 +1,36 @@
+{
+  "id": "samsungflexwash-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_flexwash",
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "title": "Samsung FlexWash \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install \u2014 press Delay End to advance component tests.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "pages": [
+      36
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual check",
+      "body": "From AS: press Delay End. Each press advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door. OK(Ot) = pass; nG = fail.",
+      "sourceExcerpt": "From AS: press Delay End. Each press advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door. OK(Ot) = pass; nG = fail.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

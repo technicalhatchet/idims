@@ -1,0 +1,94 @@
+{
+  "id": "samsungflexwash-inverter-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Inverter PBA communication (AC6)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "inverter"
+  ],
+  "tags": [
+    "AC6",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Inverter Communication AC6",
+    "pages": [
+      31,
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "inverter_harness"
+    },
+    {
+      "id": "inverter_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inverter CN804 harness",
+      "body": "Verify connector between inverter PBA and main PBA (CN804). Reseat TX/RX lines; inspect inverter PBA soldering.",
+      "sourceExcerpt": "Verify connector between inverter PBA and main PBA (CN804). Reseat TX/RX lines; inspect inverter PBA soldering.",
+      "requiresInput": false,
+      "defaultNextStepId": "inverter_verified"
+    },
+    {
+      "id": "inverter_verified",
+      "order": 3,
+      "type": "visual_check",
+      "title": "AC6 cleared?",
+      "body": "After harness repair and power cycle, does AC6 clear?",
+      "sourceExcerpt": "After harness repair and power cycle, does AC6 clear?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inv_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_path_ok"
+        },
+        {
+          "id": "replace_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA."
+        }
+      ]
+    },
+    {
+      "id": "replace_inverter_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace inverter PBA",
+      "oemOutcome": "Replace inverter PBA when communication circuit failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "inv_path_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Inverter comm OK",
+      "oemOutcome": "Inverter PBA communication verified.",
+      "requiresInput": false
+    }
+  ]
+}
