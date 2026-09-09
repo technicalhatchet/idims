@@ -1,0 +1,139 @@
+{
+  "id": "samsungbespoke-ice-pipe-heater-72",
+  "version": "1.0.0",
+  "title": "Freezer ice pipe heater (72 \u03a9 \u2014 RF23BB)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "ice_pipe_heater"
+  ],
+  "tags": [
+    "ice_pipe_heater",
+    "33E",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Ice pipe heater cubed / ice bites",
+    "pages": [
+      90,
+      91
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "pipe72_pins"
+    },
+    {
+      "id": "pipe72_pins",
+      "order": 2,
+      "type": "instruction",
+      "title": "Ice pipe pin pair",
+      "body": "Cubed: CN20 19\u219423. Ice Bites: CN20 21\u219423. Power off, CN20 disconnected.",
+      "sourceExcerpt": "Cubed: CN20 19\u219423. Ice Bites: CN20 21\u219423. Power off, CN20 disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "pipe72_ohms"
+    },
+    {
+      "id": "pipe72_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ice pipe heater 72 \u03a9",
+      "body": "72 \u03a9 \u00b17%.",
+      "sourceExcerpt": "72 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungBespokeFridgeIcePipeHeaterOhms72",
+      "testPoint": {
+        "connector": "CN20",
+        "pins": "19\u219423 or 21\u219423",
+        "label": "Ice pipe heater 72 \u03a9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "p72_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "p72_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "p72_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pipe72",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "p72_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pipe72_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_pipe72",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice pipe heater",
+      "oemOutcome": "Replace ice pipe heater or thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "pipe72_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice pipe heater OK",
+      "oemOutcome": "72 \u03a9 in range.",
+      "requiresInput": false
+    }
+  ]
+}

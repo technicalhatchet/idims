@@ -1,0 +1,175 @@
+{
+  "id": "samsungbespoke-freezer-defrost-heater",
+  "version": "1.0.0",
+  "title": "Freezer defrost heater",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Freezer defrosting error",
+    "pages": [
+      89,
+      123
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "fdef_disconnect"
+    },
+    {
+      "id": "fdef_disconnect",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect harness",
+      "body": "Power off. RF23BB: disconnect CN20, measure 6\u21948. RF32CG: disconnect CN70 & CN81, measure CN70-5 \u2194 CN81-1.",
+      "sourceExcerpt": "Power off. RF23BB: disconnect CN20, measure 6\u21948. RF32CG: disconnect CN70 & CN81, measure CN70-5 \u2194 CN81-1.",
+      "requiresInput": false,
+      "defaultNextStepId": "fdef_ohms"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fdef_ohms"
+    },
+    {
+      "id": "fdef_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Defrost heater resistance",
+      "body": "63(230) \u03a9 \u00b17% \u2014 0 \u03a9 short, \u221e open bimetal/heater.",
+      "sourceExcerpt": "63(230) \u03a9 \u00b17% \u2014 0 \u03a9 short, \u221e open bimetal/heater.",
+      "measurementKnowledgeId": "samsungBespokeFridgeDefrostHeaterOhms63",
+      "testPoint": {
+        "connector": "CN20 or CN70/CN81",
+        "pins": "per model",
+        "label": "Defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fdef_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fdef_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fdef_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fdef_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fdef_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fdef_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_fdef_heater",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace heater or defrost bimetal/thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "fdef_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Defrost heater OK",
+      "oemOutcome": "Resistance in OEM range.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbespoke-self-diagnosis-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "fdef_disconnect",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf23bb-digital",
+      "modeKind": "load_test",
+      "attachAfterStepId": "fdef_disconnect",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf32cg-buttons",
+      "modeKind": "load_test",
+      "attachAfterStepId": "fdef_disconnect",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-fhub-engineer-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "fdef_disconnect",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

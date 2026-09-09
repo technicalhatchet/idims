@@ -1,0 +1,122 @@
+{
+  "id": "samsungbespoke-ice-room-fan",
+  "version": "1.0.0",
+  "title": "Ice room fan",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "ice_room_fan",
+    "evap_fan"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF32CG-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF32CG/RF31CG/RF26CG",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf32cg-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Ice room fan error",
+    "pages": [
+      97,
+      128
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_fan_cmd"
+    },
+    {
+      "id": "ice_fan_cmd",
+      "order": 2,
+      "type": "instruction",
+      "title": "Command ice room fan",
+      "body": "RF32CG: verify ice room fan operation in Test Mode or Load Condition.",
+      "sourceExcerpt": "RF32CG: verify ice room fan operation in Test Mode or Load Condition.",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_fan_fb"
+    },
+    {
+      "id": "ice_fan_fb",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ice room fan feedback",
+      "body": "MAIN PCB CN20 22\u219424 \u2014 7\u201312 V while commanded.",
+      "sourceExcerpt": "MAIN PCB CN20 22\u219424 \u2014 7\u201312 V while commanded.",
+      "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+      "testPoint": {
+        "connector": "CN20",
+        "pins": "22 \u2194 24",
+        "label": "Ice room fan feedback"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "irf_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ice_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "irf_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ice_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "irf_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ice_fan_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ice_fan",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice room fan",
+      "oemOutcome": "Replace ice room fan motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_fan_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice room fan OK",
+      "oemOutcome": "Feedback in range.",
+      "requiresInput": false
+    }
+  ]
+}

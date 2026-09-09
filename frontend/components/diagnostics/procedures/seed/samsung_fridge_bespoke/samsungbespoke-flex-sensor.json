@@ -1,0 +1,122 @@
+{
+  "id": "samsungbespoke-flex-sensor",
+  "version": "1.0.0",
+  "title": "Flex-Zone sensor (optional)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "flex_sensor",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Self-diagnosis CHECK LIST \u2014 sensor",
+    "pages": [
+      89,
+      97
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_self_diag"
+    },
+    {
+      "id": "run_self_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Run self-diagnosis",
+      "body": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+      "sourceExcerpt": "Enter Engineer Mode \u2192 mode 3, or hold service keys 10 s per UI variant. Note blinking LED for this sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "sensor_voltage",
+      "order": 3,
+      "type": "measurement",
+      "title": "Thermistor voltage CN40 18 \u2194 20",
+      "body": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold.",
+      "sourceExcerpt": "Measure MAIN PCB CN40 18 \u2194 20 \u2014 4.5 V warm \u2192 1.0 V cold.",
+      "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+      "testPoint": {
+        "connector": "CN40",
+        "pins": "18 \u2194 20",
+        "label": "Thermistor voltage CN40 18 \u2194 20"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace thermistor or repair harness when voltage out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Sensor OK",
+      "oemOutcome": "Voltage in range \u2014 clear error after power cycle if harness verified.",
+      "requiresInput": false
+    }
+  ]
+}

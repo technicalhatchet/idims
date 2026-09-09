@@ -1,0 +1,38 @@
+{
+  "id": "samsungbespoke-fhub-engineer-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_bespoke",
+  "manualId": "SAMSUNG-RF32CG-FRIDGE",
+  "title": "Family Hub \u2014 Fridge Function Test entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "lcd_in_door"
+  ],
+  "description": "Touch A-B-A-B-A-B within 3 s \u2192 Engineer mode \u2192 Fridge Function Test.",
+  "tags": [
+    "service_diagnostic",
+    "engineer_mode",
+    "family_hub"
+  ],
+  "entryStepId": "fh_enter",
+  "source": {
+    "manualTitle": "Samsung Bespoke French-door RF32CG/RF31CG/RF26CG",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf32cg-extracted.txt",
+    "pages": [
+      92,
+      96
+    ]
+  },
+  "steps": [
+    {
+      "id": "fh_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Family Hub engineer mode",
+      "body": "Touch A-B-A-B-A-B within 3 s. Choose Fridge Function Test \u2192 Force Run or Self Diagnosis.",
+      "sourceExcerpt": "Touch A-B-A-B-A-B within 3 s. Choose Fridge Function Test \u2192 Force Run or Self Diagnosis.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

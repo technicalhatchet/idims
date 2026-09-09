@@ -1,0 +1,158 @@
+{
+  "id": "samsungbespoke-convertible-fan",
+  "version": "1.0.0",
+  "title": "Convertible compartment fan (C-FAN)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "22C",
+    "evap_fan"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "C-FAN error",
+    "pages": [
+      89,
+      126
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "cfan_pins"
+    },
+    {
+      "id": "cfan_pins",
+      "order": 2,
+      "type": "instruction",
+      "title": "C-FAN pin variant",
+      "body": "RF23BB: CN40 11\u219413. RF32CG: CN40 13\u219415.",
+      "sourceExcerpt": "RF23BB: CN40 11\u219413. RF32CG: CN40 13\u219415.",
+      "requiresInput": false,
+      "defaultNextStepId": "cfan_fb"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "cfan_fb"
+    },
+    {
+      "id": "cfan_fb",
+      "order": 4,
+      "type": "measurement",
+      "title": "C-FAN feedback voltage",
+      "body": "7\u201312 V while C-fan commanded on.",
+      "sourceExcerpt": "7\u201312 V while C-fan commanded on.",
+      "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+      "testPoint": {
+        "connector": "CN40",
+        "pins": "11\u219413 or 13\u219415",
+        "label": "C-FAN feedback voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cfan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "cfan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "cfan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cfan_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_cfan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace C-FAN",
+      "oemOutcome": "Replace convertible fan motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "cfan_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "C-FAN OK",
+      "oemOutcome": "Feedback in range.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbespoke-self-diagnosis-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "cfan_pins",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf23bb-digital",
+      "modeKind": "load_test",
+      "attachAfterStepId": "cfan_pins",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf32cg-buttons",
+      "modeKind": "load_test",
+      "attachAfterStepId": "cfan_pins",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-fhub-engineer-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "cfan_pins",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

@@ -304,6 +304,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolWrt311DefrostHeaterOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
+        { knowledgeId: 'samsungBespokeFridgeDefrostHeaterOhms63', platformId: 'samsung_fridge_bespoke' },
         {
           knowledgeId: 'mideaRssDefrostHeaterOhms',
           platformId: 'midea_rss',
@@ -403,13 +404,22 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       ],
     },
     'fans_and_electrical.thermistor_voltage_v': {
-      candidates: [{ knowledgeId: 'refrigeratorThermistorVoltage', platformId: 'samsung_sxs' }],
+      candidates: [
+        { knowledgeId: 'samsungBespokeFridgeThermistorVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'refrigeratorThermistorVoltage', platformId: 'samsung_sxs' },
+      ],
     },
     'fans_and_electrical.evap_fan_feedback_voltage': {
-      candidates: [{ knowledgeId: 'refrigeratorEvapFanFeedbackVoltage', platformId: 'samsung_sxs' }],
+      candidates: [
+        { knowledgeId: 'samsungBespokeFridgeEvapFanFeedbackVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'refrigeratorEvapFanFeedbackVoltage', platformId: 'samsung_sxs' },
+      ],
     },
     'fans_and_electrical.inverter_ipm_voltage': {
-      candidates: [{ knowledgeId: 'refrigeratorInverterIpmVoltage', platformId: 'samsung_sxs' }],
+      candidates: [
+        { knowledgeId: 'samsungBespokeFridgeInverterIpmVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'refrigeratorInverterIpmVoltage', platformId: 'samsung_sxs' },
+      ],
     },
     'fans_and_electrical.lg_fan_voltage': {
       candidates: [{ knowledgeId: 'lgRefrigeratorFanVoltage', platformId: 'lg_lrmvs' }],

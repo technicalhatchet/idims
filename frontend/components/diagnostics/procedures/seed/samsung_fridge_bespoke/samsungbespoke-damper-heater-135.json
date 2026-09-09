@@ -1,0 +1,138 @@
+{
+  "id": "samsungbespoke-damper-heater-135",
+  "version": "1.0.0",
+  "title": "Flex-Zone damper heater (135 \u03a9)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper_heater",
+    "RD"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Flex ROOM damper heater",
+    "pages": [
+      90,
+      91
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "damp135_off"
+    },
+    {
+      "id": "damp135_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect CN40",
+      "body": "Power off. Disconnect CN40 harness.",
+      "sourceExcerpt": "Power off. Disconnect CN40 harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "damp135_ohms"
+    },
+    {
+      "id": "damp135_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Damper heater 135 \u03a9",
+      "body": "CN40 25\u219427 \u2014 135 \u03a9 \u00b17%.",
+      "sourceExcerpt": "CN40 25\u219427 \u2014 135 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungBespokeFridgeDamperHeaterOhms135",
+      "testPoint": {
+        "connector": "CN40",
+        "pins": "25 \u2194 27",
+        "label": "Damper heater 135 \u03a9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "d135_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d135_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d135_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_damp135",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d135_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "damp135_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_damp135",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace damper heater",
+      "oemOutcome": "Replace flex-zone damper heater.",
+      "requiresInput": false
+    },
+    {
+      "id": "damp135_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Damper heater OK",
+      "oemOutcome": "135 \u03a9 in range.",
+      "requiresInput": false
+    }
+  ]
+}

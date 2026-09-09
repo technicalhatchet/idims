@@ -1,0 +1,269 @@
+[
+  {
+    "id": "samsungBespokeFridgeThermistorVoltage",
+    "name": "Samsung Bespoke Cabinet Thermistor Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 1.0, "max": 4.5 },
+      "warning": { "min": 0.5, "max": 4.8 },
+      "critical": { "below": 0.2, "above": 5.0 }
+    },
+    "typical": { "min": 1.5, "max": 3.5 },
+    "purpose": "Verify NTC thermistor signal at main PCB CN20/CN40/CN60/CN90 — voltage falls as temperature drops.",
+    "failureModes": [
+      "Stuck high (~4.5 V) or low (~0 V) = open/short or harness fault",
+      "Out of range vs compartment temp = failed sensor or wrong connector pin"
+    ],
+    "testingTips": [
+      "RF23BB/RF32CG self-diagnosis CHECK LIST: 4.5 V warm → 1.0 V cold at listed CN20/CN40/CN60/CN90 pin pairs",
+      "Run Engineer Mode → Self-diagnosis (mode 3) or 10 s key combo to surface LED blink for failed sensor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["thermistor", "sensor_check"]
+  },
+  {
+    "id": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+    "name": "Samsung Bespoke Evap Fan Feedback Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 7, "max": 12 },
+      "warning": { "min": 5, "max": 13 },
+      "critical": { "below": 2, "above": 14 }
+    },
+    "typical": { "min": 8, "max": 11 },
+    "purpose": "Confirm BLDC evaporator/convertible/ice-room fan feedback while fan is commanded on.",
+    "failureModes": [
+      "No 7–12 V feedback with command present = motor, harness, or FG line fault",
+      "Intermittent feedback = ice drag, loose connector, or failing fan PCB"
+    ],
+    "testingTips": [
+      "F-FAN CN20 16–18; Fridge fan CN20 15–17; C-FAN CN40 11–13 (RF23BB) or CN40 13–15 (RF32CG)",
+      "Ice room fan RF32CG: CN20 22–24 — fan may stop with door open; allow 1 min after close"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["evap_fan", "airflow"]
+  },
+  {
+    "id": "samsungBespokeFridgeInverterIpmVoltage",
+    "name": "Samsung Bespoke Inverter IPM DC Supply",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 13.5, "max": 20 },
+      "warning": { "min": 12, "max": 22 },
+      "critical": { "below": 12 }
+    },
+    "typical": { "min": 14, "max": 18 },
+    "purpose": "Verify inverter has adequate DC bus for compressor start on Bespoke inverter platforms.",
+    "failureModes": [
+      "Under 13.5 V DC = comp starting failure / IPM fault",
+      "Low voltage with good line supply = inverter board or harness"
+    ],
+    "testingTips": [
+      "Self-diagnosis: check compressor terminal shorts and IPM pin shorts before replacing inverter",
+      "Read inverter LED blink pattern after 5-minute lockout per §6-14"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["compressor", "sealed_system", "control_board"]
+  },
+  {
+    "id": "samsungBespokeFridgeDefrostHeaterOhms63",
+    "name": "Samsung Bespoke Freezer Defrost Heater (63 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 58, "max": 68 },
+      "warning": { "min": 50, "max": 75 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 61, "max": 66 },
+    "openCircuitCritical": true,
+    "purpose": "Verify freezer defrost heater resistance — 63 (230) Ω ±7% at power off.",
+    "failureModes": [
+      "0 Ω = heater short — power off immediately",
+      "∞ Ω = open heater or open defrost bimetal / thermal fuse"
+    ],
+    "testingTips": [
+      "RF23BB: disconnect CN20 harness; measure CN20 pin 6 ↔ pin 8",
+      "RF32CG: disconnect CN70 & CN81; measure CN70 pin 5 ↔ CN81 pin 1",
+      "Resistance varies with input voltage — 63 Ω nominal at 120 V, 230 Ω at 230 V line"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "samsungBespokeFridgeDamperHeaterOhms135",
+    "name": "Samsung Bespoke Flex/Damper Heater (135 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 125, "max": 145 },
+      "warning": { "min": 115, "max": 155 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 130, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Verify flex-zone damper or ice-room damper heater — 135 Ω ±7%.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "RF23BB Flex-Zone damper: CN40 pin 25 ↔ pin 27 (power off, CN40 disconnected)",
+      "RF32CG ice room heater: CN60 pin 21 ↔ pin 23"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater", "damper"]
+  },
+  {
+    "id": "samsungBespokeFridgeDamperHeaterOhms24",
+    "name": "Samsung Bespoke Damper Heater (24 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 22, "max": 26 },
+      "warning": { "min": 19, "max": 29 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 23, "max": 25 },
+    "openCircuitCritical": true,
+    "purpose": "Verify RF32CG damper heater resistance — 24 Ω ±7% at CN40.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "RF32CG: disconnect CN40 harness; measure CN40 pin 25 ↔ pin 27",
+      "Do not confuse with RF23BB flex-zone 135 Ω damper heater on same connector family"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["defrost_heater", "damper"]
+  },
+  {
+    "id": "samsungBespokeFridgeIcePipeHeaterOhms72",
+    "name": "Samsung Bespoke Ice Pipe Heater (72 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 67, "max": 77 },
+      "warning": { "min": 60, "max": 85 },
+      "critical": { "below": 10, "above": 120 }
+    },
+    "typical": { "min": 70, "max": 74 },
+    "openCircuitCritical": true,
+    "purpose": "Verify freezer ice-pipe heater — 72 Ω ±7% (RF23BB cubed / ice bites paths).",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "Cubed ice maker: CN20 pin 19 ↔ pin 23",
+      "Ice Bites: CN20 pin 21 ↔ pin 23 — power off, CN20 disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "samsungBespokeFridgeIcePipeHeaterOhms24",
+    "name": "Samsung Bespoke Ice Pipe Heater (24 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 22, "max": 26 },
+      "warning": { "min": 19, "max": 29 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 23, "max": 25 },
+    "openCircuitCritical": true,
+    "purpose": "Verify RF32CG ice-pipe heater — 24 Ω ±7% at CN20.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "RF32CG cubed ice: disconnect CN20; measure pin 19 ↔ pin 23",
+      "RF23BB family uses 72 Ω on same functional path — confirm model before interpreting reading"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "samsungBespokeFridgeIceDuctHeaterOhms63",
+    "name": "Samsung Bespoke Fridge Ice Duct Heater (63 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 58, "max": 68 },
+      "warning": { "min": 50, "max": 75 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 61, "max": 66 },
+    "openCircuitCritical": true,
+    "purpose": "Verify RF32CG fridge ice-duct heater — 63 (230) Ω ±7% at CN90.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect CN90 harness; measure pin 1 ↔ pin 5",
+      "Resistance varies with input voltage — same 63/230 Ω family as freezer defrost"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "samsungBespokeFridgeAutofillOverflowVoltage",
+    "name": "Samsung Bespoke AutoFill Overflow Sense Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.5, "max": 5.0 },
+      "warning": { "min": 4.0, "max": 4.5 },
+      "critical": { "below": 4.0 }
+    },
+    "typical": { "min": 4.7, "max": 5.0 },
+    "purpose": "Verify AutoFill infuser overflow sensor at main PCB CN90.",
+    "failureModes": [
+      "0–4.5 V = water overflow detected",
+      "4.5–5 V = no overflow"
+    ],
+    "testingTips": [
+      "RF23BB: CN90 pin 11 ↔ pin 13",
+      "RF32CG: same CN90 11–13 per self-diagnosis CHECK LIST"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"]
+    },
+    "dmaTags": ["water_dispenser", "sensor_check"]
+  }
+]
