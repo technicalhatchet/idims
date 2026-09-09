@@ -1,0 +1,297 @@
+{
+  "id": "w11509412-test-04-compressor",
+  "version": "1.0.0",
+  "title": "Service Test 4: Compressor & condenser fan",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "compressor",
+    "condenser_fan"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "condenser_fan",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Compressor/Condenser Fan Motor",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_04"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_04"
+    },
+    {
+      "id": "select_test_04",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 04",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 04. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 04 \u2014 Compressor/condenser fan",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_toggle"
+    },
+    {
+      "id": "comp_toggle",
+      "order": 4,
+      "type": "instruction",
+      "title": "Toggle sealed system loads",
+      "body": "Press SW3 to control compressor and condenser fan (01=on, 02=off).",
+      "sourceExcerpt": "Press SW3 to control compressor and condenser fan (01=on, 02=off).",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_runs"
+    },
+    {
+      "id": "comp_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Compressor and condenser fan run",
+      "body": "With SW3 set to 01 (on), do compressor (EMD55CLT) and condenser fan (940 RPM) operate normally?",
+      "sourceExcerpt": "With SW3 set to 01 (on), do compressor (EMD55CLT) and condenser fan (940 RPM) operate normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_verified"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_compressor",
+      "order": 6,
+      "type": "instruction",
+      "title": "Disconnect power for compressor ohms",
+      "body": "Unplug unit. Access compressor terminals, relay TSD, and 12 \u00b5fd run capacitor.",
+      "sourceExcerpt": "Unplug unit. Access compressor terminals, relay TSD, and 12 \u00b5fd run capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_winding_ohms"
+    },
+    {
+      "id": "run_winding_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Compressor run winding (EMD55CLT)",
+      "body": "Run winding 5.3 \u03a9 \u00b18% between run and common.",
+      "sourceExcerpt": "Run winding 5.3 \u03a9 \u00b18% between run and common.",
+      "measurementKnowledgeId": "whirlpoolKaFdCompressorRunOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "run \u2194 common",
+        "label": "Compressor run winding (EMD55CLT)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_pass",
+          "label": "5.3 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding_ohms"
+        }
+      ]
+    },
+    {
+      "id": "start_winding_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Compressor start winding",
+      "body": "Start winding 7.7 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+      "sourceExcerpt": "Start winding 7.7 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+      "measurementKnowledgeId": "whirlpoolKaFdCompressorStartOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "start \u2194 common",
+        "label": "Compressor start winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "start_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "start_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "start_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "start_pass",
+          "label": "7.7 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_relay_cap"
+        }
+      ]
+    },
+    {
+      "id": "check_relay_cap",
+      "order": 9,
+      "type": "instruction",
+      "title": "Check relay and run capacitor",
+      "body": "Verify TSD relay and 12 \u00b5fd/180 VAC run capacitor. FLA 2.3 A; LRA 11.3 A per spec.",
+      "sourceExcerpt": "Verify TSD relay and 12 \u00b5fd/180 VAC run capacitor. FLA 2.3 A; LRA 11.3 A per spec.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_verified"
+    },
+    {
+      "id": "replace_compressor",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace compressor or start device",
+      "oemOutcome": "Replace compressor, relay, or run capacitor when windings or start path failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Compressor path verified",
+      "oemOutcome": "Service test 4 and compressor circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

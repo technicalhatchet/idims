@@ -1,0 +1,142 @@
+{
+  "id": "w11509412-test-45-ice-water-fill",
+  "version": "1.0.0",
+  "title": "Service Test 45: Ice maker water fill",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "water_valve",
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "E4",
+    "water_valve_check",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "45",
+    "oemTestTitle": "Ref. Compartment Ice Maker Water Fill Test",
+    "pages": [
+      3,
+      4
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "harvest_first"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "harvest_first"
+    },
+    {
+      "id": "harvest_first",
+      "order": 3,
+      "type": "instruction",
+      "title": "Harvest ice before fill test",
+      "body": "Before test 45, run Service Test 57 and initiate harvest so mold is empty (per manual NOTE).",
+      "sourceExcerpt": "Before test 45, run Service Test 57 and initiate harvest so mold is empty (per manual NOTE).",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_45"
+    },
+    {
+      "id": "select_test_45",
+      "order": 4,
+      "type": "instruction",
+      "title": "Navigate to Service Test 45",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 45. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 45 \u2014 Ice maker water fill",
+      "requiresInput": false,
+      "defaultNextStepId": "fill_state"
+    },
+    {
+      "id": "fill_state",
+      "order": 5,
+      "type": "instruction",
+      "title": "Observe fill state",
+      "body": "After 3-second delay, display shows ice maker water fill state. Press SW3 to start fill; toggles 02=off, 03=on, 04=paused.",
+      "sourceExcerpt": "After 3-second delay, display shows ice maker water fill state. Press SW3 to start fill; toggles 02=off, 03=on, 04=paused.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_fills"
+    },
+    {
+      "id": "water_fills",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Water enters mold",
+      "body": "With fill on (03), does water enter the ice maker mold? P3-3 ice maker valve should energize.",
+      "sourceExcerpt": "With fill on (03), does water enter the ice maker mold? P3-3 ice maker valve should energize.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_verified"
+        },
+        {
+          "id": "fill_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_valve_tube",
+          "terminal": true,
+          "oemOutcome": "No water at mold \u2014 valve, supply, or frozen fill tube (see test 19).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_valve",
+              "evidenceId": "ref_ms_im_e4_dry_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_valve_tube",
+      "order": 7,
+      "type": "outcome",
+      "title": "Check valve and fill tube",
+      "oemOutcome": "Verify household supply, dual water valve (green 20 W / red 35 W), and fill tube heater path.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Ice maker fill verified",
+      "oemOutcome": "Water fill operates correctly in service test 45.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

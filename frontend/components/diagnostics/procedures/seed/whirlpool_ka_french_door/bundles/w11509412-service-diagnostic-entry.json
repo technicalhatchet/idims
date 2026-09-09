@@ -1,0 +1,37 @@
+{
+  "id": "w11509412-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_ka_french_door",
+  "manualId": "W11509412",
+  "title": "W11509412 \u2014 Service Diagnostics Mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter ACU service diagnostics for cooling tests 1\u20137, 32\u201339 and ice maker tests 19, 45, 56\u201359.",
+  "tags": [
+    "service_test",
+    "service_diagnostic",
+    "control_board"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "pages": [
+      2
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Diagnostics Mode",
+      "body": "Refrigerator must not be in lockout mode. Press SW1 and SW2 simultaneously for 3 seconds. Release when CHIME sounds \u2014 display shows 01. Press SW5 to advance steps, SW4 to go back. Exit: SW1+SW2 for 3 sec, disconnect power, or wait 20 minutes.",
+      "sourceExcerpt": "Press SW1 and SW2 simultaneously for 3 seconds.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

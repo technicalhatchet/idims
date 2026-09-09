@@ -1,0 +1,175 @@
+{
+  "id": "w11509412-test-03-evap-fan-damper",
+  "version": "1.0.0",
+  "title": "Service Test 3: Evaporator fan & air baffle",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "evap_fan",
+    "damper_motor"
+  ],
+  "tags": [
+    "evap_fan",
+    "damper_check",
+    "airflow",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Evaporator Fan and Air Baffle Motors",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_03"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_03"
+    },
+    {
+      "id": "select_test_03",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 03",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 03. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 03 \u2014 Evaporator fan and air baffle",
+      "requiresInput": false,
+      "defaultNextStepId": "evap_fan_on"
+    },
+    {
+      "id": "evap_fan_on",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run test 3",
+      "body": "Test turns on FC evaporator fan and air baffle motor. Monitor air baffle feedback with SW3.",
+      "sourceExcerpt": "Test turns on FC evaporator fan and air baffle motor. Monitor air baffle feedback with SW3.",
+      "requiresInput": false,
+      "defaultNextStepId": "baffle_open_check"
+    },
+    {
+      "id": "baffle_open_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Air baffle open",
+      "body": "Press SW3 until display shows 01 (fan on, air baffle open). Does damper open and fan run (2800 RPM spec)?",
+      "sourceExcerpt": "Press SW3 until display shows 01 (fan on, air baffle open). Does damper open and fan run (2800 RPM spec)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "baffle_open_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "baffle_closed_check"
+        },
+        {
+          "id": "baffle_open_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "baffle_closed_check",
+          "terminal": true,
+          "oemOutcome": "Check evaporator fan motor, damper motor, or harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "baffle_closed_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Air baffle closed",
+      "body": "Press SW3 until display shows 02 (fan on, air baffle closed). Does damper close?",
+      "sourceExcerpt": "Press SW3 until display shows 02 (fan on, air baffle closed). Does damper close?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "baffle_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "evap_verified"
+        },
+        {
+          "id": "baffle_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "evap_verified",
+          "terminal": true,
+          "oemOutcome": "Replace air baffle/damper motor or repair feedback circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "baffle_open_fail",
+      "order": 7,
+      "type": "outcome",
+      "title": "Evap fan or damper fault",
+      "oemOutcome": "FC evaporator fan or air baffle failed to open in service test 3.",
+      "requiresInput": false
+    },
+    {
+      "id": "baffle_fail",
+      "order": 8,
+      "type": "outcome",
+      "title": "Damper fault",
+      "oemOutcome": "Air baffle did not close or feedback incorrect in service test 3.",
+      "requiresInput": false
+    },
+    {
+      "id": "evap_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Evap fan and damper verified",
+      "oemOutcome": "Service test 3 confirms evaporator fan and air baffle operation.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "id": "w11509412-test-37-ice-box-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 37: Ice box thermistor",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "thermistor",
+    "ice_maker"
+  ],
+  "tags": [
+    "thermistor_check",
+    "no_ice",
+    "E1",
+    "E5"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "37",
+    "oemTestTitle": "Ice Box Thermistor",
+    "pages": [
+      3
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_37"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_37"
+    },
+    {
+      "id": "select_test_37",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 37",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 37. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 37 \u2014 Ice box thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_box_ntc_result"
+    },
+    {
+      "id": "ice_box_ntc_result",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Ice box thermistor service test result",
+      "body": "Board checks ice box thermistor at P8. Temp display: 01=pass, 02=open, 03=short. What displays?",
+      "sourceExcerpt": "Board checks ice box thermistor at P8. Temp display: 01=pass, 02=open, 03=short. What displays?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ice_box_pass",
+          "label": "01 Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_box_ok"
+        },
+        {
+          "id": "ice_box_open",
+          "label": "02 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ice_box_ntc"
+        },
+        {
+          "id": "ice_box_short",
+          "label": "03 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ice_box_ntc"
+        }
+      ]
+    },
+    {
+      "id": "bench_ice_box_ntc",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench ice box thermistor ohms",
+      "body": "Disconnect power. Measure ice box thermistor at P8-1/P8-2 \u2014 2700 \u03a9 @ 77\u00b0F (same chart as cabinet NTC).",
+      "sourceExcerpt": "Disconnect power. Measure ice box thermistor at P8-1/P8-2 \u2014 2700 \u03a9 @ 77\u00b0F (same chart as cabinet NTC).",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_box_ntc_ohms"
+    },
+    {
+      "id": "ice_box_ntc_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Ice box thermistor resistance",
+      "body": "Measure at harness with power off.",
+      "sourceExcerpt": "Measure at harness with power off.",
+      "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+      "testPoint": {
+        "connector": "P8",
+        "pins": "P8-1 \u2194 P8-2",
+        "label": "Ice box thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ice_box_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ice_box_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ice_box_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ice_box_ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ice_box_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ice_box_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ice box thermistor",
+      "oemOutcome": "Replace ice box thermistor or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_box_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Ice box thermistor verified",
+      "oemOutcome": "Service test 37 and bench ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

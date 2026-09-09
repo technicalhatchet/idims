@@ -1,0 +1,201 @@
+{
+  "id": "w11509412-test-02-rc-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 2: Refrigerator compartment thermistor",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor_check",
+    "weak_cooling_ff",
+    "sensor_fault"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "RC Thermistor",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_02"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_02"
+    },
+    {
+      "id": "select_test_02",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 02",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 02. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 02 \u2014 RC thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "rc_ntc_result"
+    },
+    {
+      "id": "rc_ntc_result",
+      "order": 4,
+      "type": "visual_check",
+      "title": "RC thermistor service test result",
+      "body": "Board checks RC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?",
+      "sourceExcerpt": "Board checks RC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rc_pass",
+          "label": "01 Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rc_ntc_ok"
+        },
+        {
+          "id": "rc_open",
+          "label": "02 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_rc_ntc"
+        },
+        {
+          "id": "rc_short",
+          "label": "03 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_rc_ntc"
+        }
+      ]
+    },
+    {
+      "id": "bench_rc_ntc",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench RC thermistor ohms",
+      "body": "Disconnect power. Measure RC thermistor at P5-1/P5-2 \u2014 same R/T chart as FC (2700 \u03a9 @ 77\u00b0F).",
+      "sourceExcerpt": "Disconnect power. Measure RC thermistor at P5-1/P5-2 \u2014 same R/T chart as FC (2700 \u03a9 @ 77\u00b0F).",
+      "requiresInput": false,
+      "defaultNextStepId": "rc_ntc_ohms"
+    },
+    {
+      "id": "rc_ntc_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "RC thermistor resistance",
+      "body": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F.",
+      "sourceExcerpt": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F.",
+      "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+      "testPoint": {
+        "connector": "P5",
+        "pins": "P5-1 \u2194 P5-2",
+        "label": "RC thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rc_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "rc_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "rc_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "rc_ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rc_ntc_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_rc_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace RC thermistor",
+      "oemOutcome": "Replace refrigerator compartment thermistor or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "rc_ntc_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "RC thermistor verified",
+      "oemOutcome": "Service test 2 and bench ohms verified for RC thermistor.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

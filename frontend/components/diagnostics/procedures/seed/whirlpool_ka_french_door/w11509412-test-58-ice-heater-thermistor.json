@@ -1,0 +1,213 @@
+{
+  "id": "w11509412-test-58-ice-heater-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 58: Ice maker heater & thermistor",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "E3",
+    "E5",
+    "ice_maker",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "58",
+    "oemTestTitle": "Ref. Compartment Ice Maker Heater Activation and Thermistor",
+    "pages": [
+      4
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_58"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_58"
+    },
+    {
+      "id": "select_test_58",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 58",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 58. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 58 \u2014 Ice maker heater and thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_toggle"
+    },
+    {
+      "id": "heater_toggle",
+      "order": 4,
+      "type": "instruction",
+      "title": "Toggle mold heater",
+      "body": "Press SW3 to activate ice maker heater and toggle on/off. Digit 1: 0=heater off, 1=heater on. Digit 2 thermistor: 0=warmer than harvest, 1=cooler, 2=open, 3=short.",
+      "sourceExcerpt": "Press SW3 to activate ice maker heater and toggle on/off. Digit 1: 0=heater off, 1=heater on. Digit 2 thermistor: 0=warmer than harvest, 1=cooler, 2=open, 3=short.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_state"
+    },
+    {
+      "id": "thermistor_state",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Mold thermistor state",
+      "body": "With heater on, what does digit 2 show for thermistor state?",
+      "sourceExcerpt": "With heater on, what does digit 2 show for thermistor state?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thm_ok",
+          "label": "0 or 1 (valid reading)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_im_thm"
+        },
+        {
+          "id": "thm_open",
+          "label": "2 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im_thm"
+        },
+        {
+          "id": "thm_short",
+          "label": "3 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im_thm"
+        }
+      ]
+    },
+    {
+      "id": "bench_im_thm",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench IM thermistor ohms",
+      "body": "Disconnect power. Measure ice maker mold thermistor at P7-1/P7-2.",
+      "sourceExcerpt": "Disconnect power. Measure ice maker mold thermistor at P7-1/P7-2.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_thm_ohms"
+    },
+    {
+      "id": "im_thm_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Ice maker mold thermistor",
+      "body": "2700 \u03a9 \u00b15% @ 77\u00b0F \u2014 same R/T chart as cabinet thermistors.",
+      "sourceExcerpt": "2700 \u03a9 \u00b15% @ 77\u00b0F \u2014 same R/T chart as cabinet thermistors.",
+      "measurementKnowledgeId": "whirlpoolKaFdIceMakerThermistorOhms",
+      "testPoint": {
+        "connector": "P7",
+        "pins": "P7-1 \u2194 P7-2",
+        "label": "Ice maker mold thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_thm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_thm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_thm_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_thm_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_thm_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_im_thm",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace IM thermistor or module",
+      "oemOutcome": "Ice maker mold thermistor open, short, or out of range (E5).",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_thm_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Heater and thermistor verified",
+      "oemOutcome": "Service test 58 and mold thermistor ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

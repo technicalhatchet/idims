@@ -1,0 +1,179 @@
+{
+  "id": "w11509412-test-56-ice-maker-errors",
+  "version": "1.0.0",
+  "title": "Service Test 56: Ice maker error codes (E0\u2013E5)",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "ice_maker",
+    "E0",
+    "E1",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "56",
+    "oemTestTitle": "Ref. Compartment Ice Maker Error Codes",
+    "pages": [
+      4
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_56"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_56"
+    },
+    {
+      "id": "select_test_56",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 56",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 56. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 56 \u2014 Ice maker error codes",
+      "requiresInput": false,
+      "defaultNextStepId": "read_im_code"
+    },
+    {
+      "id": "read_im_code",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Active ice maker error code",
+      "body": "Display shows active ice maker error. Which code is displayed?",
+      "sourceExcerpt": "Display shows active ice maker error. Which code is displayed?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_e0",
+          "label": "E0 \u2014 No errors",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "e0_ok"
+        },
+        {
+          "id": "code_e1",
+          "label": "E1 \u2014 No cooling",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e1_outcome"
+        },
+        {
+          "id": "code_e2",
+          "label": "E2 \u2014 Motor lost position",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e2_outcome"
+        },
+        {
+          "id": "code_e3",
+          "label": "E3 \u2014 Heater time-out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e3_outcome"
+        },
+        {
+          "id": "code_e4",
+          "label": "E4 \u2014 Dry cycle",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e4_outcome"
+        },
+        {
+          "id": "code_e5",
+          "label": "E5 \u2014 IM thermistor fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e5_outcome"
+        }
+      ]
+    },
+    {
+      "id": "e0_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "E0 \u2014 ice maker reports no errors. If no ice, check fill (test 45), fill tube (test 19), and ice box cooling (tests 36\u201337).",
+      "requiresInput": false
+    },
+    {
+      "id": "e1_outcome",
+      "order": 6,
+      "type": "outcome",
+      "title": "E1 \u2014 No cooling in ice compartment",
+      "oemOutcome": "E1 \u2014 ice compartment unable to reach temperature. Run tests 36 (ice box fan) and 37 (ice box thermistor); verify sealed system.",
+      "requiresInput": false
+    },
+    {
+      "id": "e2_outcome",
+      "order": 7,
+      "type": "outcome",
+      "title": "E2 \u2014 Motor home not found",
+      "oemOutcome": "E2 \u2014 harvest motor did not find home. Run test 59; check for obstructions in ice maker module.",
+      "requiresInput": false
+    },
+    {
+      "id": "e3_outcome",
+      "order": 8,
+      "type": "outcome",
+      "title": "E3 \u2014 Mold heater time-out",
+      "oemOutcome": "E3 \u2014 mold heater on too long without reaching temperature. Run test 58 heater/thermistor path.",
+      "requiresInput": false
+    },
+    {
+      "id": "e4_outcome",
+      "order": 9,
+      "type": "outcome",
+      "title": "E4 \u2014 Dry cycle",
+      "oemOutcome": "E4 \u2014 dry cycles above minimum. Run test 45 water fill and test 19 fill tube heater; verify water valve P3-3.",
+      "requiresInput": false
+    },
+    {
+      "id": "e5_outcome",
+      "order": 10,
+      "type": "outcome",
+      "title": "E5 \u2014 Ice maker thermistor fault",
+      "oemOutcome": "E5 \u2014 mold thermistor fault. Run test 58; measure IM thermistor at P7-1/P7-2.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}
