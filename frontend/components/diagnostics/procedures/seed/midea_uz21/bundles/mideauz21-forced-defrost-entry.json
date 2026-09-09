@@ -1,0 +1,37 @@
+{
+  "id": "mideauz21-forced-defrost-entry",
+  "version": "1.0.0",
+  "platformId": "midea_uz21",
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "title": "Midea UZ21 \u2014 Forced defrost (test mode 3)",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "From test mode, select forced defrost \u2014 heater on, compressor/fan off.",
+  "tags": [
+    "forced_defrost",
+    "defrost",
+    "frost_buildup"
+  ],
+  "entryStepId": "fd_enter",
+  "source": {
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "pages": [
+      40
+    ]
+  },
+  "steps": [
+    {
+      "id": "fd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Forced defrost in test mode",
+      "body": "Enter test mode (LOCK + \u2212 3 s). Press Vacation button \u2014 display shows 3. Heater runs until defrost sensor reaches 12\u00b0C/7\u00b0C or 60 min max. Power-cycle after field use.",
+      "sourceExcerpt": "Enter test mode (LOCK + \u2212 3 s). Press Vacation button \u2014 display shows 3. Heater runs until defrost sensor reaches 12\u00b0C/7\u00b0C or 60 min max. Power-cycle after field use.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

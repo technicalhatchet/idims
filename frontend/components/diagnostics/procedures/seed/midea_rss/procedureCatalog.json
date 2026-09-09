@@ -1,0 +1,107 @@
+{
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "templateId": "refrigerator",
+  "label": "Midea/Insignia NS-RSS / NS-RTM side-by-side refrigerator",
+  "notes": "E-family fault codes \u00a710.8; B3839 NTC \u00a79.4; VFD DZ120V1U \u00a711.2. Mandatory mode \u00a710.5.",
+  "plannedProcedures": [
+    {
+      "id": "midearss-rc-temp-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "midearss-fz-temp-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E2: Freezing chamber temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E2",
+        "E9"
+      ]
+    },
+    {
+      "id": "midearss-rc-defrost-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E4: Refrigerating chamber defrost sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "midearss-fz-defrost-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E5: Freezing chamber defrost sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "midearss-ambient-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E7: Ambient temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E7"
+      ]
+    },
+    {
+      "id": "midearss-fz-defrost-heater",
+      "oemSection": "6.3",
+      "title": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+      "status": "generated",
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "midearss-communication",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E6: Display \u2194 main communication",
+      "status": "generated",
+      "relatedCodes": [
+        "E6"
+      ]
+    },
+    {
+      "id": "midearss-high-temp-alarm",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E9: Freezer high-temperature alarm",
+      "status": "generated",
+      "relatedCodes": [
+        "E9"
+      ]
+    },
+    {
+      "id": "midearss-ice-maker",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 E0: Ice maker fault",
+      "status": "generated",
+      "relatedCodes": [
+        "E0"
+      ]
+    },
+    {
+      "id": "midearss-ice-maker-sensor",
+      "oemSection": "10.8",
+      "title": "\u00a710.8 EE: Ice maker sensor circuit",
+      "status": "generated",
+      "relatedCodes": [
+        "EE"
+      ]
+    },
+    {
+      "id": "midearss-vfd-inverter",
+      "oemSection": "11.2",
+      "title": "\u00a711.2: VFD inverter board fault LED",
+      "status": "generated",
+      "relatedCodes": []
+    }
+  ]
+}

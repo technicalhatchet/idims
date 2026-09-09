@@ -1,0 +1,147 @@
+{
+  "id": "midearss-communication",
+  "version": "1.0.0",
+  "title": "\u00a710.8 E6: Display \u2194 main communication",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "E6",
+    "hmi_check",
+    "display_dead"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10.8",
+    "oemTestTitle": "Communication failure (CN9)",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "cn9_seated"
+    },
+    {
+      "id": "cn9_seated",
+      "order": 2,
+      "type": "visual_check",
+      "title": "CN9 harness seating",
+      "body": "Verify CN9 between display control board and main PCB is fully seated with no foreign matter.",
+      "sourceExcerpt": "Verify CN9 between display control board and main PCB is fully seated with no foreign matter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn9_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "display_harness"
+        },
+        {
+          "id": "cn9_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cn9_harness",
+          "terminal": true,
+          "oemOutcome": "Reseat or replace CN9 harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "display_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Display terminal contact",
+      "body": "Inspect display control board terminals. Resend fast connectors if contact is bad.",
+      "sourceExcerpt": "Inspect display control board terminals. Resend fast connectors if contact is bad.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_cleared"
+    },
+    {
+      "id": "comm_cleared",
+      "order": 4,
+      "type": "visual_check",
+      "title": "E6 cleared after service",
+      "body": "After harness repair and power cycle, is E6 communication fault cleared?",
+      "sourceExcerpt": "After harness repair and power cycle, is E6 communication fault cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main control board and/or display control board.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cn9_harness",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace main wire",
+      "oemOutcome": "Replace main wire harness when CN9 path failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_boards_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace main and/or display PCB when harness verified good.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "E6 cleared \u2014 CN9 communication restored.",
+      "requiresInput": false
+    }
+  ]
+}

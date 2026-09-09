@@ -1,0 +1,36 @@
+{
+  "id": "mideauz21-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "midea_uz21",
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "title": "Midea UZ21 \u2014 Test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter test mode for forced cooling and defrost per \u00a79.7.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "pages": [
+      40
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press LOCK + \u2212 together 3 s \u2014 LED shows 0. Auto-exits after 30 s idle. Press + once \u2192 forced cooling (1). Press Vacation \u2192 forced defrost (3). LOCK + \u2212 3 s again to exit.",
+      "sourceExcerpt": "Press LOCK + \u2212 together 3 s \u2014 LED shows 0. Auto-exits after 30 s idle. Press + once \u2192 forced cooling (1). Press Vacation \u2192 forced defrost (3). LOCK + \u2212 3 s again to exit.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

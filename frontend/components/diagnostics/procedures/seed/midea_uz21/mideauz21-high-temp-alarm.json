@@ -1,0 +1,209 @@
+{
+  "id": "mideauz21-high-temp-alarm",
+  "version": "1.0.0",
+  "title": "\u00a79.6 E9: High-temperature alarm",
+  "platformId": "midea_uz21",
+  "componentIds": [
+    "door_switch",
+    "evap_fan",
+    "heater",
+    "light_switch"
+  ],
+  "tags": [
+    "E9",
+    "not_cooling",
+    "high_temp_alarm"
+  ],
+  "source": {
+    "manualId": "MIDEA-UZ21-FREEZER",
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9.6",
+    "oemTestTitle": "High temperature alarm in freezing chamber",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the freezer before resistance checks or harness service.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_gasket"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue in test mode",
+      "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "door_gasket"
+    },
+    {
+      "id": "door_gasket",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door seal and gasket",
+      "body": "Verify door fully closed with no gasket leakage or deformation.",
+      "sourceExcerpt": "Verify door fully closed with no gasket leakage or deformation.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "evap_frost"
+        },
+        {
+          "id": "fix_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_door_out",
+          "terminal": true,
+          "oemOutcome": "Reshape or replace door gasket.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "evap_frost",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Evaporator frost and fan",
+      "body": "Inspect evaporator for heavy frost or frozen fan. Does evaporator need defrost heater service?",
+      "sourceExcerpt": "Inspect evaporator for heavy frost or frozen fan. Does evaporator need defrost heater service?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "frost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_runs"
+        },
+        {
+          "id": "service_defrost",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "defrost_heater_path",
+          "terminal": true,
+          "oemOutcome": "Follow defrost heater procedure when evaporator iced.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fan_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Freezer fan motor",
+      "body": "Reseat fan motor connectors. Does fan run normally?",
+      "sourceExcerpt": "Reseat fan motor connectors. Does fan run normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "e9_ok"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace freezer fan motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "defrost_heater_path",
+      "order": 6,
+      "type": "instruction",
+      "title": "Service defrost heater",
+      "body": "When evaporator frosted, run forced defrost test mode (\u00a79.7) and verify defrost heater ohms.",
+      "sourceExcerpt": "When evaporator frosted, run forced defrost test mode (\u00a79.7) and verify defrost heater ohms.",
+      "requiresInput": false,
+      "defaultNextStepId": "e9_ok"
+    },
+    {
+      "id": "fix_door_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Correct door seal",
+      "oemOutcome": "Reshape gasket or adjust door alignment.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_fan_out",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace fan motor",
+      "oemOutcome": "Replace freezer evaporator fan motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "e9_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "E9 path complete",
+      "oemOutcome": "E9 high-temp alarm addressed via door/defrost/fan checks.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "mideauz21-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "mideauz21-forced-defrost-entry",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "door_gasket"
+    }
+  ]
+}

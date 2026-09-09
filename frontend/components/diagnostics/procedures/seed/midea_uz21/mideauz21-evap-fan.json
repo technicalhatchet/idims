@@ -1,0 +1,130 @@
+{
+  "id": "mideauz21-evap-fan",
+  "version": "1.0.0",
+  "title": "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan",
+  "platformId": "midea_uz21",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "airflow",
+    "not_cooling",
+    "E9"
+  ],
+  "source": {
+    "manualId": "MIDEA-UZ21-FREEZER",
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7.5",
+    "oemTestTitle": "Freezer chamber fan motor",
+    "pages": [
+      22,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the freezer before resistance checks or harness service.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_fan"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue in test mode",
+      "body": "Test mode entered (\u00a79.7). Continue with component-specific checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_fan"
+    },
+    {
+      "id": "access_fan",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access evaporator fan",
+      "body": "Remove freezer air duct per \u00a77.5. Verify DC 12 V fan motor (2020 r/min spec) is seated on shaft.",
+      "sourceExcerpt": "Remove freezer air duct per \u00a77.5. Verify DC 12 V fan motor (2020 r/min spec) is seated on shaft.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_test_mode"
+    },
+    {
+      "id": "fan_test_mode",
+      "order": 4,
+      "type": "instruction",
+      "title": "Forced cooling test",
+      "body": "Enter test mode (LOCK + \u2212 3 s). Press + for forced cooling (display 1) \u2014 compressor and fan should run.",
+      "sourceExcerpt": "Enter test mode (LOCK + \u2212 3 s). Press + for forced cooling (display 1) \u2014 compressor and fan should run.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_runs"
+    },
+    {
+      "id": "fan_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Fan runs in forced cooling",
+      "body": "With forced cooling active, does freezer fan rotate and move air?",
+      "sourceExcerpt": "With forced cooling active, does freezer fan rotate and move air?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace fan motor per \u00a77.5.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fan_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace evaporator fan",
+      "oemOutcome": "Replace DC 12 V freezer fan motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Evaporator fan OK",
+      "oemOutcome": "Fan runs in forced cooling mode.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "mideauz21-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

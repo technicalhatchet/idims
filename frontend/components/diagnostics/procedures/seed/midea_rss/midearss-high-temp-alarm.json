@@ -1,0 +1,176 @@
+{
+  "id": "midearss-high-temp-alarm",
+  "version": "1.0.0",
+  "title": "\u00a710.8 E9: Freezer high-temperature alarm",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "door_switch",
+    "compressor",
+    "thermistor"
+  ],
+  "tags": [
+    "E9",
+    "not_cooling",
+    "high_temp_alarm"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10.8",
+    "oemTestTitle": "High temperature alarm in freezing chamber",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_sealed"
+    },
+    {
+      "id": "service_mode_after_mandatory_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+      "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "door_sealed"
+    },
+    {
+      "id": "door_sealed",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door sealed and power stable",
+      "body": "Verify freezer door is tight shut and unit was not left off for extended period.",
+      "sourceExcerpt": "Verify freezer door is tight shut and unit was not left off for extended period.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "compressor_runs"
+        },
+        {
+          "id": "door_issue",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_issue_out",
+          "terminal": true,
+          "oemOutcome": "Correct door seal or restore power before sensor path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "compressor_runs",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Compressor refrigerating",
+      "body": "Is compressor running and cabinet cooling normally?",
+      "sourceExcerpt": "Is compressor running and cabinet cooling normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "run_e2_path"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_vfd",
+          "terminal": true,
+          "oemOutcome": "Compressor not running \u2014 check VFD inverter LED fault codes.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run_e2_path",
+      "order": 5,
+      "type": "instruction",
+      "title": "Follow E2 sensor path",
+      "body": "When door and compressor OK, follow E2 freezer temperature sensor maintenance (harness + B3839 bench ohms).",
+      "sourceExcerpt": "When door and compressor OK, follow E2 freezer temperature sensor maintenance (harness + B3839 bench ohms).",
+      "requiresInput": false,
+      "defaultNextStepId": "e9_resolved"
+    },
+    {
+      "id": "check_vfd",
+      "order": 6,
+      "type": "instruction",
+      "title": "Check VFD inverter board",
+      "body": "Inspect variable-frequency driver LED blink pattern per \u00a711.2 (overcurrent, overvoltage, undervoltage, LOCK, overload).",
+      "sourceExcerpt": "Inspect variable-frequency driver LED blink pattern per \u00a711.2 (overcurrent, overvoltage, undervoltage, LOCK, overload).",
+      "requiresInput": false,
+      "defaultNextStepId": "vfd_outcome"
+    },
+    {
+      "id": "door_issue_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Correct door/power",
+      "oemOutcome": "Reseal door or restore power; allow 24 hr stabilization.",
+      "requiresInput": false
+    },
+    {
+      "id": "vfd_outcome",
+      "order": 8,
+      "type": "outcome",
+      "title": "Service VFD/compressor",
+      "oemOutcome": "Replace VFD board or compressor per \u00a711.2 LED fault pattern.",
+      "requiresInput": false
+    },
+    {
+      "id": "e9_resolved",
+      "order": 9,
+      "type": "outcome",
+      "title": "E9 path complete",
+      "oemOutcome": "E9 high-temp alarm addressed via door/compressor/sensor checks.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "midearss-mandatory-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_mandatory_entry"
+    }
+  ]
+}

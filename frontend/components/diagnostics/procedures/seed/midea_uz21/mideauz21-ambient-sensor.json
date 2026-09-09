@@ -1,0 +1,184 @@
+{
+  "id": "mideauz21-ambient-sensor",
+  "version": "1.0.0",
+  "title": "\u00a79.6 E7: Ambient temperature sensor",
+  "platformId": "midea_uz21",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "E7",
+    "thermistor_check",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "MIDEA-UZ21-FREEZER",
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9.6",
+    "oemTestTitle": "Error code E7 \u2014 ambient temperature sensor",
+    "pages": [
+      38,
+      39,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the freezer before resistance checks or harness service.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "harness_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Main PCB harness seating",
+      "body": "Verify ambient temperature sensor connector at main PCB is fully seated with no foreign matter.",
+      "sourceExcerpt": "Verify ambient temperature sensor connector at main PCB is fully seated with no foreign matter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace sensor when resistance out of range.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_ntc",
+      "order": 3,
+      "type": "instruction",
+      "title": "Bench B3839 resistance",
+      "body": "Disconnect power. Pull sensor connector at main PCB. Measure ambient sensor at hinge/cabinet (\u00a78.1) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C).",
+      "sourceExcerpt": "Disconnect power. Pull sensor connector at main PCB. Measure ambient sensor at hinge/cabinet (\u00a78.1) \u2014 B3839 \u00a78.4 R/T (~2.0 k\u03a9 @ 25\u00b0C).",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ohms"
+    },
+    {
+      "id": "ntc_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "ambient temperature sensor resistance",
+      "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band.",
+      "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 cabinet band.",
+      "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+      "testPoint": {
+        "connector": "main PCB harness",
+        "pins": "ambient temperature sensor pair",
+        "label": "ambient temperature sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace ambient temperature sensor when B3839 out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pcb",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when sensor and harness verified good.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "ambient temperature sensor B3839 resistance verified.",
+      "requiresInput": false
+    }
+  ]
+}

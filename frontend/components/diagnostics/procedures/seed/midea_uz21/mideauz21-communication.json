@@ -1,0 +1,147 @@
+{
+  "id": "mideauz21-communication",
+  "version": "1.0.0",
+  "title": "\u00a79.6 E6: Display \u2194 main communication",
+  "platformId": "midea_uz21",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "E6",
+    "hmi_check",
+    "display_dead"
+  ],
+  "source": {
+    "manualId": "MIDEA-UZ21-FREEZER",
+    "manualTitle": "Midea/Insignia NS-UZ21 Upright Freezer (HS-772FWE)",
+    "extractedTextFile": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9.6",
+    "oemTestTitle": "Communication failure",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the freezer before resistance checks or harness service.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_seated"
+    },
+    {
+      "id": "harness_seated",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Display and main PCB harness",
+      "body": "Verify display, hinge cover, and main PCB connectors are seated with no foreign matter.",
+      "sourceExcerpt": "Verify display, hinge cover, and main PCB connectors are seated with no foreign matter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wire_continuity"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door",
+          "terminal": true,
+          "oemOutcome": "Replace door when door harness wire is open (\u221e \u03a9).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wire_continuity",
+      "order": 3,
+      "type": "instruction",
+      "title": "Wire resistance display \u2194 main",
+      "body": "Pull all connectors. Measure wire resistance between display PCB and main PCB \u2014 \u221e \u03a9 indicates broken wire.",
+      "sourceExcerpt": "Pull all connectors. Measure wire resistance between display PCB and main PCB \u2014 \u221e \u03a9 indicates broken wire.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_board_swap"
+    },
+    {
+      "id": "comm_board_swap",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Replace display then main",
+      "body": "If wire OK, replace display control board. If E6 persists, replace main PCB.",
+      "sourceExcerpt": "If wire OK, replace display control board. If E6 persists, replace main PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified"
+        },
+        {
+          "id": "replace_main",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB when display swap failed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door assembly",
+      "oemOutcome": "Replace door when harness in door is broken.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main control board.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "E6 cleared after harness or PCB service.",
+      "requiresInput": false
+    }
+  ]
+}

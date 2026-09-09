@@ -1,0 +1,212 @@
+{
+  "id": "midearss-fz-temp-sensor",
+  "version": "1.0.0",
+  "title": "\u00a710.8 E2: Freezing chamber temperature sensor",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "E2",
+    "thermistor_check",
+    "sensor_check",
+    "not_cooling",
+    "E9"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10.8",
+    "oemTestTitle": "Fault code E2 \u2014 FZ cabinet temperature sensor",
+    "pages": [
+      47,
+      48,
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "service_mode_after_mandatory_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+      "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "harness_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Main PCB harness seating",
+      "body": "Verify FZ cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+      "sourceExcerpt": "Verify FZ cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_ntc",
+      "order": 4,
+      "type": "instruction",
+      "title": "Bench B3839 resistance",
+      "body": "Disconnect power. Access freezing chamber sensor card slot (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+      "sourceExcerpt": "Disconnect power. Access freezing chamber sensor card slot (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ohms"
+    },
+    {
+      "id": "ntc_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "FZ cabinet temperature sensor resistance",
+      "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+      "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+      "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+      "testPoint": {
+        "connector": "main PCB harness",
+        "pins": "FZ cabinet temperature sensor pair",
+        "label": "FZ cabinet temperature sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_harness",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace main wire harness when connector or wiring failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_sensor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace FZ cabinet temperature sensor or repair harness when B3839 out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pcb",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main control board when sensor and harness verified good.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "FZ cabinet temperature sensor B3839 resistance and harness verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "midearss-mandatory-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_mandatory_entry"
+    }
+  ]
+}
