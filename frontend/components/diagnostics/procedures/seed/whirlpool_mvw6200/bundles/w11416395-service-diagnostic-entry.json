@@ -1,0 +1,37 @@
+{
+  "id": "w11416395-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_mvw6200",
+  "manualId": "W11416395",
+  "title": "W11416395 \u2014 Service Diagnostic mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Three-button Service Diagnostic entry (Key 1, 2, 3) \u00d7 3 rounds within 8 seconds.",
+  "tags": [
+    "service_diagnostic",
+    "live_test"
+  ],
+  "entryStepId": "service_diagnostic_entry",
+  "source": {
+    "manualTitle": "Maytag 4.8 cu ft Top Load Washer (MVW6200, W11416395B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11416395-revb mvw6200-extracted.txt",
+    "pages": [
+      11,
+      12
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_diagnostic_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic mode",
+      "body": "Washer in standby (plugged in, all LEDs off). Within 8 seconds: press and release Key 1, Key 2, Key 3 \u2014 repeat that same 3-button sequence two more times (3 rounds total). Success: all HMI indicators illuminate for 1 second then turn off. Saved fault codes flash on entry; hold Key 3 for 5 seconds to clear codes.",
+      "sourceExcerpt": "Press and Release Key 1, Key 2, Key 3; Repeat this 3 button sequence 2 more times.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "id": "w11416395-test-05-temp-thermistor",
+  "version": "1.0.0",
+  "title": "TEST #5: Temperature Thermistor",
+  "platformId": "whirlpool_mvw6200",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "thermistor_check",
+    "F3E3",
+    "temp_fault"
+  ],
+  "source": {
+    "manualId": "W11416395",
+    "manualTitle": "Maytag 4.8 cu ft Top Load Washer (MVW6200, W11416395B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11416395-revb mvw6200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Temperature Thermistor",
+    "pages": [
+      27,
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "therm_sensor_feedback"
+    },
+    {
+      "id": "therm_sensor_feedback",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inlet Thermistor Sensor Feedback",
+      "body": "In Service Diagnostic Sensor Feedback, run Inlet Thermistor test. Cold valve opens (temp drops), then hot (temp rises).",
+      "sourceExcerpt": "In Service Diagnostic Sensor Feedback, run Inlet Thermistor test. Cold valve opens (temp drops), then hot (temp rises).",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j8_therm"
+    },
+    {
+      "id": "disconnect_j8_therm",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect J8",
+      "body": "If sensor feedback fails: power off, remove J8 from ACU.",
+      "sourceExcerpt": "If sensor feedback fails: power off, remove J8 from ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "therm_ohms"
+    },
+    {
+      "id": "therm_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inlet thermistor J8-8 to J8-9",
+      "body": "Measure resistance at ambient. Compare to OEM R/T table (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "sourceExcerpt": "Measure resistance at ambient. Compare to OEM R/T table (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherInletThermistorOhms",
+      "testPoint": {
+        "connector": "J8",
+        "pins": "8 & 9",
+        "label": "Inlet thermistor J8-8 to J8-9",
+        "pinDetails": [
+          {
+            "pin": "8",
+            "signal": "NTC 1",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "9",
+            "signal": "AGND",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_ok",
+          "label": "In R/T table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_therm",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
+        },
+        {
+          "id": "therm_bad",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve_therm",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly (thermistor integral).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_crit",
+          "label": "Short/critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve_therm",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_valve_therm",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace valve assembly",
+      "oemOutcome": "Thermistor open/short \u2014 valve assembly includes thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_therm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Thermistor good \u2014 replace main control and rerun Sensor Feedback test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416395-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "therm_sensor_feedback"
+    }
+  ]
+}

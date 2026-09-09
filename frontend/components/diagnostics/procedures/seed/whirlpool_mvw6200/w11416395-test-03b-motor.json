@@ -1,0 +1,470 @@
+{
+  "id": "w11416395-test-03b-motor",
+  "version": "1.0.0",
+  "title": "TEST #3b: Drive System \u2014 Motor",
+  "platformId": "whirlpool_mvw6200",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "F7E6",
+    "F7E7",
+    "agitate_issue",
+    "spin_issue"
+  ],
+  "source": {
+    "manualId": "W11416395",
+    "manualTitle": "Maytag 4.8 cu ft Top Load Washer (MVW6200, W11416395B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11416395-revb mvw6200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3b",
+    "oemTestTitle": "Drive System - Motor",
+    "pages": [
+      26,
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_wash_test"
+    },
+    {
+      "id": "motor_wash_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Motor Slow Wash in Component Activation",
+      "body": "Run Motor Slow Wash test. Does basket spin clockwise during Low/Mid/High spin tests?",
+      "sourceExcerpt": "Run Motor Slow Wash test. Does basket spin clockwise during Low/Mid/High spin tests?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wash_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "basket_free",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "wash_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "basket_free",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Basket turns freely",
+      "body": "Power off. Basket should turn freely.",
+      "sourceExcerpt": "Power off. Basket should turn freely.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "basket_ok",
+          "label": "Turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j2_j6_motor"
+        },
+        {
+          "id": "basket_bind",
+          "label": "Does not turn freely",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_friction",
+          "terminal": true,
+          "oemOutcome": "Resolve mechanical friction or lockup before motor replacement.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j2_j6_motor",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J2 and J6 fully seated",
+      "body": "Verify J2 and J6 fully inserted at ACU.",
+      "sourceExcerpt": "Verify J2 and J6 fully inserted at ACU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j_conn_ok",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_winding_ohms"
+        },
+        {
+          "id": "j_conn_bad",
+          "label": "Connector loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j6_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j6_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat connectors and retest",
+      "body": "Reconnect J2/J6 and repeat Component Activation wash/spin.",
+      "sourceExcerpt": "Reconnect J2/J6 and repeat Component Activation wash/spin.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_wash_test"
+    },
+    {
+      "id": "motor_winding_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Motor winding resistance at J6",
+      "body": "Remove J6. CW J6-4\u21946 and CCW J6-1\u21946. Each expect 5\u20139.5 \u03a9.",
+      "sourceExcerpt": "Remove J6. CW J6-4\u21946 and CCW J6-1\u21946. Each expect 5\u20139.5 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "4-6 & 1-6",
+        "label": "Motor winding resistance at J6",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "CCW winding",
+            "wireColor": "PK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "CW winding",
+            "wireColor": "OR",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "6",
+            "signal": "Neutral",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_j6_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_j6_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_j6_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_j6_pass",
+          "label": "5\u20139.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_harness_cont",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_harness_cont",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Motor harness continuity",
+      "body": "Tilt washer. Continuity motor connector to J6 and run capacitor per OEM chart?",
+      "sourceExcerpt": "Tilt washer. Continuity motor connector to J6 and run capacitor per OEM chart?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mh_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_terminal_ohms"
+        },
+        {
+          "id": "mh_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_motor",
+          "terminal": true,
+          "oemOutcome": "Replace lower machine harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_terminal_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Motor resistance at drive connector",
+      "body": "At motor: CW pins 3\u21942 and CCW pins 4\u21942. Expect 5\u20139.5 \u03a9 each.",
+      "sourceExcerpt": "At motor: CW pins 3\u21942 and CCW pins 4\u21942. Expect 5\u20139.5 \u03a9 each.",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherMotorWindingOhms",
+      "testPoint": {
+        "connector": "PSC motor",
+        "pins": "3-2 & 4-2",
+        "label": "Motor resistance at drive connector"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_term_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_term_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_term_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_term_pass",
+          "label": "5\u20139.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "capacitor_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "capacitor_check",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Run capacitor charge/discharge test",
+      "body": "Discharge capacitor with 20 k\u03a9 resistor. Measure terminals \u2014 steady increase in resistance = good; short/open = replace capacitor.",
+      "sourceExcerpt": "Discharge capacitor with 20 k\u03a9 resistor. Measure terminals \u2014 steady increase in resistance = good; short/open = replace capacitor.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cap_ok",
+          "label": "Capacitor OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_motor",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "cap_bad",
+          "label": "Capacitor shorted or open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_capacitor",
+          "terminal": true,
+          "oemOutcome": "Replace run capacitor, calibrate, and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_friction",
+      "order": 10,
+      "type": "outcome",
+      "title": "Clear mechanical friction",
+      "oemOutcome": "Remove obstruction between basket/tub/impeller.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_motor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore motor circuit continuity.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Motor windings open or out of range \u2014 replace motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_capacitor",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace run capacitor",
+      "oemOutcome": "Faulty capacitor causes hum, no start, or slow turn.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Motor resistance and Component Activation rotation verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_motor",
+      "order": 15,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Motor, harness, and capacitor good but no run \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416395-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "motor_wash_test"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "manualId": "W11416395",
+  "platformId": "whirlpool_mvw6200",
+  "templateId": "washer",
+  "label": "Maytag 4.8 cu ft PSC top-load washer (MVW6200)",
+  "notes": "TEST #1\u20138 (+3a shifter / 3b motor). Service Diagnostic: Key 1/2/3 \u00d7 3 within 8 sec; Service Test via Key 2 + START.",
+  "plannedProcedures": [
+    {
+      "id": "w11416395-test-01-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: Main Control (ACU)",
+      "status": "generated",
+      "knowledgeIds": [
+        "supplyVoltage120",
+        "whirlpoolMvw6200WasherAcu12Vdc"
+      ],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1",
+        "F7E1"
+      ]
+    },
+    {
+      "id": "w11416395-test-02-valves",
+      "oemSection": "2",
+      "title": "TEST #2: Valves",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherInletValveOhms"
+      ],
+      "relatedCodes": [
+        "F8E1",
+        "LF",
+        "F0E4"
+      ]
+    },
+    {
+      "id": "w11416395-test-03-drive-system",
+      "oemSection": "3",
+      "title": "TEST #3: Drive System (pre-test)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F7E1",
+        "F7E3",
+        "F7E4",
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11416395-test-03a-shifter",
+      "oemSection": "3a",
+      "title": "TEST #3a: Drive System \u2014 Shifter",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherShifterOhms"
+      ],
+      "relatedCodes": [
+        "F7E3",
+        "F7E4"
+      ]
+    },
+    {
+      "id": "w11416395-test-03b-motor",
+      "oemSection": "3b",
+      "title": "TEST #3b: Drive System \u2014 Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherMotorWindingOhms",
+        "whirlpoolMvw6200WasherMotorWindingOhms"
+      ],
+      "relatedCodes": [
+        "F7E6",
+        "F7E7"
+      ]
+    },
+    {
+      "id": "w11416395-test-04-hmi",
+      "oemSection": "4",
+      "title": "TEST #4: HMI",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E2",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11416395-test-05-temp-thermistor",
+      "oemSection": "5",
+      "title": "TEST #5: Temperature Thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherInletThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E3"
+      ]
+    },
+    {
+      "id": "w11416395-test-06-water-level",
+      "oemSection": "6",
+      "title": "TEST #6: Water Level",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E2",
+        "F8E1",
+        "F8E3",
+        "F8E6"
+      ]
+    },
+    {
+      "id": "w11416395-test-07-drain-pump",
+      "oemSection": "7",
+      "title": "TEST #7: Drain Pump",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherDrainPumpOhms",
+        "whirlpoolMvw6200WasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "dr"
+      ]
+    },
+    {
+      "id": "w11416395-test-08-lid-lock",
+      "oemSection": "8",
+      "title": "TEST #8: Lid Lock",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolMvw6200WasherLidLockSolenoidOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E3",
+        "F5E4"
+      ]
+    }
+  ]
+}
