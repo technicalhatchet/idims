@@ -1,0 +1,179 @@
+{
+  "id": "w11366142-tub-light",
+  "version": "1.0.0",
+  "title": "Tub Light (12 V PWM)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F9E4",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W11366142",
+    "manualTitle": "KitchenAid Premium Dishwasher (KDTM404/604/804)",
+    "extractedTextFile": "backend/docs/manuals/Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "strip",
+    "oemTestTitle": "Tub Light",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "tub_light_door_open"
+    },
+    {
+      "id": "tub_light_door_open",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door-open tub light check",
+      "body": "Open door \u2014 tub light should illuminate (12 V PWM drive). Light may time out after several minutes.",
+      "sourceExcerpt": "Open door \u2014 tub light should illuminate (12 V PWM drive). Light may time out after several minutes.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p9_tub_light"
+    },
+    {
+      "id": "disconnect_p9_tub_light",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P9",
+      "body": "Power off. Remove toe and outer door panels. Verify P9 seated. Disconnect P9 from control.",
+      "sourceExcerpt": "Power off. Remove toe and outer door panels. Verify P9 seated. Disconnect P9 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "tub_light_diode_check"
+    },
+    {
+      "id": "tub_light_diode_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Tub LED passes diode check?",
+      "body": "Diode mode: numeric reading anode\u2192cathode; OL cathode\u2192anode on tub LED assembly.",
+      "sourceExcerpt": "Diode mode: numeric reading anode\u2192cathode; OL cathode\u2192anode on tub LED assembly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "live_tub_light_yes",
+          "label": "LED OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_tub_light"
+        },
+        {
+          "id": "live_tub_light_no",
+          "label": "LED failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_tub_led",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with live checks below.",
+      "sourceExcerpt": "Refer to strip circuit; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 5,
+      "defaultNextStepId": "live_tub_light"
+    },
+    {
+      "id": "live_tub_light",
+      "order": 6,
+      "type": "visual_check",
+      "title": "12 V PWM at P9 (door open, P9 unplugged)?",
+      "body": "Power on, door open: verify 12 V PWM drive at tub light circuit per strip diagram (P9).",
+      "sourceExcerpt": "Power on, door open: verify 12 V PWM drive at tub light circuit per strip diagram (P9).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tub_light_verified_yes",
+          "label": "Drive present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tub_light_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "tub_light_verified_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_tub_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_tub_led",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace tub light",
+      "body": "Replace failed tub light assembly and retest.",
+      "oemOutcome": "Replace failed tub light assembly and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_tub_light",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "LED good but no PWM output \u2014 replace control.",
+      "oemOutcome": "LED good but no PWM output \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "tub_light_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Tub light verified",
+      "body": "Tub light circuit verified.",
+      "oemOutcome": "Tub light circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

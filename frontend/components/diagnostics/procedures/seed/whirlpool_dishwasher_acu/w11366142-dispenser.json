@@ -1,0 +1,164 @@
+{
+  "id": "w11366142-dispenser",
+  "version": "1.0.0",
+  "title": "Dispenser Solenoid (310\u2013380 \u03a9)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "F10E1",
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "W11366142",
+    "manualTitle": "KitchenAid Premium Dishwasher (KDTM404/604/804)",
+    "extractedTextFile": "backend/docs/manuals/Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "strip",
+    "oemTestTitle": "Dispenser Solenoid",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disp_mechanical"
+    },
+    {
+      "id": "disp_mechanical",
+      "order": 2,
+      "type": "instruction",
+      "title": "Dispenser mechanical check",
+      "body": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch and F500 fuse.",
+      "sourceExcerpt": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch and F500 fuse.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p12_disp"
+    },
+    {
+      "id": "disconnect_p12_disp",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P12",
+      "body": "Power off. Remove outer door and toe panels. Unplug P12 from control.",
+      "sourceExcerpt": "Power off. Remove outer door and toe panels. Unplug P12 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "dispenser_ohms"
+    },
+    {
+      "id": "dispenser_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Dispenser \u2014 P12 pins 5 & 7",
+      "body": "Ohms between P12-5 and P12-7. W11366142 strip spec 310\u2013380 \u03a9.",
+      "sourceExcerpt": "Ohms between P12-5 and P12-7. W11366142 strip spec 310\u2013380 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDishwasherPremiumDispenserOhms",
+      "testPoint": {
+        "connector": "P12",
+        "pins": "5 & 7",
+        "label": "Dispenser \u2014 P12 pins 5 & 7"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p12_disp_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p12_disp",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p12_disp_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p12_disp_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p12_disp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p12_disp",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P12 and restore power",
+      "body": "Reconnect P12. Restore power and run Service Diagnostics dispenser interval.",
+      "sourceExcerpt": "Reconnect P12. Restore power and run Service Diagnostics dispenser interval.",
+      "requiresInput": false,
+      "defaultNextStepId": "dispenser_verified"
+    },
+    {
+      "id": "replace_dispenser",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace dispenser",
+      "body": "Replace dispenser assembly if solenoid open/out of range.",
+      "oemOutcome": "Replace dispenser assembly if solenoid open/out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "dispenser_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Dispenser verified",
+      "body": "Dispenser solenoid verified.",
+      "oemOutcome": "Dispenser solenoid verified.",
+      "requiresInput": false
+    }
+  ]
+}

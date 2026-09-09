@@ -306,6 +306,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
+    label: 'KitchenAid premium ACU dishwasher (KDTM404/604/804)',
+    manufacturers: ['KitchenAid'],
+    templateId: 'dishwasher',
+    modelPatterns: [/KDTM404/i, /KDTM604/i, /KDTM804/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
     label: 'Whirlpool/Maytag/KitchenAid ACU dishwasher (WDT750 microfiltration)',
     manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
     templateId: 'dishwasher',

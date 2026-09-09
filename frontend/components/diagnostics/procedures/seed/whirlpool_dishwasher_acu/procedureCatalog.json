@@ -2,8 +2,8 @@
   "manualId": "W11633848",
   "platformId": "whirlpool_dishwasher_acu",
   "templateId": "dishwasher",
-  "label": "Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher (W11633848 + W11480208 + W11499711 + W11794121)",
-  "notes": "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + W11499711 microfiltration WDT750 (SSM wash 10\u201315 \u03a9) + W11794121 JennAir filtration (D.O.S.). Shared fill/dispenser/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208.",
+  "label": "Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher (W11633848 + W11480208 + W11499711 + W11794121 + W11366142)",
+  "notes": "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + W11499711 microfiltration WDT750 (SSM wash 10\u201315 \u03a9) + W11794121 JennAir filtration (D.O.S.) + W11366142 KitchenAid premium KDTM404 (RIF filter F7E4, vent wax F10E2, tub light F9E4). Shared fill/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208.",
   "plannedProcedures": [
     {
       "id": "w11633848-acu-power",
@@ -668,6 +668,224 @@
       "status": "generated",
       "knowledgeIds": [],
       "relatedCodes": []
+    },
+    {
+      "id": "w11633848-triac-fuse",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "F500 Triac Load Fuse",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11633848-acu-power",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "ACU Power & DC Supplies",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11480208-door-switch",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Door Switch Circuit (P12)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "dishwasherDoorLatchSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F5E1",
+        "F5E2"
+      ]
+    },
+    {
+      "id": "w11633848-fill-valve",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Fill Valve Circuit (P6, 1200\u20131600 \u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuFillValveOhms"
+      ],
+      "relatedCodes": [
+        "F8E1",
+        "F8E2",
+        "F8E5"
+      ]
+    },
+    {
+      "id": "w11480208-heater",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Water Heating / Heat Dry (10\u201340 \u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F4E2",
+        "F4E3"
+      ]
+    },
+    {
+      "id": "w11633848-owi-sensor",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "OWI / Thermistor",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAcuOwiThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E1",
+        "F3E2"
+      ]
+    },
+    {
+      "id": "w11480208-overfill-switch",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Overfill Float Switch (P11)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "dishwasherFloatSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11480208-diverter-motor",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Diverter Motor (P6, 1100\u20131400 \u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDiverterMotorOhms"
+      ],
+      "relatedCodes": [
+        "F10E4",
+        "F10E5"
+      ]
+    },
+    {
+      "id": "w11633848-diverter-sensor",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Diverter Position Sensor",
+      "status": "reused",
+      "reusedFrom": "W11633848",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F10E4",
+        "F10E5"
+      ]
+    },
+    {
+      "id": "w11480208-dc-fan",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "DC Fan Motor (ProDry, 145\u2013185 k\u03a9)",
+      "status": "reused",
+      "reusedFrom": "W11480208",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationDcFanOhms"
+      ],
+      "relatedCodes": [
+        "F10E3"
+      ]
+    },
+    {
+      "id": "w11366142-wash-motor-vsm",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Variable-Speed Wash Motor (A-SYNCH)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherFiltrationVsmWashMotorOhms"
+      ],
+      "relatedCodes": [
+        "F7E2"
+      ]
+    },
+    {
+      "id": "w11366142-drain-motor",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherPremiumDrainMotorOhms"
+      ],
+      "relatedCodes": [
+        "F9E1",
+        "F9E2",
+        "F8E4"
+      ]
+    },
+    {
+      "id": "w11366142-dispenser",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Dispenser Solenoid (310\u2013380 \u03a9)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherPremiumDispenserOhms"
+      ],
+      "relatedCodes": [
+        "F10E1"
+      ]
+    },
+    {
+      "id": "w11366142-vent-wax-motor",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Vent Wax Motor (1890\u20132310 \u03a9 each coil)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherPremiumVentWaxMotorOhms",
+        "whirlpoolDishwasherPremiumVentWaxMotorOhms"
+      ],
+      "relatedCodes": [
+        "F10E2"
+      ]
+    },
+    {
+      "id": "w11366142-tub-light",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "Tub Light (12 V PWM)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F9E4"
+      ]
+    },
+    {
+      "id": "w11366142-rif-filter",
+      "manualId": "W11366142",
+      "oemSection": "strip",
+      "title": "RIF Filter Plugged (F7E4)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F7E4"
+      ]
     }
   ]
 }

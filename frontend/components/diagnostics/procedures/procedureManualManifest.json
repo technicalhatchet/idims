@@ -210,6 +210,21 @@
       }
     },
     {
+      "manualId": "W11366142",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "seedDir": "whirlpool_dishwasher_acu",
+      "label": "KitchenAid premium dishwasher KDTM404/604/804 (W11366142)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_acu/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11366142_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11366142_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11366142_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11416805",
       "platformId": "whirlpool_acu_tl_dryer",
       "templateId": "electric_dryer",

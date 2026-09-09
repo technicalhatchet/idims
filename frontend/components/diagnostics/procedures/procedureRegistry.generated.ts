@@ -256,6 +256,12 @@ import whirlpool_centennial_dryer_w8178629_gas_ignitor from './seed/whirlpool_ce
 import whirlpool_centennial_dryer_w8178629_supply_connections from './seed/whirlpool_centennial_dryer/w8178629-supply-connections.json';
 import whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust from './seed/whirlpool_centennial_dryer/w8178629-thermal-fuse-exhaust.json';
 import whirlpool_centennial_dryer_w8178629_timer_motor from './seed/whirlpool_centennial_dryer/w8178629-timer-motor.json';
+import whirlpool_dishwasher_acu_w11366142_dispenser from './seed/whirlpool_dishwasher_acu/w11366142-dispenser.json';
+import whirlpool_dishwasher_acu_w11366142_drain_motor from './seed/whirlpool_dishwasher_acu/w11366142-drain-motor.json';
+import whirlpool_dishwasher_acu_w11366142_rif_filter from './seed/whirlpool_dishwasher_acu/w11366142-rif-filter.json';
+import whirlpool_dishwasher_acu_w11366142_tub_light from './seed/whirlpool_dishwasher_acu/w11366142-tub-light.json';
+import whirlpool_dishwasher_acu_w11366142_vent_wax_motor from './seed/whirlpool_dishwasher_acu/w11366142-vent-wax-motor.json';
+import whirlpool_dishwasher_acu_w11366142_wash_motor_vsm from './seed/whirlpool_dishwasher_acu/w11366142-wash-motor-vsm.json';
 import whirlpool_dishwasher_acu_w11480208_dc_fan from './seed/whirlpool_dishwasher_acu/w11480208-dc-fan.json';
 import whirlpool_dishwasher_acu_w11480208_diverter_motor from './seed/whirlpool_dishwasher_acu/w11480208-diverter-motor.json';
 import whirlpool_dishwasher_acu_w11480208_door_switch from './seed/whirlpool_dishwasher_acu/w11480208-door-switch.json';
@@ -679,6 +685,12 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_centennial_dryer_w8178629_supply_connections as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_timer_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_dispenser as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_drain_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_rif_filter as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_tub_light as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_vent_wax_motor as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11366142_wash_motor_vsm as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11480208_dc_fan as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11480208_diverter_motor as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11480208_door_switch as ServiceProcedureSeed,

@@ -1,0 +1,89 @@
+[
+  {
+    "id": "whirlpoolDishwasherPremiumDrainMotorOhms",
+    "name": "KitchenAid Premium DW Drain Motor (P5-3 & P5-4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 27.4, "max": 32.2 },
+      "warning": { "min": 25, "max": 35 },
+      "critical": { "below": 10, "above": 60 }
+    },
+    "typical": { "min": 28, "max": 31 },
+    "openCircuitCritical": true,
+    "purpose": "Dedicated drain motor — W11366142 KDTM404 strip circuit (45 W SSM drain on P5).",
+    "failureModes": [
+      "Open winding — F9E2 drain motor electrical",
+      "Good ohms but no run — control TRIAC or door switch"
+    ],
+    "testingTips": [
+      "Measure at P5-3 and P5-4 with P5 unplugged from ACU",
+      "Verify drain path mechanical before motor replacement"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["pump_check", "drain_issue", "F9E2"]
+  },
+  {
+    "id": "whirlpoolDishwasherPremiumVentWaxMotorOhms",
+    "name": "KitchenAid Premium DW Vent Wax Motor (each coil)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1890, "max": 2310 },
+      "warning": { "min": 1700, "max": 2500 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2000, "max": 2200 },
+    "openCircuitCritical": true,
+    "purpose": "Vent wax motor bi-coil — W11366142 strip circuit; F10E2 / FAE2.",
+    "failureModes": [
+      "Open coil — F10E2 vent wax electrical",
+      "Good ohms but vent won't open — control vent drive or fuse"
+    ],
+    "testingTips": [
+      "Disconnect vent wax motor harness at ProDry/vent assembly",
+      "Measure each coil separately — both must be 1890–2310 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["hmi_check", "F10E2"]
+  },
+  {
+    "id": "whirlpoolDishwasherPremiumDispenserOhms",
+    "name": "KitchenAid Premium DW Dispenser Solenoid (P12-5 & P12-7)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 310, "max": 380 },
+      "warning": { "min": 280, "max": 420 },
+      "critical": { "below": 50, "above": 2000 }
+    },
+    "typical": { "min": 330, "max": 360 },
+    "openCircuitCritical": true,
+    "purpose": "Detergent dispenser solenoid — W11366142 strip circuit; F10E1 / FAE1.",
+    "failureModes": [
+      "Open solenoid — dispenser won't actuate",
+      "Good ohms but no drive — control TRIAC or door switch"
+    ],
+    "testingTips": [
+      "Measure at P12-5 and P12-7 with P12 unplugged from ACU",
+      "Clear mechanical obstructions before electrical test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["KitchenAid"],
+      "platformId": "whirlpool_dishwasher_acu"
+    },
+    "dmaTags": ["dispenser_check", "F10E1"]
+  }
+]

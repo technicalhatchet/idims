@@ -3,7 +3,7 @@
 **Source:** `Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142.pdf`  
 **Extracted text:** `Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt`  
 **Scope:** KitchenAid premium dishwasher; ACU + variable-speed wash motor; RIF filter; diverter  
-**Status:** Phase A + B + C merged (shared dishwasher ACU routing/evidence).
+**Status:** Phase A + B + C + D (procedures on `whirlpool_dishwasher_acu`, manual W11366142).
 
 Cross-reference: [WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md](./WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md) for shared F#E# matrix.
 
@@ -49,6 +49,43 @@ Cross-reference: [WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md](./WHIRLPOOL_DISHW
 
 - Error history: most recent first; 3rd key advances; 3 tones at end
 - Clear errors via service sequence on tech sheet
+
+---
+
+## Strip circuit Ω specs (W11366142 tech sheet)
+
+| Component | Connector / pins | Spec | knowledgeId |
+|-----------|------------------|------|-------------|
+| Drain motor (SSM) | P5-3 & P5-4 | 27.4–32.2 Ω | `whirlpoolDishwasherPremiumDrainMotorOhms` (batch33) |
+| Fill valve | P6-1 & P6-3 | 1200–1600 Ω | `whirlpoolDishwasherAcuFillValveOhms` (reused) |
+| Diverter motor | P6-4 & P6-6 | 1100–1400 Ω | `whirlpoolDishwasherFiltrationDiverterMotorOhms` (reused) |
+| Vent wax motor | harness, each coil | 1890–2310 Ω | `whirlpoolDishwasherPremiumVentWaxMotorOhms` (batch33) |
+| Dispenser | P12-5 & P12-7 | 310–380 Ω | `whirlpoolDishwasherPremiumDispenserOhms` (batch33) |
+| Heater | P4-2 & P4-3 | 10–40 Ω | `whirlpoolDishwasherAcuHeaterOhms` (reused) |
+| VSM wash motor | P5-1 & P5-2 | 16–18 Ω (filtration VSM family) | `whirlpoolDishwasherFiltrationVsmWashMotorOhms` (reused) |
+| DC fan (ProDry) | P14-1 & P14-2 | 145–185 kΩ | `whirlpoolDishwasherFiltrationDcFanOhms` (reused) |
+| Tub light | P9 | 12 V PWM | visual — `w11366142-tub-light` |
+
+**Model patterns:** `KDTM404*`, `KDTM604*`, `KDTM804*` (KitchenAid premium).
+
+---
+
+## Generated procedures (W11366142 deltas)
+
+| ID | Tags / codes | Notes |
+|----|--------------|-------|
+| `w11366142-wash-motor-vsm` | F7E2 | A-SYNCH variable-speed wash; not WDT750 SSM |
+| `w11366142-drain-motor` | F9E1, F9E2 | 27.4–32.2 Ω SSM drain (not VSM P5-5/6) |
+| `w11366142-dispenser` | F10E1 | 310–380 Ω measured (replaces visual-only reuse) |
+| `w11366142-vent-wax-motor` | F10E2 | First platform vent-wax bench proc |
+| `w11366142-tub-light` | F9E4 | Tub light F9E4 (not generic interior LED) |
+| `w11366142-rif-filter` | F7E4 | RIF filter clean — KitchenAid premium only |
+
+**Reused** from W11633848 / W11480208: triac, ACU power, door, fill, heater, OWI, overfill, diverter motor/sensor, DC fan.
+
+**Not reused:** W11499711 SSM wash, W11794121 D.O.S., W11480208 interior LED, W11480208 VSM drain.
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11366142`
 
 ---
 
