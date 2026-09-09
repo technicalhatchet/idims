@@ -1,0 +1,178 @@
+{
+  "id": "w11633848-diverter-sensor",
+  "version": "1.0.0",
+  "title": "\u00a73-14: Diverter Position Sensor",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "F9E1",
+    "F10E5",
+    "wash_issue"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-14",
+    "oemTestTitle": "Diverter Position Optical Sensor",
+    "pages": [
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_prereq"
+    },
+    {
+      "id": "sensor_prereq",
+      "order": 2,
+      "type": "instruction",
+      "title": "Confirm diverter motor first",
+      "body": "If diverter does not route water between zones, complete \u00a73-13 diverter motor test first.",
+      "sourceExcerpt": "If diverter does not route water between zones, complete \u00a73-13 diverter motor test first.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_continuity"
+    },
+    {
+      "id": "harness_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Position switch harness continuity OK?",
+      "body": "Power off. Verify diverter position switch and P11 connectors seated. Check harness continuity switch to P11.",
+      "sourceExcerpt": "Power off. Verify diverter position switch and P11 connectors seated. Check harness continuity switch to P11.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "live_position_sensor_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_position_sensor"
+        },
+        {
+          "id": "live_position_sensor_no",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_diverter_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "live_position_sensor"
+    },
+    {
+      "id": "live_position_sensor",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Position voltage varies 0\u20138\u201310 V in Service Diagnostics?",
+      "body": "Power on. DC volts: red P11-2, black P10-2. Run Service Diagnostics \u2014 voltage should pulse 0 V to 8\u201310 V as diverter reaches each position.",
+      "sourceExcerpt": "Power on. DC volts: red P11-2, black P10-2. Run Service Diagnostics \u2014 voltage should pulse 0 V to 8\u201310 V as diverter reaches each position.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sensor_verified_yes",
+          "label": "Varies correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "sensor_verified_no",
+          "label": "Stuck at 0 or 8\u201310 V",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_diverter_harness",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair harness",
+      "body": "Repair or replace diverter position switch harness.",
+      "oemOutcome": "Repair or replace diverter position switch harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_diverter_sensor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace diverter assembly",
+      "body": "Replace diverter assembly if sensor does not detect positions.",
+      "oemOutcome": "Replace diverter assembly if sensor does not detect positions.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Diverter sensor verified",
+      "body": "Diverter position sensor verified.",
+      "oemOutcome": "Diverter position sensor verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_sensor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "If motor and sensor good but fault persists, replace control.",
+      "oemOutcome": "If motor and sensor good but fault persists, replace control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

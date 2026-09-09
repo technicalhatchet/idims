@@ -1,0 +1,205 @@
+{
+  "id": "w11633848-acu-power",
+  "version": "1.0.0",
+  "title": "\u00a73-6: ACU Power & DC Supplies",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "F1E1",
+    "supply_issue",
+    "voltage_check",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-6",
+    "oemTestTitle": "Power Check",
+    "pages": [
+      40,
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "terminal_voltage"
+    },
+    {
+      "id": "terminal_voltage",
+      "order": 2,
+      "type": "instruction",
+      "title": "Line voltage at terminal block",
+      "body": "Remove access panel and terminal box cover. Volts AC: black probe on white terminal screw (N), red on black screw (L1). Plug in power.",
+      "sourceExcerpt": "If 120 VAC is present, proceed to P4 check.",
+      "requiresInput": false,
+      "defaultNextStepId": "terminal_120vac"
+    },
+    {
+      "id": "terminal_120vac",
+      "order": 3,
+      "type": "visual_check",
+      "title": "120 VAC at terminal block?",
+      "body": "Is 120 VAC present at the dishwasher terminal block (L1 to N)?",
+      "sourceExcerpt": "Is 120 VAC present at the dishwasher terminal block (L1 to N)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "p4_voltage_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "p4_voltage"
+        },
+        {
+          "id": "p4_voltage_no",
+          "label": "No / low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "customer_power",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "customer_power",
+      "order": 4,
+      "type": "instruction",
+      "title": "Correct customer power",
+      "body": "Have customer correct outlet, breaker, or installation wiring before continuing ACU diagnosis.",
+      "sourceExcerpt": "Have customer correct outlet, breaker, or installation wiring before continuing ACU diagnosis.",
+      "requiresInput": false,
+      "defaultNextStepId": "p4_voltage"
+    },
+    {
+      "id": "p4_voltage",
+      "order": 5,
+      "type": "visual_check",
+      "title": "120 VAC at P4?",
+      "body": "Power off. Remove outer door panel. At connector P4: pin 1 (L1) to pin 4 (N) with power applied \u2014 expect 120 VAC.",
+      "sourceExcerpt": "Power off. Remove outer door panel. At connector P4: pin 1 (L1) to pin 4 (N) with power applied \u2014 expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dc_supplies_yes",
+          "label": "120 VAC at P4",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_supplies"
+        },
+        {
+          "id": "dc_supplies_no",
+          "label": "Missing at P4",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_p4_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_p4_harness",
+      "order": 6,
+      "type": "instruction",
+      "title": "Repair terminal-to-P4 harness",
+      "body": "Check for open connection between terminal block and control P4. Repair harness or terminals as needed.",
+      "sourceExcerpt": "Check for open connection between terminal block and control P4. Repair harness or terminals as needed.",
+      "requiresInput": false,
+      "defaultNextStepId": "dc_supplies"
+    },
+    {
+      "id": "dc_supplies",
+      "order": 7,
+      "type": "visual_check",
+      "title": "5 VDC and 13 VDC present?",
+      "body": "With power on: 5 VDC from P11A-2 or P11B-2 to P10-2 (DC GND). 13 VDC from P11-7 to P10-2. Both within \u00b15%?",
+      "sourceExcerpt": "With power on: 5 VDC from P11A-2 or P11B-2 to P10-2 (DC GND). 13 VDC from P11-7 to P10-2. Both within \u00b15%?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dc_ok_yes",
+          "label": "Both supplies OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "dc_ok_no",
+          "label": "Missing or low",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_loaded_supply",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolate_loaded_supply",
+      "order": 8,
+      "type": "instruction",
+      "title": "Isolate loaded-down supply",
+      "body": "Power off. Disconnect loads from control one connector at a time. Restore power and retest missing supply. Replace control if supply stays missing with all loads disconnected.",
+      "sourceExcerpt": "Power off. Disconnect loads from control one connector at a time. Restore power and retest missing supply. Replace control if supply stays missing with all loads disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_acu_power"
+    },
+    {
+      "id": "replace_acu_power",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Replace electronic control if DC supplies or P4 input failed after harness repair.",
+      "oemOutcome": "Replace electronic control if DC supplies or P4 input failed after harness repair.",
+      "requiresInput": false
+    },
+    {
+      "id": "dc_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Power verified",
+      "body": "Incoming and on-board power supplies verified \u2014 reassemble and retest operation.",
+      "oemOutcome": "Incoming and on-board power supplies verified \u2014 reassemble and retest operation.",
+      "requiresInput": false
+    }
+  ]
+}

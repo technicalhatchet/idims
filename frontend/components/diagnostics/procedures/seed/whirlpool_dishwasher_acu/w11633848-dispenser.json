@@ -1,0 +1,189 @@
+{
+  "id": "w11633848-dispenser",
+  "version": "1.0.0",
+  "title": "\u00a73-9: Dispenser Solenoid",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "F10E1",
+    "F10E2",
+    "F10E3"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-9",
+    "oemTestTitle": "Dispenser Circuit",
+    "pages": [
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disp_mechanical"
+    },
+    {
+      "id": "disp_mechanical",
+      "order": 2,
+      "type": "instruction",
+      "title": "Dispenser mechanical check",
+      "body": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch, F500, pilot relay.",
+      "sourceExcerpt": "Clear obstructions preventing dispenser lid from opening. If all TRIAC loads dead, check door switch, F500, pilot relay.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p12"
+    },
+    {
+      "id": "disconnect_p12",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P12",
+      "body": "Power off. Remove outer door and toe panels. Unplug P12 from control.",
+      "sourceExcerpt": "Power off. Remove outer door and toe panels. Unplug P12 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "dispenser_ohms"
+    },
+    {
+      "id": "dispenser_ohms",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Dispenser solenoid 310\u2013380 \u03a9?",
+      "body": "Ohms between P12-5 and P12-7. Expected 310\u2013380 \u03a9 per strip circuit.",
+      "sourceExcerpt": "Ohms between P12-5 and P12-7. Expected 310\u2013380 \u03a9 per strip circuit.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p12_yes",
+          "label": "310\u2013380 \u03a9",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p12"
+        },
+        {
+          "id": "reconnect_p12_no",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p12",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P12 and restore power",
+      "body": "Reconnect P12. Restore power for Service Diagnostics live test.",
+      "sourceExcerpt": "Reconnect P12. Restore power for Service Diagnostics live test.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_dispenser"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_dispenser"
+    },
+    {
+      "id": "live_dispenser",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Dispenser energizes in Service Diagnostics?",
+      "body": "120 VAC at P12-5 to P12-7 during dispenser interval (solenoid connected).",
+      "sourceExcerpt": "120 VAC at P12-5 to P12-7 during dispenser interval (solenoid connected).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dispenser_verified_yes",
+          "label": "Energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dispenser_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "dispenser_verified_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_dispenser",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_dispenser",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace dispenser solenoid",
+      "body": "Replace dispenser solenoid or repair harness.",
+      "oemOutcome": "Replace dispenser solenoid or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_dispenser",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Solenoid good but no AC drive \u2014 replace control.",
+      "oemOutcome": "Solenoid good but no AC drive \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "dispenser_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Dispenser verified",
+      "body": "Dispenser solenoid verified.",
+      "oemOutcome": "Dispenser solenoid verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

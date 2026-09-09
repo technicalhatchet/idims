@@ -73,6 +73,21 @@
         "attachDiagnosticEffects": "backend/scripts/attach_w10680150_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w10680150_service_modes.py"
       }
+    },
+    {
+      "manualId": "W11633848",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "seedDir": "whirlpool_dishwasher_acu",
+      "label": "Amana & Whirlpool 24\" ACU dishwasher (W11633848)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_acu/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11633848_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11633848_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11633848_service_modes.py"
+      }
     }
   ]
 }

@@ -1,0 +1,276 @@
+{
+  "id": "w11633848-wash-motor",
+  "version": "1.0.0",
+  "title": "\u00a73-15: Wash Motor (SSM)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "F4E3",
+    "F7E1",
+    "wash_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-15",
+    "oemTestTitle": "Global Wash Motor SSM",
+    "pages": [
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "wash_prereq"
+    },
+    {
+      "id": "wash_prereq",
+      "order": 2,
+      "type": "instruction",
+      "title": "Wash path prerequisites",
+      "body": "Inspect sump, coarse filter, spray arms. Run Service Diagnostics wash-motor interval first.",
+      "sourceExcerpt": "Inspect sump, coarse filter, spray arms. Run Service Diagnostics wash-motor interval first.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p5_wash"
+    },
+    {
+      "id": "disconnect_p5_wash",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P5",
+      "body": "Power off. Unplug P5 from control.",
+      "sourceExcerpt": "Power off. Unplug P5 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "wash_motor_ohms"
+    },
+    {
+      "id": "wash_motor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Wash motor \u2014 P5 pins 1 & 2",
+      "body": "Ohms P5-1 to P5-2. Manual SSM spec 6.7\u20138.7 \u03a9 @ 25\u00b0C (platform band 5\u201315 \u03a9).",
+      "sourceExcerpt": "Ohms P5-1 to P5-2. Manual SSM spec 6.7\u20138.7 \u03a9 @ 25\u00b0C (platform band 5\u201315 \u03a9).",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+      "testPoint": {
+        "connector": "P5",
+        "pins": "1 & 2",
+        "label": "Wash motor \u2014 P5 pins 1 & 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wash_fuse_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wash_fuse_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "wash_fuse_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wash_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "wash_fuse_check_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wash_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "wash_fuse_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wash_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wash_fuse_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "F501 wash fuse < 3 \u03a9 (if equipped)?",
+      "body": "Some models: verify wash motor fuse F501 < 3 \u03a9. If > 3 \u03a9, replace control.",
+      "sourceExcerpt": "Some models: verify wash motor fuse F501 < 3 \u03a9. If > 3 \u03a9, replace control.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p5_wash_yes",
+          "label": "Fuse OK or N/A",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p5_wash"
+        },
+        {
+          "id": "reconnect_p5_wash_no",
+          "label": "F501 open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_wash_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p5_wash",
+      "order": 6,
+      "type": "instruction",
+      "title": "Reconnect P5 and restore power",
+      "body": "Reconnect P5. Restore power.",
+      "sourceExcerpt": "Reconnect P5. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_wash_motor"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "live_wash_motor"
+    },
+    {
+      "id": "live_wash_motor",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Wash motor runs in Service Diagnostics?",
+      "body": "120 VAC at P5-1 and P5-2 during wash interval.",
+      "sourceExcerpt": "120 VAC at P5-1 and P5-2 during wash interval.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wash_verified_yes",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wash_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "wash_verified_no",
+          "label": "No run / no voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_wash",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_wash_motor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace wash motor",
+      "body": "Replace wash motor if winding failed.",
+      "oemOutcome": "Replace wash motor if winding failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_wash_fuse",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace ACU (F501)",
+      "body": "Replace control if F501 open.",
+      "oemOutcome": "Replace control if F501 open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_wash",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Motor good but no AC output \u2014 replace control.",
+      "oemOutcome": "Motor good but no AC output \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "wash_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Wash motor verified",
+      "body": "Wash motor circuit verified.",
+      "oemOutcome": "Wash motor circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

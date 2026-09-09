@@ -1,0 +1,226 @@
+{
+  "id": "w11633848-heater",
+  "version": "1.0.0",
+  "title": "\u00a73-10: Water Heating / Heat Dry",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F4E2",
+    "F4E3",
+    "F7E1",
+    "F7E2",
+    "heating_element_check",
+    "no_heat_dry"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-10",
+    "oemTestTitle": "Water Heating/Heat Dry",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p4_heater"
+    },
+    {
+      "id": "disconnect_p4_heater",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect P4",
+      "body": "Power off. Remove toe/access panels. Disconnect P4 from control.",
+      "sourceExcerpt": "Power off. Remove toe/access panels. Disconnect P4 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Heater \u2014 P4 pins 2 & 3",
+      "body": "Ohms between P4-2 and P4-3. Expected 8\u201330 \u03a9 including element and hi-limit in circuit.",
+      "sourceExcerpt": "Ohms between P4-2 and P4-3. Expected 8\u201330 \u03a9 including element and hi-limit in circuit.",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+      "testPoint": {
+        "connector": "P4",
+        "pins": "2 & 3",
+        "label": "Heater \u2014 P4 pins 2 & 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p4_heater_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_p4_heater",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p4_heater_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "heater_open_path",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p4_heater_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "heater_open_path",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_p4_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "heater_open_path",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_open_path",
+      "order": 4,
+      "type": "instruction",
+      "title": "Isolate open heater path",
+      "body": "If open: check heater element and hi-limit thermostat continuity separately. Repair harness or replace open part.",
+      "sourceExcerpt": "If open: check heater element and hi-limit thermostat continuity separately. Repair harness or replace open part.",
+      "requiresInput": false,
+      "defaultNextStepId": "reconnect_p4_heater"
+    },
+    {
+      "id": "reconnect_p4_heater",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P4 and restore power",
+      "body": "Reconnect P4. Restore power.",
+      "sourceExcerpt": "Reconnect P4. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_heater_voltage"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_heater_voltage"
+    },
+    {
+      "id": "live_heater_voltage",
+      "order": 7,
+      "type": "visual_check",
+      "title": "120 VAC at heater during Service Diagnostics?",
+      "body": "Volts AC at P4-2 and P4-3 during heater interval.",
+      "sourceExcerpt": "Volts AC at P4-2 and P4-3 during heater interval.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_verified_yes",
+          "label": "120 VAC, heater on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_acu_heater",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Heater circuit good but no AC output \u2014 replace control. If heat error persists, run OWI test.",
+      "oemOutcome": "Heater circuit good but no AC output \u2014 replace control. If heat error persists, run OWI test.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Heater verified",
+      "body": "Heater element and drive verified.",
+      "oemOutcome": "Heater element and drive verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}
