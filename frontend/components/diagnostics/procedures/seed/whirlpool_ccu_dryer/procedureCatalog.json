@@ -3,7 +3,7 @@
   "platformId": "whirlpool_ccu_dryer",
   "templateId": "electric_dryer",
   "label": "Whirlpool/Maytag ACU/CCU electric & gas dryer",
-  "notes": "W10680150 tech sheet + W10881701 steam dryer manual share whirlpool_ccu_dryer. Connector J* (W10881701) = P* (W10680150). Duet Sport 83/85 \u2192 whirlpool_duet_sport_dryer. Steam 9.2 cu ft WED95*/MED95* \u2192 W10881701 procedures include TEST #8\u2013#10.",
+  "notes": "W10680150 tech sheet + W10881701 WED9500 + W11169659 MED9620 share whirlpool_ccu_dryer. Connector J* (service manuals) = P* (W10680150). Duet Sport 83/85 \u2192 whirlpool_duet_sport_dryer. WED95*/MED95* \u2192 W10881701 (#8\u2013#10). WED96*/MED96* \u2192 W11169659 (4 delta procs + 10 shared w10881701).",
   "plannedProcedures": [
     {
       "id": "w10680150-ccu-power",
@@ -313,6 +313,151 @@
         "F6E2",
         "F6E3"
       ]
+    },
+    {
+      "id": "w11169659-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: ACU Power Check",
+      "status": "generated",
+      "manualId": "W11169659",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1",
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w11169659-heater-electric",
+      "oemSection": "4",
+      "title": "TEST #4: Heat System (electric)",
+      "status": "generated",
+      "manualId": "W11169659",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11169659-moisture-sensor",
+      "oemSection": "5",
+      "title": "TEST #5: Moisture Sensor",
+      "status": "generated",
+      "manualId": "W11169659",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E2",
+        "F3E5"
+      ]
+    },
+    {
+      "id": "w11169659-drum-led",
+      "oemSection": "8",
+      "title": "TEST #8: Drum LED",
+      "status": "generated",
+      "manualId": "W11169659",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-supply-connections",
+      "oemSection": "2",
+      "title": "TEST #2: Supply Connections",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-motor-circuit",
+      "oemSection": "3",
+      "title": "TEST #3: Motor Circuit",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-heater-gas",
+      "oemSection": "4-gas",
+      "title": "TEST #4: Heat System (gas)",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-thermistors",
+      "oemSection": "4a",
+      "title": "TEST #4a: Thermistors",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-thermal-fuse",
+      "oemSection": "4b",
+      "title": "TEST #4b: Thermal Fuse",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-thermal-cutoff",
+      "oemSection": "4c",
+      "title": "TEST #4c: Thermal Cut-Off",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-gas-valve",
+      "oemSection": "4d",
+      "title": "TEST #4d: Gas Valve",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-button-indicator",
+      "oemSection": "6",
+      "title": "TEST #6: Buttons and Indicators",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-door-switch",
+      "oemSection": "7",
+      "title": "TEST #7: Door Switch",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10881701-water-valve",
+      "oemSection": "9",
+      "title": "TEST #9: Water Valve",
+      "status": "shared",
+      "manualId": "W11169659",
+      "reuseFrom": "W10881701",
+      "knowledgeIds": [],
+      "relatedCodes": []
     }
   ]
 }

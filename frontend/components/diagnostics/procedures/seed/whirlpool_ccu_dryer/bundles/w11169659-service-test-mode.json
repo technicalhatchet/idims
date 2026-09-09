@@ -1,0 +1,38 @@
+{
+  "id": "w11169659-service-test-mode",
+  "version": "1.0.0",
+  "platformId": "whirlpool_ccu_dryer",
+  "manualId": "W11169659",
+  "title": "W11169659 \u2014 Service Test Mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "From Service Diagnostics, press 2nd button then START \u2014 L1/L2/heater/airflow; step 8 verifies water spray.",
+  "tags": [
+    "service_test",
+    "live_test"
+  ],
+  "entryStepId": "service_test_entry",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag 27 in Front-Load Gas & Electric Dryers Service Manual",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169659 wedmed9620-extracted.txt",
+    "pages": [
+      19,
+      20
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_test_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Test Mode",
+      "body": "With Service Diagnostic mode active, press and release the 2nd diagnostic button, then press and release START. Door must be closed. Press START to begin L2 \u2192 L1 \u2192 heater \u2192 airflow sequence. Step 8 verifies water valve spray.",
+      "sourceExcerpt": "User enters Service Test Mode through Service Diagnostics.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}
