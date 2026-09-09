@@ -1,0 +1,140 @@
+{
+  "id": "w10785366a-dishwasher-wifi",
+  "version": "1.0.0",
+  "title": "\u00a77: Clean-connect dishwasher WiFi",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "wifi_module",
+    "hmi_control"
+  ],
+  "tags": [
+    "wifi_check",
+    "connectivity_issue"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Clean-connect dishwasher smart components",
+    "pages": [
+      70,
+      72
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dw_access_wifi"
+    },
+    {
+      "id": "dw_access_wifi",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access rear WiFi module",
+      "body": "Dishwasher smart delta: HMI + WiFi only (no PM board). WiFi module at rear bottom; SAID/MAC on enclosure.",
+      "sourceExcerpt": "Dishwasher smart delta: HMI + WiFi only (no PM board). WiFi module at rear bottom; SAID/MAC on enclosure.",
+      "requiresInput": false,
+      "defaultNextStepId": "dw_wifi_led"
+    },
+    {
+      "id": "dw_wifi_led",
+      "order": 3,
+      "type": "visual_check",
+      "title": "WiFi LED during CONNECT",
+      "body": "Run connect process. Observe LED through plastic enclosure (no window). Green fast blink = module active.",
+      "sourceExcerpt": "Run connect process. Observe LED through plastic enclosure (no window). Green fast blink = module active.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dw_led_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dw_wifi_ok",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "dw_wifi_fault",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "dw_wifi_fault_out",
+          "terminal": true,
+          "oemOutcome": "Replace WiFi module or check antennas after harness inspection.",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dw_antenna_check",
+      "order": 4,
+      "type": "instruction",
+      "title": "Check dual antennas",
+      "body": "Verify internal radio antenna and external tub antenna routed to UI area per \u00a77-3.",
+      "sourceExcerpt": "Verify internal radio antenna and external tub antenna routed to UI area per \u00a77-3.",
+      "requiresInput": false,
+      "defaultNextStepId": "dw_service_diag"
+    },
+    {
+      "id": "dw_service_diag",
+      "order": 5,
+      "type": "instruction",
+      "title": "Service Diagnostics cycle",
+      "body": "Standby: press 1-2-3-1-2-3-1-2-3 within 1 sec between keys. Close door to start cycle. Note: WiFi fault sends error to ACU but no WiFi status step in diagnostics.",
+      "sourceExcerpt": "Standby: press 1-2-3-1-2-3-1-2-3 within 1 sec between keys. Close door to start cycle. Note: WiFi fault sends error to ACU but no WiFi status step in diagnostics.",
+      "requiresInput": false,
+      "defaultNextStepId": "dw_wifi_ok"
+    },
+    {
+      "id": "dw_wifi_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Dishwasher WiFi path OK",
+      "oemOutcome": "LED and antennas verified \u2014 HAN/registration issues are customer network scope.",
+      "requiresInput": false
+    },
+    {
+      "id": "dw_wifi_fault_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace WiFi module or HMI",
+      "oemOutcome": "Inspect harness before board replacement; do not replace WiFi and HMI together unless required.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "dishwasher"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10785366a-dishwasher-service-diagnostic-cycle",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "dw_service_diag"
+    }
+  ]
+}

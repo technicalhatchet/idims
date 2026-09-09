@@ -1,0 +1,389 @@
+{
+  "id": "w10785366a-pmm-ct",
+  "version": "1.0.0",
+  "title": "\u00a74-17: Power Management board & CT",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "power_management",
+    "current_transformer"
+  ],
+  "tags": [
+    "connectivity_issue",
+    "energy_monitoring"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-17",
+    "oemTestTitle": "Troubleshooting Power Management Board",
+    "pages": [
+      51,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_pm_board"
+    },
+    {
+      "id": "access_pm_board",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access PM board",
+      "body": "Unplug appliance. Access Power Management board under console (washer/dryer). Confirm J4 CT, J1 AC sense, and J2/J3 WIDE/WIN seated.",
+      "sourceExcerpt": "Unplug appliance. Access Power Management board under console (washer/dryer). Confirm J4 CT, J1 AC sense, and J2/J3 WIDE/WIN seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "ct1_ohms"
+    },
+    {
+      "id": "ct1_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "CT1 resistance (J4 pins 1 & 2)",
+      "body": "Remove J4. Measure CT1 across pins 1 & 2 \u2014 135 \u03a9 \u00b15%.",
+      "sourceExcerpt": "Remove J4. Measure CT1 across pins 1 & 2 \u2014 135 \u03a9 \u00b15%.",
+      "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+      "testPoint": {
+        "connector": "PM J4",
+        "pins": "1 & 2",
+        "label": "CT1 resistance (J4 pins 1 & 2)",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "CT1+",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "CT1-",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ct1_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ct1",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ct1",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct1_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ct1",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct1_pass",
+          "label": "135 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ct2_check",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "eliminate_current_transformer_ol_current_transformer_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ct2_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Appliance uses L2 (CT2)?",
+      "body": "Electric dryers use two CTs at terminal block. Gas dryer and smart washer typically CT1 only.",
+      "sourceExcerpt": "Electric dryers use two CTs at terminal block. Gas dryer and smart washer typically CT1 only.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "uses_l2",
+          "label": "Yes \u2014 check CT2",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ct2_ohms",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "eliminate_current_transformer_ol_current_transformer_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "ct1_only",
+          "label": "No \u2014 CT1 only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_j4"
+        }
+      ]
+    },
+    {
+      "id": "ct2_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "CT2 resistance (J4 pins 3 & 4)",
+      "body": "Measure CT2 across pins 3 & 4 \u2014 135 \u03a9 \u00b15%.",
+      "sourceExcerpt": "Measure CT2 across pins 3 & 4 \u2014 135 \u03a9 \u00b15%.",
+      "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+      "testPoint": {
+        "connector": "PM J4",
+        "pins": "3 & 4",
+        "label": "CT2 resistance (J4 pins 3 & 4)",
+        "pinDetails": [
+          {
+            "pin": "3",
+            "signal": "CT2+",
+            "wireColor": "W",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "CT2-",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ct2_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ct2",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct2_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ct2",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct2_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ct2",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "confirm_current_transformer_ol_current_transformer_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "ct2_pass",
+          "label": "135 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_j4",
+          "diagnosticEffects": [
+            {
+              "componentId": "current_transformer",
+              "evidenceId": "eliminate_current_transformer_ol_current_transformer_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_j4",
+      "order": 6,
+      "type": "instruction",
+      "title": "Reconnect J4 \u2014 restore power",
+      "body": "Reconnect J4. Restore power for live PM board supply check.",
+      "sourceExcerpt": "Reconnect J4. Restore power for live PM board supply check.",
+      "requiresInput": false,
+      "defaultNextStepId": "pmm_5vdc"
+    },
+    {
+      "id": "pmm_5vdc",
+      "order": 7,
+      "type": "measurement",
+      "title": "PM board +5 VDC (J2-1 to J2-3)",
+      "body": "Live DC check at J2 pins 1 & 3 (J3 interchangeable). Expect 5 VDC.",
+      "sourceExcerpt": "Live DC check at J2 pins 1 & 3 (J3 interchangeable). Expect 5 VDC.",
+      "measurementKnowledgeId": "whirlpoolConnectedSmartGen3Pmm5Vdc",
+      "testPoint": {
+        "connector": "PM J2",
+        "pins": "1 & 3",
+        "label": "PM board +5 VDC (J2-1 to J2-3)",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "+5 VDC",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "GND",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pmm5v_low",
+          "label": "Below range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "pmm_supply_fault",
+          "diagnosticEffects": [
+            {
+              "componentId": "power_management",
+              "evidenceId": "confirm_power_management_5v_power_management_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "pmm5v_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "pmm_supply_fault",
+          "diagnosticEffects": [
+            {
+              "componentId": "power_management",
+              "evidenceId": "confirm_power_management_5v_power_management_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "pmm5v_pass",
+          "label": "~5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pmm_ok",
+          "diagnosticEffects": [
+            {
+              "componentId": "power_management",
+              "evidenceId": "eliminate_power_management_5v_power_management_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ct1",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace CT1 or harness",
+      "oemOutcome": "CT1 open or out of range \u2014 replace current transformer or internal harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ct2",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace CT2 or harness",
+      "oemOutcome": "CT2 open or out of range on L2 appliance.",
+      "requiresInput": false
+    },
+    {
+      "id": "pmm_supply_fault",
+      "order": 10,
+      "type": "outcome",
+      "title": "Repair PM harness or control",
+      "oemOutcome": "Missing 5 VDC at PM board \u2014 check harness to control.",
+      "requiresInput": false
+    },
+    {
+      "id": "pmm_ok",
+      "order": 11,
+      "type": "outcome",
+      "title": "PM/CT path verified",
+      "oemOutcome": "CT and PM supply OK \u2014 if app still shows no live kW, replace PM board.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer"
+  ]
+}

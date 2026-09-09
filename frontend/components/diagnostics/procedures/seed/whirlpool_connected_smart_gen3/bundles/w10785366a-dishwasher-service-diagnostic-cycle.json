@@ -1,0 +1,41 @@
+{
+  "id": "w10785366a-dishwasher-service-diagnostic-cycle",
+  "version": "1.0.0",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "manualId": "W10785366A",
+  "title": "W10785366A \u2014 Dishwasher Service Diagnostics cycle",
+  "modeKind": "service_diagnostic_entry",
+  "templateIds": [
+    "dishwasher"
+  ],
+  "uiVariants": [
+    "any"
+  ],
+  "description": "1-2-3 \u00d7 3 key sequence invokes Service Diagnostics cycle when door closes.",
+  "tags": [
+    "service_diagnostic"
+  ],
+  "entryStepId": "dw_diag_entry",
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "pages": [
+      72
+    ]
+  },
+  "steps": [
+    {
+      "id": "dw_diag_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Invoke Service Diagnostics cycle",
+      "body": "Standby: press any 3 keys 1-2-3-1-2-3-1-2-3 with no more than 1 second between presses. Close door to start. START/RESUME rapid-advances intervals.",
+      "sourceExcerpt": "Press any 3 keys in the sequence 1-2-3-1-2-3-1-2-3.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "w10785366a-laundry-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "manualId": "W10785366A",
+  "title": "W10785366A \u2014 Laundry Service Diagnostic entry",
+  "modeKind": "service_diagnostic_entry",
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer"
+  ],
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Smart washer/dryer 3-button \u00d7 3 Service Diagnostic entry within 8 seconds.",
+  "tags": [
+    "service_diagnostic",
+    "software_version"
+  ],
+  "entryStepId": "laundry_diag_entry",
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "pages": [
+      57,
+      65
+    ]
+  },
+  "steps": [
+    {
+      "id": "laundry_diag_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic mode",
+      "body": "Standby (plugged in, indicators off). Pick any 3 buttons except POWER. Within 8 seconds press/release 1st, 2nd, 3rd \u2014 repeat that same sequence two more times (3 rounds). Success: all indicators on 5 sec with 888 on display and a tone.",
+      "sourceExcerpt": "Press and Release the 1st, 2nd, 3rd selected button; Repeat 2 more times.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "id": "w10785366a-fridge-wifi-service",
+  "version": "1.0.0",
+  "title": "\u00a78-4: Smart refrigerator WiFi service tests",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "wifi_module",
+    "hmi_control"
+  ],
+  "tags": [
+    "wifi_check",
+    "connectivity_issue"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-4",
+    "oemTestTitle": "WiFi link and antenna service tests",
+    "pages": [
+      78,
+      79
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fridge_service_entry"
+    },
+    {
+      "id": "fridge_service_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter refrigerator service mode",
+      "body": "Hold Recommended + Drawer buttons simultaneously 5 seconds (chime). Use Icemaker2 = Enter; Up/Down navigate; Fast Cool = Back.",
+      "sourceExcerpt": "Hold Recommended + Drawer buttons simultaneously 5 seconds (chime). Use Icemaker2 = Enter; Up/Down navigate; Fast Cool = Back.",
+      "requiresInput": false,
+      "defaultNextStepId": "fridge_wifi_test_106"
+    },
+    {
+      "id": "fridge_wifi_test_106",
+      "order": 3,
+      "type": "instruction",
+      "title": "Test 106 \u2014 WiFi link self-test",
+      "body": "Hold Up arrow to advance to WiFi Service Test 106. Display shows 00 while testing, then 01/02/03 result.",
+      "sourceExcerpt": "Hold Up arrow to advance to WiFi Service Test 106. Display shows 00 while testing, then 01/02/03 result.",
+      "requiresInput": false,
+      "defaultNextStepId": "fridge_link_result"
+    },
+    {
+      "id": "fridge_link_result",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Link test result code",
+      "body": "01 = cannot link AP/WISE; 02 = AP OK but not WISE; 03 = connected to AP and WISE.",
+      "sourceExcerpt": "01 = cannot link AP/WISE; 02 = AP OK but not WISE; 03 = connected to AP and WISE.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_03",
+          "label": "03 \u2014 fully connected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fridge_antenna_tests",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "code_01_02",
+          "label": "01 or 02",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fridge_han_path"
+        }
+      ]
+    },
+    {
+      "id": "fridge_antenna_tests",
+      "order": 5,
+      "type": "instruction",
+      "title": "Tests 108\u2013109 antenna signal",
+      "body": "Navigate to tests 108 and 109. Record antenna 1 and 2 signal strength (0\u2013100%).",
+      "sourceExcerpt": "Navigate to tests 108 and 109. Record antenna 1 and 2 signal strength (0\u2013100%).",
+      "requiresInput": false,
+      "defaultNextStepId": "fridge_wifi_ok"
+    },
+    {
+      "id": "fridge_han_path",
+      "order": 6,
+      "type": "instruction",
+      "title": "Check 12.7 VDC WiFi supply",
+      "body": "WiFi board fed from Orion P16-1 to WiFi J3-1. Verify board seating and antenna coupler under right hinge cover.",
+      "sourceExcerpt": "WiFi board fed from Orion P16-1 to WiFi J3-1. Verify board seating and antenna coupler under right hinge cover.",
+      "requiresInput": false,
+      "defaultNextStepId": "fridge_replace_wifi"
+    },
+    {
+      "id": "fridge_wifi_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Refrigerator WiFi verified",
+      "oemOutcome": "Link and antenna tests acceptable \u2014 registration/HAN issues are customer scope.",
+      "requiresInput": false
+    },
+    {
+      "id": "fridge_replace_wifi",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace WiFi board or harness",
+      "oemOutcome": "Failed link test with good Orion 12.7 VDC \u2014 replace WiFi board/antenna per \u00a78-2.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "refrigerator"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10785366a-fridge-service-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "fridge_service_entry"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "id": "w10785366a-connectivity-console",
+  "version": "1.0.0",
+  "title": "\u00a74-7\u20134-11: Console connectivity indicators",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "hmi_control",
+    "wifi_module"
+  ],
+  "tags": [
+    "connectivity_issue",
+    "wifi_check"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-7",
+    "oemTestTitle": "Connectivity status troubleshooting",
+    "pages": [
+      43,
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_and_connect"
+    },
+    {
+      "id": "power_and_connect",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Power on before CONNECT",
+      "body": "Appliance ON (POWER pressed). Press CONNECT \u2014 does WiFi console icon light or blink?",
+      "sourceExcerpt": "Appliance ON (POWER pressed). Press CONNECT \u2014 does WiFi console icon light or blink?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "icon_blinks",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "recycle_power",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "icon_dead",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_module_path",
+          "terminal": true,
+          "oemOutcome": "WiFi icon dead \u2014 run WiFi module procedure.",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "recycle_power",
+      "order": 3,
+      "type": "instruction",
+      "title": "Recycle power",
+      "body": "Unplug 60 seconds. Restore power and repeat connect. If still failing and appliance otherwise OK, check software versions.",
+      "sourceExcerpt": "Unplug 60 seconds. Restore power and repeat connect. If still failing and appliance otherwise OK, check software versions.",
+      "requiresInput": false,
+      "defaultNextStepId": "version_or_wifi"
+    },
+    {
+      "id": "version_or_wifi",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Software versions or WiFi LED?",
+      "body": "Can you read WiFi (n) version in Service Diagnostic? If no, inspect WiFi module LED during connect.",
+      "sourceExcerpt": "Can you read WiFi (n) version in Service Diagnostic? If no, inspect WiFi module LED during connect.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "versions_ok",
+          "label": "n version OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "han_issue",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "versions_bad",
+          "label": "n-- or cannot enter diag",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_module_path"
+        }
+      ]
+    },
+    {
+      "id": "han_issue",
+      "order": 5,
+      "type": "outcome",
+      "title": "Home network / WISE / registration",
+      "oemOutcome": "Appliance smart layer OK \u2014 refer customer to router/WPS/WPA-2 and Whirlpool Help Line 866-333-4591 for HAN issues.",
+      "requiresInput": false
+    },
+    {
+      "id": "wifi_module_path",
+      "order": 6,
+      "type": "outcome",
+      "title": "Run WiFi module test",
+      "oemOutcome": "Proceed with w10785366a-wifi-module and HMI communication procedures.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer",
+    "dishwasher",
+    "refrigerator"
+  ]
+}

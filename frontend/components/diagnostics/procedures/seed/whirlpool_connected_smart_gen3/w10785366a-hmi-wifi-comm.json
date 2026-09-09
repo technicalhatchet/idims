@@ -1,0 +1,193 @@
+{
+  "id": "w10785366a-hmi-wifi-comm",
+  "version": "1.0.0",
+  "title": "\u00a74-10: HMI \u2194 WiFi communication",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "hmi_control",
+    "wifi_module"
+  ],
+  "tags": [
+    "F6E2",
+    "hmi_check",
+    "connectivity_issue",
+    "wifi_check"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-10",
+    "oemTestTitle": "Software version communication check",
+    "pages": [
+      45,
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_service_diag"
+    },
+    {
+      "id": "enter_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic mode",
+      "body": "Use laundry 3-button \u00d7 3 entry (washer \u00a75-5 / dryer \u00a76-5) or dishwasher 1-2-3 cycle entry as applicable.",
+      "sourceExcerpt": "Use laundry 3-button \u00d7 3 entry (washer \u00a75-5 / dryer \u00a76-5) or dishwasher 1-2-3 cycle entry as applicable.",
+      "requiresInput": false,
+      "defaultNextStepId": "software_version_display"
+    },
+    {
+      "id": "software_version_display",
+      "order": 3,
+      "type": "instruction",
+      "title": "Open Software Version Display",
+      "body": "Laundry: hold 2nd button used for diagnostic entry 5 seconds. Display cycles UI, ACU, WiFi (n), and PMM (p) revision codes.",
+      "sourceExcerpt": "Laundry: hold 2nd button used for diagnostic entry 5 seconds. Display cycles UI, ACU, WiFi (n), and PMM (p) revision codes.",
+      "requiresInput": false,
+      "defaultNextStepId": "wifi_version_check"
+    },
+    {
+      "id": "wifi_version_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "WiFi software version (n label)",
+      "body": "Does display show WiFi revision (n major.minor.test) \u2014 not n--?",
+      "sourceExcerpt": "n-- means UI and WiFi module are not communicating.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "n_ok",
+          "label": "n version shown",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "n_dash",
+          "label": "n-- (dashes)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_comm_fault"
+        }
+      ]
+    },
+    {
+      "id": "all_dash_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "All versions show -- ?",
+      "body": "If every software version is --, UI or harness fault; F6E2 should also be present.",
+      "sourceExcerpt": "If every software version is --, UI or harness fault; F6E2 should also be present.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "all_dash",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ui_harness_fault",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "partial_comm",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_wifi_harness",
+          "terminal": true,
+          "oemOutcome": "Only WiFi n-- \u2014 harness or WiFi module.",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_wifi_harness",
+      "order": 6,
+      "type": "instruction",
+      "title": "Inspect WiFi harness",
+      "body": "Unplug power. Verify WiFi module connector and WIDE/WIN harness. Restore power and retest version display.",
+      "sourceExcerpt": "Unplug power. Verify WiFi module connector and WIDE/WIN harness. Restore power and retest version display.",
+      "requiresInput": false,
+      "defaultNextStepId": "wifi_comm_fault"
+    },
+    {
+      "id": "comm_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "HMI \u2194 WiFi communicating",
+      "oemOutcome": "WiFi version displayed \u2014 connectivity issue likely home network or registration.",
+      "requiresInput": false
+    },
+    {
+      "id": "wifi_comm_fault",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace WiFi module or harness",
+      "oemOutcome": "WiFi n-- only \u2014 repair harness or replace WiFi module (not both HMI and WiFi unless required).",
+      "requiresInput": false
+    },
+    {
+      "id": "ui_harness_fault",
+      "order": 9,
+      "type": "outcome",
+      "title": "Repair UI harness or replace HMI",
+      "oemOutcome": "All -- with F6E2 \u2014 UI or harness to UI; do not replace WiFi and HMI together unless necessary.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer",
+    "dishwasher"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10785366a-laundry-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "enter_service_diag"
+    },
+    {
+      "bundleId": "w10785366a-laundry-software-version-display",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "software_version_display",
+      "continueToStepId": "wifi_version_check"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "w10785366a-fridge-service-mode-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "manualId": "W10785366A",
+  "title": "W10785366A \u2014 Refrigerator service mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "templateIds": [
+    "refrigerator"
+  ],
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Recommended + Drawer 5 sec; navigate with Icemaker2 / Up / Down / Fast Cool.",
+  "tags": [
+    "service_diagnostic",
+    "wifi_check"
+  ],
+  "entryStepId": "fridge_diag_entry",
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "pages": [
+      78
+    ]
+  },
+  "steps": [
+    {
+      "id": "fridge_diag_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter refrigerator service mode",
+      "body": "Hold Recommended and Drawer buttons together 5 seconds (chime). Icemaker2 = Enter; Up/Down = navigate; Fast Cool = Back. Hold Up to reach WiFi tests 106+.",
+      "sourceExcerpt": "Press and hold Recommended and Drawer simultaneously 5 seconds.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+[
+  {
+    "id": "whirlpoolConnectedSmartGen3CtOhms",
+    "name": "Whirlpool Connected Smart Gen III Current Transformer",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 128, "max": 142 },
+      "warning": { "min": 120, "max": 150 },
+      "critical": { "below": 100, "above": 200 }
+    },
+    "typical": { "min": 130, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Verify CT winding at PM board J4 per W10785366A §4-17 (135 Ω ±5%).",
+    "failureModes": [
+      "Open (OL): CT or harness fault — live power measurement unavailable in app",
+      "Out of range: damaged CT or internal harness"
+    ],
+    "testingTips": [
+      "Disconnect J4 from PM board before measuring",
+      "CT1: J4 pins 1 & 2; CT2 (L2 appliances): J4 pins 3 & 4",
+      "Black face of CT toward power source; clamp on L1 (washer) or at terminal block (dryer)"
+    ],
+    "notes": "135 Ω ±5% for CT1 and CT2 when appliance uses L2 (electric dryer)",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "electric_dryer", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["connectivity_issue", "energy_monitoring"]
+  },
+  {
+    "id": "whirlpoolConnectedSmartGen3WifiModule5Vdc",
+    "name": "Whirlpool Connected Smart Gen III WiFi Module +5 VDC",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.5, "max": 5.5 },
+      "warning": { "min": 4.0, "max": 6.0 },
+      "critical": { "below": 3.5, "above": 6.5 }
+    },
+    "typical": { "min": 4.9, "max": 5.1 },
+    "openCircuitCritical": false,
+    "purpose": "WiFi processor module supply at J4-1 (+5 VDC) to J4-6 (GND) per W10785366A §4-14 step 6.",
+    "failureModes": [
+      "Missing 5 VDC: harness or control board supply fault",
+      "Present but module LED off: replace WiFi module after harness check"
+    ],
+    "testingTips": [
+      "Live measurement — controls off, allow ~1 min after power-up",
+      "Voltage may read higher per appliance tech sheet",
+      "Disconnect power before replacing module"
+    ],
+    "notes": "Common cross-category WiFi module; J4 WIDE/WIN connector",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "electric_dryer", "gas_dryer", "dishwasher", "refrigerator"],
+      "templates": []
+    },
+    "dmaTags": ["wifi_check", "connectivity_issue", "hmi_check"]
+  },
+  {
+    "id": "whirlpoolConnectedSmartGen3Pmm5Vdc",
+    "name": "Whirlpool Connected Smart Gen III PM Board +5 VDC",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.5, "max": 5.5 },
+      "warning": { "min": 4.0, "max": 6.0 },
+      "critical": { "below": 3.5, "above": 6.5 }
+    },
+    "typical": { "min": 4.9, "max": 5.1 },
+    "openCircuitCritical": false,
+    "purpose": "Power Management board WIDE/WIN supply at J2-1 (+5 VDC) to J2-3 (GND); J3 interchangeable per manual.",
+    "failureModes": [
+      "Missing 5 VDC: harness between PM board and control",
+      "5 VDC OK but no live kW in app: suspect CT or PM board replacement"
+    ],
+    "testingTips": [
+      "Perform CT Ω checks with power off before live 5 VDC test",
+      "Washer/dryer only — dishwasher and refrigerator omit PM board"
+    ],
+    "notes": "W10785366A §4-17 step 6–7",
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "electric_dryer", "gas_dryer"],
+      "templates": []
+    },
+    "dmaTags": ["connectivity_issue", "energy_monitoring"]
+  }
+]

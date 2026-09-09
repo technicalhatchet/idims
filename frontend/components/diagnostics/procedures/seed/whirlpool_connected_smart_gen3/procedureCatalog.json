@@ -1,0 +1,96 @@
+{
+  "manualId": "W10785366A",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "templateId": "washer",
+  "label": "Whirlpool Connected Smart Appliances Gen III (smart-layer add-on)",
+  "notes": "Smart-layer delta only \u2014 WiFi, PMM/CT, HMI connectivity, service diagnostic entry. Does not duplicate base washer/dryer/dishwasher/fridge component tests. templateIds gate laundry vs dishwasher vs refrigerator procedures.",
+  "plannedProcedures": [
+    {
+      "id": "w10785366a-wifi-module",
+      "oemSection": "4-14",
+      "title": "\u00a74-14: WiFi module diagnostics",
+      "status": "generated",
+      "templateIds": [
+        "washer",
+        "electric_dryer",
+        "gas_dryer",
+        "dishwasher",
+        "refrigerator"
+      ],
+      "knowledgeIds": [
+        "whirlpoolConnectedSmartGen3WifiModule5Vdc"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10785366a-pmm-ct",
+      "oemSection": "4-17",
+      "title": "\u00a74-17: Power Management board & CT",
+      "status": "generated",
+      "templateIds": [
+        "washer",
+        "electric_dryer",
+        "gas_dryer"
+      ],
+      "knowledgeIds": [
+        "whirlpoolConnectedSmartGen3CtOhms",
+        "whirlpoolConnectedSmartGen3CtOhms",
+        "whirlpoolConnectedSmartGen3Pmm5Vdc"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10785366a-hmi-wifi-comm",
+      "oemSection": "4-10",
+      "title": "\u00a74-10: HMI \u2194 WiFi communication",
+      "status": "generated",
+      "templateIds": [
+        "washer",
+        "electric_dryer",
+        "gas_dryer",
+        "dishwasher"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w10785366a-connectivity-console",
+      "oemSection": "4-7",
+      "title": "\u00a74-7\u20134-11: Console connectivity indicators",
+      "status": "generated",
+      "templateIds": [
+        "washer",
+        "electric_dryer",
+        "gas_dryer",
+        "dishwasher",
+        "refrigerator"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10785366a-dishwasher-wifi",
+      "oemSection": "7",
+      "title": "\u00a77: Clean-connect dishwasher WiFi",
+      "status": "generated",
+      "templateIds": [
+        "dishwasher"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10785366a-fridge-wifi-service",
+      "oemSection": "8-4",
+      "title": "\u00a78-4: Smart refrigerator WiFi service tests",
+      "status": "generated",
+      "templateIds": [
+        "refrigerator"
+      ],
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

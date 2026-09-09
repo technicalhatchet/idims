@@ -31,6 +31,10 @@ import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whir
 import whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w11169659-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w11169659_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w11169659-service-test-mode.json';
 import whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry from './seed/whirlpool_centennial_dryer/bundles/w8178629-diagnostic-entry.json';
+import whirlpool_connected_smart_gen3_bundles_w10785366a_dishwasher_service_diagnostic_cycle from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-dishwasher-service-diagnostic-cycle.json';
+import whirlpool_connected_smart_gen3_bundles_w10785366a_fridge_service_mode_entry from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-fridge-service-mode-entry.json';
+import whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_service_diagnostic_entry from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-laundry-service-diagnostic-entry.json';
+import whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_software_version_display from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-laundry-software-version-display.json';
 import whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11480208-service-diagnostic-entry.json';
 import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from './seed/whirlpool_dishwasher_acu/bundles/w11633848-service-diagnostic-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
@@ -256,6 +260,12 @@ import whirlpool_centennial_dryer_w8178629_gas_ignitor from './seed/whirlpool_ce
 import whirlpool_centennial_dryer_w8178629_supply_connections from './seed/whirlpool_centennial_dryer/w8178629-supply-connections.json';
 import whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust from './seed/whirlpool_centennial_dryer/w8178629-thermal-fuse-exhaust.json';
 import whirlpool_centennial_dryer_w8178629_timer_motor from './seed/whirlpool_centennial_dryer/w8178629-timer-motor.json';
+import whirlpool_connected_smart_gen3_w10785366a_connectivity_console from './seed/whirlpool_connected_smart_gen3/w10785366a-connectivity-console.json';
+import whirlpool_connected_smart_gen3_w10785366a_dishwasher_wifi from './seed/whirlpool_connected_smart_gen3/w10785366a-dishwasher-wifi.json';
+import whirlpool_connected_smart_gen3_w10785366a_fridge_wifi_service from './seed/whirlpool_connected_smart_gen3/w10785366a-fridge-wifi-service.json';
+import whirlpool_connected_smart_gen3_w10785366a_hmi_wifi_comm from './seed/whirlpool_connected_smart_gen3/w10785366a-hmi-wifi-comm.json';
+import whirlpool_connected_smart_gen3_w10785366a_pmm_ct from './seed/whirlpool_connected_smart_gen3/w10785366a-pmm-ct.json';
+import whirlpool_connected_smart_gen3_w10785366a_wifi_module from './seed/whirlpool_connected_smart_gen3/w10785366a-wifi-module.json';
 import whirlpool_dishwasher_acu_w11366142_dispenser from './seed/whirlpool_dishwasher_acu/w11366142-dispenser.json';
 import whirlpool_dishwasher_acu_w11366142_drain_motor from './seed/whirlpool_dishwasher_acu/w11366142-drain-motor.json';
 import whirlpool_dishwasher_acu_w11366142_rif_filter from './seed/whirlpool_dishwasher_acu/w11366142-rif-filter.json';
@@ -458,6 +468,10 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w11169659_service_test_mode as ServiceModeBundle,
   whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry as ServiceModeBundle,
+  whirlpool_connected_smart_gen3_bundles_w10785366a_dishwasher_service_diagnostic_cycle as ServiceModeBundle,
+  whirlpool_connected_smart_gen3_bundles_w10785366a_fridge_service_mode_entry as ServiceModeBundle,
+  whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_connected_smart_gen3_bundles_w10785366a_laundry_software_version_display as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11480208_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
@@ -685,6 +699,12 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_centennial_dryer_w8178629_supply_connections as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_thermal_fuse_exhaust as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_timer_motor as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_connectivity_console as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_dishwasher_wifi as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_fridge_wifi_service as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_hmi_wifi_comm as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_pmm_ct as ServiceProcedureSeed,
+  whirlpool_connected_smart_gen3_w10785366a_wifi_module as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11366142_dispenser as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11366142_drain_motor as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11366142_rif_filter as ServiceProcedureSeed,
