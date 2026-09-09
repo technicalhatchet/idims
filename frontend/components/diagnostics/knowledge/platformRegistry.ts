@@ -11,6 +11,7 @@ export const PLATFORM_IDS = {
   SAMSUNG_SXS: 'samsung_sxs',
   SAMSUNG_FL_WASHER_BB8700: 'samsung_fl_washer_bb8700',
   SAMSUNG_FL_DRYER_BB8700: 'samsung_fl_dryer_bb8700',
+  SAMSUNG_FL_DRYER_DV6000: 'samsung_fl_dryer_dv6000',
   SAMSUNG_TL_WASHER_A50: 'samsung_tl_washer_a50',
   SAMSUNG_TL_DRYER_DV50: 'samsung_tl_dryer_dv50',
   LG_LRMVS: 'lg_lrmvs',
@@ -109,6 +110,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Samsung'],
     templateId: 'gas_dryer',
     modelPatterns: [/DVG50R/i, /DVG50/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_FL_DRYER_DV6000,
+    label: 'Samsung front-load electric dryer DV6000T (DVE45T6000)',
+    manufacturers: ['Samsung'],
+    templateId: 'electric_dryer',
+    modelPatterns: [/DV6000/i, /DVE45T/i, /DV45T60/i, /DVE60/i],
   },
   {
     id: PLATFORM_IDS.SAMSUNG_FL_WASHER_BB8700,
@@ -218,6 +226,13 @@ export const PLATFORM_RULES: PlatformRule[] = [
     manufacturers: ['Insignia'],
     templateId: 'washer',
     modelPatterns: [/WMT41/i],
+  },
+  {
+    id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,
+    label: 'Whirlpool/Maytag/KitchenAid ACU dishwasher (WDT750 microfiltration)',
+    manufacturers: ['Whirlpool', 'Maytag', 'KitchenAid'],
+    templateId: 'dishwasher',
+    modelPatterns: [/WDT75/i, /WDTA75/i],
   },
   {
     id: PLATFORM_IDS.WHIRLPOOL_DISHWASHER_ACU,

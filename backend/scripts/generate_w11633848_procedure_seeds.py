@@ -998,22 +998,30 @@ def write_catalog() -> None:
         entry
         for entry in existing.get("plannedProcedures", [])
         if str(entry.get("id", "")).startswith("w11480208-")
+        and entry.get("manualId") != "W11499711"
+    ]
+    w11499711_entries = [
+        entry
+        for entry in existing.get("plannedProcedures", [])
+        if entry.get("manualId") == "W11499711"
     ]
     catalog = {
         "manualId": "W11633848",
         "platformId": "whirlpool_dishwasher_acu",
         "templateId": "dishwasher",
-        "label": 'Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208)',
+        "label": "Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208 + W11499711)",
         "notes": (
-            "W11633848 Amana/Whirlpool 24\" + W11480208 filtration dishwasher (WDT740). "
-            "Filtration manual uses P12 door, P11 overfill, P6 diverter, VSM motor pinouts."
+            "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + "
+            "W11499711 microfiltration WDT750 (SSM wash 10–15 Ω). "
+            "Shared fill/dispenser/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208."
         ),
-        "plannedProcedures": w11633848_entries + w11480208_entries,
+        "plannedProcedures": w11633848_entries + w11480208_entries + w11499711_entries,
     }
     catalog_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     print(
         f"Wrote {catalog_path.name} "
-        f"({len(w11633848_entries)} W11633848 + {len(w11480208_entries)} W11480208)"
+        f"({len(w11633848_entries)} W11633848 + {len(w11480208_entries)} W11480208 + "
+        f"{len(w11499711_entries)} W11499711)"
     )
 
 

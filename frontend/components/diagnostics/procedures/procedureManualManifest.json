@@ -120,6 +120,21 @@
       }
     },
     {
+      "manualId": "W11169659",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_ccu_dryer",
+      "label": "Whirlpool/Maytag 27 in Medallion steam dryer (W11169659 WED/MED9620)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169659_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ccu_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11169659_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11169659_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11169659_service_modes.py"
+      }
+    },
+    {
       "manualId": "W11633848",
       "platformId": "whirlpool_dishwasher_acu",
       "templateId": "dishwasher",
@@ -147,6 +162,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_w11480208_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11480208_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11499711",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "seedDir": "whirlpool_dishwasher_acu",
+      "label": "KitchenAid/Maytag microfiltration dishwasher WDT750 (W11499711)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_acu/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11499711_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_w11499711_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11499711_service_modes.py"
       }
     },
     {
@@ -252,6 +282,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_bb8700_dryer_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_fl_bb8700_dryer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "seedDir": "samsung_fl_dryer_dv6000",
+      "label": "Samsung FL dryer DV6000T (DVE45T6000/6005/6200)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fl_dryer_dv6000/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fl_dv6000_dryer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_dv6000_dryer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fl_dv6000_dryer_service_modes.py"
       }
     }
   ]

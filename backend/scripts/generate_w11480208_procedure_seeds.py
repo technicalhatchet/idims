@@ -718,22 +718,28 @@ def write_catalog() -> None:
         for entry in existing.get("plannedProcedures", [])
         if str(entry.get("id", "")).startswith("w11633848-")
     ]
+    w11499711_entries = [
+        entry
+        for entry in existing.get("plannedProcedures", [])
+        if entry.get("manualId") == "W11499711"
+    ]
     catalog = {
         "manualId": "W11633848",
         "platformId": "whirlpool_dishwasher_acu",
         "templateId": "dishwasher",
-        "label": 'Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208)',
+        "label": "Whirlpool/Maytag/KitchenAid ACU dishwasher (W11633848 + W11480208 + W11499711)",
         "notes": (
-            "W11633848 Amana/Whirlpool 24\" + W11480208 filtration dishwasher (WDT740). "
-            "Filtration manual uses P12 door, P11 overfill, P6 diverter, VSM motor pinouts. "
-            "Shared fill/dispenser/OWI/diverter-sensor/SSM procedures from W11633848."
+            "W11633848 Amana/Whirlpool 24\" + W11480208 filtration WDT740 (VSM motors) + "
+            "W11499711 microfiltration WDT750 (SSM wash 10–15 Ω). "
+            "Shared fill/dispenser/OWI/diverter-sensor from W11633848; filtration pinouts from W11480208."
         ),
-        "plannedProcedures": w11633848_entries + w11480208_entries,
+        "plannedProcedures": w11633848_entries + w11480208_entries + w11499711_entries,
     }
     catalog_path.write_text(json.dumps(catalog, indent=2) + "\n", encoding="utf-8")
     print(
         f"Wrote {catalog_path.name} "
-        f"({len(w11633848_entries)} W11633848 + {len(w11480208_entries)} W11480208)"
+        f"({len(w11633848_entries)} W11633848 + {len(w11480208_entries)} W11480208 + "
+        f"{len(w11499711_entries)} W11499711)"
     )
 
 
@@ -742,7 +748,7 @@ def write_readme() -> None:
     readme.write_text(
         """# whirlpool_dishwasher_acu procedure seeds
 
-Manuals **W11633848** (Amana & Whirlpool 24\" dishwasher) and **W11480208** (filtration dishwasher WDT740).
+Manuals **W11633848** (Amana & Whirlpool 24\" dishwasher), **W11480208** (filtration WDT740), and **W11499711** (microfiltration WDT750).
 
 Regenerate W11633848:
 
@@ -756,9 +762,16 @@ Regenerate W11480208 (filtration-specific procedures):
 python backend/scripts/run_procedure_manual_pipeline.py --manual W11480208
 ```
 
+Regenerate W11499711 (WDT750 SSM wash-motor delta):
+
+```bash
+python backend/scripts/run_procedure_manual_pipeline.py --manual W11499711
+```
+
 Extraction:
 - `frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md`
 - `frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md`
+- `frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md`
 """,
         encoding="utf-8",
     )

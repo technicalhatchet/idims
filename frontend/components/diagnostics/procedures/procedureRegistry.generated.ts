@@ -5,6 +5,8 @@
 import insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry from './seed/insignia_dryer_tdre/bundles/nstdre75w1-service-test-entry.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-smart-install-entry.json';
+import samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall from './seed/samsung_fl_dryer_dv6000/bundles/samsungdv6000-error-recall.json';
+import samsung_fl_dryer_dv6000_bundles_samsungdv6000_smart_install_entry from './seed/samsung_fl_dryer_dv6000/bundles/samsungdv6000-smart-install-entry.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
@@ -63,6 +65,15 @@ import samsung_fl_dryer_bb8700_samsungbb8700_dryer_motor_circuit from './seed/sa
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_power from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-power.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermal_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-thermal-cutoff.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-thermistor.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_belt_cutoff from './seed/samsung_fl_dryer_dv6000/samsungdv6000-belt-cutoff.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_door_switch from './seed/samsung_fl_dryer_dv6000/samsungdv6000-door-switch.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_heat_pump_compressor from './seed/samsung_fl_dryer_dv6000/samsungdv6000-heat-pump-compressor.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_heater_electric from './seed/samsung_fl_dryer_dv6000/samsungdv6000-heater-electric.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_hmi from './seed/samsung_fl_dryer_dv6000/samsungdv6000-hmi.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_motor_circuit from './seed/samsung_fl_dryer_dv6000/samsungdv6000-motor-circuit.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_power from './seed/samsung_fl_dryer_dv6000/samsungdv6000-power.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_thermal_cutoff from './seed/samsung_fl_dryer_dv6000/samsungdv6000-thermal-cutoff.json';
+import samsung_fl_dryer_dv6000_samsungdv6000_thermistor from './seed/samsung_fl_dryer_dv6000/samsungdv6000-thermistor.json';
 import samsung_fl_washer_bb8700_samsungbb8700_communication from './seed/samsung_fl_washer_bb8700/samsungbb8700-communication.json';
 import samsung_fl_washer_bb8700_samsungbb8700_door_lock from './seed/samsung_fl_washer_bb8700/samsungbb8700-door-lock.json';
 import samsung_fl_washer_bb8700_samsungbb8700_drain_pump from './seed/samsung_fl_washer_bb8700/samsungbb8700-drain-pump.json';
@@ -173,6 +184,7 @@ import whirlpool_dishwasher_acu_w11480208_heater from './seed/whirlpool_dishwash
 import whirlpool_dishwasher_acu_w11480208_interior_led from './seed/whirlpool_dishwasher_acu/w11480208-interior-led.json';
 import whirlpool_dishwasher_acu_w11480208_overfill_switch from './seed/whirlpool_dishwasher_acu/w11480208-overfill-switch.json';
 import whirlpool_dishwasher_acu_w11480208_wash_motor_vsm from './seed/whirlpool_dishwasher_acu/w11480208-wash-motor-vsm.json';
+import whirlpool_dishwasher_acu_w11499711_wash_motor_ssm from './seed/whirlpool_dishwasher_acu/w11499711-wash-motor-ssm.json';
 import whirlpool_dishwasher_acu_w11633848_acu_power from './seed/whirlpool_dishwasher_acu/w11633848-acu-power.json';
 import whirlpool_dishwasher_acu_w11633848_dc_fan from './seed/whirlpool_dishwasher_acu/w11633848-dc-fan.json';
 import whirlpool_dishwasher_acu_w11633848_dispenser from './seed/whirlpool_dishwasher_acu/w11633848-dispenser.json';
@@ -279,6 +291,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   insignia_dryer_tdre_bundles_nstdre75w1_service_test_entry as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry as ServiceModeBundle,
+  samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall as ServiceModeBundle,
+  samsung_fl_dryer_dv6000_bundles_samsungdv6000_smart_install_entry as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
@@ -339,6 +353,15 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_power as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermal_cutoff as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_thermistor as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_belt_cutoff as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_door_switch as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_heat_pump_compressor as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_heater_electric as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_hmi as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_motor_circuit as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_power as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_thermal_cutoff as ServiceProcedureSeed,
+  samsung_fl_dryer_dv6000_samsungdv6000_thermistor as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_communication as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_door_lock as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_drain_pump as ServiceProcedureSeed,
@@ -449,6 +472,7 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_dishwasher_acu_w11480208_interior_led as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11480208_overfill_switch as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11480208_wash_motor_vsm as ServiceProcedureSeed,
+  whirlpool_dishwasher_acu_w11499711_wash_motor_ssm as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_acu_power as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dc_fan as ServiceProcedureSeed,
   whirlpool_dishwasher_acu_w11633848_dispenser as ServiceProcedureSeed,
