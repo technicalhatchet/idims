@@ -10,6 +10,7 @@ export const PLATFORM_IDS = {
   WHIRLPOOL_DUET_SPORT_DRYER: 'whirlpool_duet_sport_dryer',
   SAMSUNG_FLEXWASH: 'samsung_flexwash',
   SAMSUNG_SXS: 'samsung_sxs',
+  SAMSUNG_FRIDGE_BESPOKE: 'samsung_fridge_bespoke',
   SAMSUNG_FL_WASHER_BB8700: 'samsung_fl_washer_bb8700',
   SAMSUNG_FL_DRYER_BB8700: 'samsung_fl_dryer_bb8700',
   SAMSUNG_FL_DRYER_DV6000: 'samsung_fl_dryer_dv6000',
@@ -167,6 +168,14 @@ export const PLATFORM_RULES: PlatformRule[] = [
     label: 'Samsung side-by-side refrigerator',
     manufacturers: ['Samsung'],
     templateId: 'refrigerator',
+    modelPatterns: [/RF260/i, /RF261/i],
+  },
+  {
+    id: PLATFORM_IDS.SAMSUNG_FRIDGE_BESPOKE,
+    label: 'Samsung Bespoke 4-door French-door refrigerator (RF23BB / RF32CG)',
+    manufacturers: ['Samsung'],
+    templateId: 'refrigerator',
+    modelPatterns: [/RF23BB/i, /RF24BB/i, /RF29BB/i, /RF30BB/i, /RF32CG/i, /RF31CG/i, /RF26CG/i, /RF27CG/i],
   },
   {
     id: PLATFORM_IDS.LG_LRMVS,

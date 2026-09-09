@@ -330,6 +330,36 @@
       }
     },
     {
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "seedDir": "samsung_tl_washer_a50",
+      "label": "Samsung TL washer A50 (WA50R5200, WF45A, new style)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_washer_a50/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_tl_a50_washer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_tl_a50_washer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_tl_a50_washer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "platformId": "samsung_tl_dryer_dv50",
+      "templateId": "electric_dryer",
+      "seedDir": "samsung_tl_dryer_dv50",
+      "label": "Samsung TL dryer DV50 (DV50R5200, DVE/DVG50, new style)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_dryer_dv50/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_tl_dv50_dryer_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_tl_dv50_dryer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_tl_dv50_dryer_service_modes.py"
+      }
+    },
+    {
       "manualId": "SAMSUNG-FL-DV6000-DRYER",
       "platformId": "samsung_fl_dryer_dv6000",
       "templateId": "electric_dryer",
@@ -342,6 +372,51 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_dv6000_dryer_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_fl_dv6000_dryer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_sxs",
+      "label": "Samsung RF260B/RF261B side-by-side refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_sxs/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_rf260b_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_rf260b_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_rf260b_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_fridge_bespoke",
+      "label": "Samsung Bespoke 4-door RF23BB/RF24BB/RF29BB/RF30BB",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fridge_bespoke/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fridge_bespoke_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fridge_bespoke_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fridge_bespoke_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF32CG-FRIDGE",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_fridge_bespoke",
+      "label": "Samsung Bespoke 4-door RF32CG/RF31CG/RF26CG",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fridge_bespoke/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fridge_bespoke_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fridge_bespoke_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fridge_bespoke_service_modes.py"
       }
     }
   ]

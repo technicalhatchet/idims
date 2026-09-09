@@ -10,6 +10,13 @@ import samsung_fl_dryer_dv6000_bundles_samsungdv6000_smart_install_entry from '.
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
+import samsung_fridge_bespoke_bundles_samsungbespoke_engineer_mode_rf23bb_inner from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-engineer-mode-rf23bb-inner.json';
+import samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-fhub-engineer-entry.json';
+import samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-self-diagnosis-entry.json';
+import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf23bb-digital.json';
+import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf32cg-buttons.json';
+import samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry from './seed/samsung_sxs/bundles/samsungrf260b-self-diagnostic-entry.json';
+import samsung_sxs_bundles_samsungrf260b_test_mode_entry from './seed/samsung_sxs/bundles/samsungrf260b-test-mode-entry.json';
 import samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry from './seed/samsung_tl_dryer_dv50/bundles/samsungtldv50-smart-install-entry.json';
 import samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check from './seed/samsung_tl_washer_a50/bundles/samsungtla50-diagnostic-code-check.json';
 import samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode from './seed/samsung_tl_washer_a50/bundles/samsungtla50-manual-check-mode.json';
@@ -90,6 +97,45 @@ import samsung_fl_washer_bb8700_samsungbb8700_power_supply from './seed/samsung_
 import samsung_fl_washer_bb8700_samsungbb8700_wash_heater from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-heater.json';
 import samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-thermistor.json';
 import samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor from './seed/samsung_fl_washer_bb8700/samsungbb8700-water-level-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_ambient_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-ambient-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_autofill_overflow from './seed/samsung_fridge_bespoke/samsungbespoke-autofill-overflow.json';
+import samsung_fridge_bespoke_samsungbespoke_compressor_inverter from './seed/samsung_fridge_bespoke/samsungbespoke-compressor-inverter.json';
+import samsung_fridge_bespoke_samsungbespoke_convertible_fan from './seed/samsung_fridge_bespoke/samsungbespoke-convertible-fan.json';
+import samsung_fridge_bespoke_samsungbespoke_damper_heater_135 from './seed/samsung_fridge_bespoke/samsungbespoke-damper-heater-135.json';
+import samsung_fridge_bespoke_samsungbespoke_damper_heater_24 from './seed/samsung_fridge_bespoke/samsungbespoke-damper-heater-24.json';
+import samsung_fridge_bespoke_samsungbespoke_flex_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-flex-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_freezer_defrost_heater from './seed/samsung_fridge_bespoke/samsungbespoke-freezer-defrost-heater.json';
+import samsung_fridge_bespoke_samsungbespoke_freezer_defrost_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-freezer-defrost-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_freezer_fan from './seed/samsung_fridge_bespoke/samsungbespoke-freezer-fan.json';
+import samsung_fridge_bespoke_samsungbespoke_freezer_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-freezer-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_fridge_defrost_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-fridge-defrost-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_fridge_fan from './seed/samsung_fridge_bespoke/samsungbespoke-fridge-fan.json';
+import samsung_fridge_bespoke_samsungbespoke_fridge_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-fridge-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_humidity_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-humidity-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_duct_heater from './seed/samsung_fridge_bespoke/samsungbespoke-ice-duct-heater.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_maker_sensor from './seed/samsung_fridge_bespoke/samsungbespoke-ice-maker-sensor.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_pipe_heater_24 from './seed/samsung_fridge_bespoke/samsungbespoke-ice-pipe-heater-24.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_pipe_heater_72 from './seed/samsung_fridge_bespoke/samsungbespoke-ice-pipe-heater-72.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_room_fan from './seed/samsung_fridge_bespoke/samsungbespoke-ice-room-fan.json';
+import samsung_fridge_bespoke_samsungbespoke_ice_room_heater from './seed/samsung_fridge_bespoke/samsungbespoke-ice-room-heater.json';
+import samsung_fridge_bespoke_samsungbespoke_main_inverter_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-inverter-comm.json';
+import samsung_fridge_bespoke_samsungbespoke_main_panel_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-panel-comm.json';
+import samsung_sxs_samsungrf260b_ambient_sensor from './seed/samsung_sxs/samsungrf260b-ambient-sensor.json';
+import samsung_sxs_samsungrf260b_c_fan from './seed/samsung_sxs/samsungrf260b-c-fan.json';
+import samsung_sxs_samsungrf260b_ff_def_sensor from './seed/samsung_sxs/samsungrf260b-ff-def-sensor.json';
+import samsung_sxs_samsungrf260b_ff_defrost_heater from './seed/samsung_sxs/samsungrf260b-ff-defrost-heater.json';
+import samsung_sxs_samsungrf260b_ff_fan from './seed/samsung_sxs/samsungrf260b-ff-fan.json';
+import samsung_sxs_samsungrf260b_ff_sensor from './seed/samsung_sxs/samsungrf260b-ff-sensor.json';
+import samsung_sxs_samsungrf260b_fz_def_sensor from './seed/samsung_sxs/samsungrf260b-fz-def-sensor.json';
+import samsung_sxs_samsungrf260b_fz_defrost_heater from './seed/samsung_sxs/samsungrf260b-fz-defrost-heater.json';
+import samsung_sxs_samsungrf260b_fz_fan from './seed/samsung_sxs/samsungrf260b-fz-fan.json';
+import samsung_sxs_samsungrf260b_fz_sensor from './seed/samsung_sxs/samsungrf260b-fz-sensor.json';
+import samsung_sxs_samsungrf260b_humidity_sensor from './seed/samsung_sxs/samsungrf260b-humidity-sensor.json';
+import samsung_sxs_samsungrf260b_ice_maker_function from './seed/samsung_sxs/samsungrf260b-ice-maker-function.json';
+import samsung_sxs_samsungrf260b_ice_maker_sensor from './seed/samsung_sxs/samsungrf260b-ice-maker-sensor.json';
+import samsung_sxs_samsungrf260b_option_error from './seed/samsung_sxs/samsungrf260b-option-error.json';
+import samsung_sxs_samsungrf260b_panel_communication from './seed/samsung_sxs/samsungrf260b-panel-communication.json';
+import samsung_sxs_samsungrf260b_pantry_sensor from './seed/samsung_sxs/samsungrf260b-pantry-sensor.json';
 import samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff from './seed/samsung_tl_dryer_dv50/samsungtldv50-belt-cutoff.json';
 import samsung_tl_dryer_dv50_samsungtldv50_door_switch from './seed/samsung_tl_dryer_dv50/samsungtldv50-door-switch.json';
 import samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor from './seed/samsung_tl_dryer_dv50/samsungtldv50-gas-flame-sensor.json';
@@ -325,6 +371,13 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
+  samsung_fridge_bespoke_bundles_samsungbespoke_engineer_mode_rf23bb_inner as ServiceModeBundle,
+  samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry as ServiceModeBundle,
+  samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry as ServiceModeBundle,
+  samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital as ServiceModeBundle,
+  samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons as ServiceModeBundle,
+  samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry as ServiceModeBundle,
+  samsung_sxs_bundles_samsungrf260b_test_mode_entry as ServiceModeBundle,
   samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry as ServiceModeBundle,
   samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check as ServiceModeBundle,
   samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode as ServiceModeBundle,
@@ -407,6 +460,45 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_washer_bb8700_samsungbb8700_wash_heater as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ambient_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_autofill_overflow as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_compressor_inverter as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_convertible_fan as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_damper_heater_135 as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_damper_heater_24 as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_flex_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_freezer_defrost_heater as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_freezer_defrost_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_freezer_fan as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_freezer_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_fridge_defrost_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_fridge_fan as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_fridge_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_humidity_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_duct_heater as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_maker_sensor as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_pipe_heater_24 as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_pipe_heater_72 as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_room_fan as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_ice_room_heater as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_main_inverter_comm as ServiceProcedureSeed,
+  samsung_fridge_bespoke_samsungbespoke_main_panel_comm as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ambient_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_c_fan as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ff_def_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ff_defrost_heater as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ff_fan as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ff_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_fz_def_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_fz_defrost_heater as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_fz_fan as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_fz_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_humidity_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ice_maker_function as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_ice_maker_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_option_error as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_panel_communication as ServiceProcedureSeed,
+  samsung_sxs_samsungrf260b_pantry_sensor as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_door_switch as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor as ServiceProcedureSeed,

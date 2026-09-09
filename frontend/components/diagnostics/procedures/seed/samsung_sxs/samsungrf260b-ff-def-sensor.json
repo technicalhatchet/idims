@@ -1,0 +1,163 @@
+{
+  "id": "samsungrf260b-ff-def-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-1-3: Fresh-food defrost sensor (FF-DEF-Sensor)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor",
+    "defrost",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF260B-FRIDGE",
+    "manualTitle": "Samsung RF260B/RF261B Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung frdige rf260b-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-3",
+    "oemTestTitle": "Self-diagnostic \u2014 FF-DEF-Sensor",
+    "pages": [
+      49,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before replacing or repairing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "apply_power"
+    },
+    {
+      "id": "apply_power",
+      "order": 2,
+      "type": "instruction",
+      "title": "Apply power for voltage test",
+      "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+      "sourceExcerpt": "Power on for board-side NTC voltage check.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode or self-diagnostic entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a74-1-1 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "sensor_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Sensor voltage",
+      "body": "Measure voltage CN30 8 \u2194 CN76-1 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+      "sourceExcerpt": "Measure voltage CN30 8 \u2194 CN76-1 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+      "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+      "testPoint": {
+        "connector": "CN30",
+        "pins": "8 \u2194 CN76-1",
+        "label": "Sensor voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace FF-DEF-Sensor sensor or repair harness when voltage out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "FF-DEF-Sensor voltage and connections verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrf260b-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrf260b-self-diagnostic-entry",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "sensor_voltage"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "id": "samsungrf260b-option-error",
+  "version": "1.0.0",
+  "title": "\u00a74-1-2: Option error (OP-Er)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "OP-Er",
+    "OP Er",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF260B-FRIDGE",
+    "manualTitle": "Samsung RF260B/RF261B Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung frdige rf260b-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-2",
+    "oemTestTitle": "Display function \u2014 Option error",
+    "pages": [
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before replacing or repairing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "op_er_display"
+    },
+    {
+      "id": "op_er_display",
+      "order": 2,
+      "type": "visual_check",
+      "title": "OP-Er active",
+      "body": "OP-Er code repeatedly ON/OFF until option error settles \u2014 panel option mismatch with MAIN MICOM.",
+      "sourceExcerpt": "OP-Er code repeatedly ON/OFF until option error settles \u2014 panel option mismatch with MAIN MICOM.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "op_er_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verify_option"
+        },
+        {
+          "id": "op_er_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "option_ok",
+          "terminal": true,
+          "oemOutcome": "Option error not displayed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "verify_option",
+      "order": 3,
+      "type": "instruction",
+      "title": "Option table match",
+      "body": "Verify panel PCB part number and option coding match MAIN PCB per \u00a74-1-6 Option TABLE.",
+      "sourceExcerpt": "Verify panel PCB part number and option coding match MAIN PCB per \u00a74-1-6 Option TABLE.",
+      "requiresInput": false,
+      "defaultNextStepId": "option_restored"
+    },
+    {
+      "id": "option_restored",
+      "order": 4,
+      "type": "visual_check",
+      "title": "OP-Er cleared",
+      "body": "After matched panel/main pair installed, is OP-Er cleared?",
+      "sourceExcerpt": "After matched panel/main pair installed, is OP-Er cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "option_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "option_path_ok"
+        },
+        {
+          "id": "replace_matched_pair",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pair_out",
+          "terminal": true,
+          "oemOutcome": "Install matched MAIN + panel PCB set.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "option_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "No option fault",
+      "oemOutcome": "Option error not present.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pair_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace matched PCBs",
+      "oemOutcome": "Replace MAIN and panel as matched set.",
+      "requiresInput": false
+    },
+    {
+      "id": "option_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Option OK",
+      "oemOutcome": "OP-Er cleared with correct option pairing.",
+      "requiresInput": false
+    }
+  ]
+}

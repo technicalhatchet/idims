@@ -1,0 +1,164 @@
+{
+  "id": "samsungrf260b-fz-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-1-3: Freezer defrost heater (FZ-DEF)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF260B-FRIDGE",
+    "manualTitle": "Samsung RF260B/RF261B Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung frdige rf260b-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-3",
+    "oemTestTitle": "Self-diagnostic \u2014 FZ-DEF heater",
+    "pages": [
+      49,
+      50,
+      71
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before replacing or repairing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_cn70_fz"
+    },
+    {
+      "id": "disconnect_cn70_fz",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect CN70",
+      "body": "Power off. Disconnect MAIN PCB CN70 harness before resistance test.",
+      "sourceExcerpt": "Power off. Disconnect MAIN PCB CN70 harness before resistance test.",
+      "requiresInput": false,
+      "defaultNextStepId": "fz_heater_ohms"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode or self-diagnostic entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a74-1-1 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fz_heater_ohms"
+    },
+    {
+      "id": "fz_heater_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "FZ defrost heater resistance",
+      "body": "CN70 Brown \u2194 Gray (also CN70-3 Brown \u2194 CN72-3 Gray per \u00a74-2-4) \u2014 63 \u03a9 \u00b17%.",
+      "sourceExcerpt": "CN70 Brown \u2194 Gray (also CN70-3 Brown \u2194 CN72-3 Gray per \u00a74-2-4) \u2014 63 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungRefrigeratorDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "CN70",
+        "pins": "Brown \u2194 Gray",
+        "label": "FZ defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fz_def_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fz_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_samsung_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fz_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_samsung_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fz_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_samsung_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_pass",
+          "label": "63 \u03a9 \u00b17%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fz_heater_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_fz_heater",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace FZ defrost heater",
+      "oemOutcome": "Replace heater or bimetal when open/short. 0 \u03a9 = short; OL = open heater or fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "fz_heater_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "FZ defrost heater OK",
+      "oemOutcome": "Freezer defrost heater resistance verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrf260b-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrf260b-self-diagnostic-entry",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "fz_heater_ohms"
+    }
+  ]
+}
