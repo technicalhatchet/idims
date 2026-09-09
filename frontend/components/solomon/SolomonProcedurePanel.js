@@ -63,8 +63,6 @@ function ProcedureRunCard({
         ? 'Paused'
         : 'Not started';
 
-  const isMobile = variant === 'mobile';
-
   return (
     <div className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/60 overflow-hidden">
       <button
@@ -122,16 +120,20 @@ function ProcedureRunCard({
               stepTotal={stepTotal}
               measurementDraft={measurementDraft}
               onMeasurementDraftChange={setMeasurementDraft}
-              onSubmitCheckpoint={submitCheckpoint}
+              onCheckpoint={submitCheckpoint}
               onSubmitMeasurement={submitMeasurement}
               onContinue={continueStep}
-              variant={variant}
-              isMobile={isMobile}
+              lastEvaluation={lastResult?.evaluation}
+              matchedBranch={lastResult?.matchedBranch}
             />
           ) : null}
 
-          {isComplete && lastResult ? (
-            <ProcedureRunReview result={lastResult} variant={variant} />
+          {isComplete && runState ? (
+            <ProcedureRunReview
+              procedureId={procedure.id}
+              runState={runState}
+              compact
+            />
           ) : null}
         </div>
       ) : null}
