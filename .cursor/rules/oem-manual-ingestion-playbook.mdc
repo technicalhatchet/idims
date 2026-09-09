@@ -40,6 +40,68 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 ---
 
+## Manifest inventory (49 manuals · 37 platforms · Mar 2026)
+
+Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_PROCEDURE_INGESTION_AUDIT.md`
+
+| manualId | platformId | Procs | Bundles | Diagrams | Smoke model |
+|----------|------------|-------|---------|----------|-------------|
+| W11169652 | `whirlpool_fl_dd` | 17 | 6 | 8 crops | WFW5620 |
+| W8178558 | `whirlpool_duet_sport` | 9 | 2 | 8 crops | WFW8300 |
+| W8178559 | `whirlpool_duet_sport_dryer` | 13 | 1 | 6 crops | WED8300 |
+| W10864849 | `whirlpool_tl_dd` | 14 | 2 | **9 crops** | WTW9500 |
+| W11697231 | `whirlpool_tl_dd` | 10 | 2 | — | WTW4950 |
+| W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | — | WTW5100 |
+| W11800233 | `whirlpool_tl_dd_4100` | 9 | 2 | — | WTW4100 |
+| W11455152 | `whirlpool_tl_dd_6157` | 9 | 2 | — | WTW6157 |
+| W11416395 | `whirlpool_mvw6200` | 10 | 2 | — | MVW6200 |
+| W10680150 | `whirlpool_ccu_dryer` | 13 | 1 | **5 crops** | WED4815 |
+| W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | — (shared platform) | WED9500 |
+| W11169659 | `whirlpool_ccu_dryer` | 4+10 shared | 2 | — | WED9620 |
+| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | — | WED5100 |
+| W11798430 | `whirlpool_acu_tl_dryer` | 12 | 1 | — | WED4100 |
+| W8178629 | `whirlpool_centennial_dryer` | 11 | 1 | — | WED4815 |
+| W11633848 | `whirlpool_dishwasher_acu` | 13 | 1 | **7 crops** | WDT750 |
+| W11480208 | `whirlpool_dishwasher_acu` | 8 delta | 1 | — (reuses W11633848) | WDT740 |
+| W11499711 | `whirlpool_dishwasher_acu` | 1 delta | 0 | — | WDT750 |
+| W11794121 | `whirlpool_dishwasher_acu` | 1 delta | 0 | — | JDPSS244 |
+| W11366142 | `whirlpool_dishwasher_acu` | 6 delta | 0 | — | KDTM404 |
+| W11187658 | `whirlpool_dishwasher_ada` | 6 | 1 | — | WDTA1 |
+| LG-LDT7808 | `lg_dishwasher_ldt7808` | 10 | 2 | — | LDT7808 |
+| INSIGNIA-DWR3 | `insignia_dishwasher` | 9 | 1 | — | NS-DWR3 |
+| NS-TDRE75W1 | `insignia_dryer_tdre` | 14 | 1 | — | NS-TDRE75 |
+| SAMSUNG-FL-BB8700-WASHER | `samsung_fl_washer_bb8700` | 10 | 3 | — | WF53BB8700 |
+| SAMSUNG-FL-BB8700-DRYER | `samsung_fl_dryer_bb8700` | 11 | 2 | — | DVE53BB8700 |
+| SAMSUNG-FL-DV6000 | `samsung_fl_dryer_dv6000` | 9 | 2 | — | DVE45T6000 |
+| SAMSUNG-TL-A50 | `samsung_tl_washer_a50` | 15 | 3 | — | WA50R5200 |
+| SAMSUNG-TL-DV50 | `samsung_tl_dryer_dv50` | 11 | 1 | — | DVE50R5200 |
+| SAMSUNG-FLEXWASH | `samsung_flexwash` | 22 | 3 | — | WV55M9600 |
+| SAMSUNG-RF260B | `samsung_sxs` | 16 | 2 | — | RF260BEAESR |
+| SAMSUNG-RF23BB | `samsung_fridge_bespoke` | 18 | 3 | — | RF23BB8600 |
+| SAMSUNG-RF32CG | `samsung_fridge_bespoke` | 5 delta | 2 | — | RF32CG5100 |
+| SAMSUNG-NX60 | `samsung_range_nx60` | 17 | 2 | — | NX60T8311 |
+| W11746350 | `whirlpool_freestanding_range` | 12 | 1 | — | WFE550S0 |
+| W11174426 | `whirlpool_freestanding_range` | 9 | 1 | — | WFE515S0 |
+| W11174814 | `whirlpool_freestanding_range` | 5 delta | 2 | — | KERS807 |
+| W10322959 | `whirlpool_jazz_french_door` | 10 | 2 | — | WRF535SW |
+| W11509412 | `whirlpool_ka_french_door` | 13 | 1 | — | WRF767SD |
+| W10785366A | `whirlpool_connected_smart_gen3` | 6 | 4 | — | WTW8700 |
+| LG-LRMVS-FRIDGE | `lg_lrmvs` | 17 | 2 | — | LRMVS3006 |
+| MIDEA-RSS | `midea_rss` | 11 | 1 | — | NS-RSS26 |
+| MIDEA-UZ21 | `midea_uz21` | 7 | 2 | — | NS-UZ14 |
+| INSIGNIA-TWM | `insignia_washer_cap` | 8 | 1 | — | NS-TWM41 |
+| INSIGNIA-WMT | `insignia_washer_freq` | 7 | 1 | — | NS-WMT41 |
+| W10330404 | `whirlpool_wrt_top_mount` | 7 | 0 | — | WRT518 |
+| W10674984 | `whirlpool_wrt311_adc` | 5 | 1 | — | WRT311 |
+| 2225623-ICE | `whirlpool_modular_ice_maker` | 8 | 0 | — | brand-wide |
+| FRIGIDAIRE-PRMC | `frigidaire_prmc_french_door` | 9 | 1 | — | PRMC2285 |
+| LG-LMHM2237 | `lg_microwave_otr` | 12 | 1 | — | LMHM2237 |
+| GE-GUD27 | `ge_gud27_stacked` | 6 | 0 | — | GUD27 |
+
+**Ship gate:** 526 procedures / 81 bundles · `validate_procedure_seed.py` + `npx tsc --noEmit`
+
+---
+
 ## Manual W11169652 — Whirlpool FL direct drive washer
 
 | Field | Value |
@@ -133,12 +195,59 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 ---
 
+## Manual W10864849 — Whirlpool/Maytag 6.2 cu ft direct-drive TL washer
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_tl_dd` |
+| templateId | `washer` |
+| Models | `WTW9500*`, `MVWB955F*` |
+| PDF | `w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500.pdf` |
+| Extraction | `WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md` |
+| Knowledge | batch15+ |
+| Status | **Complete** — 14 TEST procedures + 2 bundles; **9 diagram crops** |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10864849`
+
+**Diagrams:** `crop_w10864849_procedure_figures.py` → ACU pinout §3-5 (p.31), valves/drive/pumps/lid/heater/basket/rex strip circuits.
+
+**Bundles:** `w10864849-service-diagnostic-entry`, `w10864849-service-test-mode`
+
+**WO smoke:** WTW9500 + Whirlpool → `whirlpool_tl_dd`; F5E3 → `w10864849-test-08-lid-lock`.
+
+---
+
+## Manual W11633848 — Amana & Whirlpool 24" ACU dishwasher
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_dishwasher_acu` |
+| templateId | `dishwasher` |
+| PDF | `technical-manual-w11633848-revb amana and whirlpool dishwasher.pdf` |
+| Extraction | `WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md` |
+| Knowledge | batch16+ |
+| Status | **Complete** — 13 component-test procedures + 1 bundle; **7 diagram crops** |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11633848`
+
+**Diagrams:** `crop_w11633848_procedure_figures.py` → strip circuits for P4/P5/P6/P9/P10 (door, fill, heater, OWI, overfill, wash/drain motor).
+
+**Shared platform:** W11480208, W11499711, W11794121, W11366142 reuse base seeds with deltas.
+
+**Deferred v1:** vent wax motor, UI F2E1 dedicated procedure.
+
+**WO smoke:** WDT750 + Whirlpool → `whirlpool_dishwasher_acu`; F6E4 → `w11633848-overfill-switch`.
+
+---
+
 ## Manual W10680150 — CCU electric & gas dryer
 
-**Status:** generated (13 procedures + diagnostic-entry bundle)  
+**Status:** generated (13 procedures + diagnostic-entry bundle); **5 diagram crops**  
 **Platform:** `whirlpool_ccu_dryer` (electric_dryer + gas_dryer)  
-**Source:** `backend/docs/manuals/whirlpool-electric-gas-dryers.pdf`  
+**Source:** `backend/docs/manuals/whirlpool-electric-gas-dryers.pdf.pdf`  
 **Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10680150`
+
+**Diagrams:** `crop_w10680150_procedure_figures.py` → Figure 11 CCU pinout (p.9), motor p.13, thermal p.14, strip circuits p.22, gas valve p.18.
 
 | Procedure ID | OEM TEST | templateIds | Tags / codes |
 |--------------|----------|-------------|--------------|
@@ -158,7 +267,7 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 **Bundle:** `w10680150-diagnostic-entry` (3-button × 3, LCD Diagnostics Home) — attached to motor, moisture, thermistors, button, door, dryness
 
-**Deferred v1:** diagram crops (page 9 pinout). Steam/drum-light tests → W10881701 manual.
+**Diagram crops:** W10680150 base set on `whirlpool_ccu_dryer`; W10881701/W11169659 share platform (separate manual pages if needed later). Steam/drum-light → W10881701 manual.
 
 **Model routing:** WED83/85 and WGD83/85 → `whirlpool_duet_sport_dryer`; other WED/WGD/MED/MGD → CCU.
 
@@ -283,18 +392,22 @@ Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCED
 
 ---
 
-## Next manual candidates (not started)
+## Ingestion complete / deferred (Mar 2026)
 
-Priority by field volume + extraction already done:
+**Complete:** 49 manifest manuals across 37 platforms (526 procedures, 81 bundles). See inventory table above.
 
-1. **Whirlpool dishwasher ACU** — high call volume; extraction docs exist
+**Diagram crops shipped:** W11169652, W8178558, W8178559, **W10864849**, **W11633848**, **W10680150** (6 platforms).
 
-Use family templates: copy W8178559/W10680150 generator structure for next MCE/CCU dryer manual; extend manifest, don't one-off forever.
+**Deferred (low yield / no manual):**
 
----
+| Item | Reason |
+|------|--------|
+| Remaining 31 platforms | Strip-circuit pages sparse or error-code-driven; crops deferred |
+| `jobaid-w10378809-kr38` | KA range TEST MODE only |
+| Samsung ME21 OTR HTML | Optional C-* family |
+| Bosch | No manual in repo |
+| GE GUD27 | Mechanical timer — procedures exist, no service-mode bundles |
 
-## Fix order vs new manuals
+**Next work (Phase 2):** WO OEM lead integration — see `oem-procedure-layer-integration.mdc`.
 
-See `oem-procedure-layer-integration.mdc`. **Duet Sport washer+dryer + CCU dryer ingestion done.**
-
-**Field smoke-test:** WO OEM panel ungated — test with make+model (WFW8300 washer → Duet Sport; WED4815 → CCU electric).
+**Field smoke-test:** WO OEM panel ungated — `/solomon/procedures/dev` or WO with make+model (WFW8300 → Duet Sport; WTW9500 → TL DD; WDT750 → dishwasher ACU; WED4815 → CCU dryer).
