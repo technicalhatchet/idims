@@ -50,16 +50,16 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 | W8178558 | `whirlpool_duet_sport` | 9 | 2 | 8 crops | WFW8300 |
 | W8178559 | `whirlpool_duet_sport_dryer` | 13 | 1 | 6 crops | WED8300 |
 | W10864849 | `whirlpool_tl_dd` | 14 | 2 | **9 crops** | WTW9500 |
-| W11697231 | `whirlpool_tl_dd` | 10 | 2 | — | WTW4950 |
+| W11697231 | `whirlpool_tl_dd` | 10 | 2 | **4 crops** | WTW4950 |
 | W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | **2 crops** | WTW5100 |
-| W11800233 | `whirlpool_tl_dd_4100` | 9 | 2 | — | WTW4100 |
-| W11455152 | `whirlpool_tl_dd_6157` | 9 | 2 | — | WTW6157 |
+| W11800233 | `whirlpool_tl_dd_4100` | 9 | 2 | **1 crop** | WTW4100 |
+| W11455152 | `whirlpool_tl_dd_6157` | 9 | 2 | **1 crop** | WTW6157 |
 | W11416395 | `whirlpool_mvw6200` | 10 | 2 | **2 crops** | MVW6200 |
 | W10680150 | `whirlpool_ccu_dryer` | 13 | 1 | **5 crops** | WED4815 |
 | W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | **5 delta** (shared) | WED9500 |
-| W11169659 | `whirlpool_ccu_dryer` | 4+10 shared | 2 | — | WED9620 |
+| W11169659 | `whirlpool_ccu_dryer` | 4+10 shared | 2 | **1 delta** | WED9620 |
 | W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **7 crops** | WED5100 |
-| W11798430 | `whirlpool_acu_tl_dryer` | 12 | 1 | — | WED4100 |
+| W11798430 | `whirlpool_acu_tl_dryer` | 12 | 1 | **5 crops** | WED4100 |
 | W8178629 | `whirlpool_centennial_dryer` | 11 | 1 | — | WED4815 |
 | W11633848 | `whirlpool_dishwasher_acu` | 13 | 1 | **7 crops** | WDT750 |
 | W11480208 | `whirlpool_dishwasher_acu` | 8 delta | 1 | — (reuses W11633848) | WDT740 |
@@ -400,7 +400,7 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 
 **Complete:** 49 manifest manuals across 37 platforms (526 procedures, 81 bundles). See inventory table above.
 
-**Diagram crops shipped:** W11169652, W8178558, W8178559, W10864849, W11633848, W10680150, **W10881701** (CCU delta), **W11416805**, **W11416395**, **W11416787** (9 platform asset folders).
+**Diagram crops shipped:** W11169652, W8178558, W8178559, W10864849, W11633848, W10680150, **W10881701** (CCU delta), **W11416805**, **W11416395**, **W11416787**, **W11798430**, **W11697231**, **W11800233**, **W11455152**, **W11169659** (drum LED delta) — **13** platform asset folders.
 
 **Deferred (low yield / no manual):**
 

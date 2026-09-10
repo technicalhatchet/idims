@@ -603,6 +603,58 @@ const W11416787_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
   'Drain pump': [W11416787_DRIVE, W11416787_PINOUT],
 };
 
+const W11800233_ASSET_BASE = '/images/procedures/whirlpool_tl_dd_4100';
+
+export const W11800233_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11800233-acu-pinout': {
+    id: 'w11800233-acu-pinout',
+    caption: 'Main control connectors & pinouts (§3 component testing)',
+    assetPath: `${W11800233_ASSET_BASE}/w11800233-acu-pinout.png`,
+  },
+};
+
+const W11800233_PINOUT = 'w11800233-acu-pinout';
+
+const W11800233_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J1: [W11800233_PINOUT],
+  J5: [W11800233_PINOUT],
+  J8: [W11800233_PINOUT],
+  J4: [W11800233_PINOUT],
+  J6: [W11800233_PINOUT],
+  'PSC motor': [W11800233_PINOUT],
+  'Drain pump': [W11800233_PINOUT],
+};
+
+const W11455152_ASSET_BASE = '/images/procedures/whirlpool_tl_dd_6157';
+
+export const W11455152_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11455152-acu-pinout': {
+    id: 'w11455152-acu-pinout',
+    caption: 'Main control (Figure 7) & PSC bottom view (Figure 8)',
+    assetPath: `${W11455152_ASSET_BASE}/w11455152-acu-pinout.png`,
+  },
+};
+
+const W11455152_PINOUT = 'w11455152-acu-pinout';
+
+const W11455152_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J1: [W11455152_PINOUT],
+  J5: [W11455152_PINOUT],
+  J8: [W11455152_PINOUT],
+  J4: [W11455152_PINOUT],
+  J6: [W11455152_PINOUT],
+  'PSC motor': [W11455152_PINOUT],
+  'Drain pump': [W11455152_PINOUT],
+};
+
+export const W11169659_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11169659-drum-led-strip': {
+    id: 'w11169659-drum-led-strip',
+    caption: 'Drum LED connector & strip circuit (TEST #8)',
+    assetPath: `${W10680150_ASSET_BASE}/w11169659-drum-led-strip.png`,
+  },
+};
+
 export function resolveDiagramsForConnector(
   connector: string,
   platformId?: string,
@@ -671,6 +723,20 @@ export function resolveDiagramsForConnector(
     const ids = W11416787_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
       .map((id) => W11416787_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_tl_dd_4100') {
+    const ids = W11800233_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11800233_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_tl_dd_6157') {
+    const ids = W11455152_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11455152_DIAGRAMS[id])
       .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
   }
 

@@ -1051,6 +1051,17 @@ export default function DiagnosticResultsForm({
     </p>
   ) : null;
 
+  const wizardEquipmentSubtitle = useMemo(() => {
+    if (!procedurePlatformBanner) return null;
+    const equipment = [procedurePlatformBanner.equipmentMake, procedurePlatformBanner.equipmentModel]
+      .filter(Boolean)
+      .join(' ');
+    const parts = [];
+    if (equipment) parts.push(equipment);
+    if (procedurePlatformBanner.platformLabel) parts.push(procedurePlatformBanner.platformLabel);
+    return parts.length ? parts.join(' · ') : null;
+  }, [procedurePlatformBanner]);
+
   const wizardLeadExtra = showProcedureRunner && topProcedureRecommendation ? (
     <OemProcedureLeadCard
       recommendation={topProcedureRecommendation}
@@ -1263,7 +1274,9 @@ export default function DiagnosticResultsForm({
                 headerDescription={
                   readOnly || variant === 'mobile'
                     ? undefined
-                    : 'Complete each step, generate service notes on Review, then save.'
+                    : wizardEquipmentSubtitle
+                      ? `${wizardEquipmentSubtitle} — Complete each step, generate service notes on Review, then save.`
+                      : 'Complete each step, generate service notes on Review, then save.'
                 }
               />
 
@@ -1428,7 +1441,9 @@ export default function DiagnosticResultsForm({
             headerDescription={
               readOnly
                 ? undefined
-                : 'Complete each step, generate service notes on Review, then save.'
+                : wizardEquipmentSubtitle
+                  ? `${wizardEquipmentSubtitle} — Complete each step, generate service notes on Review, then save.`
+                  : 'Complete each step, generate service notes on Review, then save.'
             }
           />
 
