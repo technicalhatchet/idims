@@ -51,14 +51,14 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 | W8178559 | `whirlpool_duet_sport_dryer` | 13 | 1 | 6 crops | WED8300 |
 | W10864849 | `whirlpool_tl_dd` | 14 | 2 | **9 crops** | WTW9500 |
 | W11697231 | `whirlpool_tl_dd` | 10 | 2 | — | WTW4950 |
-| W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | — | WTW5100 |
+| W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | **2 crops** | WTW5100 |
 | W11800233 | `whirlpool_tl_dd_4100` | 9 | 2 | — | WTW4100 |
 | W11455152 | `whirlpool_tl_dd_6157` | 9 | 2 | — | WTW6157 |
-| W11416395 | `whirlpool_mvw6200` | 10 | 2 | — | MVW6200 |
+| W11416395 | `whirlpool_mvw6200` | 10 | 2 | **2 crops** | MVW6200 |
 | W10680150 | `whirlpool_ccu_dryer` | 13 | 1 | **5 crops** | WED4815 |
-| W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | — (shared platform) | WED9500 |
+| W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | **5 delta** (shared) | WED9500 |
 | W11169659 | `whirlpool_ccu_dryer` | 4+10 shared | 2 | — | WED9620 |
-| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | — | WED5100 |
+| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **7 crops** | WED5100 |
 | W11798430 | `whirlpool_acu_tl_dryer` | 12 | 1 | — | WED4100 |
 | W8178629 | `whirlpool_centennial_dryer` | 11 | 1 | — | WED4815 |
 | W11633848 | `whirlpool_dishwasher_acu` | 13 | 1 | **7 crops** | WDT750 |
@@ -267,7 +267,7 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 
 **Bundle:** `w10680150-diagnostic-entry` (3-button × 3, LCD Diagnostics Home) — attached to motor, moisture, thermistors, button, door, dryness
 
-**Diagram crops:** W10680150 base set on `whirlpool_ccu_dryer`; W10881701/W11169659 share platform (separate manual pages if needed later). Steam/drum-light → W10881701 manual.
+**Diagram crops:** W10680150 base set (5) on `whirlpool_ccu_dryer`; W10881701 adds 5 delta crops (J14 pinout, motor/thermistor strip, gas valve, steam water valve). W11169659 reuses W10881701 pages where applicable.
 
 **Model routing:** WED83/85 and WGD83/85 → `whirlpool_duet_sport_dryer`; other WED/WGD/MED/MGD → CCU.
 
@@ -310,6 +310,8 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 
 **Bundles:** `w10881701-diagnostic-entry` (3-button × 3), `w10881701-service-test-mode` (2nd button + START; water spray step 8)
 
+**Diagrams:** `crop_w10881701_procedure_figures.py` → p.29 pinout, p.33 motor, p.36 thermistor strip, p.38 gas valve, p.44 steam water valve.
+
 **Do not** reuse W11416805 TL pinouts or Duet Sport heater specs.
 
 **WO smoke:** WED9500 + Whirlpool → `whirlpool_ccu_dryer`; F3E2 → `w10881701-moisture-sensor`.
@@ -346,6 +348,8 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 | `w11416395-test-08-lid-lock` | #8 | F5E1, F5E3, F5E4 |
 
 **Bundles:** `w11416395-service-diagnostic-entry` (Key 1/2/3 × 3), `w11416395-service-test-mode` (Key 2 + START)
+
+**Diagrams:** `crop_w11416395_procedure_figures.py` → p.24 ACU pinout, p.29 PSC bottom view (no strip-circuit pages in manual).
 
 **Do not** reuse `whirlpool_tl_dd` BPM specs (J1 motor 8–10 Ω, J2 valves 790–840 Ω) — MVW6200 = PSC motor J6 5–9.5 Ω, J8 valves 890–1090 Ω.
 
@@ -396,13 +400,13 @@ Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_
 
 **Complete:** 49 manifest manuals across 37 platforms (526 procedures, 81 bundles). See inventory table above.
 
-**Diagram crops shipped:** W11169652, W8178558, W8178559, **W10864849**, **W11633848**, **W10680150** (6 platforms).
+**Diagram crops shipped:** W11169652, W8178558, W8178559, W10864849, W11633848, W10680150, **W10881701** (CCU delta), **W11416805**, **W11416395**, **W11416787** (9 platform asset folders).
 
 **Deferred (low yield / no manual):**
 
 | Item | Reason |
 |------|--------|
-| Remaining 31 platforms | Strip-circuit pages sparse or error-code-driven; crops deferred |
+| Remaining 28 platforms | Strip-circuit pages sparse or error-code-driven; crops deferred |
 | `jobaid-w10378809-kr38` | KA range TEST MODE only |
 | Samsung ME21 OTR HTML | Optional C-* family |
 | Bosch | No manual in repo |

@@ -367,6 +367,165 @@ const W10680150_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
   Ignitor: ['w10680150-gas-valve-figure21', 'w10680150-thermal-figure20'],
 };
 
+/** Cropped OEM figures for W10881701 (CCU platform delta) — crop_w10881701_procedure_figures.py */
+export const W10881701_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w10881701-acu-pinout': {
+    id: 'w10881701-acu-pinout',
+    caption: 'ACU connectors & pinouts — J14 thermistors (§3-7)',
+    assetPath: `${W10680150_ASSET_BASE}/w10881701-acu-pinout.png`,
+  },
+  'w10881701-motor-strip': {
+    id: 'w10881701-motor-strip',
+    caption: 'Motor windings & strip circuit (TEST #3)',
+    assetPath: `${W10680150_ASSET_BASE}/w10881701-motor-strip.png`,
+  },
+  'w10881701-thermistor-strip': {
+    id: 'w10881701-thermistor-strip',
+    caption: 'Exhaust/inlet thermistor strip circuit (TEST #4a)',
+    assetPath: `${W10680150_ASSET_BASE}/w10881701-thermistor-strip.png`,
+  },
+  'w10881701-gas-valve': {
+    id: 'w10881701-gas-valve',
+    caption: 'Gas valve coil resistance (TEST #4d)',
+    assetPath: `${W10680150_ASSET_BASE}/w10881701-gas-valve.png`,
+  },
+  'w10881701-water-valve-strip': {
+    id: 'w10881701-water-valve-strip',
+    caption: 'Steam water valve strip circuit (TEST #9)',
+    assetPath: `${W10680150_ASSET_BASE}/w10881701-water-valve-strip.png`,
+  },
+};
+
+const W10881701_PINOUT = 'w10881701-acu-pinout';
+
+const W10881701_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  'ACU motor path': ['w10881701-motor-strip', W10881701_PINOUT],
+  'Motor main': ['w10881701-motor-strip', W10881701_PINOUT],
+  'Motor start': ['w10881701-motor-strip', W10881701_PINOUT],
+  'Heater relays': ['w10881701-thermistor-strip', W10881701_PINOUT],
+  'J14 outlet': [W10881701_PINOUT, 'w10881701-thermistor-strip'],
+  'J14 inlet': [W10881701_PINOUT, 'w10881701-thermistor-strip'],
+  'Gas valve': ['w10881701-gas-valve', W10881701_PINOUT],
+  Ignitor: ['w10881701-gas-valve', 'w10881701-thermistor-strip'],
+  'ACU water valve': ['w10881701-water-valve-strip', W10881701_PINOUT],
+};
+
+const W11416805_ASSET_BASE = '/images/procedures/whirlpool_acu_tl_dryer';
+
+/** Cropped OEM figures for W11416805 — crop_w11416805_procedure_figures.py */
+export const W11416805_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11416805-acu-pinout': {
+    id: 'w11416805-acu-pinout',
+    caption: 'ACU connectors & pinouts (§3-3)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-acu-pinout.png`,
+  },
+  'w11416805-motor-figure9': {
+    id: 'w11416805-motor-figure9',
+    caption: 'Motor main/start winding measure points (TEST #3)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-motor-figure9.png`,
+  },
+  'w11416805-thermal-electric': {
+    id: 'w11416805-thermal-electric',
+    caption: 'Thermal components — electric dryer (TEST #4)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-thermal-electric.png`,
+  },
+  'w11416805-thermal-gas': {
+    id: 'w11416805-thermal-gas',
+    caption: 'Thermal components — gas dryer (TEST #4)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-thermal-gas.png`,
+  },
+  'w11416805-gas-valve': {
+    id: 'w11416805-gas-valve',
+    caption: 'Gas valve coil resistance (TEST #4d)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-gas-valve.png`,
+  },
+  'w11416805-strip-circuits': {
+    id: 'w11416805-strip-circuits',
+    caption: 'Strip circuits — motor, heater, moisture (§3-16)',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-strip-circuits.png`,
+  },
+  'w11416805-water-valve-strip': {
+    id: 'w11416805-water-valve-strip',
+    caption: 'Steam water valve strip circuit',
+    assetPath: `${W11416805_ASSET_BASE}/w11416805-water-valve-strip.png`,
+  },
+};
+
+const W11416805_PINOUT = 'w11416805-acu-pinout';
+const W11416805_STRIP = 'w11416805-strip-circuits';
+
+const W11416805_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  'ACU motor path': ['w11416805-motor-figure9', W11416805_PINOUT, W11416805_STRIP],
+  'Motor main': ['w11416805-motor-figure9', W11416805_PINOUT, W11416805_STRIP],
+  'Motor start': ['w11416805-motor-figure9', W11416805_PINOUT, W11416805_STRIP],
+  'Heater element': ['w11416805-thermal-electric', W11416805_PINOUT, W11416805_STRIP],
+  'J14 outlet': [W11416805_PINOUT, W11416805_STRIP],
+  'J14 inlet': [W11416805_PINOUT, W11416805_STRIP],
+  'Gas valve': ['w11416805-gas-valve', W11416805_PINOUT, W11416805_STRIP],
+  Ignitor: ['w11416805-gas-valve', W11416805_STRIP],
+  'Steam valve': ['w11416805-water-valve-strip', W11416805_PINOUT],
+};
+
+const W11416395_ASSET_BASE = '/images/procedures/whirlpool_mvw6200';
+
+/** Cropped OEM figures for W11416395 — crop_w11416395_procedure_figures.py */
+export const W11416395_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11416395-acu-pinout': {
+    id: 'w11416395-acu-pinout',
+    caption: 'Main control connectors & pinouts (§3-3)',
+    assetPath: `${W11416395_ASSET_BASE}/w11416395-acu-pinout.png`,
+  },
+  'w11416395-psc-bottom-view': {
+    id: 'w11416395-psc-bottom-view',
+    caption: 'PSC drive area — motor, shifter, drain pump (TEST #3)',
+    assetPath: `${W11416395_ASSET_BASE}/w11416395-psc-bottom-view.png`,
+  },
+};
+
+const W11416395_PINOUT = 'w11416395-acu-pinout';
+const W11416395_BOTTOM = 'w11416395-psc-bottom-view';
+
+const W11416395_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J1: [W11416395_PINOUT],
+  J5: [W11416395_PINOUT],
+  J8: [W11416395_PINOUT],
+  J4: [W11416395_PINOUT],
+  J6: [W11416395_PINOUT, W11416395_BOTTOM],
+  'PSC motor': [W11416395_BOTTOM, W11416395_PINOUT],
+  'Drain pump': [W11416395_BOTTOM, W11416395_PINOUT],
+};
+
+const W11416787_ASSET_BASE = '/images/procedures/whirlpool_tl_dd_5100';
+
+/** Cropped OEM figures for W11416787 — crop_w11416787_procedure_figures.py */
+export const W11416787_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11416787-dd-pinout': {
+    id: 'w11416787-dd-pinout',
+    caption: 'Direct-drive ACU connectors & pinouts (§3-8)',
+    assetPath: `${W11416787_ASSET_BASE}/w11416787-dd-pinout.png`,
+  },
+  'w11416787-drive-area': {
+    id: 'w11416787-drive-area',
+    caption: 'Drive area — BPM motor, shifter, pumps (TEST #3b)',
+    assetPath: `${W11416787_ASSET_BASE}/w11416787-drive-area.png`,
+  },
+};
+
+const W11416787_PINOUT = 'w11416787-dd-pinout';
+const W11416787_DRIVE = 'w11416787-drive-area';
+
+const W11416787_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J1: [W11416787_PINOUT],
+  J14: [W11416787_PINOUT],
+  J16: [W11416787_PINOUT],
+  J6: [W11416787_PINOUT],
+  J3: [W11416787_PINOUT, W11416787_DRIVE],
+  J15: [W11416787_PINOUT, W11416787_DRIVE],
+  J17: [W11416787_PINOUT],
+  'Drive motor': [W11416787_DRIVE, W11416787_PINOUT],
+  'Drain pump': [W11416787_DRIVE, W11416787_PINOUT],
+};
+
 export function resolveDiagramsForConnector(
   connector: string,
   platformId?: string,
@@ -393,9 +552,36 @@ export function resolveDiagramsForConnector(
   }
 
   if (platformId === 'whirlpool_ccu_dryer') {
+    const w108Ids = W10881701_CONNECTOR_DIAGRAM_IDS[connector];
+    if (w108Ids?.length) {
+      return w108Ids
+        .map((id) => W10881701_DIAGRAMS[id] ?? W10680150_DIAGRAMS[id])
+        .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+    }
     const ids = W10680150_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
       .map((id) => W10680150_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_acu_tl_dryer') {
+    const ids = W11416805_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11416805_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_mvw6200') {
+    const ids = W11416395_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11416395_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_tl_dd_5100') {
+    const ids = W11416787_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11416787_DIAGRAMS[id])
       .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
   }
 

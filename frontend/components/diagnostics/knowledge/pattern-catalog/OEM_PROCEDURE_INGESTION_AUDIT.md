@@ -26,6 +26,10 @@
 | W8178558 | `whirlpool_duet_sport` | 9 | 2 | 8 crops | Job aid TEST #1–8 |
 | W8178559 | `whirlpool_duet_sport_dryer` | 13 | 1 | 6 crops | Fuel-split electric/gas |
 | W10680150 | `whirlpool_ccu_dryer` | 13 | 1 | **5 crops** | CCU Figure 11 pinout + strip circuits |
+| W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | **5 delta crops** | J14 pinout + steam valve on shared CCU folder |
+| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **7 crops** | ACU pinout, motor, thermal, strip circuits |
+| W11416395 | `whirlpool_mvw6200` | 10 | 2 | **2 crops** | ACU pinout + PSC bottom view |
+| W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | **2 crops** | DD pinout + drive area |
 
 ---
 
@@ -34,7 +38,7 @@
 | Manual | Platform | Procs | Bundles | vs reference | Gaps |
 |--------|----------|-------|---------|--------------|------|
 | W10864849 | `whirlpool_tl_dd` | 14 | 2 | **High** — TEST #1–12 | **9 diagram crops** (ACU pinout + strip circuits) |
-| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **High** — TEST #1–9 | No diagrams; no 5a dryness |
+| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **High** — TEST #1–9 | **7 diagram crops**; no 5a dryness |
 | W11633848 | `whirlpool_dishwasher_acu` | 13 | 1 | **High** — §3 component tests | **7 diagram crops**; no vent wax motor proc |
 | W11416395 | `whirlpool_mvw6200` | 10 | 2 | **Good** — PSC TL, TEST #1–8 | No heater/bulk (N/A on platform) |
 | NS-TDRE75W1 | `insignia_dryer_tdre` | 14 | 1 | **Good** — service test + components | No supply TEST #1; no dryness adjust |
@@ -168,7 +172,7 @@
 
 ## Cross-cutting gaps (all new manuals)
 
-1. **Diagram crops** — Six platforms: W11169652, W8178558, W8178559, W10864849 (`whirlpool_tl_dd`), W11633848 (`whirlpool_dishwasher_acu`), W10680150 (`whirlpool_ccu_dryer`). Remaining 31 platforms: deferred.
+1. **Diagram crops** — Nine platform asset folders: W11169652, W8178558, W8178559, W10864849, W11633848, W10680150 (+ W10881701 delta), W11416805, W11416395, W11416787. Remaining 28 platforms: deferred.
 2. **Service-mode depth** — W11169652 has QSC + component activation + load-test chains; most new platforms have entry + one test-mode bundle only.
 3. **templateIds gating** — Gas/electric splits present where manual requires; optional features (steam, recirc, bulk dispense) not always model-gated.
 4. **Belt-drive sections** — W11416787 manual includes belt models; only direct-drive TEST path built.
@@ -221,7 +225,7 @@ These have `*_EXTRACTION.md` + measurement batches from Phase A/D but no procedu
 | `samsung-refrigerator-sxs-svc manual.pdf` | Superseded by RF260B on `samsung_sxs` |
 | `Whirlpool dishwasher tech-sheet-W10751166` | F#E# matrix covered by `whirlpool_dishwasher_acu` |
 | `ME21A706BQN Service Manual.html` | Samsung OTR HTML — optional C-* family |
-| **Diagram crops (remaining)** | 31 platforms without strip-circuit pages |
+| **Diagram crops (remaining)** | 28 platforms without strip-circuit pages |
 | **Bosch** | No manual in repo |
 
 ---
