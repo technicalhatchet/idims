@@ -8,6 +8,7 @@ import {
 import { useProcedureRun } from '../diagnostics/procedures/useProcedureRun';
 import ProcedureStepView from '../diagnostics/procedures/ui/ProcedureStepView';
 import ProcedureRunReview from '../diagnostics/procedures/ui/ProcedureRunReview';
+import ServiceModeQuickReferenceAccordion from '../diagnostics/procedures/ui/ServiceModeQuickReferenceAccordion';
 import OemSpecsLoadedBanner from './OemSpecsLoadedBanner';
 import {
   SOLOMON_GLASS_PANEL_CLASS,
@@ -163,6 +164,7 @@ export function SolomonOemCatalogAccordion({
   activeProcedureId = null,
   onProcedureRunChange,
   onActiveProcedureChange,
+  platformId = null,
   variant = 'mobile',
   density = 'default',
   className = '',
@@ -201,45 +203,55 @@ export function SolomonOemCatalogAccordion({
     [onActiveProcedureChange, onProcedureRunChange],
   );
 
-  if (!catalogOnly.length) return null;
+  if (!catalogOnly.length && !platformId) return null;
 
   return (
     <section className={`${SOLOMON_GLASS_PANEL_CLASS} ${className}`}>
-      <button
-        type="button"
-        onClick={() => setCatalogOpen((current) => !current)}
-        className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
-        aria-expanded={catalogOpen}
-      >
-        <div className="min-w-0">
-          <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-            All OEM tests
-          </p>
-          <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-            Browse manual tests
-          </p>
-        </div>
-        <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
-          {catalogOpen ? 'Hide' : 'Show'}
-        </span>
-      </button>
+      <ServiceModeQuickReferenceAccordion
+        platformId={platformId}
+        density={density}
+        className={catalogOnly.length ? (isCompact ? 'mb-2' : 'mb-2.5') : ''}
+      />
 
-      {catalogOpen ? (
-        <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
-          {catalogOnly.map((entry) => (
-            <ProcedureRunCard
-              key={entry.procedureId}
-              recommendation={entry}
-              savedRunState={procedureRuns[entry.procedureId] || null}
-              isExpanded={expandedId === entry.procedureId}
-              onToggle={() => handleToggle(entry.procedureId)}
-              onRunStateChange={handleRunStateChange}
-              variant={variant}
-              showReason={false}
-            />
-          ))}
-        </div>
-      ) : null}
+      {!catalogOnly.length ? null : (
+        <>
+          <button
+            type="button"
+            onClick={() => setCatalogOpen((current) => !current)}
+            className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
+            aria-expanded={catalogOpen}
+          >
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
+                All OEM tests
+              </p>
+              <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
+                Browse manual tests
+              </p>
+            </div>
+            <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
+              {catalogOpen ? 'Hide' : 'Show'}
+            </span>
+          </button>
+
+          {catalogOpen ? (
+            <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
+              {catalogOnly.map((entry) => (
+                <ProcedureRunCard
+                  key={entry.procedureId}
+                  recommendation={entry}
+                  savedRunState={procedureRuns[entry.procedureId] || null}
+                  isExpanded={expandedId === entry.procedureId}
+                  onToggle={() => handleToggle(entry.procedureId)}
+                  onRunStateChange={handleRunStateChange}
+                  variant={variant}
+                  showReason={false}
+                />
+              ))}
+            </div>
+          ) : null}
+        </>
+      )}
     </section>
   );
 }
@@ -251,6 +263,7 @@ export default function SolomonProcedurePanel({
   activeProcedureId = null,
   onProcedureRunChange,
   onActiveProcedureChange,
+  platformId = null,
   variant = 'mobile',
   density = 'default',
   platformBanner = null,
@@ -349,43 +362,53 @@ export default function SolomonProcedurePanel({
         </>
       ) : null}
 
-      {showInlineCatalog && catalogOnly.length ? (
+      {showInlineCatalog && (catalogOnly.length || platformId) ? (
         <div className={recommendations.length ? (isCompact ? 'mt-3' : 'mt-4') : (isCompact ? 'mt-2' : 'mt-3')}>
-          <button
-            type="button"
-            onClick={() => setCatalogOpen((current) => !current)}
-            className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
-            aria-expanded={catalogOpen}
-          >
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                All OEM tests
-              </p>
-              <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
-                Browse manual tests
-              </p>
-            </div>
-            <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
-              {catalogOpen ? 'Hide' : 'Show'}
-            </span>
-          </button>
+          <ServiceModeQuickReferenceAccordion
+            platformId={platformId || platformBanner?.platformId || null}
+            density={density}
+            className={catalogOnly.length ? (isCompact ? 'mb-2' : 'mb-2.5') : ''}
+          />
 
-          {catalogOpen ? (
-            <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
-              {catalogOnly.map((entry) => (
-                <ProcedureRunCard
-                  key={entry.procedureId}
-                  recommendation={entry}
-                  savedRunState={procedureRuns[entry.procedureId] || null}
-                  isExpanded={expandedId === entry.procedureId}
-                  onToggle={() => handleToggle(entry.procedureId)}
-                  onRunStateChange={handleRunStateChange}
-                  variant={variant}
-                  showReason={false}
-                />
-              ))}
-            </div>
-          ) : null}
+          {!catalogOnly.length ? null : (
+            <>
+              <button
+                type="button"
+                onClick={() => setCatalogOpen((current) => !current)}
+                className="flex w-full items-center justify-between gap-2 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5 text-left hover:bg-[var(--solomon-surface-elevated)]/60"
+                aria-expanded={catalogOpen}
+              >
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-[var(--solomon-text-primary)]">
+                    All OEM tests
+                  </p>
+                  <p className="mt-0.5 text-xs text-[var(--solomon-text-secondary)]">
+                    Browse manual tests
+                  </p>
+                </div>
+                <span className="shrink-0 text-xs text-[var(--solomon-text-muted)]">
+                  {catalogOpen ? 'Hide' : 'Show'}
+                </span>
+              </button>
+
+              {catalogOpen ? (
+                <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-2.5'}`}>
+                  {catalogOnly.map((entry) => (
+                    <ProcedureRunCard
+                      key={entry.procedureId}
+                      recommendation={entry}
+                      savedRunState={procedureRuns[entry.procedureId] || null}
+                      isExpanded={expandedId === entry.procedureId}
+                      onToggle={() => handleToggle(entry.procedureId)}
+                      onRunStateChange={handleRunStateChange}
+                      variant={variant}
+                      showReason={false}
+                    />
+                  ))}
+                </div>
+              ) : null}
+            </>
+          )}
         </div>
       ) : null}
     </section>

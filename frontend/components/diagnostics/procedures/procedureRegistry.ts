@@ -11,6 +11,7 @@ import {
   findServiceModeBundle,
   listServiceModeBundles,
   normalizeServiceModeRefs,
+  sortServiceModeBundlesForQuickRef,
   type ServiceModeLookupOptions,
 } from './serviceModeCatalog';
 import type {
@@ -82,6 +83,14 @@ export function getServiceProcedure(id: string | null | undefined): ServiceProce
 
 export function getServiceProceduresForPlatform(platformId: string): ServiceProcedure[] {
   return ALL_PROCEDURES.filter((procedure) => procedure.platformId === platformId);
+}
+
+/** Standalone service/test/diagnostic mode bundles for OEM quick-reference UI. */
+export function listPlatformServiceModeQuickReference(platformId: string): ServiceModeBundle[] {
+  if (!platformId) return [];
+  return sortServiceModeBundlesForQuickRef(
+    listServiceModeBundles(SERVICE_MODE_BUNDLES, platformId),
+  );
 }
 
 export { GENERATED_PROCEDURE_SEEDS, GENERATED_SERVICE_MODE_BUNDLES };

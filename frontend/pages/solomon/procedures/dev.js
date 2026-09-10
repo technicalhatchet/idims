@@ -6,7 +6,10 @@ import {
   SOLOMON_REFERENCE_EYEBROW_CLASS,
 } from '../../../components/solomon/solomonListPageUi';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
-import { buildMeasurementContext } from '../../../components/diagnostics/knowledge/platformRegistry';
+import {
+  buildMeasurementContext,
+  resolvePlatformIdFromModel,
+} from '../../../components/diagnostics/knowledge/platformRegistry';
 import { getAllServiceProcedures } from '../../../components/diagnostics/procedures/procedureRegistry';
 import {
   listServiceProcedureCatalog,
@@ -131,6 +134,11 @@ export default function SolomonProcedureDevPage() {
     [smokeTemplateId, measurementContext],
   );
 
+  const smokePlatformId = useMemo(
+    () => resolvePlatformIdFromModel(measurementContext),
+    [measurementContext],
+  );
+
   const applySmokePreset = (presetId) => {
     const preset = SMOKE_PRESETS.find((item) => item.id === presetId);
     if (!preset) return;
@@ -217,6 +225,7 @@ export default function SolomonProcedureDevPage() {
               <SolomonProcedurePanel
                 recommendations={smokeRecommendations}
                 catalog={smokeCatalog}
+                platformId={smokePlatformId}
                 variant="mobile"
                 density="compact"
                 catalogPlacement="inline"

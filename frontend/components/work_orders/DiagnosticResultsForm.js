@@ -587,6 +587,7 @@ export default function DiagnosticResultsForm({
       onProcedureRunChange: handleProcedureRunChange,
       onActiveProcedureChange: handleActiveProcedureChange,
       variant,
+      platformId: resolvedPlatformId,
       platformBanner: procedurePlatformBanner,
       bannerOnly: !showProcedureRunner,
       showCatalog: showProcedureRunner,
@@ -601,6 +602,7 @@ export default function DiagnosticResultsForm({
       handleProcedureRunChange,
       handleActiveProcedureChange,
       variant,
+      resolvedPlatformId,
       procedurePlatformBanner,
     ],
   );
