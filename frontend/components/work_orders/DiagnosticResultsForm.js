@@ -58,6 +58,7 @@ import SolomonLeadingHypothesisCard from '../solomon/SolomonLeadingHypothesisCar
 import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
+import OemProcedureLeadCard from '../diagnostics/procedures/ui/OemProcedureLeadCard';
 import SolomonProcedurePanel, { SolomonOemCatalogAccordion } from '../solomon/SolomonProcedurePanel';
 import {
   listServiceProcedureCatalog,
@@ -578,9 +579,16 @@ export default function DiagnosticResultsForm({
   /** Tech roles: lead OEM test + optional catalog browse. DIY / non-tech: banner + Ω specs only. */
   const showProcedureRunner = showOemSpecsSurface && isTechnician && procedureCatalog.length > 0;
 
+  const topProcedureRecommendation = useMemo(
+    () => (showProcedureRunner && procedureRecommendations.length
+      ? procedureRecommendations[0]
+      : null),
+    [showProcedureRunner, procedureRecommendations],
+  );
+
   const procedurePanelProps = useMemo(
     () => ({
-      recommendations: showProcedureRunner ? procedureRecommendations : [],
+      recommendations: showProcedureRunner ? procedureRecommendations.slice(0, 3) : [],
       catalog: showProcedureRunner ? procedureCatalog : [],
       procedureRuns: payload?.procedureRuns || {},
       activeProcedureId: payload?.activeProcedureId || null,
@@ -1043,6 +1051,14 @@ export default function DiagnosticResultsForm({
     </p>
   ) : null;
 
+  const wizardLeadExtra = showProcedureRunner && topProcedureRecommendation ? (
+    <OemProcedureLeadCard
+      recommendation={topProcedureRecommendation}
+      onOpenProcedure={handleActiveProcedureChange}
+      variant={variant}
+    />
+  ) : null;
+
   const wizardFooterExtra = (
     <>
       {insightPeekPlacement !== 'external' ? mobileInsightPeeks : null}
@@ -1192,6 +1208,7 @@ export default function DiagnosticResultsForm({
                   onComplete={onSave ? () => void handleWizardComplete() : undefined}
                   completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
                   isCompleting={isSaving}
+                  leadExtra={wizardLeadExtra}
                   footerExtra={wizardFooterExtra}
                 />
 
@@ -1234,6 +1251,7 @@ export default function DiagnosticResultsForm({
                 onComplete={onSave ? () => void handleWizardComplete() : undefined}
                 completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
                 isCompleting={isSaving}
+                leadExtra={wizardLeadExtra}
                 footerExtra={wizardFooterExtra}
                 headerTitle={
                   readOnly
@@ -1400,6 +1418,7 @@ export default function DiagnosticResultsForm({
             onComplete={onSave ? () => void handleWizardComplete() : undefined}
             completeLabel={isDiyAudience ? 'Save my notes' : 'Save Diagnostic Results'}
             isCompleting={isSaving}
+            leadExtra={wizardLeadExtra}
             footerExtra={wizardFooterExtra}
             headerTitle={
               readOnly

@@ -82,6 +82,8 @@ export interface WizardFooterProps {
 export interface WizardProps<TContext> extends WizardProviderProps<TContext>, WizardNavigationProps {
   headerTitle?: string;
   headerDescription?: string;
+  /** OEM procedure lead card — rendered between progress and suggested step. */
+  leadExtra?: ReactNode;
   footerExtra?: ReactNode;
   className?: string;
 }

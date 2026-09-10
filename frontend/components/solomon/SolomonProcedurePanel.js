@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useScrollAnchorIntoView } from '../../hooks/useScrollAnchorIntoView';
 import {
   formatServiceModeRequirements,
@@ -284,6 +284,18 @@ export default function SolomonProcedurePanel({
   const [catalogOpen, setCatalogOpen] = useState(false);
   const isCompact = density === 'compact';
   const showInlineCatalog = showCatalog && catalogPlacement === 'inline';
+
+  const topRecommendation = recommendations[0];
+  const topLeadId = topRecommendation?.procedureId || null;
+  const topLeadIsStrong =
+    Boolean(topRecommendation?.matchedErrorCodes?.length)
+    || (topRecommendation?.priority ?? 0) >= 35;
+
+  useEffect(() => {
+    if (!topLeadId || !topLeadIsStrong) return;
+    if (activeProcedureId) return;
+    setExpandedId((current) => current || topLeadId);
+  }, [topLeadId, topLeadIsStrong, activeProcedureId]);
 
   const handleToggle = useCallback(
     (procedureId) => {
