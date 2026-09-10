@@ -1184,10 +1184,30 @@
         "value": 22
       },
       "explanation": "Complaint: lid lock issue \u2014 points toward Door / Lid Lock.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "mechanical",
       "dmaTags": [
         "door_lock_check",
         "safety_switch"
+      ]
+    },
+    {
+      "id": "chip_lid_lock_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Lid/door lock complaint \u2014 verify latch, harness, and OEM lock test before control.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": [
+        "door_lock_check"
       ]
     },
     {

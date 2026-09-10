@@ -234,7 +234,7 @@
           "when": {
             "kind": "checkpoint_yes"
           },
-          "nextStepId": "replace_acu_lid",
+          "nextStepId": "check_harness_j4",
           "diagnosticEffects": [
             {
               "type": "eliminate",
@@ -261,24 +261,65 @@
       ]
     },
     {
-      "id": "replace_lid_lock",
+      "id": "check_harness_j4",
       "order": 7,
+      "type": "visual_check",
+      "title": "J4 harness \u2014 ACU to lid lock",
+      "body": "Power off. Inspect J4 wiring from the ACU to the lid lock for damage, pinched conductors, or a loose connector at the lock. With J4 disconnected at the lock, does harness continuity from ACU J4 to the lock plug read good on all lock-circuit pins?",
+      "sourceExcerpt": "Verify harness between main control J4 and lid lock before replacing control.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Harness / continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_lid"
+        },
+        {
+          "id": "harness_bad",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_j4",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_lid_lock",
+      "order": 8,
       "type": "outcome",
       "title": "Replace lid lock mechanism",
       "oemOutcome": "Switch measurements do not match table \u2014 replace lid lock.",
       "requiresInput": false
     },
     {
+      "id": "repair_harness_j4",
+      "order": 9,
+      "type": "outcome",
+      "title": "Repair J4 lock harness",
+      "oemOutcome": "Repair or replace wiring between ACU J4 and lid lock before suspecting main control.",
+      "requiresInput": false
+    },
+    {
       "id": "replace_acu_lid",
-      "order": 8,
+      "order": 10,
       "type": "outcome",
       "title": "Replace ACU",
-      "oemOutcome": "Lid lock components good but lock problem persists \u2014 replace main control.",
+      "oemOutcome": "Lid lock components and J4 harness verified good but lock problem persists \u2014 replace main control.",
       "requiresInput": false
     },
     {
       "id": "lid_lock_verified",
-      "order": 9,
+      "order": 11,
       "type": "outcome",
       "title": "Lid lock verified",
       "oemOutcome": "Lid lock resistance and Load Control test verified.",

@@ -64,6 +64,7 @@ import {
   listServiceProcedureCatalog,
   recommendServiceProcedures,
 } from '../diagnostics/procedures/recommendServiceProcedures';
+import { mergeOemProcedureWizardSteps } from '../diagnostics/procedures/procedureWizardLead';
 import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
 import { getErrorCodesFromDiagnosticFields } from '../diagnostics/procedures/parseProcedureErrorCodes';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
@@ -586,6 +587,19 @@ export default function DiagnosticResultsForm({
     [showProcedureRunner, procedureRecommendations],
   );
 
+  const wizardRecommendedStepKeys = useMemo(
+    () => mergeOemProcedureWizardSteps(
+      intelligenceResult?.recommendedStepKeys || [],
+      topProcedureRecommendation,
+      visitedStepKeys,
+    ),
+    [
+      intelligenceResult?.recommendedStepKeys,
+      topProcedureRecommendation,
+      visitedStepKeys,
+    ],
+  );
+
   const procedurePanelProps = useMemo(
     () => ({
       recommendations: showProcedureRunner ? procedureRecommendations.slice(0, 3) : [],
@@ -810,6 +824,7 @@ export default function DiagnosticResultsForm({
       intelligence: intelligenceResult
         ? {
           ...intelligenceResult,
+          recommendedStepKeys: wizardRecommendedStepKeys,
           stepKeyLabels,
           fieldLabels,
           autoNoteBullets: payload?.autoNoteBullets?.length
@@ -832,6 +847,7 @@ export default function DiagnosticResultsForm({
       activeRecommendations,
       eliminationResult,
       intelligenceResult,
+      wizardRecommendedStepKeys,
       stepKeyLabels,
       fieldLabels,
       lastReadings,
@@ -1066,6 +1082,7 @@ export default function DiagnosticResultsForm({
     <OemProcedureLeadCard
       recommendation={topProcedureRecommendation}
       onOpenProcedure={handleActiveProcedureChange}
+      wizardStepLabels={stepKeyLabels}
       variant={variant}
     />
   ) : null;

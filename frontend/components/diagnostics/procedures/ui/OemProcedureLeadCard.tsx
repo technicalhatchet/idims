@@ -1,10 +1,12 @@
 'use client';
 
 import type { ProcedureRecommendation } from '../recommendServiceProcedures';
+import { resolveWizardStepLabelForProcedure } from '../procedureWizardLead';
 
 interface OemProcedureLeadCardProps {
   recommendation: ProcedureRecommendation | null | undefined;
   onOpenProcedure?: (procedureId: string) => void;
+  wizardStepLabels?: Record<string, string>;
   variant?: 'mobile' | 'desktop';
   className?: string;
 }
@@ -17,6 +19,7 @@ export function scrollToOemProcedurePanel() {
 export default function OemProcedureLeadCard({
   recommendation,
   onOpenProcedure,
+  wizardStepLabels,
   variant = 'desktop',
   className = '',
 }: OemProcedureLeadCardProps) {
@@ -29,6 +32,10 @@ export default function OemProcedureLeadCard({
   if (!isStrongLead) return null;
 
   const isMobile = variant === 'mobile';
+  const wizardStepLabel = resolveWizardStepLabelForProcedure(
+    recommendation.procedure,
+    wizardStepLabels,
+  );
 
   const handleOpen = () => {
     onOpenProcedure?.(recommendation.procedureId);
@@ -65,6 +72,15 @@ export default function OemProcedureLeadCard({
           }`}
         >
           {recommendation.reason}
+        </p>
+      ) : null}
+      {wizardStepLabel ? (
+        <p
+          className={`mt-1 text-[11px] ${
+            isMobile ? 'text-cyan-100/70' : 'text-cyan-800/70 dark:text-cyan-200/70'
+          }`}
+        >
+          Wizard will suggest <span className="font-medium">{wizardStepLabel}</span> next.
         </p>
       ) : null}
       <button

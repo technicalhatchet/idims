@@ -41,11 +41,6 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     showWhen: [{ type: 'chip', id: 'wont_drain' }],
   },
   {
-    id: 'lid_lock',
-    field: 'functional_checks.lid_lock_operation',
-    showWhen: [{ type: 'chip', id: 'lid_lock' }],
-  },
-  {
     id: 'balance',
     field: 'functional_checks.balance',
     showWhen: [{ type: 'chip', id: 'vibration' }, { type: 'chip', id: 'noisy' }],
