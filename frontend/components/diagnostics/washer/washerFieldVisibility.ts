@@ -21,11 +21,6 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     ],
   },
   {
-    id: 'fill_operation',
-    field: 'functional_checks.fill_operation',
-    showWhen: [{ type: 'chip', id: 'no_fill' }],
-  },
-  {
     id: 'agitation',
     field: 'functional_checks.agitation',
     showWhen: [{ type: 'chip', id: 'wont_agitate' }],
@@ -34,11 +29,6 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     id: 'spin_operation',
     field: 'functional_checks.spin_operation',
     showWhen: [{ type: 'chip', id: 'wont_spin' }],
-  },
-  {
-    id: 'drain_operation',
-    field: 'functional_checks.drain_operation',
-    showWhen: [{ type: 'chip', id: 'wont_drain' }],
   },
   {
     id: 'balance',

@@ -893,7 +893,28 @@
         "value": 20
       },
       "explanation": "Complaint: no heat — points toward Heat Circuit.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "heat",
+      "dmaTags": [
+        "heating_element_check",
+        "no_heat_issue"
+      ]
+    },
+    {
+      "id": "chip_no_heat_heating_element_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_heat"
+        }
+      ],
+      "target": "heating_element",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "No heat complaint — check element, thermal fuse, and OEM heat circuit test.",
+      "recommendStepKey": "heat",
       "dmaTags": [
         "heating_element_check",
         "no_heat_issue"
@@ -956,7 +977,28 @@
         "value": 20
       },
       "explanation": "Complaint: won't tumble — points toward Drum Motor / Drive.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "motor",
+      "dmaTags": [
+        "motor_check",
+        "no_tumble_issue"
+      ]
+    },
+    {
+      "id": "chip_no_spin_drive_motor_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_spin"
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Won't tumble complaint — check belt switch, door switch, and motor circuit.",
+      "recommendStepKey": "motor",
       "dmaTags": [
         "motor_check",
         "no_tumble_issue"

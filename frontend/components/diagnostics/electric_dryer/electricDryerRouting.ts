@@ -10,7 +10,7 @@ export const electricDryerRoutingRules: RoutingRule[] = [
     id: 'no_heat',
     label: 'No heat path',
     when: ['no_heat', 'no heat', 'not heating', 'cold'],
-    enable: ['visual', 'functional', 'heat', 'motor'],
+    enable: ['visual', 'heat', 'motor', 'functional'],
   },
   {
     id: 'not_drying',
@@ -22,7 +22,7 @@ export const electricDryerRoutingRules: RoutingRule[] = [
     id: 'no_spin',
     label: 'No tumble path',
     when: ['no_spin', 'won\'t tumble', 'not turning', 'drum'],
-    enable: ['visual', 'functional', 'motor'],
+    enable: ['visual', 'motor', 'functional'],
   },
   {
     id: 'wont_stop_spinning',

@@ -1100,7 +1100,28 @@
         "value": 22
       },
       "explanation": "Complaint: won't drain \u2014 points toward Drain Pump.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_wont_drain_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Won't drain complaint \u2014 check pump, drain path, and OEM drain test.",
+      "recommendStepKey": "electrical",
       "dmaTags": [
         "pump_check",
         "drain_issue"
@@ -1121,10 +1142,31 @@
         "value": 22
       },
       "explanation": "Complaint: no fill \u2014 points toward Fill / Water Supply.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "electrical",
       "dmaTags": [
         "water_valve_check",
         "fill_issue"
+      ]
+    },
+    {
+      "id": "chip_no_fill_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_fill"
+        }
+      ],
+      "target": "inlet_valves",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "No fill complaint \u2014 check inlet valves, supply, and pressure switch.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check"
       ]
     },
     {

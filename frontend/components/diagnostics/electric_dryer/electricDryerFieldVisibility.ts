@@ -10,7 +10,6 @@ export const electricDryerFieldVisibilityRules: FieldVisibilityRule[] = [
     id: 'heating_functional',
     field: 'functional_checks.heating',
     showWhen: [
-      { type: 'chip', id: 'no_heat' },
       { type: 'chip', id: 'not_drying' },
       { type: 'chip', id: 'heats_when_shouldnt' },
     ],
@@ -37,10 +36,7 @@ export const electricDryerFieldVisibilityRules: FieldVisibilityRule[] = [
   {
     id: 'drum_turning',
     field: 'functional_checks.drum_turning',
-    showWhen: [
-      { type: 'chip', id: 'no_spin' },
-      { type: 'chip', id: 'wont_stop_spinning' },
-    ],
+    showWhen: [{ type: 'chip', id: 'wont_stop_spinning' }],
   },
   {
     id: 'door_switch',
