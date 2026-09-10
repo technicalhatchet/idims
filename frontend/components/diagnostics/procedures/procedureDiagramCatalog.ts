@@ -466,6 +466,83 @@ const W11416805_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
   'Steam valve': ['w11416805-water-valve-strip', W11416805_PINOUT],
 };
 
+/** Cropped OEM figures for W11798430 (ACU TL dryer delta) — crop_w11798430_procedure_figures.py */
+export const W11798430_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11798430-acu-pinout': {
+    id: 'w11798430-acu-pinout',
+    caption: 'ACU connections — J4 thermistors, J7 motor',
+    assetPath: `${W11416805_ASSET_BASE}/w11798430-acu-pinout.png`,
+  },
+  'w11798430-motor-strip': {
+    id: 'w11798430-motor-strip',
+    caption: 'Motor strip circuit (TEST #3)',
+    assetPath: `${W11416805_ASSET_BASE}/w11798430-motor-strip.png`,
+  },
+  'w11798430-heater-strip': {
+    id: 'w11798430-heater-strip',
+    caption: 'Heater strip circuits — electric & gas (TEST #4)',
+    assetPath: `${W11416805_ASSET_BASE}/w11798430-heater-strip.png`,
+  },
+  'w11798430-thermistor-strip': {
+    id: 'w11798430-thermistor-strip',
+    caption: 'Thermistors strip circuit (TEST #4a)',
+    assetPath: `${W11416805_ASSET_BASE}/w11798430-thermistor-strip.png`,
+  },
+  'w11798430-gas-valve': {
+    id: 'w11798430-gas-valve',
+    caption: 'Gas valve resistance (TEST #4d)',
+    assetPath: `${W11416805_ASSET_BASE}/w11798430-gas-valve.png`,
+  },
+};
+
+const W11798430_PINOUT = 'w11798430-acu-pinout';
+
+const W11798430_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  'ACU motor path': ['w11798430-motor-strip', W11798430_PINOUT],
+  'Motor main': ['w11798430-motor-strip', W11798430_PINOUT],
+  'Motor start': ['w11798430-motor-strip', W11798430_PINOUT],
+  'Heater element': ['w11798430-heater-strip', W11798430_PINOUT],
+  'J4 outlet': [W11798430_PINOUT, 'w11798430-thermistor-strip'],
+  'J4 inlet': [W11798430_PINOUT, 'w11798430-thermistor-strip'],
+  'Gas valve': ['w11798430-gas-valve', W11798430_PINOUT],
+  Ignitor: ['w11798430-gas-valve', 'w11798430-heater-strip'],
+};
+
+/** Cropped OEM figures for W11697231 (WTW4950 PSC delta) — crop_w11697231_procedure_figures.py */
+export const W11697231_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11697231-acu-pinout': {
+    id: 'w11697231-acu-pinout',
+    caption: 'Main control connectors & pinouts (TEST #1)',
+    assetPath: `${W10864849_ASSET_BASE}/w11697231-acu-pinout.png`,
+  },
+  'w11697231-shifter-strip': {
+    id: 'w11697231-shifter-strip',
+    caption: 'Shifter assembly strip circuit (TEST #3a)',
+    assetPath: `${W10864849_ASSET_BASE}/w11697231-shifter-strip.png`,
+  },
+  'w11697231-motor-strip': {
+    id: 'w11697231-motor-strip',
+    caption: 'PSC motor strip circuit (TEST #3b)',
+    assetPath: `${W10864849_ASSET_BASE}/w11697231-motor-strip.png`,
+  },
+  'w11697231-drain-pump-strip': {
+    id: 'w11697231-drain-pump-strip',
+    caption: 'Drain pump strip circuit (TEST #7)',
+    assetPath: `${W10864849_ASSET_BASE}/w11697231-drain-pump-strip.png`,
+  },
+};
+
+const W11697231_PINOUT = 'w11697231-acu-pinout';
+
+const W11697231_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J5: [W11697231_PINOUT],
+  J12: [W11697231_PINOUT],
+  J9: [W11697231_PINOUT, 'w11697231-shifter-strip'],
+  J6: [W11697231_PINOUT],
+  'PSC motor': ['w11697231-motor-strip', W11697231_PINOUT],
+  'Drain pump': ['w11697231-drain-pump-strip', W11697231_PINOUT],
+};
+
 const W11416395_ASSET_BASE = '/images/procedures/whirlpool_mvw6200';
 
 /** Cropped OEM figures for W11416395 — crop_w11416395_procedure_figures.py */
@@ -538,6 +615,12 @@ export function resolveDiagramsForConnector(
   }
 
   if (platformId === 'whirlpool_tl_dd') {
+    const w116Ids = W11697231_CONNECTOR_DIAGRAM_IDS[connector];
+    if (w116Ids?.length) {
+      return w116Ids
+        .map((id) => W11697231_DIAGRAMS[id] ?? W10864849_DIAGRAMS[id])
+        .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+    }
     const ids = W10864849_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
       .map((id) => W10864849_DIAGRAMS[id])
@@ -565,6 +648,12 @@ export function resolveDiagramsForConnector(
   }
 
   if (platformId === 'whirlpool_acu_tl_dryer') {
+    const w117Ids = W11798430_CONNECTOR_DIAGRAM_IDS[connector];
+    if (w117Ids?.length) {
+      return w117Ids
+        .map((id) => W11798430_DIAGRAMS[id] ?? W11416805_DIAGRAMS[id])
+        .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+    }
     const ids = W11416805_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
       .map((id) => W11416805_DIAGRAMS[id])
