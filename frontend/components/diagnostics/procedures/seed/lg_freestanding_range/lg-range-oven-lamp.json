@@ -1,0 +1,130 @@
+{
+  "id": "lg-range-oven-lamp",
+  "version": "1.0.0",
+  "title": "\u00a74-5: Oven lamp",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "oven_lamp"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-5",
+    "oemTestTitle": "Oven lamp",
+    "pages": [
+      40,
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "lamp_ohms"
+    },
+    {
+      "id": "lamp_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Oven lamp resistance",
+      "body": "Cool lamp. Measure resistance \u2014 expect below 5 \u03a9 (gas manual \u22485 \u03a9 \u00b110%).",
+      "sourceExcerpt": "Cool lamp. Measure resistance \u2014 expect below 5 \u03a9 (gas manual \u22485 \u03a9 \u00b110%).",
+      "measurementKnowledgeId": "lgRangeOvenLampOhms",
+      "testPoint": {
+        "connector": "Oven lamp",
+        "pins": "terminals",
+        "label": "Oven lamp resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lamp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "lamp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "lamp_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lamp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "lamp_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lamp_ok",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_bake_element_ol_bake_element_ok",
+              "componentId": "heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_lamp",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace oven lamp",
+      "oemOutcome": "Lamp open or high resistance \u2014 replace bulb/socket.",
+      "requiresInput": false
+    },
+    {
+      "id": "lamp_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Oven lamp OK",
+      "oemOutcome": "Lamp resistance verified.",
+      "requiresInput": false
+    }
+  ]
+}

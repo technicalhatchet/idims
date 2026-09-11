@@ -1,0 +1,122 @@
+{
+  "id": "samsungwd53-filter-check",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Filter and cover magnets (NC, NC2, NC3)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "lint_filter"
+  ],
+  "tags": [
+    "NC",
+    "NC2",
+    "NC3"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Filter / Cover NC",
+    "pages": [
+      51,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "filter_inserted"
+    },
+    {
+      "id": "filter_inserted",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Dryer filter inserted",
+      "body": "NC: insert dryer filter. Verify magnet inside filter module.",
+      "sourceExcerpt": "NC: insert dryer filter. Verify magnet inside filter module.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "filter_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cover_check"
+        },
+        {
+          "id": "insert_filter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "insert_filter_out",
+          "terminal": true,
+          "oemOutcome": "Insert filter and press Start."
+        }
+      ]
+    },
+    {
+      "id": "cover_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Heat exchanger cover / dehumidifying kit",
+      "body": "NC2: heat exchanger protective cover. NC3: dehumidifying kit. Verify magnets present.",
+      "sourceExcerpt": "NC2: heat exchanger protective cover. NC3: dehumidifying kit. Verify magnets present.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "covers_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "filter_verified"
+        },
+        {
+          "id": "install_covers",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "install_covers_out",
+          "terminal": true,
+          "oemOutcome": "Install missing cover or kit with magnet."
+        }
+      ]
+    },
+    {
+      "id": "insert_filter_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Insert filter",
+      "oemOutcome": "Install dryer lint filter correctly.",
+      "requiresInput": false
+    },
+    {
+      "id": "install_covers_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Install covers",
+      "oemOutcome": "Install heat exchanger cover or dehumidifying kit.",
+      "requiresInput": false
+    },
+    {
+      "id": "filter_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Covers OK",
+      "oemOutcome": "Filter and covers detected \u2014 suspect PBA if NC persists.",
+      "requiresInput": false
+    }
+  ]
+}

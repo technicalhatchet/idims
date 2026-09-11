@@ -1,0 +1,322 @@
+{
+  "id": "samsungotrmw-hv-transformer",
+  "version": "1.0.0",
+  "title": "\u00a74-1: High-Voltage Transformer",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "magnetron_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "HV transformer resistance",
+    "pages": [
+      23,
+      24
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "xformer_leads"
+    },
+    {
+      "id": "xformer_leads",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Transformer leads disconnected?",
+      "body": "Remove connectors from transformer terminals before measuring.",
+      "sourceExcerpt": "Remove connectors from transformer terminals before measuring.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "primary_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "primary_ohms"
+        },
+        {
+          "id": "primary_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "disconnect_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disconnect_xformer",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect transformer leads",
+      "body": "Remove HV transformer leads and retest.",
+      "sourceExcerpt": "Remove HV transformer leads and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "xformer_leads"
+    },
+    {
+      "id": "primary_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Transformer primary winding",
+      "body": "Primary winding approx. 0.41\u20130.48 \u03a9 at 20\u00b0C (model-dependent high/low tap).",
+      "sourceExcerpt": "Primary Approx. 0.410 \u03a9 + 2% (High) / 0.475 \u03a9 + 2% (Low).",
+      "measurementKnowledgeId": "samsungMe11HvTransformerPrimaryOhms",
+      "testPoint": {
+        "connector": "HV transformer",
+        "pins": "primary",
+        "label": "Transformer primary winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "secondary_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "secondary_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-disassembly-hv",
+          "caption": "HV transformer / capacitor access (\u00a73-2, p.12)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-disassembly-hv.png"
+        }
+      ]
+    },
+    {
+      "id": "secondary_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Transformer secondary winding",
+      "body": "Secondary approx. 123.5 \u03a9 \u00b12% or 131.0 \u03a9 \u00b12%.",
+      "sourceExcerpt": "Secondary Approx. 123.5 \u03a9 + 2% or 131.0 \u03a9 \u00b1 2%.",
+      "measurementKnowledgeId": "samsungMe11HvTransformerSecondaryOhms",
+      "testPoint": {
+        "connector": "HV transformer",
+        "pins": "secondary",
+        "label": "Transformer secondary winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "filament_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "filament_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "filament_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "filament_check_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "filament_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-disassembly-hv",
+          "caption": "HV transformer / capacitor access (\u00a73-2, p.12)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-disassembly-hv.png"
+        }
+      ]
+    },
+    {
+      "id": "filament_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Filament winding shows continuity?",
+      "body": "Filament winding should show continuity.",
+      "sourceExcerpt": "Filament Shows Continuity.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "xformer_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "xformer_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "xformer_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_xformer",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_xformer",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace HV transformer",
+      "body": "Replace high-voltage transformer; check diode and magnetron when HV transformer replaced.",
+      "oemOutcome": "Replace high-voltage transformer; check diode and magnetron when HV transformer replaced.",
+      "requiresInput": false
+    },
+    {
+      "id": "xformer_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "HV transformer verified",
+      "body": "Transformer windings within OEM spec.",
+      "oemOutcome": "Transformer windings within OEM spec.",
+      "requiresInput": false
+    }
+  ],
+  "images": [
+    {
+      "id": "samsung-me11-disassembly-hv",
+      "caption": "HV transformer / capacitor access (\u00a73-2, p.12)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-disassembly-hv.png"
+    },
+    {
+      "id": "samsung-me11-wiring-2",
+      "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+    }
+  ]
+}

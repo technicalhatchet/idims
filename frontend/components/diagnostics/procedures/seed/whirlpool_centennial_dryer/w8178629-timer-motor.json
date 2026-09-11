@@ -1,0 +1,283 @@
+{
+  "id": "w8178629-timer-motor",
+  "version": "1.0.0",
+  "title": "Timer & Motor Relay Test",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "user_interface",
+    "motor"
+  ],
+  "tags": [
+    "timer_issue",
+    "motor_check",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-4",
+    "oemTestTitle": "Timer Test / Motor Relay",
+    "pages": [
+      68,
+      70
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "less_dry_precheck"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "less_dry_precheck"
+    },
+    {
+      "id": "less_dry_precheck",
+      "order": 3,
+      "type": "instruction",
+      "title": "Less Dry test (live)",
+      "body": "Door closed, Timer Less Dry, Temp High, Signal Louder \u2192 PTS. Timer should advance to Off in ~16 s.",
+      "sourceExcerpt": "Door closed, Timer Less Dry, Temp High, Signal Louder \u2192 PTS. Timer should advance to Off in ~16 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_mode_check"
+    },
+    {
+      "id": "diag_mode_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Diagnostic mode \u2014 timer advances",
+      "body": "If Less Dry fails, enter diagnostic mode. Timer should advance continuously during test mode.",
+      "sourceExcerpt": "If Less Dry fails, enter diagnostic mode. Timer should advance continuously during test mode.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "timer_adv_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_relay_path"
+        },
+        {
+          "id": "timer_adv_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "timer_bench",
+          "terminal": true,
+          "oemOutcome": "Bench test timer motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "timer_bench",
+      "order": 5,
+      "type": "measurement",
+      "title": "Timer motor BU to PT-1",
+      "body": "Disconnect timer wires. Spec 3 k\u03a9 (\u00b12).",
+      "sourceExcerpt": "Disconnect timer wires. Spec 3 k\u03a9 (\u00b12).",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerTimerMotorOhms",
+      "testPoint": {
+        "connector": "Timer motor",
+        "pins": "BU\u2013PT-1",
+        "label": "Timer motor BU to PT-1"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "timer_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_relay_path"
+        },
+        {
+          "id": "timer_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "timer_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "timer_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_relay_path",
+      "order": 6,
+      "type": "measurement",
+      "title": "Motor relay COM to P2-6",
+      "body": "Door open, power off for bench motor. At control: COM to P2-6 should read 1\u20136 \u03a9.",
+      "sourceExcerpt": "Door open, power off for bench motor. At control: COM to P2-6 should read 1\u20136 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerMotorCircuitOhms",
+      "testPoint": {
+        "connector": "Motor relay",
+        "pins": "COM\u2013P2-6",
+        "label": "Motor relay COM to P2-6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "timer_verified"
+        },
+        {
+          "id": "relay_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermal_door_check",
+      "order": 7,
+      "type": "instruction",
+      "title": "Thermal fuse & door switch",
+      "body": "Perform w8178629-thermal-fuse-exhaust and w8178629-door-switch if motor relay path out of spec.",
+      "sourceExcerpt": "Perform w8178629-thermal-fuse-exhaust and w8178629-door-switch if motor relay path out of spec.",
+      "requiresInput": false,
+      "defaultNextStepId": "timer_verified"
+    },
+    {
+      "id": "replace_timer",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace timer",
+      "oemOutcome": "Replace timer assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "timer_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Timer/motor relay OK",
+      "oemOutcome": "Timer motor and motor relay path within spec.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178629-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

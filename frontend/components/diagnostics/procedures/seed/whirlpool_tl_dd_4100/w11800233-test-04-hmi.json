@@ -1,0 +1,176 @@
+{
+  "id": "w11800233-test-04-hmi",
+  "version": "1.0.0",
+  "title": "TEST #4: HMI",
+  "platformId": "whirlpool_tl_dd_4100",
+  "componentIds": [
+    "hmi_control"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "F2E3",
+    "F6E1"
+  ],
+  "source": {
+    "manualId": "W11800233",
+    "manualTitle": "Whirlpool 4.0\u20134.3 cu ft Top Load Washer (WTW4100 ACU)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11800233-revc wtw4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "HMI",
+    "pages": [
+      89,
+      90
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_test_entry"
+    },
+    {
+      "id": "hmi_test_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Run HMI Test in Service Diagnostic",
+      "body": "Enter Service Diagnostic mode. Press Key 1 for HMI Test \u2014 run encoder and button activation tests.",
+      "sourceExcerpt": "Enter Service Diagnostic mode. Press Key 1 for HMI Test \u2014 run encoder and button activation tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_connectors_hmi"
+    },
+    {
+      "id": "check_connectors_hmi",
+      "order": 3,
+      "type": "visual_check",
+      "title": "J5 and HMI harness seated",
+      "body": "Power off. J5 fully seated at ACU; HMI harness and ribbon cables fully seated on HMI.",
+      "sourceExcerpt": "Power off. J5 fully seated at ACU; HMI harness and ribbon cables fully seated on HMI.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_test1_hmi"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Loose connector or ribbon",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connectors",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hmi_harness_cont",
+      "order": 4,
+      "type": "visual_check",
+      "title": "HMI harness continuity",
+      "body": "Continuity ACU J5 to HMI J1: J5-1\u2194J1-1 (Red), J5-3\u2194J1-2 (Yellow), J5-4\u2194J1-3 (Black)?",
+      "sourceExcerpt": "Continuity ACU J5 to HMI J1: J5-1\u2194J1-1 (Red), J5-3\u2194J1-2 (Yellow), J5-4\u2194J1-3 (Black)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Continuity passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_hmi",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "harness_bad",
+          "label": "Continuity fails",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hmi_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_test1_hmi",
+      "order": 5,
+      "type": "instruction",
+      "title": "Verify ACU supplies",
+      "body": "If HMI Test fails, run TEST #1 Main Control supply checks.",
+      "sourceExcerpt": "If HMI Test fails, run TEST #1 Main Control supply checks.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_harness_cont"
+    },
+    {
+      "id": "repair_connectors",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair connections",
+      "oemOutcome": "Reseat J5, ribbon cables, and HMI harness; retest HMI Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hmi_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace HMI harness",
+      "oemOutcome": "Replace HMI harness and retest HMI Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hmi",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace user interface",
+      "oemOutcome": "Harness good \u2014 replace HMI assembly and verify HMI Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "HMI verified",
+      "oemOutcome": "Encoder and button activation pass in HMI Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11800233-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "hmi_test_entry"
+    }
+  ]
+}

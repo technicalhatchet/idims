@@ -1,0 +1,302 @@
+{
+  "id": "w11800233-test-07-lid-lock",
+  "version": "1.0.0",
+  "title": "TEST #7: Lid Lock",
+  "platformId": "whirlpool_tl_dd_4100",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "lid_lock",
+    "door_lock_check",
+    "F5E1",
+    "F5E3",
+    "F5E4"
+  ],
+  "source": {
+    "manualId": "W11800233",
+    "manualTitle": "Whirlpool 4.0\u20134.3 cu ft Top Load Washer (WTW4100 ACU)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11800233-revc wtw4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Lid Lock",
+    "pages": [
+      93,
+      94
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "lid_lock_auto_test"
+    },
+    {
+      "id": "lid_lock_auto_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Lid lock in Automatic Test",
+      "body": "During Automatic Test wash/spin steps, does lid lock cycle lock and unlock?",
+      "sourceExcerpt": "During Automatic Test wash/spin steps, does lid lock cycle lock and unlock?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ll_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_j4",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ll_ok",
+          "label": "Lock cycles OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_lock_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j4",
+      "order": 3,
+      "type": "visual_check",
+      "title": "J4 fully seated",
+      "body": "Power off. J4 fully inserted at main control?",
+      "sourceExcerpt": "Power off. J4 fully inserted at main control?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j4_ok",
+          "label": "J4 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_lock_ohms"
+        },
+        {
+          "id": "j4_bad",
+          "label": "J4 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j4",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j4",
+      "order": 4,
+      "type": "instruction",
+      "title": "Reseat J4 and retest",
+      "body": "Reconnect J4 and repeat Automatic Test.",
+      "sourceExcerpt": "Reconnect J4 and repeat Automatic Test.",
+      "requiresInput": false,
+      "defaultNextStepId": "lid_lock_auto_test"
+    },
+    {
+      "id": "lid_lock_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Lid lock solenoid J4-2 to J4-1",
+      "body": "Remove J4. Lock solenoid J4-2\u21941: 50\u2013160 \u03a9. Lock switch J4-3\u21942: locked=0 \u03a9, unlocked=open. Lid switch J4-2\u21941: lid open=open.",
+      "sourceExcerpt": "Remove J4. Lock solenoid J4-2\u21941: 50\u2013160 \u03a9. Lock switch J4-3\u21942: locked=0 \u03a9, unlocked=open. Lid switch J4-2\u21941: lid open=open.",
+      "measurementKnowledgeId": "whirlpoolWtw4100WasherLidLockSolenoidOhms",
+      "testPoint": {
+        "connector": "J4",
+        "pins": "2 & 1",
+        "label": "Lid lock solenoid J4-2 to J4-1",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Lid switch line return",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Line in / lid switch",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Lid lock neutral",
+            "wireColor": "RD",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_solenoid_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lid_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_solenoid_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lid_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_solenoid_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lid_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_solenoid_pass",
+          "label": "50\u2013160 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "switch_states",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11800233-acu-pinout",
+          "caption": "Main control connectors & pinouts (\u00a73 component testing)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_4100/w11800233-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "switch_states",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Lock and lid switch states",
+      "body": "Do lock switch and lid switch readings match unlocked/locked table for current lid state?",
+      "sourceExcerpt": "Do lock switch and lid switch readings match unlocked/locked table for current lid state?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "Switch states OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_lid",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        },
+        {
+          "id": "sw_bad",
+          "label": "Switch readings wrong",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lid_lock",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_lid_lock",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace lid lock mechanism",
+      "oemOutcome": "Switch or solenoid readings fail \u2014 replace lid lock.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_lid",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Lid lock components good but lock problem persists \u2014 replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "lid_lock_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Lid lock verified",
+      "oemOutcome": "Lid lock resistance and Automatic Test operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11800233-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "lid_lock_auto_test"
+    }
+  ]
+}

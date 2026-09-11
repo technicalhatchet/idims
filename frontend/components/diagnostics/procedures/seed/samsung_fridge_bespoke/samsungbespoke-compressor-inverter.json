@@ -1,0 +1,197 @@
+{
+  "id": "samsungbespoke-compressor-inverter",
+  "version": "1.0.0",
+  "title": "Compressor / inverter IPM fault",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "inverter_board"
+  ],
+  "tags": [
+    "44E",
+    "84C",
+    "compressor",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Comp start / IPM / lock",
+    "pages": [
+      91,
+      125
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_short"
+    },
+    {
+      "id": "comp_short",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Compressor terminal shorts",
+      "body": "Check for shorts between compressor terminals U/V/W.",
+      "sourceExcerpt": "Check for shorts between compressor terminals U/V/W.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ipm_voltage"
+        },
+        {
+          "id": "short_found",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "short_out",
+          "terminal": true,
+          "oemOutcome": "Repair short or replace compressor before energizing."
+        }
+      ]
+    },
+    {
+      "id": "ipm_voltage",
+      "order": 3,
+      "type": "instruction",
+      "title": "IPM DC bus voltage",
+      "body": "Verify inverter DC output \u2014 under 13.5 V indicates comp starting failure.",
+      "sourceExcerpt": "Verify inverter DC output \u2014 under 13.5 V indicates comp starting failure.",
+      "requiresInput": false,
+      "defaultNextStepId": "ipm_read"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "ipm_read"
+    },
+    {
+      "id": "ipm_read",
+      "order": 5,
+      "type": "measurement",
+      "title": "Inverter IPM voltage",
+      "body": "Read IPM DC supply \u2014 must be \u226513.5 V for reliable start.",
+      "sourceExcerpt": "Read IPM DC supply \u2014 must be \u226513.5 V for reliable start.",
+      "measurementKnowledgeId": "samsungBespokeFridgeInverterIpmVoltage",
+      "testPoint": {
+        "connector": "Inverter PCB",
+        "pins": "DC bus",
+        "label": "Inverter IPM voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ipm_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_inverter_ipm_low",
+              "componentId": "inverter_board"
+            }
+          ]
+        },
+        {
+          "id": "ipm_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_inverter_ipm_low",
+              "componentId": "inverter_board"
+            }
+          ]
+        },
+        {
+          "id": "ipm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_ok"
+        }
+      ]
+    },
+    {
+      "id": "short_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair short",
+      "oemOutcome": "Clear compressor or harness short before retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inverter",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace inverter",
+      "oemOutcome": "Replace inverter PCB after verifying harness and compressor.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Compressor path OK",
+      "oemOutcome": "No shorts; IPM voltage adequate \u2014 check sealed system if still not cooling.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbespoke-self-diagnosis-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "comp_short",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf23bb-digital",
+      "modeKind": "load_test",
+      "attachAfterStepId": "comp_short",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf32cg-buttons",
+      "modeKind": "load_test",
+      "attachAfterStepId": "comp_short",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-fhub-engineer-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "comp_short",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

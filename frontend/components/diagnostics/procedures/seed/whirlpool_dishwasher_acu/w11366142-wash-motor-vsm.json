@@ -1,0 +1,165 @@
+{
+  "id": "w11366142-wash-motor-vsm",
+  "version": "1.0.0",
+  "title": "Variable-Speed Wash Motor (A-SYNCH)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "F7E2",
+    "wash_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "W11366142",
+    "manualTitle": "KitchenAid Premium Dishwasher (KDTM404/604/804)",
+    "extractedTextFile": "backend/docs/manuals/Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "strip",
+    "oemTestTitle": "Variable Speed Wash Motor",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "wash_prereq"
+    },
+    {
+      "id": "wash_prereq",
+      "order": 2,
+      "type": "instruction",
+      "title": "Wash path prerequisites",
+      "body": "Inspect sump, RIF filter, and spray arms. Run Service Diagnostics wash-motor interval first.",
+      "sourceExcerpt": "Inspect sump, RIF filter, and spray arms. Run Service Diagnostics wash-motor interval first.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p5_vsm"
+    },
+    {
+      "id": "disconnect_p5_vsm",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P5",
+      "body": "Power off. Remove toe and outer door panels. Unplug P5 from control.",
+      "sourceExcerpt": "Power off. Remove toe and outer door panels. Unplug P5 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "wash_motor_vsm_ohms"
+    },
+    {
+      "id": "wash_motor_vsm_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "VSM wash motor \u2014 P5 pins 1 & 2",
+      "body": "Ohms P5-1 to P5-2. KDTM404 A-SYNCH variable-speed wash (800 W wet / 500 W dry). Filtration VSM spec 16\u201318 \u03a9 applies; SSM models use 10\u201315 \u03a9 on same pins.",
+      "sourceExcerpt": "Ohms P5-1 to P5-2. KDTM404 A-SYNCH variable-speed wash (800 W wet / 500 W dry). Filtration VSM spec 16\u201318 \u03a9 applies; SSM models use 10\u201315 \u03a9 on same pins.",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+      "testPoint": {
+        "connector": "P5",
+        "pins": "1 & 2 (VSM)",
+        "label": "VSM wash motor \u2014 P5 pins 1 & 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vsm_retest_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "vsm_retest",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "vsm_retest_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wash_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "vsm_retest_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wash_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "vsm_retest_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wash_motor_vsm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vsm_retest",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reassemble and run Service Diagnostics",
+      "body": "Reconnect P5. Reassemble panels. Restore power and run Service Diagnostics to verify wash motor operation.",
+      "sourceExcerpt": "Reconnect P5. Reassemble panels. Restore power and run Service Diagnostics to verify wash motor operation.",
+      "requiresInput": false,
+      "defaultNextStepId": "wash_vsm_verified"
+    },
+    {
+      "id": "replace_wash_motor_vsm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace wash motor",
+      "body": "Replace variable-speed wash motor if winding failed (F7E2).",
+      "oemOutcome": "Replace variable-speed wash motor if winding failed (F7E2).",
+      "requiresInput": false
+    },
+    {
+      "id": "wash_vsm_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "VSM wash motor verified",
+      "body": "VSM wash motor verified. No AC bench run test \u2014 motor uses DC drive from control.",
+      "oemOutcome": "VSM wash motor verified. No AC bench run test \u2014 motor uses DC drive from control.",
+      "requiresInput": false
+    }
+  ]
+}

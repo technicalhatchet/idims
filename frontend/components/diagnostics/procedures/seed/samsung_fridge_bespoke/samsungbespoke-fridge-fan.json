@@ -1,0 +1,158 @@
+{
+  "id": "samsungbespoke-fridge-fan",
+  "version": "1.0.0",
+  "title": "Fridge compartment fan",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "evap_fan",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Fridge fan error",
+    "pages": [
+      89,
+      120
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "rfan_cmd"
+    },
+    {
+      "id": "rfan_cmd",
+      "order": 2,
+      "type": "instruction",
+      "title": "Command fridge fan",
+      "body": "Use Test Mode or Load Condition display to verify fridge fan command.",
+      "sourceExcerpt": "Use Test Mode or Load Condition display to verify fridge fan command.",
+      "requiresInput": false,
+      "defaultNextStepId": "rfan_fb"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "rfan_fb"
+    },
+    {
+      "id": "rfan_fb",
+      "order": 4,
+      "type": "measurement",
+      "title": "Fridge fan feedback",
+      "body": "MAIN PCB CN20 15\u219417 \u2014 7\u201312 V while commanded.",
+      "sourceExcerpt": "MAIN PCB CN20 15\u219417 \u2014 7\u201312 V while commanded.",
+      "measurementKnowledgeId": "samsungBespokeFridgeEvapFanFeedbackVoltage",
+      "testPoint": {
+        "connector": "CN20",
+        "pins": "15 \u2194 17",
+        "label": "Fridge fan feedback"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rfan_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rfan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "rfan_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rfan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_evap_fan_voltage_low",
+              "componentId": "evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "rfan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rfan_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_rfan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace fridge fan",
+      "oemOutcome": "Replace fridge evaporator fan or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "rfan_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fridge fan OK",
+      "oemOutcome": "Feedback in range.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbespoke-self-diagnosis-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "rfan_cmd",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf23bb-digital",
+      "modeKind": "load_test",
+      "attachAfterStepId": "rfan_cmd",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-test-mode-rf32cg-buttons",
+      "modeKind": "load_test",
+      "attachAfterStepId": "rfan_cmd",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungbespoke-fhub-engineer-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "rfan_cmd",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

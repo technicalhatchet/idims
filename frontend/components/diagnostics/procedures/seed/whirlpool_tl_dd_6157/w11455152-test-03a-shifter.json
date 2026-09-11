@@ -1,0 +1,441 @@
+{
+  "id": "w11455152-test-03a-shifter",
+  "version": "1.0.0",
+  "title": "TEST #3a: Drive System \u2014 Shifter",
+  "platformId": "whirlpool_tl_dd_6157",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "shifter_check",
+    "F7E3",
+    "F7E4",
+    "agitate_issue",
+    "spin_issue"
+  ],
+  "source": {
+    "manualId": "W11455152",
+    "manualTitle": "Whirlpool 5.3 cu ft Top Load Washer (WTW6157, W11455152A)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11455152-reva wtw6157-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3a",
+    "oemTestTitle": "Drive System - Shifter",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "shifter_service_test"
+    },
+    {
+      "id": "shifter_service_test",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Spin and Wash in Component Activation",
+      "body": "Lid closed and locked. Run Spin and Wash tests. Did shifter engage for both?",
+      "sourceExcerpt": "Lid closed and locked. Run Spin and Wash tests. Did shifter engage for both?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "st_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_shifter_free",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "st_ok",
+          "label": "Both pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_shifter_free",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Motor and shifter turn independently",
+      "body": "Power off. Motor and shifter should turn independently. If locked together, shifter slider issue.",
+      "sourceExcerpt": "Power off. Motor and shifter should turn independently. If locked together, shifter slider issue.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "free_yes",
+          "label": "Turn freely / independently",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j2_j6"
+        },
+        {
+          "id": "free_no",
+          "label": "Locked together or bound",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_shifter",
+          "terminal": true,
+          "oemOutcome": "Replace shifter assembly \u2014 slider binds or motor/shifter locked.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j2_j6",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J2 and J6 fully seated",
+      "body": "Verify J2 and J6 inserted fully at ACU.",
+      "sourceExcerpt": "Verify J2 and J6 inserted fully at ACU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_ohms"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Connector loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_connectors",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_connectors",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J2/J6 and retest",
+      "body": "Reconnect connectors and repeat Component Activation Spin/Wash.",
+      "sourceExcerpt": "Reconnect connectors and repeat Component Activation Spin/Wash.",
+      "requiresInput": false,
+      "defaultNextStepId": "shifter_service_test"
+    },
+    {
+      "id": "shifter_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Shifter coil resistance J6-2 to J6-6",
+      "body": "Remove J6. Expect 2\u20133.5 k\u03a9 (2000\u20133500 \u03a9) across shifter coil.",
+      "sourceExcerpt": "Remove J6. Expect 2\u20133.5 k\u03a9 (2000\u20133500 \u03a9) across shifter coil.",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherShifterOhms",
+      "testPoint": {
+        "connector": "J6",
+        "pins": "2 & 6",
+        "label": "Shifter coil resistance J6-2 to J6-6",
+        "pinDetails": [
+          {
+            "pin": "2",
+            "signal": "Shifter",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "6",
+            "signal": "Neutral",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "shifter_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "shifter_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "shifter_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "shifter_pass",
+          "label": "2\u20133.5 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "shifter_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11455152-acu-pinout",
+          "caption": "Main control (Figure 7) & PSC bottom view (Figure 8)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_6157/w11455152-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "shifter_voltage",
+      "order": 7,
+      "type": "visual_check",
+      "title": "120 VAC at shifter when commanded",
+      "body": "Restore power. AC volts J6-2 to J6-6. Toggle shifter ON/OFF in Component Activation (motor stopped). Expect 120 VAC.",
+      "sourceExcerpt": "Restore power. AC volts J6-2 to J6-6. Toggle shifter ON/OFF in Component Activation (motor stopped). Expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vac_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_switch_vdc"
+        },
+        {
+          "id": "vac_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_continuity",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shifter_switch_vdc",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Shifter status voltage J2-1",
+      "body": "DC volts: black J2-2 (Gnd), red J2-1. Toggle Spin/Agitate \u2014 SPIN = +5 VDC, AGITATE = 0 VDC.",
+      "sourceExcerpt": "DC volts: black J2-2 (Gnd), red J2-1. Toggle Spin/Agitate \u2014 SPIN = +5 VDC, AGITATE = 0 VDC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "Voltage toggles correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tach_power"
+        },
+        {
+          "id": "sw_bad",
+          "label": "Voltage does not switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_continuity",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tach_power",
+      "order": 9,
+      "type": "visual_check",
+      "title": "+12 VDC tach power J2-3",
+      "body": "DC volts: black J2-2, red J2-3. Expect +12 VDC. Then verify tach in Sensor Feedback.",
+      "sourceExcerpt": "DC volts: black J2-2, red J2-3. Expect +12 VDC. Then verify tach in Sensor Feedback.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tach_ok",
+          "label": "+12 VDC present; tach verified",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_shifter",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "tach_bad",
+          "label": "Missing tach power or feedback",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_continuity",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "harness_continuity",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Shifter harness continuity",
+      "body": "Power off. Tilt washer. Continuity shifter pins to J2/J6 per OEM chart?",
+      "sourceExcerpt": "Power off. Tilt washer. Continuity shifter pins to J2/J6 per OEM chart?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_shifter"
+        },
+        {
+          "id": "harness_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness",
+          "terminal": true,
+          "oemOutcome": "Replace lower washer harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "shifter_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Shifter verified",
+      "oemOutcome": "Spin and Wash Component Activation tests pass.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore harness continuity and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_shifter",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace shifter assembly",
+      "oemOutcome": "Replace shifter. Calibrate and run Automatic Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_shifter",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Shifter/mechanical OK but ACU does not drive shifter \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11455152-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "shifter_service_test"
+    }
+  ]
+}

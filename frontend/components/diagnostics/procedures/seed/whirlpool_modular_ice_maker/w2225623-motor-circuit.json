@@ -1,0 +1,194 @@
+{
+  "id": "w2225623-motor-circuit",
+  "version": "1.0.0",
+  "title": "Ejector motor (L\u2013M) \u2014 8800 \u03a9",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IME2",
+    "E2",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "L\u2013M",
+    "oemTestTitle": "Ejector motor resistance and voltage",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_setup"
+    },
+    {
+      "id": "motor_setup",
+      "order": 2,
+      "type": "instruction",
+      "title": "Prepare for L\u2013M ohms",
+      "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Disconnect motor from support; blades in park; power off.",
+      "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Disconnect motor from support; blades in park; power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Motor winding resistance (L\u2013M)",
+      "body": "1.5 W motor = 8800 \u03a9 at L\u2013M with motor disconnected from support.",
+      "sourceExcerpt": "1.5 W motor = 8800 \u03a9 at L\u2013M with motor disconnected from support.",
+      "measurementKnowledgeId": "whirlpoolModularIceMakerMotorOhms",
+      "testPoint": {
+        "connector": "module",
+        "pins": "L \u2194 M",
+        "label": "Motor winding resistance (L\u2013M)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_motor_open"
+            }
+          ]
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_motor_open"
+            }
+          ]
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_motor_open"
+            }
+          ]
+        },
+        {
+          "id": "lm_pass",
+          "label": "8800 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_live"
+        }
+      ]
+    },
+    {
+      "id": "motor_live",
+      "order": 4,
+      "type": "instruction",
+      "title": "Live motor voltage (L\u2013M)",
+      "body": "Restore power and initiate cycle electrically. L\u2013M line voltage = motor ON; 0 V = OFF.",
+      "sourceExcerpt": "Restore power and initiate cycle electrically. L\u2013M line voltage = motor ON; 0 V = OFF.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_voltage"
+    },
+    {
+      "id": "motor_voltage",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Motor energizes during cycle?",
+      "body": "During eject phase, does L\u2013M show line voltage and blades rotate?",
+      "sourceExcerpt": "During eject phase, does L\u2013M show line voltage and blades rotate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok"
+        },
+        {
+          "id": "motor_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_cam_out",
+          "terminal": true,
+          "oemOutcome": "Motor ohms OK but no rotation \u2014 cam coupling or module control (IME2/E2).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker module",
+      "oemOutcome": "Open or out-of-spec L\u2013M motor \u2014 replace module (IME2/E2 motor home not found).",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_cam_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Check cam coupling",
+      "oemOutcome": "Verify \"D\" coupling alignment; replace module if cam damaged.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Motor circuit verified",
+      "oemOutcome": "L\u2013M 8800 \u03a9 and eject motor voltage verified.",
+      "requiresInput": false
+    }
+  ]
+}

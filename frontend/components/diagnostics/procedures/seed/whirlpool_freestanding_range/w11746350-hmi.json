@@ -1,0 +1,150 @@
+{
+  "id": "w11746350-hmi",
+  "version": "1.0.0",
+  "title": "HMI / Touch Interface",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "F2E2",
+    "F2E4"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "HMI",
+    "oemTestTitle": "Front Console & HMI",
+    "pages": [
+      26,
+      31,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_hmi_harness"
+    },
+    {
+      "id": "inspect_hmi_harness",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inspect HMI connections",
+      "body": "Power off. Inspect connections between HMI assembly and ACU. Reseat if loose.",
+      "sourceExcerpt": "Power off. Inspect connections between HMI assembly and ACU. Reseat if loose.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi_ok",
+          "label": "Harness OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_power_check"
+        },
+        {
+          "id": "hmi_bad",
+          "label": "Loose or damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hmi_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_hmi_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair HMI harness",
+      "body": "Repair harness, restore power, allow 60 sec for ACU to identify HMI.",
+      "sourceExcerpt": "Repair harness, restore power, allow 60 sec for ACU to identify HMI.",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_hmi_harness"
+    },
+    {
+      "id": "hmi_power_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "HMI 12 VDC at ACU P3",
+      "body": "With connectors attached and power on, verify 12 VDC at ACU pin outs P3-1 to P3-2 per component chart.",
+      "sourceExcerpt": "With connectors attached and power on, verify 12 VDC at ACU pin outs P3-1 to P3-2 per component chart.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "12v_ok",
+          "label": "12 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "12v_bad",
+          "label": "No 12 VDC",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hmi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_hmi",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace HMI assembly",
+      "oemOutcome": "F2E1/F2E2/F2E4 persists after harness OK \u2014 replace HMI.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "HMI verified",
+      "oemOutcome": "HMI power and connections verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "inspect_hmi_harness"
+    }
+  ]
+}

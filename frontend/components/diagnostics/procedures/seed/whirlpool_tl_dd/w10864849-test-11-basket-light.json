@@ -1,0 +1,291 @@
+{
+  "id": "w10864849-test-11-basket-light",
+  "version": "1.0.0",
+  "title": "TEST #11: Basket Light",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "basket_light",
+    "drum_light_check"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "11",
+    "oemTestTitle": "Basket Light",
+    "pages": [
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "lid_open_light"
+    },
+    {
+      "id": "lid_open_light",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Basket light with lid open",
+      "body": "Power on. Open lid \u2014 Whirlpool: non-Power indicators off; Maytag: basket light on. Service Test toggle basket light (fn 016).",
+      "sourceExcerpt": "Power on. Open lid \u2014 Whirlpool: non-Power indicators off; Maytag: basket light on. Service Test toggle basket light (fn 016).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bl_fail",
+          "label": "Light does not toggle",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_j19",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        },
+        {
+          "id": "bl_ok",
+          "label": "Light operates",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "basket_light_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j19",
+      "order": 3,
+      "type": "visual_check",
+      "title": "J19 seated at ACU",
+      "body": "Power off. Basket light J19 secure at ACU?",
+      "sourceExcerpt": "Power off. Basket light J19 secure at ACU?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j19_ok",
+          "label": "J19 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j19_voltage"
+        },
+        {
+          "id": "j19_bad",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_j19",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "j19_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Basket light voltage J19",
+      "body": "Disconnect J19. Restore power. DC volts J19-1 (+) to J19-2 (\u2212): ~0.13 V lid closed; 2.8\u20135.0 V lid open.",
+      "sourceExcerpt": "Disconnect J19. Restore power. DC volts J19-1 (+) to J19-2 (\u2212): ~0.13 V lid closed; 2.8\u20135.0 V lid open.",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherBasketLightVdc",
+      "testPoint": {
+        "connector": "J19",
+        "pins": "1 & 2",
+        "label": "Basket light voltage J19",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "LED +",
+            "wireColor": "R",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "LED \u2212",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v_ok_light",
+          "label": "Voltage correct both states",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_basket_light",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "v_bad_acu",
+          "label": "Voltage wrong",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w10864849-basket-light-strip",
+          "caption": "Basket light strip circuit (TEST #11)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-basket-light-strip.png"
+        },
+        {
+          "id": "w10864849-acu-pinout-figure1",
+          "caption": "Main control connectors & pinouts (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-acu-pinout-figure1.png"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_j19_power",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect J19 for Service Test",
+      "body": "Power off. Reconnect J19. Restore power.",
+      "sourceExcerpt": "Power off. Reconnect J19. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_basket_light"
+    },
+    {
+      "id": "service_mode_before_test",
+      "type": "instruction",
+      "title": "Continue to Service Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Service Test Mode load/function commands.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Service Test Mode (2nd entry button).",
+      "requiresInput": false,
+      "order": 6
+    },
+    {
+      "id": "live_test_basket_light",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Basket light toggles in Service Test Mode",
+      "body": "Function 016 Toggle Basket Light. Does light turn on and off?",
+      "sourceExcerpt": "Function 016 Toggle Basket Light. Does light turn on and off?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bl_live_ok",
+          "label": "Toggles",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "basket_light_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "bl_live_no",
+          "label": "No toggle",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_basket_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_j19",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair J19 harness",
+      "oemOutcome": "Repair or replace basket light harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_basket_light",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace basket light",
+      "oemOutcome": "ACU voltage correct \u2014 replace basket light assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_light",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "J19 voltage incorrect \u2014 replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "basket_light_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Basket light verified",
+      "oemOutcome": "Basket light and J19 drive verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_j19_power",
+      "continueToStepId": "service_mode_before_test"
+    },
+    {
+      "bundleId": "w10864849-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_test",
+      "continueToStepId": "live_test_basket_light"
+    }
+  ]
+}

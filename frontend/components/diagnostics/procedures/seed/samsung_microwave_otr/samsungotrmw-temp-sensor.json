@@ -1,0 +1,135 @@
+{
+  "id": "samsungotrmw-temp-sensor",
+  "version": "1.0.0",
+  "title": "C-20: Temperature Sensor Error",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "thermal_cutout"
+  ],
+  "tags": [
+    "C-20",
+    "thermistor_check",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "C-20",
+    "oemTestTitle": "Temp sensor harness and substrate",
+    "pages": [
+      34,
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "c20_display"
+    },
+    {
+      "id": "c20_display",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Display shows C-20?",
+      "body": "Temp sensor error \u2014 check sensor unit and connection between sensor terminal and substrate.",
+      "sourceExcerpt": "C-20 Temp Sensor Error \u2014 short circuit is black wire.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inspect_sensor_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_sensor"
+        },
+        {
+          "id": "inspect_sensor_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "retest_after_cool",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "thermal_cutout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_sensor",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Sensor harness and connector OK?",
+      "body": "Inspect temp sensor unit, connector, and substrate connection. Black wire indicates short.",
+      "sourceExcerpt": "Inspect temp sensor unit, connector, and substrate connection. Black wire indicates short.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_temp_sensor_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_temp_sensor"
+        },
+        {
+          "id": "replace_temp_sensor_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_temp",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "thermal_cutout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness_temp",
+      "order": 4,
+      "type": "instruction",
+      "title": "Repair temp sensor harness",
+      "body": "Repair harness or connector and retest.",
+      "sourceExcerpt": "Repair harness or connector and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_sensor"
+    },
+    {
+      "id": "replace_temp_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace temp sensor or PCB",
+      "body": "Replace temperature sensor or main PCB.",
+      "oemOutcome": "Replace temperature sensor or main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "retest_after_cool",
+      "order": 6,
+      "type": "instruction",
+      "title": "Cool down and retest",
+      "body": "For C-21 abnormal temp \u2014 allow unit to cool and re-operate.",
+      "sourceExcerpt": "For C-21 abnormal temp \u2014 allow unit to cool and re-operate.",
+      "requiresInput": false,
+      "defaultNextStepId": "c20_display"
+    }
+  ]
+}

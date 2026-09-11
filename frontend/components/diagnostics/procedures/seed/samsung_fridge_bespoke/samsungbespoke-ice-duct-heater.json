@@ -1,0 +1,138 @@
+{
+  "id": "samsungbespoke-ice-duct-heater",
+  "version": "1.0.0",
+  "title": "Fridge ice duct heater (63 \u03a9)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "ice_pipe_heater"
+  ],
+  "tags": [
+    "ice_duct_heater",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF32CG-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF32CG/RF31CG/RF26CG",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf32cg-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2-2",
+    "oemTestTitle": "Fridge ice duct heater",
+    "pages": [
+      100,
+      101
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "duct_off"
+    },
+    {
+      "id": "duct_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect CN90",
+      "body": "Power off. CN90 1\u21945.",
+      "sourceExcerpt": "Power off. CN90 1\u21945.",
+      "requiresInput": false,
+      "defaultNextStepId": "duct_ohms"
+    },
+    {
+      "id": "duct_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ice duct heater 63 \u03a9",
+      "body": "63(230) \u03a9 \u00b17%.",
+      "sourceExcerpt": "63(230) \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungBespokeFridgeIceDuctHeaterOhms63",
+      "testPoint": {
+        "connector": "CN90",
+        "pins": "1 \u2194 5",
+        "label": "Ice duct heater 63 \u03a9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "duct_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "duct_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "duct_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_duct",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open",
+              "componentId": "ice_pipe_heater"
+            }
+          ]
+        },
+        {
+          "id": "duct_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "duct_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_duct",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice duct heater",
+      "oemOutcome": "Replace fridge ice duct heater.",
+      "requiresInput": false
+    },
+    {
+      "id": "duct_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice duct heater OK",
+      "oemOutcome": "Resistance in range.",
+      "requiresInput": false
+    }
+  ]
+}

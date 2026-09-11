@@ -1,0 +1,204 @@
+[
+  {
+    "id": "whirlpoolMvw6200WasherInletValveOhms",
+    "name": "Whirlpool MVW6200 Inlet Valve Coil Resistance (J8)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 890, "max": 1090 },
+      "warning": { "min": 840, "max": 1140 },
+      "critical": { "below": 50, "above": 1500 }
+    },
+    "typical": { "min": 950, "max": 1050 },
+    "openCircuitCritical": true,
+    "purpose": "Solenoid coils on J8 valve harness — common J8-1 (AGND) to valve pin.",
+    "failureModes": [
+      "Open coil — no fill on that leg (F8E1 / LF)",
+      "Tens of ohms outside range — replace valve assembly"
+    ],
+    "testingTips": [
+      "W11416395 TEST #2 — Fabric Softener J8-1&6, Hot J8-1&5, Cold J8-1&3",
+      "Live valve test via Service Test Mode water valve sequence"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherMotorWindingOhms",
+    "name": "Whirlpool MVW6200 PSC Motor Winding Resistance (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5, "max": 9.5 },
+      "warning": { "min": 4, "max": 11 },
+      "critical": { "below": 2, "above": 15 }
+    },
+    "typical": { "min": 6, "max": 8.5 },
+    "openCircuitCritical": true,
+    "purpose": "PSC motor windings at ACU J6 — CW J6-4↔6 and CCW J6-1↔6.",
+    "failureModes": [
+      "Open winding — F7E6 motor circuit open",
+      "Good ohms but hum/no start — check run capacitor"
+    ],
+    "testingTips": [
+      "W11416395 TEST #3b — also measure at motor connector pins 3&2 (CW) and 4&2 (CCW)",
+      "Verify basket turns freely before condemning motor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "agitate_issue"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherShifterOhms",
+    "name": "Whirlpool MVW6200 Shifter Coil Resistance (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000, "max": 3500 },
+      "warning": { "min": 1800, "max": 3800 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2400, "max": 3200 },
+    "openCircuitCritical": true,
+    "purpose": "Shifter motor coil at J6-2 and J6-6.",
+    "failureModes": [
+      "Open — F7E3 basket engaged during wash",
+      "Slider bind — mechanical before electrical"
+    ],
+    "testingTips": [
+      "Verify splutch cam moves freely before ohms",
+      "Lid must be closed for shifter service test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["shifter_check", "agitate_issue", "spin_issue"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherDrainPumpOhms",
+    "name": "Whirlpool MVW6200 Drain Pump Resistance (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 17.8, "max": 21.8 },
+      "warning": { "min": 15, "max": 25 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 18.5, "max": 21 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump winding at J6-3 (DRAIN_PUMP) and J6-6 (NEUTRAL).",
+    "failureModes": [
+      "Open — F9E1 / dr long drain",
+      "Good ohms but no run — ACU relay or obstruction"
+    ],
+    "testingTips": [
+      "W11416395 TEST #7 — verify at pump terminals after harness check",
+      "Drain tub before accessing pump"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherLidLockSolenoidOhms",
+    "name": "Whirlpool MVW6200 Lid Lock Solenoid Resistance (J4)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 160 },
+      "warning": { "min": 40, "max": 180 },
+      "critical": { "below": 10, "above": 250 }
+    },
+    "typical": { "min": 80, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Lid lock solenoid at J4-2 and J4-3.",
+    "failureModes": [
+      "Open solenoid — F5E3 unlock / lock failures",
+      "Switch state mismatch — replace lid lock mechanism"
+    ],
+    "testingTips": [
+      "W11416395 TEST #8 — also verify lock switch J4-1↔2 and lid switch J4-2↔1",
+      "Run Lid Lock test in Service Load Control before bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["door_lock_check", "lid_lock"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherInletThermistorOhms",
+    "name": "Whirlpool MVW6200 Inlet Thermistor Resistance (J8)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10000, "max": 100000 },
+      "warning": { "min": 5000, "max": 170000 },
+      "critical": { "below": 500, "above": 200000 }
+    },
+    "typical": { "min": 45000, "max": 55000 },
+    "openCircuitCritical": true,
+    "purpose": "Inlet water thermistor at J8-8 (NTC 1) and J8-9 (AGND). ~50 kΩ at 77°F (25°C) per OEM table.",
+    "failureModes": [
+      "Open or short — F3E3 inlet water temperature fault",
+      "Out of range — replace valve assembly (thermistor integral)"
+    ],
+    "testingTips": [
+      "Compare to OEM R/T table in TEST #5",
+      "Use Sensor Feedback Inlet Thermistor test before bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["thermistor_check", "temp_fault"]
+  },
+  {
+    "id": "whirlpoolMvw6200WasherAcu12Vdc",
+    "name": "Whirlpool MVW6200 ACU +12 VDC Supply (J5)",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 11, "max": 13 },
+      "warning": { "min": 10, "max": 14 },
+      "critical": { "below": 9, "above": 15 }
+    },
+    "typical": { "min": 11.5, "max": 12.5 },
+    "purpose": "+12 VDC at J5-1 vs J5-4 (Circuit Gnd) with J5 disconnected from HMI load check.",
+    "failureModes": [
+      "Missing +12 VDC — ACU fault (F1E1)",
+      "+12 VDC present but LED not flashing — ACU micro failure"
+    ],
+    "testingTips": [
+      "W11416395 TEST #1 — remove J5 to isolate HMI load on DC supply",
+      "Diagnostic LED flashing = +5 VDC present and micro operating (per manual)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_mvw6200"
+    },
+    "dmaTags": ["voltage_check", "supply_issue"]
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "id": "samsungwd53-overflow",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Overflow (OC)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "water_level_sensor",
+    "inlet_valve"
+  ],
+  "tags": [
+    "OC",
+    "overflow"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Overflow Error OC",
+    "pages": [
+      49,
+      57
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "oc_valve"
+    },
+    {
+      "id": "oc_valve",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Continuous fill check",
+      "body": "Check for stuck inlet valve or frozen supply causing continuous water.",
+      "sourceExcerpt": "Check for stuck inlet valve or frozen supply causing continuous water.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_hose"
+        },
+        {
+          "id": "service_valve",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve or clear obstruction."
+        }
+      ]
+    },
+    {
+      "id": "oc_hose",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Level sensor hose",
+      "body": "Inspect hose \u2014 torn, hole, or frozen. Defrost if winter.",
+      "sourceExcerpt": "Inspect hose \u2014 torn, hole, or frozen. Defrost if winter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_intact",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_verified"
+        },
+        {
+          "id": "repair_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair hose or replace level sensor."
+        }
+      ]
+    },
+    {
+      "id": "service_valve_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Service inlet valve",
+      "oemOutcome": "Clear foreign material or replace stuck valve.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_hose_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Repair hose",
+      "oemOutcome": "Correct hose damage or freezing.",
+      "requiresInput": false
+    },
+    {
+      "id": "oc_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Overflow resolved",
+      "oemOutcome": "OC path addressed.",
+      "requiresInput": false
+    }
+  ]
+}

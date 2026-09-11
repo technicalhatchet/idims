@@ -1,0 +1,36 @@
+{
+  "id": "samsungdv6000-error-recall",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "title": "Samsung DV6000 dryer \u2014 Error Recall",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Display last detected error on DVE(G)45T6200/6000/6005 models.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "er_entry",
+  "source": {
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "pages": [
+      23
+    ]
+  },
+  "steps": [
+    {
+      "id": "er_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Error Recall mode",
+      "body": "Press and hold Dryness + Wrinkle Prevent for 8 seconds. Last error code displays; nothing shown if no error stored.",
+      "sourceExcerpt": "Press and hold Dryness + Wrinkle Prevent for 8 seconds. Last error code displays; nothing shown if no error stored.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

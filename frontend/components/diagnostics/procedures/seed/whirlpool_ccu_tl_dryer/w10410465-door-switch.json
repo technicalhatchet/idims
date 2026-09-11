@@ -1,0 +1,119 @@
+{
+  "id": "w10410465-door-switch",
+  "version": "1.0.0",
+  "title": "TEST #7: Door Switch",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Door Switch",
+    "pages": [
+      20
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_diag"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Diagnostics Home or Component Activation as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "door_diag"
+    },
+    {
+      "id": "door_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Door status in service mode",
+      "body": "Component Activation \u2192 Door Switch \u2014 status changes when door opens/closes.",
+      "sourceExcerpt": "Component Activation \u2192 Door Switch \u2014 status changes when door opens/closes.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_bench"
+    },
+    {
+      "id": "door_bench",
+      "order": 4,
+      "type": "visual_check",
+      "title": "P8-3 to P8-4 bench check",
+      "body": "Power off. Door closed: 0\u20132 \u03a9 across P8-3 and P8-4.",
+      "sourceExcerpt": "Power off. Door closed: 0\u20132 \u03a9 across P8-3 and P8-4.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "door_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch; retest Quick Diagnostic.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Door switch diagnostic and bench checks pass.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10410465-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

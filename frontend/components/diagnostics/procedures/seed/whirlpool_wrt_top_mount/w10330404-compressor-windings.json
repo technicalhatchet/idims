@@ -1,0 +1,122 @@
+{
+  "id": "w10330404-compressor-windings",
+  "version": "1.0.0",
+  "title": "\u00a75-6: Compressor winding identification",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "compressor"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_wont_start",
+    "OL"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-6",
+    "oemTestTitle": "Identifying Compressor Windings",
+    "pages": [
+      60,
+      61
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_comp"
+    },
+    {
+      "id": "disconnect_comp",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect compressor terminals",
+      "body": "Disconnect power. Remove start module and disconnect compressor wires.",
+      "sourceExcerpt": "Disconnect power. Remove start module and disconnect compressor wires.",
+      "requiresInput": false,
+      "defaultNextStepId": "find_common"
+    },
+    {
+      "id": "find_common",
+      "order": 3,
+      "type": "instruction",
+      "title": "Identify common terminal",
+      "body": "Ohm all three terminal pairs. Highest reading = start + run in series; remaining terminal is common (C).",
+      "sourceExcerpt": "Ohm all three terminal pairs. Highest reading = start + run in series; remaining terminal is common (C).",
+      "requiresInput": false,
+      "defaultNextStepId": "identify_run_start"
+    },
+    {
+      "id": "identify_run_start",
+      "order": 4,
+      "type": "instruction",
+      "title": "Identify run and start windings",
+      "body": "Meter on common: lower of the two remaining readings = run (R); other = start (S).",
+      "sourceExcerpt": "Meter on common: lower of the two remaining readings = run (R); other = start (S).",
+      "requiresInput": false,
+      "defaultNextStepId": "ground_check"
+    },
+    {
+      "id": "ground_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Winding-to-ground check",
+      "body": "Each terminal to ground/chassis must read infinity \u2014 any low reading indicates internal short.",
+      "sourceExcerpt": "Each terminal to ground/chassis must read infinity \u2014 any low reading indicates internal short.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ground_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "windings_ok"
+        },
+        {
+          "id": "ground_short",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": "Replace compressor \u2014 winding shorted to ground.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_compressor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace compressor",
+      "oemOutcome": "Replace compressor when windings shorted to ground or locked rotor confirmed.",
+      "requiresInput": false
+    },
+    {
+      "id": "windings_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Windings isolated",
+      "oemOutcome": "Compressor windings identified and not shorted to ground \u2014 check PTC, overload, and sealed system if still won't run.",
+      "requiresInput": false
+    }
+  ]
+}

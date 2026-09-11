@@ -1,0 +1,138 @@
+{
+  "id": "samsungbespoke-ice-room-heater",
+  "version": "1.0.0",
+  "title": "Ice room heater (135 \u03a9)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "ice_room_heater",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF32CG-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF32CG/RF31CG/RF26CG",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf32cg-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2-2",
+    "oemTestTitle": "Fridge ice room heater",
+    "pages": [
+      100,
+      101
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "irh_off"
+    },
+    {
+      "id": "irh_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect CN60",
+      "body": "Power off. CN60 21\u219423.",
+      "sourceExcerpt": "Power off. CN60 21\u219423.",
+      "requiresInput": false,
+      "defaultNextStepId": "irh_ohms"
+    },
+    {
+      "id": "irh_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ice room heater 135 \u03a9",
+      "body": "135 \u03a9 \u00b17%.",
+      "sourceExcerpt": "135 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungBespokeFridgeDamperHeaterOhms135",
+      "testPoint": {
+        "connector": "CN60",
+        "pins": "21 \u2194 23",
+        "label": "Ice room heater 135 \u03a9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "irh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "irh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "irh_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_irh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "irh_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "irh_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_irh",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice room heater",
+      "oemOutcome": "Replace ice room heater.",
+      "requiresInput": false
+    },
+    {
+      "id": "irh_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice room heater OK",
+      "oemOutcome": "135 \u03a9 in range.",
+      "requiresInput": false
+    }
+  ]
+}

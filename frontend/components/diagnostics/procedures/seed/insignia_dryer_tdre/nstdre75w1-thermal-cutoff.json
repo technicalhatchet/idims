@@ -1,0 +1,101 @@
+{
+  "id": "nstdre75w1-thermal-cutoff",
+  "version": "1.0.0",
+  "title": "Thermal cut-off \u2014 continuity",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "thermal_fuse_check"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "thermal-cutoff",
+    "oemTestTitle": "Thermostat thermal cut-off",
+    "pages": [
+      29,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_thermal_cutoff"
+    },
+    {
+      "id": "access_thermal_cutoff",
+      "order": 2,
+      "type": "instruction",
+      "title": "Locate thermal cut-off",
+      "body": "Thermal cut-off in exhaust/heat path. Electric: 212/176\u00b0F 25A. Gas: 347\u00b0F 25A. Power off.",
+      "sourceExcerpt": "Thermal cut-off in exhaust/heat path. Electric: 212/176\u00b0F 25A. Gas: 347\u00b0F 25A. Power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "tcutoff_continuity"
+    },
+    {
+      "id": "tcutoff_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Thermal cut-off < 1 \u03a9",
+      "body": "Ohmmeter across thermal cut-off terminals. Infinity = open fuse \u2014 replace.",
+      "sourceExcerpt": "Thermostat Thermal cut-off resistance < 1\u03a9. If infinity, replace.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tcutoff_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tcutoff_verified"
+        },
+        {
+          "id": "tcutoff_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_tcutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermostat thermal cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutoff",
+              "evidenceId": "confirm_thermal_cutoff_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_tcutoff",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace thermal cut-off",
+      "oemOutcome": "Replace thermal cut-off; verify unrestricted vent.",
+      "requiresInput": false
+    },
+    {
+      "id": "tcutoff_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermal cut-off OK",
+      "oemOutcome": "Continuity < 1 \u03a9.",
+      "requiresInput": false
+    }
+  ]
+}

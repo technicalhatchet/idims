@@ -1,0 +1,46 @@
+{
+  "id": "ldt7808-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "lg_dishwasher_ldt7808",
+  "manualId": "LG-LDT7808-DISHWASHER",
+  "title": "LDT7808 \u2014 Test Mode entry (\u00a73-3)",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter test mode: Power+Start once, then press Start 1\u20137 to load components.",
+  "tags": [
+    "service_diagnostic",
+    "live_test"
+  ],
+  "entryStepId": "prep_power",
+  "source": {
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "pages": [
+      16
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_power",
+      "order": 1,
+      "type": "instruction",
+      "title": "Power on",
+      "body": "Press Power to turn dishwasher on.",
+      "sourceExcerpt": "3-3 TEST MODE \u2014 POWER + START",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_test_mode"
+    },
+    {
+      "id": "enter_test_mode",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press Power + Start once (version display n35/U00/D00). Then press Start repeatedly to step through loads: 1=Sump temp/dispenser, 2=Drying fan, 3=Soil sensor, 4=Drain motor RPM, 5=Inlet valve frequency, 6=Wash motor RPM, 7=Heater + Vario valve. Start \u00d78 powers off. Door must be closed for most steps.",
+      "sourceExcerpt": "Press POWER + START; press Start 1\u20137 for component loads.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

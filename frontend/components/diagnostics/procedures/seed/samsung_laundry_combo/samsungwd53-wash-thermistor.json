@@ -1,0 +1,145 @@
+{
+  "id": "samsungwd53-wash-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Wash temperature sensor (TC1)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "TC1",
+    "thermistor"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Temperature Sensor Error TC1",
+    "pages": [
+      49,
+      57
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "tc1_connector"
+    },
+    {
+      "id": "tc1_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Check thermistor connector",
+      "body": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter.",
+      "sourceExcerpt": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter.",
+      "requiresInput": false,
+      "defaultNextStepId": "tc1_ohms"
+    },
+    {
+      "id": "tc1_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Wash thermistor resistance",
+      "body": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp.",
+      "sourceExcerpt": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp.",
+      "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+      "testPoint": {
+        "connector": "Thermistor",
+        "pins": "Connector",
+        "label": "Wash thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tc1_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "tc1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "tc1_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "tc1_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tc1_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok",
+              "componentId": "wash_ntc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_tc1_ntc",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace washing temperature sensor when faulty.",
+      "requiresInput": false
+    },
+    {
+      "id": "tc1_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermistor OK",
+      "oemOutcome": "TC1 path verified.",
+      "requiresInput": false
+    }
+  ]
+}

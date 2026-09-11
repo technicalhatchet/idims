@@ -1,0 +1,37 @@
+{
+  "id": "w11819775-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "manualId": "W11819775",
+  "title": "W11819775 \u2014 Service Diagnostic Mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter service diagnostics for thermistor, fan, compressor, defrost, and damper tests.",
+  "tags": [
+    "service_test",
+    "service_diagnostic",
+    "control_board"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "pages": [
+      56
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic Mode",
+      "body": "Side UI unlocked and awake. Press Refrigerator, Freezer, Mode \u2014 three times (1-2-3 pattern). Navigate with \u25b2/\u25bc; Freezer = enter/back. Exit: test 00, hold Refrigerator+Freezer 5 sec, or power cycle.",
+      "sourceExcerpt": "Side UI unlocked and awake. Press Refrigerator, Freezer, Mode \u2014 three times (1-2-3 pattern). Navigate with \u25b2/\u25bc; Freezer = enter/back. Exit: test 00, hold Refrigerator+Freezer 5 sec, or power cycle.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

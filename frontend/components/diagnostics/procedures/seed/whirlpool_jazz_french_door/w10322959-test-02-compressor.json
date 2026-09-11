@@ -1,0 +1,301 @@
+{
+  "id": "w10322959-test-02-compressor",
+  "version": "1.0.0",
+  "title": "Service Test 2: Compressor & condenser fan",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "compressor",
+    "condenser_fan"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "condenser_fan",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2",
+    "oemTestTitle": "Compressor/Condenser Fan Test",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_2"
+    },
+    {
+      "id": "service_mode_after_se_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+      "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_2"
+    },
+    {
+      "id": "select_test_2",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 2",
+      "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 2. Refrigerator display blank until test is activated.",
+      "sourceExcerpt": "Service Test 2 \u2014 Compressor/condenser fan",
+      "requiresInput": false,
+      "defaultNextStepId": "activate_comp_test"
+    },
+    {
+      "id": "activate_comp_test",
+      "order": 4,
+      "type": "instruction",
+      "title": "Activate test 2",
+      "body": "Press Refrigerator UP to toggle compressor/condenser fan ON (O) or OFF (F). Freezer displays 2.",
+      "sourceExcerpt": "Press Refrigerator UP to toggle compressor/condenser fan ON (O) or OFF (F). Freezer displays 2.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_runs"
+    },
+    {
+      "id": "comp_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Compressor and condenser fan run",
+      "body": "With test activated ON (refrigerator O), do compressor and condenser fan operate normally?",
+      "sourceExcerpt": "With test activated ON (refrigerator O), do compressor and condenser fan operate normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_2"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deactivate_test_2",
+      "order": 6,
+      "type": "instruction",
+      "title": "Deactivate test 2",
+      "body": "Toggle to OFF (F) before selecting another test.",
+      "sourceExcerpt": "Toggle to OFF (F) before selecting another test.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_verified"
+    },
+    {
+      "id": "bench_compressor",
+      "order": 7,
+      "type": "instruction",
+      "title": "Disconnect power for compressor ohms",
+      "body": "Unplug unit. Access compressor terminals and relay/capacitor.",
+      "sourceExcerpt": "Unplug unit. Access compressor terminals and relay/capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_winding_ohms"
+    },
+    {
+      "id": "run_winding_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Compressor run winding (EM2Y60)",
+      "body": "Run winding 4.75 \u03a9 \u00b18% between run and common.",
+      "sourceExcerpt": "Run winding 4.75 \u03a9 \u00b18% between run and common.",
+      "measurementKnowledgeId": "whirlpoolJazzFdCompressorRunOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "run \u2194 common",
+        "label": "Compressor run winding (EM2Y60)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "run_pass",
+          "label": "4.75 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding_ohms"
+        }
+      ]
+    },
+    {
+      "id": "start_winding_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Compressor start winding",
+      "body": "Start winding 6.1 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+      "sourceExcerpt": "Start winding 6.1 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+      "measurementKnowledgeId": "whirlpoolJazzFdCompressorStartOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "start \u2194 common",
+        "label": "Compressor start winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "start_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "start_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "start_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_jazz_compressor_run"
+            }
+          ]
+        },
+        {
+          "id": "start_pass",
+          "label": "6.1 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_relay_cap"
+        }
+      ]
+    },
+    {
+      "id": "check_relay_cap",
+      "order": 10,
+      "type": "instruction",
+      "title": "Check relay and run capacitor",
+      "body": "Verify TSD2/5sP overload/relay and 12 \u00b5fd run capacitor. LRA 10.8 A; FLA 1.60 A per spec.",
+      "sourceExcerpt": "Verify TSD2/5sP overload/relay and 12 \u00b5fd run capacitor. LRA 10.8 A; FLA 1.60 A per spec.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_verified"
+    },
+    {
+      "id": "replace_compressor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace compressor or start device",
+      "oemOutcome": "Replace compressor, relay, or run capacitor when windings or start path failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Compressor path verified",
+      "oemOutcome": "Service test 2 and compressor circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10322959-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_se_entry"
+    }
+  ]
+}

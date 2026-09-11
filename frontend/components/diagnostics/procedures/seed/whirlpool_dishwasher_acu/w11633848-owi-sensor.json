@@ -1,0 +1,283 @@
+{
+  "id": "w11633848-owi-sensor",
+  "version": "1.0.0",
+  "title": "\u00a73-11: OWI / Thermistor",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F3E1",
+    "F3E2",
+    "F3E3",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-11",
+    "oemTestTitle": "Water Sensing with OWI Sensor",
+    "pages": [
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "owi_service_diag"
+    },
+    {
+      "id": "owi_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "OWI in Service Diagnostics",
+      "body": "First check OWI operation during Service Diagnostics cycle (thermistor LED indicators per \u00a72-3 notes).",
+      "sourceExcerpt": "First check OWI operation during Service Diagnostics cycle (thermistor LED indicators per \u00a72-3 notes).",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p10"
+    },
+    {
+      "id": "disconnect_p10",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P10",
+      "body": "Power off. Unplug P10 from control.",
+      "sourceExcerpt": "Power off. Unplug P10 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "owi_ntc_ohms"
+    },
+    {
+      "id": "owi_ntc_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "OWI NTC \u2014 P10 pins 1 & 3",
+      "body": "Ohms between P10-1 and P10-3 at room temp. Platform ref: 46\u201352 k\u03a9 @ 77\u00b0F; use manual R/T table for hot water.",
+      "sourceExcerpt": "Ohms between P10-1 and P10-3 at room temp. Platform ref: 46\u201352 k\u03a9 @ 77\u00b0F; use manual R/T table for hot water.",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+      "testPoint": {
+        "connector": "P10",
+        "pins": "1 & 3",
+        "label": "OWI NTC \u2014 P10 pins 1 & 3"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "owi_ground_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "owi_ground_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "owi_ground_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_owi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "owi_ground_check_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_owi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "owi_ground_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_owi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-owi-strip",
+          "caption": "OWI / water sensing strip circuit (\u00a73-11)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-owi-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "owi_ground_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "No short to ground on P10-1 or P10-3?",
+      "body": "Ohms from P10-1 to cabinet ground and P10-3 to ground \u2014 both should be open (no continuity).",
+      "sourceExcerpt": "Ohms from P10-1 to cabinet ground and P10-3 to ground \u2014 both should be open (no continuity).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p10_yes",
+          "label": "No shorts",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p10"
+        },
+        {
+          "id": "reconnect_p10_no",
+          "label": "Short to ground",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_owi_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p10",
+      "order": 6,
+      "type": "instruction",
+      "title": "Reconnect P10 and restore power",
+      "body": "Reconnect P10. Restore power.",
+      "sourceExcerpt": "Reconnect P10. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_owi_5v"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "live_owi_5v"
+    },
+    {
+      "id": "live_owi_5v",
+      "order": 8,
+      "type": "visual_check",
+      "title": "5 VDC on OWI during Service Diagnostics?",
+      "body": "During OWI/thermistor check interval: 5 VDC between P10-2 (GND) and P10-3.",
+      "sourceExcerpt": "During OWI/thermistor check interval: 5 VDC between P10-2 (GND) and P10-3.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "owi_verified_yes",
+          "label": "5 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "owi_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "owi_verified_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_owi",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_owi",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace OWI sensor",
+      "body": "Replace OWI if NTC out of range or open. Run Service Diagnostics after install to force calibration.",
+      "oemOutcome": "Replace OWI if NTC out of range or open. Run Service Diagnostics after install to force calibration.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_owi_harness",
+      "order": 10,
+      "type": "outcome",
+      "title": "Repair OWI harness",
+      "body": "Repair or replace harness if shorted to ground.",
+      "oemOutcome": "Repair or replace harness if shorted to ground.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_owi",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "OWI and harness good but no 5 V supply \u2014 replace control.",
+      "oemOutcome": "OWI and harness good but no 5 V supply \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "owi_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "OWI verified",
+      "body": "OWI thermistor and supply verified.",
+      "oemOutcome": "OWI thermistor and supply verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

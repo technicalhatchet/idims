@@ -1,0 +1,224 @@
+{
+  "id": "w11746350-vent-fan",
+  "version": "1.0.0",
+  "title": "Ventilation / Convection Fan",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "fan_motor_check",
+    "convection_issue",
+    "F7E5",
+    "F7E6"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Fan",
+    "oemTestTitle": "Ventilation Fan Assembly",
+    "pages": [
+      14,
+      29,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_runs"
+    },
+    {
+      "id": "fan_runs",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Fan activates above temp limit",
+      "body": "Fan should run when HMI/ACU temp exceeds limit (140\u00b0F rear electric, 104\u00b0F rear gas, 165\u00b0F front). Does fan run?",
+      "sourceExcerpt": "Fan should run when HMI/ACU temp exceeds limit (140\u00b0F rear electric, 104\u00b0F rear gas, 165\u00b0F front). Does fan run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Fan runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        },
+        {
+          "id": "fan_no",
+          "label": "Fan does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fan_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "convection_fan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fan_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Convection fan motor resistance",
+      "body": "Power off. Disconnect fan motor leads. Expect ~85 \u03a9 \u00b110% cold (W11746350 convection fan).",
+      "sourceExcerpt": "Power off. Disconnect fan motor leads. Expect ~85 \u03a9 \u00b110% cold (W11746350 convection fan).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeConvectFanOhms",
+      "testPoint": {
+        "connector": "Fan motor",
+        "pins": "terminals",
+        "label": "Convection fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_12vdc",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_12vdc",
+      "order": 4,
+      "type": "visual_check",
+      "title": "12 VDC at ACU P6-5 to P6-6",
+      "body": "With power on and fan commanded, verify 12 VDC at P6-5 to P6-6.",
+      "sourceExcerpt": "With power on and fan commanded, verify 12 VDC at P6-5 to P6-6.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v_ok",
+          "label": "12 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_fan",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        },
+        {
+          "id": "v_bad",
+          "label": "No 12 VDC",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fan_motor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ventilation/convection fan",
+      "oemOutcome": "Fan motor open or binding \u2014 replace fan assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_fan",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Fan motor good but not commanded \u2014 replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Fan verified",
+      "oemOutcome": "Ventilation fan operates normally.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "w10901168-test-05-pantry-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 05: Pantry thermistor",
+  "platformId": "whirlpool_bella_french_door",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor_check",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "W10901168",
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "05",
+    "oemTestTitle": "Pantry Thermistor",
+    "pages": [
+      19,
+      33
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_05"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue in Bella Diagnostics",
+      "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_05",
+      "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+    },
+    {
+      "id": "select_test_05",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 05",
+      "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 05. Press Icemaker2 to select. Fast Cool backs out.",
+      "sourceExcerpt": "Service Test 05 \u2014 Pantry thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "read"
+    },
+    {
+      "id": "read",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Pantry thermistor",
+      "body": "Ensure not OP (open) or SH (short).",
+      "sourceExcerpt": "Ensure not OP (open) or SH (short).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace Pantry thermistor."
+        }
+      ]
+    },
+    {
+      "id": "replace",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace Pantry thermistor",
+      "oemOutcome": "Service test 05 shows OP or SH.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Pantry verified",
+      "oemOutcome": "Thermistor 05 OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10901168-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

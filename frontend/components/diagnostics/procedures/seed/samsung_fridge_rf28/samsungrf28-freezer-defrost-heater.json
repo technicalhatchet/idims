@@ -1,0 +1,169 @@
+{
+  "id": "samsungrf28-freezer-defrost-heater",
+  "version": "1.0.0",
+  "title": "Freezer defrost heater (F-DEF)",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF28-FRIDGE",
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2-5",
+    "oemTestTitle": "F-DEF heater resistance",
+    "pages": [
+      58,
+      85
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+      "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "fz_def_disconnect"
+    },
+    {
+      "id": "fz_def_disconnect",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect defrost harness",
+      "body": "Power off. Disconnect CN70/CN71 harness from MAIN PCB before resistance test.",
+      "sourceExcerpt": "Power off. Disconnect CN70/CN71 harness from MAIN PCB before resistance test.",
+      "requiresInput": false,
+      "defaultNextStepId": "fz_def_ohms"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fz_def_ohms"
+    },
+    {
+      "id": "fz_def_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "F-DEF heater resistance",
+      "body": "CN70 pin 5 (BRN) \u2194 CN71_1 pin 5 (BLK) \u2014 63 (230) \u03a9 \u00b17%.",
+      "sourceExcerpt": "CN70 pin 5 (BRN) \u2194 CN71_1 pin 5 (BLK) \u2014 63 (230) \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungRf28FreezerDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "CN70 / CN71_1",
+        "pins": "5 \u2194 5",
+        "label": "F-DEF heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fz_def_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fz_def",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_samsung_defrost_heater",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "fz_def_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fz_def_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_fz_def",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace F-DEF heater",
+      "oemOutcome": "Replace freezer defrost heater or bimetal when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "fz_def_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "F-DEF heater OK",
+      "oemOutcome": "Freezer defrost heater resistance verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrf28-self-diagnostic-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "fz_def_disconnect",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungrf28-test-mode-entry",
+      "modeKind": "load_test",
+      "attachAfterStepId": "fz_def_disconnect",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungrf28-load-condition-entry",
+      "modeKind": "load_test",
+      "attachAfterStepId": "fz_def_disconnect",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

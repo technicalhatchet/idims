@@ -1,0 +1,121 @@
+{
+  "id": "samsungbespoke-main-inverter-comm",
+  "version": "1.0.0",
+  "title": "Main \u2194 inverter communication",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "inverter_board"
+  ],
+  "tags": [
+    "44E",
+    "compressor"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Main \u2194 Inverter communication",
+    "pages": [
+      91,
+      125
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "inv_harness"
+    },
+    {
+      "id": "inv_harness",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inverter harness",
+      "body": "Reseat CN70 inverter harness. Inspect for damage at machine compartment.",
+      "sourceExcerpt": "Reseat CN70 inverter harness. Inspect for damage at machine compartment.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inv_h_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_scope"
+        },
+        {
+          "id": "fix_inv_h",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inv_h_out",
+          "terminal": true,
+          "oemOutcome": "Repair inverter harness."
+        }
+      ]
+    },
+    {
+      "id": "inv_scope",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Comm line scope",
+      "body": "Verify main\u2194inverter comm with oscilloscope if harness OK.",
+      "sourceExcerpt": "Verify main\u2194inverter comm with oscilloscope if harness OK.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inv_comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_comm_verified"
+        },
+        {
+          "id": "replace_inv",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inv_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or inverter PCB."
+        }
+      ]
+    },
+    {
+      "id": "inv_h_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Replace inverter communication harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inv_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace inverter and/or main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "inv_comm_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Inverter comm OK",
+      "oemOutcome": "44Er cleared.",
+      "requiresInput": false
+    }
+  ]
+}

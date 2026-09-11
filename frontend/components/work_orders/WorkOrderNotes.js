@@ -608,6 +608,7 @@ export default function WorkOrderNotes({
         role="dialog"
         aria-modal="true"
         aria-labelledby="guided-diagnostics-title"
+        data-guided-diagnostics
       >
         <header
           className="shrink-0 grid grid-cols-[44px_1fr_44px] items-center gap-2 px-2 border-b border-white/10 bg-[#0D1525]/95 backdrop-blur-md"

@@ -1,0 +1,117 @@
+{
+  "manualId": "W8178629",
+  "platformId": "whirlpool_centennial_dryer",
+  "templateId": "electric_dryer",
+  "label": "Maytag Centennial electric & gas dryer (Job Aid 8178629)",
+  "notes": "MED/MGD 5500\u20135900 and WED4815-class. Timer+electronic control \u2014 not CCU W10680150. Gas procedures use templateIds gas_dryer; electric heater/TCO use electric_dryer.",
+  "plannedProcedures": [
+    {
+      "id": "w8178629-supply-connections",
+      "oemSection": "6-3",
+      "title": "Supply Connections Test",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-timer-motor",
+      "oemSection": "6-4",
+      "title": "Timer & Motor Relay Test",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerTimerMotorOhms",
+        "whirlpoolCentennialDryerMotorCircuitOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-door-switch",
+      "oemSection": "5-1",
+      "title": "Door Switch Test",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-thermal-fuse-exhaust",
+      "oemSection": "5-2",
+      "title": "Thermal Fuse & Exhaust Thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerExhaustThermistorKohm"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-electric-heater",
+      "oemSection": "5-4",
+      "title": "Electric Heater (Dual Element)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerHeaterElementOhms",
+        "whirlpoolCentennialDryerHeaterElementOhms",
+        "whirlpoolCentennialDryerHeaterDualParallelOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-electric-tco-inlet",
+      "oemSection": "5-5",
+      "title": "TCO, High-Limit & Inlet Thermistor (electric)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerInletThermistorKohm"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-gas-hilimit-cutoff",
+      "oemSection": "5-2-gas",
+      "title": "High-Limit & Thermal Cutoff (gas)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-flame-sensor",
+      "oemSection": "5-3",
+      "title": "Flame Sensor Test",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-gas-coils",
+      "oemSection": "6-8",
+      "title": "Gas Burner Coils Test",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerGasValveCoilOhms",
+        "whirlpoolCentennialDryerGasValveCoilOhms",
+        "whirlpoolCentennialDryerGasValveCoilOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-gas-ignitor",
+      "oemSection": "5-4-gas",
+      "title": "Burner Ignitor Test",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerIgnitorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178629-drive-motor",
+      "oemSection": "5-6",
+      "title": "Drive Motor Test",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolCentennialDryerMotorOhms",
+        "whirlpoolCentennialDryerMotorOhms"
+      ],
+      "relatedCodes": []
+    }
+  ]
+}

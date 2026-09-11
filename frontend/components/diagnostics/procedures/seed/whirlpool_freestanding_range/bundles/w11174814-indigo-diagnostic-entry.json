@@ -1,0 +1,36 @@
+{
+  "id": "w11174814-indigo-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_freestanding_range",
+  "manualId": "W11174814",
+  "title": "W11174814 \u2014 Indigo Diagnostics mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Indigo touch entry via HOME>FAVORITES>LIGHT repeated three times.",
+  "tags": [
+    "service_diagnostic"
+  ],
+  "entryStepId": "service_diagnostic_entry",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "pages": [
+      30,
+      31
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_diagnostic_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Indigo Diagnostics mode",
+      "body": "Oven must be cool. Press HOME \u2192 FAVORITES \u2192 LIGHT three times in a row (repeat the same three-key sequence until Diagnostics enters). After each test, press CANCEL to return to clock and re-enter as needed. Timeout: 5 minutes idle returns to time-of-day.",
+      "sourceExcerpt": "Enter Diagnostics Mode by pressing HOME>FAVORITES>LIGHT (repeat three times).",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

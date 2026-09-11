@@ -1,0 +1,271 @@
+{
+  "id": "w11174426-dsi-board",
+  "version": "1.0.0",
+  "title": "DSI Board (Gas Oven)",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "gas_valve"
+  ],
+  "tags": [
+    "gas_valve_check",
+    "ignition_issue",
+    "no_bake_heat_issue"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "DSI",
+    "oemTestTitle": "DSI Board",
+    "pages": [
+      45,
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "dsi_bake_coil"
+    },
+    {
+      "id": "dsi_bake_coil",
+      "order": 2,
+      "type": "measurement",
+      "title": "DSI bake valve J1-1 to J1-2",
+      "body": "In Bake mode with burner operation attempted, measure valve coil \u2014 216 \u03a9 nominal at J1-1 to J1-2.",
+      "sourceExcerpt": "In Bake mode with burner operation attempted, measure valve coil \u2014 216 \u03a9 nominal at J1-1 to J1-2.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+      "testPoint": {
+        "connector": "J1",
+        "pins": "1 & 2",
+        "label": "DSI bake valve J1-1 to J1-2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dsi_bake_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_bake_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dsi_broil_coil",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "gas_valve",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dsi_broil_coil",
+      "order": 3,
+      "type": "measurement",
+      "title": "DSI broil valve J1-3 to J1-2",
+      "body": "In Broil mode measure J1-3 to J1-2 \u2014 216 \u03a9 nominal.",
+      "sourceExcerpt": "In Broil mode measure J1-3 to J1-2 \u2014 216 \u03a9 nominal.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+      "testPoint": {
+        "connector": "J1",
+        "pins": "3 & 2",
+        "label": "DSI broil valve J1-3 to J1-2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dsi_broil_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_broil_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "dsi_broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dsi_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "gas_valve",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dsi_voltage",
+      "order": 4,
+      "type": "visual_check",
+      "title": "DSI supply and flame sense",
+      "body": "Verify 120 VAC J1-4 to J1-6 (bake) and J1-4 to J1-10. When lit, flame sense 8\u201318 VDC.",
+      "sourceExcerpt": "Verify 120 VAC J1-4 to J1-6 (bake) and J1-4 to J1-10. When lit, flame sense 8\u201318 VDC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dsi_ok",
+          "label": "Voltage and flame OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dsi_ok_outcome",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "gas_valve",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "dsi_bad",
+          "label": "No voltage / no flame",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dsi_board",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_dsi_valve",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace gas valve coil",
+      "oemOutcome": "DSI valve coil out of 216 \u03a9 range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_dsi_board",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace DSI board",
+      "oemOutcome": "Coils good but ignition failure \u2014 replace DSI.",
+      "requiresInput": false
+    },
+    {
+      "id": "dsi_ok_outcome",
+      "order": 7,
+      "type": "outcome",
+      "title": "DSI verified",
+      "oemOutcome": "Gas oven DSI and valve verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "dsi_bake_coil"
+    }
+  ]
+}

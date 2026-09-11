@@ -1,0 +1,36 @@
+{
+  "id": "samsungflexwash-diagnostic-code-check",
+  "version": "1.0.0",
+  "platformId": "samsung_flexwash",
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "title": "Samsung FlexWash \u2014 Diagnostic code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored diagnostic codes (up to 7 digits) from Smart Install.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "dc_enter",
+  "source": {
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "pages": [
+      36
+    ]
+  },
+  "steps": [
+    {
+      "id": "dc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Diagnostic information display",
+      "body": "From AS: press bottom-right button \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display (latest first). Models without jog dial: press 3rd button from bottom-left to cycle codes.",
+      "sourceExcerpt": "From AS: press bottom-right button \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display (latest first). Models without jog dial: press 3rd button from bottom-left to cycle codes.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

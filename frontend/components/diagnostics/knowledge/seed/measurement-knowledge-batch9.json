@@ -645,5 +645,34 @@
       "platformId": "whirlpool_ccu_dryer"
     },
     "dmaTags": ["heating_element_check"]
+  },
+  {
+    "id": "whirlpoolCcuDryerSteamValveOhms",
+    "name": "Whirlpool CCU/ACU Steam Dryer Water Valve",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 510, "max": 590 },
+      "warning": { "min": 450, "max": 650 },
+      "critical": { "below": 400, "above": 700 }
+    },
+    "typical": { "min": 530, "max": 570 },
+    "openCircuitCritical": true,
+    "purpose": "Steam/water valve coil J8-1 (red) to J9-2 (L1) — W10881701 TEST #9.",
+    "failureModes": [
+      "Open — no steam/water spray during cycle",
+      "Out of range — replace water valve assembly"
+    ],
+    "testingTips": [
+      "Power off before measuring at ACU connector",
+      "Verify household water supply on; clean drum nozzle if over-spray"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_ccu_dryer"
+    },
+    "dmaTags": ["steam_valve_check", "steam_no_water"]
   }
 ]

@@ -1,0 +1,100 @@
+{
+  "id": "samsungtldv50-hmi",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Display / buttons (bC2)",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "bC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Button state bC2",
+    "pages": [
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_loose"
+    },
+    {
+      "id": "service_mode_after_smart_install",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Smart Install entered. Continue with component checks below.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "display_loose"
+    },
+    {
+      "id": "display_loose",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Display PCB harness",
+      "body": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock.",
+      "sourceExcerpt": "Check display PCB connector seated \u2014 no loose or shorted buttons. Rule out Child Lock.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified"
+        },
+        {
+          "id": "replace_display",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_out",
+          "terminal": true,
+          "oemOutcome": "Replace display PCB or harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_display_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace display PCB",
+      "oemOutcome": "Replace display PCB when bC2 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "HMI OK",
+      "oemOutcome": "Display and buttons operate normally.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungtldv50-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_smart_install"
+    }
+  ]
+}

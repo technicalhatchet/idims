@@ -1,0 +1,140 @@
+{
+  "id": "w10322959-test-03-evap-fan",
+  "version": "1.0.0",
+  "title": "Service Test 3: Evaporator / freezer fan",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "frost_buildup",
+    "evap_fan",
+    "airflow",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Evaporator/Freezer Fan Test",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_3"
+    },
+    {
+      "id": "service_mode_after_se_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+      "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_3"
+    },
+    {
+      "id": "select_test_3",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 3",
+      "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 3. Refrigerator display blank until test is activated.",
+      "sourceExcerpt": "Service Test 3 \u2014 Evaporator/freezer fan",
+      "requiresInput": false,
+      "defaultNextStepId": "activate_fan_test"
+    },
+    {
+      "id": "activate_fan_test",
+      "order": 4,
+      "type": "instruction",
+      "title": "Activate test 3",
+      "body": "Press Refrigerator UP to toggle freezer fan ON (O) or OFF (F). Freezer displays 3.",
+      "sourceExcerpt": "Press Refrigerator UP to toggle freezer fan ON (O) or OFF (F). Freezer displays 3.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_runs"
+    },
+    {
+      "id": "fan_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Evaporator fan operation",
+      "body": "Inspect evaporator/freezer fan for proper rotation and airflow. Blade fully seated on shaft (2800 RPM spec).",
+      "sourceExcerpt": "Inspect evaporator/freezer fan for proper rotation and airflow. Blade fully seated on shaft (2800 RPM spec).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_test_3"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace evaporator fan motor or repair harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deactivate_test_3",
+      "order": 6,
+      "type": "instruction",
+      "title": "Deactivate test 3",
+      "body": "Toggle fan OFF (F) before leaving test 3.",
+      "sourceExcerpt": "Toggle fan OFF (F) before leaving test 3.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_verified"
+    },
+    {
+      "id": "replace_fan_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace evaporator fan",
+      "oemOutcome": "Replace freezer fan motor when it does not run in service test 3.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Evaporator fan verified",
+      "oemOutcome": "Freezer fan operates correctly in service test 3.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10322959-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_se_entry"
+    }
+  ]
+}

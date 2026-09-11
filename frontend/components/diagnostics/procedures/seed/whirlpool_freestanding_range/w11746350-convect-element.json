@@ -1,0 +1,230 @@
+{
+  "id": "w11746350-convect-element",
+  "version": "1.0.0",
+  "title": "Convection Element (gas oven)",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "heating_element_check",
+    "convection_issue",
+    "FEE8"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Convect",
+    "oemTestTitle": "Convection Fan & Element Assembly",
+    "pages": [
+      15,
+      41,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "convect_element_ohms"
+    },
+    {
+      "id": "convect_element_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Convection element resistance",
+      "body": "Power off. Disconnect convection element leads. Expect 14.5\u201316.1 \u03a9 cold (914 W heated).",
+      "sourceExcerpt": "Power off. Disconnect convection element leads. Expect 14.5\u201316.1 \u03a9 cold (914 W heated).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeConvectElementOhms",
+      "testPoint": {
+        "connector": "Convect element",
+        "pins": "terminals",
+        "label": "Convection element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "convect_el_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_convect_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_convect_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_el_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_convect_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "convect_fan_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "convect_fan_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Convection fan motor resistance",
+      "body": "Disconnect fan motor leads. Expect ~85 \u03a9 \u00b110% cold.",
+      "sourceExcerpt": "Disconnect fan motor leads. Expect ~85 \u03a9 \u00b110% cold.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeConvectFanOhms",
+      "testPoint": {
+        "connector": "Fan motor",
+        "pins": "terminals",
+        "label": "Convection fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "convect_fan_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_convect_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_convect_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_convect_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "convect_fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "convect_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "convection_fan",
+              "evidenceId": "eliminate_convection_bad_convection_fan_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_convect_element",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace convection element",
+      "oemOutcome": "Convection element out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_convect_fan",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace convection fan motor",
+      "oemOutcome": "Fan motor out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "convect_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Convection assembly verified",
+      "oemOutcome": "Convection element and fan verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "convect_element_ohms"
+    }
+  ]
+}

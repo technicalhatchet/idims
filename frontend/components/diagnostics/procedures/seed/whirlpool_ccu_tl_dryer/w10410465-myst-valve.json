@@ -1,0 +1,225 @@
+{
+  "id": "w10410465-myst-valve",
+  "version": "1.0.0",
+  "title": "TEST #9: Myst Valve",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "steam_valve"
+  ],
+  "tags": [
+    "steam_no_water",
+    "steam_valve_check"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Myst Valve",
+    "pages": [
+      21,
+      22
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "myst_quick_check"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Diagnostics Home or Component Activation as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "myst_quick_check"
+    },
+    {
+      "id": "myst_quick_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Myst valve activation",
+      "body": "Service Diagnostics \u2192 Component Activation \u2192 Myst Valve. Verify spray into drum.",
+      "sourceExcerpt": "Service Diagnostics \u2192 Component Activation \u2192 Myst Valve. Verify spray into drum.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_supply"
+    },
+    {
+      "id": "water_supply",
+      "order": 4,
+      "type": "instruction",
+      "title": "Verify water supply",
+      "body": "Confirm fill hose connected and household water on.",
+      "sourceExcerpt": "Confirm fill hose connected and household water on.",
+      "requiresInput": false,
+      "defaultNextStepId": "p8_wiring"
+    },
+    {
+      "id": "p8_wiring",
+      "order": 5,
+      "type": "visual_check",
+      "title": "P8-1 myst valve wire",
+      "body": "Red wire from water valve connected to CCU P8-1 per wiring diagram.",
+      "sourceExcerpt": "Red wire from water valve connected to CCU P8-1 per wiring diagram.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wire_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_coil_ohms"
+        },
+        {
+          "id": "wire_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair myst valve harness."
+        }
+      ]
+    },
+    {
+      "id": "valve_coil_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Myst valve coil P8-1 to P9-2",
+      "body": "Power off. Coil resistance 510\u2013590 \u03a9. Open \u2192 check harness then replace valve.",
+      "sourceExcerpt": "Power off. Coil resistance 510\u2013590 \u03a9. Open \u2192 check harness then replace valve.",
+      "measurementKnowledgeId": "whirlpoolCcuDryerSteamValveOhms",
+      "testPoint": {
+        "connector": "CCU myst valve",
+        "pins": "P8-1 to P9-2",
+        "label": "Myst valve coil P8-1 to P9-2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "nozzle_check"
+        },
+        {
+          "id": "valve_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace myst valve assembly."
+        },
+        {
+          "id": "valve_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace myst valve assembly."
+        },
+        {
+          "id": "valve_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace myst valve assembly."
+        }
+      ],
+      "images": [
+        {
+          "id": "w10410465-ccu-pinout-figure11",
+          "caption": "CCU connectors & pinouts (Figure 11, TEST #1)",
+          "assetPath": "/images/procedures/whirlpool_ccu_tl_dryer/w10410465-ccu-pinout-figure11.png"
+        },
+        {
+          "id": "w10410465-strip-circuits-figure23",
+          "caption": "Strip circuits \u2014 motor, heater, thermistors, myst valve (page 22)",
+          "assetPath": "/images/procedures/whirlpool_ccu_tl_dryer/w10410465-strip-circuits-figure23.png"
+        }
+      ]
+    },
+    {
+      "id": "nozzle_check",
+      "order": 7,
+      "type": "instruction",
+      "title": "Myst nozzle",
+      "body": "Inside drum: unscrew/replace myst nozzle with 7/16 in wrench if plugged; retest.",
+      "sourceExcerpt": "Inside drum: unscrew/replace myst nozzle with 7/16 in wrench if plugged; retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_plumbing"
+    },
+    {
+      "id": "valve_plumbing",
+      "order": 8,
+      "type": "instruction",
+      "title": "Valve plumbing",
+      "body": "Remove back panel \u2014 verify hose and wires at myst valve assembly.",
+      "sourceExcerpt": "Remove back panel \u2014 verify hose and wires at myst valve assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_ccu"
+    },
+    {
+      "id": "repair_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair myst valve wiring to P8-1.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace myst valve",
+      "oemOutcome": "Replace myst valve assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ccu",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace CCU",
+      "oemOutcome": "Replace CCU when valve and plumbing OK but no spray.",
+      "requiresInput": false
+    },
+    {
+      "id": "myst_valve_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Myst valve verified",
+      "oemOutcome": "Valve coil and spray path OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10410465-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

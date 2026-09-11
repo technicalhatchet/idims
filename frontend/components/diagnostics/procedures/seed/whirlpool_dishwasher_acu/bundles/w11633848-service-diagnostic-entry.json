@@ -1,0 +1,48 @@
+{
+  "id": "w11633848-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_dishwasher_acu",
+  "manualId": "W11633848",
+  "title": "W11633848 \u2014 Service Diagnostics cycle entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Service Diagnostics (1-2-3 \u00d7 3 key sequence); cycle starts when door closes.",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes",
+    "live_test"
+  ],
+  "entryStepId": "prep_standby",
+  "source": {
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "pages": [
+      21,
+      22
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_standby",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby mode",
+      "body": "Dishwasher plugged in, control in standby (no cycle running).",
+      "sourceExcerpt": "To invoke the Service Diagnostics cycle, perform the following while in Standby.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_entry"
+    },
+    {
+      "id": "keypad_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "1-2-3 key entry sequence",
+      "body": "Press any 3 keys in the sequence 1-2-3-1-2-3-1-2-3 with no more than 1 second between key presses. All LEDs turn on for 5 seconds (display test), then off 1 second before error history. The Service Diagnostics cycle starts when the door is closed. Press START/RESUME to rapid-advance one interval. Door open pauses; close door to resume.",
+      "sourceExcerpt": "Press any 3 keys in the sequence 1-2-3-1-2-3-1-2-3... The Service Diagnostics cycle will start when the door is closed.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

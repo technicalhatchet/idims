@@ -1,0 +1,311 @@
+{
+  "id": "w11697231-test-01-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: Main Control",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check",
+    "supply_issue",
+    "F1E1",
+    "F1E2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11697231",
+    "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "Main Control",
+    "pages": [
+      30,
+      31
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_console"
+    },
+    {
+      "id": "access_console",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access main control",
+      "body": "Remove console. Verify ALL connectors fully seated at main control.",
+      "sourceExcerpt": "Remove console. Verify ALL connectors fully seated at main control.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_power_line"
+    },
+    {
+      "id": "restore_power_line",
+      "order": 3,
+      "type": "instruction",
+      "title": "Restore power for line check",
+      "body": "Plug in or reconnect power for live measurements only.",
+      "sourceExcerpt": "Plug in or reconnect power for live measurements only.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_voltage"
+    },
+    {
+      "id": "line_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Line voltage J5-1 to J5-2",
+      "body": "AC voltmeter: black probe J5-2 (Neutral), red probe J5-1 (L1). Expect 120 VAC.",
+      "sourceExcerpt": "AC voltmeter: black probe J5-2 (Neutral), red probe J5-1 (L1). Expect 120 VAC.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "J5",
+        "pins": "1 & 2",
+        "label": "Line voltage J5-1 to J5-2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "L1",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Neutral",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_ok",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diagnostic_led",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "line_bad",
+          "label": "No line voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_power_cord",
+          "terminal": true,
+          "oemOutcome": "Check outlet, breaker, and AC power cord continuity.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11697231-acu-pinout",
+          "caption": "Main control connectors & pinouts (TEST #1)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w11697231-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "diagnostic_led",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Diagnostic LED state",
+      "body": "Is the Diagnostic LED ON or OFF? (ON = +5 VDC present, micro operating.)",
+      "sourceExcerpt": "Is the Diagnostic LED ON or OFF? (ON = +5 VDC present, micro operating.)",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_on",
+          "label": "ON",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_12v"
+        },
+        {
+          "id": "led_off",
+          "label": "OFF (+5 VDC missing)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_j12",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dc_12v",
+      "order": 6,
+      "type": "measurement",
+      "title": "+12 VDC at J12",
+      "body": "DC volts: black J12-4 (Circuit Gnd), red J12-1 (+12 VDC). Do not short pins inside header.",
+      "sourceExcerpt": "DC volts: black J12-4 (Circuit Gnd), red J12-1 (+12 VDC). Do not short pins inside header.",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherAcu12Vdc",
+      "testPoint": {
+        "connector": "J12",
+        "pins": "1 & 4",
+        "label": "+12 VDC at J12",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "+12 VDC",
+            "wireColor": "BLK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Circuit Gnd",
+            "wireColor": "GY",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "+12 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "v12_bad",
+          "label": "+12 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "isolate_j12",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11697231-acu-pinout",
+          "caption": "Main control connectors & pinouts (TEST #1)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w11697231-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "isolate_j12",
+      "order": 7,
+      "type": "instruction",
+      "title": "Isolate shifter load on J12",
+      "body": "Disconnect power. Remove connector J12 from main control. Restore power and repeat Diagnostic LED and +12 VDC checks at J12 header.",
+      "sourceExcerpt": "Disconnect power. Remove connector J12 from main control. Restore power and repeat Diagnostic LED and +12 VDC checks at J12 header.",
+      "requiresInput": false,
+      "defaultNextStepId": "led_after_j12"
+    },
+    {
+      "id": "led_after_j12",
+      "order": 8,
+      "type": "visual_check",
+      "title": "DC supplies return with J12 removed?",
+      "body": "With J12 disconnected, does Diagnostic LED turn ON and +12 VDC return?",
+      "sourceExcerpt": "With J12 disconnected, does Diagnostic LED turn ON and +12 VDC return?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j12_shifter_short",
+          "label": "DC returns \u2014 shifter/harness short",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_shifter_harness",
+          "terminal": true,
+          "oemOutcome": "Check harness between main control and shifter; replace shifter assembly if harness good."
+        },
+        {
+          "id": "j12_acu_fault",
+          "label": "DC still missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_power_cord",
+      "order": 9,
+      "type": "outcome",
+      "title": "Check power cord",
+      "oemOutcome": "Verify outlet and AC cord continuity per wiring diagram.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Main control supplies verified",
+      "oemOutcome": "Line voltage, Diagnostic LED, and +12 VDC OK \u2014 proceed to complaint-specific test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_shifter_harness",
+      "order": 11,
+      "type": "outcome",
+      "title": "Service shifter path",
+      "oemOutcome": "Repair harness or replace shifter assembly per TEST #3a.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace main control. Calibrate washer and run Automatic Test to verify.",
+      "requiresInput": false
+    }
+  ]
+}

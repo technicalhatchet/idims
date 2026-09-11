@@ -1,0 +1,122 @@
+{
+  "id": "samsungbespoke-ice-maker-sensor",
+  "version": "1.0.0",
+  "title": "Ice maker temperature sensor",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker_sensor",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Ice maker sensor",
+    "pages": [
+      89,
+      97
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_pins"
+    },
+    {
+      "id": "im_pins",
+      "order": 2,
+      "type": "instruction",
+      "title": "Ice maker sensor pins",
+      "body": "Cubed RF23BB: CN90 14\u219426. Ice Bites: CN90 2\u21944. RF32CG cubed: CN90 11\u219413; fridge IM: CN90 11\u219421.",
+      "sourceExcerpt": "Cubed RF23BB: CN90 14\u219426. Ice Bites: CN90 2\u21944. RF32CG cubed: CN90 11\u219413; fridge IM: CN90 11\u219421.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_voltage"
+    },
+    {
+      "id": "im_voltage",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ice maker sensor voltage",
+      "body": "4.5 V warm \u2192 1.0 V cold at ice maker sensor pins.",
+      "sourceExcerpt": "4.5 V warm \u2192 1.0 V cold at ice maker sensor pins.",
+      "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+      "testPoint": {
+        "connector": "CN90",
+        "pins": "per ice maker type",
+        "label": "Ice maker sensor voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "im_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "im_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_im_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker sensor",
+      "oemOutcome": "Replace ice maker or sensor harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker sensor OK",
+      "oemOutcome": "Voltage in range.",
+      "requiresInput": false
+    }
+  ]
+}

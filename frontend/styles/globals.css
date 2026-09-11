@@ -10,9 +10,15 @@
     [data-mobile-form] input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
     [data-mobile-form] select,
     [data-mobile-form] textarea,
+    [data-guided-diagnostics] input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
+    [data-guided-diagnostics] select,
+    [data-guided-diagnostics] textarea,
     .solomon-mobile-shell input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
     .solomon-mobile-shell select,
-    .solomon-mobile-shell textarea {
+    .solomon-mobile-shell textarea,
+    .wo-mobile-form input:not([type='checkbox']):not([type='radio']):not([type='button']):not([type='submit']),
+    .wo-mobile-form select,
+    .wo-mobile-form textarea {
       font-size: 16px;
     }
   }
@@ -44,7 +50,7 @@
   .form-input,
   .form-select,
   .form-textarea {
-    @apply w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm;
+    @apply w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base sm:text-sm;
   }
 
   /* Card styles */

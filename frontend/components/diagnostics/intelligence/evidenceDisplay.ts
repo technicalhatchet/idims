@@ -1,4 +1,9 @@
 import type { ComponentEvidenceScore, DiagnosticIntelligenceResult } from './evidenceTypes';
+import type { ProcedureRunState } from '../procedures/types';
+
+const COMPLAINT_ONLY_FIELD_PREFIXES = [
+  'customer_complaint.',
+];
 
 export interface EvidenceShareItem {
   id: string;
@@ -92,6 +97,24 @@ export function computeDiagnosisConfidence(
     };
   }
 
+  const topCategoryId = top?.id;
+  const leadCategoryComponent = topCategoryId
+    ? components.find((component) => component.categoryId === topCategoryId)
+    : undefined;
+  if (top && leadCategoryComponent?.state === 'eliminated') {
+    const alternate = intelligence.topCategories?.find(
+      (category) => category.id !== top.id && category.evidence > 0,
+    );
+    const percent = clampPercent(Math.max(22, Math.min(48, (alternate?.evidence || 0) * 0.55 + 18)));
+    const label = alternate?.label || 'harness / control board';
+    return {
+      tier: 'low',
+      percent,
+      explanation: `${top.label} assembly tested good — follow ${label} path (harness, switch, CCU inputs).`,
+      stars: 2,
+    };
+  }
+
   if (top && top.evidence > 0) {
     const margin = top.evidence - (second?.evidence || 0);
     let percent = top.evidence * 0.45 + margin * 0.35 + Math.min(15, testedCount * 3);
@@ -150,17 +173,27 @@ export function formatLeadCauseStrength(
 ): LeadCauseStrengthPresentation | null {
   if (!intelligence?.topCategories?.length) return null;
 
-  const top = intelligence.topCategories[0];
-  const second = intelligence.topCategories[1];
-  const confidence = computeDiagnosisConfidence(intelligence);
   const components = flattenComponents(intelligence.componentsByCategory);
   const hasConfirmed = components.some((component) => component.state === 'confirmed');
+  const leadCategoryComponent = components.find(
+    (component) => component.categoryId === intelligence.topCategories[0]?.id,
+  );
+  const leadCategoryCleared = leadCategoryComponent?.state === 'eliminated';
+  const rankedCategories = leadCategoryCleared
+    ? intelligence.topCategories.filter((category) => {
+        const component = components.find((item) => item.categoryId === category.id);
+        return component?.state !== 'eliminated';
+      })
+    : intelligence.topCategories;
+  const top = rankedCategories[0] || intelligence.topCategories[0];
+  const second = rankedCategories[1] || intelligence.topCategories[1];
+  const confidence = computeDiagnosisConfidence(intelligence);
 
   const tier: DiagnosisConfidenceTier | 'confirmed' = hasConfirmed
     ? 'confirmed'
     : confidence?.tier || 'low';
 
-  const alternateLabels = intelligence.topCategories
+  const alternateLabels = rankedCategories
     .slice(1)
     .filter((category) => category.evidence > 0)
     .map((category) => category.label);
@@ -199,6 +232,49 @@ const DIY_STRENGTH_WORD: Record<DiagnosisConfidenceTier | 'confirmed', string> =
 /**
  * Compact DIY mobile card — uses existing computeDiagnosisConfidence percent (not evidence share %).
  */
+function hasUserGatheredEvidence(
+  fields: Record<string, unknown> = {},
+): boolean {
+  return Object.entries(fields).some(([key, value]) => {
+    if (COMPLAINT_ONLY_FIELD_PREFIXES.some((prefix) => key.startsWith(prefix))) {
+      return false;
+    }
+    if (value === undefined || value === null || value === '' || value === false) {
+      return false;
+    }
+    return true;
+  });
+}
+
+/**
+ * Leading hypothesis card waits for real diagnostic input — not complaint chips alone.
+ */
+export function shouldShowLeadingHypothesis(
+  intelligence: DiagnosticIntelligenceResult | null | undefined,
+  options: {
+    visitedStepKeys?: string[];
+    procedureRuns?: Record<string, ProcedureRunState>;
+    fields?: Record<string, unknown>;
+    currentStepKey?: string | null;
+  } = {},
+): boolean {
+  if (!intelligence?.topCategories?.some((category) => category.evidence > 0)) {
+    return false;
+  }
+
+  const currentStepKey = options.currentStepKey;
+  if (!currentStepKey || currentStepKey === 'complaint') {
+    return false;
+  }
+
+  const visited = options.visitedStepKeys || [];
+  const beyondComplaint = visited.some((key) => key !== 'complaint');
+  const procedureRuns = options.procedureRuns || {};
+  const hasProcedureActivity = Object.values(procedureRuns).some((run) => Boolean(run));
+
+  return beyondComplaint || hasProcedureActivity || hasUserGatheredEvidence(options.fields);
+}
+
 export function formatDiyLeadCard(
   intelligence: DiagnosticIntelligenceResult | null | undefined,
 ): DiyLeadCardPresentation | null {
@@ -206,8 +282,12 @@ export function formatDiyLeadCard(
   const confidence = computeDiagnosisConfidence(intelligence);
   if (!strength || !confidence || !intelligence?.topCategories?.length) return null;
 
+  const leadCategoryId =
+    intelligence.topCategories.find((category) => category.label === strength.categoryLabel)?.id
+    ?? intelligence.topCategories[0].id;
+
   return {
-    categoryId: intelligence.topCategories[0].id,
+    categoryId: leadCategoryId,
     categoryLabel: strength.categoryLabel,
     percent: confidence.percent,
     strengthWord: DIY_STRENGTH_WORD[strength.tier],

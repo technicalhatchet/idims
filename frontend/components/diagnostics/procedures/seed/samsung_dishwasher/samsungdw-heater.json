@@ -1,0 +1,157 @@
+{
+  "id": "samsungdw-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Heater Operation (HC / HC1)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "HC",
+    "HC1",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Heater Check",
+    "pages": [
+      37,
+      38,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hot_water"
+    },
+    {
+      "id": "hot_water",
+      "order": 2,
+      "type": "instruction",
+      "title": "Hot water supply",
+      "body": "Verify inlet hose connected to hot water supply. Check water level in tub and drain hose installation.",
+      "sourceExcerpt": "Verify inlet hose connected to hot water supply. Check water level in tub and drain hose installation.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_smart_install"
+    },
+    {
+      "id": "heater_smart_install",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Heater heats in Smart Install step 3?",
+      "body": "In Smart Install Manual Mode step 3: circulation pump runs 10 s then heater operates. Temperature should rise \u22652\u00b0C within 30 s after alternation cycle; HC1 if no rise in 10 min.",
+      "sourceExcerpt": "In Smart Install Manual Mode step 3: circulation pump runs 10 s then heater operates. Temperature should rise \u22652\u00b0C within 30 s after alternation cycle; HC1 if no rise in 10 min.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_wiring_yes",
+          "label": "Temperature rises",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_wiring"
+        },
+        {
+          "id": "heater_wiring_no",
+          "label": "No heat / HC1",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_thermistor"
+        }
+      ]
+    },
+    {
+      "id": "check_thermistor",
+      "order": 4,
+      "type": "instruction",
+      "title": "Verify thermistor",
+      "body": "Run samsungdw-thermistor procedure \u2014 faulty thermistor can cause HC/HC1.",
+      "sourceExcerpt": "Run samsungdw-thermistor procedure \u2014 faulty thermistor can cause HC/HC1.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_wiring"
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 5,
+      "defaultNextStepId": "heater_wiring"
+    },
+    {
+      "id": "heater_wiring",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Heater bracket and connections?",
+      "body": "Inspect heater nut torqued into bracket-heater, both heater connectors seated, no scale or open at heater terminals.",
+      "sourceExcerpt": "Inspect heater nut torqued into bracket-heater, both heater connectors seated, no scale or open at heater terminals.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_heater_yes",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_heater"
+        },
+        {
+          "id": "replace_heater_no",
+          "label": "Heater damaged / loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "heater_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater",
+      "body": "Replace heater assembly when connections good but no heat in Smart Install.",
+      "oemOutcome": "Replace heater assembly when connections good but no heat in Smart Install.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heater path OK",
+      "body": "Heater operational \u2014 if fault persists, replace main PBA.",
+      "oemOutcome": "Heater operational \u2014 if fault persists, replace main PBA.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdw-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "heater_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdw-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "heater_wiring"
+    }
+  ]
+}

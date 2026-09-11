@@ -4,8 +4,9 @@ import {
   buildOemSpecsToastMessage,
   oemSpecsScopeKey,
 } from '../components/diagnostics/knowledge/oemSpecsScope';
+import { MIN_EQUIPMENT_MODEL_LENGTH_FOR_OEM_UI } from '../components/diagnostics/procedures/oemDiagnosticGating';
 
-const DEBOUNCE_MS = 800;
+const DEBOUNCE_MS = 1200;
 
 /**
  * Shows a one-time toast when make/model resolve OEM-specific measurement tolerances.
@@ -27,7 +28,12 @@ export function useOemSpecsToast(measurementContext) {
       return undefined;
     }
 
-    if (!templateId || !String(make || '').trim() || !String(model || '').trim()) {
+    const modelText = String(model || '').trim();
+    if (
+      !templateId
+      || !String(make || '').trim()
+      || modelText.length < MIN_EQUIPMENT_MODEL_LENGTH_FOR_OEM_UI
+    ) {
       return undefined;
     }
 
@@ -39,7 +45,10 @@ export function useOemSpecsToast(measurementContext) {
       if (!message) return;
 
       lastShownKeyRef.current = scopeKey;
-      toast.success(message, { id: `oem-specs-${scopeKey}` });
+      toast.success(message, {
+        id: `oem-specs-${scopeKey}`,
+        position: 'bottom-center',
+      });
     }, DEBOUNCE_MS);
 
     return () => clearTimeout(timer);

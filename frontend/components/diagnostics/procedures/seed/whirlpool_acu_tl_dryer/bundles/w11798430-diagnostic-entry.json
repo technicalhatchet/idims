@@ -1,0 +1,48 @@
+{
+  "id": "w11798430-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "manualId": "W11798430",
+  "title": "W11798430 \u2014 Service Diagnostic entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "Enter Service Diagnostic mode (Key 1 \u2192 Key 2 \u2192 Key 3, repeat \u00d7 3 within 8 s).",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes"
+  ],
+  "entryStepId": "prep_standby",
+  "source": {
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "pages": [
+      31,
+      32
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_standby",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby mode",
+      "body": "Dryer plugged in with all LEDs off.",
+      "sourceExcerpt": "Be sure the dryer is in standby mode (plugged in with all LEDs off).",
+      "requiresInput": false,
+      "defaultNextStepId": "three_button_entry"
+    },
+    {
+      "id": "three_button_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Key 1/2/3 diagnostic entry",
+      "body": "Within 8 seconds: press and release Key 1, Key 2, Key 3 \u2014 repeat this 3-button sequence two more times (9 presses total). All HMI indicators flash 1 s on success; STATUS LEDs blink twice if no saved fault codes.",
+      "sourceExcerpt": "Press/release Key 1, Key 2, Key 3 \u2014 repeat sequence 2 more times.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

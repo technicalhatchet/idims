@@ -1,0 +1,193 @@
+{
+  "id": "nsdwr3ss1-drain-pump",
+  "version": "1.0.0",
+  "title": "Drain pump \u2014 25\u201335 \u03a9",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "E1",
+    "E4",
+    "drain_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "drain-pump",
+    "oemTestTitle": "Drain pump resistance",
+    "pages": [
+      21,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_drain_pump"
+    },
+    {
+      "id": "access_drain_pump",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access drain pump",
+      "body": "Lay dishwasher on back after removing from installation. Remove base cover screw. Rotate pump 1/4-turn counterclockwise to remove; disconnect 2 wires.",
+      "sourceExcerpt": "The drain pump has an approximate resistance value of 25- 350.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_pump_ohms"
+    },
+    {
+      "id": "drain_pump_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Drain pump winding resistance",
+      "body": "Measure across drain pump motor terminals. Expect 25\u201335 \u03a9.",
+      "sourceExcerpt": "Measure across drain pump motor terminals. Expect 25\u201335 \u03a9.",
+      "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "CON3",
+        "pins": "pin 5 / pump terminals",
+        "label": "Drain pump winding resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_pump_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_crit",
+          "label": "Replace drain pump \u2014 open winding.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain_pump_verified",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Check valve and O-ring",
+      "body": "Verify check valve flapper moves freely and O-ring retained in pump seal before reassembly.",
+      "sourceExcerpt": "Verify check valve flapper moves freely and O-ring retained in pump seal before reassembly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_path_ok_yes",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_path_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "drain_path_ok_no",
+          "label": "Mechanical fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_drain_pump",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "body": "Replace drain pump assembly; verify O-ring and clamp.",
+      "oemOutcome": "Replace drain pump assembly; verify O-ring and clamp.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_path_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Drain pump verified",
+      "body": "Pump ohms in spec and check valve OK.",
+      "oemOutcome": "Pump ohms in spec and check valve OK.",
+      "requiresInput": false
+    }
+  ]
+}

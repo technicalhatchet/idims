@@ -1,0 +1,309 @@
+{
+  "id": "w11366142-vent-wax-motor",
+  "version": "1.0.0",
+  "title": "Vent Wax Motor (1890\u20132310 \u03a9 each coil)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F10E2",
+    "vent_check"
+  ],
+  "source": {
+    "manualId": "W11366142",
+    "manualTitle": "KitchenAid Premium Dishwasher (KDTM404/604/804)",
+    "extractedTextFile": "backend/docs/manuals/Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "strip",
+    "oemTestTitle": "Vent Wax Motor",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_service_diag"
+    },
+    {
+      "id": "vent_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Vent in Service Diagnostics",
+      "body": "Run Service Diagnostics \u2014 observe vent open/close during dry interval. Clear error codes and retest if F10E2 was intermittent.",
+      "sourceExcerpt": "Run Service Diagnostics \u2014 observe vent open/close during dry interval. Clear error codes and retest if F10E2 was intermittent.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_vent_wax"
+    },
+    {
+      "id": "disconnect_vent_wax",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect vent wax motor",
+      "body": "Power off. Access ProDry/vent assembly. Disconnect vent wax motor harness at motor.",
+      "sourceExcerpt": "Power off. Access ProDry/vent assembly. Disconnect vent wax motor harness at motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_coil1_ohms"
+    },
+    {
+      "id": "vent_coil1_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Vent wax motor \u2014 coil 1",
+      "body": "Ohms across first vent wax motor coil at harness. W11366142 spec 1890\u20132310 \u03a9 per coil.",
+      "sourceExcerpt": "Ohms across first vent wax motor coil at harness. W11366142 spec 1890\u20132310 \u03a9 per coil.",
+      "measurementKnowledgeId": "whirlpoolDishwasherPremiumVentWaxMotorOhms",
+      "testPoint": {
+        "connector": "Vent wax motor",
+        "pins": "coil 1",
+        "label": "Vent wax motor \u2014 coil 1"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vent_coil2_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "vent_coil2_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "vent_coil2_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "vent_coil2_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "vent_coil2_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vent_coil2_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Vent wax motor \u2014 coil 2",
+      "body": "Ohms across second vent wax motor coil at harness. Expect 1890\u20132310 \u03a9.",
+      "sourceExcerpt": "Ohms across second vent wax motor coil at harness. Expect 1890\u20132310 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDishwasherPremiumVentWaxMotorOhms",
+      "testPoint": {
+        "connector": "Vent wax motor",
+        "pins": "coil 2",
+        "label": "Vent wax motor \u2014 coil 2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_vent_wax_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_vent_wax_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_vent_wax_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "reconnect_vent_wax_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_vent_wax",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_vent_wax",
+      "order": 6,
+      "type": "instruction",
+      "title": "Reconnect and restore power",
+      "body": "Reconnect vent wax motor. Restore power and run Service Diagnostics vent interval.",
+      "sourceExcerpt": "Reconnect vent wax motor. Restore power and run Service Diagnostics vent interval.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_vent_wax"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics should be available (1-2-3 entry, press Key #2, close door to start). Continue with live checks below.",
+      "sourceExcerpt": "Refer to strip circuit; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "live_vent_wax"
+    },
+    {
+      "id": "live_vent_wax",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Vent opens in Service Diagnostics?",
+      "body": "Vent wax motor must be connected. Observe vent damper opens during dry/vent interval.",
+      "sourceExcerpt": "Vent wax motor must be connected. Observe vent damper opens during dry/vent interval.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vent_wax_verified_yes",
+          "label": "Vent opens",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vent_wax_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "vent_wax_verified_no",
+          "label": "No movement",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_vent",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_vent_wax",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace vent wax motor",
+      "body": "Replace vent wax motor if either coil open/out of range.",
+      "oemOutcome": "Replace vent wax motor if either coil open/out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_vent",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Motor good but no vent drive \u2014 replace control or check vent fuse.",
+      "oemOutcome": "Motor good but no vent drive \u2014 replace control or check vent fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "vent_wax_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Vent wax motor verified",
+      "body": "Vent wax motor circuit verified.",
+      "oemOutcome": "Vent wax motor circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11480208-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

@@ -1,0 +1,415 @@
+[
+  {
+    "id": "samsungDishwasherM9ThermistorOhms",
+    "name": "Samsung DW80M9 Water Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 35, "max": 70 },
+      "warning": { "min": 25, "max": 100 },
+      "critical": { "below": 5, "above": 130 }
+    },
+    "typical": { "min": 45, "max": 55 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 tC — thermistor table ~49.12 kΩ @ 25°C; powered signal 0.05–4.95 V at CN503 pin 4.",
+    "failureModes": [
+      "Open or short — tC check code",
+      "Frozen water path — tC during heater operation"
+    ],
+    "testingTips": [
+      "Disconnect connector before bench ohms (CN503 pin 4)",
+      "Compare to OEM table at known tub water temperature",
+      "Verify 0.05–4.95 V with power on when harness connected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["thermistor_check", "temperature_sensor"]
+  },
+  {
+    "id": "samsungDishwasherM9CirculationMotorOhms",
+    "name": "Samsung DW80M9 Circulation Motor Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5.2, "max": 6.4 },
+      "warning": { "min": 4.8, "max": 7.0 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 5.6, "max": 6.0 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 3C — circulation pump coil approx. 5.8 Ω ±10%.",
+    "failureModes": [
+      "Open coil — 3C check code / no wash",
+      "Foreign material in pump — mechanical no-wash"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before measuring",
+      "Check inverter PBA LED and CN901 BLDC harness",
+      "Verify nozzle spray in Smart Install step 3"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["motor_check", "wash_issue", "3C"]
+  },
+  {
+    "id": "samsungDishwasherM9FillValveOhms",
+    "name": "Samsung DW80M9 Inlet Valve Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 890, "max": 1089 },
+      "warning": { "min": 800, "max": 1200 },
+      "critical": { "below": 100, "above": 2000 }
+    },
+    "typical": { "min": 940, "max": 1040 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 4C — water valve coil approx. 990 Ω ±10% (890–1089 Ω).",
+    "failureModes": [
+      "Open coil — 4C / no fill",
+      "Valve stuck open — OC / 4C5 false pulses"
+    ],
+    "testingTips": [
+      "Measure at CN401 pin 6 circuit with connector removed",
+      "Verify 110–120 V at Blue CN401-6 to White CN101 during operate",
+      "Check flow meter pulses at CN503 pin 11 during fill"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["fill_issue", "4C", "inlet_valve"]
+  },
+  {
+    "id": "samsungDishwasherM9DrainPumpOhms",
+    "name": "Samsung DW80M9 Drain Pump Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 82, "max": 94 },
+      "warning": { "min": 75, "max": 100 },
+      "critical": { "below": 10, "above": 150 }
+    },
+    "typical": { "min": 85, "max": 91 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 5C — drain pump coil approx. 88 Ω ±7%.",
+    "failureModes": [
+      "Open coil — 5C check code",
+      "Impeller obstruction — 5C with good coil"
+    ],
+    "testingTips": [
+      "Disconnect drain pump connector before measuring",
+      "BLDC drain on CN902 — also check inverter PBA if LED off during run",
+      "Clear drain hose and filter before bench test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["drain_issue", "5C"]
+  },
+  {
+    "id": "samsungDishwasherM9HeaterOhms",
+    "name": "Samsung DW80M9 Wash Heater Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12.14, "max": 14.16 },
+      "warning": { "min": 11.5, "max": 15.0 },
+      "critical": { "below": 5, "above": 25 }
+    },
+    "typical": { "min": 12.8, "max": 13.5 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 HC1 — heater element 12.14–14.16 Ω at power off.",
+    "failureModes": [
+      "Open element — HC1 / no heat",
+      "Shorted element — HC overheat path"
+    ],
+    "testingTips": [
+      "Disconnect power before bench ohms",
+      "May measure at heater terminals or heater relay to power relay paths per manual",
+      "Verify 110–120 V at heater relay during Smart Install step 3"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungDishwasherM9DispenserOhms",
+    "name": "Samsung DW80M9 Detergent Dispenser",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 700, "max": 3000 },
+      "warning": { "min": 500, "max": 3500 },
+      "critical": { "below": 200, "above": 5000 }
+    },
+    "typical": { "min": 1500, "max": 2500 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 — dispenser solenoid approx. 0.7–3 kΩ at CN401 pin 4.",
+    "failureModes": [
+      "Open solenoid — detergent not dispensed",
+      "Relay fault — 120 V missing at CN401/CN101 during operate"
+    ],
+    "testingTips": [
+      "Confirm detergent loaded and lid not blocked",
+      "Dispenser operates 130 s in Smart Install Auto step 3"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["dispenser_check"]
+  },
+  {
+    "id": "samsungDishwasherM9DryFanOhms",
+    "name": "Samsung DW80M9 Dry Fan Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 130, "max": 170 },
+      "warning": { "min": 100, "max": 200 },
+      "critical": { "below": 20, "above": 300 }
+    },
+    "typical": { "min": 140, "max": 160 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 dry troubleshooting — dry fan coil approx. 150 Ω; FC when RPM <3000.",
+    "failureModes": [
+      "Open winding — poor dry / FC code",
+      "Fan runs but poor dry — rinse aid empty or thermal actuator fault"
+    ],
+    "testingTips": [
+      "Fan runs 30 s in Smart Install step 5 / manual step 5",
+      "CN401 pin 10 AC dry fan; CN301 BLDC fan on applicable models"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["fan_check", "dry_issue", "FC"]
+  },
+  {
+    "id": "samsungDishwasherM9ThermalActuatorOhms",
+    "name": "Samsung DW80M9 Dry Thermal Actuator",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1300, "max": 1600 },
+      "warning": { "min": 1100, "max": 1800 },
+      "critical": { "below": 200, "above": 2500 }
+    },
+    "typical": { "min": 1400, "max": 1500 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 dry troubleshooting — thermal actuator approx. 1.45 kΩ at CN401 pin 5.",
+    "failureModes": [
+      "Open actuator — auto door dry path fails",
+      "120 V missing during operate — main PBA relay"
+    ],
+    "testingTips": [
+      "Auto Door Open tested in Smart Install step 5 / manual step 7",
+      "dC3 when door open not sensed after actuator runs"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["dry_issue", "auto_door"]
+  },
+  {
+    "id": "samsungDishwasherM9DistributorMotorOhms",
+    "name": "Samsung DW80M9 Distributor Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3600, "max": 4000 },
+      "warning": { "min": 3200, "max": 4500 },
+      "critical": { "below": 500, "above": 6000 }
+    },
+    "typical": { "min": 3700, "max": 3900 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 PC — distributor motor coil 3.6–4.0 kΩ.",
+    "failureModes": [
+      "Open coil — PC / half-load fault",
+      "Micro switch stuck — position not detected in 120 s"
+    ],
+    "testingTips": [
+      "Check CN401 pin 3 distributor motor connector",
+      "Micro switch brown/violet: SHORT on / OPEN off in service test",
+      "Do not supply water during micro switch position test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["diverter_check", "PC"]
+  },
+  {
+    "id": "samsungDishwasherM9VaneMotorOhms",
+    "name": "Samsung DW80M9 Lower Vane Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1625, "max": 1796 },
+      "warning": { "min": 1500, "max": 1900 },
+      "critical": { "below": 300, "above": 2500 }
+    },
+    "typical": { "min": 1680, "max": 1750 },
+    "openCircuitCritical": true,
+    "purpose": "DW80M9 §4-3 7C — vane motor coil 1.625–1.796 kΩ (Red/Black CCW, White/Black CW).",
+    "failureModes": [
+      "Open coil — 7C vane reset fault",
+      "Sensor vane stuck — 0 V / 5 V sensor fault"
+    ],
+    "testingTips": [
+      "CN401 pins 7–8 vane forward/backward relays",
+      "CN501 pin 3 lower vane reset sensor",
+      "Sensor vane brown/black: 0 V on / 5 V off in service test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher_m9"
+    },
+    "dmaTags": ["diverter_check", "7C"]
+  },
+  {
+    "id": "samsungMe11HvTransformerPrimaryOhms",
+    "name": "Samsung ME11 OTR HV Transformer Primary",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.38, "max": 0.5 },
+      "warning": { "min": 0.32, "max": 0.55 },
+      "critical": { "below": 0.2, "above": 1.0 }
+    },
+    "typical": { "min": 0.41, "max": 0.48 },
+    "openCircuitCritical": true,
+    "purpose": "ME11 §4-1 — HV transformer primary 0.410–0.475 Ω (SHV-U1870E) or 0.440–0.480 Ω (SHV-U1850C) at 20°C.",
+    "failureModes": [
+      "Open (OL): transformer primary failed — no heat",
+      "Short/low: winding fault — replace transformer"
+    ],
+    "testingTips": [
+      "Disconnect power, discharge HV capacitor, remove primary leads before measuring",
+      "Primary and filament windings to ground must read infinite (Rx1000)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_microwave_otr"
+    },
+    "dmaTags": ["no_heat_issue", "magnetron_check", "high_voltage_safety"]
+  },
+  {
+    "id": "samsungMe11HvTransformerSecondaryOhms",
+    "name": "Samsung ME11 OTR HV Transformer Secondary",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 121, "max": 134 },
+      "warning": { "min": 115, "max": 140 },
+      "critical": { "below": 50, "above": 200 }
+    },
+    "typical": { "min": 123, "max": 132 },
+    "openCircuitCritical": true,
+    "purpose": "ME11 §4-1 — HV transformer secondary ~123.5 Ω ±2% or ~131.0 Ω ±2% (model-dependent).",
+    "failureModes": [
+      "Open (OL): no HV output to magnetron",
+      "Out of range: replace HV transformer"
+    ],
+    "testingTips": [
+      "Measure secondary with leads removed; discharge capacitor first",
+      "Filament winding shows continuity — do not confuse with secondary"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_microwave_otr"
+    },
+    "dmaTags": ["no_heat_issue", "magnetron_check", "high_voltage_safety"]
+  },
+  {
+    "id": "samsungMe11VentBlowerOhms",
+    "name": "Samsung ME11 OTR Vent Blower Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 85, "max": 105 },
+      "warning": { "min": 70, "max": 120 },
+      "critical": { "below": 20, "above": 500 }
+    },
+    "typical": { "min": 90, "max": 98 },
+    "openCircuitCritical": true,
+    "purpose": "ME11 §4-7 — continuity across run-capacitor leads reads ~94 Ω (all three windings in series).",
+    "failureModes": [
+      "Open (OL): vent motor or capacitor circuit failed",
+      "Very low: shorted windings — replace blower motor"
+    ],
+    "testingTips": [
+      "Disconnect power, discharge run capacitor, disconnect one cap lead before measuring",
+      "Unit must be removed from wall for blower service"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_microwave_otr"
+    },
+    "dmaTags": ["motor_check", "vent_issue"]
+  },
+  {
+    "id": "samsungMe11HumiditySensorHeaterOhms",
+    "name": "Samsung ME11 OTR Humidity Sensor Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 35 },
+      "warning": { "min": 20, "max": 40 },
+      "critical": { "below": 10, "above": 60 }
+    },
+    "typical": { "min": 28, "max": 32 },
+    "openCircuitCritical": true,
+    "purpose": "ME11 §4-14 — heater terminals (H; Black and Red leads) ~30 Ω. Do NOT ohm White/Orange sensor terminals.",
+    "failureModes": [
+      "Open (OL): sensor heater failed — C-10 / quick test ≥213",
+      "Very low: shorted heater — quick test <6"
+    ],
+    "testingTips": [
+      "Only measure Black and Red heater leads — White/Orange can damage sensor",
+      "Prefer §4-14 quick test (Auto Defrost + Popcorn) before direct ohm on sensor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_microwave_otr"
+    },
+    "dmaTags": ["sensor_check", "humidity_sensor", "C-10"]
+  }
+]

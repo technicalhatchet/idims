@@ -1,0 +1,351 @@
+{
+  "id": "samsungtlcg71d-gas-valve",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Gas valve coils (25M01A)",
+  "platformId": "samsung_tl_dryer_cg71",
+  "componentIds": [
+    "gas_valve"
+  ],
+  "tags": [
+    "gas_valve_check",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-CG71-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer CG71 Family (DVE55CG71, DVG55CG71)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer new style-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Gas valve",
+    "pages": [
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_access"
+    },
+    {
+      "id": "valve_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Gas valve coils",
+      "body": "Shut off gas. Disconnect power. Measure valve coil pairs at 25M01A harness.",
+      "sourceExcerpt": "Shut off gas. Disconnect power. Measure valve coil pairs at 25M01A harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_12"
+    },
+    {
+      "id": "valve_12",
+      "order": 3,
+      "type": "measurement",
+      "title": "Valve 1\u20132",
+      "body": "~1365 \u03a9",
+      "sourceExcerpt": "~1365 \u03a9",
+      "measurementKnowledgeId": "samsungTlDv50DryerGasValve12Ohms",
+      "testPoint": {
+        "connector": "Valve",
+        "pins": "1-2",
+        "label": "Valve 1\u20132"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_pass",
+          "label": "~1365 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_13",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_gas_valve_ol_gas_valve_ok",
+              "componentId": "gas_valve"
+            }
+          ]
+        },
+        {
+          "id": "v12_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed",
+              "componentId": "gas_valve"
+            }
+          ]
+        },
+        {
+          "id": "v12_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed",
+              "componentId": "gas_valve"
+            }
+          ]
+        },
+        {
+          "id": "v12_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed",
+              "componentId": "gas_valve"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtlcg71d-burner",
+          "caption": "Gas burner assembly (\u00a73-2 p.21)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-burner.png"
+        },
+        {
+          "id": "samsungtlcg71d-main-pcb",
+          "caption": "Main PCB assembly (\u00a72-8 p.12)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-main-pcb.png"
+        }
+      ]
+    },
+    {
+      "id": "valve_13",
+      "order": 4,
+      "type": "measurement",
+      "title": "Valve 1\u20133",
+      "body": "~560 \u03a9",
+      "sourceExcerpt": "~560 \u03a9",
+      "measurementKnowledgeId": "samsungTlDv50DryerGasValve13Ohms",
+      "testPoint": {
+        "connector": "Valve",
+        "pins": "1-3",
+        "label": "Valve 1\u20133"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v13_pass",
+          "label": "~560 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_45"
+        },
+        {
+          "id": "v13_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v13_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v13_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtlcg71d-burner",
+          "caption": "Gas burner assembly (\u00a73-2 p.21)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-burner.png"
+        },
+        {
+          "id": "samsungtlcg71d-main-pcb",
+          "caption": "Main PCB assembly (\u00a72-8 p.12)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-main-pcb.png"
+        }
+      ]
+    },
+    {
+      "id": "valve_45",
+      "order": 5,
+      "type": "measurement",
+      "title": "Valve 4\u20135",
+      "body": "~1325 \u03a9",
+      "sourceExcerpt": "~1325 \u03a9",
+      "measurementKnowledgeId": "samsungTlDv50DryerGasValve45Ohms",
+      "testPoint": {
+        "connector": "Valve",
+        "pins": "4-5",
+        "label": "Valve 4\u20135"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v45_pass",
+          "label": "~1325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_67"
+        },
+        {
+          "id": "v45_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v45_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v45_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtlcg71d-burner",
+          "caption": "Gas burner assembly (\u00a73-2 p.21)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-burner.png"
+        },
+        {
+          "id": "samsungtlcg71d-main-pcb",
+          "caption": "Main PCB assembly (\u00a72-8 p.12)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-main-pcb.png"
+        }
+      ]
+    },
+    {
+      "id": "valve_67",
+      "order": 6,
+      "type": "measurement",
+      "title": "Valve 6\u20137",
+      "body": "~1000 \u03a9",
+      "sourceExcerpt": "~1000 \u03a9",
+      "measurementKnowledgeId": "samsungTlDv50DryerGasValve67Ohms",
+      "testPoint": {
+        "connector": "Valve",
+        "pins": "6-7",
+        "label": "Valve 6\u20137"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v67_pass",
+          "label": "~1000 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified"
+        },
+        {
+          "id": "v67_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v67_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        },
+        {
+          "id": "v67_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtlcg71d-burner",
+          "caption": "Gas burner assembly (\u00a73-2 p.21)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-burner.png"
+        },
+        {
+          "id": "samsungtlcg71d-main-pcb",
+          "caption": "Main PCB assembly (\u00a72-8 p.12)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_cg71/samsungtlcg71d-main-pcb.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace gas valve",
+      "oemOutcome": "Replace gas valve when any coil open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Gas valve OK",
+      "oemOutcome": "All coil pairs in spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

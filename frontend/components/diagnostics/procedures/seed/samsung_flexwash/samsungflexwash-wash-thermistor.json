@@ -1,0 +1,84 @@
+{
+  "id": "samsungflexwash-wash-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Wash temperature sensor (TC1)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "TC1",
+    "thermistor"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Temperature Sensor TC1",
+    "pages": [
+      41,
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "tc_connectors"
+    },
+    {
+      "id": "tc_connectors",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Thermistor connectors",
+      "body": "Check washing heater temperature sensor connector. Rule out winter freeze. Type 1: ~40\u201355 k\u03a9; Type 2: ~10\u201315 k\u03a9 at room temp.",
+      "sourceExcerpt": "Check washing heater temperature sensor connector. Rule out winter freeze. Type 1: ~40\u201355 k\u03a9; Type 2: ~10\u201315 k\u03a9 at room temp.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tc_verified"
+        },
+        {
+          "id": "replace_ntc",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ntc_out",
+          "terminal": true,
+          "oemOutcome": "Replace faulty wash thermistor."
+        }
+      ]
+    },
+    {
+      "id": "replace_ntc_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace washing temperature sensor per active TC1.",
+      "requiresInput": false
+    },
+    {
+      "id": "tc_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Thermistor OK",
+      "oemOutcome": "Sensor connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "id": "samsungwd53-hmi-check",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Switch error (BC2, bC2)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "BC2",
+    "bC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Switch Error BC2",
+    "pages": [
+      50,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "stuck_button"
+    },
+    {
+      "id": "stuck_button",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Stuck button / panel moisture",
+      "body": "Verify no button pressed >30 s. Check water on window panel and rear PCB connector.",
+      "sourceExcerpt": "Verify no button pressed >30 s. Check water on window panel and rear PCB connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "buttons_free",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bc2_verified"
+        },
+        {
+          "id": "repair_panel",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_panel_out",
+          "terminal": true,
+          "oemOutcome": "Dry panel, relieve deformation, or replace sub PBA."
+        }
+      ]
+    },
+    {
+      "id": "repair_panel_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Repair panel/PBA",
+      "oemOutcome": "Correct mechanical bind or replace sub PBA.",
+      "requiresInput": false
+    },
+    {
+      "id": "bc2_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Switch path OK",
+      "oemOutcome": "No stuck buttons \u2014 replace sub PBA if BC2 persists.",
+      "requiresInput": false
+    }
+  ]
+}

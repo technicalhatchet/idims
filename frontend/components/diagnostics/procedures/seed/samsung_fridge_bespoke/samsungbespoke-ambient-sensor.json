@@ -1,0 +1,122 @@
+{
+  "id": "samsungbespoke-ambient-sensor",
+  "version": "1.0.0",
+  "title": "External / ambient air sensor",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "ambient_sensor",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Ambient sensor",
+    "pages": [
+      89,
+      97
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "ambient_note"
+    },
+    {
+      "id": "ambient_note",
+      "order": 2,
+      "type": "instruction",
+      "title": "Connector variant",
+      "body": "RF23BB: CN60 3\u21945. RF32CG ambient/ice-room may use CN40 18\u219420 \u2014 confirm model.",
+      "sourceExcerpt": "RF23BB: CN60 3\u21945. RF32CG ambient/ice-room may use CN40 18\u219420 \u2014 confirm model.",
+      "requiresInput": false,
+      "defaultNextStepId": "ambient_voltage"
+    },
+    {
+      "id": "ambient_voltage",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ambient thermistor voltage",
+      "body": "Measure listed ambient pin pair \u2014 4.5 V warm \u2192 1.0 V cold.",
+      "sourceExcerpt": "Measure listed ambient pin pair \u2014 4.5 V warm \u2192 1.0 V cold.",
+      "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+      "testPoint": {
+        "connector": "CN60 or CN40",
+        "pins": "3\u21945 or 18\u219420",
+        "label": "Ambient thermistor voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "amb_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ambient",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "amb_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ambient",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "amb_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ambient_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_ambient",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ambient sensor",
+      "oemOutcome": "Replace sensor or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "ambient_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ambient sensor OK",
+      "oemOutcome": "Voltage in range.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "samsungrf260b-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_sxs",
+  "manualId": "SAMSUNG-RF260B-FRIDGE",
+  "title": "Samsung RF260B \u2014 Test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter test mode for manual operation and forced defrost (\u00a74-1-1).",
+  "tags": [
+    "service_diagnostic",
+    "defrost",
+    "load_test"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualTitle": "Samsung RF260B/RF261B Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung frdige rf260b-extracted.txt",
+    "pages": [
+      47
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press Power Freezer + Fridge keys simultaneously for 8 seconds \u2014 all display segments turn off.",
+      "sourceExcerpt": "Press Power Freezer + Fridge keys simultaneously for 8 seconds \u2014 all display segments turn off.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_cycle"
+    },
+    {
+      "id": "tm_cycle",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test mode sequence",
+      "body": "Within 15 s press any key to cycle: FF (manual op 1) \u2192 OF-r (manual op 2) \u2192 rd (R defrost) \u2192 fd (F+R defrost). Power cycle cancels.",
+      "sourceExcerpt": "Within 15 s press any key to cycle: FF (manual op 1) \u2192 OF-r (manual op 2) \u2192 rd (R defrost) \u2192 fd (F+R defrost). Power cycle cancels.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_self_diag"
+    },
+    {
+      "id": "tm_self_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Self-diagnostic entry",
+      "body": "During normal operation: Power Freezer + Power Fridge 8 s \u2192 ding-dong \u2192 self-diagnostic LEDs 30 s (\u00a74-1-3).",
+      "sourceExcerpt": "During normal operation: Power Freezer + Power Fridge 8 s \u2192 ding-dong \u2192 self-diagnostic LEDs 30 s (\u00a74-1-3).",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

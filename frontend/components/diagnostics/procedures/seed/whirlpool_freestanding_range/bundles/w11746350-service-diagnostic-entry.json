@@ -1,0 +1,37 @@
+{
+  "id": "w11746350-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_freestanding_range",
+  "manualId": "W11746350",
+  "title": "W11746350 \u2014 Service Diagnostic mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Settings-based Service Diagnostics entry (Option A or B).",
+  "tags": [
+    "service_diagnostic",
+    "component_activation"
+  ],
+  "entryStepId": "service_diagnostic_entry",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "pages": [
+      28,
+      29
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_diagnostic_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic mode",
+      "body": "Option A: Settings \u2192 Info \u2192 Service & Support \u2192 code 111 111 111 (digit 1 nine times) \u2192 CONFIRM \u2192 Service Diagnostics home.\nOption B: Settings \u2192 Diagnostics home \u2192 Service Diagnostics Code \u2192 repeat any 3-digit sequence 3\u00d7 (e.g. 123123123) \u2192 OK.\nUse Component Activation for load tests (Bake, Door Latch Motor, etc.).",
+      "sourceExcerpt": "Enter Diagnostics mode by pressing Settings > Info > Service & Support.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

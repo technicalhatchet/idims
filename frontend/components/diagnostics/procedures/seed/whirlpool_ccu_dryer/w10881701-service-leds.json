@@ -1,0 +1,206 @@
+{
+  "id": "w10881701-service-leds",
+  "version": "1.0.0",
+  "title": "TEST #10: Service LEDs",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "hmi_check",
+    "F6E2",
+    "F6E3"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10",
+    "oemTestTitle": "Service LEDs",
+    "pages": [
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_service_leds"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_service_leds"
+    },
+    {
+      "id": "access_service_leds",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access UI service LEDs",
+      "body": "Separate glass top from UI frame. Locate amber Service Power, blue Service Data, white Service Button Sounds LEDs.",
+      "sourceExcerpt": "Separate glass top from UI frame. Locate amber Service Power, blue Service Data, white Service Button Sounds LEDs.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_led",
+      "images": [
+        {
+          "id": "w11737351-access-top-console",
+          "caption": "Removing top panel and console/HMI (W11737351 p.8)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-top-console.png"
+        }
+      ]
+    },
+    {
+      "id": "power_led",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Service Power (amber)",
+      "body": "Flashes 1 Hz when UI powered. No flash \u2192 check UI harness and connections.",
+      "sourceExcerpt": "Flashes 1 Hz when UI powered. No flash \u2192 check UI harness and connections.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "power_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "data_led"
+        },
+        {
+          "id": "power_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_harness",
+          "terminal": true,
+          "oemOutcome": "Check UI power harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data_led",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Service Data (blue)",
+      "body": "Illuminates/flashes when ACU\u2194UI comm OK. Cycle POWER or replug \u2014 if still dark, check harness and ACU.",
+      "sourceExcerpt": "Illuminates/flashes when ACU\u2194UI comm OK. Cycle POWER or replug \u2014 if still dark, check harness and ACU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "data_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "button_led"
+        },
+        {
+          "id": "data_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_harness",
+          "terminal": true,
+          "oemOutcome": "Check ACU\u2194UI harness continuity.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "button_led",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Service Button Sounds (white)",
+      "body": "On when Control Lock off and Audio Level not muted. Hold STEAM REFRESH 3 sec to toggle lock; use AUDIO LEVEL if muted.",
+      "sourceExcerpt": "On when Control Lock off and Audio Level not muted. Hold STEAM REFRESH 3 sec to toggle lock; use AUDIO LEVEL if muted.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "button_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_leds_verified"
+        },
+        {
+          "id": "button_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Replace UI \u2014 speaker/lock/audio path fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Check harness",
+      "oemOutcome": "Verify UI harness continuity and connector seating.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ui",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace UI",
+      "oemOutcome": "Replace UI when all three service LEDs fail after harness OK.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_leds_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Service LEDs verified",
+      "oemOutcome": "All three UI service LEDs behave per manual.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

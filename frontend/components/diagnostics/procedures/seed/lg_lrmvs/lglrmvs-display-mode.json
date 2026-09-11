@@ -1,0 +1,146 @@
+{
+  "id": "lglrmvs-display-mode",
+  "version": "1.0.0",
+  "title": "\u00a713-1-15: Display / demo mode (OFF)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "cooling_off",
+    "display_mode",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "13-1-15",
+    "oemTestTitle": "Display mode cancel",
+    "pages": [
+      127
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_off"
+    },
+    {
+      "id": "display_off",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Panel shows OFF or O?",
+      "body": "Display mode disables all cooling (lamp/UI only). Ice Plus \u00d73 while holding Fridge button toggles mode \u00a713-1-15.",
+      "sourceExcerpt": "Display mode disables all cooling (lamp/UI only). Ice Plus \u00d73 while holding Fridge button toggles mode \u00a713-1-15.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "demo_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cancel_demo"
+        },
+        {
+          "id": "demo_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "cooling_ok",
+          "terminal": true,
+          "oemOutcome": "Display mode not active.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_lg_kw_co_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cancel_demo",
+      "order": 3,
+      "type": "instruction",
+      "title": "Cancel display mode",
+      "body": "Door open: press Ice Plus 3 times while holding Refrigerator button until special beep \u2014 repeat to confirm OFF cleared.",
+      "sourceExcerpt": "Door open: press Ice Plus 3 times while holding Refrigerator button until special beep \u2014 repeat to confirm OFF cleared.",
+      "requiresInput": false,
+      "defaultNextStepId": "demo_cleared"
+    },
+    {
+      "id": "demo_cleared",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Cooling restored?",
+      "body": "After canceling display mode, does unit resume normal cooling?",
+      "sourceExcerpt": "After canceling display mode, does unit resume normal cooling?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cooling_restored",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "demo_resolved"
+        },
+        {
+          "id": "investigate_cooling",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "still_warm",
+          "terminal": true,
+          "oemOutcome": "Cooling fault remains \u2014 continue diagnostics.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_lg_kw_co_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cooling_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Not display mode",
+      "oemOutcome": "Unit not in display/demo mode.",
+      "requiresInput": false
+    },
+    {
+      "id": "demo_resolved",
+      "order": 6,
+      "type": "outcome",
+      "title": "Display mode cleared",
+      "oemOutcome": "Display mode canceled \u2014 verify temperatures recover.",
+      "requiresInput": false
+    },
+    {
+      "id": "still_warm",
+      "order": 7,
+      "type": "outcome",
+      "title": "Continue diagnostics",
+      "oemOutcome": "Display mode ruled out \u2014 run cooling/error-code procedures.",
+      "requiresInput": false
+    }
+  ]
+}

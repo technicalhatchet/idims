@@ -1,0 +1,250 @@
+{
+  "id": "insigniawmt41-drive-motor",
+  "version": "1.0.0",
+  "title": "Drive motor & capacitor \u2014 agitate/spin",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "spin_issue",
+    "agitate_issue"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "07",
+    "oemTestTitle": "Motor & capacitor check",
+    "pages": [
+      62,
+      63
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "cap_discharge"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "cap_discharge"
+    },
+    {
+      "id": "cap_discharge",
+      "order": 3,
+      "type": "instruction",
+      "title": "Discharge motor capacitor",
+      "body": "Discharge motor capacitor before resistance tests. Yellow\u2013Blue: needle rises then \u221e = OK capacitor.",
+      "sourceExcerpt": "Discharge motor capacitor before resistance tests. Yellow\u2013Blue: needle rises then \u221e = OK capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_yellow_lightblue"
+    },
+    {
+      "id": "motor_yellow_lightblue",
+      "order": 4,
+      "type": "measurement",
+      "title": "Motor Yellow\u2013Light blue",
+      "body": "Drive motor winding pair: 15\u201325 \u03a9.",
+      "sourceExcerpt": "Drive motor winding pair: 15\u201325 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherFreqDriveMotorOhms",
+      "testPoint": {
+        "connector": "Drive motor",
+        "pins": "Yellow-Light blue",
+        "label": "Motor Yellow\u2013Light blue"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_yb_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_yb_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_yb_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_yb_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_blue_lightblue",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_blue_lightblue",
+      "order": 5,
+      "type": "measurement",
+      "title": "Motor Blue\u2013Light blue",
+      "body": "Second motor winding pair: 15\u201325 \u03a9.",
+      "sourceExcerpt": "Second motor winding pair: 15\u201325 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherFreqDriveMotorOhms",
+      "testPoint": {
+        "connector": "Drive motor",
+        "pins": "Blue-Light blue",
+        "label": "Motor Blue\u2013Light blue"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_bl_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_bl_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_bl_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drive_motor",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "motor_bl_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace drive motor or capacitor per failed pair.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Both motor pairs in spec \u2014 check belt, clutch, and inverter.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

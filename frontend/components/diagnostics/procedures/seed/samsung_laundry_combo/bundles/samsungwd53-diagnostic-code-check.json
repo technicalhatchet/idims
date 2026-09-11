@@ -1,0 +1,37 @@
+{
+  "id": "samsungwd53-diagnostic-code-check",
+  "version": "1.0.0",
+  "platformId": "samsung_laundry_combo",
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "title": "Samsung WD53 \u2014 Diagnostic code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored diagnostic codes (up to 7 digits) from Smart Install.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "dc_enter",
+  "source": {
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "pages": [
+      54,
+      56
+    ]
+  },
+  "steps": [
+    {
+      "id": "dc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Diagnostic information display",
+      "body": "From AS: press first bottom-right button \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display.",
+      "sourceExcerpt": "From AS: press first bottom-right button \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

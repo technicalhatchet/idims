@@ -1,0 +1,46 @@
+{
+  "id": "samsungwf6000r-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "title": "Samsung WF6000R \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) for automatic/manual component checks and diagnostic code display.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt",
+    "pages": [
+      29
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby \u2014 empty drum",
+      "body": "Washer standby. Drum empty. Set scheduled time to 17:00 for Smart Install path per manual.",
+      "sourceExcerpt": "Washer standby. Drum empty. Set scheduled time to 17:00 for Smart Install path per manual.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Start/Pause for 7 seconds after scheduled time setup. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Press Start/Pause for 7 seconds.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

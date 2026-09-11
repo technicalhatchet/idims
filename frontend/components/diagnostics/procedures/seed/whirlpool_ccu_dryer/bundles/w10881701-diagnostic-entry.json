@@ -1,0 +1,48 @@
+{
+  "id": "w10881701-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_ccu_dryer",
+  "manualId": "W10881701",
+  "title": "W10881701 \u2014 Service Diagnostics entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "Enter ACU Service Diagnostics (3-button sequence \u00d7 3). Success: all indicators on 5 sec with 888, then fault scroll or home.",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes"
+  ],
+  "entryStepId": "prep_standby",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "pages": [
+      14,
+      15
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_standby",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby mode",
+      "body": "Dryer plugged in with all indicators off.",
+      "sourceExcerpt": "Be sure the dryer is in standby mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "three_button_entry"
+    },
+    {
+      "id": "three_button_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "3-button diagnostic entry",
+      "body": "Select any three buttons (except POWER). Within 8 seconds, press and release each button once, then repeat the same 3-button sequence two more times (9 presses total). Select language, confirm service technician warning, then Diagnostics Home appears.",
+      "sourceExcerpt": "Press/release 1st, 2nd, 3rd button \u2014 repeat sequence 2 more times.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

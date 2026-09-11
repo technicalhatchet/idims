@@ -1,0 +1,106 @@
+{
+  "id": "samsungbb8700-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-3: PBA communication (AC, AC6)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "main_control",
+    "inverter"
+  ],
+  "tags": [
+    "AC",
+    "AC6",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Communication Error AC / AC6",
+    "pages": [
+      45,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_harness"
+    },
+    {
+      "id": "comm_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect sub/main harness",
+      "body": "AC: verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA.",
+      "sourceExcerpt": "AC: verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_ac6"
+    },
+    {
+      "id": "comm_ac6",
+      "order": 3,
+      "type": "instruction",
+      "title": "AC6 inverter path",
+      "body": "AC6: check main \u2194 inverter PBA harness. Machine may auto-recover \u2014 power cycle and retest.",
+      "sourceExcerpt": "AC6: check main \u2194 inverter PBA harness. Machine may auto-recover \u2014 power cycle and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_verified"
+    },
+    {
+      "id": "comm_verified",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Comm restored after power cycle?",
+      "body": "After reconnecting harnesses and power cycle, does washer run without AC/AC6?",
+      "sourceExcerpt": "After reconnecting harnesses and power cycle, does washer run without AC/AC6?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA communication circuit."
+        }
+      ]
+    },
+    {
+      "id": "replace_pba_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PBA",
+      "oemOutcome": "Replace main or inverter PBA per fault code.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_path_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "Harness and PBA communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

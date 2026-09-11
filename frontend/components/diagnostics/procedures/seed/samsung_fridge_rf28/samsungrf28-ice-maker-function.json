@@ -1,0 +1,84 @@
+{
+  "id": "samsungrf28-ice-maker-function",
+  "version": "1.0.0",
+  "title": "Ice maker (fridge) function",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF28-FRIDGE",
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-2",
+    "oemTestTitle": "Ice Maker (Fridge) function error",
+    "pages": [
+      58,
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+      "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_check"
+    },
+    {
+      "id": "im_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Ice maker operation",
+      "body": "After service, reapply power and verify ice maker harvest/fill. Use ice maker test button per \u00a74-2-4.",
+      "sourceExcerpt": "After service, reapply power and verify ice maker harvest/fill. Use ice maker test button per \u00a74-2-4.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_verified"
+        },
+        {
+          "id": "im_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module or repair harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_im",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Replace fridge ice maker assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "Ice maker function verified.",
+      "requiresInput": false
+    }
+  ]
+}

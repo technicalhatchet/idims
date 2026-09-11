@@ -1,0 +1,94 @@
+{
+  "id": "samsungtla50-clutch",
+  "version": "1.0.0",
+  "title": "\u00a75-2: Clutch position (PC, PC1)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "clutch"
+  ],
+  "tags": [
+    "PC",
+    "PC1"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2",
+    "oemTestTitle": "Clutch PC",
+    "pages": [
+      30,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "clutch_power_cycle"
+    },
+    {
+      "id": "clutch_power_cycle",
+      "order": 2,
+      "type": "instruction",
+      "title": "Power cycle",
+      "body": "Unplug 1 minute and retry. PC = clutch position not detected; PC1 = hall signal incorrect after detection.",
+      "sourceExcerpt": "Unplug 1 minute and retry. PC = clutch position not detected; PC1 = hall signal incorrect after detection.",
+      "requiresInput": false,
+      "defaultNextStepId": "clutch_inspect"
+    },
+    {
+      "id": "clutch_inspect",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Clutch and harness",
+      "body": "Inspect clutch assembly, hall sensor wiring, and motor module connections.",
+      "sourceExcerpt": "Inspect clutch assembly, hall sensor wiring, and motor module connections.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "clutch_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "clutch_verified"
+        },
+        {
+          "id": "replace_clutch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_clutch_out",
+          "terminal": true,
+          "oemOutcome": "Replace clutch/motor module or main PBA."
+        }
+      ]
+    },
+    {
+      "id": "replace_clutch_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace clutch module",
+      "oemOutcome": "Replace clutch or motor module when PC/PC1 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "clutch_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Clutch OK",
+      "oemOutcome": "Clutch position detected after service.",
+      "requiresInput": false
+    }
+  ]
+}

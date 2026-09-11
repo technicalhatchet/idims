@@ -1,0 +1,238 @@
+{
+  "id": "w11169659-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: ACU Power Check",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "acu"
+  ],
+  "tags": [
+    "supply_issue",
+    "F1E1",
+    "F6E1",
+    "F6E2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11169659",
+    "manualTitle": "Whirlpool & Maytag 27 in Front-Load Gas & Electric Dryers Service Manual",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169659 wedmed9620-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "ACU Power Check",
+    "pages": [
+      36,
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "green_led"
+    },
+    {
+      "id": "green_led",
+      "order": 2,
+      "type": "instruction",
+      "title": "Verify ACU green LED",
+      "body": "Power on \u2014 green LED on ACU should flash then stay lit after boot. If HMI works but LED never wakes, suspect UI wake path.",
+      "sourceExcerpt": "Power on \u2014 green LED on ACU should flash then stay lit after boot. If HMI works but LED never wakes, suspect UI wake path.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_outlet"
+    },
+    {
+      "id": "verify_outlet",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify outlet voltage",
+      "body": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "sourceExcerpt": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_acu"
+    },
+    {
+      "id": "access_acu",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access ACU",
+      "body": "Remove top panel. Restore power only for live voltage steps below.",
+      "sourceExcerpt": "Remove top panel. Restore power only for live voltage steps below.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_l1",
+      "images": [
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
+        },
+        {
+          "id": "w11737351-access-top-console",
+          "caption": "Removing top panel and console/HMI (W11737351 p.8)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-top-console.png"
+        }
+      ]
+    },
+    {
+      "id": "live_l1",
+      "order": 5,
+      "type": "visual_check",
+      "title": "120 VAC at J8-3 (N) and J9-2 (L1)",
+      "body": "Use needle probes. Black to J8-3, red to J9-2 \u2014 expect 120 VAC.",
+      "sourceExcerpt": "Use needle probes. Black to J8-3, red to J9-2 \u2014 expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_5v"
+        },
+        {
+          "id": "l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "supply_connections",
+          "terminal": true,
+          "oemOutcome": "No L1 at ACU \u2014 perform TEST #2 supply connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_5v",
+      "order": 6,
+      "type": "visual_check",
+      "title": "+5 VDC at J2-2 vs J2-4 (J2 unplugged)",
+      "body": "Unplug J2 from ACU. DC volts: red J2-2 (+5 VDC), black J2-4 (ground). Missing +5V with J14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "sourceExcerpt": "Unplug J2 from ACU. DC volts: red J2-2 (+5 VDC), black J2-4 (ground). Missing +5V with J14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_12v"
+        },
+        {
+          "id": "v5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "j14_thermistor_short",
+          "terminal": true,
+          "oemOutcome": "Diagnose thermistor short or harness before replacing ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "j14_thermistor_short",
+      "order": 7,
+      "type": "instruction",
+      "title": "Thermistor short isolation",
+      "body": "Disconnect power. Unplug J14, restore power, retest +5 VDC at J2-2/J2-4. If +5 returns, run TEST #4a thermistors.",
+      "sourceExcerpt": "Disconnect power. Unplug J14, restore power, retest +5 VDC at J2-2/J2-4. If +5 returns, run TEST #4a thermistors.",
+      "requiresInput": false,
+      "defaultNextStepId": "j2_ui_isolation"
+    },
+    {
+      "id": "j2_ui_isolation",
+      "order": 8,
+      "type": "instruction",
+      "title": "UI harness isolation",
+      "body": "Reconnect J14. Leave J2 unplugged. Retest +5 VDC at J2 header pins 2 & 4 (do not short pins). If +5 returns, check ACU\u2194HMI harness; replace HMI if harness OK.",
+      "sourceExcerpt": "Reconnect J14. Leave J2 unplugged. Retest +5 VDC at J2 header pins 2 & 4 (do not short pins). If +5 returns, check ACU\u2194HMI harness; replace HMI if harness OK.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_acu"
+    },
+    {
+      "id": "live_12v",
+      "order": 9,
+      "type": "visual_check",
+      "title": "+12.7 VDC at J2-1 vs J2-4",
+      "body": "J2 unplugged. DC volts: red J2-1 (+12.7 VDC), black J2-4 (ground). Missing at header \u2192 replace ACU; returns with J2 unplugged \u2192 check HMI harness.",
+      "sourceExcerpt": "J2 unplugged. DC volts: red J2-1 (+12.7 VDC), black J2-4 (ground). Missing at header \u2192 replace ACU; returns with J2 unplugged \u2192 check HMI harness.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_power_verified"
+        },
+        {
+          "id": "v12_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 +12.7 VDC missing at J2.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supply_connections",
+      "order": 10,
+      "type": "instruction",
+      "title": "Supply path fault",
+      "body": "Perform TEST #2 supply connections.",
+      "sourceExcerpt": "Perform TEST #2 supply connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "acu_power_verified"
+    },
+    {
+      "id": "replace_acu",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace appliance control unit (ACU).",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_power_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Line, +5 VDC, and +12.7 VDC present at ACU.",
+      "requiresInput": false
+    }
+  ]
+}

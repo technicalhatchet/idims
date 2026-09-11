@@ -1,0 +1,37 @@
+{
+  "id": "w11174814-maxwell-mrc-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_freestanding_range",
+  "manualId": "W11174814",
+  "title": "W11174814 \u2014 Maxwell/MRC Diagnostics mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "Maxwell/MRC entry via CANCEL\u00d72+START with Auto Test prerequisite.",
+  "tags": [
+    "service_diagnostic"
+  ],
+  "entryStepId": "service_diagnostic_entry",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "pages": [
+      27,
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_diagnostic_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Maxwell/MRC Diagnostics mode",
+      "body": "Run Auto Test first: CANCEL \u2192 CANCEL \u2192 START \u2192 scroll to Auto Test \u2192 follow prompts.\nService modes: same entry (CANCEL\u00d72+START). TEST ON shows cavity temp and door position (UO=closed, UI=open). Electric: DLB engages on entry (normal). Press CANCEL to exit.",
+      "sourceExcerpt": "Diagnostics Mode (All Maxwell/MRC Controls) \u2014 CANCEL>CANCEL>START.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "lglrmvs-damper-test",
+  "version": "1.0.0",
+  "platformId": "lg_lrmvs",
+  "manualId": "LG-LRMVS-FRIDGE",
+  "title": "LG LRMVS \u2014 Damper test (Test Mode 2)",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Test button \u00d72 closes damper \u2014 display 22 22.",
+  "tags": [
+    "damper",
+    "airflow"
+  ],
+  "entryStepId": "damper_enter",
+  "source": {
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "pages": [
+      88
+    ]
+  },
+  "steps": [
+    {
+      "id": "damper_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter damper test",
+      "body": "Push main PCB test button twice \u2014 damper closes (22 22 on display). Verify chill-room airflow changes.",
+      "sourceExcerpt": "Push main PCB test button twice \u2014 damper closes (22 22 on display). Verify chill-room airflow changes.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

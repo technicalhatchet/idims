@@ -1,0 +1,352 @@
+{
+  "id": "lgotrmw-line-power",
+  "version": "1.0.0",
+  "title": "\u00a76-4: No Display / Dead Unit",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "line_fuse"
+  ],
+  "tags": [
+    "no_power",
+    "fuse_check",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-4-dead",
+    "oemTestTitle": "No display or dead",
+    "pages": [
+      14,
+      15
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "key_beep"
+    },
+    {
+      "id": "key_beep",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Key press produces beep or display activity?",
+      "body": "Push any key \u2014 is there beeping or display response?",
+      "sourceExcerpt": "Push any key \u2014 is there beeping or display response?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pcb_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pcb_check"
+        },
+        {
+          "id": "pcb_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "connector_check",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "line_fuse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pcb_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Check PCB",
+      "body": "Inspect main PCB \u2014 unit responds to keys but may have display fault.",
+      "sourceExcerpt": "Inspect main PCB \u2014 unit responds to keys but may have display fault.",
+      "requiresInput": false,
+      "defaultNextStepId": "key_beep"
+    },
+    {
+      "id": "connector_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "PCB connectors seated?",
+      "body": "Verify all PCB connectors are connected. Reseat if loose.",
+      "sourceExcerpt": "Verify all PCB connectors are connected. Reseat if loose.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cord_continuity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cord_continuity"
+        },
+        {
+          "id": "cord_continuity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_connectors",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "line_fuse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_connectors",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat connectors",
+      "body": "Reconnect PCB connectors and retest.",
+      "sourceExcerpt": "Reconnect PCB connectors and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "connector_check"
+    },
+    {
+      "id": "cord_continuity",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Power cord continuity OK?",
+      "body": "Continuity test: Line (L) to pin 1, Neutral (N) to pin 3 at power connector.",
+      "sourceExcerpt": "Continuity test: Line (L) to pin 1, Neutral (N) to pin 3 at power connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_fuse_test_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "line_fuse_test"
+        },
+        {
+          "id": "line_fuse_test_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_cord",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "line_fuse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_cord",
+      "order": 7,
+      "type": "instruction",
+      "title": "Repair power cord",
+      "body": "Repair or replace power cord.",
+      "sourceExcerpt": "Repair or replace power cord.",
+      "requiresInput": false,
+      "defaultNextStepId": "cord_continuity"
+    },
+    {
+      "id": "line_fuse_test",
+      "order": 8,
+      "type": "measurement",
+      "title": "Line fuse continuity",
+      "body": "Continuity between both ends of the line fuse.",
+      "sourceExcerpt": "Continuity between both ends of the line fuse.",
+      "measurementKnowledgeId": "microwaveLineFuseOhms",
+      "testPoint": {
+        "connector": "Line fuse",
+        "pins": "both ends",
+        "label": "Line fuse continuity"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "noise_filter_test_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "noise_filter_test",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "line_fuse",
+              "evidenceId": "eliminate_fuse_open_line_fuse_ok"
+            }
+          ]
+        },
+        {
+          "id": "noise_filter_test_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_line_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "noise_filter_test_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_line_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "noise_filter_test_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_line_fuse",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_fuse_open_line_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_line_fuse",
+      "order": 9,
+      "type": "instruction",
+      "title": "Replace line fuse",
+      "body": "Replace blown line fuse; find root cause before energizing.",
+      "sourceExcerpt": "Replace blown line fuse; find root cause before energizing.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_fuse_test"
+    },
+    {
+      "id": "noise_filter_test",
+      "order": 10,
+      "type": "measurement",
+      "title": "Noise filter coil resistance",
+      "body": "Measure noise filter L(1)\u2013L(2) and N(1)\u2013N(2) coils \u2014 spec less than 1 \u03a9.",
+      "sourceExcerpt": "Nmornal: L(1)-L(2)(coil):Less than 1 ohm",
+      "measurementKnowledgeId": "lgMicrowaveOtrNoiseFilterCoilOhms",
+      "testPoint": {
+        "connector": "Noise filter",
+        "pins": "L1-L2 / N1-N2",
+        "label": "Noise filter coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "power_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "power_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "line_fuse",
+              "evidenceId": "eliminate_no_power_functional_line_fuse_ok"
+            }
+          ]
+        },
+        {
+          "id": "power_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_noise_filter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_no_power_functional_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "power_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_noise_filter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_no_power_functional_line_fuse_failed"
+            }
+          ]
+        },
+        {
+          "id": "power_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_noise_filter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "line_fuse",
+              "evidenceId": "confirm_no_power_functional_line_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_noise_filter",
+      "order": 11,
+      "type": "instruction",
+      "title": "Replace noise filter",
+      "body": "Replace noise filter assembly.",
+      "sourceExcerpt": "Replace noise filter assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "noise_filter_test"
+    },
+    {
+      "id": "power_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Line power path verified",
+      "body": "Fuse and noise filter OK \u2014 suspect main PCB (EBR75341201) if still dead.",
+      "oemOutcome": "Fuse and noise filter OK \u2014 suspect main PCB (EBR75341201) if still dead.",
+      "requiresInput": false
+    }
+  ]
+}

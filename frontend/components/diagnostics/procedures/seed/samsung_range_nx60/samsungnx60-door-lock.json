@@ -1,0 +1,172 @@
+{
+  "id": "samsungnx60-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Door lock motor (C-d1)",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "C-d1",
+    "door_latch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "C-d1 door locking information",
+    "pages": [
+      63,
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_lock"
+    },
+    {
+      "id": "disconnect_lock",
+      "order": 2,
+      "type": "instruction",
+      "title": "Isolate lock motor",
+      "body": "Disconnect power. Disconnect harness from lock motor. Check lock switch COM\u2013NO.",
+      "sourceExcerpt": "Disconnect power. Disconnect harness from lock motor. Check lock switch COM\u2013NO.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_motor_ohms"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "lock_motor_ohms"
+    },
+    {
+      "id": "lock_motor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Lock motor coil resistance",
+      "body": "Lock motor coil \u2014 1750\u20131950 \u03a9 at room temperature.",
+      "sourceExcerpt": "Lock motor coil \u2014 1750\u20131950 \u03a9 at room temperature.",
+      "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+      "testPoint": {
+        "connector": "Lock motor",
+        "pins": "coil",
+        "label": "Lock motor coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_pass",
+          "label": "1750\u20131950 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_voltage"
+        }
+      ]
+    },
+    {
+      "id": "lock_voltage",
+      "order": 5,
+      "type": "instruction",
+      "title": "Lock motor voltage",
+      "body": "Restore power. Command door lock. Measure AC 120 V at lock motor harness when activated.",
+      "sourceExcerpt": "Restore power. Command door lock. Measure AC 120 V at lock motor harness when activated.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_ok"
+    },
+    {
+      "id": "replace_lock",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace lock motor",
+      "oemOutcome": "Replace lock motor or micro switch when coil out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "lock_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Door lock OK",
+      "oemOutcome": "Lock motor resistance and voltage verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "lock_motor_ohms"
+    }
+  ]
+}

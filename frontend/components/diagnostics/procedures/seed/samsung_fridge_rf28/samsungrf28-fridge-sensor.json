@@ -1,0 +1,155 @@
+{
+  "id": "samsungrf28-fridge-sensor",
+  "version": "1.0.0",
+  "title": "Fridge compartment sensor (R)",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "fridge_sensor",
+    "weak_cooling_ff",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF28-FRIDGE",
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-2",
+    "oemTestTitle": "Self-diagnostic CHECK LIST \u2014 sensor",
+    "pages": [
+      56,
+      57,
+      77,
+      78
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+      "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_self_diag"
+    },
+    {
+      "id": "run_self_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Run self-diagnosis",
+      "body": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+      "sourceExcerpt": "Fridge + FlexZone 10 s during normal operation \u2014 ding-dong confirms entry; note blinking LED for this sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "service_mode_continue",
+      "type": "instruction",
+      "title": "Continue diagnostic",
+      "body": "Service mode active. Continue with pin-level test below.",
+      "sourceExcerpt": "Test Mode / Self-diagnosis entered \u2014 proceed to CHECK LIST measurement.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "sensor_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Thermistor voltage CN20 9 \u2194 11",
+      "body": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+      "sourceExcerpt": "Measure MAIN PCB CN20 9 \u2194 11 \u2014 4.5 V warm \u2192 1.0 V cold (0.6\u20134.6 V per \u00a74-2-1).",
+      "measurementKnowledgeId": "samsungRf28FridgeThermistorVoltage",
+      "testPoint": {
+        "connector": "CN20",
+        "pins": "9 \u2194 11",
+        "label": "Thermistor voltage CN20 9 \u2194 11"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace thermistor or repair harness when voltage out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Sensor OK",
+      "oemOutcome": "Voltage in range \u2014 clear error after repair and power cycle.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrf28-self-diagnostic-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "run_self_diag",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungrf28-test-mode-entry",
+      "modeKind": "load_test",
+      "attachAfterStepId": "run_self_diag",
+      "continueToStepId": "service_mode_continue"
+    },
+    {
+      "bundleId": "samsungrf28-load-condition-entry",
+      "modeKind": "load_test",
+      "attachAfterStepId": "run_self_diag",
+      "continueToStepId": "service_mode_continue"
+    }
+  ]
+}

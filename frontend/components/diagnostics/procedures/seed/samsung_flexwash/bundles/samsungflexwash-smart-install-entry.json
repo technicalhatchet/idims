@@ -1,0 +1,46 @@
+{
+  "id": "samsungflexwash-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_flexwash",
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "title": "Samsung FlexWash \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) from standby with scheduled time 17:00.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "pages": [
+      36
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby \u2014 empty drums",
+      "body": "Both drums empty. Set scheduled time to 17:00.",
+      "sourceExcerpt": "Both drums empty. Set scheduled time to 17:00.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Start/Pause for 7 seconds. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Standby \u2192 schedule 17:00 \u2192 Start/Pause 7 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

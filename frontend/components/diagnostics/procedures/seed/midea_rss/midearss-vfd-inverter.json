@@ -1,0 +1,111 @@
+{
+  "id": "midearss-vfd-inverter",
+  "version": "1.0.0",
+  "title": "\u00a711.2: VFD inverter board fault LED",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "compressor",
+    "inverter_board"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "inverter_fault"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "11.2",
+    "oemTestTitle": "Variable frequency driver board fault analysis",
+    "pages": [
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "locate_vfd_led"
+    },
+    {
+      "id": "service_mode_after_mandatory_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+      "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "locate_vfd_led"
+    },
+    {
+      "id": "locate_vfd_led",
+      "order": 3,
+      "type": "instruction",
+      "title": "Locate VFD status LED",
+      "body": "Access compressor case VFD board (DZ120V1U inverter). Observe LED blink pattern with power applied.",
+      "sourceExcerpt": "Access compressor case VFD board (DZ120V1U inverter). Observe LED blink pattern with power applied.",
+      "requiresInput": false,
+      "defaultNextStepId": "vfd_pattern"
+    },
+    {
+      "id": "vfd_pattern",
+      "order": 4,
+      "type": "visual_check",
+      "title": "VFD LED blink pattern",
+      "body": "Match pattern: 1\u00d70.5s/1.5s=standby; 1\u00d70.5s/1.5s interval=overcurrent; 2\u00d7=overvoltage; 4\u00d7=undervoltage; 8\u00d7=LOCK; 16\u00d7=overload. Which fault matches?",
+      "sourceExcerpt": "Match pattern: 1\u00d70.5s/1.5s=standby; 1\u00d70.5s/1.5s interval=overcurrent; 2\u00d7=overvoltage; 4\u00d7=undervoltage; 8\u00d7=LOCK; 16\u00d7=overload. Which fault matches?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vfd_none",
+          "label": "No blink / compressor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vfd_ok"
+        },
+        {
+          "id": "vfd_fault",
+          "label": "Fault blink pattern",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_vfd"
+        }
+      ]
+    },
+    {
+      "id": "replace_vfd",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace VFD board",
+      "oemOutcome": "Replace variable frequency driver board per \u00a711.2 fault LED pattern.",
+      "requiresInput": false
+    },
+    {
+      "id": "vfd_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "VFD path clear",
+      "oemOutcome": "VFD LED normal or compressor running \u2014 investigate sealed system or sensors if not cooling.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "midearss-mandatory-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_mandatory_entry"
+    }
+  ]
+}

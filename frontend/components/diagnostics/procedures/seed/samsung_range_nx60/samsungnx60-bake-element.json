@@ -1,0 +1,140 @@
+{
+  "id": "samsungnx60-bake-element",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Bake element (electric NE63)",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "no_bake_heat_issue",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Electric bake element \u2014 NE63 family",
+    "pages": [
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_bake"
+    },
+    {
+      "id": "disconnect_bake",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect bake element",
+      "body": "Power off. Access bake element terminals.",
+      "sourceExcerpt": "Power off. Access bake element terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ohms"
+    },
+    {
+      "id": "bake_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Bake element resistance",
+      "body": "Measure bake element terminals \u2014 verify continuity per element wattage.",
+      "sourceExcerpt": "Measure bake element terminals \u2014 verify continuity per element wattage.",
+      "measurementKnowledgeId": "bakeElementOhms",
+      "testPoint": {
+        "connector": "Bake element",
+        "pins": "terminals",
+        "label": "Bake element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_el",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_el_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_bake_el",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace bake element",
+      "oemOutcome": "Replace open or shorted bake element.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_el_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Bake element OK",
+      "oemOutcome": "Bake element resistance verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

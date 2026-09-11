@@ -1,0 +1,37 @@
+{
+  "id": "w11296289-theseus-service-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_sxs_w11296289",
+  "manualId": "W11296289",
+  "title": "W11296289 \u2014 THESEUS/CUDA service mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "lcd_in_door"
+  ],
+  "description": "Enter dispenser UI service mode for steps 1\u201335 (THESEUS ACU).",
+  "tags": [
+    "service_test",
+    "service_diagnostic",
+    "control_board"
+  ],
+  "entryStepId": "svc_enter",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "pages": [
+      22
+    ]
+  },
+  "steps": [
+    {
+      "id": "svc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter THESEUS service mode",
+      "body": "First 5 min after power-on: set RC and FC temp to minimum. Hold FREEZER TEMP + ICE TYPE 3 seconds. All LEDs verify, then press all 5 keys left-to-right to turn LEDs off. Use Light (SW2) to advance steps; RC TEMP (SW5) toggles loads.",
+      "sourceExcerpt": "First 5 min after power-on: set RC and FC temp to minimum. Hold FREEZER TEMP + ICE TYPE 3 seconds. All LEDs verify, then press all 5 keys left-to-right to turn LEDs off. Use Light (SW2) to advance steps; RC TEMP (SW5) toggles loads.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

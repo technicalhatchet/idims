@@ -1,0 +1,222 @@
+{
+  "id": "samsungdwm9-drain-pump",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Drain Pump (5C)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "5C",
+    "drain_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Drain check",
+    "pages": [
+      46,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_hose"
+    },
+    {
+      "id": "drain_hose",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drain path",
+      "body": "Inspect drain hose, air gap, and filter for obstruction.",
+      "sourceExcerpt": "Inspect drain hose, air gap, and filter for obstruction.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_connector"
+    },
+    {
+      "id": "drain_connector",
+      "order": 3,
+      "type": "instruction",
+      "title": "Inspect drain pump connector",
+      "body": "Check CN401 pin 2 AC drain and CN902 BLDC drain connectors.",
+      "sourceExcerpt": "Check CN401 pin 2 AC drain and CN902 BLDC drain connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_ohms"
+    },
+    {
+      "id": "drain_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Drain pump coil",
+      "body": "Disconnect connector. Normal: approx. 88 \u03a9 \u00b17%.",
+      "sourceExcerpt": "Disconnect connector. Normal: approx. 88 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungDishwasherM9DrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "Coil",
+        "label": "Drain pump coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_smart_install",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "drain_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "drain_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "drain_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-pinout",
+          "caption": "CN101/CN401/CN503/CN802 pinout (\u00a75-2)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "drain_smart_install",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Drain pump runs in Smart Install?",
+      "body": "Step 1/4/6: drain pump cycles (14 s on / 2 s off pattern). 5C if pump stuck or not draining.",
+      "sourceExcerpt": "Step 1/4/6: drain pump cycles (14 s on / 2 s off pattern). 5C if pump stuck or not draining.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_foreign_yes",
+          "label": "Drains normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_foreign"
+        },
+        {
+          "id": "pump_foreign_no",
+          "label": "5C / stuck",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drain_pump"
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "pump_foreign"
+    },
+    {
+      "id": "pump_foreign",
+      "order": 7,
+      "type": "instruction",
+      "title": "Clear pump obstruction",
+      "body": "Remove foreign object from drain pump impeller. Re-test drain.",
+      "sourceExcerpt": "Remove foreign object from drain pump impeller. Re-test drain.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_ok"
+    },
+    {
+      "id": "replace_drain_pump",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "body": "Replace drain pump or inverter PBA when pump fails after clearing obstruction.",
+      "oemOutcome": "Replace drain pump or inverter PBA when pump fails after clearing obstruction.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Drain OK",
+      "body": "Drain pump and path verified.",
+      "oemOutcome": "Drain pump and path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdwm9-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "drain_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdwm9-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "pump_foreign"
+    }
+  ]
+}

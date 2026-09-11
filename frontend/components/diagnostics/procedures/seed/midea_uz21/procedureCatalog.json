@@ -1,0 +1,73 @@
+{
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "platformId": "midea_uz21",
+  "templateId": "standalone_freezer",
+  "label": "Midea/Insignia NS-UZ upright freezer",
+  "notes": "E-family \u00a79.6; B3839 \u00a78.4; EZ90H1A fixed-speed compressor. Test mode \u00a79.7.",
+  "plannedProcedures": [
+    {
+      "id": "mideauz21-fz-temp-sensor",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E2: Freezer temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E2"
+      ]
+    },
+    {
+      "id": "mideauz21-fz-defrost-sensor",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E5: Freezer defrost sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "mideauz21-ambient-sensor",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E7: Ambient temperature sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "E7"
+      ]
+    },
+    {
+      "id": "mideauz21-fz-defrost-heater",
+      "oemSection": "5.1",
+      "title": "\u00a75.1 / \u00a77.6: Freezer defrost heater",
+      "status": "generated",
+      "relatedCodes": [
+        "E5",
+        "E9"
+      ]
+    },
+    {
+      "id": "mideauz21-communication",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E6: Display \u2194 main communication",
+      "status": "generated",
+      "relatedCodes": [
+        "E6"
+      ]
+    },
+    {
+      "id": "mideauz21-high-temp-alarm",
+      "oemSection": "9.6",
+      "title": "\u00a79.6 E9: High-temperature alarm",
+      "status": "generated",
+      "relatedCodes": [
+        "E9"
+      ]
+    },
+    {
+      "id": "mideauz21-evap-fan",
+      "oemSection": "7.5",
+      "title": "\u00a77.5 / \u00a79.6 E9: Freezer evaporator fan",
+      "status": "generated",
+      "relatedCodes": [
+        "E9"
+      ]
+    }
+  ]
+}

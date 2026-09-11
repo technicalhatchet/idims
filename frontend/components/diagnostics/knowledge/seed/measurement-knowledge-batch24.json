@@ -1,0 +1,88 @@
+[
+  {
+    "id": "whirlpoolAcuTlDryer4100MotorMainWindingOhms",
+    "name": "Whirlpool ACU TL Dryer W4100 Motor Main Winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3.1, "max": 3.8 },
+      "warning": { "min": 2.8, "max": 4.2 },
+      "critical": { "below": 0.1, "above": 15 }
+    },
+    "typical": { "min": 3.2, "max": 3.6 },
+    "openCircuitCritical": true,
+    "purpose": "Main winding at drive motor pin 4 to bare copper removed from pin 5 (W11798430 TEST #3).",
+    "failureModes": [
+      "Open or out of range — replace drive motor",
+      "OK at motor but open to ACU — repair harness"
+    ],
+    "testingTips": [
+      "Remove bare copper terminal from pin 5 before measuring main winding",
+      "Motor circuit quick check J7-1 to J7-3: 1–6 Ω at ACU"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_acu_tl_dryer"
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "whirlpoolAcuTlDryer4100MotorStartWindingOhms",
+    "name": "Whirlpool ACU TL Dryer W4100 Motor Start Winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2.5, "max": 3.2 },
+      "warning": { "min": 2.2, "max": 3.6 },
+      "critical": { "below": 0.1, "above": 15 }
+    },
+    "typical": { "min": 2.7, "max": 3.0 },
+    "openCircuitCritical": true,
+    "purpose": "Start winding at drive motor pin 4 to bare copper at pin 3 (W11798430 TEST #3).",
+    "failureModes": [
+      "Open or out of range — replace drive motor"
+    ],
+    "testingTips": [
+      "Leave bare copper on pin 3 for start winding measurement",
+      "Check thermal fuse in motor circuit if motor won't run"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_dryer", "gas_dryer"],
+      "templates": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_acu_tl_dryer"
+    },
+    "dmaTags": ["motor_check", "no_tumble_issue"]
+  },
+  {
+    "id": "whirlpoolAcuTlDryer4100IgniterOhms",
+    "name": "Whirlpool ACU TL Dryer W4100 Hot Surface Igniter",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40, "max": 200 },
+      "warning": { "min": 30, "max": 250 },
+      "critical": { "below": 5, "above": 500 }
+    },
+    "typical": { "min": 60, "max": 150 },
+    "openCircuitCritical": true,
+    "purpose": "Gas ignitor 2-pin connector at ~75°F (W11798430 TEST #4d).",
+    "failureModes": [
+      "Open — replace ignitor",
+      "In range but no ignition — check flame sensor and gas supply"
+    ],
+    "testingTips": [
+      "Disconnect ignitor plug before measuring",
+      "W5100 family uses 50–500 Ω — use manual-matched procedure for model"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_dryer"],
+      "templates": ["gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_acu_tl_dryer"
+    },
+    "dmaTags": ["igniter_check", "no_heat"]
+  }
+]

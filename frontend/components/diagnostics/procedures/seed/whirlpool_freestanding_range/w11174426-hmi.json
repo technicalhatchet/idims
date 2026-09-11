@@ -1,0 +1,147 @@
+{
+  "id": "w11174426-hmi",
+  "version": "1.0.0",
+  "title": "Keypad / HMI (F2E1)",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "HMI",
+    "oemTestTitle": "Keypad Connection",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_p11"
+    },
+    {
+      "id": "keypad_p11",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Keypad connector P11",
+      "body": "Power off. Inspect keypad connection to main control (P11). Reseat if loose.",
+      "sourceExcerpt": "Power off. Inspect keypad connection to main control (P11). Reseat if loose.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "p11_ok",
+          "label": "P11 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "keypad_retest"
+        },
+        {
+          "id": "p11_bad",
+          "label": "Loose or damaged P11",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_p11",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_p11",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair P11 harness",
+      "body": "Repair connector/harness, restore power, wait 60 sec.",
+      "sourceExcerpt": "Repair connector/harness, restore power, wait 60 sec.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_retest"
+    },
+    {
+      "id": "keypad_retest",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Retest after reconnect",
+      "body": "Does F2E1 clear after reconnect? If reappears, replace keypad then control.",
+      "sourceExcerpt": "Does F2E1 clear after reconnect? If reappears, replace keypad then control.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "f2e1_clear",
+          "label": "Error cleared",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "f2e1_stuck",
+          "label": "F2E1 persists",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_keypad",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_keypad",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace keypad / control",
+      "oemOutcome": "Replace keypad first; if persists replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Keypad verified",
+      "oemOutcome": "Keypad connection verified, no F2E1.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174426-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "keypad_p11"
+    }
+  ]
+}

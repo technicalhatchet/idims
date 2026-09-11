@@ -1,0 +1,177 @@
+{
+  "id": "samsungrs28-panel-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Panel communication (41Er)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "41Er",
+    "41E",
+    "hmi_check",
+    "display_dead"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Self-diagnostic \u2014 41Er",
+    "pages": [
+      69
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "code_active"
+    },
+    {
+      "id": "code_active",
+      "order": 2,
+      "type": "visual_check",
+      "title": "41Er active",
+      "body": "41Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+      "sourceExcerpt": "41Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "41Er not present \u2014 verify complaint.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "check_harness"
+    },
+    {
+      "id": "check_harness",
+      "order": 4,
+      "type": "instruction",
+      "title": "Verify harness",
+      "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+      "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_restored"
+    },
+    {
+      "id": "comm_restored",
+      "order": 5,
+      "type": "visual_check",
+      "title": "41Er cleared",
+      "body": "After harness repair and power cycle, is 41Er cleared?",
+      "sourceExcerpt": "After harness repair and power cycle, is 41Er cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_kw_41e_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "No comm fault",
+      "oemOutcome": "Communication normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_boards_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace PCB(s) when harness verified good and 41Er persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_path_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "41Er cleared after harness service.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrs28-engineer-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-led-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-self-diagnostic-entry",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "check_harness"
+    }
+  ]
+}

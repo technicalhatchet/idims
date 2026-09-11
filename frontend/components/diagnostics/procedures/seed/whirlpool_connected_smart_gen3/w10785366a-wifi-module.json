@@ -1,0 +1,252 @@
+{
+  "id": "w10785366a-wifi-module",
+  "version": "1.0.0",
+  "title": "\u00a74-14: WiFi module diagnostics",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "componentIds": [
+    "wifi_module"
+  ],
+  "tags": [
+    "wifi_check",
+    "connectivity_issue",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-14",
+    "oemTestTitle": "Troubleshooting the WiFi Module",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "customer_connect"
+    },
+    {
+      "id": "customer_connect",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Customer connectivity attempt",
+      "body": "Have customer run Whirlpool app or WPS connect. After process, is console WiFi icon steady ON?",
+      "sourceExcerpt": "After connectivity process, does appliance connect? WiFi icon on steady.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wifi_icon_on",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wifi_module_ok",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "no_wifi_icon",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "access_wifi_module",
+          "terminal": true,
+          "oemOutcome": "WiFi icon off \u2014 appliance-side fault path.",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "access_wifi_module",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access WiFi module",
+      "body": "Unplug appliance. Remove console/control to expose WiFi module. Verify J4 WIDE/WIN and antenna connectors fully seated.",
+      "sourceExcerpt": "Unplug appliance. Remove console/control to expose WiFi module. Verify J4 WIDE/WIN and antenna connectors fully seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_power_wifi"
+    },
+    {
+      "id": "restore_power_wifi",
+      "order": 4,
+      "type": "instruction",
+      "title": "Restore power \u2014 allow initialize",
+      "body": "Plug in appliance. Allow ~1 minute for boards to initialize before live checks.",
+      "sourceExcerpt": "Plug in appliance. Allow ~1 minute for boards to initialize before live checks.",
+      "requiresInput": false,
+      "defaultNextStepId": "wifi_5vdc"
+    },
+    {
+      "id": "wifi_5vdc",
+      "order": 5,
+      "type": "measurement",
+      "title": "WiFi module +5 VDC (J4-1 to J4-6)",
+      "body": "Set meter to DC. Red to J4-1, black to J4-6. Expect ~5 VDC (may read higher per tech sheet).",
+      "sourceExcerpt": "Set meter to DC. Red to J4-1, black to J4-6. Expect ~5 VDC (may read higher per tech sheet).",
+      "measurementKnowledgeId": "whirlpoolConnectedSmartGen3WifiModule5Vdc",
+      "testPoint": {
+        "connector": "WiFi J4",
+        "pins": "1 & 6",
+        "label": "WiFi module +5 VDC (J4-1 to J4-6)",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "+5 VDC",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "6",
+            "signal": "GND",
+            "wireColor": "Y",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wifi5v_low",
+          "label": "Below range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "wifi_supply_fault",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "wifi5v_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "wifi_supply_fault",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        },
+        {
+          "id": "wifi5v_pass",
+          "label": "~5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wifi_led_check",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wifi_led_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "WiFi status LED during connect",
+      "body": "Press CONNECT and observe module LED window. Green fast blink (10 Hz) during connect = module good. Off/amber only after connect attempt = replace module after harness check.",
+      "sourceExcerpt": "Green fast blinking = trying to connect; green on = connected to router.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_active",
+          "label": "Green fast blink or steady green",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wifi_module_ok",
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "eliminate_wifi_module_comm_wifi_module_ok",
+              "polarity": "eliminate"
+            }
+          ]
+        },
+        {
+          "id": "led_fault",
+          "label": "Off or amber only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wifi_module",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "componentId": "wifi_module",
+              "evidenceId": "confirm_wifi_module_comm_wifi_module_failed",
+              "polarity": "confirm"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wifi_supply_fault",
+      "order": 7,
+      "type": "outcome",
+      "title": "Repair harness or control supply",
+      "oemOutcome": "Missing 5 VDC \u2014 check harness to control; verify 5 VDC at control before replacing WiFi module.",
+      "requiresInput": false
+    },
+    {
+      "id": "wifi_module_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "WiFi module verified",
+      "oemOutcome": "Module powered and LED behavior normal \u2014 if console icon still off, inspect UI harness before replacing HMI.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_wifi_module",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace WiFi module",
+      "oemOutcome": "Replace WiFi module per \u00a74-13. Customer must reconnect and re-register SAID.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer",
+    "dishwasher",
+    "refrigerator"
+  ]
+}

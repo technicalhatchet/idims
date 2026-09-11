@@ -1,0 +1,37 @@
+{
+  "id": "samsungdw-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_dishwasher",
+  "manualId": "SAMSUNG-DISHWASHER",
+  "title": "Samsung DW80 \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install steps 1\u20137 (drain/fill, nozzle, heater, dispenser, fan, drain, auto door).",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "pages": [
+      41,
+      42
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual mode",
+      "body": "From AS: press Auto to cycle manual steps 1\u20137. Press Start to run selected step. Normal/Heavy keys adjust pump RPM and alternation in step 2.",
+      "sourceExcerpt": "From AS: press Auto to cycle manual steps 1\u20137. Press Start to run selected step. Normal/Heavy keys adjust pump RPM and alternation in step 2.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

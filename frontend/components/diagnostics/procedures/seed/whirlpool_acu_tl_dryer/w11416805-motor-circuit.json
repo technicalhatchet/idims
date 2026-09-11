@@ -1,0 +1,469 @@
+{
+  "id": "w11416805-motor-circuit",
+  "version": "1.0.0",
+  "title": "TEST #3: Motor Circuit",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "motor"
+  ],
+  "tags": [
+    "motor_check",
+    "wont_spin",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Motor Circuit",
+    "pages": [
+      12,
+      13
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_acu_motor"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Mode entered. Use Service Diagnostics (HMI Test, Sensor Feedback, Diagnostic Cycle) as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_acu_motor"
+    },
+    {
+      "id": "access_acu_motor",
+      "order": 3,
+      "type": "instruction",
+      "title": "ACU motor path pre-check",
+      "body": "Access ACU. Measure J8-4 to J9-1. 1\u20136 \u03a9 = motor circuit OK at ACU \u2014 suspect ACU if still no run.",
+      "sourceExcerpt": "Access ACU. Measure J8-4 to J9-1. 1\u20136 \u03a9 = motor circuit OK at ACU \u2014 suspect ACU if still no run.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_bench"
+    },
+    {
+      "id": "door_switch_bench",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door switch J8-3 to J8-4",
+      "body": "Door closed: 0\u20132 \u03a9 across J8-3 (white) and J8-4 (tan).",
+      "sourceExcerpt": "Door closed: 0\u20132 \u03a9 across J8-3 (white) and J8-4 (tan).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "access_motor"
+        },
+        {
+          "id": "door_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "access_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Access motor & belt switch",
+      "body": "Release belt from belt switch pulley. Disconnect motor switch white connector.",
+      "sourceExcerpt": "Release belt from belt switch pulley. Disconnect motor switch white connector.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_circuit_ohms"
+    },
+    {
+      "id": "motor_circuit_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Motor circuit at ACU (optional)",
+      "body": "J8-4 to J9-1: 1\u20136 \u03a9 indicates acceptable motor circuit path at ACU.",
+      "sourceExcerpt": "J8-4 to J9-1: 1\u20136 \u03a9 indicates acceptable motor circuit path at ACU.",
+      "measurementKnowledgeId": "dryerMotorCircuitOhms",
+      "testPoint": {
+        "connector": "ACU motor path",
+        "pins": "J8-4 to J9-1",
+        "label": "Motor circuit at ACU (optional)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "main_winding"
+        },
+        {
+          "id": "mc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Motor circuit reads OK at ACU \u2014 replace ACU if F26/no tumble persists.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "mc_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Motor circuit reads OK at ACU \u2014 replace ACU if F26/no tumble persists.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "mc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Motor circuit reads OK at ACU \u2014 replace ACU if F26/no tumble persists.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416805-motor-figure9",
+          "caption": "Motor main/start winding measure points (TEST #3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-motor-figure9.png"
+        },
+        {
+          "id": "w11416805-acu-pinout",
+          "caption": "ACU connectors & pinouts (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-acu-pinout.png"
+        },
+        {
+          "id": "w11416805-strip-circuits",
+          "caption": "Strip circuits \u2014 motor, heater, moisture (\u00a73-16)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-strip-circuits.png"
+        }
+      ]
+    },
+    {
+      "id": "main_winding",
+      "order": 7,
+      "type": "measurement",
+      "title": "Main winding pin 4\u20135",
+      "body": "Lt blue pin 4 to bare copper off pin 5. Spec 3.3\u20133.6 \u03a9.",
+      "sourceExcerpt": "Lt blue pin 4 to bare copper off pin 5. Spec 3.3\u20133.6 \u03a9.",
+      "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+      "testPoint": {
+        "connector": "Motor main",
+        "pins": "4\u20135",
+        "label": "Main winding pin 4\u20135"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "main_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding"
+        },
+        {
+          "id": "main_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416805-motor-figure9",
+          "caption": "Motor main/start winding measure points (TEST #3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-motor-figure9.png"
+        },
+        {
+          "id": "w11416805-acu-pinout",
+          "caption": "ACU connectors & pinouts (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-acu-pinout.png"
+        },
+        {
+          "id": "w11416805-strip-circuits",
+          "caption": "Strip circuits \u2014 motor, heater, moisture (\u00a73-16)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-strip-circuits.png"
+        }
+      ]
+    },
+    {
+      "id": "start_winding",
+      "order": 8,
+      "type": "measurement",
+      "title": "Start winding pin 4\u20133",
+      "body": "Lt blue pin 4 to bare copper on pin 3. Spec 2.7\u20133.0 \u03a9.",
+      "sourceExcerpt": "Lt blue pin 4 to bare copper on pin 3. Spec 2.7\u20133.0 \u03a9.",
+      "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+      "testPoint": {
+        "connector": "Motor start",
+        "pins": "4\u20133",
+        "label": "Start winding pin 4\u20133"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "start_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "belt_switch"
+        },
+        {
+          "id": "start_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416805-motor-figure9",
+          "caption": "Motor main/start winding measure points (TEST #3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-motor-figure9.png"
+        },
+        {
+          "id": "w11416805-acu-pinout",
+          "caption": "ACU connectors & pinouts (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-acu-pinout.png"
+        },
+        {
+          "id": "w11416805-strip-circuits",
+          "caption": "Strip circuits \u2014 motor, heater, moisture (\u00a73-16)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11416805-strip-circuits.png"
+        }
+      ]
+    },
+    {
+      "id": "belt_switch",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Belt switch",
+      "body": "Belt off pulley: OL. Push pulley up: few \u03a9 across light blue wires.",
+      "sourceExcerpt": "Belt off pulley: OL. Push pulley up: few \u03a9 across light blue wires.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified"
+        },
+        {
+          "id": "belt_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt switch or repair harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace drive motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_belt_switch",
+      "order": 12,
+      "type": "outcome",
+      "title": "Service belt switch",
+      "oemOutcome": "Replace belt switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace ACU when motor circuit OK at J8-4/J9-1 but unit won't run.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Motor circuit verified",
+      "oemOutcome": "Motor, belt switch, and door switch OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416805-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

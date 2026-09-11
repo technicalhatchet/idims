@@ -1,0 +1,178 @@
+{
+  "id": "lglrmvs-fz-defrost-sensor",
+  "version": "1.0.0",
+  "title": "\u00a78-4: Freezer defrost sensor (F dS)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "F_dS",
+    "F dS",
+    "thermistor",
+    "defrost",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-4",
+    "oemTestTitle": "Freezer defrost sensor (F dS)",
+    "pages": [
+      42,
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_connector"
+    },
+    {
+      "id": "check_connector",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Harness seated at main PCB?",
+      "body": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+      "sourceExcerpt": "Verify CON4 harness is fully seated \u2014 loose connections are the first check in \u00a78 flowcharts.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms"
+        },
+        {
+          "id": "repair_conn",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_conn_out",
+          "terminal": true,
+          "oemOutcome": "Repair or reconnect harness at main PCB."
+        }
+      ]
+    },
+    {
+      "id": "repair_conn",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair harness",
+      "body": "Reseat or repair connector, then retest.",
+      "sourceExcerpt": "Reseat or repair connector, then retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_connector"
+    },
+    {
+      "id": "repair_conn_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair main PCB harness connection.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Thermistor resistance",
+      "body": "Power off. Measure CON4 22 \u2194 21 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+      "sourceExcerpt": "Power off. Measure CON4 22 \u2194 21 \u2014 compare to \u00a78 NTC table at measured cabinet temperature (8k\u201340k \u03a9 typical).",
+      "measurementKnowledgeId": "cabinetThermistorOhms",
+      "testPoint": {
+        "connector": "CON4",
+        "pins": "22 \u2194 21",
+        "label": "Thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "defrost_thermistor_bad_component"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "In table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace thermistor or harness when open, shorted, or out of table range.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "Thermistor resistance and connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

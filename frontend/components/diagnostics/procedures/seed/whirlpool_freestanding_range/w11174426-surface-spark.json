@@ -1,0 +1,100 @@
+{
+  "id": "w11174426-surface-spark",
+  "version": "1.0.0",
+  "title": "Surface Spark Module",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "surface_ignition"
+  ],
+  "tags": [
+    "ignition_issue",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Spark",
+    "oemTestTitle": "Surface Burner Spark Module",
+    "pages": [
+      45,
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "surface_spark"
+    },
+    {
+      "id": "surface_spark",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Surface burner spark test",
+      "body": "Turn one cooktop knob to LITE. Verify burner sparks. Expect 120 VAC L to N at spark module.",
+      "sourceExcerpt": "Turn one cooktop knob to LITE. Verify burner sparks. Expect 120 VAC L to N at spark module.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spark_yes",
+          "label": "Sparks at all burners",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spark_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "surface_ignition",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok"
+            }
+          ]
+        },
+        {
+          "id": "spark_no",
+          "label": "No spark",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_module",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_module",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace surface spark module",
+      "oemOutcome": "Replace module or repair L/N wiring.",
+      "requiresInput": false
+    },
+    {
+      "id": "spark_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Surface spark verified",
+      "oemOutcome": "Surface ignition verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ]
+}

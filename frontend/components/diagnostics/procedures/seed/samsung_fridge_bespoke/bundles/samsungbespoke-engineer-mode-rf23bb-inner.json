@@ -1,0 +1,37 @@
+{
+  "id": "samsungbespoke-engineer-mode-rf23bb-inner",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_bespoke",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "title": "RF23BB inner display \u2014 Engineer Mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "lcd_in_door"
+  ],
+  "description": "< + > 6 s \u2192 Engineer Mode \u2192 select Test (1), Self-diagnosis (3), or Load (7).",
+  "tags": [
+    "service_diagnostic",
+    "engineer_mode"
+  ],
+  "entryStepId": "em_enter",
+  "source": {
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "pages": [
+      76,
+      86
+    ]
+  },
+  "steps": [
+    {
+      "id": "em_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Engineer Mode",
+      "body": "Press < and > together \u22656 s until blink. Press > to enter Engineer Mode. Use < / > to select mode, O to confirm.",
+      "sourceExcerpt": "Press < and > together \u22656 s until blink. Press > to enter Engineer Mode. Use < / > to select mode, O to confirm.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

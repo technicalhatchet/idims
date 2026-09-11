@@ -118,5 +118,34 @@
       "platformId": "whirlpool_wrt_top_mount"
     },
     "dmaTags": ["condenser_fan", "airflow"]
+  },
+  {
+    "id": "whirlpoolWrtIceMakerThermalFuseOhms",
+    "name": "Whirlpool Top-Mount Ice Maker Harness Thermal Fuse",
+    "unit": "Ω",
+    "inputKind": "continuity",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "In-harness fuse on modular ice maker wiring — opens if mold heater overheats (W10330404 §6-2).",
+    "failureModes": [
+      "OL — ice maker dead until harness replaced",
+      "After fuse event verify mold heater operation"
+    ],
+    "testingTips": [
+      "Ice maker removed and unplugged from cabinet",
+      "Ohm across thermal fuse in harness (normally black wire) — 0 Ω closed"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana"],
+      "platformId": "whirlpool_wrt_top_mount"
+    },
+    "dmaTags": ["ice_maker"]
   }
 ]

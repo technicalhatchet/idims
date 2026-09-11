@@ -1,0 +1,226 @@
+{
+  "id": "w11697231-test-04-console-indicators",
+  "version": "1.0.0",
+  "title": "TEST #4: Console and Indicators",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "hmi_control"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "F2E3"
+  ],
+  "source": {
+    "manualId": "W11697231",
+    "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Console and Indicators",
+    "pages": [
+      34,
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "ui_test_mode"
+    },
+    {
+      "id": "ui_test_mode",
+      "order": 2,
+      "type": "visual_check",
+      "title": "UI Test Mode check",
+      "body": "Enter UI Test Mode (Rinse + Spin LEDs). All status LEDs ON? START toggles LEDs; rotary switches toggle Fill/Wash/Rinse/Spin; cycle knob toggles Done.",
+      "sourceExcerpt": "Enter UI Test Mode (Rinse + Spin LEDs). All status LEDs ON? START toggles LEDs; rotary switches toggle Fill/Wash/Rinse/Spin; cycle knob toggles Done.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_ok",
+          "label": "All LEDs and switches OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "none_on",
+          "label": "None of the LEDs light up",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_connectors_ui",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hmi_control"
+            }
+          ]
+        },
+        {
+          "id": "leds_flash",
+          "label": "One or more LEDs flashing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "flashing_switch_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hmi_control"
+            }
+          ]
+        },
+        {
+          "id": "switch_no_toggle",
+          "label": "Rotary switch does not toggle LED",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "flashing_switch_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hmi_control"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_connectors_ui",
+      "order": 3,
+      "type": "visual_check",
+      "title": "All connectors seated",
+      "body": "Power off. ALL main control connectors fully seated; main control properly inserted in console.",
+      "sourceExcerpt": "Power off. ALL main control connectors fully seated; main control properly inserted in console.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_test1_ui"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Loose connector",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connectors",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flashing_switch_path",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Switch connector and harness",
+      "body": "Verify suspect rotary switch connector fully seated. Check harness continuity and shorts between switch and main control (J3/J4).",
+      "sourceExcerpt": "Verify suspect rotary switch connector fully seated. Check harness continuity and shorts between switch and main control (J3/J4).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_harness_ok",
+          "label": "Harness OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_switch"
+        },
+        {
+          "id": "sw_harness_bad",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_test1_ui",
+      "order": 5,
+      "type": "instruction",
+      "title": "Verify main control supplies",
+      "body": "Run TEST #1 Main Control supply checks, then retest UI Test Mode.",
+      "sourceExcerpt": "Run TEST #1 Main Control supply checks, then retest UI Test Mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_verified"
+    },
+    {
+      "id": "repair_connectors",
+      "order": 6,
+      "type": "outcome",
+      "title": "Repair connections",
+      "oemOutcome": "Reseat all connectors and retest UI Test Mode.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ui_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace console harness",
+      "oemOutcome": "Repair or replace harness between rotary switches and main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace rotary switch",
+      "oemOutcome": "Replace switch identified by flashing/toggle LED mapping.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Console verified",
+      "oemOutcome": "Status LEDs and rotary encoders verified in UI Test Mode.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11697231-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "ui_test_mode"
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "id": "samsungdv6000-thermal-cutoff",
+  "version": "1.0.0",
+  "title": "\u00a74-6: Thermal cutoff and hi-limit",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "componentIds": [
+    "thermal_fuse",
+    "high_limit_thermostat"
+  ],
+  "tags": [
+    "no_heat",
+    "thermal_fuse_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-DV6000-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Thermal cut-off / hi-limit",
+    "pages": [
+      29,
+      31
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermal_access"
+    },
+    {
+      "id": "thermal_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access thermal chain",
+      "body": "Locate thermostat 1, thermal cut-off, thermostat 2/3, and hi-limit in heat path.",
+      "sourceExcerpt": "Locate thermostat 1, thermal cut-off, thermostat 2/3, and hi-limit in heat path.",
+      "requiresInput": false,
+      "defaultNextStepId": "hi_limit_ohms"
+    },
+    {
+      "id": "hi_limit_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Hi-limit 60T21",
+      "body": "Resistance < 1 \u03a9 when closed (room temp).",
+      "sourceExcerpt": "Resistance < 1 \u03a9 when closed (room temp).",
+      "measurementKnowledgeId": "samsungFlDv6000DryerHiLimitOhms",
+      "testPoint": {
+        "connector": "60T21",
+        "pins": "Terminals",
+        "label": "Hi-limit 60T21"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hl_pass",
+          "label": "< 1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_check",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_high_limit_ol_high_limit_ok",
+              "componentId": "high_limit_thermostat"
+            }
+          ]
+        },
+        {
+          "id": "hl_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_high_limit_ol_high_limit_failed",
+              "componentId": "high_limit_thermostat"
+            }
+          ]
+        },
+        {
+          "id": "hl_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_high_limit_ol_high_limit_failed",
+              "componentId": "high_limit_thermostat"
+            }
+          ]
+        },
+        {
+          "id": "hl_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_high_limit_ol_high_limit_failed",
+              "componentId": "high_limit_thermostat"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "thermal_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Thermal cut-off continuity",
+      "body": "Thermostat 1/2/3 and thermal cut-off show continuity at room temp?",
+      "sourceExcerpt": "Thermostat 1/2/3 and thermal cut-off show continuity at room temp?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tc_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_ok"
+        },
+        {
+          "id": "replace_cutoff",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_out",
+          "terminal": true,
+          "oemOutcome": "Replace open thermal cut-off or thermostat."
+        }
+      ]
+    },
+    {
+      "id": "replace_hi_limit",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace hi-limit",
+      "oemOutcome": "Replace 60T21 hi-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cutoff_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermal cutoff",
+      "oemOutcome": "Replace thermal cut-off / thermostat in heat path.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermal_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Thermal chain OK",
+      "oemOutcome": "Thermal devices closed \u2014 element path next.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "id": "samsungnx60-broil-ignitor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Broil burner HSI",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "ignition_issue",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Oven burner will not light \u2014 broil HSI",
+    "pages": [
+      83,
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "broil_gas"
+    },
+    {
+      "id": "broil_gas",
+      "order": 2,
+      "type": "instruction",
+      "title": "Confirm gas supply",
+      "body": "Verify cooktop burners light. Open gas supply valve.",
+      "sourceExcerpt": "Verify cooktop burners light. Open gas supply valve.",
+      "requiresInput": false,
+      "defaultNextStepId": "broil_hsi_ohms"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "broil_hsi_ohms"
+    },
+    {
+      "id": "broil_hsi_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Broil HSI resistance",
+      "body": "Power off. Measure broil hot surface ignitor \u2014 40\u2013400 \u03a9.",
+      "sourceExcerpt": "Power off. Measure broil hot surface ignitor \u2014 40\u2013400 \u03a9.",
+      "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+      "testPoint": {
+        "connector": "Broil HSI",
+        "pins": "terminals",
+        "label": "Broil HSI resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_hsi_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_hsi_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_hsi_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_hsi_pass",
+          "label": "40\u2013400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_hsi_glow"
+        }
+      ]
+    },
+    {
+      "id": "broil_hsi_glow",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Broil HSI glow",
+      "body": "Power on. Verify broil HSI glows. Check 120 V at T504\u2013T503.",
+      "sourceExcerpt": "Power on. Verify broil HSI glows. Check 120 V at T504\u2013T503.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_glow_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "broil_ign_ok"
+        },
+        {
+          "id": "replace_broil_hsi2",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_broil",
+          "terminal": true,
+          "oemOutcome": "Replace broil HSI."
+        }
+      ]
+    },
+    {
+      "id": "replace_broil_hsi",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace broil HSI",
+      "oemOutcome": "Replace broil hot surface ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_broil_hsi2",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace broil HSI",
+      "oemOutcome": "Broil HSI not glowing \u2014 replace ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb_broil",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace Main PCB",
+      "oemOutcome": "No voltage to broil HSI \u2014 replace Main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "broil_ign_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Broil ignitor OK",
+      "oemOutcome": "Broil HSI verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "broil_hsi_ohms"
+    }
+  ]
+}

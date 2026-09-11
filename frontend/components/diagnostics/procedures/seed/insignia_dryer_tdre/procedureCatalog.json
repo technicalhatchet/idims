@@ -1,0 +1,141 @@
+{
+  "manualId": "NS-TDRE75W1",
+  "platformId": "insignia_dryer_tdre",
+  "templateId": "electric_dryer",
+  "label": "Insignia NS-TDRE75W1 / NS-TDRG75W1 vented dryer",
+  "notes": "Service-test-mode flows (screens 01\u201304) plus component checks \u00a74.3\u20134.4. Gas procedures use gas_dryer templateIds.",
+  "plannedProcedures": [
+    {
+      "id": "nstdre75w1-outlet-thermistor",
+      "oemSection": "04",
+      "title": "Outlet NTC \u2014 service test 04 & bench",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDryerOutletThermistorKohm"
+      ],
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "nstdre75w1-humidity-sensor",
+      "oemSection": "E4",
+      "title": "Humidity sensor \u2014 E4 timed-dry fallback",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "nstdre75w1-communication",
+      "oemSection": "C9",
+      "title": "Display communication \u2014 C9 fault",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C9"
+      ]
+    },
+    {
+      "id": "nstdre75w1-heater-electric",
+      "oemSection": "heater-electric",
+      "title": "Electric heater element \u2014 20 \u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDryerHeaterOhms"
+      ],
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "nstdre75w1-heater-gas",
+      "oemSection": "heater-gas",
+      "title": "Gas heat path \u2014 thermal devices",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-thermal-cutoff",
+      "oemSection": "thermal-cutoff",
+      "title": "Thermal cut-off \u2014 continuity",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-thermal-hi-limit",
+      "oemSection": "hi-limit",
+      "title": "Regulating thermostat & hi-limit",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-gas-ignitor",
+      "oemSection": "ignitor",
+      "title": "Gas ignitor \u2014 40\u2013400 \u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "hotSurfaceIgniterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-gas-valve",
+      "oemSection": "gas-valve",
+      "title": "Gas valve coils",
+      "status": "generated",
+      "knowledgeIds": [
+        "gasValveCoilOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-flame-sensor",
+      "oemSection": "flame-sensor",
+      "title": "Flame sensor \u2014 continuity",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-door-switch",
+      "oemSection": "door-switch",
+      "title": "Door switch \u2014 COM to NO",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-belt-safety",
+      "oemSection": "belt-safety",
+      "title": "Belt safety switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "nstdre75w1-hmi-test",
+      "oemSection": "02-03",
+      "title": "Service test \u2014 knob & key check",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C9"
+      ]
+    },
+    {
+      "id": "nstdre75w1-motor-circuit",
+      "oemSection": "motor",
+      "title": "Motor \u2014 belt switch & centrifugal",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C9"
+      ]
+    }
+  ]
+}

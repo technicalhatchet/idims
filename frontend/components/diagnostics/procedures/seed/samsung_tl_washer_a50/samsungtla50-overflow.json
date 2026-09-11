@@ -1,0 +1,95 @@
+{
+  "id": "samsungtla50-overflow",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Overflow (OC)",
+  "platformId": "samsung_tl_washer_a50",
+  "componentIds": [
+    "water_level_sensor",
+    "inlet_valve"
+  ],
+  "tags": [
+    "OC",
+    "overflow"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Overflow OC",
+    "pages": [
+      34,
+      36
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "oc_valve"
+    },
+    {
+      "id": "oc_valve",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Continuous fill check",
+      "body": "Check for frozen or obstructed inlet valve causing continuous water supply.",
+      "sourceExcerpt": "Check for frozen or obstructed inlet valve causing continuous water supply.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_level_sensor"
+        },
+        {
+          "id": "service_valve",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve or clear obstruction."
+        }
+      ]
+    },
+    {
+      "id": "oc_level_sensor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Water level sensor",
+      "body": "If inlet path OK, replace water level sensor per \u00a75-3 OC.",
+      "sourceExcerpt": "If inlet path OK, replace water level sensor per \u00a75-3 OC.",
+      "requiresInput": false,
+      "defaultNextStepId": "oc_verified"
+    },
+    {
+      "id": "service_valve_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Service inlet valve",
+      "oemOutcome": "Clear foreign material or replace stuck valve.",
+      "requiresInput": false
+    },
+    {
+      "id": "oc_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Overflow resolved",
+      "oemOutcome": "OC path addressed \u2014 monitor fill.",
+      "requiresInput": false
+    }
+  ]
+}

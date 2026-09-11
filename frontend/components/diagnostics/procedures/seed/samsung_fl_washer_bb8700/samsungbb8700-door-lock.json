@@ -1,0 +1,402 @@
+{
+  "id": "samsungbb8700-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Door lock and switch (DC, DC1)",
+  "platformId": "samsung_fl_washer_bb8700",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "DC",
+    "DC1",
+    "DC3",
+    "DDC",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Door Error DC / DC1",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dc_boil_check"
+    },
+    {
+      "id": "dc_boil_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "DC during Boil cycle?",
+      "body": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+      "sourceExcerpt": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_closed",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_type_check"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door securely and retest."
+        }
+      ]
+    },
+    {
+      "id": "door_type_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door switch type",
+      "body": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2 lock switch (pins 2\u20133 60\u201390 \u03a9 with slider pushed)?",
+      "sourceExcerpt": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2 lock switch (pins 2\u20133 60\u201390 \u03a9 with slider pushed)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "type1",
+          "label": "TYPE 1 door switch",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_ohms"
+        },
+        {
+          "id": "type2",
+          "label": "TYPE 2 lock switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_lock_ohms"
+        }
+      ]
+    },
+    {
+      "id": "door_switch_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "TYPE 1 door switch (pins 1\u20133)",
+      "body": "Approximately 175 \u03a9.",
+      "sourceExcerpt": "Approximately 175 \u03a9.",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorSwitchOhms",
+      "testPoint": {
+        "connector": "Door switch",
+        "pins": "1 & 3",
+        "label": "TYPE 1 door switch (pins 1\u20133)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ds_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_pass",
+          "label": "~175 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_lock_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "TYPE 2 lock switch (pins 2\u20133)",
+      "body": "Push slider \u2014 expect 60\u201390 \u03a9.",
+      "sourceExcerpt": "Push slider \u2014 expect 60\u201390 \u03a9.",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockOhms",
+      "testPoint": {
+        "connector": "Door lock",
+        "pins": "2 & 3",
+        "label": "TYPE 2 lock switch (pins 2\u20133)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dl_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_pass",
+          "label": "60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_motor_ohms",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lock_motor_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Add-door lock motor (1\u20132)",
+      "body": "For DDC/DC3: lock motor 46.57 \u00b1 15 \u03a9 at pins 1\u20132.",
+      "sourceExcerpt": "For DDC/DC3: lock motor 46.57 \u00b1 15 \u03a9 at pins 1\u20132.",
+      "measurementKnowledgeId": "samsungFlBb8700WasherDoorLockMotorOhms",
+      "testPoint": {
+        "connector": "Lock motor",
+        "pins": "1 & 2",
+        "label": "Add-door lock motor (1\u20132)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_module",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "lm_pass",
+          "label": "46.57 \u00b1 15 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close_door_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Close door",
+      "oemOutcome": "Ensure door closed and laundry not caught.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace faulty door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_lock",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lock_module",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace lock module",
+      "oemOutcome": "Replace add-door lock module when motor out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode steps Co/Ho/Spin per \u00a74-2.",
+      "requiresInput": false,
+      "order": 11,
+      "defaultNextStepId": "door_verified"
+    },
+    {
+      "id": "door_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Door circuit OK",
+      "oemOutcome": "Door switch/lock in spec \u2014 inspect main PBA door sensing if code persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungbb8700-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "door_type_check",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungbb8700-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "door_verified"
+    }
+  ]
+}

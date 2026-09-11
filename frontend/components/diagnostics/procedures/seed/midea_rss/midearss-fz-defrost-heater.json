@@ -1,0 +1,160 @@
+{
+  "id": "midearss-fz-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "heater",
+    "defrost_heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost",
+    "E5"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6.3",
+    "oemTestTitle": "Freezer defrost heater 115 V 240 W",
+    "pages": [
+      20,
+      29,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_heater"
+    },
+    {
+      "id": "service_mode_after_mandatory_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+      "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "disconnect_heater"
+    },
+    {
+      "id": "disconnect_heater",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect defrost heater",
+      "body": "Power off. Disconnect defrost heater connector at evaporator bottom (\u00a78.6).",
+      "sourceExcerpt": "Power off. Disconnect defrost heater connector at evaporator bottom (\u00a78.6).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "FZ defrost heater resistance",
+      "body": "115 V 240 W heater \u2014 calculated R \u2248 55 \u03a9 (50\u201362 \u03a9 normal band).",
+      "sourceExcerpt": "115 V 240 W heater \u2014 calculated R \u2248 55 \u03a9 (50\u201362 \u03a9 normal band).",
+      "measurementKnowledgeId": "mideaRssDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "defrost heater",
+        "pins": "heater terminals",
+        "label": "FZ defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "50\u201362 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace freezer defrost heater or fuse when open/short.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Defrost heater OK",
+      "oemOutcome": "Heater resistance verified \u2014 check defrost sensor and control if frost persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "midearss-mandatory-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_mandatory_entry"
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "id": "samsungotrmw-turntable",
+  "version": "1.0.0",
+  "title": "\u00a73-7: Turntable Drive Motor",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-7",
+    "oemTestTitle": "Turntable motor",
+    "pages": [
+      18,
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "turntable_runs"
+    },
+    {
+      "id": "turntable_runs",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Turntable motor operates during cook?",
+      "body": "Start cook cycle \u2014 does turntable rotate?",
+      "sourceExcerpt": "Start cook cycle \u2014 does turntable rotate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "turntable_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "turntable_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "turntable_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wiring_check",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "turntable_verified",
+      "order": 3,
+      "type": "outcome",
+      "title": "Turntable OK",
+      "body": "Turntable motor operates normally.",
+      "oemOutcome": "Turntable motor operates normally.",
+      "requiresInput": false
+    },
+    {
+      "id": "wiring_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Turntable motor wiring connected?",
+      "body": "Check open or loose wiring of turntable motor at CN202 T-TABLE relay path.",
+      "sourceExcerpt": "Check open or loose wiring of turntable motor at CN202 T-TABLE relay path.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_turntable_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_turntable"
+        },
+        {
+          "id": "replace_turntable_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_wiring",
+      "order": 5,
+      "type": "instruction",
+      "title": "Repair turntable wiring",
+      "body": "Reconnect turntable motor leads.",
+      "sourceExcerpt": "Reconnect turntable motor leads.",
+      "requiresInput": false,
+      "defaultNextStepId": "wiring_check"
+    },
+    {
+      "id": "replace_turntable",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace turntable motor",
+      "body": "Replace drive motor; remount coupler in correct position.",
+      "oemOutcome": "Replace drive motor; remount coupler in correct position.",
+      "requiresInput": false
+    }
+  ],
+  "images": [
+    {
+      "id": "samsung-me11-wiring-2",
+      "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+    }
+  ]
+}

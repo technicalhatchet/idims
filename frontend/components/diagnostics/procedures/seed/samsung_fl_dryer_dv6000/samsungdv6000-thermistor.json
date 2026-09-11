@@ -1,0 +1,166 @@
+{
+  "id": "samsungdv6000-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a74-1 / \u00a74-6: Thermistors (tC, tC5, HC)",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "componentIds": [
+    "exhaust_thermistor",
+    "inlet_thermistor"
+  ],
+  "tags": [
+    "tC",
+    "tC5",
+    "HC",
+    "thermistor_check",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-DV6000-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Thermistor faults",
+    "pages": [
+      29,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_precheck"
+    },
+    {
+      "id": "service_mode_after_smart_install",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Smart Install entered. Continue with component checks below.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "vent_precheck"
+    },
+    {
+      "id": "vent_precheck",
+      "order": 3,
+      "type": "instruction",
+      "title": "Vent and lint screen",
+      "body": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related.",
+      "sourceExcerpt": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_ohms"
+    },
+    {
+      "id": "thermistor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Thermistor resistance",
+      "body": "Measure thermistor \u2014 10 k\u03a9 @ 25\u00b0C per \u00a74-6.",
+      "sourceExcerpt": "Measure thermistor \u2014 10 k\u03a9 @ 25\u00b0C per \u00a74-6.",
+      "measurementKnowledgeId": "samsungFlDv6000DryerThermistor10KOhms",
+      "testPoint": {
+        "connector": "Thermistor",
+        "pins": "Connector",
+        "label": "Thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "th_pass",
+          "label": "~10 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_exhaust_thermistor_ol_exhaust_thermistor_ok",
+              "componentId": "exhaust_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "th_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_exhaust_thermistor_ol_exhaust_thermistor_failed",
+              "componentId": "exhaust_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "th_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_exhaust_thermistor_ol_exhaust_thermistor_failed",
+              "componentId": "exhaust_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "th_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_exhaust_thermistor_ol_exhaust_thermistor_failed",
+              "componentId": "exhaust_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace out-of-range thermistor; recheck vent.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistor_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Thermistors OK",
+      "oemOutcome": "Thermistors in range \u2014 suspect PCB or heat-pump path if HC persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdv6000-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_smart_install"
+    }
+  ]
+}

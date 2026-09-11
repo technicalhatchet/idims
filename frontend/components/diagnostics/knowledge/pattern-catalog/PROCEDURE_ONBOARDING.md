@@ -71,6 +71,7 @@ Each procedure file must include:
 - `id`, `platformId`, `componentIds`, `tags`, `source` (manualId, oemTestNumber, pages)
 - `steps[]` with `measurementKnowledgeId` on measurement steps
 - Optional `serviceModes[]` refs to bundles under `bundles/`
+- Optional `templateIds[]` for fuel-specific procedures (e.g. `gas_dryer` vs `electric_dryer` on shared `platformId`); omit when both fuels apply
 
 ### 3. Run the pipeline
 

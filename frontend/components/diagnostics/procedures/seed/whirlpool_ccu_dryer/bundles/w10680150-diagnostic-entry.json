@@ -1,0 +1,48 @@
+{
+  "id": "w10680150-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_ccu_dryer",
+  "manualId": "W10680150",
+  "title": "W10680150 \u2014 Service Diagnostics entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "Enter CCU Service Diagnostics (3-button sequence \u00d7 3), select language, Diagnostics Home.",
+  "tags": [
+    "service_diagnostic",
+    "fault_codes"
+  ],
+  "entryStepId": "prep_standby",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag CCU Electric/Gas Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/whirlpool-electric-gas-dryers-extracted.txt",
+    "pages": [
+      3,
+      4
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_standby",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby mode",
+      "body": "Dryer plugged in with all indicators off.",
+      "sourceExcerpt": "Be sure the dryer is in standby mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "three_button_entry"
+    },
+    {
+      "id": "three_button_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "3-button diagnostic entry",
+      "body": "Select any three buttons (except POWER). Within 8 seconds, press and release each button once, then repeat the same 3-button sequence two more times (9 presses total). Select language, confirm service technician warning, then Diagnostics Home appears.",
+      "sourceExcerpt": "Press/release 1st, 2nd, 3rd button \u2014 repeat sequence 2 more times.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

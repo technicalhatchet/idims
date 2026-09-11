@@ -1,0 +1,112 @@
+{
+  "id": "w10901168-test-96-water-valve",
+  "version": "1.0.0",
+  "title": "Service Test 96: Water valve general",
+  "platformId": "whirlpool_bella_french_door",
+  "componentIds": [
+    "water_valve"
+  ],
+  "tags": [
+    "no_water",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "W10901168",
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "96",
+    "oemTestTitle": "Water Valve General Test",
+    "pages": [
+      19,
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_96"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue in Bella Diagnostics",
+      "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_96",
+      "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+    },
+    {
+      "id": "select_test_96",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 96",
+      "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 96. Press Icemaker2 to select. Fast Cool backs out.",
+      "sourceExcerpt": "Service Test 96 \u2014 Water valve",
+      "requiresInput": false,
+      "defaultNextStepId": "valve"
+    },
+    {
+      "id": "valve",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Water dispenses",
+      "body": "Display on ~5 s \u2014 water from dispenser? Test 93 paddle = 1.",
+      "sourceExcerpt": "Display on ~5 s \u2014 water from dispenser? Test 93 paddle = 1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Dispenser UI or valve fault."
+        }
+      ]
+    },
+    {
+      "id": "replace_ui",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace UI or valve",
+      "oemOutcome": "UI if no on display; valve/tubing if no flow.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Water valve verified",
+      "oemOutcome": "Test 96 OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10901168-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

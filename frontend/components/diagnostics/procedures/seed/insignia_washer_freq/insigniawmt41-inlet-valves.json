@@ -1,0 +1,339 @@
+{
+  "id": "insigniawmt41-inlet-valves",
+  "version": "1.0.0",
+  "title": "Water inlet \u2014 E1 fill timeout",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "inlet_valve",
+    "water_level_sensor"
+  ],
+  "tags": [
+    "E1",
+    "fill_issue",
+    "water_valve_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E1",
+    "oemTestTitle": "Abnormal water inlet",
+    "pages": [
+      52,
+      53,
+      54
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_check"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "supply_check"
+    },
+    {
+      "id": "supply_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Water supply",
+      "body": "Faucets open? Inlet screens clean? Water pressure adequate? Simultaneous fill/drain (leak path) can cause E1.",
+      "sourceExcerpt": "Faucets open? Inlet screens clean? Water pressure adequate? Simultaneous fill/drain (leak path) can cause E1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_harness"
+        },
+        {
+          "id": "supply_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_supply",
+          "terminal": true,
+          "oemOutcome": "Correct water supply and installation.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inlet_harness",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Inlet valve / level sensor harness",
+      "body": "Wire harness to inlet valve and level sensor intact?",
+      "sourceExcerpt": "Wire harness to inlet valve and level sensor intact?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_valve_ohms"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace or repair harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inlet_valve_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Inlet valve coil (term 1\u20132)",
+      "body": "Inlet valve coil resistance: 4\u20136 \u03a9.",
+      "sourceExcerpt": "Inlet valve coil resistance: 4\u20136 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherFreqInletValveOhms",
+      "testPoint": {
+        "connector": "Inlet valve",
+        "pins": "1-2",
+        "label": "Inlet valve coil (term 1\u20132)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inlet_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inlet_valve",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "inlet_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inlet_valve",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "inlet_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inlet_valve",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "inlet_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "level_freq",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "level_freq",
+      "order": 6,
+      "type": "measurement",
+      "title": "Level sensor frequency (empty tub)",
+      "body": "Frequency at terminals 1\u20132 with empty tub: 26.70\u00b10.3 kHz. F8 if <18 or >30 kHz.",
+      "sourceExcerpt": "Check frequency without load; empty tub 26.70\u00b10.3 kHz.",
+      "measurementKnowledgeId": "insigniaWasherLevelSensorFrequency",
+      "testPoint": {
+        "connector": "Level sensor",
+        "pins": "1-2",
+        "label": "Level sensor frequency (empty tub)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "level_freq_crit_low",
+          "label": "Below 18 kHz",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 F8 fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "level_freq_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "level_freq_pass",
+          "label": "26.4\u201327.0 kHz (empty)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inlet_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "level_freq_crit_high",
+          "label": "Above 30 kHz",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_level_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace level sensor \u2014 F8 fault.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_level_sensor",
+              "evidenceId": "confirm_water_level_sensor_5v_water_level_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_inlet_valve",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "oemOutcome": "Replace inlet valve \u2014 coil out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_level_sensor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace frequency water level sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace inlet/level sensor harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "correct_supply",
+      "order": 10,
+      "type": "outcome",
+      "title": "Correct supply",
+      "oemOutcome": "Correct water supply or leak path; retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "inlet_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Inlet path verified",
+      "oemOutcome": "Valve and level sensor OK \u2014 replace PCB/inverter if E1 persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

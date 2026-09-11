@@ -1,0 +1,38 @@
+{
+  "id": "w11416395-service-test-mode",
+  "version": "1.0.0",
+  "platformId": "whirlpool_mvw6200",
+  "manualId": "W11416395",
+  "title": "W11416395 \u2014 Service Test Mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Enter Service Test Mode via Key 2 then START; auto-sequence runs valves, drain, wash, spin.",
+  "tags": [
+    "service_test",
+    "live_test",
+    "component_activation"
+  ],
+  "entryStepId": "service_test_entry",
+  "source": {
+    "manualTitle": "Maytag 4.8 cu ft Top Load Washer (MVW6200, W11416395B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11416395-revb mvw6200-extracted.txt",
+    "pages": [
+      13,
+      14
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_test_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Test Mode",
+      "body": "With Service Diagnostic mode active, press and release Key 2, then press and release START. All LEDs turn on indicating successful entry. Press START again to begin automatic test sequence: water valves \u2192 drain pump \u2192 wash (CW/CCW agitate) \u2192 spin (140/300/500 rpm). Key 1 repeats prior step; Key 2 skips. Door must be closed. POWER exits to standby.",
+      "sourceExcerpt": "To enter Service test mode, press and release Key 2... then press and release the START button.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

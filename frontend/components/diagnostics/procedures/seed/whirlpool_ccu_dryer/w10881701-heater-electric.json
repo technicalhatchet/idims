@@ -1,0 +1,301 @@
+{
+  "id": "w10881701-heater-electric",
+  "version": "1.0.0",
+  "title": "TEST #4: Heat System (electric)",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "heating_element"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check",
+    "F4E1"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Heat System",
+    "pages": [
+      14,
+      15
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heat"
+    },
+    {
+      "id": "access_heat",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access heater relays",
+      "body": "Remove top panel. Access ACU heater relays per Figure 20a.",
+      "sourceExcerpt": "Remove top panel. Access ACU heater relays per Figure 20a.",
+      "requiresInput": false,
+      "defaultNextStepId": "dual_element",
+      "images": [
+        {
+          "id": "w11737351-access-heater-electric",
+          "caption": "Heater, hi-limit, and thermal cutoff \u2014 electric (W11737351 p.15)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-heater-electric.png"
+        }
+      ]
+    },
+    {
+      "id": "dual_element",
+      "order": 3,
+      "type": "measurement",
+      "title": "Heater relay #1 violet to #2 violet",
+      "body": "Both elements in parallel: \u226450 \u03a9. Open \u2192 check each element violet to center red.",
+      "sourceExcerpt": "Both elements in parallel: \u226450 \u03a9. Open \u2192 check each element violet to center red.",
+      "measurementKnowledgeId": "whirlpoolCcuDryerHeaterOhms",
+      "testPoint": {
+        "connector": "Heater relays",
+        "pins": "violet #1 to violet #2",
+        "label": "Heater relay #1 violet to #2 violet"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_cutoff_l1"
+        },
+        {
+          "id": "heat_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_elements",
+          "terminal": true,
+          "oemOutcome": "Replace open element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "heat_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_elements",
+          "terminal": true,
+          "oemOutcome": "Replace open element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "heat_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_elements",
+          "terminal": true,
+          "oemOutcome": "Replace open element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w10881701-thermistor-strip",
+          "caption": "Exhaust/inlet thermistor strip circuit (TEST #4a)",
+          "assetPath": "/images/procedures/whirlpool_ccu_dryer/w10881701-thermistor-strip.png"
+        },
+        {
+          "id": "w10881701-acu-pinout",
+          "caption": "ACU connectors & pinouts \u2014 J14 thermistors (\u00a73-7)",
+          "assetPath": "/images/procedures/whirlpool_ccu_dryer/w10881701-acu-pinout.png"
+        },
+        {
+          "id": "w11737351-access-heater-electric",
+          "caption": "Heater, hi-limit, and thermal cutoff \u2014 electric (W11737351 p.15)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-heater-electric.png"
+        }
+      ]
+    },
+    {
+      "id": "thermal_cutoff_l1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "L1 through thermal cut-off to relays",
+      "body": "Continuity J9-2 (L1) to black on heater relay #1 and #2 through thermal cut-off path.",
+      "sourceExcerpt": "Continuity J9-2 (L1) to black on heater relay #1 and #2 through thermal cut-off path.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "high_limit"
+        },
+        {
+          "id": "cutoff_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermal cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "high_limit",
+      "order": 5,
+      "type": "visual_check",
+      "title": "High-limit thermostat",
+      "body": "Continuity across high-limit. Open \u2192 replace high-limit and thermal cut-off.",
+      "sourceExcerpt": "Continuity across high-limit. Open \u2192 replace high-limit and thermal cut-off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "outlet_ntc"
+        },
+        {
+          "id": "hilimit_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit and cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outlet_ntc",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Outlet thermistor J14-3 to J14-6",
+      "body": "Disconnect J14. 5\u201315 k\u03a9 at room; <1 k\u03a9 \u2192 replace thermistor; open \u2192 repair harness.",
+      "sourceExcerpt": "Disconnect J14. 5\u201315 k\u03a9 at room; <1 k\u03a9 \u2192 replace thermistor; open \u2192 repair harness.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified"
+        },
+        {
+          "id": "ntc_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_elements",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace failed heating element(s).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cutoff",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace cut-off",
+      "oemOutcome": "Replace thermal cut-off.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hilimit",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace cut-off & high-limit",
+      "oemOutcome": "Replace thermal cut-off and high-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace outlet thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Heater circuit verified",
+      "oemOutcome": "Elements, limits, and outlet NTC within spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_dryer"
+  ]
+}

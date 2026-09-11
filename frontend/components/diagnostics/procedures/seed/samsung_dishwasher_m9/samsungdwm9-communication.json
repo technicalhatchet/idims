@@ -1,0 +1,142 @@
+{
+  "id": "samsungdwm9-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-3: PBA Communication (AC / AC6)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "AC",
+    "AC6",
+    "communication"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "AC / AC6 communication",
+    "pages": [
+      36,
+      37,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_harness"
+    },
+    {
+      "id": "comm_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect CN802 sub comms",
+      "body": "Check CN802 main-to-sub harness (pins 4\u20135 TX/RX, 1/3/9 5V/12V) and inverter CN903/CN904.",
+      "sourceExcerpt": "Check CN802 main-to-sub harness (pins 4\u20135 TX/RX, 1/3/9 5V/12V) and inverter CN903/CN904.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_smart_install"
+    },
+    {
+      "id": "comm_smart_install",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Comms stable in Service Inspection?",
+      "body": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73 then 2 min relay off.",
+      "sourceExcerpt": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73 then 2 min relay off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sub_pba_yes",
+          "label": "Stable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sub_pba"
+        },
+        {
+          "id": "sub_pba_no",
+          "label": "AC / AC6",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_wire"
+        }
+      ]
+    },
+    {
+      "id": "replace_sub_wire",
+      "order": 4,
+      "type": "instruction",
+      "title": "Replace sub-wire",
+      "body": "If AC persists after reseating CN802/CN101, replace sub-wire harness.",
+      "sourceExcerpt": "If AC persists after reseating CN802/CN101, replace sub-wire harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "sub_pba"
+    },
+    {
+      "id": "sub_pba",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Sub PBA and inverter seated?",
+      "body": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins.",
+      "sourceExcerpt": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok_yes",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok"
+        },
+        {
+          "id": "comm_ok_no",
+          "label": "Damaged board/harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_pba"
+        }
+      ]
+    },
+    {
+      "id": "replace_sub_pba",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace sub or inverter PBA",
+      "body": "Replace failed sub PBA or inverter PBA.",
+      "oemOutcome": "Replace failed sub PBA or inverter PBA.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_comm",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when harness good but comms fail.",
+      "oemOutcome": "Replace main PBA when harness good but comms fail.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Communication OK",
+      "body": "PBA communication verified.",
+      "oemOutcome": "PBA communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

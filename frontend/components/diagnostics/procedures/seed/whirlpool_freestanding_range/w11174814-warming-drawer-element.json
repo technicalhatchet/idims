@@ -1,0 +1,145 @@
+{
+  "id": "w11174814-warming-drawer-element",
+  "version": "1.0.0",
+  "title": "Warming Drawer Element",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W11174814",
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "WD-Element",
+    "oemTestTitle": "Warming Drawer Element",
+    "pages": [
+      33,
+      35,
+      37,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "warming_drawer_ohms"
+    },
+    {
+      "id": "warming_drawer_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Warming drawer element resistance",
+      "body": "Power off. Disconnect element leads. Maxwell electric: P4-1 to W (P6-3). Maxwell gas: P1-4 to W. MRC electric: P4-2 to W. Expect 15\u201320 \u03a9 nominal.",
+      "sourceExcerpt": "Power off. Disconnect element leads. Maxwell electric: P4-1 to W (P6-3). Maxwell gas: P1-4 to W. MRC electric: P4-2 to W. Expect 15\u201320 \u03a9 nominal.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeWarmingDrawerElementOhms",
+      "testPoint": {
+        "connector": "P4/P1",
+        "pins": [
+          "element",
+          "W"
+        ],
+        "label": "Warming drawer element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wd_elem_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_elem_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_elem_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_element",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "wd_elem_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_element_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_wd_element",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace warming drawer element",
+      "oemOutcome": "Warming drawer element open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "wd_element_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Warming drawer element verified",
+      "oemOutcome": "Warming drawer element 15\u201320 \u03a9.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174814-maxwell-mrc-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "warming_drawer_ohms"
+    }
+  ]
+}

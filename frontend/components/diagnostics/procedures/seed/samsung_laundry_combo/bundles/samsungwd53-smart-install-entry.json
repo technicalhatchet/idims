@@ -1,0 +1,47 @@
+{
+  "id": "samsungwd53-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_laundry_combo",
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "title": "Samsung WD53 \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) from Hidden Mode or Product Care Self Clean+ tap sequence.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "pages": [
+      52,
+      54
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby \u2014 empty drum",
+      "body": "Combo standby. Drum empty. Access Hidden Mode or Product Care.",
+      "sourceExcerpt": "Combo standby. Drum empty. Access Hidden Mode or Product Care.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Hidden Mode \u2192 Smart Install, OR Product Care \u2192 Self Clean+ tap 25\u00d7 (tabs within 1 s). Password: washerdryer.1! Display shows AS with Micom/LCD versions.",
+      "sourceExcerpt": "Smart Install active when AS displays.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "samsungbespoke-test-mode-rf23bb-digital",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_bespoke",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "title": "RF23BB8/29 digital \u2014 Test Mode entry",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "lcd_in_door"
+  ],
+  "description": "Fridge + FlexZone 6 s \u2192 FlexZone enters Test Mode (FF \u2192 Fd sequence).",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "pages": [
+      81,
+      84
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Test Mode",
+      "body": "Fridge + FlexZone \u22656 s \u2192 press FlexZone. Cycle keys: FF \u2192 FF r \u2192 FF F \u2192 FF A \u2192 Fd defrost.",
+      "sourceExcerpt": "Fridge + FlexZone \u22656 s \u2192 press FlexZone. Cycle keys: FF \u2192 FF r \u2192 FF F \u2192 FF A \u2192 Fd defrost.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

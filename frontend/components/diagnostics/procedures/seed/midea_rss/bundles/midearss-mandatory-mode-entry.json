@@ -1,0 +1,36 @@
+{
+  "id": "midearss-mandatory-mode-entry",
+  "version": "1.0.0",
+  "platformId": "midea_rss",
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "title": "Midea RSS26 \u2014 Mandatory diagnostic mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter mandatory mode for forced compressor (1) or ice maker cycle (3) per \u00a710.5.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mm_enter",
+  "source": {
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "pages": [
+      47
+    ]
+  },
+  "steps": [
+    {
+      "id": "mm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter mandatory mode",
+      "body": "Press LOCK/UNLOCK + FRZ.TEMP together 3 s to enter/exit. Lock settings after selection. Display 0=normal; 1=compressor forced 36 hr; 3=ice maker turn-over \u00d72 then fill. Power-cycle after use.",
+      "sourceExcerpt": "Press LOCK/UNLOCK + FRZ.TEMP together 3 s to enter/exit. Lock settings after selection. Display 0=normal; 1=compressor forced 36 hr; 3=ice maker turn-over \u00d72 then fill. Power-cycle after use.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

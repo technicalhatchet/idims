@@ -1,0 +1,144 @@
+{
+  "id": "w8178629-gas-ignitor",
+  "version": "1.0.0",
+  "title": "Burner Ignitor Test",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "ignition_issue",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-4-gas",
+    "oemTestTitle": "Burner Ignitor",
+    "pages": [
+      64
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_ignitor"
+    },
+    {
+      "id": "access_ignitor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access burner ignitor",
+      "body": "Disconnect 2-wire ignitor connector from harness.",
+      "sourceExcerpt": "Disconnect 2-wire ignitor connector from harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_ohms"
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Ignitor resistance",
+      "body": "Rx1 at 2-wire connector pins: 50\u2013500 \u03a9.",
+      "sourceExcerpt": "Rx1 at 2-wire connector pins: 50\u2013500 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolCentennialDryerIgnitorOhms",
+      "testPoint": {
+        "connector": "Ignitor",
+        "pins": "2-wire",
+        "label": "Ignitor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified"
+        },
+        {
+          "id": "ign_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ignitor",
+      "oemOutcome": "Replace burner ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "ignitor_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ignitor verified",
+      "oemOutcome": "Ignitor resistance within spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

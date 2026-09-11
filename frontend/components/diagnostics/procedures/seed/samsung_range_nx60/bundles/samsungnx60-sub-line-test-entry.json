@@ -1,0 +1,46 @@
+{
+  "id": "samsungnx60-sub-line-test-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_range_nx60",
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "title": "Samsung NX60 \u2014 Sub-line test mode",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Hidden key Sub-Line-Test for PCB line diagnostics (\u00a74-1 hidden key table).",
+  "tags": [
+    "service_diagnostic",
+    "hmi_test"
+  ],
+  "entryStepId": "slt_enter",
+  "source": {
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "pages": [
+      58
+    ]
+  },
+  "steps": [
+    {
+      "id": "slt_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter sub-line test",
+      "body": "8311 UI: hold Keep Warm + Num4 for 0.6 s (Keep Warm \u2227 + Num4).",
+      "sourceExcerpt": "8311 UI: hold Keep Warm + Num4 for 0.6 s (Keep Warm \u2227 + Num4).",
+      "requiresInput": false,
+      "defaultNextStepId": "slt_wire"
+    },
+    {
+      "id": "slt_wire",
+      "order": 2,
+      "type": "instruction",
+      "title": "Wire test (optional)",
+      "body": "Wire-Test: Keep Warm + Num6 for 0.6 s. AD-Display: Cooking Time + \u2227 for 5 s.",
+      "sourceExcerpt": "Wire-Test: Keep Warm + Num6 for 0.6 s. AD-Display: Cooking Time + \u2227 for 5 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

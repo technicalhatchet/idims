@@ -1,0 +1,36 @@
+{
+  "id": "samsungbb8700-dryer-error-recall",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "title": "Samsung BB8700 dryer \u2014 Error Recall",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Display last detected error on Dryness + Temp models.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "er_entry",
+  "source": {
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "pages": [
+      35
+    ]
+  },
+  "steps": [
+    {
+      "id": "er_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Error Recall mode",
+      "body": "Enter Error Recall per control panel \u2014 last error code displays (DVE(G)53BB89/8700*, DVE(G)46BB6700*). Nothing shown if no error stored.",
+      "sourceExcerpt": "Enter Error Recall per control panel \u2014 last error code displays (DVE(G)53BB89/8700*, DVE(G)46BB6700*). Nothing shown if no error stored.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

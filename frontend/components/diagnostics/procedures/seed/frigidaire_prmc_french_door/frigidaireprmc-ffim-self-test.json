@@ -1,0 +1,112 @@
+{
+  "id": "frigidaireprmc-ffim-self-test",
+  "version": "1.0.0",
+  "title": "FFIM twist-tray self-test (TEST button)",
+  "platformId": "frigidaire_prmc_french_door",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "Er_t6",
+    "Er t6"
+  ],
+  "source": {
+    "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+    "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "FFIM-TEST",
+    "oemTestTitle": "Ice maker test cycling",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+      "sourceExcerpt": "Disconnect power cord before servicing this appliance.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_power_on"
+    },
+    {
+      "id": "im_power_on",
+      "order": 2,
+      "type": "instruction",
+      "title": "Turn ice maker ON",
+      "body": "Press and hold POWER on the FFIM for \u00bd second until POWER illuminates solid green.",
+      "sourceExcerpt": "Press and hold POWER on the FFIM for \u00bd second until POWER illuminates solid green.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_self_test"
+    },
+    {
+      "id": "run_self_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Run TEST self-diagnostic",
+      "body": "Press and release TEST/SERVICE. Tray performs two rotations: hold bail arm up during the first rotation (simulate full bin); release for second rotation (empty bin). POWER returns solid green if pass; rapid blink = internal IM failure.",
+      "sourceExcerpt": "Press and release TEST/SERVICE. Tray performs two rotations: hold bail arm up during the first rotation (simulate full bin); release for second rotation (empty bin). POWER returns solid green if pass; rapid blink = internal IM failure.",
+      "requiresInput": true,
+      "defaultNextStepId": "self_test_result"
+    },
+    {
+      "id": "self_test_result",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Self-test passed?",
+      "body": "After second rotation home, is POWER solid green (no rapid blink)?",
+      "sourceExcerpt": "After second rotation home, is POWER solid green (no rapid blink)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "test_pass",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_ok"
+        },
+        {
+          "id": "test_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace FFIM assembly \u2014 internal failure detected.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e4_dry"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "im_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "FFIM self-test passed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_im",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Replace fresh-food ice maker module after failed self-test.",
+      "requiresInput": false
+    }
+  ]
+}

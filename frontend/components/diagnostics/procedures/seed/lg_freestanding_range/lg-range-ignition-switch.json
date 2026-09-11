@@ -1,0 +1,86 @@
+{
+  "id": "lg-range-ignition-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Surface ignition switch",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "surface_ignition"
+  ],
+  "tags": [
+    "surface_burner",
+    "no_heat",
+    "spark_issue"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Ignition switch",
+    "pages": [
+      37,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "ign_switch_cam"
+    },
+    {
+      "id": "ign_switch_cam",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Ignition switch cam continuity",
+      "body": "Rotate cam slowly. Continuity at \u224840\u00b0\u201380\u00b0; infinite at other positions (R \u00d7 1).",
+      "sourceExcerpt": "Rotate cam slowly. Continuity at \u224840\u00b0\u201380\u00b0; infinite at other positions (R \u00d7 1).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cam_ok",
+          "label": "Switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ign_sw_ok"
+        },
+        {
+          "id": "cam_bad",
+          "label": "Switch failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ign_sw"
+        }
+      ]
+    },
+    {
+      "id": "replace_ign_sw",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace ignition switch",
+      "oemOutcome": "Surface burner ignition switch failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "ign_sw_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Ignition switch OK",
+      "oemOutcome": "Cam continuity verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ]
+}

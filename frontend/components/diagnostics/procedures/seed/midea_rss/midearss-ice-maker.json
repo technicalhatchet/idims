@@ -1,0 +1,120 @@
+{
+  "id": "midearss-ice-maker",
+  "version": "1.0.0",
+  "title": "\u00a710.8 E0: Ice maker fault",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "E0",
+    "ice_maker",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10.8",
+    "oemTestTitle": "Ice maker fault",
+    "pages": [
+      48,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_harness"
+    },
+    {
+      "id": "service_mode_after_mandatory_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+      "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "im_harness"
+    },
+    {
+      "id": "im_harness",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Ice maker harness at main PCB",
+      "body": "Verify ice maker terminal at main control board is seated with no foreign matter.",
+      "sourceExcerpt": "Verify ice maker terminal at main control board is seated with no foreign matter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_function"
+        },
+        {
+          "id": "replace_im",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module when harness verified.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "im_function",
+      "order": 4,
+      "type": "instruction",
+      "title": "Verify ice maker operation",
+      "body": "Confirm harvest and fill cycle after reseating harness. Use EYE test mode if needed (\u00a710.10).",
+      "sourceExcerpt": "Confirm harvest and fill cycle after reseating harness. Use EYE test mode if needed (\u00a710.10).",
+      "requiresInput": false,
+      "defaultNextStepId": "im_ok"
+    },
+    {
+      "id": "replace_im_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Replace ice maker module when E0 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "Ice maker function verified after harness service.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "midearss-mandatory-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_mandatory_entry"
+    }
+  ]
+}

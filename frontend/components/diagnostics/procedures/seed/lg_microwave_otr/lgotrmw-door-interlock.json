@@ -1,0 +1,410 @@
+{
+  "id": "lgotrmw-door-interlock",
+  "version": "1.0.0",
+  "title": "\u00a79-2: Door Interlock Switches",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "door_interlock"
+  ],
+  "tags": [
+    "door_switch_check",
+    "safety_switch",
+    "no_heat",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9-2",
+    "oemTestTitle": "Interlock continuity test",
+    "pages": [
+      29,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "primary_open"
+    },
+    {
+      "id": "primary_open",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Primary switch open with door open?",
+      "body": "Disconnect primary switch leads. COM\u2013NO must read open circuit with door open.",
+      "sourceExcerpt": "Disconnect primary switch leads. COM\u2013NO must read open circuit with door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "primary_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "primary_closed"
+        },
+        {
+          "id": "primary_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_primary",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_interlock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_primary",
+      "order": 3,
+      "type": "instruction",
+      "title": "Adjust or replace primary switch",
+      "body": "Adjust latch board (\u00a79-1) or replace primary interlock switch.",
+      "sourceExcerpt": "Adjust latch board (\u00a79-1) or replace primary interlock switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "primary_open"
+    },
+    {
+      "id": "primary_closed",
+      "order": 4,
+      "type": "measurement",
+      "title": "Primary switch closed with door shut",
+      "body": "With door closed, COM\u2013NO on primary switch should read closed circuit.",
+      "sourceExcerpt": "When the door is closed, the meter should indicate a closed circuit.",
+      "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+      "testPoint": {
+        "connector": "Primary interlock",
+        "pins": "COM-NO",
+        "label": "Primary switch closed with door shut"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "secondary_open_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "secondary_open",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_interlock",
+              "evidenceId": "eliminate_primary_switch_open_door_interlock_ok"
+            }
+          ]
+        },
+        {
+          "id": "secondary_open_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adjust_primary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_open_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adjust_primary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "secondary_open_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "adjust_primary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "secondary_open",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Secondary switch open with door open?",
+      "body": "COM\u2013NO on secondary switch must read open with door open.",
+      "sourceExcerpt": "COM\u2013NO on secondary switch must read open with door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "secondary_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "secondary_closed"
+        },
+        {
+          "id": "secondary_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_secondary",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_interlock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_secondary",
+      "order": 6,
+      "type": "instruction",
+      "title": "Adjust or replace secondary switch",
+      "body": "Adjust latch board or replace secondary interlock switch.",
+      "sourceExcerpt": "Adjust latch board or replace secondary interlock switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "secondary_open"
+    },
+    {
+      "id": "secondary_closed",
+      "order": 7,
+      "type": "measurement",
+      "title": "Secondary switch closed with door shut",
+      "body": "With door closed, COM\u2013NO on secondary must read closed circuit.",
+      "sourceExcerpt": "With door closed, COM\u2013NO on secondary must read closed circuit.",
+      "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+      "testPoint": {
+        "connector": "Secondary interlock",
+        "pins": "COM-NO",
+        "label": "Secondary switch closed with door shut"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "monitor_open_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "monitor_open",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_interlock",
+              "evidenceId": "eliminate_primary_switch_open_door_interlock_ok"
+            }
+          ]
+        },
+        {
+          "id": "monitor_open_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "adjust_secondary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "monitor_open_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "adjust_secondary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "monitor_open_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "adjust_secondary",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "monitor_open",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Monitor switch closed with door open?",
+      "body": "COM\u2013NC on monitor switch must read closed circuit with door open.",
+      "sourceExcerpt": "COM\u2013NC on monitor switch must read closed circuit with door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "monitor_closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "monitor_closed"
+        },
+        {
+          "id": "monitor_closed_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_monitor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_interlock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_monitor",
+      "order": 9,
+      "type": "instruction",
+      "title": "Replace monitor switch",
+      "body": "Replace interlock monitor switch (NC must close when door opens).",
+      "sourceExcerpt": "Replace interlock monitor switch (NC must close when door opens).",
+      "requiresInput": false,
+      "defaultNextStepId": "monitor_open"
+    },
+    {
+      "id": "monitor_closed",
+      "order": 10,
+      "type": "measurement",
+      "title": "Monitor switch open with door shut",
+      "body": "With door closed, COM\u2013NC on monitor must read open circuit.",
+      "sourceExcerpt": "With door closed, COM\u2013NC on monitor must read open circuit.",
+      "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+      "testPoint": {
+        "connector": "Monitor interlock",
+        "pins": "COM-NC",
+        "label": "Monitor switch open with door shut"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "interlock_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "interlock_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_interlock",
+              "evidenceId": "eliminate_primary_switch_open_door_interlock_ok"
+            }
+          ]
+        },
+        {
+          "id": "interlock_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_monitor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "interlock_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_monitor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        },
+        {
+          "id": "interlock_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_monitor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_interlock",
+              "evidenceId": "confirm_primary_switch_open_door_interlock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interlock_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Interlock switches verified",
+      "body": "All three interlock switches operate per OEM sequence.",
+      "oemOutcome": "All three interlock switches operate per OEM sequence.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,368 @@
+{
+  "id": "samsungwd53-wash-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Wash heater (HC, HC1)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "wash_heater",
+    "wash_ntc"
+  ],
+  "tags": [
+    "HC",
+    "HC1",
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Heater Error HC",
+    "pages": [
+      45,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_access"
+    },
+    {
+      "id": "heater_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access heater terminals",
+      "body": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-4 TYPE 1).",
+      "sourceExcerpt": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-4 TYPE 1).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_in_circuit"
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "heater_in_circuit"
+    },
+    {
+      "id": "heater_in_circuit",
+      "order": 4,
+      "type": "measurement",
+      "title": "Heater A\u2013B resistance (TYPE 1)",
+      "body": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9.",
+      "sourceExcerpt": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9.",
+      "measurementKnowledgeId": "samsungLaundryComboWashHeaterInCircuitOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "A & B",
+        "label": "Heater A\u2013B resistance (TYPE 1)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hc_ab_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_ab_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_ab_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_ab_pass",
+          "label": "~16 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok_in_circuit",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok",
+              "componentId": "wash_heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_heater",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench heater element",
+      "body": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W).",
+      "sourceExcerpt": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_bench"
+    },
+    {
+      "id": "heater_bench",
+      "order": 6,
+      "type": "measurement",
+      "title": "Heater bench ohms",
+      "body": "Measure heater element resistance.",
+      "sourceExcerpt": "Measure heater element resistance.",
+      "measurementKnowledgeId": "samsungLaundryComboWashHeaterOhms",
+      "testPoint": {
+        "connector": "Heater element",
+        "pins": "Terminals",
+        "label": "Heater bench ohms"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hc_bench_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_bench_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_bench_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_heater_ol_wash_heater_failed",
+              "componentId": "wash_heater"
+            }
+          ]
+        },
+        {
+          "id": "hc_bench_pass",
+          "label": "27.1/26.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_heater_ol_wash_heater_ok",
+              "componentId": "wash_heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_thermistor",
+      "order": 7,
+      "type": "instruction",
+      "title": "TYPE 2 \u2014 wash thermistor",
+      "body": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-4 TYPE 2).",
+      "sourceExcerpt": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-4 TYPE 2).",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_ohms"
+    },
+    {
+      "id": "thermistor_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Wash thermistor @ room",
+      "body": "Expected ~12 k\u03a9 at room temperature.",
+      "sourceExcerpt": "Expected ~12 k\u03a9 at room temperature.",
+      "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+      "testPoint": {
+        "connector": "Thermistor",
+        "pins": "Connector",
+        "label": "Wash thermistor @ room"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed",
+              "componentId": "wash_ntc"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_path_ok",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok",
+              "componentId": "wash_ntc"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_ok_in_circuit",
+      "order": 9,
+      "type": "outcome",
+      "title": "Heater in-circuit OK",
+      "oemOutcome": "A\u2013B in range \u2014 if HC persists, replace wash thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace wash heater when open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace wash thermistor when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_path_ok",
+      "order": 12,
+      "type": "outcome",
+      "title": "Heater path verified",
+      "oemOutcome": "Heater and thermistor in spec.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungwd53-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "heater_access",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungwd53-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "heater_in_circuit"
+    }
+  ]
+}

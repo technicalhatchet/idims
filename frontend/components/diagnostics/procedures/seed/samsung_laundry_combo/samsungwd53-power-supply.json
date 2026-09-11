@@ -1,0 +1,125 @@
+{
+  "id": "samsungwd53-power-supply",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Power (9C1, 9C2, 9C5)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "9C1",
+    "9C2",
+    "9C5",
+    "9C9",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Power Error 9C",
+    "pages": [
+      48,
+      58
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_voltage"
+    },
+    {
+      "id": "supply_voltage",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Supply voltage",
+      "body": "Verify operating voltage during Sanitize/Boil. Check extension cord drop and shared outlet.",
+      "sourceExcerpt": "Verify operating voltage during Sanitize/Boil. Check extension cord drop and shared outlet.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ac_connector"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct dedicated circuit; no undersized extension."
+        }
+      ]
+    },
+    {
+      "id": "ac_connector",
+      "order": 3,
+      "type": "visual_check",
+      "title": "AC connector / motor short",
+      "body": "Inspect AC connector for short. Check motor connector for short to ground (9C5).",
+      "sourceExcerpt": "Inspect AC connector for short. Check motor connector for short to ground (9C5).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pba_ok"
+        },
+        {
+          "id": "replace_motor_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor and main PBA if motor shorted."
+        }
+      ]
+    },
+    {
+      "id": "fix_supply_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Fix supply",
+      "oemOutcome": "Correct installation and supply voltage.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor_pba_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace motor and/or PBA",
+      "oemOutcome": "Replace shorted motor and PBA per \u00a74-4 9C.",
+      "requiresInput": false
+    },
+    {
+      "id": "pba_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and connectors verified.",
+      "requiresInput": false
+    }
+  ]
+}

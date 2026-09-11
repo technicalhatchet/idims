@@ -1,0 +1,143 @@
+{
+  "id": "w11174426-infinite-switch",
+  "version": "1.0.0",
+  "title": "Cooktop Infinite Switches",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "heating_element_check",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "W11174426",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Switch",
+    "oemTestTitle": "Infinite Switches",
+    "pages": [
+      45,
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "cooktop_indicator"
+    },
+    {
+      "id": "cooktop_indicator",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Cooktop On indicator",
+      "body": "Turn any cooktop element ON \u2014 does Cooktop On indicator light?",
+      "sourceExcerpt": "Turn any cooktop element ON \u2014 does Cooktop On indicator light?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ind_on",
+          "label": "Indicator on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "element_heats"
+        },
+        {
+          "id": "ind_off",
+          "label": "No indicator",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_switch_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "bake_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "element_heats",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Element cycles hot",
+      "body": "At high setting, does infinite switch cycle element on/off to maintain temperature?",
+      "sourceExcerpt": "At high setting, does infinite switch cycle element on/off to maintain temperature?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cycles",
+          "label": "Cycles normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "switch_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        },
+        {
+          "id": "no_heat",
+          "label": "No heat / stuck on",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_switch_wiring",
+      "order": 4,
+      "type": "instruction",
+      "title": "Check infinite switch wiring",
+      "body": "Inspect switch terminals and supply to affected burner.",
+      "sourceExcerpt": "Inspect switch terminals and supply to affected burner.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_switch"
+    },
+    {
+      "id": "replace_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace infinite switch or element",
+      "oemOutcome": "Switch or element circuit fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "switch_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Infinite switches verified",
+      "oemOutcome": "Cooktop infinite switch operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

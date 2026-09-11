@@ -1,0 +1,137 @@
+{
+  "id": "w11174814-oven-light",
+  "version": "1.0.0",
+  "title": "Oven Light Assembly",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "light_check"
+  ],
+  "source": {
+    "manualId": "W11174814",
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Light",
+    "oemTestTitle": "Oven Light",
+    "pages": [
+      33,
+      41,
+      42,
+      44,
+      86
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "oven_light_ohms"
+    },
+    {
+      "id": "oven_light_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Oven light resistance",
+      "body": "Power off. Measure with light switch off and door closed. Maxwell/MRC/Indigo: P5-4 to W (P6-3). LCC: Con1-4 to Con1-1 W. LCX: P2-1 to W. Expect 0\u201340 \u03a9 nominal.",
+      "sourceExcerpt": "Power off. Measure with light switch off and door closed. Maxwell/MRC/Indigo: P5-4 to W (P6-3). LCC: Con1-4 to Con1-1 W. LCX: P2-1 to W. Expect 0\u201340 \u03a9 nominal.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenLightOhms",
+      "testPoint": {
+        "connector": "P5/Con1",
+        "pins": [
+          "light",
+          "W"
+        ],
+        "label": "Oven light resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "light_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "light_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "light_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_light",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "light_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "light_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_light",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace oven light",
+      "oemOutcome": "Oven light open or out of range \u2014 replace bulb or assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "light_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Oven light verified",
+      "oemOutcome": "Oven light 0\u201340 \u03a9.",
+      "requiresInput": false
+    }
+  ]
+}

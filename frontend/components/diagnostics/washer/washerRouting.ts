@@ -49,7 +49,7 @@ export const washerRoutingRules: RoutingRule[] = [
     id: 'lid_lock',
     label: 'Lid / door lock path',
     when: ['lid_lock', 'lid lock', 'door lock', 'f dl'],
-    enable: ['functional', 'mechanical'],
+    enable: ['mechanical', 'electrical'],
   },
   {
     id: 'error_code',

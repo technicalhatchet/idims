@@ -1,0 +1,175 @@
+{
+  "id": "w10330404-defrost-bimetal",
+  "version": "1.0.0",
+  "title": "\u00a74-8: Defrost bimetal / terminator",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "defrost_thermostat"
+  ],
+  "tags": [
+    "DF",
+    "frost_buildup",
+    "defrost_thermostat",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-8",
+    "oemTestTitle": "Checking Defrost Bimetal",
+    "pages": [
+      50,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_bimetal"
+    },
+    {
+      "id": "access_bimetal",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access defrost bimetal",
+      "body": "Remove evaporator cover. Disconnect bimetal harness. Test at harness terminals with power off.",
+      "sourceExcerpt": "Remove evaporator cover. Disconnect bimetal harness. Test at harness terminals with power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_state"
+    },
+    {
+      "id": "bimetal_state",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Evaporator frost state",
+      "body": "Is the evaporator frosted and the bimetal cold (below ~40\u00b0F)? Warm bimetal should read open (infinity).",
+      "sourceExcerpt": "Is the evaporator frosted and the bimetal cold (below ~40\u00b0F)? Warm bimetal should read open (infinity).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "frosty",
+          "label": "Frosted / cold bimetal",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bimetal_ohms"
+        },
+        {
+          "id": "warm_open",
+          "label": "Warm / post-defrost (open expected)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bimetal_open_ok"
+        }
+      ]
+    },
+    {
+      "id": "bimetal_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Defrost bimetal resistance (cold)",
+      "body": "Frosted evaporator and cold bimetal: expect <1 \u03a9 closed. Open when warm after defrost is normal.",
+      "sourceExcerpt": "Frosted evaporator and cold bimetal: expect <1 \u03a9 closed. Open when warm after defrost is normal.",
+      "measurementKnowledgeId": "whirlpoolWrtDefrostBimetalOhms",
+      "testPoint": {
+        "connector": "defrost bimetal",
+        "pins": "bimetal terminals",
+        "label": "Defrost bimetal resistance (cold)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "<1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ok"
+        }
+      ]
+    },
+    {
+      "id": "bimetal_open_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Open when warm \u2014 normal",
+      "oemOutcome": "Bimetal open when warm is expected \u2014 retest when evaporator is frosted if defrost failure suspected.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bimetal",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace defrost bimetal",
+      "oemOutcome": "Replace defrost termination thermostat when open at frosted evaporator.",
+      "requiresInput": false
+    },
+    {
+      "id": "bimetal_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Bimetal verified",
+      "oemOutcome": "Defrost bimetal closed at frosted evaporator \u2014 heater circuit can complete.",
+      "requiresInput": false
+    }
+  ]
+}

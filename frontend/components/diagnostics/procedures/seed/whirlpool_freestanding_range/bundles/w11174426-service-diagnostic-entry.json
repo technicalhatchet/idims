@@ -1,0 +1,37 @@
+{
+  "id": "w11174426-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_freestanding_range",
+  "manualId": "W11174426",
+  "title": "W11174426 \u2014 Diagnostics mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console",
+    "any"
+  ],
+  "description": "LCX/LCC Diagnostics entry via CANCEL\u00d72+START.",
+  "tags": [
+    "service_diagnostic"
+  ],
+  "entryStepId": "service_diagnostic_entry",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt",
+    "pages": [
+      2,
+      3
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_diagnostic_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Diagnostics mode",
+      "body": "Press CANCEL, then CANCEL, then START within 5 seconds. Oven must be cool. Electric models: DLB engages on entry (normal). Use keypad tests for relay/load checks. Press CANCEL to exit.",
+      "sourceExcerpt": "Enter Diagnostics mode by pressing CANCEL>CANCEL>START within a 5-second period.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "manualId": "INSIGNIA-TWM-WASHER",
+  "platformId": "insignia_washer_cap",
+  "templateId": "washer",
+  "label": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+  "notes": "NS-TWM41WH8A + NS-TWM35W1 capacitive level sensor platform. F5 load sensing on TWM35.",
+  "plannedProcedures": [
+    {
+      "id": "insigniatwmcap-inlet-valves",
+      "oemSection": "4.5-A",
+      "title": "Water inlet \u2014 E1 fill timeout",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherCapInletValveOhms",
+        "insigniaWasherCapLevelSensorOhms"
+      ],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-drain-pump",
+      "oemSection": "4.5-B",
+      "title": "Drain pump \u2014 E2 drain timeout",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherCapDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "E2"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-lid-switch",
+      "oemSection": "4.5-C",
+      "title": "Lid magnet switch \u2014 E3 / CL",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E3",
+        "CL"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-unbalance",
+      "oemSection": "4.5-D",
+      "title": "Unbalance / impact switch \u2014 E4 / E5",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-level-sensor",
+      "oemSection": "4.5-E",
+      "title": "Capacitive level sensor \u2014 F8",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherCapLevelSensorOhms"
+      ],
+      "relatedCodes": [
+        "F8"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-door-lock",
+      "oemSection": "4.5-F",
+      "title": "Door lock actuator \u2014 Fd",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherCapDoorLockOhms"
+      ],
+      "relatedCodes": [
+        "Fd"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-pcb-failure",
+      "oemSection": "4.3",
+      "title": "PCB failure \u2014 F2 / C9",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2",
+        "C9"
+      ]
+    },
+    {
+      "id": "insigniatwmcap-load-sensing",
+      "oemSection": "F5",
+      "title": "Load sensing / belt \u2014 F5 (TWM35)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F5"
+      ]
+    }
+  ]
+}

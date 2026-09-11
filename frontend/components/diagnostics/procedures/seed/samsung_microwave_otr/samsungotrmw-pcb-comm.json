@@ -1,0 +1,152 @@
+{
+  "id": "samsungotrmw-pcb-comm",
+  "version": "1.0.0",
+  "title": "C-F0 / C-F1: PCB Communication",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "C-F0",
+    "C-F1",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3-2",
+    "oemTestTitle": "Main and sub PCB communication",
+    "pages": [
+      36,
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_connected"
+    },
+    {
+      "id": "display_connected",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Main PCB connected to assy display?",
+      "body": "C-F0: verify main PCB disconnect state \u2014 connect PCB to assy display.",
+      "sourceExcerpt": "C-F0: verify main PCB disconnect state \u2014 connect PCB to assy display.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn01_short_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn01_short"
+        },
+        {
+          "id": "cn01_short_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "connect_display",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "connect_display",
+      "order": 3,
+      "type": "instruction",
+      "title": "Connect display PCB",
+      "body": "Connect main PCB to assy display (CN370 / CN01).",
+      "sourceExcerpt": "Connect main PCB to assy display (CN370 / CN01).",
+      "requiresInput": false,
+      "defaultNextStepId": "display_connected"
+    },
+    {
+      "id": "cn01_short",
+      "order": 4,
+      "type": "visual_check",
+      "title": "CN01 connector solder shorts?",
+      "body": "Check display CN01 and main PCB CN01 for foreign substance or slight solder short.",
+      "sourceExcerpt": "Check display CN01 and main PCB CN01 for foreign substance or slight solder short.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_pcb_comm_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_pcb_comm"
+        },
+        {
+          "id": "replace_pcb_comm_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clean_connector",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clean_connector",
+      "order": 5,
+      "type": "instruction",
+      "title": "Clean connector area",
+      "body": "Remove foreign substance from connector soldering.",
+      "sourceExcerpt": "Remove foreign substance from connector soldering.",
+      "requiresInput": false,
+      "defaultNextStepId": "cn01_short"
+    },
+    {
+      "id": "replace_pcb_comm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace PCB",
+      "body": "Replace main or sub PCB (C-F0 / C-F1 PBA defect).",
+      "oemOutcome": "Replace main or sub PCB (C-F0 / C-F1 PBA defect).",
+      "requiresInput": false
+    }
+  ],
+  "images": [
+    {
+      "id": "samsung-me11-pcb-main",
+      "caption": "Main PBA layout (\u00a76-2, p.40)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-main.png"
+    },
+    {
+      "id": "samsung-me11-pcb-sub-module",
+      "caption": "Sub module PCB layout (\u00a76-1, p.38)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-sub-module.png"
+    },
+    {
+      "id": "samsung-me11-pcb-main-connectors",
+      "caption": "Main PBA connectors CN250/CN200 (\u00a76-2, p.41)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-main-connectors.png"
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "id": "samsungdwm9-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Heater Operation (HC / HC1)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "HC",
+    "HC1",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Heater Check",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hot_water"
+    },
+    {
+      "id": "hot_water",
+      "order": 2,
+      "type": "instruction",
+      "title": "Hot water & tub level",
+      "body": "Verify inlet on hot supply, drain hose installed, tub water level OK. Low level blocks heater in safety program.",
+      "sourceExcerpt": "Verify inlet on hot supply, drain hose installed, tub water level OK. Low level blocks heater in safety program.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Power off. Measure between heater terminals (or heater relay red to power relay black/yellow). Normal: 12.14\u201314.16 \u03a9.",
+      "sourceExcerpt": "Power off. Measure between heater terminals (or heater relay red to power relay black/yellow). Normal: 12.14\u201314.16 \u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherM9HeaterOhms",
+      "testPoint": {
+        "connector": "Heater",
+        "pins": "Element",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_connections",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_heater_ol_heater_ok",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "heat_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heater_ol_heater_failed",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "heat_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heater_ol_heater_failed",
+              "componentId": "heater"
+            }
+          ]
+        },
+        {
+          "id": "heat_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heater_ol_heater_failed",
+              "componentId": "heater"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-pinout",
+          "caption": "CN101/CN401/CN503/CN802 pinout (\u00a75-2)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "heater_connections",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Heater connectors seated?",
+      "body": "Reconnect heater connectors. Verify heater relay connections on main PBA.",
+      "sourceExcerpt": "Reconnect heater connectors. Verify heater relay connections on main PBA.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_smart_install_yes",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_smart_install"
+        },
+        {
+          "id": "heater_smart_install_no",
+          "label": "Loose / damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_heater"
+        }
+      ]
+    },
+    {
+      "id": "heater_smart_install",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Heater heats in Smart Install step 3?",
+      "body": "Manual step 3: C-pump 10 s then heater. Temperature should rise \u22652\u00b0C or reach 73\u00b0C; HC1 if no rise in 10 min.",
+      "sourceExcerpt": "Manual step 3: C-pump 10 s then heater. Temperature should rise \u22652\u00b0C or reach 73\u00b0C; HC1 if no rise in 10 min.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_voltage_yes",
+          "label": "Temperature rises",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_voltage"
+        },
+        {
+          "id": "heater_voltage_no",
+          "label": "No heat / HC1",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_thermistor"
+        }
+      ]
+    },
+    {
+      "id": "check_thermistor",
+      "order": 6,
+      "type": "instruction",
+      "title": "Verify thermistor",
+      "body": "Run samsungdwm9-thermistor \u2014 faulty thermistor can cause HC/HC1.",
+      "sourceExcerpt": "Run samsungdwm9-thermistor \u2014 faulty thermistor can cause HC/HC1.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "heater_voltage",
+      "order": 8,
+      "type": "visual_check",
+      "title": "110\u2013120 V at heater relay while operating?",
+      "body": "Measure heater relay red wire to CN101 white (neutral) during Smart Install heater step.",
+      "sourceExcerpt": "Measure heater relay red wire to CN101 white (neutral) during Smart Install heater step.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_ok_yes",
+          "label": "Voltage present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok"
+        },
+        {
+          "id": "heater_ok_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_heat"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater",
+      "body": "Replace heater assembly when element open.",
+      "oemOutcome": "Replace heater assembly when element open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pba_heat",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when element good but no relay voltage.",
+      "oemOutcome": "Replace main PBA when element good but no relay voltage.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 11,
+      "type": "outcome",
+      "title": "Heater path OK",
+      "body": "Heater operational.",
+      "oemOutcome": "Heater operational.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdwm9-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "heater_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdwm9-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "heater_voltage"
+    }
+  ]
+}

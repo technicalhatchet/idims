@@ -6,7 +6,10 @@ import {
   SOLOMON_REFERENCE_EYEBROW_CLASS,
 } from '../../../components/solomon/solomonListPageUi';
 import { useSolomonAuth } from '../../../hooks/useSolomonAuth';
-import { buildMeasurementContext } from '../../../components/diagnostics/knowledge/platformRegistry';
+import {
+  buildMeasurementContext,
+  resolvePlatformIdFromModel,
+} from '../../../components/diagnostics/knowledge/platformRegistry';
 import { getAllServiceProcedures } from '../../../components/diagnostics/procedures/procedureRegistry';
 import {
   listServiceProcedureCatalog,
@@ -14,6 +17,7 @@ import {
 } from '../../../components/diagnostics/procedures/recommendServiceProcedures';
 import { parseProcedureErrorCodes } from '../../../components/diagnostics/procedures/parseProcedureErrorCodes';
 import { useProcedureRun } from '../../../components/diagnostics/procedures/useProcedureRun';
+import { formatOemTestLabel } from '../../../components/diagnostics/procedures/procedureDisplayLabels';
 import ProcedureStepView from '../../../components/diagnostics/procedures/ui/ProcedureStepView';
 
 const PROCEDURE_OPTIONS = getAllServiceProcedures();
@@ -54,8 +58,7 @@ const SMOKE_PRESETS = [
 ];
 
 function formatOemRef(oemTestNumber) {
-  if (!oemTestNumber) return '';
-  return String(oemTestNumber).includes('-') ? `§${oemTestNumber}` : `TEST #${oemTestNumber}`;
+  return formatOemTestLabel(oemTestNumber);
 }
 
 export default function SolomonProcedureDevPage() {
@@ -129,6 +132,11 @@ export default function SolomonProcedureDevPage() {
       measurementContext,
     }),
     [smokeTemplateId, measurementContext],
+  );
+
+  const smokePlatformId = useMemo(
+    () => resolvePlatformIdFromModel(measurementContext),
+    [measurementContext],
   );
 
   const applySmokePreset = (presetId) => {
@@ -217,8 +225,10 @@ export default function SolomonProcedureDevPage() {
               <SolomonProcedurePanel
                 recommendations={smokeRecommendations}
                 catalog={smokeCatalog}
+                platformId={smokePlatformId}
                 variant="mobile"
                 density="compact"
+                catalogPlacement="inline"
               />
             </div>
           </div>

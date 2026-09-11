@@ -1,0 +1,221 @@
+{
+  "id": "w11296289-test-15-evap-fan",
+  "version": "1.0.0",
+  "title": "Service step 15: Evaporator fan",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "evap_fan"
+  ],
+  "tags": [
+    "evap_fan",
+    "airflow",
+    "not_cooling",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "15",
+    "oemTestTitle": "Evaporator Fan ON",
+    "pages": [
+      26,
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_15"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_15"
+    },
+    {
+      "id": "navigate_step_15",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 15",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 15 (Evaporator fan). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 15 \u2014 Evaporator fan",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_on"
+    },
+    {
+      "id": "fan_on",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Evaporator fan runs",
+      "body": "At step 15, evaporator fan turns on. Verify rotation and airflow at evaporator.",
+      "sourceExcerpt": "At step 15, evaporator fan turns on. Verify rotation and airflow at evaporator.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified"
+        },
+        {
+          "id": "fan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_fan",
+          "terminal": true,
+          "oemOutcome": "Fan does not run \u2014 bench test motor and harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_fan",
+      "order": 5,
+      "type": "instruction",
+      "title": "Disconnect power for fan ohms",
+      "body": "Unplug unit. Measure evaporator fan motor.",
+      "sourceExcerpt": "Unplug unit. Measure evaporator fan motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "fan_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Evaporator fan motor resistance",
+      "body": "2\u20139 \u03a9. THESEUS P2-6 outputs 120 VAC to fan when cooling.",
+      "sourceExcerpt": "2\u20139 \u03a9. THESEUS P2-6 outputs 120 VAC to fan when cooling.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289EvapFanOhms",
+      "testPoint": {
+        "connector": "evap_fan",
+        "pins": "motor terminals",
+        "label": "Evaporator fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "2\u20139 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_path_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_fan",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace evaporator fan",
+      "oemOutcome": "Replace fan motor when out of range or seized.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Evaporator fan verified",
+      "oemOutcome": "Fan operates in service step 15.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_path_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Fan circuit OK",
+      "oemOutcome": "Fan ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

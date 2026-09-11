@@ -1,0 +1,167 @@
+{
+  "id": "w8178559-door-switch",
+  "version": "1.0.0",
+  "title": "TEST #6: Door Switch Test",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start",
+    "no_power",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Door Switch Test",
+    "pages": [
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "advance_door_diag"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "advance_door_diag"
+    },
+    {
+      "id": "advance_door_diag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Door Switch diagnostic (live)",
+      "body": "In diagnostic mode, advance to Door Switch diagnostic. Opening/closing door should beep and show alphanumeric codes (e.g. 0E, 09). Wrong model code with door closed indicates a fault.",
+      "sourceExcerpt": "In diagnostic mode, advance to Door Switch diagnostic. Opening/closing door should beep and show alphanumeric codes (e.g. 0E, 09). Wrong model code with door closed indicates a fault.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_diag_pass"
+    },
+    {
+      "id": "door_diag_pass",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door switch diagnostic result",
+      "body": "Does door open/close produce beep and expected display codes with door properly closed?",
+      "sourceExcerpt": "Does door open/close produce beep and expected display codes with door properly closed?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_diag_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_verified"
+        },
+        {
+          "id": "door_diag_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_door_switch"
+        }
+      ]
+    },
+    {
+      "id": "bench_door_switch",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench door switch \u2014 P8-3 to P8-4",
+      "body": "Disconnect power. Ohmmeter across P8-3 (neutral, white) and P8-4 (door, tan) at MCE. Door closed: 0\u20132 \u03a9.",
+      "sourceExcerpt": "Disconnect power. Ohmmeter across P8-3 (neutral, white) and P8-4 (door, tan) at MCE. Door closed: 0\u20132 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_ohms"
+    },
+    {
+      "id": "door_switch_ohms",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Door closed resistance 0\u20132 \u03a9",
+      "body": "With door properly closed, does P8-3 to P8-4 read 0\u20132 \u03a9?",
+      "sourceExcerpt": "With door properly closed, does P8-3 to P8-4 read 0\u20132 \u03a9?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ohms_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_door_harness"
+        },
+        {
+          "id": "door_ohms_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace wire and door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_door_harness",
+      "order": 7,
+      "type": "instruction",
+      "title": "Inspect door switch harness",
+      "body": "Verify harness between door switch and MCE. Repair opens; replace door switch assembly if wiring OK.",
+      "sourceExcerpt": "Verify harness between door switch and MCE. Repair opens; replace door switch assembly if wiring OK.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_verified"
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace wire and door switch assembly; retest. If still fails, replace MCE.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_switch_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Door switch diagnostic and/or bench checks pass.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178559-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

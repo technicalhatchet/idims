@@ -1,0 +1,345 @@
+{
+  "id": "gegud27-timer-not-advancing",
+  "version": "1.0.0",
+  "title": "Timer Not Advancing",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "user_interface",
+    "exhaust_thermistor"
+  ],
+  "tags": [
+    "timer_not_advancing",
+    "timer_issue",
+    "unitized_timer",
+    "long_dry"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-62",
+    "oemTestTitle": "Timer Motor, Advance Resistor & Outlet Thermostat",
+    "pages": [
+      25,
+      62
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "cycle_type"
+    },
+    {
+      "id": "cycle_type",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Auto vs timed dry cycle",
+      "body": "Auto cycles hold timer until outlet thermostat senses dry. Timed Dry should advance continuously.",
+      "sourceExcerpt": "Auto cycles hold timer until outlet thermostat senses dry. Timed Dry should advance continuously.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "auto_cycle",
+          "label": "Auto / sensor cycle",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "clothes_damp"
+        },
+        {
+          "id": "timed_cycle",
+          "label": "Timed dry cycle",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "timer_motor_ohms"
+        }
+      ]
+    },
+    {
+      "id": "clothes_damp",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Are clothes still damp?",
+      "body": "If load is still wet, timer will not advance on auto until outlet thermostat opens.",
+      "sourceExcerpt": "If load is still wet, timer will not advance on auto until outlet thermostat opens.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "still_damp",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vent_outlet_check"
+        },
+        {
+          "id": "not_damp",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "outlet_thermostat_auto",
+          "terminal": true,
+          "oemOutcome": "Outlet thermostat not opening \u2014 test thermostat and vent.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vent_outlet_check",
+      "order": 4,
+      "type": "instruction",
+      "title": "Vent & outlet thermostat",
+      "body": "Run gegud27-vent-restriction. Verify outlet control thermostat opens ~130\u00b0F at blower.",
+      "sourceExcerpt": "Run gegud27-vent-restriction. Verify outlet control thermostat opens ~130\u00b0F at blower.",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_thermostat_auto"
+    },
+    {
+      "id": "outlet_thermostat_auto",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Outlet thermostat on auto cycles",
+      "body": "Cool: continuity closed. Must open when exhaust air exceeds 130\u00b0F for timer to advance.",
+      "sourceExcerpt": "Cool: continuity closed. Must open when exhaust air exceeds 130\u00b0F for timer to advance.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outlet_auto_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "advance_resistor"
+        },
+        {
+          "id": "outlet_auto_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_outlet_timer",
+          "terminal": true,
+          "oemOutcome": "Replace outlet control thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advance_resistor",
+      "order": 6,
+      "type": "measurement",
+      "title": "Time-advance resistor (electric)",
+      "body": "Electric models: timer Off/Cool Down \u2014 Rx1 timer contacts A to T = 4500 \u03a9.",
+      "sourceExcerpt": "Electric models: timer Off/Cool Down \u2014 Rx1 timer contacts A to T = 4500 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerTimerAdvanceResistorOhms",
+      "testPoint": {
+        "connector": "Timer",
+        "pins": "A\u2013T",
+        "label": "Time-advance resistor (electric)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "resistor_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "timer_motor_ohms"
+        },
+        {
+          "id": "resistor_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_resistor",
+          "terminal": true,
+          "oemOutcome": "Replace 4500 \u03a9 voltage-dropping resistor on control bracket.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "resistor_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_resistor",
+          "terminal": true,
+          "oemOutcome": "Replace 4500 \u03a9 voltage-dropping resistor on control bracket.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "resistor_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_resistor",
+          "terminal": true,
+          "oemOutcome": "Replace 4500 \u03a9 voltage-dropping resistor on control bracket.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "timer_motor_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Timer motor resistance",
+      "body": "Disconnect timer wiring. Timer motor approximately 2.4 k\u03a9.",
+      "sourceExcerpt": "Disconnect timer wiring. Timer motor approximately 2.4 k\u03a9.",
+      "measurementKnowledgeId": "geGud27DryerTimerMotorOhms",
+      "testPoint": {
+        "connector": "Timer motor",
+        "pins": "motor winding",
+        "label": "Timer motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "timer_motor_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "timer_chart"
+        },
+        {
+          "id": "timer_motor_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace dryer timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "timer_motor_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace dryer timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        },
+        {
+          "id": "timer_motor_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace dryer timer.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "timer_chart",
+      "order": 8,
+      "type": "instruction",
+      "title": "Timer contact chart \u00a762",
+      "body": "Verify timer contacts per \u00a762 chart: B\u2013C motor, B\u2013A/Y\u2013S heat, T\u2013X timer motor, A\u2013U bias heat.",
+      "sourceExcerpt": "Verify timer contacts per \u00a762 chart: B\u2013C motor, B\u2013A/Y\u2013S heat, T\u2013X timer motor, A\u2013U bias heat.",
+      "requiresInput": false,
+      "defaultNextStepId": "timer_verified"
+    },
+    {
+      "id": "replace_resistor",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace advance resistor",
+      "oemOutcome": "Replace timer voltage-dropping resistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_timer",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace timer",
+      "oemOutcome": "Replace dryer timer assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_outlet_timer",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace outlet thermostat",
+      "oemOutcome": "Replace outlet control thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "timer_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Timer path OK",
+      "oemOutcome": "Timer motor, advance resistor, and outlet thermostat within spec.",
+      "requiresInput": false
+    }
+  ]
+}

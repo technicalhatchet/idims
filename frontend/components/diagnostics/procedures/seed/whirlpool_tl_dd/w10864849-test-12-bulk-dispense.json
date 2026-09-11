@@ -1,0 +1,329 @@
+{
+  "id": "w10864849-test-12-bulk-dispense",
+  "version": "1.0.0",
+  "title": "TEST #12: Bulk Dispense Pump and REX Board",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "bulk_level_switch"
+  ],
+  "tags": [
+    "bulk_dispense",
+    "F3E4",
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "12",
+    "oemTestTitle": "Bulk Dispense Pump and Relay Expansion Board",
+    "pages": [
+      44,
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "bulk_service_test"
+    },
+    {
+      "id": "bulk_service_test",
+      "order": 2,
+      "type": "instruction",
+      "title": "Bulk dispense Service Test",
+      "body": "Service Diagnostic: clear F3E4 if present. Fill bulk container. Service Test fn 018 \u2014 detergent trickle after ~2 min?",
+      "sourceExcerpt": "Service Diagnostic: clear F3E4 if present. Fill bulk container. Service Test fn 018 \u2014 detergent trickle after ~2 min?",
+      "requiresInput": false,
+      "defaultNextStepId": "check_j7_rex"
+    },
+    {
+      "id": "check_j7_rex",
+      "order": 3,
+      "type": "visual_check",
+      "title": "J7 and Rex J1\u2013J3 connected",
+      "body": "Power off. Console open. J7 at ACU and Rex board J1, J2, J3 secure?",
+      "sourceExcerpt": "Power off. Console open. J7 at ACU and Rex board J1, J2, J3 secure?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rex_conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_harness_pump"
+        },
+        {
+          "id": "rex_conn_bad",
+          "label": "Loose connection",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_rex_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bulk_harness_pump",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Bulk dispense extension harness at pump",
+      "body": "Extension harness connected to pump through top?",
+      "sourceExcerpt": "Extension harness connected to pump through top?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bh_ok",
+          "label": "Connected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_pump_ohms"
+        },
+        {
+          "id": "bh_bad",
+          "label": "Not connected",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_bulk_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bulk_pump_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Bulk dispense pump resistance",
+      "body": "Disconnect pump connector. Measure resistance \u2014 expect 1485\u20131815 \u03a9.",
+      "sourceExcerpt": "Disconnect pump connector. Measure resistance \u2014 expect 1485\u20131815 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherBulkDispensePumpOhms",
+      "testPoint": {
+        "connector": "Bulk pump",
+        "pins": "1 & 2",
+        "label": "Bulk dispense pump resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulk_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bulk_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        },
+        {
+          "id": "bulk_pass",
+          "label": "1485\u20131815 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_rex_board",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w10864849-rex-bulk-dispense",
+          "caption": "Relay expansion board \u2014 bulk dispense (TEST #12)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-rex-bulk-dispense.png"
+        },
+        {
+          "id": "w10864849-acu-pinout-figure1",
+          "caption": "Main control connectors & pinouts (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-acu-pinout-figure1.png"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_bulk_power",
+      "order": 6,
+      "type": "instruction",
+      "title": "Reassemble and restore power",
+      "body": "Reconnect harnesses and panels. Restore power.",
+      "sourceExcerpt": "Reconnect harnesses and panels. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_bulk_pump"
+    },
+    {
+      "id": "service_mode_before_test",
+      "type": "instruction",
+      "title": "Continue to Service Test Mode",
+      "body": "You should now be in Service Diagnostic mode. Continue below for Service Test Mode load/function commands.",
+      "sourceExcerpt": "Service Diagnostic mode must be active before Service Test Mode (2nd entry button).",
+      "requiresInput": false,
+      "order": 7
+    },
+    {
+      "id": "live_test_bulk_pump",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Bulk pump runs in Service Test Mode",
+      "body": "Function 018 \u2014 detergent flows to front-left dispenser after ~2 minutes?",
+      "sourceExcerpt": "Function 018 \u2014 detergent flows to front-left dispenser after ~2 minutes?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulk_run",
+          "label": "Detergent flows",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bulk_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "eliminate_bulk_level_switch_ol_bulk_level_switch_ok"
+            }
+          ]
+        },
+        {
+          "id": "bulk_no_run",
+          "label": "No flow",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_bulk",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bulk_level_switch",
+              "evidenceId": "confirm_bulk_level_switch_ol_bulk_level_switch_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_rex_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Repair REX harness",
+      "oemOutcome": "Secure J7 and Rex connectors; clear F3E4 and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_bulk_harness",
+      "order": 10,
+      "type": "outcome",
+      "title": "Repair bulk harness",
+      "oemOutcome": "Connect extension harness at pump.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bulk_pump",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace bulk dispense pump",
+      "oemOutcome": "Pump resistance out of range \u2014 inspect hoses for damage.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_rex_board",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace Rex board",
+      "oemOutcome": "Pump ohms good \u2014 replace relay expansion board.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_bulk",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Pump and Rex good but no dispense \u2014 replace main control.",
+      "requiresInput": false
+    },
+    {
+      "id": "bulk_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Bulk dispense verified",
+      "oemOutcome": "Bulk pump, REX, and Service Test dispense verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_bulk_power",
+      "continueToStepId": "service_mode_before_test"
+    },
+    {
+      "bundleId": "w10864849-service-test-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_test",
+      "continueToStepId": "live_test_bulk_pump"
+    }
+  ]
+}

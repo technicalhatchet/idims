@@ -1,0 +1,220 @@
+{
+  "id": "lgotrmw-keypad",
+  "version": "1.0.0",
+  "title": "\u00a76-4: Keypad Failure",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "hmi_check",
+    "touch_issue"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-4-keypad",
+    "oemTestTitle": "Keypad / touch failure",
+    "pages": [
+      16,
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "start_ezon_only"
+    },
+    {
+      "id": "start_ezon_only",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Only START and EZ-ON keys work (door closed)?",
+      "body": "With door closed, do only START and EZ-ON keys operate?",
+      "sourceExcerpt": "With door closed, do only START and EZ-ON keys operate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_beep_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_beep"
+        },
+        {
+          "id": "latch_beep_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "full_keypad_ok",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "full_keypad_ok",
+      "order": 3,
+      "type": "outcome",
+      "title": "Keypad operates",
+      "body": "All keys respond \u2014 keypad path verified.",
+      "oemOutcome": "All keys respond \u2014 keypad path verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "latch_beep",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Latch board continuity (door closed)?",
+      "body": "Continuity across secondary switch on latch board with door closed.",
+      "sourceExcerpt": "Continuity across secondary switch on latch board with door closed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_sense_voltage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_sense_voltage"
+        },
+        {
+          "id": "door_sense_voltage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_latch_keypad",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_latch_keypad",
+      "order": 5,
+      "type": "instruction",
+      "title": "Adjust latch board",
+      "body": "Adjust latch board per \u00a79-1/9-2.",
+      "sourceExcerpt": "Adjust latch board per \u00a79-1/9-2.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_beep"
+    },
+    {
+      "id": "door_sense_voltage",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Door sense voltage over 4 V (door open)?",
+      "body": "With door open, CN3 Pin1\u2013Pin2 door sensing voltage over 4 V?",
+      "sourceExcerpt": "With door open, CN3 Pin1\u2013Pin2 door sensing voltage over 4 V?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "keypad_connector_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "keypad_connector"
+        },
+        {
+          "id": "keypad_connector_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_door_sense",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_door_sense",
+      "order": 7,
+      "type": "instruction",
+      "title": "Repair door sense circuit",
+      "body": "Repair door sensing harness or replace PCB.",
+      "sourceExcerpt": "Repair door sensing harness or replace PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_sense_voltage"
+    },
+    {
+      "id": "keypad_connector",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Keypad FPC connector seated?",
+      "body": "Verify KEY CONNECTOR FPC is properly engaged on plastic fastener.",
+      "sourceExcerpt": "Verify KEY CONNECTOR FPC is properly engaged on plastic fastener.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_keypad_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_keypad"
+        },
+        {
+          "id": "replace_keypad_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_keypad",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_keypad",
+      "order": 9,
+      "type": "instruction",
+      "title": "Reseat keypad connector",
+      "body": "Reseat touch key FPC connector.",
+      "sourceExcerpt": "Reseat touch key FPC connector.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_connector"
+    },
+    {
+      "id": "replace_keypad",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace keypad",
+      "body": "Replace touch key board / membrane.",
+      "oemOutcome": "Replace touch key board / membrane.",
+      "requiresInput": false
+    }
+  ]
+}

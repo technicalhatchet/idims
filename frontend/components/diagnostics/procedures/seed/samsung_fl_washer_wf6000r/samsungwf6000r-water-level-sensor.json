@@ -1,0 +1,178 @@
+{
+  "id": "samsungwf6000r-water-level-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Water level sensor (1C)",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "1C",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Water Level Sensor 1C",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "wls_hose"
+    },
+    {
+      "id": "wls_hose",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Level sensor hose",
+      "body": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed.",
+      "sourceExcerpt": "Check hose to water level sensor \u2014 not folded, cut, or damaged. Verify correct material code sensor installed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose routing and sensor part."
+        }
+      ]
+    },
+    {
+      "id": "wls_frequency",
+      "order": 3,
+      "type": "measurement",
+      "title": "Level sensor frequency",
+      "body": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load.",
+      "sourceExcerpt": "Connect sensor and connector. Measure frequency on pink and orange wires \u2014 approx. 25.5 kHz with no load.",
+      "measurementKnowledgeId": "samsungFlWf6000rWasherWaterLevelFrequency",
+      "testPoint": {
+        "connector": "Level sensor",
+        "pins": "Pink & Orange",
+        "label": "Level sensor frequency"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wls_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_water_level_sensor_failed",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wls_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_water_level_sensor_failed",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wls_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_water_level_sensor_failed",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wls_pass",
+          "label": "~25.5 kHz",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wls_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_water_level_sensor_ok",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungwf6000r-valves-level-sensor",
+          "caption": "Inlet valves and water level sensor (\u00a73-2 p.23)",
+          "assetPath": "/images/procedures/samsung_fl_washer_wf6000r/samsungwf6000r-valves-level-sensor.png"
+        }
+      ]
+    },
+    {
+      "id": "fix_hose_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Fix hose/sensor install",
+      "oemOutcome": "Correct hose and sensor installation.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_wls",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace level sensor",
+      "oemOutcome": "Replace water level sensor; replace PBA if fault persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "wls_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Level sensor OK",
+      "oemOutcome": "Frequency and connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

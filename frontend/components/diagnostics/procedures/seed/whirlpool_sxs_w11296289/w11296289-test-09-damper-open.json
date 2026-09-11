@@ -1,0 +1,130 @@
+{
+  "id": "w11296289-test-09-damper-open",
+  "version": "1.0.0",
+  "title": "Service step 9: Damper open",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper_check",
+    "weak_cooling_ff",
+    "airflow"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9",
+    "oemTestTitle": "Damper Open",
+    "pages": [
+      24,
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_9"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_9"
+    },
+    {
+      "id": "navigate_step_9",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 9",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 9 (Damper open). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 9 \u2014 Damper open",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_open_check"
+    },
+    {
+      "id": "damper_open_check",
+      "order": 4,
+      "type": "instruction",
+      "title": "Monitor damper open",
+      "body": "At step 9, damper opens. Verify cold air baffle/damper moves to open position. Step 10 closes damper automatically.",
+      "sourceExcerpt": "At step 9, damper opens. Verify cold air baffle/damper moves to open position. Step 10 closes damper automatically.",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_moves"
+    },
+    {
+      "id": "damper_moves",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Damper opens",
+      "body": "Does damper move to fully open position?",
+      "sourceExcerpt": "Does damper move to fully open position?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "damper_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_verified"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_fail_out",
+          "terminal": true,
+          "oemOutcome": "Damper stuck \u2014 check stepper motor P70/P11 or linkage.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "damper_motor",
+              "evidenceId": "ref_ms_damper_bad_weak_ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "damper_fail_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace damper assembly",
+      "oemOutcome": "Replace electric air baffle/damper when it fails step 9.",
+      "requiresInput": false
+    },
+    {
+      "id": "damper_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Damper verified",
+      "oemOutcome": "Damper opens correctly in service step 9.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

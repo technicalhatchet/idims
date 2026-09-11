@@ -1,0 +1,71 @@
+{
+  "manualId": "W10674984",
+  "platformId": "whirlpool_wrt311_adc",
+  "templateId": "refrigerator",
+  "label": "Whirlpool WRT311 ADC 2000 top-mount (W10674984)",
+  "notes": "ADC 2000 pin P1\u2013P6 voltage tests; 30\u201342 \u03a9 heater; bi-metal opens 58\u00b0F; Embraco EM3Z/EM3D.",
+  "plannedProcedures": [
+    {
+      "id": "w10674984-defrost-heater",
+      "oemSection": "component",
+      "title": "WRT311 defrost heater resistance (30\u201342 \u03a9)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrt311DefrostHeaterOhms"
+      ],
+      "relatedCodes": [
+        "RD",
+        "DF"
+      ]
+    },
+    {
+      "id": "w10674984-defrost-bimetal",
+      "oemSection": "component",
+      "title": "WRT311 defrost bi-metal (opens 58\u00b0F)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrt311DefrostBimetalOhms"
+      ],
+      "relatedCodes": [
+        "DF"
+      ]
+    },
+    {
+      "id": "w10674984-adc-heater-voltage",
+      "oemSection": "adc-voltage",
+      "title": "ADC 2000 defrost heater output (P2\u2013P6)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrt311AdcDefrostHeaterVoltage"
+      ],
+      "relatedCodes": [
+        "RD",
+        "DF",
+        "ADCTEST"
+      ]
+    },
+    {
+      "id": "w10674984-adc-cooling-voltage",
+      "oemSection": "adc-voltage",
+      "title": "ADC 2000 cooling output (P6\u2013P4)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrt311AdcCoolingOutputVoltage"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w10674984-ptc-start",
+      "oemSection": "component",
+      "title": "PTC start device (WRT311 / Embraco)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolWrtPtcStartOhms"
+      ],
+      "relatedCodes": [
+        "PTCOPEN",
+        "OL"
+      ]
+    }
+  ]
+}

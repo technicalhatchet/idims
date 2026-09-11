@@ -429,6 +429,20 @@ function expandErrorCodeTokens(text: string): string {
     extras.push('sensor', 'humidity');
   }
 
+  // Samsung microwave OTR (ME11/ME21 information codes)
+  if (/\bc-10\b/.test(base)) {
+    extras.push('sensor', 'humidity', 'gas sensor');
+  }
+  if (/\bc-20\b/.test(base)) {
+    extras.push('temp sensor', 'thermistor', 'no heat');
+  }
+  if (/\bc-f0\b|\bc-f1\b/.test(base)) {
+    extras.push('pcb', 'communication', 'control board');
+  }
+  if (/\bc-f2\b|\bc-d0\b/.test(base)) {
+    extras.push('touch', 'keypad', 'hmi');
+  }
+
   // Samsung FlexWash dual-load (WV55M9600*)
   if (/\bac7\b/.test(base)) {
     extras.push('flexwash', 'upper washer', 'communication', 'control board');

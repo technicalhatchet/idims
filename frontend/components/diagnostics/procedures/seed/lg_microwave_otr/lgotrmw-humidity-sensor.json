@@ -1,0 +1,154 @@
+{
+  "id": "lgotrmw-humidity-sensor",
+  "version": "1.0.0",
+  "title": "\u00a76-3: Humidity Sensor (F-4)",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "F-4",
+    "F4",
+    "sensor_check",
+    "humidity_sensor"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-3-humidity",
+    "oemTestTitle": "Self diagnosis \u2014 humidity sensor",
+    "pages": [
+      12,
+      13
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "humidity_test"
+    },
+    {
+      "id": "service_mode_before_self_test",
+      "type": "instruction",
+      "title": "Continue after self-test entry",
+      "body": "Self-test mode entered (Defrost weight/time 2 sec \u2192 TEST). Continue with fault interpretation below.",
+      "sourceExcerpt": "\u00a76-3 Self diagnosis \u2014 humidity sensor and PCB thermistor check.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "humidity_test"
+    },
+    {
+      "id": "humidity_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Service test shows F-4?",
+      "body": "Enter service test (Defrost weight/time 2 sec \u2192 TEST). Did display show F-4 (humidity sensor open or short)?",
+      "sourceExcerpt": "F-4 Humidity sensor open or short.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inspect_humidity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_humidity"
+        },
+        {
+          "id": "inspect_humidity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "humidity_pass",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "humidity_pass",
+      "order": 4,
+      "type": "outcome",
+      "title": "Humidity sensor verified",
+      "body": "Service test PASS \u2014 humidity sensor circuit normal.",
+      "oemOutcome": "Service test PASS \u2014 humidity sensor circuit normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "inspect_humidity",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Humidity sensor connector seated?",
+      "body": "Inspect humidity sensor connector and wiring at PCB. Reseat or repair harness.",
+      "sourceExcerpt": "Inspect humidity sensor connector and wiring at PCB. Reseat or repair harness.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_humidity_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_humidity"
+        },
+        {
+          "id": "replace_humidity_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connector",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_connector",
+      "order": 6,
+      "type": "instruction",
+      "title": "Repair humidity harness",
+      "body": "Repair connector or harness and retest service mode.",
+      "sourceExcerpt": "Repair connector or harness and retest service mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "humidity_test"
+    },
+    {
+      "id": "replace_humidity",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace humidity sensor or PCB",
+      "body": "Replace humidity sensor assembly or main PCB (EBR75341201).",
+      "oemOutcome": "Replace humidity sensor assembly or main PCB (EBR75341201).",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgotrmw-self-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_self_test"
+    }
+  ]
+}

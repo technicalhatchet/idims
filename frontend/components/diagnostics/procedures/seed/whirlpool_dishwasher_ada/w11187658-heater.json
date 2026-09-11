@@ -1,0 +1,190 @@
+{
+  "id": "w11187658-heater",
+  "version": "1.0.0",
+  "title": "E3 \u2014 Tub heater ~14 \u03a9",
+  "platformId": "whirlpool_dishwasher_ada",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "E3",
+    "no_heat",
+    "heating_element_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "W11187658",
+    "manualTitle": "Whirlpool 18\" & 24\" ADA Built-In Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Whirlpool Dishwasher Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E3",
+    "oemTestTitle": "Heater failure",
+    "pages": [
+      34,
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug dishwasher or disconnect power.",
+      "requiresInput": false,
+      "defaultNextStepId": "e3_symptom"
+    },
+    {
+      "id": "e3_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E3 behavior",
+      "body": "E3 displays when water temperature does not reach the correct value within 90 minutes. Quick and Glass indicators flash (non-SSD).",
+      "sourceExcerpt": "WHEN THE TEMPERATURE DOESN'T REACH THE CORRECT VALUE AFTER 90 MINUTES, E3 WILL BE DISPLAYED.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service mode entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access heating element",
+      "body": "Lay unit on back; remove drip pan. Disconnect P02 and CON1 from control board. Access PO1/PO2 heater terminals.",
+      "sourceExcerpt": "If the resistance is approximately 14 ohms, go to step 7.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Measure between PO1/PO2 and CON1-1 (neutral). Expect approximately 14 \u03a9.",
+      "sourceExcerpt": "Measure between PO1/PO2 and CON1-1 (neutral). Expect approximately 14 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDishwasherAdaHeaterOhms",
+      "testPoint": {
+        "connector": "PO1/PO2",
+        "pins": "element / CON1-1",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_crit",
+          "label": "Replace heater \u2014 open element.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_verified",
+      "order": 6,
+      "type": "instruction",
+      "title": "Thermistor follow-up",
+      "body": "If E3 persists with good heater ohms, run tub thermistor test (w11187658-tub-thermistor) and verify heater relay output.",
+      "sourceExcerpt": "If E3 persists with good heater ohms, run tub thermistor test (w11187658-tub-thermistor) and verify heater relay output.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_path_ok"
+    },
+    {
+      "id": "replace_heater",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace heater",
+      "body": "Replace heating element; verify harness continuity.",
+      "oemOutcome": "Replace heating element; verify harness continuity.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_path_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heater verified",
+      "body": "Heater ~14 \u03a9 \u2014 verify thermistor and control if E3 remains.",
+      "oemOutcome": "Heater ~14 \u03a9 \u2014 verify thermistor and control if E3 remains.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11187658-service-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

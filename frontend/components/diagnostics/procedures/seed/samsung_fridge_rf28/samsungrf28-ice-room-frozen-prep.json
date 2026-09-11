@@ -1,0 +1,87 @@
+{
+  "id": "samsungrf28-ice-room-frozen-prep",
+  "version": "1.0.0",
+  "title": "Frozen ice room \u2014 service preparation",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "no_ice",
+    "ice_maker_frozen",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+    "manualTitle": "Samsung French Door Direct Cool Ice Maker Frozen (ASC20170602002)",
+    "extractedTextFile": "backend/docs/manuals/samsung-service-bulletin-ice-maker-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "prep",
+    "oemTestTitle": "Service preparation \u2014 steam defrost and dry",
+    "pages": [
+      3
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before removing ice maker or sealing ice room. After ice maker removal, keep unit unplugged so cooling loop does not frost during service.",
+      "sourceExcerpt": "When the ice maker is removed, unplug the refrigerator to ensure the cooling loop does not frost over during service.",
+      "requiresInput": false,
+      "defaultNextStepId": "remove_bucket"
+    },
+    {
+      "id": "remove_bucket",
+      "order": 2,
+      "type": "instruction",
+      "title": "Remove ice bucket",
+      "body": "Remove ice bucket and inspect ice room. If bucket is stuck, use steamer to melt ice until removable. Place towel under bucket to catch melt water.",
+      "sourceExcerpt": "Remove ice bucket and inspect ice room. If bucket is stuck, use steamer to melt ice until removable. Place towel under bucket to catch melt water.",
+      "requiresInput": false,
+      "defaultNextStepId": "steam_defrost"
+    },
+    {
+      "id": "steam_defrost",
+      "order": 3,
+      "type": "instruction",
+      "title": "Steam defrost ice room",
+      "body": "Use steamer to remove all ice/frost from ice room and run steam down drain area. NEVER use heat gun or hair dryer.",
+      "sourceExcerpt": "Use steamer to remove all ice/frost from ice room and run steam down drain area. NEVER use heat gun or hair dryer.",
+      "requiresInput": false,
+      "defaultNextStepId": "unplug_service"
+    },
+    {
+      "id": "unplug_service",
+      "order": 4,
+      "type": "instruction",
+      "title": "Unplug during service",
+      "body": "Remove ice maker per OEM procedure, then unplug refrigerator so cooling loop does not frost over during remaining service.",
+      "sourceExcerpt": "Remove ice maker per OEM procedure, then unplug refrigerator so cooling loop does not frost over during remaining service.",
+      "requiresInput": false,
+      "defaultNextStepId": "towel_dry"
+    },
+    {
+      "id": "towel_dry",
+      "order": 5,
+      "type": "instruction",
+      "title": "Dry ice room",
+      "body": "Towel dry ice room, ice maker assembly, and auger assembly \u2014 remove all water traces before sealing or reinstall.",
+      "sourceExcerpt": "Towel dry ice room, ice maker assembly, and auger assembly \u2014 remove all water traces before sealing or reinstall.",
+      "requiresInput": false,
+      "defaultNextStepId": "prep_complete"
+    },
+    {
+      "id": "prep_complete",
+      "order": 6,
+      "type": "outcome",
+      "title": "Prep complete",
+      "oemOutcome": "Ice room defrosted and dried \u2014 proceed to bulletin service measures.",
+      "requiresInput": false
+    }
+  ]
+}

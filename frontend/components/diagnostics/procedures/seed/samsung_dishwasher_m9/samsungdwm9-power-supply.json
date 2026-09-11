@@ -1,0 +1,233 @@
+{
+  "id": "samsungdwm9-power-supply",
+  "version": "1.0.0",
+  "title": "No Power & Power Relay Check",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "supply_issue",
+    "voltage_check",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "No Power / Power Relay",
+    "pages": [
+      52,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_120vac"
+    },
+    {
+      "id": "outlet_120vac",
+      "order": 2,
+      "type": "visual_check",
+      "title": "120 VAC at outlet?",
+      "body": "Measure voltage at power outlet. Normal: AC 120 V.",
+      "sourceExcerpt": "Measure voltage at power outlet. Normal: AC 120 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn101_voltage_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn101_voltage"
+        },
+        {
+          "id": "cn101_voltage_no",
+          "label": "No / low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_outlet"
+        }
+      ]
+    },
+    {
+      "id": "fix_outlet",
+      "order": 3,
+      "type": "instruction",
+      "title": "Correct customer power",
+      "body": "Connect to proper 120 V source or repair outlet wiring.",
+      "sourceExcerpt": "Connect to proper 120 V source or repair outlet wiring.",
+      "requiresInput": false,
+      "defaultNextStepId": "cn101_voltage"
+    },
+    {
+      "id": "cn101_voltage",
+      "order": 4,
+      "type": "visual_check",
+      "title": "120 VAC at CN101?",
+      "body": "Measure between live and neutral at CN101 on main PBA. Normal: AC 120 V.",
+      "sourceExcerpt": "Measure between live and neutral at CN101 on main PBA. Normal: AC 120 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sub_connectors_yes",
+          "label": "120 V at CN101",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sub_connectors"
+        },
+        {
+          "id": "sub_connectors_no",
+          "label": "Missing at CN101",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_power_harness"
+        }
+      ]
+    },
+    {
+      "id": "repair_power_harness",
+      "order": 5,
+      "type": "instruction",
+      "title": "Repair power harness",
+      "body": "Check and replace power cable or CN101 connections.",
+      "sourceExcerpt": "Check and replace power cable or CN101 connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "sub_connectors"
+    },
+    {
+      "id": "sub_connectors",
+      "order": 6,
+      "type": "instruction",
+      "title": "Inspect Sub / Touch / Main harness",
+      "body": "Reseat Sub PBA, Touch PBA, CN101, and CN802 main-to-sub connectors. Check for condensation on CN103 and CON100.",
+      "sourceExcerpt": "Reseat Sub PBA, Touch PBA, CN101, and CN802 main-to-sub connectors. Check for condensation on CN103 and CON100.",
+      "requiresInput": false,
+      "defaultNextStepId": "relay_drive"
+    },
+    {
+      "id": "relay_drive",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Power relay drive 10.5\u201313 V with door closed?",
+      "body": "Measure CN402 pin 7 to pin 2 on main PBA. Door open or before cycle: ~1 V. After door closed and cycle started: 10.5\u201313 V.",
+      "sourceExcerpt": "Measure CN402 pin 7 to pin 2 on main PBA. Door open or before cycle: ~1 V. After door closed and cycle started: 10.5\u201313 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_output_yes",
+          "label": "Drive voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "relay_output"
+        },
+        {
+          "id": "relay_output_no",
+          "label": "No drive signal",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba"
+        }
+      ]
+    },
+    {
+      "id": "relay_output",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Power relay output 110\u2013120 V?",
+      "body": "With cycle started, measure Power Relay pin 3 to CN101 pin 1 (neutral). Normal: 110\u2013120 VAC while operating.",
+      "sourceExcerpt": "With cycle started, measure Power Relay pin 3 to CN101 pin 1 (neutral). Normal: 110\u2013120 VAC while operating.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_for_relay_yes",
+          "label": "Relay output OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_for_relay"
+        },
+        {
+          "id": "door_for_relay_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba"
+        }
+      ]
+    },
+    {
+      "id": "door_for_relay",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Door switch enables 12 V relay line?",
+      "body": "White wire door switch: OFF when door open, ON when closed. Faulty door switch blocks Power and Heater relays.",
+      "sourceExcerpt": "White wire door switch: OFF when door open, ON when closed. Faulty door switch blocks Power and Heater relays.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "power_ok_yes",
+          "label": "Door switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok"
+        },
+        {
+          "id": "power_ok_no",
+          "label": "Door switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_pwr"
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch_pwr",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "body": "Replace door sensing switch when relay line blocked.",
+      "oemOutcome": "Replace door sensing switch when relay line blocked.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pba",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when harness and door switch good but relay fails.",
+      "oemOutcome": "Replace main PBA when harness and door switch good but relay fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 12,
+      "type": "outcome",
+      "title": "Power path verified",
+      "body": "Incoming power and relay path verified.",
+      "oemOutcome": "Incoming power and relay path verified.",
+      "requiresInput": false
+    }
+  ]
+}

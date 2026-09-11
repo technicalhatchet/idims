@@ -99,6 +99,11 @@ export interface ServiceProcedure {
   title: string;
   platformId: string;
   componentIds: string[];
+  /**
+   * When set, procedure is shown only for these diagnostic templates (e.g. gas_dryer vs electric_dryer).
+   * Omit for procedures that apply to every template sharing the platformId.
+   */
+  templateIds?: string[];
   source: ProcedureSource;
   entryStepId: string;
   steps: ProcedureStep[];

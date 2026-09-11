@@ -1,0 +1,206 @@
+{
+  "id": "w11798430-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: ACU Power Check",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "acu"
+  ],
+  "tags": [
+    "supply_issue",
+    "F1E1",
+    "F6E1",
+    "F6E2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11798430",
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "ACU Power Check",
+    "pages": [
+      51,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_outlet"
+    },
+    {
+      "id": "verify_outlet",
+      "order": 2,
+      "type": "instruction",
+      "title": "Verify outlet voltage",
+      "body": "Electric: 240/208 VAC (2-phase or 3-phase). Gas: 120 VAC. Confirm green ACU status LED blinks slowly after power-up.",
+      "sourceExcerpt": "Electric: 240/208 VAC (2-phase or 3-phase). Gas: 120 VAC. Confirm green ACU status LED blinks slowly after power-up.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_acu"
+    },
+    {
+      "id": "access_acu",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access ACU",
+      "body": "Remove console/top panel. Restore power only for live voltage steps below.",
+      "sourceExcerpt": "Remove console/top panel. Restore power only for live voltage steps below.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_l1"
+    },
+    {
+      "id": "live_l1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "120 VAC at J7-4 (N) and J7-3 (L1)",
+      "body": "AC volts: black probe J7-4, red probe J7-3 \u2014 expect 120 VAC.",
+      "sourceExcerpt": "AC volts: black probe J7-4, red probe J7-3 \u2014 expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_5v"
+        },
+        {
+          "id": "l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "supply_connections",
+          "terminal": true,
+          "oemOutcome": "No L1 at ACU \u2014 perform TEST #2 supply connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_5v",
+      "order": 5,
+      "type": "visual_check",
+      "title": "+5 VDC at J4-1 vs J4-2",
+      "body": "Unplug J4. DC volts: red J4-1, black J4-2. Missing +5 VDC \u2192 replace ACU.",
+      "sourceExcerpt": "Unplug J4. DC volts: red J4-1, black J4-2. Missing +5 VDC \u2192 replace ACU.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_12v"
+        },
+        {
+          "id": "v5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 +5 VDC missing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_12v",
+      "order": 6,
+      "type": "visual_check",
+      "title": "+12 VDC at J2-1 vs J2-4",
+      "body": "DC volts: red J2-1, black J2-4. +12 VDC actuates relays.",
+      "sourceExcerpt": "DC volts: red J2-1, black J2-4. +12 VDC actuates relays.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_power_verified"
+        },
+        {
+          "id": "v12_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "j2_isolate",
+          "terminal": true,
+          "oemOutcome": "Isolate +12 VDC fault before replacing ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "j2_isolate",
+      "order": 7,
+      "type": "instruction",
+      "title": "J2 isolation check",
+      "body": "Power off. Unplug J2 from ACU, restore power, retest J2 pins 1\u20134. If +12 returns, check HMI harness; if still missing, replace ACU.",
+      "sourceExcerpt": "Power off. Unplug J2 from ACU, restore power, retest J2 pins 1\u20134. If +12 returns, check HMI harness; if still missing, replace ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_acu"
+    },
+    {
+      "id": "supply_connections",
+      "order": 8,
+      "type": "instruction",
+      "title": "Supply path fault",
+      "body": "Perform TEST #2 supply connections.",
+      "sourceExcerpt": "Perform TEST #2 supply connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "acu_power_verified"
+    },
+    {
+      "id": "replace_acu",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace machine control electronics.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_power_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Line, +5 VDC, and +12 VDC present at ACU.",
+      "requiresInput": false
+    }
+  ]
+}

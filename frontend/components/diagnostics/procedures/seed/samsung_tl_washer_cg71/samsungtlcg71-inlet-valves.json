@@ -1,0 +1,244 @@
+{
+  "id": "samsungtlcg71-inlet-valves",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Water supply (4C)",
+  "platformId": "samsung_tl_washer_cg71",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "4C",
+    "4C2",
+    "fill_issue",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-CG71-WASHER",
+    "manualTitle": "Samsung Top-Load Washer CG71 Family (WA7000A) (WA55CG71, WA55CG75, WA54CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl new style-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Water Supply 4C",
+    "pages": [
+      31,
+      33
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_precheck"
+    },
+    {
+      "id": "supply_precheck",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Supply and hoses",
+      "body": "Verify taps open, hoses not kinked/frozen, cold on cold tap. Clean mesh filters.",
+      "sourceExcerpt": "Verify taps open, hoses not kinked/frozen, cold on cold tap. Clean mesh filters.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ohms"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct water supply routing and pressure."
+        }
+      ]
+    },
+    {
+      "id": "valve_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Inlet valve resistance",
+      "body": "Measure water supply valve terminals \u2014 0.9\u20131.1 k\u03a9.",
+      "sourceExcerpt": "Measure water supply valve terminals \u2014 0.9\u20131.1 k\u03a9.",
+      "measurementKnowledgeId": "samsungTlA50WasherInletValveOhms",
+      "testPoint": {
+        "connector": "Inlet valve",
+        "pins": "Coil terminals",
+        "label": "Inlet valve resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_pass",
+          "label": "0.9\u20131.1 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "smart_install_valves",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtlcg71-water-valve",
+          "caption": "Water valve housing (\u00a73-1 p.17)",
+          "assetPath": "/images/procedures/samsung_tl_washer_cg71/samsungtlcg71-water-valve.png"
+        }
+      ]
+    },
+    {
+      "id": "smart_install_valves",
+      "order": 4,
+      "type": "instruction",
+      "title": "Smart Install valve test",
+      "body": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves.",
+      "sourceExcerpt": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_visual"
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1.",
+      "requiresInput": false,
+      "order": 5,
+      "defaultNextStepId": "valve_visual"
+    },
+    {
+      "id": "valve_visual",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Valves operate",
+      "body": "Do cold and hot valves open in manual check?",
+      "sourceExcerpt": "Do cold and hot valves open in manual check?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified"
+        },
+        {
+          "id": "replace_valve_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly or PBA relay."
+        }
+      ]
+    },
+    {
+      "id": "fix_supply_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Fix supply",
+      "oemOutcome": "Open taps, clear filters, verify hose routing.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve_out",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "oemOutcome": "Replace valve when coil open or inoperative.",
+      "requiresInput": false
+    },
+    {
+      "id": "inlet_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Inlet OK",
+      "oemOutcome": "Supply and valves verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungtlcg71-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "smart_install_valves",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungtlcg71-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "valve_visual"
+    }
+  ]
+}

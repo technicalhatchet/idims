@@ -1,0 +1,175 @@
+{
+  "id": "nstdre75w1-hmi-test",
+  "version": "1.0.0",
+  "title": "Service test \u2014 knob & key check",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "hmi_check",
+    "C9",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "02-03",
+    "oemTestTitle": "Knob light and key checking (screens 02\u201303)",
+    "pages": [
+      23
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "advance_screen_02"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "advance_screen_02"
+    },
+    {
+      "id": "advance_screen_02",
+      "order": 3,
+      "type": "instruction",
+      "title": "Service test screen 02 \u2014 knob lights",
+      "body": "Enter service test mode. Press Time Adjust + to screen 02. Turn cycle knob \u2014 indicator lights around knob should follow each detent.",
+      "sourceExcerpt": "Enter service test mode. Press Time Adjust + to screen 02. Turn cycle knob \u2014 indicator lights around knob should follow each detent.",
+      "requiresInput": false,
+      "defaultNextStepId": "knob_light_check"
+    },
+    {
+      "id": "knob_light_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Knob indicator lights",
+      "body": "Does each knob position toggle the surrounding light on/off correctly?",
+      "sourceExcerpt": "Does each knob position toggle the surrounding light on/off correctly?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "knob_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "advance_screen_03"
+        },
+        {
+          "id": "knob_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_display_harness",
+          "terminal": true,
+          "oemOutcome": "Inspect display/knob harness at CN9.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "advance_screen_03",
+      "order": 5,
+      "type": "instruction",
+      "title": "Service test screen 03 \u2014 key check",
+      "body": "Press Time Adjust + to screen 03 (key checking mode). Press each touchpad key.",
+      "sourceExcerpt": "Press Time Adjust + to screen 03 (key checking mode). Press each touchpad key.",
+      "requiresInput": false,
+      "defaultNextStepId": "key_check"
+    },
+    {
+      "id": "key_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "All keys respond",
+      "body": "Does every control key register in key-check mode?",
+      "sourceExcerpt": "Does every control key register in key-check mode?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "keys_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified"
+        },
+        {
+          "id": "keys_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Replace display/control panel or main PCB.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_display_harness",
+      "order": 7,
+      "type": "instruction",
+      "title": "Inspect CN9 harness",
+      "body": "Verify CN9 display communication harness; reseat connectors.",
+      "sourceExcerpt": "Verify CN9 display communication harness; reseat connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_verified"
+    },
+    {
+      "id": "replace_ui",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace UI or PCB",
+      "oemOutcome": "Replace display assembly or main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "HMI verified",
+      "oemOutcome": "Knob lights and keys pass service tests 02\u201303.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nstdre75w1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "id": "w10410465-ccu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: CCU Power Check",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "ccu"
+  ],
+  "tags": [
+    "supply_issue",
+    "F1E1",
+    "F6E1",
+    "F6E2",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "CCU Power Check",
+    "pages": [
+      9,
+      10
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_outlet"
+    },
+    {
+      "id": "verify_outlet",
+      "order": 2,
+      "type": "instruction",
+      "title": "Verify outlet voltage",
+      "body": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "sourceExcerpt": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_ccu"
+    },
+    {
+      "id": "access_ccu",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access CCU",
+      "body": "Remove top panel. Restore power only for live voltage steps below.",
+      "sourceExcerpt": "Remove top panel. Restore power only for live voltage steps below.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_l1"
+    },
+    {
+      "id": "live_l1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "120 VAC at P8-3 (N) and P9-2 (L1)",
+      "body": "Use needle probes. Black to P8-3, red to P9-2 \u2014 expect 120 VAC.",
+      "sourceExcerpt": "Use needle probes. Black to P8-3, red to P9-2 \u2014 expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_5v"
+        },
+        {
+          "id": "l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "supply_connections",
+          "terminal": true,
+          "oemOutcome": "No L1 at CCU \u2014 perform TEST #2 supply connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ccu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_5v",
+      "order": 5,
+      "type": "visual_check",
+      "title": "+5 VDC at P2-1 vs P2-3",
+      "body": "DC volts: red P2-1, black P2-3. Missing +5V with P14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "sourceExcerpt": "DC volts: red P2-1, black P2-3. Missing +5V with P14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_12v"
+        },
+        {
+          "id": "v5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "p14_thermistor_short",
+          "terminal": true,
+          "oemOutcome": "Diagnose thermistor short or harness before replacing CCU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ccu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_12v",
+      "order": 6,
+      "type": "visual_check",
+      "title": "+12 VDC at P5-8 vs P5-3",
+      "body": "DC volts: red P5-8, black P5-3. +12 VDC actuates relays.",
+      "sourceExcerpt": "DC volts: red P5-8, black P5-3. +12 VDC actuates relays.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ccu_power_verified"
+        },
+        {
+          "id": "v12_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ccu",
+          "terminal": true,
+          "oemOutcome": "Replace CCU \u2014 +12 VDC missing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ccu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p14_thermistor_short",
+      "order": 7,
+      "type": "instruction",
+      "title": "Thermistor short isolation",
+      "body": "Disconnect power. Unplug P14, restore power, retest +5 VDC. If +5 returns, run TEST #4a thermistors.",
+      "sourceExcerpt": "Disconnect power. Unplug P14, restore power, retest +5 VDC. If +5 returns, run TEST #4a thermistors.",
+      "requiresInput": false,
+      "defaultNextStepId": "ccu_power_verified"
+    },
+    {
+      "id": "supply_connections",
+      "order": 8,
+      "type": "instruction",
+      "title": "Supply path fault",
+      "body": "Perform TEST #2 supply connections.",
+      "sourceExcerpt": "Perform TEST #2 supply connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "ccu_power_verified"
+    },
+    {
+      "id": "replace_ccu",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace CCU",
+      "oemOutcome": "Replace machine control electronics.",
+      "requiresInput": false
+    },
+    {
+      "id": "ccu_power_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "CCU power verified",
+      "oemOutcome": "Line, +5 VDC, and +12 VDC present at CCU.",
+      "requiresInput": false
+    }
+  ]
+}

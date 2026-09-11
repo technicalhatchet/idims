@@ -1,0 +1,47 @@
+{
+  "id": "samsungrs28-self-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_sxs",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "title": "Samsung RS28 \u2014 Self-diagnostic entry",
+  "modeKind": "hmi_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Run self-diagnostic checklist (touchscreen \u00a74-2-2 or LED keys \u00a74-2-9).",
+  "tags": [
+    "service_diagnostic",
+    "sensor_check"
+  ],
+  "entryStepId": "sd_enter_touch",
+  "source": {
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "pages": [
+      52,
+      64
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter_touch",
+      "order": 1,
+      "type": "instruction",
+      "title": "Touchscreen self-diagnosis",
+      "body": "Engineer mode \u2192 Fridge Function Test \u2192 Self Diagnosis. Errors list for 60 s (\u00a74-2-2).",
+      "sourceExcerpt": "Engineer mode \u2192 Fridge Function Test \u2192 Self Diagnosis. Errors list for 60 s (\u00a74-2-2).",
+      "requiresInput": false,
+      "defaultNextStepId": "sd_enter_led"
+    },
+    {
+      "id": "sd_enter_led",
+      "order": 2,
+      "type": "instruction",
+      "title": "LED panel self-diagnosis",
+      "body": "Fridge + Power Cool 6 s (display blinks 4 s) then hold 10 s total \u2014 ding-dong, fault LEDs blink 30 s (\u00a74-2-9). Cancel: Fridge + Power Cool 10 s.",
+      "sourceExcerpt": "Fridge + Power Cool 6 s (display blinks 4 s) then hold 10 s total \u2014 ding-dong, fault LEDs blink 30 s (\u00a74-2-9). Cancel: Fridge + Power Cool 10 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

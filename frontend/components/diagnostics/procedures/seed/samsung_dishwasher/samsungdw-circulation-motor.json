@@ -1,0 +1,206 @@
+{
+  "id": "samsungdw-circulation-motor",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Circulation Motor & Nozzle",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "wash_motor"
+  ],
+  "tags": [
+    "PC",
+    "wash_issue",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Nozzle does not inject water",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_connector"
+    },
+    {
+      "id": "motor_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect motor connectors",
+      "body": "Check circulation motor connector and startup condenser connector seated.",
+      "sourceExcerpt": "Check circulation motor connector and startup condenser connector seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Circulation motor coil",
+      "body": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9.",
+      "sourceExcerpt": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+      "testPoint": {
+        "connector": "Circulation motor",
+        "pins": "Coil",
+        "label": "Circulation motor coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_pass",
+          "label": "~5.8 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "nozzle_clear",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_motor_ol_wash_motor_ok",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nozzle_clear",
+      "order": 4,
+      "type": "instruction",
+      "title": "Clear water passages",
+      "body": "Remove foreign material from water passages and verify nozzles rotate freely.",
+      "sourceExcerpt": "Remove foreign material from water passages and verify nozzles rotate freely.",
+      "requiresInput": false,
+      "defaultNextStepId": "nozzle_spray"
+    },
+    {
+      "id": "nozzle_spray",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Nozzle injects water in Smart Install?",
+      "body": "Smart Install step 2/3: circulation pump and alternation nozzles spray normally?",
+      "sourceExcerpt": "Smart Install step 2/3: circulation pump and alternation nozzles spray normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ok_yes",
+          "label": "Sprays normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok"
+        },
+        {
+          "id": "motor_ok_no",
+          "label": "No spray",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor"
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace circulation motor",
+      "body": "Replace circulation motor when coil open or spray fails after clearing passages.",
+      "oemOutcome": "Replace circulation motor when coil open or spray fails after clearing passages.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "motor_ok"
+    },
+    {
+      "id": "motor_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Circulation OK",
+      "body": "Motor and nozzle path verified.",
+      "oemOutcome": "Motor and nozzle path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdw-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "nozzle_spray",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdw-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "motor_ok"
+    }
+  ]
+}

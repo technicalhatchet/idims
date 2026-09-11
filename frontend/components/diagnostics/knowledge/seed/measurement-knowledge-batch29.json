@@ -1,0 +1,86 @@
+[
+  {
+    "id": "samsungRf260bFfDefrostHeaterOhms",
+    "name": "Samsung RF260B FF Defrost Heater Resistance (CN70)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 105, "max": 475 },
+      "warning": { "min": 95, "max": 500 },
+      "critical": { "below": 10, "above": 550 }
+    },
+    "typical": { "min": 115, "max": 130 },
+    "openCircuitCritical": true,
+    "purpose": "Fresh-food (R/FF) defrost heater at MAIN PCB CN70 White ↔ Gray with harness disconnected.",
+    "failureModes": [
+      "0 Ω = heater short — power off immediately",
+      "∞ Ω = open heater or open defrost bimetal / thermal fuse"
+    ],
+    "testingTips": [
+      "RF260B/RF261B §4-1-3: 120 Ω ±7% at 115 VAC; 440 Ω ±7% at 230 VAC input",
+      "Also listed §4-2-4 as CN70-1 (White) ↔ CN72-3 (Gray) — 120 Ω ±7%"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_sxs"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "samsungRf260bDamperHeaterOhms",
+    "name": "Samsung RF260B Flex Zone Damper Heater (CN77)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 126, "max": 144 },
+      "warning": { "min": 120, "max": 150 },
+      "critical": { "below": 10, "above": 160 }
+    },
+    "typical": { "min": 130, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Flex Zone damper heater at CN77 Black ↔ Brown with harness disconnected.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open bimetal"
+    ],
+    "testingTips": [
+      "Self-diagnostic Flex Zone-Damper-Heater Error — 135 Ω ±7%",
+      "Disconnect CN77 from MAIN PCB before measuring"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_sxs"
+    },
+    "dmaTags": ["defrost_heater", "damper", "airflow"]
+  },
+  {
+    "id": "samsungRf260bIcePipeHeaterOhms",
+    "name": "Samsung RF260B Ice Pipe Heater (CN79)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 95, "max": 109 },
+      "warning": { "min": 90, "max": 115 },
+      "critical": { "below": 10, "above": 120 }
+    },
+    "typical": { "min": 98, "max": 106 },
+    "openCircuitCritical": true,
+    "purpose": "Freezer ice pipe / water supply pipe heater at CN79 Yellow ↔ Pink.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or connector slip-out"
+    ],
+    "testingTips": [
+      "FZ-Ice Pipe Heater Error — 102 Ω ±7% per §4-1-3 checklist",
+      "Check connector seating before condemning heater"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_sxs"
+    },
+    "dmaTags": ["defrost_heater", "ice_maker"]
+  }
+]

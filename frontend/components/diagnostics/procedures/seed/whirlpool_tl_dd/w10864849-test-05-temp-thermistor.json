@@ -1,0 +1,185 @@
+{
+  "id": "w10864849-test-05-temp-thermistor",
+  "version": "1.0.0",
+  "title": "TEST #5: Temperature Thermistor",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "wash_ntc"
+  ],
+  "tags": [
+    "thermistor_check",
+    "F3E2",
+    "temp_fault"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Temperature Thermistor",
+    "pages": [
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "cold_valve_test"
+    },
+    {
+      "id": "cold_valve_test",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cold valve Service Test",
+      "body": "Service Test Mode: Cold valve test \u2014 cold water dispenses?",
+      "sourceExcerpt": "Service Test Mode: Cold valve test \u2014 cold water dispenses?",
+      "requiresInput": false,
+      "defaultNextStepId": "hot_valve_test"
+    },
+    {
+      "id": "hot_valve_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Hot valve Service Test",
+      "body": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only.",
+      "sourceExcerpt": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j2_therm"
+    },
+    {
+      "id": "disconnect_j2_therm",
+      "order": 4,
+      "type": "instruction",
+      "title": "Disconnect J2",
+      "body": "Power off. Remove J2 from ACU.",
+      "sourceExcerpt": "Power off. Remove J2 from ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "therm_ohms"
+    },
+    {
+      "id": "therm_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Inlet thermistor J2-1 to J2-2",
+      "body": "Measure resistance J2-1 to J2-2 at ambient. Compare to OEM table (10 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "sourceExcerpt": "Measure resistance J2-1 to J2-2 at ambient. Compare to OEM table (10 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherInletThermistorOhms",
+      "testPoint": {
+        "connector": "J2",
+        "pins": "1 & 2",
+        "label": "Inlet thermistor J2-1 to J2-2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Rtn (VSS)",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Thermistor",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_ok",
+          "label": "In R/T table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_therm",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "wash_ntc",
+              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+            }
+          ]
+        },
+        {
+          "id": "therm_bad",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve_therm",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly (thermistor integral).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_crit",
+          "label": "Short/critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve_therm",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "wash_ntc",
+              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w10864849-inlet-valves-strip",
+          "caption": "Water inlet valves strip circuit (TEST #2)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-inlet-valves-strip.png"
+        },
+        {
+          "id": "w10864849-acu-pinout-figure1",
+          "caption": "Main control connectors & pinouts (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd/w10864849-acu-pinout-figure1.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_valve_therm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace valve assembly",
+      "oemOutcome": "Thermistor open/short \u2014 valve assembly includes thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_therm",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Thermistor good \u2014 replace main control and run Service Diagnostics.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "cold_valve_test"
+    }
+  ]
+}

@@ -37,6 +37,20 @@ function isTestClause(clause: EvidenceWhenClause): clause is { type: 'test'; tes
   return typeof clause === 'object' && clause !== null && 'type' in clause && clause.type === 'test';
 }
 
+/** In-spec electrical measurement can override a prior functional symptom confirm. */
+function isNormalMeasurementRule(rule: EvidenceRule): boolean {
+  return rule.when.some(
+    (clause) =>
+      typeof clause === 'object'
+      && clause !== null
+      && 'type' in clause
+      && clause.type === 'measurement'
+      && 'statusIn' in clause
+      && Array.isArray(clause.statusIn)
+      && clause.statusIn.includes('normal'),
+  );
+}
+
 function evidenceWhenMatches(
   when: EvidenceWhenClause[],
   complaintChipIds: string[],
@@ -117,10 +131,12 @@ function applyEffect(
       delta = 100 - current.evidence;
       componentScores.set(rule.target, { evidence: 100, state: 'confirmed' });
     } else if (effect.effect === 'eliminate') {
-      if (current.state === 'confirmed') {
+      const wasConfirmed = current.state === 'confirmed';
+      const canOverrideConfirm = !wasConfirmed || isNormalMeasurementRule(rule);
+      if (!canOverrideConfirm) {
         return;
       }
-      delta = -current.evidence;
+      delta = wasConfirmed ? -100 : -current.evidence;
       componentScores.set(rule.target, { evidence: 0, state: 'eliminated' });
     }
   }

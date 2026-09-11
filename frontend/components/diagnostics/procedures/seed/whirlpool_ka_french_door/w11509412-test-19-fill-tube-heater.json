@@ -1,0 +1,131 @@
+{
+  "id": "w11509412-test-19-fill-tube-heater",
+  "version": "1.0.0",
+  "title": "Service Test 19: Fill tube & fascia heater",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "ice_maker",
+    "water_valve"
+  ],
+  "tags": [
+    "no_ice",
+    "E4",
+    "fill_tube_heater",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "19",
+    "oemTestTitle": "Ice Maker Fill Tube and Fascia Heater Status",
+    "pages": [
+      3
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_19"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_19"
+    },
+    {
+      "id": "select_test_19",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 19",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 19. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 19 \u2014 Fill tube and fascia heater",
+      "requiresInput": false,
+      "defaultNextStepId": "fill_tube_toggle"
+    },
+    {
+      "id": "fill_tube_toggle",
+      "order": 4,
+      "type": "instruction",
+      "title": "Toggle fill tube/fascia heater",
+      "body": "Press SW3 to toggle ice maker fill tube heater and fascia heater (01=on, 02=off). P3-1 output energizes.",
+      "sourceExcerpt": "Press SW3 to toggle ice maker fill tube heater and fascia heater (01=on, 02=off). P3-1 output energizes.",
+      "requiresInput": false,
+      "defaultNextStepId": "fill_tube_heat"
+    },
+    {
+      "id": "fill_tube_heat",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Fill tube heater warms",
+      "body": "With heaters on (01), does fill tube area warm within expected time? Check for ice blockage in tube.",
+      "sourceExcerpt": "With heaters on (01), does fill tube area warm within expected time? Check for ice blockage in tube.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tube_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_tube_verified"
+        },
+        {
+          "id": "tube_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_fill_tube",
+          "terminal": true,
+          "oemOutcome": "Fill tube frozen or heater failed \u2014 common E4 dry-cycle path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e4_dry"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_fill_tube",
+      "order": 6,
+      "type": "outcome",
+      "title": "Clear or replace fill tube heater",
+      "oemOutcome": "Clear frozen fill tube or replace fill tube/fascia heater assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_tube_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Fill tube heater verified",
+      "oemOutcome": "Fill tube and fascia heater operate in service test 19.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

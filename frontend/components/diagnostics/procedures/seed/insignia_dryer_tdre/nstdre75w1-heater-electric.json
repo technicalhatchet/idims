@@ -1,0 +1,253 @@
+{
+  "id": "nstdre75w1-heater-electric",
+  "version": "1.0.0",
+  "title": "Electric heater element \u2014 20 \u03a9",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "heating_element",
+    "thermal_cutoff",
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check",
+    "E5"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "heater-electric",
+    "oemTestTitle": "Heater resistance check (electric)",
+    "pages": [
+      25,
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater_electric"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_heater_electric"
+    },
+    {
+      "id": "access_heater_electric",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access heater (electric)",
+      "body": "Remove toe/kick panel. Electric heater at CN7/CN8 (HEATER 1 / HEATER 2). Check thermal cut-off and hi-limit in series first.",
+      "sourceExcerpt": "Remove toe/kick panel. Electric heater at CN7/CN8 (HEATER 1 / HEATER 2). Check thermal cut-off and hi-limit in series first.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermal_cutoff_electric"
+    },
+    {
+      "id": "thermal_cutoff_electric",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Thermal cut-off continuity (electric)",
+      "body": "Thermal cut-off in heater path: resistance < 1 \u03a9. Open = replace thermal cut-off.",
+      "sourceExcerpt": "Thermal cut-off in heater path: resistance < 1 \u03a9. Open = replace thermal cut-off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tcutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hi_limit_electric"
+        },
+        {
+          "id": "tcutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermostat thermal cut-off (212/176\u00b0F).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hi_limit_electric",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Hi-limit thermostat continuity",
+      "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if tripped from overtemperature.",
+      "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if tripped from overtemperature.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": "Replace hi-limit thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Heater element resistance",
+      "body": "Measure heater element at CN7/CN8 \u2014 expect 20 \u03a9.",
+      "sourceExcerpt": "Heater resistance 20 \u03a9. If infinity, replace heater.",
+      "measurementKnowledgeId": "insigniaDryerHeaterOhms",
+      "testPoint": {
+        "connector": "CN7/CN8",
+        "pins": "HEATER",
+        "label": "Heater element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified"
+        },
+        {
+          "id": "heater_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "heater_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_thermal_cutoff",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace thermal cut-off",
+      "oemOutcome": "Replace thermal cut-off and verify vent path.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hi_limit",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace hi-limit",
+      "oemOutcome": "Replace hi-limit thermostat; check vent restriction.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace heater element assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Heater path verified",
+      "oemOutcome": "Thermal devices and 20 \u03a9 element in spec.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_dryer"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nstdre75w1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "id": "lgotrmw-magnetron",
+  "version": "1.0.0",
+  "title": "\u00a710: Magnetron",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "magnetron_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-magnetron",
+    "oemTestTitle": "Magnetron resistance",
+    "pages": [
+      30,
+      31
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "mag_connector"
+    },
+    {
+      "id": "mag_connector",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Magnetron connector seated?",
+      "body": "Verify lead wire to magnetron is connected. Gasket in good condition.",
+      "sourceExcerpt": "Verify lead wire to magnetron is connected. Gasket in good condition.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "filament_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "filament_ohms"
+        },
+        {
+          "id": "filament_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_mag",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_mag",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reseat magnetron lead",
+      "body": "Reconnect magnetron filament lead.",
+      "sourceExcerpt": "Reconnect magnetron filament lead.",
+      "requiresInput": false,
+      "defaultNextStepId": "mag_connector"
+    },
+    {
+      "id": "filament_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Magnetron filament resistance",
+      "body": "Filament terminal less than 1 \u03a9 (Rx1). Filament to chassis must be infinite (Rx1000).",
+      "sourceExcerpt": "Normal: Less than 1 ohm",
+      "measurementKnowledgeId": "microwaveMagnetronFilamentOhms",
+      "testPoint": {
+        "connector": "Magnetron",
+        "pins": "filament",
+        "label": "Magnetron filament resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mag_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "mag_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "mag_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_magnetron",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "mag_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_magnetron",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "mag_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_magnetron",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_magnetron_open_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_magnetron",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace magnetron",
+      "body": "Replace magnetron; verify waveguide and gasket; leakage test after repair.",
+      "oemOutcome": "Replace magnetron; verify waveguide and gasket; leakage test after repair.",
+      "requiresInput": false
+    },
+    {
+      "id": "mag_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Magnetron verified",
+      "body": "Magnetron filament within spec.",
+      "oemOutcome": "Magnetron filament within spec.",
+      "requiresInput": false
+    }
+  ]
+}

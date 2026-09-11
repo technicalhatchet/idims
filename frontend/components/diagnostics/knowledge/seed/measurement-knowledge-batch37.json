@@ -1,0 +1,146 @@
+[
+  {
+    "id": "lgMicrowaveOtrHvTransformerPrimaryOhms",
+    "name": "LG OTR Microwave HV Transformer Primary",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0.2, "max": 0.5 },
+      "warning": { "min": 0.15, "max": 0.6 },
+      "critical": { "below": 0.1, "above": 1.0 }
+    },
+    "typical": { "min": 0.3, "max": 0.5 },
+    "openCircuitCritical": true,
+    "purpose": "LMHM2237BD §10 — HV transformer primary winding 0.2–0.5 Ω (Rx1) with leads removed.",
+    "failureModes": [
+      "Open (OL): transformer primary failed — no heat",
+      "Short/low: winding fault — replace transformer"
+    ],
+    "testingTips": [
+      "Disconnect power, discharge HV capacitor, remove primary leads before measuring",
+      "Primary and filament windings to ground must read infinite (Rx1000)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_microwave_otr"
+    },
+    "dmaTags": ["no_heat_issue", "magnetron_check", "high_voltage_safety"]
+  },
+  {
+    "id": "lgMicrowaveOtrHvTransformerSecondaryOhms",
+    "name": "LG OTR Microwave HV Transformer Secondary",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 50, "max": 120 },
+      "warning": { "min": 40, "max": 140 },
+      "critical": { "below": 20, "above": 200 }
+    },
+    "typical": { "min": 65, "max": 120 },
+    "openCircuitCritical": true,
+    "purpose": "LMHM2237BD §10 — HV transformer secondary 50–120 Ω (flowchart) / 65–120 Ω (component table).",
+    "failureModes": [
+      "Open (OL): no HV output to magnetron",
+      "Out of range: replace HV transformer"
+    ],
+    "testingTips": [
+      "Measure secondary with leads removed; discharge capacitor first",
+      "Filament winding reads ~0 Ω — do not confuse with secondary"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_microwave_otr"
+    },
+    "dmaTags": ["no_heat_issue", "magnetron_check", "high_voltage_safety"]
+  },
+  {
+    "id": "lgMicrowaveOtrHvFuseOhms",
+    "name": "LG OTR Microwave High-Voltage Fuse",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 10 },
+      "warning": { "min": 0, "max": 15 },
+      "critical": { "below": 0, "above": 10 }
+    },
+    "typical": { "min": 0, "max": 5 },
+    "openCircuitCritical": true,
+    "purpose": "LMHM2237BD §10 — HV fuse continuity; normal under 10 Ω.",
+    "failureModes": [
+      "Open (OL): blown HV fuse — inspect door switches, magnetron, HV diode/cap before replace"
+    ],
+    "testingTips": [
+      "Disconnect power and discharge HV capacitor before fuse access",
+      "Blown HV fuse often follows monitor-switch fault or HV short"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_microwave_otr"
+    },
+    "dmaTags": ["fuse_check", "no_heat_issue", "high_voltage_safety"]
+  },
+  {
+    "id": "lgMicrowaveOtrNoiseFilterCoilOhms",
+    "name": "LG OTR Microwave Noise Filter Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 1 },
+      "warning": { "min": 0, "max": 2 },
+      "critical": { "below": 0, "above": 5 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "LMHM2237BD §6-4 dead-unit flow — noise filter L(1)–L(2) and N(1)–N(2) coils less than 1 Ω.",
+    "failureModes": [
+      "Open coil: unit dead / no display",
+      "0 Ω across resistor network: shorted filter"
+    ],
+    "testingTips": [
+      "Remove leads before measuring coil pairs",
+      "L(1)–L(2) or N(1)–N(2) resistor path should read ~1.5 MΩ (not coil pairs)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_microwave_otr"
+    },
+    "dmaTags": ["no_power_issue", "fuse_check"]
+  },
+  {
+    "id": "lgMicrowaveOtrTurntableMotorOhms",
+    "name": "LG OTR Microwave Turntable Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2500, "max": 3500 },
+      "warning": { "min": 2000, "max": 4000 },
+      "critical": { "below": 500, "above": 10000 }
+    },
+    "typical": { "min": 2500, "max": 3500 },
+    "openCircuitCritical": true,
+    "purpose": "LMHM2237BD §10 — turntable motor approximately 2.5–3.5 kΩ.",
+    "failureModes": [
+      "Open (OL): turntable motor failed",
+      "Several ohms or infinite: replace motor"
+    ],
+    "testingTips": [
+      "Disconnect motor leads; measure at motor terminals",
+      "If motor OK but no rotation, check door latch and RY1 relay on PCB"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["microwave"],
+      "templates": ["microwave"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_microwave_otr"
+    },
+    "dmaTags": ["motor_check"]
+  }
+]

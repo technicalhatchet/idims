@@ -1,0 +1,119 @@
+{
+  "id": "samsungbb8700-dryer-belt-cutoff",
+  "version": "1.0.0",
+  "title": "\u00a74-6: Belt cut-off switch",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "componentIds": [
+    "belt_switch"
+  ],
+  "tags": [
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-BB8700-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Belt safety switch",
+    "pages": [
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "belt_intact"
+    },
+    {
+      "id": "belt_intact",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Belt installed",
+      "body": "Verify belt on drum and motor pulley.",
+      "sourceExcerpt": "Verify belt on drum and motor pulley.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_switch_test"
+        },
+        {
+          "id": "install_belt",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "install_belt_out",
+          "terminal": true,
+          "oemOutcome": "Install or replace drive belt."
+        }
+      ]
+    },
+    {
+      "id": "belt_switch_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Belt switch states",
+      "body": "Belt switch: open when belt off, closed when belt on (125 V 16 A).",
+      "sourceExcerpt": "Belt switch: open when belt off, closed when belt on (125 V 16 A).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bso_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_verified"
+        },
+        {
+          "id": "replace_belt_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace belt cut-off switch."
+        }
+      ]
+    },
+    {
+      "id": "install_belt_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Service belt",
+      "oemOutcome": "Reinstall or replace belt.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_belt_switch_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace belt switch",
+      "oemOutcome": "Replace belt cut-off switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "belt_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Belt safety OK",
+      "oemOutcome": "Belt and switch verified.",
+      "requiresInput": false
+    }
+  ]
+}

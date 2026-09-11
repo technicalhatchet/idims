@@ -19,5 +19,9 @@ So `cabrio.pdf` is a **valid Cabrio-tier dryer** tech sheet — not a corrupt or
 ## How we use it
 
 - **Dryer Phase A/B/C:** Cross-reference [DRYER_SERVICE_MANUAL_EXTRACTION.md](./DRYER_SERVICE_MANUAL_EXTRACTION.md); treat as near-duplicate of the main Whirlpool CCU dryer sheet.
-- **Washer work:** This file does **not** cover Cabrio washers — source a separate **WTW\*** / **MVW\*** Cabrio washer tech sheet if needed.
+- **Washer work:** Cabrio **washer** is covered by Job Aid **W10758836** (`jobaid-w10758836-l-87.pdf`) → `whirlpool_tl_dd` via `/WTW85/i` — see [WHIRLPOOL_W10758836_CABRIO_WASHER_EXTRACTION.md](./WHIRLPOOL_W10758836_CABRIO_WASHER_EXTRACTION.md).
 - **DMA:** A few dryer F-code gaps were seeded from this sheet (F1E3, F1E5, F2E4, F2E5, F4E2, F6E3) where they weren’t already in the main dryer seed.
+
+## Diagram crops (Sep 2026)
+
+Strip-circuit page (cabrio p.24) matches W10680150 base sheet p.22 — **no additional `whirlpool_ccu_dryer` crops** from `cabrio.pdf`. Cabrio-specific control-panel pages (pp. 2–4) differ cosmetically only; existing W10680150 pinout/strip assets suffice for TEST procedures.

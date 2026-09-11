@@ -1,0 +1,171 @@
+{
+  "id": "lg-range-cooktop-single",
+  "version": "1.0.0",
+  "title": "\u00a74-6: Single surface elements (LF/LR/RR)",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "surface_element"
+  ],
+  "tags": [
+    "cooktop_element",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-6",
+    "oemTestTitle": "Single surface units",
+    "pages": [
+      41,
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_cooktop"
+    },
+    {
+      "id": "disconnect_cooktop",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect cooktop element leads",
+      "body": "Remove back cover. Disconnect wires from target element (LF, LR, or RR).",
+      "sourceExcerpt": "Remove back cover. Disconnect wires from target element (LF, LR, or RR).",
+      "requiresInput": false,
+      "defaultNextStepId": "element_ohms"
+    },
+    {
+      "id": "element_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Element coil resistance",
+      "body": "R \u00d7 1 at element terminal to 1A \u2014 expect \u224846 \u03a9 \u00b110%.",
+      "sourceExcerpt": "R \u00d7 1 at element terminal to 1A \u2014 expect \u224846 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "lgRangeCooktopElementOhms",
+      "testPoint": {
+        "connector": "Surface element",
+        "pins": "terminal\u20131A",
+        "label": "Element coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "surf_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "surface_element"
+            }
+          ]
+        },
+        {
+          "id": "surf_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "surface_element"
+            }
+          ]
+        },
+        {
+          "id": "surf_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "surface_element"
+            }
+          ]
+        },
+        {
+          "id": "surf_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "limiter_check",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_bake_element_ol_bake_element_ok",
+              "componentId": "surface_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "limiter_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Limiter continuity (1A\u20132A, 1B\u20132B)",
+      "body": "1A\u20132A: continuity. 1B\u20132B: open below 150\u00b0F, continuity above 150\u00b0F.",
+      "sourceExcerpt": "1A\u20132A: continuity. 1B\u20132B: open below 150\u00b0F, continuity above 150\u00b0F.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lim_ok",
+          "label": "Limiters OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cooktop_ok"
+        },
+        {
+          "id": "lim_bad",
+          "label": "Limiter fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_element"
+        }
+      ]
+    },
+    {
+      "id": "replace_element",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace surface element",
+      "oemOutcome": "Element or limiter failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "cooktop_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Surface element OK",
+      "oemOutcome": "Element \u224846 \u03a9 and limiters verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

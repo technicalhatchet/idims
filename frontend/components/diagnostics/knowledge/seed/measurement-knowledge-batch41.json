@@ -1,0 +1,149 @@
+[
+  {
+    "id": "samsungDishwasherThermistorOhms",
+    "name": "Samsung DW80 Water Thermistor",
+    "unit": "kΩ",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 35, "max": 70 },
+      "warning": { "min": 25, "max": 100 },
+      "critical": { "below": 5, "above": 130 }
+    },
+    "typical": { "min": 45, "max": 55 },
+    "openCircuitCritical": true,
+    "purpose": "DW80R506* §4-1 tC — thermistor table ~49.12 kΩ @ 25°C (77°F); powered signal 0.2–4.5 V.",
+    "failureModes": [
+      "Open or short — tC check code",
+      "Frozen water path — tC during heater operation"
+    ],
+    "testingTips": [
+      "Disconnect connector before bench ohms (CN505 pins 5–6)",
+      "Compare to table at known tub water temperature",
+      "Verify 0.2–4.5 V with power on when harness connected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher"
+    },
+    "dmaTags": ["thermistor_check", "temperature_sensor"]
+  },
+  {
+    "id": "samsungDishwasherCirculationMotorOhms",
+    "name": "Samsung DW80 Circulation Motor Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5.0, "max": 6.5 },
+      "warning": { "min": 4.5, "max": 7.5 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 5.6, "max": 6.0 },
+    "openCircuitCritical": true,
+    "purpose": "DW80R506* troubleshooting — circulation motor coil approx. 5.8 Ω.",
+    "failureModes": [
+      "Open coil — no wash / nozzle does not inject",
+      "Foreign material in water passages — mechanical no-wash"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before measuring",
+      "Check startup condenser connector seated",
+      "Verify nozzle rotation and spray in Smart Install step 2"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher"
+    },
+    "dmaTags": ["motor_check", "wash_issue"]
+  },
+  {
+    "id": "samsungDishwasherDispenserOhms",
+    "name": "Samsung DW80 Detergent Dispenser",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000, "max": 2600 },
+      "warning": { "min": 1800, "max": 3000 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2200, "max": 2400 },
+    "openCircuitCritical": true,
+    "purpose": "DW80R506* — dispenser solenoid approx. 2.3 kΩ.",
+    "failureModes": [
+      "Open solenoid — detergent not dispensed",
+      "Relay fault on main PBA — 120 V missing at CN101/CN202 during operate"
+    ],
+    "testingTips": [
+      "Confirm detergent loaded and dispenser lid not blocked by racks",
+      "Dispenser operates 130 s in Smart Install Auto step 3"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher"
+    },
+    "dmaTags": ["dispenser_check"]
+  },
+  {
+    "id": "samsungDishwasherDryFanOhms",
+    "name": "Samsung DW80 Dry Fan Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 130, "max": 170 },
+      "warning": { "min": 100, "max": 200 },
+      "critical": { "below": 20, "above": 300 }
+    },
+    "typical": { "min": 140, "max": 160 },
+    "openCircuitCritical": true,
+    "purpose": "DW80R506* dry troubleshooting — dry fan coil approx. 150 Ω; FC when RPM <3000.",
+    "failureModes": [
+      "Open winding — poor dry / FC code",
+      "Fan runs but poor dry — rinse aid empty or thermal actuator fault"
+    ],
+    "testingTips": [
+      "Fan runs 30 s in Smart Install step 5 / manual step 5",
+      "Check CN701 BLDC fan on applicable models separately"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher"
+    },
+    "dmaTags": ["fan_check", "dry_issue"]
+  },
+  {
+    "id": "samsungDishwasherThermalActuatorOhms",
+    "name": "Samsung DW80 Dry Thermal Actuator",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1300, "max": 1600 },
+      "warning": { "min": 1100, "max": 1800 },
+      "critical": { "below": 200, "above": 2500 }
+    },
+    "typical": { "min": 1400, "max": 1500 },
+    "openCircuitCritical": true,
+    "purpose": "DW80R506* dry troubleshooting — thermal actuator approx. 1.45 kΩ.",
+    "failureModes": [
+      "Open actuator — auto door dry path fails",
+      "120 V missing at CN101/CN201 during operate — main PBA relay"
+    ],
+    "testingTips": [
+      "Auto Door Open actuator tested in Smart Install step 5 / manual step 7",
+      "dC3 when door open not sensed after actuator runs"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["dishwasher"],
+      "templates": ["dishwasher"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_dishwasher"
+    },
+    "dmaTags": ["dry_issue", "auto_door"]
+  }
+]

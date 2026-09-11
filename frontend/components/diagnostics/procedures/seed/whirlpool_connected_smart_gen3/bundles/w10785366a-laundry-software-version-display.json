@@ -1,0 +1,46 @@
+{
+  "id": "w10785366a-laundry-software-version-display",
+  "version": "1.0.0",
+  "platformId": "whirlpool_connected_smart_gen3",
+  "manualId": "W10785366A",
+  "title": "W10785366A \u2014 Software Version Display",
+  "modeKind": "hmi_test",
+  "templateIds": [
+    "washer",
+    "electric_dryer",
+    "gas_dryer"
+  ],
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Hold 2nd diagnostic-entry button 5 seconds to cycle n (WiFi) and p (PMM) versions.",
+  "tags": [
+    "service_diagnostic",
+    "software_version",
+    "wifi_check"
+  ],
+  "entryStepId": "sw_version_entry",
+  "source": {
+    "manualId": "W10785366A",
+    "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+    "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "pages": [
+      57,
+      65
+    ]
+  },
+  "steps": [
+    {
+      "id": "sw_version_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Software Version Display",
+      "body": "From Service Diagnostic mode, press and hold the 2nd button used for entry for 5 seconds. Display cycles UI, ACU, WiFi (n), and PMM (p) revision codes. POWER exits.",
+      "sourceExcerpt": "Hold 2nd button 5 seconds for Software Version Display.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

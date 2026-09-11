@@ -1,0 +1,207 @@
+{
+  "id": "samsungnx60-convection-fan",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Convection fan motor",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "convection_fan"
+  ],
+  "tags": [
+    "fan_motor_check",
+    "convection_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Convection fan not spinning",
+    "pages": [
+      70,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_fan"
+    },
+    {
+      "id": "disconnect_fan",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access fan motor",
+      "body": "Power off. Disconnect convection fan motor leads.",
+      "sourceExcerpt": "Power off. Disconnect convection fan motor leads.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "fan_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Fan motor resistance",
+      "body": "Measure across fan motor terminals \u2014 25\u201330 \u03a9.",
+      "sourceExcerpt": "Measure across fan motor terminals \u2014 25\u201330 \u03a9.",
+      "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+      "testPoint": {
+        "connector": "Fan motor",
+        "pins": "terminals",
+        "label": "Fan motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "convection_fan",
+              "evidenceId": "confirm_convection_bad_convection_fan_failed"
+            }
+          ]
+        },
+        {
+          "id": "fan_pass",
+          "label": "25\u201330 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_harness"
+        }
+      ]
+    },
+    {
+      "id": "fan_harness",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Fan harness and relay",
+      "body": "Check CN204 pin 1 harness and SSR200/RY204 relay on Main PCB.",
+      "sourceExcerpt": "Check CN204 pin 1 harness and SSR200/RY204 relay on Main PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_motor_ok"
+        },
+        {
+          "id": "repair_fan_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_fan",
+          "terminal": true,
+          "oemOutcome": "Repair fan harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_fan_motor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace fan motor",
+      "oemOutcome": "Replace convection fan motor when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_fan_harness",
+      "order": 7,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Reconnect or replace fan harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb_fan",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace Main PCB",
+      "oemOutcome": "Replace Main PCB when motor and harness good but no run.",
+      "requiresInput": false
+    },
+    {
+      "id": "fan_motor_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Convection fan OK",
+      "oemOutcome": "Convection fan motor verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "fan_ohms"
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+{
+  "id": "w11366142-rif-filter",
+  "version": "1.0.0",
+  "title": "RIF Filter Plugged (F7E4)",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "F7E4",
+    "wash_issue",
+    "rif_filter"
+  ],
+  "source": {
+    "manualId": "W11366142",
+    "manualTitle": "KitchenAid Premium Dishwasher (KDTM404/604/804)",
+    "extractedTextFile": "backend/docs/manuals/Kitchen aid dishwasher KDTM404KPS tech-sheet-w11366142-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "strip",
+    "oemTestTitle": "RIF Filter",
+    "pages": [
+      1,
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "rif_remove"
+    },
+    {
+      "id": "rif_remove",
+      "order": 2,
+      "type": "instruction",
+      "title": "Remove RIF filter",
+      "body": "Remove lower rack. Twist and lift Removable Internal Filter (RIF) assembly per use & care guide.",
+      "sourceExcerpt": "Remove lower rack. Twist and lift Removable Internal Filter (RIF) assembly per use & care guide.",
+      "requiresInput": false,
+      "defaultNextStepId": "rif_inspect"
+    },
+    {
+      "id": "rif_inspect",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Filter plugged or damaged?",
+      "body": "Inspect RIF screen and sump area for food debris, glass, or labels blocking flow.",
+      "sourceExcerpt": "Inspect RIF screen and sump area for food debris, glass, or labels blocking flow.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rif_clean_yes",
+          "label": "Plugged \u2014 cleanable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rif_clean"
+        },
+        {
+          "id": "rif_clean_no",
+          "label": "Damaged filter",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rif_replace",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rif_clean",
+      "order": 4,
+      "type": "instruction",
+      "title": "Clean and reinstall RIF",
+      "body": "Rinse filter under running water. Clear sump debris. Reinstall RIF securely.",
+      "sourceExcerpt": "Rinse filter under running water. Clear sump debris. Reinstall RIF securely.",
+      "requiresInput": false,
+      "defaultNextStepId": "rif_retest"
+    },
+    {
+      "id": "rif_retest",
+      "order": 5,
+      "type": "visual_check",
+      "title": "F7E4 cleared after Service Diagnostics?",
+      "body": "Restore power. Run Service Diagnostics wash interval \u2014 confirm F7E4 does not return.",
+      "sourceExcerpt": "Restore power. Run Service Diagnostics wash interval \u2014 confirm F7E4 does not return.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rif_verified_yes",
+          "label": "Cleared",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rif_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "rif_verified_no",
+          "label": "F7E4 returns",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rif_deeper_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rif_deeper_path",
+      "order": 6,
+      "type": "instruction",
+      "title": "Escalate wash path",
+      "body": "Filter clean but F7E4 persists \u2014 run variable-speed wash motor test and inspect diverter spray zones.",
+      "sourceExcerpt": "Filter clean but F7E4 persists \u2014 run variable-speed wash motor test and inspect diverter spray zones.",
+      "requiresInput": false,
+      "defaultNextStepId": "rif_escalate_wash"
+    },
+    {
+      "id": "rif_replace",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace RIF filter",
+      "body": "Replace damaged RIF filter assembly.",
+      "oemOutcome": "Replace damaged RIF filter assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "rif_escalate_wash",
+      "order": 8,
+      "type": "outcome",
+      "title": "Run wash motor test",
+      "body": "Continue with w11366142-wash-motor-vsm and diverter procedures.",
+      "oemOutcome": "Continue with w11366142-wash-motor-vsm and diverter procedures.",
+      "requiresInput": false
+    },
+    {
+      "id": "rif_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "RIF filter verified",
+      "body": "RIF filter clean \u2014 F7E4 resolved.",
+      "oemOutcome": "RIF filter clean \u2014 F7E4 resolved.",
+      "requiresInput": false
+    }
+  ]
+}

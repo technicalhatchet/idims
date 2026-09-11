@@ -1,0 +1,110 @@
+{
+  "manualId": "INSIGNIA-DWR3-DISHWASHER",
+  "platformId": "insignia_dishwasher",
+  "templateId": "dishwasher",
+  "label": "Insignia NS-DWR3SS1 top-control dishwasher",
+  "notes": "Midea OEM E-family codes (E1\u2013E9, Ed). Bench ohms from component sections; CN2 display, CN3 diverter, CN4 flow/flood.",
+  "plannedProcedures": [
+    {
+      "id": "nsdwr3ss1-inlet-fill",
+      "oemSection": "E1",
+      "title": "E1 \u2014 Water inlet failure (4 min fill)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-fill-valve",
+      "oemSection": "inlet-valve",
+      "title": "Water inlet valve \u2014 ~1 k\u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherFillValveOhms"
+      ],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-drain-pump",
+      "oemSection": "drain-pump",
+      "title": "Drain pump \u2014 25\u201335 \u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "E1",
+        "E4"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-heater",
+      "oemSection": "E3",
+      "title": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherHeaterOhms"
+      ],
+      "relatedCodes": [
+        "E3"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-tub-thermistor",
+      "oemSection": "thermistor",
+      "title": "Tub thermistor \u2014 E6/E7 NTC",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherTubThermistorOhms"
+      ],
+      "relatedCodes": [
+        "E3",
+        "E6",
+        "E7"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-overflow",
+      "oemSection": "E4",
+      "title": "E4 \u2014 Overflow / base pan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-diverter",
+      "oemSection": "E8",
+      "title": "E8 \u2014 Diverter valve assembly",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E8"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-control-panel",
+      "oemSection": "E9",
+      "title": "E9 \u2014 Stuck button (>30 s)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E9"
+      ]
+    },
+    {
+      "id": "nsdwr3ss1-display-comm",
+      "oemSection": "Ed",
+      "title": "Ed \u2014 Display \u2194 main communication",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "Ed"
+      ]
+    }
+  ]
+}

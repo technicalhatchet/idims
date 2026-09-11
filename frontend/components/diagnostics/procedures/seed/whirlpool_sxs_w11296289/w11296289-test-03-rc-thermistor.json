@@ -1,0 +1,221 @@
+{
+  "id": "w11296289-test-03-rc-thermistor",
+  "version": "1.0.0",
+  "title": "Service step 3: Refrigerator (RC) thermistor",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor_check",
+    "weak_cooling_ff",
+    "sensor_fault"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "RC sensor check",
+    "pages": [
+      22,
+      23
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_3"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_3"
+    },
+    {
+      "id": "navigate_step_3",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 3",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 3 (RC). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 3 \u2014 RC",
+      "requiresInput": false,
+      "defaultNextStepId": "read_sensor_leds"
+    },
+    {
+      "id": "read_sensor_leds",
+      "order": 4,
+      "type": "instruction",
+      "title": "Read sensor LED feedback",
+      "body": "At step 3, board reads RC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading.",
+      "sourceExcerpt": "At step 3, board reads RC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_led_result"
+    },
+    {
+      "id": "sensor_led_result",
+      "order": 5,
+      "type": "visual_check",
+      "title": "RC sensor service result",
+      "body": "What does the refrigeration TEMP LED pattern show?",
+      "sourceExcerpt": "What does the refrigeration TEMP LED pattern show?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pass_leds",
+          "label": "Pass (LED6\u20138 on)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ohms"
+        },
+        {
+          "id": "open_leds",
+          "label": "Open (LED6+7)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms"
+        },
+        {
+          "id": "short_leds",
+          "label": "Short (LED8)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms"
+        }
+      ]
+    },
+    {
+      "id": "bench_ohms",
+      "order": 6,
+      "type": "instruction",
+      "title": "Disconnect power for bench ohms",
+      "body": "Unplug unit. Measure thermistor at harness.",
+      "sourceExcerpt": "Unplug unit. Measure thermistor at harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ohms"
+    },
+    {
+      "id": "ntc_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "RC thermistor resistance",
+      "body": "THESEUS P5 P5-1 \u2194 P5-2 or ATHENA J2 J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit).",
+      "sourceExcerpt": "THESEUS P5 P5-1 \u2194 P5-2 or ATHENA J2 J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit).",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+      "testPoint": {
+        "connector": "P5",
+        "pins": "P5-1 \u2194 P5-2 / J2 J2-3 \u2194 J2-4",
+        "label": "RC thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-wiring-diagram-a",
+          "caption": "Wiring diagram A \u2014 THESEUS/MINOTAUR",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-wiring-diagram-a.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace RC thermistor",
+      "oemOutcome": "Replace RC sensor or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "RC sensor verified",
+      "oemOutcome": "Service step 3 and bench ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

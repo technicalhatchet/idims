@@ -1,0 +1,111 @@
+{
+  "id": "w10901168-test-42-pantry-baffle",
+  "version": "1.0.0",
+  "title": "Service Test 42: Pantry air baffle",
+  "platformId": "whirlpool_bella_french_door",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper_check",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "W10901168",
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "42",
+    "oemTestTitle": "Main Pantry Air Baffle State",
+    "pages": [
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_42"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue in Bella Diagnostics",
+      "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_42",
+      "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+    },
+    {
+      "id": "select_test_42",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 42",
+      "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 42. Press Icemaker2 to select. Fast Cool backs out.",
+      "sourceExcerpt": "Service Test 42 \u2014 Pantry baffle",
+      "requiresInput": false,
+      "defaultNextStepId": "baffle"
+    },
+    {
+      "id": "baffle",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Baffle state",
+      "body": "Baffle opens/closes per test?",
+      "sourceExcerpt": "Baffle opens/closes per test?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace pantry baffle motor."
+        }
+      ]
+    },
+    {
+      "id": "replace",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace pantry baffle",
+      "oemOutcome": "Baffle failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Pantry baffle verified",
+      "oemOutcome": "Test 42 OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10901168-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

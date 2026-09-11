@@ -1,0 +1,364 @@
+{
+  "id": "w8178559-supply-connections",
+  "version": "1.0.0",
+  "title": "TEST #1: Supply Connections",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "supply_issue",
+    "voltage_check",
+    "no_power",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W8178559",
+    "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "Supply Connections",
+    "pages": [
+      78,
+      79
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuel_variant"
+    },
+    {
+      "id": "fuel_variant",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Electric or gas dryer?",
+      "body": "Identify fuel type: WED/MED = electric element; WGD/MGD = gas burner.",
+      "sourceExcerpt": "Electric dryer terminal block vs gas dryer wire harness connection.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric (WED/MED)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_cover_plate"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas (WGD/MGD)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "gas_cover_plate"
+        }
+      ]
+    },
+    {
+      "id": "electric_cover_plate",
+      "order": 3,
+      "type": "instruction",
+      "title": "Electric \u2014 access terminal block",
+      "body": "Remove cover plate from top right rear. Verify power cord is secure at terminal block.",
+      "sourceExcerpt": "Remove cover plate from top right rear. Verify power cord is secure at terminal block.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_n_to_block"
+    },
+    {
+      "id": "electric_n_to_block",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Neutral plug to terminal block center",
+      "body": "Ohmmeter: continuity between plug neutral (N) and center terminal block contact.",
+      "sourceExcerpt": "Ohmmeter: continuity between plug neutral (N) and center terminal block contact.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "electric_n_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_identify_l1"
+        },
+        {
+          "id": "electric_n_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_power_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord \u2014 open neutral.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_identify_l1",
+      "order": 5,
+      "type": "instruction",
+      "title": "Identify L1 at terminal block",
+      "body": "Find which plug terminal connects to left-most terminal block contact (L1 / black wire). Note for step 6.",
+      "sourceExcerpt": "Find which plug terminal connects to left-most terminal block contact (L1 / black wire). Note for step 6.",
+      "requiresInput": false,
+      "defaultNextStepId": "electric_l1_to_p9"
+    },
+    {
+      "id": "electric_l1_to_p9",
+      "order": 6,
+      "type": "visual_check",
+      "title": "L1 plug to P9-2 at MCE",
+      "body": "Access MCE without disconnecting board wiring. Continuity from L1 plug terminal to P9-2 (black).",
+      "sourceExcerpt": "Access MCE without disconnecting board wiring. Continuity from L1 plug terminal to P9-2 (black).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "electric_l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_n_to_p8"
+        },
+        {
+          "id": "electric_l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_or_cord",
+          "terminal": true,
+          "oemOutcome": "Secure terminal block wires or replace main harness / power cord.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "electric_n_to_p8",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Neutral plug to P8-3 at MCE",
+      "body": "Continuity from plug neutral (N) to P8-3 (white) on machine control board.",
+      "sourceExcerpt": "Continuity from plug neutral (N) to P8-3 (white) on machine control board.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "electric_p8_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_visual_checks"
+        },
+        {
+          "id": "electric_p8_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main wire harness \u2014 open neutral path to MCE.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_cover_plate",
+      "order": 3,
+      "type": "instruction",
+      "title": "Gas \u2014 access power connection",
+      "body": "Remove rear cover plate. Verify power cord is firmly connected to wire harness.",
+      "sourceExcerpt": "Remove rear cover plate. Verify power cord is firmly connected to wire harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_n_to_p8"
+    },
+    {
+      "id": "gas_n_to_p8",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Gas \u2014 neutral to P8-3",
+      "body": "Access MCE. Continuity from plug neutral (N) to P8-3 (white). If open, test cord neutral per Figure 6.",
+      "sourceExcerpt": "Access MCE. Continuity from plug neutral (N) to P8-3 (white). If open, test cord neutral per Figure 6.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_n_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_l1_to_p9"
+        },
+        {
+          "id": "gas_n_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_power_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord \u2014 open neutral.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_l1_to_p9",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Gas \u2014 L1 plug to P9-2",
+      "body": "Continuity from L1 plug terminal to P9-2 (black) on MCE.",
+      "sourceExcerpt": "Continuity from L1 plug terminal to P9-2 (black) on MCE.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_visual_checks"
+        },
+        {
+          "id": "gas_l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_or_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord or main harness per OEM Figure 6 path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "console_visual_checks",
+      "order": 8,
+      "type": "visual_check",
+      "title": "P5 and console housing seated",
+      "body": "P5 fully inserted into MCE; console electronics and housing assembly fully seated in front console.",
+      "sourceExcerpt": "P5 fully inserted into MCE; console electronics and housing assembly fully seated in front console.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "console_seated_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified_reconnect"
+        },
+        {
+          "id": "console_seated_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_console",
+          "terminal": true,
+          "oemOutcome": "Replace console electronics and housing assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supply_verified_reconnect",
+      "order": 9,
+      "type": "instruction",
+      "title": "Reconnect and verify console diag",
+      "body": "Plug in dryer. Run Console Buttons and Indicators diagnostic test from diagnostic mode.",
+      "sourceExcerpt": "Plug in dryer. Run Console Buttons and Indicators diagnostic test from diagnostic mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_verified"
+    },
+    {
+      "id": "replace_power_cord",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace power cord",
+      "oemOutcome": "Replace power cord and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness_or_cord",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace harness or cord",
+      "oemOutcome": "Replace main wire harness or power cord per failed continuity path.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace main harness",
+      "oemOutcome": "Replace main wire harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_console",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace console assembly",
+      "oemOutcome": "Replace console electronics and housing; retest. If indicators still fail, replace MCE.",
+      "requiresInput": false
+    },
+    {
+      "id": "supply_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Supply path verified",
+      "oemOutcome": "Line/neutral paths and console connections OK \u2014 if UI still dead, replace MCE.",
+      "requiresInput": false
+    }
+  ]
+}

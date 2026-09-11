@@ -6,6 +6,14 @@
   "notes": "Also applies to gas_dryer template (shared platformId). Gas heater path uses TEST #3d for valve \u2014 electric heater procedure is electric-specific.",
   "plannedProcedures": [
     {
+      "id": "w8178559-supply-connections",
+      "oemSection": "1",
+      "title": "TEST #1: Supply Connections",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
       "id": "w8178559-motor-circuit",
       "oemSection": "2",
       "title": "TEST #2: Motor Circuit",
@@ -31,6 +39,14 @@
       ]
     },
     {
+      "id": "w8178559-heater-gas",
+      "oemSection": "3-gas",
+      "title": "TEST #3: Heater (gas)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
       "id": "w8178559-exhaust-thermistor",
       "oemSection": "3a",
       "title": "TEST #3a: Exhaust Thermistor",
@@ -53,6 +69,14 @@
         "F28",
         "F29"
       ]
+    },
+    {
+      "id": "w8178559-dryness-adjust",
+      "oemSection": "4a",
+      "title": "TEST #4a: Customer Drying Mode",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
     },
     {
       "id": "w8178559-thermal-fuse",
@@ -90,6 +114,24 @@
         "whirlpoolDuetSportDryerGasValveCoilOhms",
         "whirlpoolDuetSportDryerGasValveCoilOhms"
       ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w8178559-button-indicator",
+      "oemSection": "5",
+      "title": "TEST #5: Button and Indicator Test",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F02"
+      ]
+    },
+    {
+      "id": "w8178559-door-switch",
+      "oemSection": "6",
+      "title": "TEST #6: Door Switch Test",
+      "status": "generated",
+      "knowledgeIds": [],
       "relatedCodes": []
     }
   ]

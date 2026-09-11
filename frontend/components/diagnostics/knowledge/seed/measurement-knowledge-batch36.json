@@ -1,0 +1,178 @@
+[
+  {
+    "id": "whirlpoolKaFdThermistorOhms",
+    "name": "Whirlpool/KA ACU French Door Cabinet Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2280, "max": 3120 },
+      "warning": { "min": 1500, "max": 25000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 2565, "max": 2835 },
+    "openCircuitCritical": true,
+    "purpose": "W11509412 — 2700 Ω ±5% @ 77°F; 7964 Ω ±1% @ 32°F; 23,345 Ω ±2% @ 0°F. Service tests 1 (FC), 2 (RC), 37 (ice box) show 01=pass, 02=open, 03=short.",
+    "failureModes": [
+      "Open — service test shows 02",
+      "Short — service test shows 03",
+      "In range but warm zone — damper (test 3), ice box fan (test 36), or sealed system"
+    ],
+    "testingTips": [
+      "Enter Service Diagnostics: SW1+SW2 ×3 sec until chime; display shows 01",
+      "FC thermistor P5-3/P5-4; RC P5-1/P5-2; ice box P8-1/P8-2 — 1.5–5 VDC when powered",
+      "Measure at harness with power disconnected for bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["thermistor_check", "sensor_fault"]
+  },
+  {
+    "id": "whirlpoolKaFdDefrostHeaterOhms",
+    "name": "Whirlpool/KA ACU French Door Defrost Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 34.4, "max": 38.0 },
+      "warning": { "min": 30, "max": 42 },
+      "critical": { "below": 5, "above": 55 }
+    },
+    "typical": { "min": 35.5, "max": 37.0 },
+    "openCircuitCritical": true,
+    "purpose": "365 W ±5% heater — 36.2 Ω ±5% @ 115 VAC. Service test 6 energizes heater when bimetal closed.",
+    "failureModes": [
+      "Open — no defrost; heavy freezer evap frost",
+      "Good ohms but no heat in test 6 — ACU relay or open bimetal"
+    ],
+    "testingTips": [
+      "Bypass open bimetal only for live heater verification in test 6",
+      "Service test 6: 01=bimetal closed, 02=bimetal open"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolKaFdDefrostBimetalOhms",
+    "name": "Whirlpool/KA ACU French Door Defrost Bimetal",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 2 },
+      "warning": { "min": 0, "max": 5 },
+      "critical": { "above": 10000 }
+    },
+    "typical": { "min": 0, "max": 1 },
+    "openCircuitCritical": true,
+    "purpose": "Opens above 42°F/5.6°C ±5°; closes below 12°F/-11°C ±7°. Spec table lists 56 kΩ across terminals when open.",
+    "failureModes": [
+      "Open when evaporator frosted — no defrost heat path",
+      "Stuck closed — extended defrost or heater timeout"
+    ],
+    "testingTips": [
+      "Must read closed (few Ω) on cold/frosted evaporator",
+      "Service test 6 shows 01=closed, 02=open"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["defrost_thermostat", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolKaFdCompressorRunOhms",
+    "name": "Whirlpool/KA ACU French Door Compressor Run Winding (EMD55CLT)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4.88, "max": 5.72 },
+      "warning": { "min": 4.0, "max": 6.5 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 5.1, "max": 5.5 },
+    "openCircuitCritical": true,
+    "purpose": "EMD55CLT run winding 5.3 Ω ±8%. Service test 4 toggles compressor/condenser fan with SW3.",
+    "failureModes": [
+      "Open winding — compressor silent; relay may click",
+      "Run OK but no start — check start winding, relay, 12 µfd cap"
+    ],
+    "testingTips": [
+      "Disconnect power before terminal ohms",
+      "FLA 2.3 A ±5%; LRA 11.3 A ±5%; run cap 12 µfd ±10%"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["compressor_check", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolKaFdCompressorStartOhms",
+    "name": "Whirlpool/KA ACU French Door Compressor Start Winding (EMD55CLT)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 7.08, "max": 8.32 },
+      "warning": { "min": 6.0, "max": 9.5 },
+      "critical": { "below": 1, "above": 20 }
+    },
+    "typical": { "min": 7.4, "max": 8.0 },
+    "openCircuitCritical": true,
+    "purpose": "Start winding 7.7 Ω ±8% @ 77°F. Run capacitor 12 µfd ±10% @ 180 VAC.",
+    "failureModes": [
+      "Open start winding — hum/no run",
+      "Relay TSD or 12 µfd cap failure with good windings"
+    ],
+    "testingTips": [
+      "Test relay and run capacitor before condemning compressor",
+      "Condenser fan 940 RPM clockwise; 2.6 W @ 115 VAC"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["compressor_check", "start_device"]
+  },
+  {
+    "id": "whirlpoolKaFdIceMakerThermistorOhms",
+    "name": "Whirlpool/KA ACU French Door Ice Maker Mold Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2280, "max": 3120 },
+      "warning": { "min": 1500, "max": 25000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 2565, "max": 2835 },
+    "openCircuitCritical": true,
+    "purpose": "Ice maker mold thermistor P7-1/P7-2 — same R/T chart as cabinet NTC. Service test 58 digit 2: 2=open, 3=short. E5 = thermistor fault.",
+    "failureModes": [
+      "Open or short — E5 on service test 56",
+      "Good ohms but E3 heater timeout — mold heater or harvest logic"
+    ],
+    "testingTips": [
+      "Service test 58: digit 1=heater state, digit 2=thermistor (0=warm, 1=cool, 2=open, 3=short)",
+      "Run test 57 harvest before test 45 water fill"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_ka_french_door"
+    },
+    "dmaTags": ["ice_maker", "E5", "thermistor_check"]
+  }
+]

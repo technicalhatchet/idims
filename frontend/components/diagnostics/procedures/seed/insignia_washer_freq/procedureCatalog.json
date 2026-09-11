@@ -1,0 +1,87 @@
+{
+  "manualId": "INSIGNIA-WMT-WASHER",
+  "platformId": "insignia_washer_freq",
+  "templateId": "washer",
+  "label": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+  "notes": "NS-WMT41WA5 frequency level sensor + impact switch platform (OEM MAV160).",
+  "plannedProcedures": [
+    {
+      "id": "insigniawmt41-inlet-valves",
+      "oemSection": "E1",
+      "title": "Water inlet \u2014 E1 fill timeout",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherFreqInletValveOhms",
+        "insigniaWasherLevelSensorFrequency"
+      ],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "insigniawmt41-drain-motor",
+      "oemSection": "E2",
+      "title": "Retractor / drain motor \u2014 E2",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherFreqDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "E2"
+      ]
+    },
+    {
+      "id": "insigniawmt41-lid-switch",
+      "oemSection": "E3",
+      "title": "Lid / door switch \u2014 E3",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E3"
+      ]
+    },
+    {
+      "id": "insigniawmt41-unbalance",
+      "oemSection": "E4",
+      "title": "Imbalance \u2014 E4",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "insigniawmt41-impact-switch",
+      "oemSection": "E5",
+      "title": "Impact switch \u2014 E5",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E5"
+      ]
+    },
+    {
+      "id": "insigniawmt41-level-sensor",
+      "oemSection": "F8",
+      "title": "Frequency level sensor \u2014 F8",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherLevelSensorFrequency"
+      ],
+      "relatedCodes": [
+        "F8"
+      ]
+    },
+    {
+      "id": "insigniawmt41-drive-motor",
+      "oemSection": "07",
+      "title": "Drive motor & capacitor \u2014 agitate/spin",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaWasherFreqDriveMotorOhms",
+        "insigniaWasherFreqDriveMotorOhms"
+      ],
+      "relatedCodes": []
+    }
+  ]
+}

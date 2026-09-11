@@ -1,0 +1,122 @@
+{
+  "id": "samsungdwm9-voltage-abnormal",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "9C1",
+    "9C2",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "9C1 / 9C2 voltage fault",
+    "pages": [
+      36,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_voltage"
+    },
+    {
+      "id": "line_voltage",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Line voltage stable 108\u2013132 V?",
+      "body": "9C1/9C2 occur on blackout or high/low DC link voltage. Measure outlet under load.",
+      "sourceExcerpt": "9C1/9C2 occur on blackout or high/low DC link voltage. Measure outlet under load.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "customer_supply_yes",
+          "label": "Voltage stable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "customer_supply"
+        },
+        {
+          "id": "customer_supply_no",
+          "label": "High/low/brownout",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_panel"
+        }
+      ]
+    },
+    {
+      "id": "customer_supply",
+      "order": 3,
+      "type": "instruction",
+      "title": "Correct supply",
+      "body": "Verify dedicated 15 A circuit, no shared loads, stable utility power. Retry after power restored.",
+      "sourceExcerpt": "Verify dedicated 15 A circuit, no shared loads, stable utility power. Retry after power restored.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_voltage"
+    },
+    {
+      "id": "check_panel",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Control panel powers on normally?",
+      "body": "If supply good but unit pauses with 9C, inspect CN101/CN802 and main PBA after surge event.",
+      "sourceExcerpt": "If supply good but unit pauses with 9C, inspect CN101/CN802 and main PBA after surge event.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "voltage_ok_yes",
+          "label": "Normal power-up",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "voltage_ok"
+        },
+        {
+          "id": "voltage_ok_no",
+          "label": "Still pauses",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_9c"
+        }
+      ]
+    },
+    {
+      "id": "replace_main_pba_9c",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when supply verified stable but 9C1/9C2 persists.",
+      "oemOutcome": "Replace main PBA when supply verified stable but 9C1/9C2 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "voltage_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Supply OK",
+      "body": "Line voltage normal \u2014 if fault recurs, log brownout events.",
+      "oemOutcome": "Line voltage normal \u2014 if fault recurs, log brownout events.",
+      "requiresInput": false
+    }
+  ]
+}

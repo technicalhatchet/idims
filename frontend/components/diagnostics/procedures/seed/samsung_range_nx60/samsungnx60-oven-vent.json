@@ -1,0 +1,119 @@
+{
+  "id": "samsungnx60-oven-vent",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Oven vent blocked (C-24)",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "C-24"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "C-24 oven vent blocked",
+    "pages": [
+      67
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "vent_clear"
+    },
+    {
+      "id": "vent_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Vent and cover air clear",
+      "body": "Open oven door 60+ seconds. Check oven vent and cover air for foil or blockage.",
+      "sourceExcerpt": "Open oven door 60+ seconds. Check oven vent and cover air for foil or blockage.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vent_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ignition_ok"
+        },
+        {
+          "id": "clear_vent",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_vent_out",
+          "terminal": true,
+          "oemOutcome": "Remove blockage from vent."
+        }
+      ]
+    },
+    {
+      "id": "ignition_ok",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Broil delayed ignition",
+      "body": "Check delayed ignition of broil burner and HSI condition.",
+      "sourceExcerpt": "Check delayed ignition of broil burner and HSI condition.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vent_path_ok"
+        },
+        {
+          "id": "service_burner",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_burner_out",
+          "terminal": true,
+          "oemOutcome": "Service broil burner and HSI."
+        }
+      ]
+    },
+    {
+      "id": "clear_vent_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Clear vent",
+      "oemOutcome": "Remove aluminum foil or debris blocking oven vent.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_burner_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Service burner",
+      "oemOutcome": "Replace or repair broil burner and HSI.",
+      "requiresInput": false
+    },
+    {
+      "id": "vent_path_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Vent OK",
+      "oemOutcome": "Oven vent path clear and ignition normal.",
+      "requiresInput": false
+    }
+  ]
+}

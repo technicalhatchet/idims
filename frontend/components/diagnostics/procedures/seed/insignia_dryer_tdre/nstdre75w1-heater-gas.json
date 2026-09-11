@@ -1,0 +1,160 @@
+{
+  "id": "nstdre75w1-heater-gas",
+  "version": "1.0.0",
+  "title": "Gas heat path \u2014 thermal devices",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "gas_valve",
+    "thermal_cutoff",
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "ignition_issue",
+    "gas_heater_check"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "heater-gas",
+    "oemTestTitle": "Gas burner thermal path",
+    "pages": [
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_heat"
+    },
+    {
+      "id": "access_gas_heat",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access gas burner area",
+      "body": "Remove toe panel. Gas heat path: flame sensor \u2192 igniter \u2192 gas valve \u2192 hi-limit \u2192 thermal cut-off.",
+      "sourceExcerpt": "Remove toe panel. Gas heat path: flame sensor \u2192 igniter \u2192 gas valve \u2192 hi-limit \u2192 thermal cut-off.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_thermal_cutoff"
+    },
+    {
+      "id": "gas_thermal_cutoff",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Gas thermal cut-off continuity",
+      "body": "Thermal cut-off in gas heat path: < 1 \u03a9. Open = replace.",
+      "sourceExcerpt": "Thermal cut-off in gas heat path: < 1 \u03a9. Open = replace.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_tcutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_hi_limit"
+        },
+        {
+          "id": "gas_tcutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gas_tcutoff",
+          "terminal": true,
+          "oemOutcome": "Replace gas thermal cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_hi_limit",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Gas hi-limit continuity",
+      "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset if overtemperature tripped.",
+      "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset if overtemperature tripped.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_heat_path_ok"
+        },
+        {
+          "id": "gas_hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gas_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace gas hi-limit thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_heat_path_ok",
+      "order": 5,
+      "type": "instruction",
+      "title": "Continue gas ignition checks",
+      "body": "Thermal path OK. Run gas ignitor, flame sensor, and gas valve coil procedures if no heat.",
+      "sourceExcerpt": "Thermal path OK. Run gas ignitor, flame sensor, and gas valve coil procedures if no heat.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_heat_verified"
+    },
+    {
+      "id": "replace_gas_tcutoff",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermal cut-off",
+      "oemOutcome": "Replace gas thermal cut-off.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_gas_hilimit",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace hi-limit",
+      "oemOutcome": "Replace gas hi-limit.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_heat_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Gas thermal path OK",
+      "oemOutcome": "Thermal cut-off and hi-limit pass \u2014 check ignitor/valve/flame sensor.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

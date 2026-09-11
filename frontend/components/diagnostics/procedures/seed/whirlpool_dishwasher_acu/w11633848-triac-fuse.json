@@ -1,0 +1,116 @@
+{
+  "id": "w11633848-triac-fuse",
+  "version": "1.0.0",
+  "title": "\u00a73-3: F500 Triac Load Fuse",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "F1E1",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-3",
+    "oemTestTitle": "Fuse Service and Resistance Check",
+    "pages": [
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_context"
+    },
+    {
+      "id": "fuse_context",
+      "order": 2,
+      "type": "instruction",
+      "title": "TRIAC load fuse context",
+      "body": "F500 protects all TRIAC-controlled loads (fill, drain, dispenser, diverter, etc.). If any TRIAC load runs in Service Diagnostics, F500 is OK.",
+      "sourceExcerpt": "F500 protects all TRIAC-controlled loads (fill, drain, dispenser, diverter, etc.). If any TRIAC load runs in Service Diagnostics, F500 is OK.",
+      "requiresInput": false,
+      "defaultNextStepId": "measure_f500"
+    },
+    {
+      "id": "measure_f500",
+      "order": 3,
+      "type": "visual_check",
+      "title": "F500 resistance < 3 \u03a9?",
+      "body": "Power off. Measure F500 fuse on control board (accessible from top). Less than 3 \u03a9 = good; greater than 3 \u03a9 = open.",
+      "sourceExcerpt": "Power off. Measure F500 fuse on control board (accessible from top). Less than 3 \u03a9 = good; greater than 3 \u03a9 = open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_ok_yes",
+          "label": "< 3 \u03a9 (good)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fuse_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "fuse_ok_no",
+          "label": "> 3 \u03a9 (open)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_triac_loads",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inspect_triac_loads",
+      "order": 4,
+      "type": "instruction",
+      "title": "Inspect all TRIAC loads",
+      "body": "With fuse open, inspect resistance of every TRIAC load for short, open, overheating, or pinched harness. Replace failed parts before replacing control.",
+      "sourceExcerpt": "With fuse open, inspect resistance of every TRIAC load for short, open, overheating, or pinched harness. Replace failed parts before replacing control.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_acu_fuse"
+    },
+    {
+      "id": "replace_acu_fuse",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ACU after load repair",
+      "body": "Replace control if F500 open and all loads check good.",
+      "oemOutcome": "Replace control if F500 open and all loads check good.",
+      "requiresInput": false
+    },
+    {
+      "id": "fuse_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "F500 OK",
+      "body": "Triac fuse intact \u2014 if loads still dead, check door switch and pilot relay (K2).",
+      "oemOutcome": "Triac fuse intact \u2014 if loads still dead, check door switch and pilot relay (K2).",
+      "requiresInput": false
+    }
+  ]
+}

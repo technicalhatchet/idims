@@ -1,0 +1,123 @@
+{
+  "id": "samsungflexwash-upper-door",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Upper compartment door (DC4, DC1)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "DC4",
+    "DC1",
+    "flexwash_upper",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Upper Door DC4",
+    "pages": [
+      33,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "upper_door_closed"
+    },
+    {
+      "id": "upper_door_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Upper inner door closed",
+      "body": "Close upper compartment inner door. Press START/PAUSE after closing.",
+      "sourceExcerpt": "Close upper compartment inner door. Press START/PAUSE after closing.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "upper_door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "upper_switch"
+        },
+        {
+          "id": "close_upper",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_upper_out",
+          "terminal": true,
+          "oemOutcome": "Close upper inner door completely."
+        }
+      ]
+    },
+    {
+      "id": "upper_switch",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Upper door switch",
+      "body": "ASSY SWITCH-TACT: resistance ~0\u20130.3 \u03a9 when pressed. Upper door lock switch pins 1\u20133: ~175 \u03a9.",
+      "sourceExcerpt": "ASSY SWITCH-TACT: resistance ~0\u20130.3 \u03a9 when pressed. Upper door lock switch pins 1\u20133: ~175 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "switch_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "upper_door_verified"
+        },
+        {
+          "id": "replace_upper_lock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_lock_out",
+          "terminal": true,
+          "oemOutcome": "Replace upper door lock/switch assembly."
+        }
+      ]
+    },
+    {
+      "id": "close_upper_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Close upper door",
+      "oemOutcome": "Secure upper compartment door.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_upper_lock_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace upper lock",
+      "oemOutcome": "Replace upper door lock switch when out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "upper_door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Upper door OK",
+      "oemOutcome": "Upper door and switch verified.",
+      "requiresInput": false
+    }
+  ]
+}

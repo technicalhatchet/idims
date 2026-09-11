@@ -1,0 +1,139 @@
+{
+  "id": "w10330404-ice-maker-fuse",
+  "version": "1.0.0",
+  "title": "\u00a76-2: Ice maker harness thermal fuse",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "IMFUSE",
+    "ice_maker",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-2",
+    "oemTestTitle": "Ice Maker Thermal Fuse",
+    "pages": [
+      75,
+      76
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "remove_im"
+    },
+    {
+      "id": "remove_im",
+      "order": 2,
+      "type": "instruction",
+      "title": "Remove ice maker",
+      "body": "Remove ice maker from freezer. Unplug ice maker from refrigerator harness. Depress locking tab to remove wire harness from housing.",
+      "sourceExcerpt": "Remove ice maker from freezer. Unplug ice maker from refrigerator harness. Depress locking tab to remove wire harness from housing.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_ohms"
+    },
+    {
+      "id": "fuse_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Harness thermal fuse resistance",
+      "body": "Ohm across thermal fuse in harness (normally black wire) \u2014 0 \u03a9 closed. OL = open fuse.",
+      "sourceExcerpt": "Ohm across thermal fuse in harness (normally black wire) \u2014 0 \u03a9 closed. OL = open fuse.",
+      "measurementKnowledgeId": "whirlpoolWrtIceMakerThermalFuseOhms",
+      "testPoint": {
+        "connector": "ice maker harness",
+        "pins": "thermal fuse",
+        "label": "Harness thermal fuse resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_fuse_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_wp_wrt_im_fuse"
+            }
+          ]
+        },
+        {
+          "id": "im_fuse_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_wp_wrt_im_fuse"
+            }
+          ]
+        },
+        {
+          "id": "im_fuse_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_wp_wrt_im_fuse"
+            }
+          ]
+        },
+        {
+          "id": "im_fuse_pass",
+          "label": "0 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fuse_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_harness",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker harness",
+      "oemOutcome": "Replace ice maker wire harness when fuse open. Verify mold heater operation after replacement.",
+      "requiresInput": false
+    },
+    {
+      "id": "fuse_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermal fuse verified",
+      "oemOutcome": "Ice maker harness thermal fuse closed \u2014 continue ice maker diagnostics if no ice.",
+      "requiresInput": false
+    }
+  ]
+}

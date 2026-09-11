@@ -1,0 +1,48 @@
+{
+  "id": "w11187658-service-mode-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_dishwasher_ada",
+  "manualId": "W11187658",
+  "title": "W11187658 \u2014 Service mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter service mode to cycle water valve, wash pump/heater, dispenser, and drain pump (\u00a72-3).",
+  "tags": [
+    "service_diagnostic",
+    "error_code"
+  ],
+  "entryStepId": "prep_power_off",
+  "source": {
+    "manualTitle": "Whirlpool 18\" & 24\" ADA Built-In Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Whirlpool Dishwasher Service Manual-extracted.txt",
+    "pages": [
+      15,
+      16,
+      17
+    ]
+  },
+  "steps": [
+    {
+      "id": "prep_power_off",
+      "order": 1,
+      "type": "instruction",
+      "title": "Power off, door open",
+      "body": "Turn dishwasher off so no LEDs are lit. Disconnect power with the door open.",
+      "sourceExcerpt": "Turn the dishwasher off and make sure no LED's are lit. Disconnect power to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_entry"
+    },
+    {
+      "id": "service_mode_entry",
+      "order": 2,
+      "type": "instruction",
+      "title": "Service mode entry",
+      "body": "Reapply power with door open. Within 60 seconds, press and hold the model-specific button pair (24\" front: On/Off + Start/Pause; 18\" front: Cycles + Start/Cancel; 24\" top: Heavy + Start). Close door \u2014 service mode cycles valve, wash/heater, dispenser, drain, then board type code.",
+      "sourceExcerpt": "Reapply power with the door open and quickly press and hold both buttons within 60 seconds from connecting power.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

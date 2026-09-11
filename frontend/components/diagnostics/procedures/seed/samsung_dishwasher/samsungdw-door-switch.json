@@ -1,0 +1,130 @@
+{
+  "id": "samsungdw-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Door Sensing Switch",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "door_latch"
+  ],
+  "tags": [
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Cycle does not start",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_mechanical"
+    },
+    {
+      "id": "door_mechanical",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door closure",
+      "body": "Verify door latched completely, racks not interfering, unit level.",
+      "sourceExcerpt": "Verify door latched completely, racks not interfering, unit level.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_voltage"
+    },
+    {
+      "id": "door_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door switch voltage correct?",
+      "body": "Blue wire switch: Power On door open 9.5\u201312.5 V; Power Off door open 5.5\u20137.0 V; door closed <2 V.",
+      "sourceExcerpt": "Blue wire switch: Power On door open 9.5\u201312.5 V; Power Off door open 5.5\u20137.0 V; door closed <2 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_continuity_yes",
+          "label": "Voltages OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_continuity"
+        },
+        {
+          "id": "door_continuity_no",
+          "label": "Wrong voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_door"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_door",
+      "order": 4,
+      "type": "instruction",
+      "title": "Reconnect door switch",
+      "body": "Reconnect door sensing switch connectors on blue wire circuit.",
+      "sourceExcerpt": "Reconnect door sensing switch connectors on blue wire circuit.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_continuity"
+    },
+    {
+      "id": "door_continuity",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Door switch continuity?",
+      "body": "Power off, connector removed: OPEN when door open; SHORT when door closed.",
+      "sourceExcerpt": "Power off, connector removed: OPEN when door open; SHORT when door closed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_ok"
+        },
+        {
+          "id": "door_ok_no",
+          "label": "Failed switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch"
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "body": "Replace door sensing switch when continuity fails.",
+      "oemOutcome": "Replace door sensing switch when continuity fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Door switch OK",
+      "body": "Door circuit verified \u2014 if cycle still won't start, replace main PBA.",
+      "oemOutcome": "Door circuit verified \u2014 if cycle still won't start, replace main PBA.",
+      "requiresInput": false
+    }
+  ]
+}

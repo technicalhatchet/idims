@@ -1,0 +1,50 @@
+{
+  "id": "mideartm18-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "midea_rss",
+  "manualId": "INSIGNIA-RTM18-FRIDGE",
+  "title": "Insignia RTM18 \u2014 Test / forced defrost mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter test mode for forced defrost per \u00a79.7 (freeze + refrigerator gear buttons 3 s).",
+  "tags": [
+    "service_diagnostic",
+    "forced_defrost"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualId": "INSIGNIA-RTM18-FRIDGE",
+    "manualTitle": "Insignia NS-RTM18 Top-Freezer Refrigerator (UR-BCD512WE-SQ)",
+    "extractedTextFile": "backend/docs/manuals/NS-RTM18SS2 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "9.7",
+    "pages": [
+      40
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press and hold the freezer and refrigerator gear buttons together for 3 s, then release. Use the freeze button to select forced defrost. Lock takes effect in test mode.",
+      "sourceExcerpt": "Keep pressing the Freezing and Refrigerating chamber gear setting button for 3 seconds and release.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_forced_defrost"
+    },
+    {
+      "id": "tm_forced_defrost",
+      "order": 2,
+      "type": "instruction",
+      "title": "Forced defrost exit conditions",
+      "body": "Forced defrost exits when the freezer defrost sensor reaches 8\u00b0C and the heater has run \u2265 3 min, or after 60 min heater runtime. Power off or enter standby (hold temp button 3 s) to exit test mode.",
+      "sourceExcerpt": "In forced defrosting mode, when the freezing defrosting sensor reach a temperature of 8\u00b0C and the defrosting heater has been working for at least 3 minutes.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

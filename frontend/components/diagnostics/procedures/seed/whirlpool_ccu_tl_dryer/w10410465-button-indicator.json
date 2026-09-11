@@ -1,0 +1,149 @@
+{
+  "id": "w10410465-button-indicator",
+  "version": "1.0.0",
+  "title": "TEST #6: Buttons and Indicators",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "F2E2",
+    "F2E3",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Buttons and Indicators",
+    "pages": [
+      19,
+      20
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "ui_component_test"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Diagnostics Home or Component Activation as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "ui_component_test"
+    },
+    {
+      "id": "ui_component_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "UI Component Test",
+      "body": "Service Diagnostics \u2192 Component Activation \u2192 UI Component Test.",
+      "sourceExcerpt": "Service Diagnostics \u2192 Component Activation \u2192 UI Component Test.",
+      "requiresInput": false,
+      "defaultNextStepId": "ui_test_pass"
+    },
+    {
+      "id": "ui_test_pass",
+      "order": 4,
+      "type": "visual_check",
+      "title": "UI test result",
+      "body": "All LEDs, buttons, and cycle selector indicators respond with beep?",
+      "sourceExcerpt": "All LEDs, buttons, and cycle selector indicators respond with beep?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_pass",
+          "label": "Passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ui_verified"
+        },
+        {
+          "id": "ui_fail",
+          "label": "Fails",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ccu_ui_connectors"
+        }
+      ]
+    },
+    {
+      "id": "ccu_ui_connectors",
+      "order": 5,
+      "type": "visual_check",
+      "title": "CCU and UI connectors seated",
+      "body": "All connectors fully seated; UI assembly in console?",
+      "sourceExcerpt": "All connectors fully seated; UI assembly in console?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_ui"
+        },
+        {
+          "id": "conn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Reseat UI and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ui",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace UI assembly",
+      "oemOutcome": "Replace user interface and housing assembly. If supply OK but UI dead, replace CCU.",
+      "requiresInput": false
+    },
+    {
+      "id": "ui_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "UI verified",
+      "oemOutcome": "Buttons and indicators respond in UI Component Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10410465-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

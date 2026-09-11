@@ -1,0 +1,38 @@
+{
+  "id": "samsungbespoke-self-diagnosis-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_bespoke",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "title": "Self-diagnosis function entry",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Engineer mode 3, or hold service keys 10 s \u2014 ding-dong then LED blink checklist.",
+  "tags": [
+    "fault_codes",
+    "error_code",
+    "service_diagnostic"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "pages": [
+      85,
+      88
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Run self-diagnosis",
+      "body": "Inner display: Engineer mode \u2192 3. Digital: Fridge+FlexZone 10 s. Family Hub: Self Diagnosis menu. Errors display 30\u201360 s.",
+      "sourceExcerpt": "Inner display: Engineer mode \u2192 3. Digital: Fridge+FlexZone 10 s. Family Hub: Self Diagnosis menu. Errors display 30\u201360 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

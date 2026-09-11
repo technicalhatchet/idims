@@ -1,0 +1,239 @@
+{
+  "id": "ldt7808-vario-valve",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Vario Valve (VARIO ERROR)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "VARIO_ERROR",
+    "vario_error",
+    "wash_issue"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-VARIO",
+    "oemTestTitle": "VARIO ERROR",
+    "pages": [
+      47,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "vario_wiring"
+    },
+    {
+      "id": "vario_wiring",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Vario wiring connected?",
+      "body": "Verify vario motor/switch wiring to main PCB.",
+      "sourceExcerpt": "Verify vario motor/switch wiring to main PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vario_switch_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vario_switch"
+        },
+        {
+          "id": "vario_switch_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_vario",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_vario",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reconnect vario wiring",
+      "body": "Check and reconnect vario harness.",
+      "sourceExcerpt": "Check and reconnect vario harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "vario_wiring"
+    },
+    {
+      "id": "vario_switch",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Vario switch assembled properly?",
+      "body": "Remove 2 screws; verify vario S/W and cam are seated correctly.",
+      "sourceExcerpt": "Remove 2 screws; verify vario S/W and cam are seated correctly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vario_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vario_ohms"
+        },
+        {
+          "id": "vario_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reassemble_switch",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "circulation_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reassemble_switch",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reassemble vario switch",
+      "body": "Reassemble vario S/W and cam.",
+      "sourceExcerpt": "Reassemble vario S/W and cam.",
+      "requiresInput": false,
+      "defaultNextStepId": "vario_switch"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after test mode entry",
+      "body": "Test mode available (Power+Start, then Start 1\u20137 for component loads). Continue with bench checks below.",
+      "sourceExcerpt": "\u00a73-3 TEST MODE \u2014 component load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "vario_ohms"
+    },
+    {
+      "id": "vario_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Vario motor resistance",
+      "body": "Disconnect power. Measure vario motor \u2014 manual spec 4 k\u03a9 \u00b15%.",
+      "sourceExcerpt": "The resistance is 4k\u03a9 \u00b15%",
+      "measurementKnowledgeId": "lgDishwasherLdt7808VarioMotorOhms",
+      "testPoint": {
+        "connector": "Vario motor",
+        "pins": "coil",
+        "label": "Vario motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vario_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "vario_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "vario_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_vario",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "vario_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_vario",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "vario_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_vario",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vario_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Vario motor verified",
+      "body": "Vario motor within spec; verify cam position in test mode.",
+      "oemOutcome": "Vario motor within spec; verify cam position in test mode.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_vario",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace vario motor",
+      "body": "Replace vario motor.",
+      "oemOutcome": "Replace vario motor.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "ldt7808-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

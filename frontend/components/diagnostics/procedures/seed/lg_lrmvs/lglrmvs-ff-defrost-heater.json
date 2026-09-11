@@ -1,0 +1,277 @@
+{
+  "id": "lglrmvs-ff-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a78-7: Fresh-food defrost heater (r dH)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "r_dH",
+    "r dH",
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-7",
+    "oemTestTitle": "Defrost Heater Error (r dH)",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_gasket_r"
+    },
+    {
+      "id": "door_gasket_r",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door gasket sealing?",
+      "body": "Inspect fresh-food door gasket \u2014 air leaks can cause r dH after failed defrost.",
+      "sourceExcerpt": "Inspect fresh-food door gasket \u2014 air leaks can cause r dH after failed defrost.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gasket_r_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms_r"
+        },
+        {
+          "id": "replace_gasket_r",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gasket_r_out",
+          "terminal": true,
+          "oemOutcome": "Replace damaged door gasket."
+        }
+      ]
+    },
+    {
+      "id": "replace_gasket_r_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace gasket",
+      "oemOutcome": "Replace refrigerator door gasket.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+      "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "heater_ohms_r"
+    },
+    {
+      "id": "heater_ohms_r",
+      "order": 5,
+      "type": "measurement",
+      "title": "R defrost heater resistance",
+      "body": "Power off. CON9 pin 7 \u2194 13 \u2014 103\u2013119 \u03a9 per \u00a78-7.",
+      "sourceExcerpt": "Power off. CON9 pin 7 \u2194 13 \u2014 103\u2013119 \u03a9 per \u00a78-7.",
+      "measurementKnowledgeId": "lgDefrostHeaterOhmsFridge",
+      "testPoint": {
+        "connector": "CON9",
+        "pins": "7 \u2194 13",
+        "label": "R defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ff_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "ff_heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "ff_heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "ff_heater_pass",
+          "label": "103\u2013119 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "test_mode_3_r"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater_r",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace fresh-food defrost heater when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "test_mode_3_r",
+      "order": 7,
+      "type": "instruction",
+      "title": "Enter Test Mode 3",
+      "body": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+      "sourceExcerpt": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_voltage_r"
+    },
+    {
+      "id": "heater_voltage_r",
+      "order": 8,
+      "type": "measurement",
+      "title": "R defrost heater voltage",
+      "body": "CON9 pin 7 \u2194 13 \u2014 112\u2013116 V in Test Mode 3.",
+      "sourceExcerpt": "CON9 pin 7 \u2194 13 \u2014 112\u2013116 V in Test Mode 3.",
+      "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+      "testPoint": {
+        "connector": "CON9",
+        "pins": "7 \u2194 13",
+        "label": "R defrost heater voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ff_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "ff_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "ff_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb_r",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "ff_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_r_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_pcb_r",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when heater verified but voltage missing.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_r_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Defrost heater OK",
+      "oemOutcome": "Fresh-food defrost heater path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lglrmvs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

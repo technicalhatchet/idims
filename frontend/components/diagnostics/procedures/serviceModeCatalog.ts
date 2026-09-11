@@ -16,6 +16,35 @@ export const SERVICE_MODE_KIND_LABELS: Record<ServiceModeKind, string> = {
   voltage_check: 'Live voltage check',
 };
 
+/** Display order for service-mode quick-reference panels. */
+const SERVICE_MODE_KIND_SORT_ORDER: ServiceModeKind[] = [
+  'service_diagnostic_entry',
+  'combined_qsc',
+  'quick_service_cycle',
+  'component_activation',
+  'load_test',
+  'fault_codes',
+  'hmi_test',
+  'voltage_check',
+];
+
+function serviceModeKindRank(kind: ServiceModeKind): number {
+  const index = SERVICE_MODE_KIND_SORT_ORDER.indexOf(kind);
+  return index === -1 ? SERVICE_MODE_KIND_SORT_ORDER.length : index;
+}
+
+/** Stable sort for platform service-mode quick reference (entry modes first). */
+export function sortServiceModeBundlesForQuickRef(
+  bundles: ServiceModeBundle[],
+): ServiceModeBundle[] {
+  return [...bundles].sort((left, right) => {
+    const kindDelta =
+      serviceModeKindRank(left.modeKind) - serviceModeKindRank(right.modeKind);
+    if (kindDelta !== 0) return kindDelta;
+    return left.title.localeCompare(right.title);
+  });
+}
+
 export interface ServiceModeLookupOptions {
   modeKind?: ServiceModeKind;
   modeKinds?: ServiceModeKind[];

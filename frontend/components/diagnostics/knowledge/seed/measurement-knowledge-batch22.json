@@ -1,0 +1,206 @@
+[
+  {
+    "id": "samsungFlBb8700WasherMotorOhms",
+    "name": "Samsung FL BB8700 Washer Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 13, "max": 17 },
+      "warning": { "min": 11, "max": 19 },
+      "critical": { "below": 4, "above": 25 }
+    },
+    "typical": { "min": 14, "max": 16 },
+    "openCircuitCritical": true,
+    "purpose": "BLDC stator windings Blue-White-Red — equal resistance each pair at motor connector (§3 check point). §4-3 3C also cites 6.0 Ω @ 25°C at any two terminals — re-verify at connector if values disagree.",
+    "failureModes": [
+      "Open winding — 3C motor error",
+      "Unequal pairs — rotor/stator or harness fault"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before ohms",
+      "Check for foreign material between rotor and stator",
+      "Smart Install manual check step 8 exercises spin"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "3C"]
+  },
+  {
+    "id": "samsungFlBb8700WasherHeaterOhms",
+    "name": "Samsung FL BB8700 Wash Heater Resistance (bench)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 29 },
+      "warning": { "min": 23, "max": 31 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 26.2, "max": 27.1 },
+    "openCircuitCritical": true,
+    "purpose": "Heater element removed from tub — 27.1 Ω (1900 W) or 26.2 Ω (2000 W) per §3.",
+    "failureModes": [
+      "Open element — HC / no heat",
+      "Low ohms — shorted element"
+    ],
+    "testingTips": [
+      "Ensure heater seated in bracket on reassembly",
+      "§4-3 TYPE 1 in-circuit A–B expects 16.05 ± 0.65 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungFlBb8700WasherHeaterInCircuitOhms",
+    "name": "Samsung FL BB8700 Wash Heater In-Circuit (A–B)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.4, "max": 16.7 },
+      "warning": { "min": 14.5, "max": 17.5 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 15.9, "max": 16.2 },
+    "openCircuitCritical": true,
+    "purpose": "Heater terminals A and B at tub front per §4-3 HC corrective TYPE 1.",
+    "failureModes": [
+      "Open — replace heater",
+      "Good heater ohms but HC — check wash thermistor TYPE 2"
+    ],
+    "testingTips": [
+      "Disconnect power before accessing heater terminals",
+      "If TYPE 1 OK, replace wash thermistor at back of tub"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungFlBb8700WasherThermistorOhms",
+    "name": "Samsung FL BB8700 Wash Thermistor (room temp)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10000, "max": 14000 },
+      "warning": { "min": 8000, "max": 18000 },
+      "critical": { "below": 2000, "above": 50000 }
+    },
+    "typical": { "min": 11500, "max": 12500 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater NTC at room temperature — ~12 kΩ per §3 thermistor check point.",
+    "failureModes": [
+      "Open/shorted NTC — TC1 / HC after heater ruled out",
+      "Connector moisture — dry or replace harness"
+    ],
+    "testingTips": [
+      "Measure at thermistor connector with leads attached",
+      "Compare after heater A–B passes TYPE 1 check"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["TC1", "thermistor", "HC"]
+  },
+  {
+    "id": "samsungFlBb8700WasherDoorSwitchOhms",
+    "name": "Samsung FL BB8700 Door Switch (TYPE 1 pins 1–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 150, "max": 200 },
+      "warning": { "min": 120, "max": 230 },
+      "critical": { "below": 50, "above": 500 }
+    },
+    "typical": { "min": 165, "max": 185 },
+    "openCircuitCritical": true,
+    "purpose": "Door switch TYPE 1 — resistance pins 1 and 3 approximately 175 Ω per §4-3 DC.",
+    "failureModes": [
+      "Open switch — DC door error",
+      "120 V door feed — verify insulation before ohms"
+    ],
+    "testingTips": [
+      "Disconnect power — 120 V present on door circuit when energized",
+      "TYPE 2 lock slider pushed: pins 2–3 expect 60–90 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["DC", "door_lock_check"]
+  },
+  {
+    "id": "samsungFlBb8700WasherDoorLockOhms",
+    "name": "Samsung FL BB8700 Door Lock Switch (TYPE 2 pins 2–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 60, "max": 90 },
+      "warning": { "min": 45, "max": 110 },
+      "critical": { "below": 20, "above": 200 }
+    },
+    "typical": { "min": 65, "max": 85 },
+    "openCircuitCritical": true,
+    "purpose": "Door lock switch with slider pushed — pins 2–3 approximately 60–90 Ω per §4-3 DC1.",
+    "failureModes": [
+      "Out of range — replace door lock assembly",
+      "DC1 persists — main PBA door sensing circuit"
+    ],
+    "testingTips": [
+      "Push lock slider to simulate latched state",
+      "Lock motor 1–2 pin: 46.57 ± 15 Ω for add-door variants"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["DC1", "door_lock_check"]
+  },
+  {
+    "id": "samsungFlBb8700WasherDoorLockMotorOhms",
+    "name": "Samsung FL BB8700 Door Lock Motor (pins 1–2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 32, "max": 62 },
+      "warning": { "min": 25, "max": 70 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 40, "max": 55 },
+    "openCircuitCritical": true,
+    "purpose": "Add-door lock motor coil 46.57 ± 15 Ω at pins 1–2 per §4-3 DDC/DC3.",
+    "failureModes": [
+      "Open coil — add door / barrier lock fault",
+      "Mechanical bind — check barrier pillars before electrical"
+    ],
+    "testingTips": [
+      "Verify lock stroke and detection switches mechanically",
+      "Press door switch button and confirm resistance changes"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_bb8700"
+    },
+    "dmaTags": ["DC3", "DDC", "door_lock_check"]
+  }
+]

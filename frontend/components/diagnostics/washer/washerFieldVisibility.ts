@@ -21,11 +21,6 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     ],
   },
   {
-    id: 'fill_operation',
-    field: 'functional_checks.fill_operation',
-    showWhen: [{ type: 'chip', id: 'no_fill' }],
-  },
-  {
     id: 'agitation',
     field: 'functional_checks.agitation',
     showWhen: [{ type: 'chip', id: 'wont_agitate' }],
@@ -34,16 +29,6 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     id: 'spin_operation',
     field: 'functional_checks.spin_operation',
     showWhen: [{ type: 'chip', id: 'wont_spin' }],
-  },
-  {
-    id: 'drain_operation',
-    field: 'functional_checks.drain_operation',
-    showWhen: [{ type: 'chip', id: 'wont_drain' }],
-  },
-  {
-    id: 'lid_lock',
-    field: 'functional_checks.lid_lock_operation',
-    showWhen: [{ type: 'chip', id: 'lid_lock' }],
   },
   {
     id: 'balance',
@@ -97,5 +82,10 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     id: 'flex_compartment',
     field: 'customer_complaint.flex_compartment',
     showWhen: [{ type: 'chip', id: 'flexwash' }, { type: 'chip', id: 'flexwash_upper' }],
+  },
+  {
+    id: 'lid_lock_operation',
+    field: 'functional_checks.lid_lock_operation',
+    showWhen: [{ type: 'chip', id: 'wont_spin' }, { type: 'chip', id: 'wont_agitate' }],
   },
 ];

@@ -1,0 +1,601 @@
+{
+  "id": "w11416787-test-07-drain-recirc-pump",
+  "version": "1.0.0",
+  "title": "TEST #7: Drain & Recirculation Pump",
+  "platformId": "whirlpool_tl_dd_5100",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "pump_check",
+    "drain_issue",
+    "F9E1",
+    "dr",
+    "drn"
+  ],
+  "source": {
+    "manualId": "W11416787",
+    "manualTitle": "Whirlpool & Maytag 4.7/5.3 cu ft Top Load Washer (Direct Drive)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416787-revc wtw5100+-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Drain & Recirculation Pump",
+    "pages": [
+      59
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "clear_obstructions"
+    },
+    {
+      "id": "clear_obstructions",
+      "order": 2,
+      "type": "instruction",
+      "title": "Clear drain path obstructions",
+      "body": "Check tub sump, hose, and filter areas. Then test drain/recirc in Component Activation.",
+      "sourceExcerpt": "Check tub sump, hose, and filter areas. Then test drain/recirc in Component Activation.",
+      "requiresInput": false,
+      "defaultNextStepId": "component_test_pumps"
+    },
+    {
+      "id": "component_test_pumps",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drain/recirc run in Component Activation",
+      "body": "Command drain pump (and recirc if equipped) in Component Activation. Do they run?",
+      "sourceExcerpt": "Command drain pump (and recirc if equipped) in Component Activation. Do they run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_live_fail",
+          "label": "Does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_j15_pump",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        },
+        {
+          "id": "pump_live_ok",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pumps_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_j15_pump",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J15 fully seated",
+      "body": "Power off. J15 fully inserted at ACU?",
+      "sourceExcerpt": "Power off. J15 fully inserted at ACU?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "j15p_ok",
+          "label": "J15 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j15_pump_ohms"
+        },
+        {
+          "id": "j15p_bad",
+          "label": "J15 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j15_pump",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drain_pump"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_j15_pump",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat J15 and retest",
+      "body": "Reconnect J15 and repeat Component Activation pump run.",
+      "sourceExcerpt": "Reconnect J15 and repeat Component Activation pump run.",
+      "requiresInput": false,
+      "defaultNextStepId": "component_test_pumps"
+    },
+    {
+      "id": "j15_pump_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Drain pump resistance J15-1 to J15-2",
+      "body": "Disconnect J15. Drain J15-1\u21942 expect 17.8\u201321.8 \u03a9.",
+      "sourceExcerpt": "Disconnect J15. Drain J15-1\u21942 expect 17.8\u201321.8 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "J15",
+        "pins": "1 & 2",
+        "label": "Drain pump resistance J15-1 to J15-2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Neutral",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Drain pump",
+            "wireColor": "PK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Recirc pump",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Shifter",
+            "wireColor": "OR",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_j15_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j15_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j15_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_j15_pass",
+          "label": "17.8\u201321.8 \u03a9 drain",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "recirc_j15_optional",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416787-dd-pinout",
+          "caption": "Direct-drive ACU connectors & pinouts (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-dd-pinout.png"
+        },
+        {
+          "id": "w11416787-drive-area",
+          "caption": "Drive area \u2014 BPM motor, shifter, pumps (TEST #3b)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-drive-area.png"
+        }
+      ]
+    },
+    {
+      "id": "recirc_j15_optional",
+      "order": 7,
+      "type": "measurement",
+      "title": "Recirc pump J15-1 to J15-3 (if equipped)",
+      "body": "If model has recirc pump, measure 26\u201332 \u03a9. Skip if not equipped.",
+      "sourceExcerpt": "If model has recirc pump, measure 26\u201332 \u03a9. Skip if not equipped.",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherRecircPumpOhms",
+      "testPoint": {
+        "connector": "J15",
+        "pins": "1 & 3",
+        "label": "Recirc pump J15-1 to J15-3 (if equipped)",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Neutral",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Drain pump",
+            "wireColor": "PK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "3",
+            "signal": "Recirc pump",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Shifter",
+            "wireColor": "OR",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "recirc_j15_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "recirc_j15_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "recirc_j15_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "pump_obstruction",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "recirc_j15_pass",
+          "label": "26\u201332 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "harness_pump_cont",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416787-dd-pinout",
+          "caption": "Direct-drive ACU connectors & pinouts (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-dd-pinout.png"
+        },
+        {
+          "id": "w11416787-drive-area",
+          "caption": "Drive area \u2014 BPM motor, shifter, pumps (TEST #3b)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-drive-area.png"
+        }
+      ]
+    },
+    {
+      "id": "harness_pump_cont",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Pump harness continuity",
+      "body": "Tilt washer. Continuity drain pump pins to J15-1/J15-2 and recirc to J15-1/J15-3?",
+      "sourceExcerpt": "Tilt washer. Continuity drain pump pins to J15-1/J15-2 and recirc to J15-1/J15-3?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ph_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "ph_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_terminal_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Resistance at pump motor terminals",
+      "body": "At pump: drain 17.8\u201321.8 \u03a9; recirc 26\u201332 \u03a9.",
+      "sourceExcerpt": "At pump: drain 17.8\u201321.8 \u03a9; recirc 26\u201332 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "1 & 3",
+        "label": "Resistance at pump motor terminals"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_pump_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_pass",
+          "label": "17.8\u201321.8 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_pump_power",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416787-drive-area",
+          "caption": "Drive area \u2014 BPM motor, shifter, pumps (TEST #3b)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-drive-area.png"
+        },
+        {
+          "id": "w11416787-dd-pinout",
+          "caption": "Direct-drive ACU connectors & pinouts (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_tl_dd_5100/w11416787-dd-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_pump_power",
+      "order": 10,
+      "type": "instruction",
+      "title": "Reconnect pumps and restore power",
+      "body": "Reconnect J15 and pump harnesses. Restore power for Component Activation drain.",
+      "sourceExcerpt": "Reconnect J15 and pump harnesses. Restore power for Component Activation drain.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_drain_pump"
+    },
+    {
+      "id": "service_mode_before_activation",
+      "type": "instruction",
+      "title": "Continue to Component Activation",
+      "body": "You should now be in Service Mode. Use Left/Right to navigate, Select/Enter to open Service Diagnostics, then Component Activation for live load tests.",
+      "sourceExcerpt": "Service Mode must be active before Component Activation (Service Diagnostics menu).",
+      "requiresInput": false,
+      "order": 11
+    },
+    {
+      "id": "live_test_drain_pump",
+      "order": 12,
+      "type": "visual_check",
+      "title": "Drain pump runs in Component Activation",
+      "body": "Toggle drain pump in Component Activation. Does pump run and evacuate water?",
+      "sourceExcerpt": "Toggle drain pump in Component Activation. Does pump run and evacuate water?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dp_run",
+          "label": "Pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pumps_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "dp_no_run",
+          "label": "Ohms OK but no run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_obstruction",
+      "order": 13,
+      "type": "outcome",
+      "title": "Clear pump obstruction",
+      "oemOutcome": "Tilt washer, verify pump free, clear obstructions.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lower_harness_pump",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace lower harness",
+      "oemOutcome": "Restore pump circuit continuity.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_drain_pump",
+      "order": 15,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Pump motor open or out of range at terminals.",
+      "requiresInput": false
+    },
+    {
+      "id": "pumps_verified",
+      "order": 16,
+      "type": "outcome",
+      "title": "Pumps verified",
+      "oemOutcome": "Drain/recirc resistance and Component Activation run verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_pump",
+      "order": 17,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Pump good but no run \u2014 replace main control.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416787-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_pump_power",
+      "continueToStepId": "service_mode_before_activation"
+    },
+    {
+      "bundleId": "w11416787-component-activation",
+      "modeKind": "component_activation",
+      "attachAfterStepId": "service_mode_before_activation",
+      "continueToStepId": "live_test_drain_pump"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "w10322959-service-test-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_jazz_french_door",
+  "manualId": "W10322959",
+  "title": "W10322959 \u2014 Service Test Mode (S-E) entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Jazz Service Test Mode for component tests 1\u20139.",
+  "tags": [
+    "service_test",
+    "service_diagnostic",
+    "control_board"
+  ],
+  "entryStepId": "se_enter",
+  "source": {
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "pages": [
+      1
+    ]
+  },
+  "steps": [
+    {
+      "id": "se_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Test Mode",
+      "body": "Hold refrigerator door light switch closed. Press Refrigerator UP 3 times within 10 seconds. Release door switch \u2014 display shows S-E. Press Refrigerator UP once more to confirm. Software version displays 3 seconds; freezer then shows first test number. Close door to exit at any time.",
+      "sourceExcerpt": "Press Refrigerator Temperature UP /+ keypad 3 times consecutively.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

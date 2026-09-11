@@ -1,0 +1,81 @@
+{
+  "id": "lg-range-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Oven door switch",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Door switch",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_states"
+    },
+    {
+      "id": "door_switch_states",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door switch continuity",
+      "body": "Power off. Door open = infinite \u03a9; door closed = continuity (0 \u03a9) at door switch.",
+      "sourceExcerpt": "Power off. Door open = infinite \u03a9; door closed = continuity (0 \u03a9) at door switch.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "States correct",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "switch_verified"
+        },
+        {
+          "id": "sw_bad",
+          "label": "Wrong state",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switch"
+        }
+      ]
+    },
+    {
+      "id": "replace_switch",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Door switch fails continuity check \u2014 replace switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "switch_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Door switch OK",
+      "oemOutcome": "Door switch continuity verified.",
+      "requiresInput": false
+    }
+  ]
+}

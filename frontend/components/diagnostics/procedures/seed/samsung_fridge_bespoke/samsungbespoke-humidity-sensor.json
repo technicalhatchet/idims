@@ -1,0 +1,123 @@
+{
+  "id": "samsungbespoke-humidity-sensor",
+  "version": "1.0.0",
+  "title": "Humidity sensor",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "humidity_sensor",
+    "14E",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Humidity sensor",
+    "pages": [
+      89,
+      97
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "humid_pins"
+    },
+    {
+      "id": "humid_pins",
+      "order": 2,
+      "type": "instruction",
+      "title": "Pin pair by model",
+      "body": "RF23BB: CN60 3\u21947. RF32CG: CN40 14\u219416.",
+      "sourceExcerpt": "RF23BB: CN60 3\u21947. RF32CG: CN40 14\u219416.",
+      "requiresInput": false,
+      "defaultNextStepId": "humid_voltage"
+    },
+    {
+      "id": "humid_voltage",
+      "order": 3,
+      "type": "measurement",
+      "title": "Humidity sensor voltage",
+      "body": "4.5 V warm \u2192 1.0 V cold at humidity sensor pins.",
+      "sourceExcerpt": "4.5 V warm \u2192 1.0 V cold at humidity sensor pins.",
+      "measurementKnowledgeId": "samsungBespokeFridgeThermistorVoltage",
+      "testPoint": {
+        "connector": "CN60/CN40",
+        "pins": "per model",
+        "label": "Humidity sensor voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hum_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_humid",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "hum_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_humid",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "defrost_thermistor_bad_component",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "hum_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "humid_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_humid",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace humidity sensor",
+      "oemOutcome": "Replace humidity sensor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "humid_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Humidity sensor OK",
+      "oemOutcome": "Voltage in range.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "id": "samsungotrmw-keypad-touch",
+  "version": "1.0.0",
+  "title": "C-F2 / C-d0: Touch and Key Failure",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "C-F2",
+    "C-d0",
+    "hmi_check",
+    "touch_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3-3",
+    "oemTestTitle": "Touch film and keypad",
+    "pages": [
+      31,
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "key_sequence"
+    },
+    {
+      "id": "key_sequence",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Key input in correct sequence?",
+      "body": "Oven does not accept key input if sequence wrong \u2014 refer to operation procedure.",
+      "sourceExcerpt": "Oven does not accept key input if sequence wrong \u2014 refer to operation procedure.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "touch_film_tail_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "touch_film_tail"
+        },
+        {
+          "id": "touch_film_tail_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "key_sequence_ok",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "key_sequence_ok",
+      "order": 3,
+      "type": "outcome",
+      "title": "Key sequence OK",
+      "body": "Keys entered in proper sequence \u2014 continue touch checks.",
+      "oemOutcome": "Keys entered in proper sequence \u2014 continue touch checks.",
+      "requiresInput": false
+    },
+    {
+      "id": "touch_film_tail",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Touch film tail connected on assy display?",
+      "body": "C-F2: check touch film connection on assy display (CNS850).",
+      "sourceExcerpt": "C-F2: check touch film connection on assy display (CNS850).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "display_harness_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "display_harness"
+        },
+        {
+          "id": "display_harness_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reassembly_touch_film",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reassembly_touch_film",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reassemble touch film tail",
+      "body": "Reassembly touch film tail per \u00a75-3-3.",
+      "sourceExcerpt": "Reassembly touch film tail per \u00a75-3-3.",
+      "requiresInput": false,
+      "defaultNextStepId": "touch_film_tail"
+    },
+    {
+      "id": "display_harness",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Main PCB to assy display harness connected?",
+      "body": "Check harness on assy display and main PCB (CN370 sub-main comm).",
+      "sourceExcerpt": "Check harness on assy display and main PCB (CN370 sub-main comm).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_door_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_door"
+        },
+        {
+          "id": "replace_door_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_touch",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness_touch",
+      "order": 7,
+      "type": "instruction",
+      "title": "Repair display harness",
+      "body": "Connect harness properly and retest.",
+      "sourceExcerpt": "Connect harness properly and retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_harness"
+    },
+    {
+      "id": "replace_door",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace assy door or PCB",
+      "body": "Replace door assembly (touch film) or main PCB for C-F2/C-d0.",
+      "oemOutcome": "Replace door assembly (touch film) or main PCB for C-F2/C-d0.",
+      "requiresInput": false
+    }
+  ],
+  "images": [
+    {
+      "id": "samsung-me11-pcb-sub-connectors",
+      "caption": "Sub module connectors (\u00a76-1, p.39)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-sub-connectors.png"
+    },
+    {
+      "id": "samsung-me11-disassembly-door",
+      "caption": "Door assembly disassembly (\u00a73-5, p.16)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-disassembly-door.png"
+    }
+  ]
+}

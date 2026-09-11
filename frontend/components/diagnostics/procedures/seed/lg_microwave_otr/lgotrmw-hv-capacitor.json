@@ -1,0 +1,142 @@
+{
+  "id": "lgotrmw-hv-capacitor",
+  "version": "1.0.0",
+  "title": "\u00a710: High-Voltage Capacitor",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "hv_capacitor"
+  ],
+  "tags": [
+    "no_heat",
+    "hv_capacitor_check",
+    "high_voltage_safety"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-capacitor",
+    "oemTestTitle": "HV capacitor test",
+    "pages": [
+      31,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "cap_connector"
+    },
+    {
+      "id": "cap_connector",
+      "order": 2,
+      "type": "visual_check",
+      "title": "HV capacitor connector seated?",
+      "body": "Verify connector to HV capacitor assembly.",
+      "sourceExcerpt": "Verify connector to HV capacitor assembly.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cap_leakage_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cap_leakage"
+        },
+        {
+          "id": "cap_leakage_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cap",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "hv_capacitor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_cap",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reseat capacitor connector",
+      "body": "Reconnect HV capacitor leads.",
+      "sourceExcerpt": "Reconnect HV capacitor leads.",
+      "requiresInput": false,
+      "defaultNextStepId": "cap_connector"
+    },
+    {
+      "id": "cap_leakage",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Capacitor terminal-to-terminal leakage OK?",
+      "body": "Rx1000: terminal-to-terminal momentarily infinite, then ~10 M\u03a9. Terminal-to-case must be infinite.",
+      "sourceExcerpt": "Momentarily Infinite and then soon reach 10 mega. ohms",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cap_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cap_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hv_capacitor",
+              "evidenceId": "eliminate_capacitor_bad_hv_capacitor_ok"
+            }
+          ]
+        },
+        {
+          "id": "cap_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cap",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hv_capacitor",
+              "evidenceId": "confirm_capacitor_bad_hv_capacitor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cap",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace HV capacitor",
+      "body": "Replace high-voltage capacitor.",
+      "oemOutcome": "Replace high-voltage capacitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "cap_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "HV capacitor verified",
+      "body": "Capacitor leakage test within OEM limits.",
+      "oemOutcome": "Capacitor leakage test within OEM limits.",
+      "requiresInput": false
+    }
+  ]
+}

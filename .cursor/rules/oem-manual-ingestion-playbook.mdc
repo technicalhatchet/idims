@@ -1,0 +1,417 @@
+---
+description: OEM manual procedure ingestion — per-manual specs, pipeline, and completion checklists
+alwaysApply: true
+---
+
+# OEM Manual Ingestion Playbook (persistent spec)
+
+Human-in-the-loop assisted extraction only — **no blind LLM ingest to prod**. Field smoke tests are **not** a ship gate; `validate_procedure_seed.py` + extraction doc + tsc are.
+
+Canonical doc: `frontend/components/diagnostics/knowledge/pattern-catalog/PROCEDURE_ONBOARDING.md`
+
+## Global pipeline (every manual)
+
+1. **Extract PDF** → `backend/docs/manuals/<name>-extracted.txt` (`python backend/docs/manuals/extract_pdf.py`)
+2. **Extraction doc** → `frontend/components/diagnostics/knowledge/pattern-catalog/*_EXTRACTION.md` (fault table, TEST # index, Ω specs, complaint routing)
+3. **platformRegistry** → `platformId`, model patterns, `templateId`(s); dual fuel = two rules same `platformId` (e.g. `electric_dryer` + `gas_dryer`)
+4. **Measurement batch** → `knowledge/seed/measurement-knowledge-batchN.json` + `resolveFieldKnowledge` bindings
+5. **Manifest** → `procedureManualManifest.json` entry (generate, attachDiagrams, attachDiagnosticEffects, attachServiceModes)
+6. **Generator** → `backend/scripts/generate_{manual}_procedure_seeds.py` (preferred) or hand JSON
+7. **Attach scripts** (order in generator `main()`): write seeds → diagnostic effects → service modes → diagrams → `generate_procedure_registry.py` → `validate_procedure_seed.py`
+8. **Seed folder** → `procedures/seed/{platformId}/` + `procedureCatalog.json` + `README.md`
+9. **Diagrams** (optional): `crop_*_procedure_figures.py` → `public/images/procedures/{platformId}/` → `attach_*_procedure_diagrams.py` + `procedureDiagramCatalog.ts`
+10. **Ship gate**: validate + `cd frontend && npx tsc --noEmit`; dev smoke `/solomon/procedures/dev` (not WO until Phase 2 ungate)
+
+### Procedure seed requirements
+
+- `id`, `platformId`, `componentIds`, `tags` (include `Fxx` for error-code routing), `source` (manualId, oemTestNumber, pages)
+- `templateIds` when fuel-specific: `["electric_dryer"]` or `["gas_dryer"]` — gated in `procedurePlatformAccess.ts`; omit when both fuels share the procedure
+- Steps: `safety` → content; `measurement` needs `measurementKnowledgeId` + `testPoint`; branches use `checkpoint_yes`/`checkpoint_no` or measurement kinds
+- `serviceModes[]`: `bundleId`, `attachAfterStepId: safety_power_off`, `continueToStepId` → bridge step with `defaultNextStepId`
+- Tags codegen: `relatedCodes` in catalog = tags starting with `F`
+
+### Fuel-type split (dryers)
+
+| templateIds | Procedures (W8178559) |
+|-------------|----------------------|
+| `electric_dryer` only | `w8178559-heater-electric` |
+| `gas_dryer` only | `w8178559-heater-gas`, `w8178559-gas-ignitor`, `w8178559-gas-valve` |
+| both (omit field) | supply, motor, 3a/3b/3c, moisture, 4a, 5, 6 |
+
+---
+
+## Manifest inventory (49 manuals · 37 platforms · Mar 2026)
+
+Canonical audit: `frontend/components/diagnostics/knowledge/pattern-catalog/OEM_PROCEDURE_INGESTION_AUDIT.md`
+
+| manualId | platformId | Procs | Bundles | Diagrams | Smoke model |
+|----------|------------|-------|---------|----------|-------------|
+| W11169652 | `whirlpool_fl_dd` | 17 | 6 | 8 crops | WFW5620 |
+| W8178558 | `whirlpool_duet_sport` | 9 | 2 | 8 crops | WFW8300 |
+| W8178559 | `whirlpool_duet_sport_dryer` | 13 | 1 | 6 crops | WED8300 |
+| W10864849 | `whirlpool_tl_dd` | 14 | 2 | **9 crops** | WTW9500 |
+| W11697231 | `whirlpool_tl_dd` | 10 | 2 | **4 crops** | WTW4950 |
+| W11416787 | `whirlpool_tl_dd_5100` | 11 | 2 | **2 crops** | WTW5100 |
+| W11800233 | `whirlpool_tl_dd_4100` | 9 | 2 | **1 crop** | WTW4100 |
+| W11455152 | `whirlpool_tl_dd_6157` | 9 | 2 | **1 crop** | WTW6157 |
+| W11416395 | `whirlpool_mvw6200` | 10 | 2 | **2 crops** | MVW6200 |
+| W10680150 | `whirlpool_ccu_dryer` | 13 | 1 | **5 crops** | WED4815 |
+| W10881701 | `whirlpool_ccu_dryer` | 16 | 2 | **5 delta** (shared) | WED9500 |
+| W11169659 | `whirlpool_ccu_dryer` | 4+10 shared | 2 | **1 delta** | WED9620 |
+| W11416805 | `whirlpool_acu_tl_dryer` | 14 | 1 | **7 crops** | WED5100 |
+| W11798430 | `whirlpool_acu_tl_dryer` | 12 | 1 | **5 crops** | WED4100 |
+| W8178629 | `whirlpool_centennial_dryer` | 11 | 1 | — | WED4815 |
+| W11633848 | `whirlpool_dishwasher_acu` | 13 | 1 | **7 crops** | WDT750 |
+| W11480208 | `whirlpool_dishwasher_acu` | 8 delta | 1 | — (reuses W11633848) | WDT740 |
+| W11499711 | `whirlpool_dishwasher_acu` | 1 delta | 0 | — | WDT750 |
+| W11794121 | `whirlpool_dishwasher_acu` | 1 delta | 0 | — | JDPSS244 |
+| W11366142 | `whirlpool_dishwasher_acu` | 6 delta | 0 | — | KDTM404 |
+| W11187658 | `whirlpool_dishwasher_ada` | 6 | 1 | — | WDTA1 |
+| LG-LDT7808 | `lg_dishwasher_ldt7808` | 10 | 2 | — | LDT7808 |
+| INSIGNIA-DWR3 | `insignia_dishwasher` | 9 | 1 | — | NS-DWR3 |
+| NS-TDRE75W1 | `insignia_dryer_tdre` | 14 | 1 | — | NS-TDRE75 |
+| SAMSUNG-FL-BB8700-WASHER | `samsung_fl_washer_bb8700` | 10 | 3 | — | WF53BB8700 |
+| SAMSUNG-FL-BB8700-DRYER | `samsung_fl_dryer_bb8700` | 11 | 2 | — | DVE53BB8700 |
+| SAMSUNG-FL-DV6000 | `samsung_fl_dryer_dv6000` | 9 | 2 | — | DVE45T6000 |
+| SAMSUNG-TL-A50 | `samsung_tl_washer_a50` | 15 | 3 | — | WA50R5200 |
+| SAMSUNG-TL-DV50 | `samsung_tl_dryer_dv50` | 11 | 1 | — | DVE50R5200 |
+| SAMSUNG-FLEXWASH | `samsung_flexwash` | 22 | 3 | — | WV55M9600 |
+| SAMSUNG-RF260B | `samsung_sxs` | 16 | 2 | — | RF260BEAESR |
+| SAMSUNG-RF23BB | `samsung_fridge_bespoke` | 18 | 3 | — | RF23BB8600 |
+| SAMSUNG-RF32CG | `samsung_fridge_bespoke` | 5 delta | 2 | — | RF32CG5100 |
+| SAMSUNG-NX60 | `samsung_range_nx60` | 17 | 2 | — | NX60T8311 |
+| W11746350 | `whirlpool_freestanding_range` | 12 | 1 | — | WFE550S0 |
+| W11174426 | `whirlpool_freestanding_range` | 9 | 1 | — | WFE515S0 |
+| W11174814 | `whirlpool_freestanding_range` | 5 delta | 2 | — | KERS807 |
+| W10322959 | `whirlpool_jazz_french_door` | 10 | 2 | — | WRF535SW |
+| W11509412 | `whirlpool_ka_french_door` | 13 | 1 | — | WRF767SD |
+| W10785366A | `whirlpool_connected_smart_gen3` | 6 | 4 | — | WTW8700 |
+| LG-LRMVS-FRIDGE | `lg_lrmvs` | 17 | 2 | — | LRMVS3006 |
+| MIDEA-RSS | `midea_rss` | 11 | 1 | — | NS-RSS26 |
+| MIDEA-UZ21 | `midea_uz21` | 7 | 2 | — | NS-UZ14 |
+| INSIGNIA-TWM | `insignia_washer_cap` | 8 | 1 | — | NS-TWM41 |
+| INSIGNIA-WMT | `insignia_washer_freq` | 7 | 1 | — | NS-WMT41 |
+| W10330404 | `whirlpool_wrt_top_mount` | 7 | 0 | — | WRT518 |
+| W10674984 | `whirlpool_wrt311_adc` | 5 | 1 | — | WRT311 |
+| 2225623-ICE | `whirlpool_modular_ice_maker` | 8 | 0 | — | brand-wide |
+| FRIGIDAIRE-PRMC | `frigidaire_prmc_french_door` | 9 | 1 | — | PRMC2285 |
+| LG-LMHM2237 | `lg_microwave_otr` | 12 | 1 | — | LMHM2237 |
+| GE-GUD27 | `ge_gud27_stacked` | 6 | 0 | — | GUD27 |
+
+**Ship gate:** 526 procedures / 81 bundles · `validate_procedure_seed.py` + `npx tsc --noEmit`
+
+---
+
+## Manual W11169652 — Whirlpool FL direct drive washer
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_fl_dd` |
+| templateId | `washer` |
+| PDF | `service-manual-w11169652-reva-27in-front-load-washers.pdf` |
+| Extraction | `WHIRLPOOL_W11169652_WASHER_EXTRACTION.md` |
+| Knowledge | batch8 |
+| Status | **Complete** — 17 TEST procedures + 6 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11169652`
+
+**Patterns:** TEST #1–17; console vs LCD-in-door variants; QSC + component activation bundles; diagram attach on ACU pinouts.
+
+---
+
+## Manual W8178558 — Duet Sport washer (CCU/MCU)
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_duet_sport` |
+| templateId | `washer` |
+| Models | `WFW83`, `WFW85`, `MHW*` (83/85 prefixes) |
+| PDF | `jobaid-8178558-l-78 whirlpool fl washer 2013 era.pdf` |
+| Extraction | `WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md` |
+| Knowledge | batch13 |
+| Status | **Complete** — 9 procedures + 2 bundles; 8 diagram crops |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W8178558`
+
+### Procedure checklist (all generated)
+
+| ID | OEM | Tags / codes |
+|----|-----|--------------|
+| `w8178558-motor-circuit` | §5-8 / §6 motor | F25, F28, F06 |
+| `w8178558-drain-pump` | §5-6 | F21, Sd |
+| `w8178558-inlet-valves` | §5-1 | F20, F27 |
+| `w8178558-door-lock` | §5-5 | **F22, F26, F29**, door_lock_check |
+| `w8178558-wash-heater` | §5-7 | F23, F24 |
+| `w8178558-wash-ntc` | §5-7 TH2 | F24 |
+| `w8178558-pressure-switch` | §5-2 | F20, Sd |
+| `w8178558-dispenser-motor` | §5-4 | F30 |
+| `w8178558-interlock-switch` | §5-8 NC ground | voltage_check |
+
+**Bundles:** `w8178558-diagnostic-history-entry`, `w8178558-manual-diagnostic-test`
+
+**Do not** reuse W11169652 Ω specs (motor ~6 Ω vs DD, different pump/inlet).
+
+**WO smoke:** WFW8300 + Whirlpool → `whirlpool_duet_sport`; door lock → `w8178558-door-lock`.
+
+---
+
+## Manual W8178559 — Duet Sport dryer (MCE)
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_duet_sport_dryer` |
+| templateId | `electric_dryer` + `gas_dryer` (dual registry rules) |
+| Models | `WED83/85`, `WGD83/85`, `MED/MGD` 83/85 |
+| PDF | `jobaid-8178559-l-79 whirlpool fl dryer 2013 era.pdf` |
+| Extraction | `WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md` |
+| Knowledge | batch14 |
+| Status | **Complete** — 13 procedures + 1 bundle; 6 diagram crops |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W8178559`
+
+### Procedure checklist (all generated)
+
+| ID | OEM | templateIds | Tags / codes |
+|----|-----|-------------|--------------|
+| `w8178559-supply-connections` | TEST #1 | both | supply_issue, no_power |
+| `w8178559-motor-circuit` | TEST #2 | both | F26 |
+| `w8178559-heater-electric` | TEST #3 electric | electric | F01, no_heat |
+| `w8178559-heater-gas` | TEST #3 gas path | gas | no_heat, ignition_issue |
+| `w8178559-exhaust-thermistor` | TEST #3a | both | F22, F23 |
+| `w8178559-thermal-fuse` | TEST #3b | both | no_heat |
+| `w8178559-thermal-cutoff` | TEST #3c | both | no_heat |
+| `w8178559-gas-ignitor` | gas ignitor | gas | igniter_check |
+| `w8178559-gas-valve` | TEST #3d | gas | gas_valve_check |
+| `w8178559-moisture-sensor` | TEST #4 | both | F28, F29, long_dry |
+| `w8178559-dryness-adjust` | TEST #4a | both | long_dry |
+| `w8178559-button-indicator` | TEST #5 | both | **F02**, hmi_check |
+| `w8178559-door-switch` | TEST #6 | both | door_switch_check |
+
+**Bundle:** `w8178559-diagnostic-entry` (3 sec × 3 touchpad §6-1) — attached to motor, moisture, exhaust, button, door, dryness
+
+**Do not** reuse CCU dryer dual-element ≤50 Ω — Duet Sport = single 7–12 Ω element.
+
+**Deferred:** flame sensor µA, F-25 inlet thermistor (not in MCE display table).
+
+---
+
+## Manual W10864849 — Whirlpool/Maytag 6.2 cu ft direct-drive TL washer
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_tl_dd` |
+| templateId | `washer` |
+| Models | `WTW9500*`, `MVWB955F*` |
+| PDF | `w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500.pdf` |
+| Extraction | `WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md` |
+| Knowledge | batch15+ |
+| Status | **Complete** — 14 TEST procedures + 2 bundles; **9 diagram crops** |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10864849`
+
+**Diagrams:** `crop_w10864849_procedure_figures.py` → ACU pinout §3-5 (p.31), valves/drive/pumps/lid/heater/basket/rex strip circuits.
+
+**Bundles:** `w10864849-service-diagnostic-entry`, `w10864849-service-test-mode`
+
+**WO smoke:** WTW9500 + Whirlpool → `whirlpool_tl_dd`; F5E3 → `w10864849-test-08-lid-lock`.
+
+---
+
+## Manual W11633848 — Amana & Whirlpool 24" ACU dishwasher
+
+| Field | Value |
+|-------|-------|
+| platformId | `whirlpool_dishwasher_acu` |
+| templateId | `dishwasher` |
+| PDF | `technical-manual-w11633848-revb amana and whirlpool dishwasher.pdf` |
+| Extraction | `WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md` |
+| Knowledge | batch16+ |
+| Status | **Complete** — 13 component-test procedures + 1 bundle; **7 diagram crops** |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11633848`
+
+**Diagrams:** `crop_w11633848_procedure_figures.py` → strip circuits for P4/P5/P6/P9/P10 (door, fill, heater, OWI, overfill, wash/drain motor).
+
+**Shared platform:** W11480208, W11499711, W11794121, W11366142 reuse base seeds with deltas.
+
+**Deferred v1:** vent wax motor, UI F2E1 dedicated procedure.
+
+**WO smoke:** WDT750 + Whirlpool → `whirlpool_dishwasher_acu`; F6E4 → `w11633848-overfill-switch`.
+
+---
+
+## Manual W10680150 — CCU electric & gas dryer
+
+**Status:** generated (13 procedures + diagnostic-entry bundle); **5 diagram crops**  
+**Platform:** `whirlpool_ccu_dryer` (electric_dryer + gas_dryer)  
+**Source:** `backend/docs/manuals/whirlpool-electric-gas-dryers.pdf.pdf`  
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10680150`
+
+**Diagrams:** `crop_w10680150_procedure_figures.py` → Figure 11 CCU pinout (p.9), motor p.13, thermal p.14, strip circuits p.22, gas valve p.18.
+
+| Procedure ID | OEM TEST | templateIds | Tags / codes |
+|--------------|----------|-------------|--------------|
+| `w10680150-ccu-power` | #1 | both | F1E1, F6E1, F6E2 |
+| `w10680150-supply-connections` | #2 | both | F4E4 |
+| `w10680150-motor-circuit` | #3 | both | dryerMotorCircuitOhms |
+| `w10680150-heater-electric` | #4 | electric_dryer only | whirlpoolCcuDryerHeaterOhms ≤50 Ω dual element |
+| `w10680150-heater-gas` | #4 gas | gas_dryer only | orchestration → gas-valve |
+| `w10680150-thermistors` | #4a | both | exhaust + inlet NTC |
+| `w10680150-thermal-fuse` | #4b | both | |
+| `w10680150-thermal-cutoff` | #4c | both | |
+| `w10680150-gas-valve` | #4d | gas_dryer only | gasValveCoilOhms, hotSurfaceIgniterOhms |
+| `w10680150-moisture-sensor` | #5 | both | |
+| `w10680150-dryness-adjust` | #5a | both | |
+| `w10680150-button-indicator` | #6 | both | F2E1–F2E3 |
+| `w10680150-door-switch` | #7 | both | door_switch_check |
+
+**Bundle:** `w10680150-diagnostic-entry` (3-button × 3, LCD Diagnostics Home) — attached to motor, moisture, thermistors, button, door, dryness
+
+**Diagram crops:** W10680150 base set (5) on `whirlpool_ccu_dryer`; W10881701 adds 5 delta crops (J14 pinout, motor/thermistor strip, gas valve, steam water valve). W11169659 reuses W10881701 pages where applicable.
+
+**Model routing:** WED83/85 and WGD83/85 → `whirlpool_duet_sport_dryer`; other WED/WGD/MED/MGD → CCU.
+
+---
+
+## Manual W10881701 — Whirlpool/Maytag 9.2 cu ft steam dryer (WED9500)
+
+| Field | Value |
+|----|----|
+| platformId | `whirlpool_ccu_dryer` |
+| templateId | `electric_dryer` + `gas_dryer` |
+| Models | `WED95*`, `MED95*`, `WGD95*`, `MGDB955*` |
+| PDF | `servicemanual-w10881701-l-91 wed9500.pdf` |
+| Extraction | `WHIRLPOOL_W10881701_DRYER_EXTRACTION.md` |
+| Knowledge | batch9 (+ `whirlpoolCcuDryerSteamValveOhms`) |
+| Status | **Complete** — 16 TEST procedures + 2 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W10881701`
+
+### Procedure checklist (W10881701 — same platform, J* = P* pinouts)
+
+| ID | OEM | Tags / codes |
+|----|-----|-----|
+| `w10881701-acu-power` | #1 | F1E1, F1E3, F1E5, F6E2, F6E3 |
+| `w10881701-supply-connections` | #2 | F4E4 |
+| `w10881701-motor-circuit` | #3 | F7E6 path |
+| `w10881701-heater-electric` | #4 | F4E1, F4E2, no_heat |
+| `w10881701-heater-gas` | #4 gas | no_heat |
+| `w10881701-thermistors` | #4a | F3E1, F3E3 |
+| `w10881701-thermal-fuse` | #4b | no_heat |
+| `w10881701-thermal-cutoff` | #4c | no_heat |
+| `w10881701-gas-valve` | #4d | gas only |
+| `w10881701-moisture-sensor` | #5 | **F3E2**, F3E7 |
+| `w10881701-dryness-adjust` | #5a | long_dry |
+| `w10881701-button-indicator` | #6 | F2E1, F2E3–F2E5 |
+| `w10881701-door-switch` | #7 | door_switch_check |
+| `w10881701-drum-led` | #8 | drum_light_check |
+| `w10881701-water-valve` | #9 | steam_no_water, 510–590 Ω |
+| `w10881701-service-leds` | #10 | F6E2, F6E3, hmi_check |
+
+**Bundles:** `w10881701-diagnostic-entry` (3-button × 3), `w10881701-service-test-mode` (2nd button + START; water spray step 8)
+
+**Diagrams:** `crop_w10881701_procedure_figures.py` → p.29 pinout, p.33 motor, p.36 thermistor strip, p.38 gas valve, p.44 steam water valve.
+
+**Do not** reuse W11416805 TL pinouts or Duet Sport heater specs.
+
+**WO smoke:** WED9500 + Whirlpool → `whirlpool_ccu_dryer`; F3E2 → `w10881701-moisture-sensor`.
+
+---
+
+## Manual W11416395 — Maytag MVW6200 PSC top-load washer
+
+| Field | Value |
+|----|----|
+| platformId | `whirlpool_mvw6200` |
+| templateId | `washer` |
+| Models | `MVW62*`, `WTW62*` (6XXX = 4.8 cu ft) |
+| PDF | `service-manual-w11416395-revb mvw6200.pdf` |
+| Extraction | `WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md` |
+| Knowledge | batch18 |
+| Status | **Complete** — 10 TEST procedures + 2 service-mode bundles |
+
+**Pipeline:** `python backend/scripts/run_procedure_manual_pipeline.py --manual W11416395`
+
+### Procedure checklist
+
+| ID | OEM | Tags / codes |
+|----|-----|-----|
+| `w11416395-test-01-acu-power` | #1 | F1E1, F6E1, F7E1 |
+| `w11416395-test-02-valves` | #2 | F8E1, LF, F0E4 |
+| `w11416395-test-03-drive-system` | #3 | F7E3, F7E4, F7E6, F7E7 |
+| `w11416395-test-03a-shifter` | #3a | F7E3, F7E4 |
+| `w11416395-test-03b-motor` | #3b | F7E6, F7E7 |
+| `w11416395-test-04-hmi` | #4 | F2E1, F2E2, F6E1 |
+| `w11416395-test-05-temp-thermistor` | #5 | F3E3 |
+| `w11416395-test-06-water-level` | #6 | F3E2, F8E1, F8E3, F8E6 |
+| `w11416395-test-07-drain-pump` | #7 | F9E1, dr |
+| `w11416395-test-08-lid-lock` | #8 | F5E1, F5E3, F5E4 |
+
+**Bundles:** `w11416395-service-diagnostic-entry` (Key 1/2/3 × 3), `w11416395-service-test-mode` (Key 2 + START)
+
+**Diagrams:** `crop_w11416395_procedure_figures.py` → p.24 ACU pinout, p.29 PSC bottom view (no strip-circuit pages in manual).
+
+**Do not** reuse `whirlpool_tl_dd` BPM specs (J1 motor 8–10 Ω, J2 valves 790–840 Ω) — MVW6200 = PSC motor J6 5–9.5 Ω, J8 valves 890–1090 Ω.
+
+**WO smoke:** MVW6200KW → `whirlpool_mvw6200`; F5E3 → `w11416395-test-08-lid-lock`.
+
+---
+
+## Manual NS-TDRE75W1 — Insignia TDRE/TDRG vented dryer
+
+| Field | Value |
+|----|----|
+| platformId | `insignia_dryer_tdre` |
+| templateId | `electric_dryer` + `gas_dryer` (TDRG model pattern) |
+| Models | `NS-TDRE75W1` (electric), `NS-TDRG75W1` (gas) |
+| PDF | `NS-TDRE75W1 Service Manual.pdf` |
+| Extraction | `INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md` |
+| Knowledge | batch9 |
+| Status | **Complete** — 14 procedures + 1 service-test bundle |
+
+**Pipeline:** `python backend/scripts/generate_nstdre75w1_procedure_seeds.py`
+
+### Procedure checklist
+
+| ID | Source | templateIds | Tags / codes |
+|----|-----|----|-----|
+| `nstdre75w1-outlet-thermistor` | Service test 04 + CN3 | both | E5, no_heat |
+| `nstdre75w1-humidity-sensor` | E4 + CN10 | both | E4, long_dry |
+| `nstdre75w1-communication` | C9 + CN9 | both | C9, hmi_check |
+| `nstdre75w1-heater-electric` | 20 Ω element | electric | no_heat |
+| `nstdre75w1-heater-gas` | Gas thermal path | gas | no_heat |
+| `nstdre75w1-thermal-cutoff` | Component §29–30 | both | no_heat |
+| `nstdre75w1-thermal-hi-limit` | Regulating + hi-limit | both | no_heat |
+| `nstdre75w1-gas-ignitor` | 40–400 Ω | gas | igniter_check |
+| `nstdre75w1-gas-valve` | Coil pairs | gas | gas_valve_check |
+| `nstdre75w1-flame-sensor` | < 1 Ω | gas | ignition_issue |
+| `nstdre75w1-door-switch` | COM–NO | both | door_switch_check |
+| `nstdre75w1-belt-safety` | Belt switch | both | motor_check |
+| `nstdre75w1-hmi-test` | Service test 02–03 | both | hmi_check |
+| `nstdre75w1-motor-circuit` | Centrifugal + run | both | motor_check |
+
+**Bundle:** `nstdre75w1-service-test-entry` (Time Adjust+ + Wrinkle Care within 3s after Power)
+
+**Deferred v1:** diagram crops, dedicated motor winding Ω knowledge, inlet NTC (manual lists TEMP_IN on CN3 but no separate fault code)
+
+---
+
+## Ingestion complete / deferred (Mar 2026)
+
+**Complete:** 49 manifest manuals across 37 platforms (526 procedures, 81 bundles). See inventory table above.
+
+**Diagram crops shipped:** W11169652, W8178558, W8178559, W10864849, W11633848, W10680150, **W10881701** (CCU delta), **W11416805**, **W11416395**, **W11416787**, **W11798430**, **W11697231**, **W11800233**, **W11455152**, **W11169659** (drum LED delta) — **13** platform asset folders.
+
+**Deferred (low yield / no manual):**
+
+| Item | Reason |
+|------|--------|
+| Remaining 28 platforms | Strip-circuit pages sparse or error-code-driven; crops deferred |
+| `jobaid-w10378809-kr38` | KA range TEST MODE only |
+| Samsung ME21 OTR HTML | Optional C-* family |
+| Bosch | No manual in repo |
+| GE GUD27 | Mechanical timer — procedures exist, no service-mode bundles |
+
+**Next work (Phase 2):** WO OEM lead integration — see `oem-procedure-layer-integration.mdc`.
+
+**Field smoke-test:** WO OEM panel ungated — `/solomon/procedures/dev` or WO with make+model (WFW8300 → Duet Sport; WTW9500 → TL DD; WDT750 → dishwasher ACU; WED4815 → CCU dryer).

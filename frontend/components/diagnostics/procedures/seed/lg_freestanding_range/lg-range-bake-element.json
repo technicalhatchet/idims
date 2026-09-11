@@ -1,0 +1,145 @@
+{
+  "id": "lg-range-bake-element",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Bake element",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "no_heat",
+    "F9",
+    "bake_element"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Bake element",
+    "pages": [
+      39,
+      40
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "cool_bake"
+    },
+    {
+      "id": "cool_bake",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cool bake element",
+      "body": "Allow bake element to cool before resistance check.",
+      "sourceExcerpt": "Allow bake element to cool before resistance check.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_ohms"
+    },
+    {
+      "id": "bake_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Bake element resistance",
+      "body": "Disconnect element leads. R \u00d7 1 \u2014 expect \u224814 \u03a9 \u00b110% at room temperature.",
+      "sourceExcerpt": "Disconnect element leads. R \u00d7 1 \u2014 expect \u224814 \u03a9 \u00b110% at room temperature.",
+      "measurementKnowledgeId": "lgRangeBakeElementOhms",
+      "testPoint": {
+        "connector": "Bake element",
+        "pins": "terminals",
+        "label": "Bake element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "bake_element"
+            }
+          ]
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "bake_element"
+            }
+          ]
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "bake_element"
+            }
+          ]
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_ok",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_bake_element_ol_bake_element_ok",
+              "componentId": "bake_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bake",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace bake element",
+      "oemOutcome": "Bake element open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Bake element OK",
+      "oemOutcome": "Bake element \u224814 \u03a9 verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

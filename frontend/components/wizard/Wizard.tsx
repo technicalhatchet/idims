@@ -27,6 +27,7 @@ export default function Wizard<TContext>({
   nextLabel,
   headerTitle,
   headerDescription,
+  leadExtra,
   footerExtra,
   className = '',
 }: WizardProps<TContext>) {
@@ -48,6 +49,7 @@ export default function Wizard<TContext>({
           <WizardHeader title={headerTitle} description={headerDescription} />
         )}
         <WizardProgress />
+        {leadExtra}
         <WizardSuggestedStep />
         <WizardStep />
         <WizardFooter>

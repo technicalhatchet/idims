@@ -1,0 +1,207 @@
+{
+  "id": "w11803249-test-131-defrost",
+  "version": "1.0.0",
+  "title": "Service Test 131: FC defrost heater",
+  "platformId": "whirlpool_theseus_cdfd",
+  "componentIds": [
+    "defrost_heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup"
+  ],
+  "source": {
+    "manualId": "W11803249",
+    "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "131",
+    "oemTestTitle": "FC Defrost Heater",
+    "pages": [
+      79,
+      121
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_131"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Manual control mode active. Advance to the test step for this procedure.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_131",
+      "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+    },
+    {
+      "id": "select_test_131",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to manual test 131",
+      "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 131. Confirm with 1st button.",
+      "sourceExcerpt": "Manual test 131 \u2014 Defrost heater",
+      "requiresInput": false,
+      "defaultNextStepId": "heat"
+    },
+    {
+      "id": "heat",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Heater on",
+      "body": "Display on \u2014 P2-7 to P1-2 = 115 VAC.",
+      "sourceExcerpt": "Display on \u2014 P2-7 to P1-2 = 115 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "No heat at board."
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench heater ohms",
+      "body": "43 \u03a9 FC defrost heater.",
+      "sourceExcerpt": "43 \u03a9 FC defrost heater.",
+      "requiresInput": false,
+      "defaultNextStepId": "ohms"
+    },
+    {
+      "id": "ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Defrost heater",
+      "body": "43 \u03a9 spec.",
+      "sourceExcerpt": "43 \u03a9 spec.",
+      "measurementKnowledgeId": "whirlpoolTheseusCdfdDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "P2",
+        "pins": "P2-7 \u2194 P1-2",
+        "label": "Defrost heater"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "h_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "h_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "h_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "h_pass",
+          "label": "43 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11803249-theseus-acu-pinout",
+          "caption": "Theseus ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_theseus_cdfd/w11803249-theseus-acu-pinout.png"
+        },
+        {
+          "id": "w11803249-voltage-chart",
+          "caption": "Theseus ACU voltage chart \u2014 P1\u2013P70",
+          "assetPath": "/images/procedures/whirlpool_theseus_cdfd/w11803249-voltage-chart.png"
+        }
+      ]
+    },
+    {
+      "id": "replace",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Heater open or out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Defrost verified",
+      "oemOutcome": "Test 131 and heater ohms OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11803249-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

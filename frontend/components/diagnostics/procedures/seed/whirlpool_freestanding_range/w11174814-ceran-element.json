@@ -1,0 +1,146 @@
+{
+  "id": "w11174814-ceran-element",
+  "version": "1.0.0",
+  "title": "Indigo Ceran Cooktop Element",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "bake_element"
+  ],
+  "tags": [
+    "heating_element_check",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "W11174814",
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Ceran",
+    "oemTestTitle": "Cooktop Ceran Element",
+    "pages": [
+      86,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "ceran_ohms"
+    },
+    {
+      "id": "ceran_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Ceran element resistance",
+      "body": "Power off. At element terminals measure H1 to H2. Expect 23\u201383 \u03a9 nominal. Thermal limiter opens at 1100\u00b0F (593\u00b0C).",
+      "sourceExcerpt": "Power off. At element terminals measure H1 to H2. Expect 23\u201383 \u03a9 nominal. Thermal limiter opens at 1100\u00b0F (593\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeIndigoCeranOhms",
+      "testPoint": {
+        "connector": "H1/H2",
+        "pins": [
+          "H1",
+          "H2"
+        ],
+        "label": "Ceran element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ceran_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ceran",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "ceran_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ceran",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "ceran_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ceran",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "ceran_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ceran_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_normal_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ceran",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace ceran element or limiter",
+      "oemOutcome": "Element open or out of range \u2014 check limiter if OL.",
+      "requiresInput": false
+    },
+    {
+      "id": "ceran_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Ceran element verified",
+      "oemOutcome": "Indigo ceran element 23\u201383 \u03a9.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174814-indigo-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "ceran_ohms"
+    }
+  ]
+}

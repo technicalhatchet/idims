@@ -1,0 +1,37 @@
+{
+  "id": "samsungdw-inspection-code-display",
+  "version": "1.0.0",
+  "platformId": "samsung_dishwasher",
+  "manualId": "SAMSUNG-DISHWASHER",
+  "title": "Samsung DW80 \u2014 Inspection code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored inspection codes (n2) \u2014 up to 7 codes in EEPROM.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "ic_enter",
+  "source": {
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "pages": [
+      43,
+      44
+    ]
+  },
+  "steps": [
+    {
+      "id": "ic_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Inspection code display (n2)",
+      "body": "While AS displays: press Hi-Temp Wash to cycle n1\u2192n2\u2192n3\u2026. In n2, press Normal (Eco) to loop C00\u2192C10\u2192\u2026 Heavy shows sub-codes. Hold operation button 7 s to clear all codes.",
+      "sourceExcerpt": "While AS displays: press Hi-Temp Wash to cycle n1\u2192n2\u2192n3\u2026. In n2, press Normal (Eco) to loop C00\u2192C10\u2192\u2026 Heavy shows sub-codes. Hold operation button 7 s to clear all codes.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

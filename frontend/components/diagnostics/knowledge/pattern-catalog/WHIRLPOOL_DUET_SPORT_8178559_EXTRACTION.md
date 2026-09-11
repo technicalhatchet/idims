@@ -76,12 +76,13 @@ Enter via button hold sequence §6 — saved/active fault codes, component tests
 
 ### Captured
 
-- Full F-xx fault table + TEST #2 motor / TEST #3 heat / TEST #3a thermistor / TEST #4 moisture  
+- Full F-xx fault table + TEST #1 supply / TEST #2 motor / TEST #3 heat (electric + gas orchestration) / TEST #3a–3d / TEST #4 moisture / TEST #4a dryness EEPROM / TEST #5 console UI / TEST #6 door switch  
 - Electric heater 7–12 Ω vs CCU dual-element spec split  
 - Gas ignitor + valve coil Ω at burner  
 - Exhaust thermistor R/T table and P14 diagnostic thresholds  
 - Routing disambiguation: washer F22/F26/F29 vs dryer F-22/F-26  
 - Platform split from `whirlpool_ccu_dryer`  
+- 13 procedure seeds + diagnostic-entry bundle (see `whirlpool_duet_sport_dryer/README.md`)
 
 ### Gaps
 
@@ -91,6 +92,8 @@ Enter via button hold sequence §6 — saved/active fault codes, component tests
 | Models outside 83/85 prefix | Extend patterns if field data shows overlap |
 | Inlet thermistor (F-25 on some platforms) | Not in Duet Sport display table — deferred |
 | Flame sensor µA spec | Functional test only on job aid |
+| Per-procedure gas vs electric template gating | Shared `platformId`; gas-specific procedures tagged `gas_heater_check` / `ignition_issue` |
+| WO OEM panel integration | Phase 2 — see `.cursor/rules/oem-procedure-layer-integration.mdc` |
 
 ---
 

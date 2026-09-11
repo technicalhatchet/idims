@@ -1,0 +1,286 @@
+{
+  "id": "w11509412-test-06-defrost",
+  "version": "1.0.0",
+  "title": "Service Test 6: Defrost heater & bimetal",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "defrost_heater",
+    "defrost_thermostat"
+  ],
+  "tags": [
+    "frost_buildup",
+    "defrost_heater",
+    "defrost_thermostat",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Defrost Heater/Bi-metal",
+    "pages": [
+      2
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_06"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_06"
+    },
+    {
+      "id": "select_test_06",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 06",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 06. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 06 \u2014 Defrost heater/bimetal",
+      "requiresInput": false,
+      "defaultNextStepId": "defrost_result"
+    },
+    {
+      "id": "defrost_result",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run test 6",
+      "body": "Heater should energize when bimetal closed. If bimetal open, bypass only for heater verification. Display blank until valid reading.",
+      "sourceExcerpt": "Heater should energize when bimetal closed. If bimetal open, bypass only for heater verification. Display blank until valid reading.",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_display"
+    },
+    {
+      "id": "bimetal_display",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Defrost bimetal state",
+      "body": "Result display: 01=bimetal closed, 02=bimetal open. Does display match evaporator temperature state?",
+      "sourceExcerpt": "Result display: 01=bimetal closed, 02=bimetal open. Does display match evaporator temperature state?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bimetal_ok",
+          "label": "01 Closed (expected)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_off_heater_ohms"
+        },
+        {
+          "id": "bimetal_open",
+          "label": "02 Open at frosted evap",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_off_heater_ohms"
+        }
+      ]
+    },
+    {
+      "id": "power_off_heater_ohms",
+      "order": 6,
+      "type": "instruction",
+      "title": "Disconnect power for ohms",
+      "body": "Unplug refrigerator for resistance checks on defrost heater and bimetal.",
+      "sourceExcerpt": "Unplug refrigerator for resistance checks on defrost heater and bimetal.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Defrost heater resistance",
+      "body": "Freezer evaporator heater 36.2 \u03a9 \u00b15% (365 W @ 115 VAC).",
+      "sourceExcerpt": "Freezer evaporator heater 36.2 \u03a9 \u00b15% (365 W @ 115 VAC).",
+      "measurementKnowledgeId": "whirlpoolKaFdDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "defrost heater",
+        "pins": "terminals",
+        "label": "Defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "36.2 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ohms"
+        }
+      ]
+    },
+    {
+      "id": "bimetal_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Defrost thermostat (bimetal) resistance",
+      "body": "Closed below 12\u00b0F; open above 42\u00b0F. Must be closed (few \u03a9) when evaporator frosted.",
+      "sourceExcerpt": "Closed below 12\u00b0F; open above 42\u00b0F. Must be closed (few \u03a9) when evaporator frosted.",
+      "measurementKnowledgeId": "whirlpoolKaFdDefrostBimetalOhms",
+      "testPoint": {
+        "connector": "bimetal",
+        "pins": "terminals",
+        "label": "Defrost thermostat (bimetal) resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "Closed (few \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace evaporator heater when open or out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bimetal",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace defrost thermostat",
+      "oemOutcome": "Replace defrost bimetal when open at frosted evaporator.",
+      "requiresInput": false
+    },
+    {
+      "id": "defrost_ok",
+      "order": 11,
+      "type": "outcome",
+      "title": "Defrost circuit verified",
+      "oemOutcome": "Service test 6, heater ohms, and bimetal verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

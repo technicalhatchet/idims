@@ -1,0 +1,147 @@
+{
+  "id": "samsungrs28-inverter-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Inverter communication (44Er)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "inverter_board",
+    "main_control"
+  ],
+  "tags": [
+    "44Er",
+    "44E",
+    "hmi_check",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Self-diagnostic \u2014 44Er",
+    "pages": [
+      69
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "code_active"
+    },
+    {
+      "id": "code_active",
+      "order": 2,
+      "type": "visual_check",
+      "title": "44Er active",
+      "body": "44Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+      "sourceExcerpt": "44Er displayed on panel. Verify harness seating and moisture before condemning PCBs.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness"
+        },
+        {
+          "id": "code_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "44Er not present \u2014 verify complaint.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inverter_board",
+              "evidenceId": "ref_kw_44e_inverter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify harness",
+      "body": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+      "sourceExcerpt": "Inspect door-hinge harness, ribbon/LVDS, and connector pins for damage or moisture.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_restored"
+    },
+    {
+      "id": "comm_restored",
+      "order": 4,
+      "type": "visual_check",
+      "title": "44Er cleared",
+      "body": "After harness repair and power cycle, is 44Er cleared?",
+      "sourceExcerpt": "After harness repair and power cycle, is 44Er cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace affected PCB(s) per manual.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inverter_board",
+              "evidenceId": "ref_kw_44e_inverter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "No comm fault",
+      "oemOutcome": "Communication normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_boards_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace PCB(s) when harness verified good and 44Er persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "44Er cleared after harness service.",
+      "requiresInput": false
+    }
+  ]
+}

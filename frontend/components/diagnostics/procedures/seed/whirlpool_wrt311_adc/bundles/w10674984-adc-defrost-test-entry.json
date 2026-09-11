@@ -1,0 +1,38 @@
+{
+  "id": "w10674984-adc-defrost-test-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_wrt311_adc",
+  "manualId": "W10674984",
+  "title": "ADC 2000 electronic defrost test mode entry",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter ADC defrost test \u2014 bi-metal must be closed. Heater runs up to 18 min or until bi-metal opens.",
+  "tags": [
+    "ADCTEST",
+    "defrost",
+    "frost_buildup",
+    "adc_test"
+  ],
+  "entryStepId": "adc_test_enter",
+  "source": {
+    "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+    "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt",
+    "pages": [
+      1
+    ]
+  },
+  "steps": [
+    {
+      "id": "adc_test_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter ADC defrost test mode",
+      "body": "Bi-metal must be closed. Option 1: power off 30 s \u2192 thermostat OFF \u2192 power on. Option 2: thermostat OFF 15 s \u2192 ON 5 s (\u00d73) \u2192 OFF. Relay click confirms entry. Heater runs up to 18 minutes or until bi-metal opens. Do not bypass bi-metal \u2014 risk of overheating evaporator.",
+      "sourceExcerpt": "Electronic defrost control test mode \u2014 W10674984 page 1.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

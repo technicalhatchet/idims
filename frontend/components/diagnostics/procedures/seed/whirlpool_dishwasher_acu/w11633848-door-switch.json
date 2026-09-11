@@ -1,0 +1,326 @@
+{
+  "id": "w11633848-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a73-7: Door Switch Circuit",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "door_gasket"
+  ],
+  "tags": [
+    "F5E1",
+    "F5E2",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-7",
+    "oemTestTitle": "Door Switch Circuit",
+    "pages": [
+      41
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_mechanical"
+    },
+    {
+      "id": "door_mechanical",
+      "order": 2,
+      "type": "instruction",
+      "title": "Mechanical door checks",
+      "body": "Verify installation/leveling, latch obstructions, door seal seated, and racks not interfering with door closure.",
+      "sourceExcerpt": "Verify installation/leveling, latch obstructions, door seal seated, and racks not interfering with door closure.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p9"
+    },
+    {
+      "id": "disconnect_p9",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P9",
+      "body": "Power off. Remove outer door panel and toe/access panels. Verify P9 and door latch connectors seated. Disconnect P9 from control.",
+      "sourceExcerpt": "Power off. Remove outer door panel and toe/access panels. Verify P9 and door latch connectors seated. Disconnect P9 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed_ohms"
+    },
+    {
+      "id": "door_closed_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Door closed \u2014 P9 pins 5 & 6",
+      "body": "Ohms across P9-5 and P9-6 with door closed and strike fully latched. Expect 3 \u03a9 or less.",
+      "sourceExcerpt": "Ohms across P9-5 and P9-6 with door closed and strike fully latched. Expect 3 \u03a9 or less.",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "testPoint": {
+        "connector": "P9",
+        "pins": "5 & 6 (door closed)",
+        "label": "Door closed \u2014 P9 pins 5 & 6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_open_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_open_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_gasket",
+              "evidenceId": "eliminate_gasket_bad_door_gasket_ok"
+            }
+          ]
+        },
+        {
+          "id": "door_open_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "repair_door_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        },
+        {
+          "id": "door_open_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_door_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        },
+        {
+          "id": "door_open_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "repair_door_harness",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-door-switch-strip",
+          "caption": "Door switch strip circuit (\u00a73-7)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-door-switch-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "door_open_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Door open \u2014 P9 pins 5 & 6",
+      "body": "With door open and strike removed from latch, expect infinite resistance (open circuit).",
+      "sourceExcerpt": "With door open and strike removed from latch, expect infinite resistance (open circuit).",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "testPoint": {
+        "connector": "P9",
+        "pins": "5 & 6 (door open)",
+        "label": "Door open \u2014 P9 pins 5 & 6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_open_pass",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "door_13v",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        },
+        {
+          "id": "door_open_fail",
+          "label": "Continuity with door open",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_door_switch",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_gasket",
+              "evidenceId": "eliminate_gasket_bad_door_gasket_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-door-switch-strip",
+          "caption": "Door switch strip circuit (\u00a73-7)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-door-switch-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "door_13v",
+      "order": 6,
+      "type": "visual_check",
+      "title": "13 VDC at P9-6 with door open?",
+      "body": "Reconnect P9. Power on, door open: red lead P9-6, black P13-4 (DC GND). Expect 13 VDC.",
+      "sourceExcerpt": "Reconnect P9. Power on, door open: red lead P9-6, black P13-4 (DC GND). Expect 13 VDC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "live_door_diag_yes",
+          "label": "13 VDC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_door_diag"
+        },
+        {
+          "id": "live_door_diag_no",
+          "label": "Missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_door",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "live_door_diag"
+    },
+    {
+      "id": "live_door_diag",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Door switch OK in Service Diagnostics?",
+      "body": "Run Service Diagnostics cycle. Verify door-open pause and close-resume behavior.",
+      "sourceExcerpt": "Run Service Diagnostics cycle. Verify door-open pause and close-resume behavior.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_verified_yes",
+          "label": "Operates correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_gasket",
+              "evidenceId": "eliminate_gasket_bad_door_gasket_ok"
+            }
+          ]
+        },
+        {
+          "id": "door_verified_no",
+          "label": "Still faulty",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_door",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_gasket",
+              "evidenceId": "confirm_gasket_bad_door_gasket_fault"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_door_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Repair door harness",
+      "body": "Repair loose connections or harness between door switch and P9.",
+      "oemOutcome": "Repair loose connections or harness between door switch and P9.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace door switch/latch",
+      "body": "Replace door switch/latch assembly and retest.",
+      "oemOutcome": "Replace door switch/latch assembly and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_door",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Door switch and wiring good but control does not sense door \u2014 replace ACU.",
+      "oemOutcome": "Door switch and wiring good but control does not sense door \u2014 replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "body": "Door switch circuit verified \u2014 reassemble.",
+      "oemOutcome": "Door switch circuit verified \u2014 reassemble.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

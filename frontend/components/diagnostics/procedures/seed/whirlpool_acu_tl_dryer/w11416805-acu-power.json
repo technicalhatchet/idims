@@ -1,0 +1,205 @@
+{
+  "id": "w11416805-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: Main Control (ACU)",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "acu"
+  ],
+  "tags": [
+    "supply_issue",
+    "F1E1",
+    "F6E1",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "Main Control (ACU)",
+    "pages": [
+      9,
+      10
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_outlet"
+    },
+    {
+      "id": "verify_outlet",
+      "order": 2,
+      "type": "instruction",
+      "title": "Verify outlet voltage",
+      "body": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "sourceExcerpt": "Electric: 240/208 VAC. Gas: 120 VAC. Time-delay fuse required on electric.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_acu"
+    },
+    {
+      "id": "access_acu",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access ACU",
+      "body": "Remove top panel. Restore power only for live voltage steps below.",
+      "sourceExcerpt": "Remove top panel. Restore power only for live voltage steps below.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_l1"
+    },
+    {
+      "id": "live_l1",
+      "order": 4,
+      "type": "visual_check",
+      "title": "120 VAC at J8-3 (N) and J9-2 (L1)",
+      "body": "Use needle probes. Black to J8-3, red to J9-2 \u2014 expect 120 VAC.",
+      "sourceExcerpt": "Use needle probes. Black to J8-3, red to J9-2 \u2014 expect 120 VAC.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_5v"
+        },
+        {
+          "id": "l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "supply_connections",
+          "terminal": true,
+          "oemOutcome": "No L1 at ACU \u2014 perform TEST #2 supply connections.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_5v",
+      "order": 5,
+      "type": "visual_check",
+      "title": "+5 VDC at J2-2 vs J2-4",
+      "body": "DC volts: red J2-2, black J2-4. Unplug J2 first. Missing +5V with J14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "sourceExcerpt": "DC volts: red J2-2, black J2-4. Unplug J2 first. Missing +5V with J14 unplugged \u2192 shorted thermistor (TEST #4a).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_12v"
+        },
+        {
+          "id": "v5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "p14_thermistor_short",
+          "terminal": true,
+          "oemOutcome": "Diagnose thermistor short or harness before replacing ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live_12v",
+      "order": 6,
+      "type": "visual_check",
+      "title": "+12.7 VDC at J2-1 vs J2-4",
+      "body": "DC volts: red J2-1, black J2-4. +12.7 VDC actuates relays.",
+      "sourceExcerpt": "DC volts: red J2-1, black J2-4. +12.7 VDC actuates relays.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_power_verified"
+        },
+        {
+          "id": "v12_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": true,
+          "oemOutcome": "Replace ACU \u2014 +12.7 VDC missing.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "acu",
+              "evidenceId": "ed_kw_f1e1_ccu"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p14_thermistor_short",
+      "order": 7,
+      "type": "instruction",
+      "title": "Thermistor short isolation",
+      "body": "Disconnect power. Unplug J14, restore power, retest +5 VDC. If +5 returns, run TEST #4a thermistors.",
+      "sourceExcerpt": "Disconnect power. Unplug J14, restore power, retest +5 VDC. If +5 returns, run TEST #4a thermistors.",
+      "requiresInput": false,
+      "defaultNextStepId": "acu_power_verified"
+    },
+    {
+      "id": "supply_connections",
+      "order": 8,
+      "type": "instruction",
+      "title": "Supply path fault",
+      "body": "Perform TEST #2 supply connections.",
+      "sourceExcerpt": "Perform TEST #2 supply connections.",
+      "requiresInput": false,
+      "defaultNextStepId": "acu_power_verified"
+    },
+    {
+      "id": "replace_acu",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Replace machine control electronics.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_power_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Line, +5 VDC, and +12.7 VDC present at ACU.",
+      "requiresInput": false
+    }
+  ]
+}

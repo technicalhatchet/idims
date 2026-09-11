@@ -1,0 +1,416 @@
+{
+  "id": "samsungwd53-heat-pump-thermistors",
+  "version": "1.0.0",
+  "title": "\u00a74-5: Heat pump thermistors (tC, TC5\u2013TCB)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "compressor",
+    "condenser"
+  ],
+  "tags": [
+    "tC",
+    "TC5",
+    "TC7",
+    "TC8",
+    "TCA",
+    "TCB",
+    "TCH",
+    "heat_pump_dry"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-5",
+    "oemTestTitle": "Heat Pump Thermistor Tests",
+    "pages": [
+      50,
+      59
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "clean_filter"
+    },
+    {
+      "id": "clean_filter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Clean condenser filter",
+      "body": "Clean case filter first when tC displays per \u00a74-2.",
+      "sourceExcerpt": "Clean case filter first when tC displays per \u00a74-2.",
+      "requiresInput": false,
+      "defaultNextStepId": "duct_thermistor"
+    },
+    {
+      "id": "duct_thermistor",
+      "order": 3,
+      "type": "measurement",
+      "title": "Duct / discharge thermistor",
+      "body": "50 k\u03a9 \u00b1 7% @ 25\u00b0C (2P pins 1\u20132).",
+      "sourceExcerpt": "50 k\u03a9 \u00b1 7% @ 25\u00b0C (2P pins 1\u20132).",
+      "measurementKnowledgeId": "samsungLaundryComboDuctThermistorOhms",
+      "testPoint": {
+        "connector": "Duct thermistor",
+        "pins": "2P 1\u20132",
+        "label": "Duct / discharge thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "duct_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_condenser_failed",
+              "componentId": "condenser"
+            }
+          ]
+        },
+        {
+          "id": "duct_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_condenser_failed",
+              "componentId": "condenser"
+            }
+          ]
+        },
+        {
+          "id": "duct_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_condenser_failed",
+              "componentId": "condenser"
+            }
+          ]
+        },
+        {
+          "id": "duct_pass",
+          "label": "50 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "eva_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_condenser_ok",
+              "componentId": "condenser"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "eva_thermistor",
+      "order": 4,
+      "type": "measurement",
+      "title": "EVA IN / EVA OUT thermistor",
+      "body": "10 k\u03a9 \u00b1 3% @ 25\u00b0C (4P pins 1\u20132 / 3\u20134).",
+      "sourceExcerpt": "10 k\u03a9 \u00b1 3% @ 25\u00b0C (4P pins 1\u20132 / 3\u20134).",
+      "measurementKnowledgeId": "samsungLaundryComboEvaThermistorOhms",
+      "testPoint": {
+        "connector": "EVA thermistors",
+        "pins": "1\u20132 / 3\u20134",
+        "label": "EVA IN / EVA OUT thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "eva_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "eva_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "eva_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "eva_pass",
+          "label": "10 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_top_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_compressor_ok",
+              "componentId": "compressor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comp_top_thermistor",
+      "order": 5,
+      "type": "measurement",
+      "title": "Compressor top thermistor",
+      "body": "200 k\u03a9 \u00b1 3% @ 25\u00b0C (2P pins 1\u20132).",
+      "sourceExcerpt": "200 k\u03a9 \u00b1 3% @ 25\u00b0C (2P pins 1\u20132).",
+      "measurementKnowledgeId": "samsungLaundryComboCompTopThermistorOhms",
+      "testPoint": {
+        "connector": "Comp top NTC",
+        "pins": "2P 1\u20132",
+        "label": "Compressor top thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cta_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "cta_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "cta_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_compressor_failed",
+              "componentId": "compressor"
+            }
+          ]
+        },
+        {
+          "id": "cta_pass",
+          "label": "200 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_compressor_ok",
+              "componentId": "compressor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "heater_thermistor",
+      "order": 6,
+      "type": "measurement",
+      "title": "Dry heater thermistor",
+      "body": "238.23 k\u03a9 \u00b1 7.5% @ 25\u00b0C (4P pins 1\u20134).",
+      "sourceExcerpt": "238.23 k\u03a9 \u00b1 7.5% @ 25\u00b0C (4P pins 1\u20134).",
+      "measurementKnowledgeId": "samsungLaundryComboHeaterThermistorOhms",
+      "testPoint": {
+        "connector": "Heater NTC",
+        "pins": "4P 1\u20134",
+        "label": "Dry heater thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "htb_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heating_element_failed",
+              "componentId": "heating_element"
+            }
+          ]
+        },
+        {
+          "id": "htb_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heating_element_failed",
+              "componentId": "heating_element"
+            }
+          ]
+        },
+        {
+          "id": "htb_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_heating_element_failed",
+              "componentId": "heating_element"
+            }
+          ]
+        },
+        {
+          "id": "htb_pass",
+          "label": "238 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hp_ntc_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_heating_element_ok",
+              "componentId": "heating_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_duct_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace duct/discharge NTC",
+      "oemOutcome": "Replace duct or discharge thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_eva_ntc",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace EVA NTC",
+      "oemOutcome": "Replace EVA IN or OUT thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_comp_ntc",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace comp top NTC",
+      "oemOutcome": "Replace compressor top thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_heater_ntc",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace heater NTC",
+      "oemOutcome": "Replace dry heater thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "hp_ntc_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Heat pump NTCs OK",
+      "oemOutcome": "All thermistors in spec \u2014 inspect harness and inverter PBA.",
+      "requiresInput": false
+    }
+  ]
+}

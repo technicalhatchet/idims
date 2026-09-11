@@ -1,0 +1,311 @@
+{
+  "id": "w10901168-test-40-compressor-sealed-system",
+  "version": "1.0.0",
+  "title": "Service Test 40: Compressor & sealed system",
+  "platformId": "whirlpool_bella_french_door",
+  "componentIds": [
+    "compressor"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W10901168",
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "40",
+    "oemTestTitle": "Compressor and Compartment Freezing Cooling Test",
+    "pages": [
+      19,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_40"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue in Bella Diagnostics",
+      "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_40",
+      "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+    },
+    {
+      "id": "select_test_40",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 40",
+      "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 40. Press Icemaker2 to select. Fast Cool backs out.",
+      "sourceExcerpt": "Service Test 40 \u2014 Compressor cooling",
+      "requiresInput": false,
+      "defaultNextStepId": "st40"
+    },
+    {
+      "id": "st40",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run test 40 steps",
+      "body": "Steps 01\u201305: 3-way valve chatter, compressor on, RC/FC fans. Time compressor run.",
+      "sourceExcerpt": "Steps 01\u201305: 3-way valve chatter, compressor on, RC/FC fans. Time compressor run.",
+      "requiresInput": false,
+      "defaultNextStepId": "analyze"
+    },
+    {
+      "id": "analyze",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Test 40 results",
+      "body": "3-way repositions? Compressor runs sustained? RC/FC fans blow cold air?",
+      "sourceExcerpt": "3-way repositions? Compressor runs sustained? RC/FC fans blow cold air?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_comp",
+          "terminal": true,
+          "oemOutcome": "Path 1A\u20131D troubleshooting per manual."
+        }
+      ]
+    },
+    {
+      "id": "bench_comp",
+      "order": 6,
+      "type": "instruction",
+      "title": "Compressor resistances",
+      "body": "Power off. Common-sensor 14\u201319 \u03a9; line-common 7\u201313 \u03a9; line-sensor 21\u201332 \u03a9.",
+      "sourceExcerpt": "Power off. Common-sensor 14\u201319 \u03a9; line-common 7\u201313 \u03a9; line-sensor 21\u201332 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_ohms"
+    },
+    {
+      "id": "comp_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Compressor sensor winding",
+      "body": "Sensor winding 14\u201319 \u03a9.",
+      "sourceExcerpt": "Sensor winding 14\u201319 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolBellaFdCompressorSensorOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "common \u2194 sensor",
+        "label": "Compressor sensor winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cs_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cs_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cs_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cs_pass",
+          "label": "14\u201319 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_ohms"
+        }
+      ],
+      "images": [
+        {
+          "id": "w10901168-orion-board-pinout",
+          "caption": "Orion board connectors & 115 VAC distribution (FIGURE 5)",
+          "assetPath": "/images/procedures/whirlpool_bella_french_door/w10901168-orion-board-pinout.png"
+        },
+        {
+          "id": "w10901168-gf2-board-connectors",
+          "caption": "GF2 high-voltage board connectors (\u00a72-6)",
+          "assetPath": "/images/procedures/whirlpool_bella_french_door/w10901168-gf2-board-connectors.png"
+        }
+      ]
+    },
+    {
+      "id": "valve_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "3-way valve coil",
+      "body": "43\u201349 \u03a9 center to each outer pin.",
+      "sourceExcerpt": "43\u201349 \u03a9 center to each outer pin.",
+      "measurementKnowledgeId": "whirlpoolBellaFdThreeWayValveOhms",
+      "testPoint": {
+        "connector": "3-way valve",
+        "pins": "coil pins",
+        "label": "3-way valve coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "v_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "v_pass",
+          "label": "43\u201349 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w10901168-orion-board-pinout",
+          "caption": "Orion board connectors & 115 VAC distribution (FIGURE 5)",
+          "assetPath": "/images/procedures/whirlpool_bella_french_door/w10901168-orion-board-pinout.png"
+        },
+        {
+          "id": "w10901168-gf2-board-connectors",
+          "caption": "GF2 high-voltage board connectors (\u00a72-6)",
+          "assetPath": "/images/procedures/whirlpool_bella_french_door/w10901168-gf2-board-connectors.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_comp",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace compressor & Orion",
+      "oemOutcome": "Compressor resistances out of range \u2014 replace compressor and Orion board.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_valve",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace 3-way valve",
+      "oemOutcome": "Valve coil failed \u2014 no reposition in step 01/02.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Sealed system path verified",
+      "oemOutcome": "Test 40 and compressor/valve checks OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10901168-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

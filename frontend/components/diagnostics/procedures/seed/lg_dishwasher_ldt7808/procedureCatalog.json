@@ -1,0 +1,121 @@
+{
+  "manualId": "LG-LDT7808-DISHWASHER",
+  "platformId": "lg_dishwasher_ldt7808",
+  "templateId": "dishwasher",
+  "label": "LG LDT7808 top-control dishwasher (QuadWash / Vario)",
+  "notes": "LDT7808ST service manual \u2014 error-message troubleshooting \u00a77-1, component flowcharts \u00a77-2, test mode \u00a73-3.",
+  "plannedProcedures": [
+    {
+      "id": "ldt7808-inlet-valve",
+      "oemSection": "7-1-IE",
+      "title": "\u00a77-1/7-2: Inlet Valve (IE fill fault)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808InletValveOhms"
+      ],
+      "relatedCodes": [
+        "IE"
+      ]
+    },
+    {
+      "id": "ldt7808-hall-sensor",
+      "oemSection": "7-2-hall",
+      "title": "\u00a77-2: Hall Sensor (IE fill path)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808HallSensorOhms"
+      ],
+      "relatedCodes": [
+        "IE"
+      ]
+    },
+    {
+      "id": "ldt7808-drain-pump",
+      "oemSection": "7-1-OE",
+      "title": "\u00a77-1/7-2: Drain Pump (OE drain fault)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808DrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "OE"
+      ]
+    },
+    {
+      "id": "ldt7808-thermistor",
+      "oemSection": "7-1-tE",
+      "title": "\u00a77-1/7-2: Tub Thermistor (tE thermal error)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808ThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "ldt7808-heater",
+      "oemSection": "7-1-HE",
+      "title": "\u00a77-1/7-2: Wash Heater (HE heater error)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808HeaterOhms"
+      ],
+      "relatedCodes": [
+        "HE"
+      ]
+    },
+    {
+      "id": "ldt7808-wash-motor",
+      "oemSection": "7-1-motor",
+      "title": "\u00a77-1/7-2: Wash Motor (motor error)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808WashMotorOhms"
+      ],
+      "relatedCodes": [
+        "motor_error"
+      ]
+    },
+    {
+      "id": "ldt7808-vario-valve",
+      "oemSection": "7-1-VARIO",
+      "title": "\u00a77-1/7-2: Vario Valve (VARIO ERROR)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgDishwasherLdt7808VarioMotorOhms"
+      ],
+      "relatedCodes": [
+        "VARIO_ERROR",
+        "vario_error"
+      ]
+    },
+    {
+      "id": "ldt7808-leak-float",
+      "oemSection": "7-1-AE",
+      "title": "\u00a77-1/7-2: Leak / Float (AE leakage error)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "AE"
+      ]
+    },
+    {
+      "id": "ldt7808-bubble-error",
+      "oemSection": "7-1-BE",
+      "title": "\u00a77-1: Bubble Error (BE suds fault)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "BE",
+        "bubble_error"
+      ]
+    },
+    {
+      "id": "ldt7808-excess-fill",
+      "oemSection": "7-1-EXCESS",
+      "title": "\u00a77-1: Excess Fill (inlet valve stuck open)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

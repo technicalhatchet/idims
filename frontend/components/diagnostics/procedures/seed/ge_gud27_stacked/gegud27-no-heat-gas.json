@@ -1,0 +1,544 @@
+{
+  "id": "gegud27-no-heat-gas",
+  "version": "1.0.0",
+  "title": "No Heat \u2014 Gas Dryer Path",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "igniter",
+    "gas_valve",
+    "flame_sensor"
+  ],
+  "tags": [
+    "no_heat",
+    "dryer_no_heat",
+    "igniter_check",
+    "gas_valve_check",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-61",
+    "oemTestTitle": "Gas Dryer Troubleshooting \u2014 No Heat",
+    "pages": [
+      61,
+      79
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "confirm_gas"
+    },
+    {
+      "id": "confirm_gas",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Confirm gas dryer section",
+      "body": "GUD27GSSMWW / XUD27GSSMWW = gas heat. GUD27ESS = electric \u2014 use electric no-heat procedure.",
+      "sourceExcerpt": "GUD27GSSMWW / XUD27GSSMWW = gas heat. GUD27ESS = electric \u2014 use electric no-heat procedure.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "is_gas",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ignitor_glows"
+        },
+        {
+          "id": "wrong_fuel_gas",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "use_electric_procedure",
+          "terminal": true,
+          "oemOutcome": "Use gegud27-no-heat-electric for GUD27ESS electric dryer section.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ignitor_glows",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Ignitor glows on heat call",
+      "body": "Start a heat cycle. Glo-bar should glow red within ~60 seconds.",
+      "sourceExcerpt": "Start a heat cycle. Glo-bar should glow red within ~60 seconds.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "glow_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_present"
+        },
+        {
+          "id": "no_glow",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ignitor_ohms",
+          "terminal": true,
+          "oemOutcome": "Test ignitor resistance and gas valve coil path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_present",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Gas supply present",
+      "body": "Verify gas shutoff open, supply pressure, and no kinked flex line.",
+      "sourceExcerpt": "Verify gas shutoff open, supply pressure, and no kinked flex line.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gas_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_established"
+        },
+        {
+          "id": "gas_supply_fault",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_gas_supply",
+          "terminal": true,
+          "oemOutcome": "Restore gas supply or clear restriction.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flame_established",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Flame established",
+      "body": "Burner should light and remain on. Short burn 1\u20132 min then off \u2192 flame detector or weak coils.",
+      "sourceExcerpt": "Burner should light and remain on. Short burn 1\u20132 min then off \u2192 flame detector or weak coils.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_path_verified"
+        },
+        {
+          "id": "no_flame",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "flame_detector_check",
+          "terminal": true,
+          "oemOutcome": "Test flame detector and gas valve coils.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Ignitor resistance",
+      "body": "Power off. Disconnect ignitor harness. Rx1: 40\u2013400 \u03a9.",
+      "sourceExcerpt": "Power off. Disconnect ignitor harness. Rx1: 40\u2013400 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerIgnitorOhms",
+      "testPoint": {
+        "connector": "Ignitor",
+        "pins": "2-wire",
+        "label": "Ignitor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "safety_coils"
+        },
+        {
+          "id": "ign_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace glo-bar ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace glo-bar ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "ign_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace glo-bar ignitor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safety_coils",
+      "order": 7,
+      "type": "measurement",
+      "title": "Safety + booster coil path",
+      "body": "Disconnect coil harness. Safety ~1400 \u03a9 + booster ~580 \u03a9 path to open safety valve.",
+      "sourceExcerpt": "Disconnect coil harness. Safety ~1400 \u03a9 + booster ~580 \u03a9 path to open safety valve.",
+      "measurementKnowledgeId": "geGud27GasValveSafetyCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "safety+booster",
+        "label": "Safety + booster coil path"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "safety_coil_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "main_coil"
+        },
+        {
+          "id": "safety_coil_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "safety_coil_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "safety_coil_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "main_coil",
+      "order": 8,
+      "type": "measurement",
+      "title": "Main valve coil",
+      "body": "Flame detector cool/closed. Main coil approximately 1300 \u03a9.",
+      "sourceExcerpt": "Flame detector cool/closed. Main coil approximately 1300 \u03a9.",
+      "measurementKnowledgeId": "geGud27GasValveMainCoilOhms",
+      "testPoint": {
+        "connector": "Gas valve",
+        "pins": "main",
+        "label": "Main valve coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "main_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "backup_thermostats"
+        },
+        {
+          "id": "main_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "main_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "flame_detector_check",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Flame detector continuity",
+      "body": "Cool detector: Rx1 < 1 \u03a9 (normally closed). Opens when heated by ignitor/flame.",
+      "sourceExcerpt": "Cool detector: Rx1 < 1 \u03a9 (normally closed). Opens when heated by ignitor/flame.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "detector_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "backup_thermostats"
+        },
+        {
+          "id": "detector_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_detector",
+          "terminal": true,
+          "oemOutcome": "Replace flame detector.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "backup_thermostats",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Safety & outlet thermostats",
+      "body": "Verify safety and outlet control thermostats cycle correctly; gas uses outlet thermostat for regulation.",
+      "sourceExcerpt": "Verify safety and outlet control thermostats cycle correctly; gas uses outlet thermostat for regulation.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "backup_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_path_verified"
+        },
+        {
+          "id": "backup_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermostats_gas",
+          "terminal": true,
+          "oemOutcome": "Replace failed thermostat(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace ignitor",
+      "oemOutcome": "Replace glo-bar ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_coils",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace gas coils",
+      "oemOutcome": "Replace gas valve coil assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_detector",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace flame detector",
+      "oemOutcome": "Replace flame detector.",
+      "requiresInput": false
+    },
+    {
+      "id": "correct_gas_supply",
+      "order": 14,
+      "type": "outcome",
+      "title": "Correct gas supply",
+      "oemOutcome": "Restore gas supply pressure and shutoff.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_thermostats_gas",
+      "order": 15,
+      "type": "outcome",
+      "title": "Replace thermostats",
+      "oemOutcome": "Replace failed gas dryer thermostats.",
+      "requiresInput": false
+    },
+    {
+      "id": "use_electric_procedure",
+      "order": 16,
+      "type": "outcome",
+      "title": "Use electric procedure",
+      "oemOutcome": "Route to gegud27-no-heat-electric.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_path_verified",
+      "order": 17,
+      "type": "outcome",
+      "title": "Gas heat path reviewed",
+      "oemOutcome": "Ignition, valve, flame detector, and thermostats checked per \u00a761.",
+      "requiresInput": false
+    }
+  ]
+}

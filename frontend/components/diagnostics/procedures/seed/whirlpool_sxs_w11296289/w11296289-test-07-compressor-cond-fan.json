@@ -1,0 +1,437 @@
+{
+  "id": "w11296289-test-07-compressor-cond-fan",
+  "version": "1.0.0",
+  "title": "Service step 7: Compressor & condenser fan",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "compressor",
+    "condenser_fan"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "condenser_fan",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Compressor & Condenser Fan",
+    "pages": [
+      22,
+      24
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_7"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_7"
+    },
+    {
+      "id": "navigate_step_7",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 7",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 7 (Compressor & cond fan). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 7 \u2014 Compressor & cond fan",
+      "requiresInput": false,
+      "defaultNextStepId": "activate_step_7"
+    },
+    {
+      "id": "activate_step_7",
+      "order": 4,
+      "type": "instruction",
+      "title": "Monitor compressor and condenser fan",
+      "body": "At step 7, condenser fan turns on. Use RC TEMP key (SW5) to toggle load ON/OFF. Monitor compressor and condenser fan operation.",
+      "sourceExcerpt": "At step 7, condenser fan turns on. Use RC TEMP key (SW5) to toggle load ON/OFF. Monitor compressor and condenser fan operation.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_runs"
+    },
+    {
+      "id": "comp_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Compressor and condenser fan run",
+      "body": "With load ON, do compressor and condenser fan operate normally?",
+      "sourceExcerpt": "With load ON, do compressor and condenser fan operate normally?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_step_7"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deactivate_step_7",
+      "order": 6,
+      "type": "instruction",
+      "title": "Deactivate step 7",
+      "body": "Toggle load OFF with RC TEMP key before leaving step.",
+      "sourceExcerpt": "Toggle load OFF with RC TEMP key before leaving step.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_verified"
+    },
+    {
+      "id": "bench_compressor",
+      "order": 7,
+      "type": "instruction",
+      "title": "Disconnect power for ohms",
+      "body": "Unplug unit. Access compressor terminals and fan motors.",
+      "sourceExcerpt": "Unplug unit. Access compressor terminals and fan motors.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_winding_ohms"
+    },
+    {
+      "id": "run_winding_ohms",
+      "order": 8,
+      "type": "measurement",
+      "title": "Compressor run windings",
+      "body": "EGX60HLC / EM3Y60HLP run windings 1\u20135 \u03a9.",
+      "sourceExcerpt": "EGX60HLC / EM3Y60HLP run windings 1\u20135 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289CompressorRunOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "run \u2194 common",
+        "label": "Compressor run windings"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "run_pass",
+          "label": "1\u20135 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cond_fan_ohms"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        }
+      ]
+    },
+    {
+      "id": "cond_fan_ohms",
+      "order": 9,
+      "type": "measurement",
+      "title": "Condenser fan motor",
+      "body": "Condenser fan motor 3\u201312 \u03a9.",
+      "sourceExcerpt": "Condenser fan motor 3\u201312 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289CondenserFanOhms",
+      "testPoint": {
+        "connector": "cond_fan",
+        "pins": "motor terminals",
+        "label": "Condenser fan motor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cond_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cond_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cond_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cond_fan",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_pass",
+          "label": "3\u201312 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_path_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        }
+      ]
+    },
+    {
+      "id": "live_comp_voltage",
+      "order": 10,
+      "type": "instruction",
+      "title": "Optional: compressor voltage",
+      "body": "Restore power at step 7. THESEUS P1-2 \u2194 P1-4 or ATHENA JP1-4 \u2194 JP1-6 \u2014 120 VAC when cooling.",
+      "sourceExcerpt": "Restore power at step 7. THESEUS P1-2 \u2194 P1-4 or ATHENA JP1-4 \u2194 JP1-6 \u2014 120 VAC when cooling.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_voltage"
+    },
+    {
+      "id": "comp_voltage",
+      "order": 11,
+      "type": "measurement",
+      "title": "Compressor supply voltage",
+      "body": "120 VAC at compressor output when load commanded.",
+      "sourceExcerpt": "120 VAC at compressor output when load commanded.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+      "testPoint": {
+        "connector": "P1 / JP1",
+        "pins": "P1-2\u2194P1-4 / JP1-4\u2194JP1-6",
+        "label": "Compressor supply voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_board",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_board",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cv_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_board",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "cv_pass",
+          "label": "108\u2013132 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_path_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-c",
+          "caption": "ATHENA voltage test points \u2014 diagram C (\u00a73-7)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-c.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_compressor",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace compressor or start device",
+      "oemOutcome": "Replace compressor when windings failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cond_fan",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace condenser fan",
+      "oemOutcome": "Replace condenser fan motor when out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_board",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace ACU when voltage absent with good supply.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_verified",
+      "order": 15,
+      "type": "outcome",
+      "title": "Compressor path verified",
+      "oemOutcome": "Service step 7 and compressor circuit verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_path_ok",
+      "order": 16,
+      "type": "outcome",
+      "title": "Compressor circuit OK",
+      "oemOutcome": "Windings and voltage verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

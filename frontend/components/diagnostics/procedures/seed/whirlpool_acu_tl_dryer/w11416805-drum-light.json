@@ -1,0 +1,128 @@
+{
+  "id": "w11416805-drum-light",
+  "version": "1.0.0",
+  "title": "TEST #8: Drum Light",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "drum_light"
+  ],
+  "tags": [
+    "drum_light_check",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Drum Light Incandescent Bulb or LED",
+    "pages": [
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_light_button"
+    },
+    {
+      "id": "drum_light_button",
+      "order": 2,
+      "type": "instruction",
+      "title": "Console drum light button",
+      "body": "Press DRUM LIGHT on console \u2014 verify on/off toggles drum light.",
+      "sourceExcerpt": "Press DRUM LIGHT on console \u2014 verify on/off toggles drum light.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_off_access"
+    },
+    {
+      "id": "power_off_access",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access ACU",
+      "body": "Unplug dryer. Remove top panel. Verify J8-5 (incandescent) or J6 pins 1-2 (LED) seated.",
+      "sourceExcerpt": "Unplug dryer. Remove top panel. Verify J8-5 (incandescent) or J6 pins 1-2 (LED) seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "incandescent_check"
+    },
+    {
+      "id": "incandescent_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Incandescent bulb path",
+      "body": "Unplug J8 and J9. Measure J8-5 to J9-2. Open \u2192 replace bulb.",
+      "sourceExcerpt": "Unplug J8 and J9. Measure J8-5 to J9-2. Open \u2192 replace bulb.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulb_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drum_light_verified"
+        },
+        {
+          "id": "bulb_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bulb",
+          "terminal": true,
+          "oemOutcome": "Replace drum light bulb.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drum_light",
+              "evidenceId": "confirm_drum_light_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "led_driver_check",
+      "order": 5,
+      "type": "instruction",
+      "title": "LED drum light \u2014 driver current",
+      "body": "Unplug J6 from HMI. Milliamps across J6 pins 1 and 3 with power on and drum light button on. Spec 150\u2013370 mA.",
+      "sourceExcerpt": "Unplug J6 from HMI. Milliamps across J6 pins 1 and 3 with power on and drum light button on. Spec 150\u2013370 mA.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_light_verified"
+    },
+    {
+      "id": "replace_bulb",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace bulb",
+      "oemOutcome": "Replace incandescent drum light bulb.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hmi_led",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace HMI or LED",
+      "oemOutcome": "No driver current \u2014 replace HMI; current present \u2014 replace drum LED.",
+      "requiresInput": false
+    },
+    {
+      "id": "drum_light_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Drum light verified",
+      "oemOutcome": "Drum light responds to console and electrical path OK.",
+      "requiresInput": false
+    }
+  ]
+}

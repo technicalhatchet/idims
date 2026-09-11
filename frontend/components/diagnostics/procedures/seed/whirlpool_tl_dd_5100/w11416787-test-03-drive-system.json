@@ -1,0 +1,161 @@
+{
+  "id": "w11416787-test-03-drive-system",
+  "version": "1.0.0",
+  "title": "TEST #3: Drive System (pre-test)",
+  "platformId": "whirlpool_tl_dd_5100",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "F7E3",
+    "F7E4",
+    "F7E6",
+    "F7E7",
+    "F7E8",
+    "F7E9",
+    "F7EA"
+  ],
+  "source": {
+    "manualId": "W11416787",
+    "manualTitle": "Whirlpool & Maytag 4.7/5.3 cu ft Top Load Washer (Direct Drive)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416787-revc wtw5100+-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Drive System",
+    "pages": [
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_service_diag"
+    },
+    {
+      "id": "enter_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Service Mode and clear codes",
+      "body": "Activate Service Mode. Retrieve and clear F7E3, F7E4, F7E6, F7E7, F7E8, F7E9, F7EA if present.",
+      "sourceExcerpt": "Activate Service Mode. Retrieve and clear F7E3, F7E4, F7E6, F7E7, F7E8, F7E9, F7EA if present.",
+      "requiresInput": false,
+      "defaultNextStepId": "slow_agitate_test"
+    },
+    {
+      "id": "slow_agitate_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Slow Agitate in Component Activation",
+      "body": "In Component Activation, run Slow Agitate. Does motor run after 15\u201320 seconds?",
+      "sourceExcerpt": "In Component Activation, run Slow Agitate. Does motor run after 15\u201320 seconds?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "agitate_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spin_test"
+        },
+        {
+          "id": "agitate_fail",
+          "label": "Motor does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spin_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Spin Low Speed test",
+      "body": "Run Spin Low Speed in Component Activation. If motor hums briefly then stops, check fault code display.",
+      "sourceExcerpt": "Run Spin Low Speed in Component Activation. If motor hums briefly then stops, check fault code display.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spin_ok",
+          "label": "Spin OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drive_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "spin_fail",
+          "label": "Spin fails or hums out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_shifter_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Continue to shifter or motor test",
+      "body": "Shifter-related (F7E3/F7E4) \u2192 TEST #3a Shifter. Motor circuit (F7E6\u2013F7EA) \u2192 TEST #3b Motor.",
+      "sourceExcerpt": "Shifter-related (F7E3/F7E4) \u2192 TEST #3a Shifter. Motor circuit (F7E6\u2013F7EA) \u2192 TEST #3b Motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "drive_deferred"
+    },
+    {
+      "id": "drive_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Drive system OK",
+      "oemOutcome": "Slow Agitate and Spin Low pass in Component Activation \u2014 no further drive diagnosis needed.",
+      "requiresInput": false
+    },
+    {
+      "id": "drive_deferred",
+      "order": 7,
+      "type": "outcome",
+      "title": "Run TEST #3a or #3b",
+      "oemOutcome": "Proceed to w11416787-test-03a-shifter or w11416787-test-03b-motor per fault code.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416787-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "enter_service_diag"
+    }
+  ]
+}

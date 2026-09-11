@@ -1,0 +1,36 @@
+{
+  "id": "samsungbb8700-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_washer_bb8700",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "title": "Samsung BB8700 \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install \u2014 press Delay End to step components; Spin advances steps.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung Front-Load Washer BB8700 Family (WF50/53BB, WF51CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer new style wf50bb8700-extracted.txt",
+    "pages": [
+      46
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual check",
+      "body": "From AS display: press Delay End to enter manual mode. Press Spin to advance: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "sourceExcerpt": "From AS display: press Delay End to enter manual mode. Press Spin to advance: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

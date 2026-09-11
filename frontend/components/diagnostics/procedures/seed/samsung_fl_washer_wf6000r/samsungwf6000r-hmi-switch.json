@@ -1,0 +1,84 @@
+{
+  "id": "samsungwf6000r-hmi-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Switch error (BC2)",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "BC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Switch Error BC2",
+    "pages": [
+      27,
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "stuck_button"
+    },
+    {
+      "id": "stuck_button",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Stuck button check",
+      "body": "Verify no button pressed >30 s. Check control panel deformation and sub PBA screw torque.",
+      "sourceExcerpt": "Verify no button pressed >30 s. Check control panel deformation and sub PBA screw torque.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "buttons_free",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bc2_verified"
+        },
+        {
+          "id": "repair_panel",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_panel_out",
+          "terminal": true,
+          "oemOutcome": "Relieve panel deformation or replace sub PBA/control panel."
+        }
+      ]
+    },
+    {
+      "id": "repair_panel_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Repair panel/PBA",
+      "oemOutcome": "Correct mechanical bind or replace sub PBA when switch stuck.",
+      "requiresInput": false
+    },
+    {
+      "id": "bc2_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Switch path OK",
+      "oemOutcome": "No stuck buttons \u2014 replace sub PBA if BC2 persists.",
+      "requiresInput": false
+    }
+  ]
+}

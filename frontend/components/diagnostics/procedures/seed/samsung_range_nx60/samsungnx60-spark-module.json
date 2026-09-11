@@ -1,0 +1,78 @@
+{
+  "id": "samsungnx60-spark-module",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Cooktop spark module",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "surface_ignition"
+  ],
+  "tags": [
+    "ignition_issue",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "No cooktop burners will light",
+    "pages": [
+      71,
+      78
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_gas"
+    },
+    {
+      "id": "power_gas",
+      "order": 2,
+      "type": "instruction",
+      "title": "Power and gas supply",
+      "body": "Verify 120 VAC to range and gas supply valve open.",
+      "sourceExcerpt": "Verify 120 VAC to range and gas supply valve open.",
+      "requiresInput": false,
+      "defaultNextStepId": "spark_voltage"
+    },
+    {
+      "id": "spark_voltage",
+      "order": 3,
+      "type": "instruction",
+      "title": "Spark module voltage",
+      "body": "Check each surface burner terminal on spark module for voltage when knob turned.",
+      "sourceExcerpt": "Check each surface burner terminal on spark module for voltage when knob turned.",
+      "requiresInput": false,
+      "defaultNextStepId": "spark_ok"
+    },
+    {
+      "id": "replace_spark",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace spark module",
+      "oemOutcome": "Replace spark module when no voltage to burner terminals.",
+      "requiresInput": false
+    },
+    {
+      "id": "spark_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Spark module OK",
+      "oemOutcome": "Spark module output verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "id": "nstdre75w1-door-switch",
+  "version": "1.0.0",
+  "title": "Door switch \u2014 COM to NO",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "door-switch",
+    "oemTestTitle": "Door switch test",
+    "pages": [
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_switch_access"
+    },
+    {
+      "id": "door_switch_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door switch at CN1",
+      "body": "Disconnect power. Door switch on CN1. Terminals COM\u2013NO (1\u20132): open door = \u221e \u03a9; door closed/pushed = < 1 \u03a9.",
+      "sourceExcerpt": "Disconnect power. Door switch on CN1. Terminals COM\u2013NO (1\u20132): open door = \u221e \u03a9; door closed/pushed = < 1 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_open_check"
+    },
+    {
+      "id": "door_open_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door open \u2014 switch open",
+      "body": "With door open, COM\u2013NO reads open (\u221e \u03a9)?",
+      "sourceExcerpt": "With door open, COM\u2013NO reads open (\u221e \u03a9)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_open_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_closed_check"
+        },
+        {
+          "id": "door_open_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch \u2014 stuck closed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_closed_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door closed \u2014 switch closed",
+      "body": "With door closed and latched, COM\u2013NO < 1 \u03a9?",
+      "sourceExcerpt": "With door closed and latched, COM\u2013NO < 1 \u03a9?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_closed_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_verified"
+        },
+        {
+          "id": "door_closed_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch at CN1.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_switch_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Door switch opens and closes correctly.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "w11819775-test-28-condenser-fan",
+  "version": "1.0.0",
+  "title": "Service Test 28: Condenser fan",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "condenser_fan"
+  ],
+  "tags": [
+    "condenser_fan",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "28",
+    "oemTestTitle": "Condenser Fan Test",
+    "pages": [
+      59,
+      94
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_28"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_28"
+    },
+    {
+      "id": "select_test_28",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 28",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 28. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 28 \u2014 Condenser fan",
+      "requiresInput": false,
+      "defaultNextStepId": "cfan_on"
+    },
+    {
+      "id": "cfan_on",
+      "order": 4,
+      "type": "instruction",
+      "title": "Enable condenser fan",
+      "body": "Select on/oF with \u25b2; confirm with Freezer. Speed modes 01\u201306 all run fan.",
+      "sourceExcerpt": "Select on/oF with \u25b2; confirm with Freezer. Speed modes 01\u201306 all run fan.",
+      "requiresInput": false,
+      "defaultNextStepId": "cfan_runs"
+    },
+    {
+      "id": "cfan_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Condenser fan operation",
+      "body": "CN4-2 +12V to CN4-4 C-FAN = 12.7 VDC; CN4-6 C/PWM to CN4-4 = 3\u20136 VDC. Fan runs?",
+      "sourceExcerpt": "CN4-2 +12V to CN4-4 C-FAN = 12.7 VDC; CN4-6 C/PWM to CN4-4 = 3\u20136 VDC. Fan runs?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cfan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cfan_verified"
+        },
+        {
+          "id": "cfan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "oemOutcome": "Condenser fan does not run with voltage present."
+        }
+      ]
+    },
+    {
+      "id": "replace_cfan",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace condenser fan",
+      "oemOutcome": "Replace condenser fan motor or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "cfan_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Condenser fan verified",
+      "oemOutcome": "Service test 28 confirms condenser fan.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

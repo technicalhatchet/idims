@@ -1,0 +1,159 @@
+{
+  "id": "samsungnx60-touch-comm",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Sub \u2194 touch communication (C-F2)",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "C-F2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "C-F2 touch communication",
+    "pages": [
+      65
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "touch_tail"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "touch_tail"
+    },
+    {
+      "id": "touch_tail",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Touch film tail connection",
+      "body": "Verify touch film tail fully seated on Sub PCB connector.",
+      "sourceExcerpt": "Verify touch film tail fully seated on Sub PCB connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tail_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_cleared"
+        },
+        {
+          "id": "reconnect_tail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub",
+          "terminal": true,
+          "oemOutcome": "Reconnect touch film tail.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "gr_ms_011_no_oven_heat_supply_critical"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm_cleared",
+      "order": 4,
+      "type": "visual_check",
+      "title": "C-F2 cleared",
+      "body": "After reseat or Sub PCB replacement, is C-F2 cleared?",
+      "sourceExcerpt": "After reseat or Sub PCB replacement, is C-F2 cleared?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok"
+        },
+        {
+          "id": "replace_touch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_touch_out",
+          "terminal": true,
+          "oemOutcome": "Replace Assy Touch panel.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "gr_ms_011_no_oven_heat_supply_critical"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_sub",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace Sub PCB",
+      "oemOutcome": "Replace Sub PCB when tail connected but C-F2 persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_touch_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace touch panel",
+      "oemOutcome": "Replace Assy Touch when Sub PCB verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "Sub \u2194 touch communication restored.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "touch_tail"
+    }
+  ]
+}

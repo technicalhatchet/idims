@@ -1,0 +1,214 @@
+{
+  "id": "w11296289-test-33-im-tray-thermistor",
+  "version": "1.0.0",
+  "title": "Service step 33: IDI ice tray thermistor (SANKYO)",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "thermistor",
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "33",
+    "oemTestTitle": "Ice Tray Thermistor",
+    "pages": [
+      28,
+      29
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_33"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_33"
+    },
+    {
+      "id": "navigate_step_33",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 33",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 33 (Ice tray thermistor). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 33 \u2014 Ice tray thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "tray_ntc_read"
+    },
+    {
+      "id": "tray_ntc_read",
+      "order": 4,
+      "type": "instruction",
+      "title": "Read tray thermistor",
+      "body": "Step 33 for twist-tray door ice maker only. Board reads tray thermistor \u2014 same open/short/pass LED pattern as cabinet sensors.",
+      "sourceExcerpt": "Step 33 for twist-tray door ice maker only. Board reads tray thermistor \u2014 same open/short/pass LED pattern as cabinet sensors.",
+      "requiresInput": false,
+      "defaultNextStepId": "tray_led_result"
+    },
+    {
+      "id": "tray_led_result",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Tray thermistor LED result",
+      "body": "Open = LED6+7; Short = LED8; Pass = LED6\u20138. Models without twist tray read open.",
+      "sourceExcerpt": "Open = LED6+7; Short = LED8; Pass = LED6\u20138. Models without twist tray read open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tray_pass",
+          "label": "Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tray_ok"
+        },
+        {
+          "id": "tray_fault",
+          "label": "Open / short / N/A",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "tray_bench"
+        }
+      ]
+    },
+    {
+      "id": "tray_bench",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench tray thermistor",
+      "body": "Disconnect power. Measure ice maker tray thermistor \u2014 2.7 k\u03a9 @ 25\u00b0C if equipped.",
+      "sourceExcerpt": "Disconnect power. Measure ice maker tray thermistor \u2014 2.7 k\u03a9 @ 25\u00b0C if equipped.",
+      "requiresInput": false,
+      "defaultNextStepId": "tray_ohms"
+    },
+    {
+      "id": "tray_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Tray thermistor resistance",
+      "body": "2.7 k\u03a9 @ 25\u00b0C at ice maker harness.",
+      "sourceExcerpt": "2.7 k\u03a9 @ 25\u00b0C at ice maker harness.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+      "testPoint": {
+        "connector": "ice_maker",
+        "pins": "tray NTC",
+        "label": "Tray thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tray_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "tray_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "tray_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "tray_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tray_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_im",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Replace SANKYO twist-tray module when tray NTC failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "tray_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Tray thermistor OK",
+      "oemOutcome": "Ice tray thermistor verified or not equipped.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

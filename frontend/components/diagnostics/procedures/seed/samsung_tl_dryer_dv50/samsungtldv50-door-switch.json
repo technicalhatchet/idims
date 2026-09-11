@@ -1,0 +1,122 @@
+{
+  "id": "samsungtldv50-door-switch",
+  "version": "1.0.0",
+  "title": "\u00a74-1 / \u00a74-4: Door switch (dC, dF)",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "dC",
+    "dF",
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Door switch",
+    "pages": [
+      19,
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_closed"
+    },
+    {
+      "id": "door_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door fully closed",
+      "body": "Close door firmly. Check door sensor unit not loose.",
+      "sourceExcerpt": "Close door firmly. Check door sensor unit not loose.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_test"
+        },
+        {
+          "id": "secure_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "secure_door_out",
+          "terminal": true,
+          "oemOutcome": "Secure door sensor harness and latch."
+        }
+      ]
+    },
+    {
+      "id": "door_switch_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door switch states",
+      "body": "OFF: COM\u2013NC (1\u20133) < 1 \u03a9, COM\u2013NO open. ON: COM\u2013NO < 1 \u03a9, COM\u2013NC open.",
+      "sourceExcerpt": "OFF: COM\u2013NC (1\u20133) < 1 \u03a9, COM\u2013NO open. ON: COM\u2013NO < 1 \u03a9, COM\u2013NC open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "replace_door_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly."
+        }
+      ]
+    },
+    {
+      "id": "secure_door_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Secure door assembly",
+      "oemOutcome": "Tighten door sensor and verify latch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch when incorrect state (dF).",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door switch OK",
+      "oemOutcome": "Door switch operates correctly.",
+      "requiresInput": false
+    }
+  ]
+}

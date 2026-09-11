@@ -1,0 +1,142 @@
+{
+  "manualId": "W11819775",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "templateId": "refrigerator",
+  "label": "Whirlpool ACU inverter French door refrigerator (W11819775, 31 cu ft)",
+  "notes": "CN* ACU pinouts; inverter compressor; 2k/5k NTC; fault codes F3E*/F4E1/FBEB/FBEC.",
+  "plannedProcedures": [
+    {
+      "id": "w11819775-test-01-rc-thermistor",
+      "oemSection": "01",
+      "title": "Service Test 01: RC compartment thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E1"
+      ]
+    },
+    {
+      "id": "w11819775-test-03-fc-thermistor",
+      "oemSection": "03",
+      "title": "Service Test 03: FC compartment thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E2"
+      ]
+    },
+    {
+      "id": "w11819775-test-05-fc-evap-thermistor",
+      "oemSection": "05",
+      "title": "Service Test 05: FC evaporator thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E4"
+      ]
+    },
+    {
+      "id": "w11819775-test-07-im-tray-thermistor",
+      "oemSection": "07",
+      "title": "Service Test 7: FC ice maker tray thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterImTrayThermistorOhms"
+      ],
+      "relatedCodes": [
+        "FBEB"
+      ]
+    },
+    {
+      "id": "w11819775-test-10-rh-sensor",
+      "oemSection": "10",
+      "title": "Service Test 10: Ambient humidity sensor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E8"
+      ]
+    },
+    {
+      "id": "w11819775-test-23-compressor",
+      "oemSection": "23",
+      "title": "Service Test 23: Inverter compressor speed",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterCompressorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11819775-test-27-fc-fan",
+      "oemSection": "27",
+      "title": "Service Test 27: FC evaporator fan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11819775-test-28-condenser-fan",
+      "oemSection": "28",
+      "title": "Service Test 28: Condenser fan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11819775-test-25-damper",
+      "oemSection": "25",
+      "title": "Service Test 25: Refrigerator damper",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11819775-test-38-defrost",
+      "oemSection": "38",
+      "title": "Service Test 38: Defrost heater",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterDefrostHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F4E1"
+      ]
+    },
+    {
+      "id": "w11819775-test-40-mullion-heater",
+      "oemSection": "40",
+      "title": "Service Test 40: Vertical mullion heater",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuFdInverterMullionHeaterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11819775-test-13-fc-ice-maker",
+      "oemSection": "13",
+      "title": "FC ice maker test mode & FBEC/FBEB faults",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "FBEC",
+        "FBEB"
+      ]
+    },
+    {
+      "id": "w11819775-test-14-water-valve",
+      "oemSection": "14",
+      "title": "Service Test / Test 14: Isolation water valve",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

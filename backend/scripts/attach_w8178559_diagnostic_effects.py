@@ -13,20 +13,40 @@ FAIL_MEASUREMENT = {"measurement_open", "measurement_warning", "measurement_crit
 PASS_MEASUREMENT = {"measurement_normal"}
 
 PROCEDURE_COMPONENT: dict[str, str] = {
+    "w8178559-supply-connections": "supply",
     "w8178559-motor-circuit": "motor",
     "w8178559-heater-electric": "heating_element",
+    "w8178559-heater-gas": "gas_valve",
     "w8178559-exhaust-thermistor": "exhaust_thermistor",
     "w8178559-moisture-sensor": "moisture_sensor",
+    "w8178559-dryness-adjust": "moisture_sensor",
     "w8178559-thermal-fuse": "thermal_fuse",
     "w8178559-thermal-cutoff": "thermal_cutoff",
     "w8178559-gas-ignitor": "igniter",
     "w8178559-gas-valve": "gas_valve",
+    "w8178559-button-indicator": "user_interface",
+    "w8178559-door-switch": "door_switch",
 }
 
 COMPONENT_DEFAULT_EVIDENCE: dict[str, tuple[str, str, str]] = {
     "motor": (
         "motor",
         "confirm_motor_ol_motor_failed",
+        "eliminate_motor_ol_motor_ok",
+    ),
+    "supply": (
+        "supply",
+        "confirm_supply_critical_supply_fault",
+        "eliminate_supply_critical_supply_ok",
+    ),
+    "user_interface": (
+        "user_interface",
+        "ed_kw_f2e1_ui",
+        "eliminate_heater_ol_heating_element_ok",
+    ),
+    "door_switch": (
+        "door_switch",
+        "confirm_door_switch_no",
         "eliminate_motor_ol_motor_ok",
     ),
     "heating_element": (

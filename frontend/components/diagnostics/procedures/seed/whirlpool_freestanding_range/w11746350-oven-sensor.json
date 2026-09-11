@@ -1,0 +1,264 @@
+{
+  "id": "w11746350-oven-sensor",
+  "version": "1.0.0",
+  "title": "Main Oven Temperature Sensor",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "sensor_check",
+    "temp_accuracy_issue",
+    "F3E0",
+    "F6E1"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "RTD",
+    "oemTestTitle": "Oven Sensor",
+    "pages": [
+      12,
+      32,
+      33,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_room_temp"
+    },
+    {
+      "id": "verify_room_temp",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Verify room-temperature failure",
+      "body": "Enter Service Diagnostics. Confirm oven sensor at room temp (50\u201390\u00b0F) and F3E0 displayed matches this test.",
+      "sourceExcerpt": "Enter Service Diagnostics. Confirm oven sensor at room temp (50\u201390\u00b0F) and F3E0 displayed matches this test.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_ok",
+          "label": "Code matches",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_connections"
+        },
+        {
+          "id": "code_no",
+          "label": "Does not match",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sensor_connections",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Sensor harness connections",
+      "body": "Power off. Check all sensor connections on harness and ACU board.",
+      "sourceExcerpt": "Power off. Check all sensor connections on harness and ACU board.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sen_conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms"
+        },
+        {
+          "id": "sen_conn_bad",
+          "label": "Loose or damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_sensor_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_sensor_harness",
+      "order": 4,
+      "type": "instruction",
+      "title": "Repair sensor harness",
+      "body": "Repair harness, reconnect sensor, retest.",
+      "sourceExcerpt": "Repair harness, reconnect sensor, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ohms"
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Oven RTD resistance P22-1 to P22-2",
+      "body": "Disconnect sensor from ACU. Measure between connector pins \u2014 expect 1000\u20131200 \u03a9 at room temp. Also check connector to sensor casing for short to ground.",
+      "sourceExcerpt": "Disconnect sensor from ACU. Measure between connector pins \u2014 expect 1000\u20131200 \u03a9 at room temp. Also check connector to sensor casing for short to ground.",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenSensorOhms",
+      "testPoint": {
+        "connector": "P22",
+        "pins": "1 & 2",
+        "label": "Oven RTD resistance P22-1 to P22-2"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rtd_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_short_to_case",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_short_to_case",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Short to sensor casing",
+      "body": "Any short from connector pins to sensor metal casing?",
+      "sourceExcerpt": "Any short from connector pins to sensor metal casing?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "short_yes",
+          "label": "Short found",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_sensor"
+        },
+        {
+          "id": "short_no",
+          "label": "No short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "trace_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "trace_harness",
+      "order": 7,
+      "type": "instruction",
+      "title": "Trace harness to ACU",
+      "body": "Trace wires from sensor to ACU. Replace damaged harness or sensor.",
+      "sourceExcerpt": "Trace wires from sensor to ACU. Replace damaged harness or sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_sensor"
+    },
+    {
+      "id": "replace_sensor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace oven temperature sensor",
+      "oemOutcome": "RTD out of range or shorted \u2014 replace sensor or harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Oven sensor verified",
+      "oemOutcome": "RTD 1000\u20131200 \u03a9, no short \u2014 clear F3E0 in Diagnostics.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "verify_room_temp"
+    }
+  ]
+}

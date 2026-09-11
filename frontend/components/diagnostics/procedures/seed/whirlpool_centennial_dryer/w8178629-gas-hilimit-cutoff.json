@@ -1,0 +1,157 @@
+{
+  "id": "w8178629-gas-hilimit-cutoff",
+  "version": "1.0.0",
+  "title": "High-Limit & Thermal Cutoff (gas)",
+  "platformId": "whirlpool_centennial_dryer",
+  "componentIds": [
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W8178629",
+    "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2-gas",
+    "oemTestTitle": "High-Limit Thermostat & TCO (Gas)",
+    "pages": [
+      62
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_limits"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_gas_limits"
+    },
+    {
+      "id": "access_gas_limits",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access high-limit and TCO (gas)",
+      "body": "Disconnect wire connectors from terminals.",
+      "sourceExcerpt": "Disconnect wire connectors from terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "hilimit_continuity"
+    },
+    {
+      "id": "hilimit_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "High-limit thermostat continuity",
+      "body": "Rx1: high-limit thermostat terminals = 0 \u03a9.",
+      "sourceExcerpt": "Rx1: high-limit thermostat terminals = 0 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tco_continuity"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_limits",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit and TCO.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutoff",
+              "evidenceId": "confirm_thermal_cutoff_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tco_continuity",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Thermal cut-off continuity",
+      "body": "Rx1: thermal cut-off (TCO) terminals = 0 \u03a9.",
+      "sourceExcerpt": "Rx1: thermal cut-off (TCO) terminals = 0 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tco_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_limits_verified"
+        },
+        {
+          "id": "tco_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_limits",
+          "terminal": true,
+          "oemOutcome": "Replace TCO and high-limit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutoff",
+              "evidenceId": "confirm_thermal_cutoff_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_limits",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace limits",
+      "oemOutcome": "Replace thermal cut-off and high-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_limits_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Gas limits verified",
+      "oemOutcome": "High-limit and TCO show continuity.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178629-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

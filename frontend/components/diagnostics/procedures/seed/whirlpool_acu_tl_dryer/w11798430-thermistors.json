@@ -1,0 +1,270 @@
+{
+  "id": "w11798430-thermistors",
+  "version": "1.0.0",
+  "title": "TEST #4a: Thermistors",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "exhaust_thermistor",
+    "inlet_thermistor"
+  ],
+  "tags": [
+    "thermistor",
+    "F3E1",
+    "F3E3",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "W11798430",
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4a",
+    "oemTestTitle": "Thermistors",
+    "pages": [
+      16,
+      17
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_j4"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Mode entered. Use Service Diagnostics (HMI Test, Sensor Feedback, Diagnostic Cycle) as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "disconnect_j4"
+    },
+    {
+      "id": "disconnect_j4",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect J4 at ACU",
+      "body": "Power off. Remove J4. Measure inlet thermistor at J4-3 to J4-4 first per OEM sequence.",
+      "sourceExcerpt": "Power off. Remove J4. Measure inlet thermistor at J4-3 to J4-4 first per OEM sequence.",
+      "requiresInput": false,
+      "defaultNextStepId": "inlet_ntc_ohms"
+    },
+    {
+      "id": "inlet_ntc_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inlet thermistor",
+      "body": "J4-3 to J4-4. Use inlet thermistor R/T table (shared gas/electric on W4100).",
+      "sourceExcerpt": "J4-3 to J4-4. Use inlet thermistor R/T table (shared gas/electric on W4100).",
+      "measurementKnowledgeId": "dryerInletThermistorOhmsElectric",
+      "testPoint": {
+        "connector": "J4 inlet",
+        "pins": "J4-3 to J4-4",
+        "label": "Inlet thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "in_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "outlet_ntc_ohms"
+        },
+        {
+          "id": "in_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "in_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_thermistor",
+              "evidenceId": "confirm_inlet_thermistor_bad"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11798430-acu-pinout",
+          "caption": "ACU connections \u2014 J4 thermistors, J7 motor",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11798430-acu-pinout.png"
+        },
+        {
+          "id": "w11798430-thermistor-strip",
+          "caption": "Thermistors strip circuit (TEST #4a)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11798430-thermistor-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "outlet_ntc_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Outlet (exhaust) thermistor",
+      "body": "J4-1 to J4-2. Use outlet thermistor R/T table. Open/short per F3E1.",
+      "sourceExcerpt": "J4-1 to J4-2. Use outlet thermistor R/T table. Open/short per F3E1.",
+      "measurementKnowledgeId": "dryerExhaustThermistorOhms",
+      "testPoint": {
+        "connector": "J4 outlet",
+        "pins": "J4-1 to J4-2",
+        "label": "Outlet (exhaust) thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "out_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistors_verified"
+        },
+        {
+          "id": "out_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "out_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        },
+        {
+          "id": "out_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "exhaust_thermistor",
+              "evidenceId": "confirm_exhaust_thermistor_bad"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11798430-acu-pinout",
+          "caption": "ACU connections \u2014 J4 thermistors, J7 motor",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11798430-acu-pinout.png"
+        },
+        {
+          "id": "w11798430-thermistor-strip",
+          "caption": "Thermistors strip circuit (TEST #4a)",
+          "assetPath": "/images/procedures/whirlpool_acu_tl_dryer/w11798430-thermistor-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_outlet_ntc",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace outlet thermistor",
+      "oemOutcome": "Replace exhaust/outlet thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inlet_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace inlet thermistor",
+      "oemOutcome": "Replace inlet thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistors_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Thermistors verified",
+      "oemOutcome": "Inlet and outlet NTC within OEM tables.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11798430-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

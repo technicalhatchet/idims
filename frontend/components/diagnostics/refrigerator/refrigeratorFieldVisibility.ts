@@ -145,7 +145,11 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
   {
     id: 'thermistor_voltage_error',
     field: 'fans_and_electrical.thermistor_voltage_v',
-    showWhen: [{ type: 'chip', id: 'error_code' }, { type: 'platform', id: 'samsung_sxs' }],
+    showWhen: [
+      { type: 'chip', id: 'error_code' },
+      { type: 'platform', id: 'samsung_sxs' },
+      { type: 'platform', id: 'samsung_fridge_bespoke' },
+    ],
   },
   {
     id: 'evap_fan_voltage_error',
@@ -155,6 +159,7 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
       { type: 'chip', id: 'frost_buildup' },
       { type: 'chip', id: 'weak_cooling_ff' },
       { type: 'platform', id: 'samsung_sxs' },
+      { type: 'platform', id: 'samsung_fridge_bespoke' },
     ],
   },
   {
@@ -165,6 +170,7 @@ export const refrigeratorFieldVisibilityRules: FieldVisibilityRule[] = [
       { type: 'chip', id: 'weak_cooling_fz' },
       { type: 'chip', id: 'error_code' },
       { type: 'platform', id: 'samsung_sxs' },
+      { type: 'platform', id: 'samsung_fridge_bespoke' },
     ],
   },
   {

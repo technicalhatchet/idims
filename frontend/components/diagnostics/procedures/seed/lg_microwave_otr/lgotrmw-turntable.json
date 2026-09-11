@@ -1,0 +1,225 @@
+{
+  "id": "lgotrmw-turntable",
+  "version": "1.0.0",
+  "title": "\u00a710: Turntable Motor",
+  "platformId": "lg_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manualTitle": "LG LMHM2237BD Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10-turntable",
+    "oemTestTitle": "Turntable motor",
+    "pages": [
+      22,
+      23
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor before touching any HV component. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "DISCONNECT THE POWER SUPPLY CORD FROM THE OUTLET WHENEVER REMOVING THE OUTER CASE.",
+      "requiresInput": false,
+      "defaultNextStepId": "turntable_runs"
+    },
+    {
+      "id": "turntable_runs",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Turntable motor operates?",
+      "body": "Start cook cycle \u2014 does turntable rotate?",
+      "sourceExcerpt": "Start cook cycle \u2014 does turntable rotate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "turntable_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "turntable_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "turntable_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "lamp_check",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "turntable_verified",
+      "order": 3,
+      "type": "outcome",
+      "title": "Turntable OK",
+      "body": "Turntable motor operates normally.",
+      "oemOutcome": "Turntable motor operates normally.",
+      "requiresInput": false
+    },
+    {
+      "id": "lamp_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Oven lamp on with door closed?",
+      "body": "With door closed, does oven lamp turn on?",
+      "sourceExcerpt": "With door closed, does oven lamp turn on?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ohms"
+        },
+        {
+          "id": "motor_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "adjust_primary_latch",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adjust_primary_latch",
+      "order": 5,
+      "type": "instruction",
+      "title": "Adjust primary latch",
+      "body": "Adjust primary latch board per \u00a79-1.",
+      "sourceExcerpt": "Adjust primary latch board per \u00a79-1.",
+      "requiresInput": false,
+      "defaultNextStepId": "lamp_check"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Turntable motor resistance",
+      "body": "Disconnect leads. Motor approximately 2.5\u20133.5 k\u03a9.",
+      "sourceExcerpt": "Disconnect leads. Motor approximately 2.5\u20133.5 k\u03a9.",
+      "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms",
+      "testPoint": {
+        "connector": "Turntable motor",
+        "pins": "terminals",
+        "label": "Turntable motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "turntable_motor_ok_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "turntable_motor_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_no_heat_functional_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "turntable_motor_ok_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_turntable",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_no_heat_functional_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "turntable_motor_ok_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_turntable",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_no_heat_functional_magnetron_failed"
+            }
+          ]
+        },
+        {
+          "id": "turntable_motor_ok_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_turntable",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "magnetron",
+              "evidenceId": "confirm_no_heat_functional_magnetron_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_turntable",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace turntable motor",
+      "body": "Replace turntable motor.",
+      "oemOutcome": "Replace turntable motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "turntable_motor_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Motor OK \u2014 check PCB relay",
+      "body": "Motor ohms OK \u2014 check RY1 relay and PCB if still no rotation.",
+      "oemOutcome": "Motor ohms OK \u2014 check RY1 relay and PCB if still no rotation.",
+      "requiresInput": false
+    }
+  ]
+}

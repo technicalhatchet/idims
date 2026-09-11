@@ -1,0 +1,145 @@
+{
+  "id": "lg-range-oven-igniter",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Oven bake/broil igniter",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "F9",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Broil or bake igniter",
+    "pages": [
+      37,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "cool_igniter"
+    },
+    {
+      "id": "cool_igniter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cool igniter",
+      "body": "Allow igniter to cool to room temperature.",
+      "sourceExcerpt": "Allow igniter to cool to room temperature.",
+      "requiresInput": false,
+      "defaultNextStepId": "igniter_ohms"
+    },
+    {
+      "id": "igniter_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Oven igniter resistance",
+      "body": "Disconnect igniter. R \u00d7 1 \u2014 expect 45\u2013400 \u03a9 at room temperature.",
+      "sourceExcerpt": "Disconnect igniter. R \u00d7 1 \u2014 expect 45\u2013400 \u03a9 at room temperature.",
+      "measurementKnowledgeId": "lgRangeOvenIgniterOhms",
+      "testPoint": {
+        "connector": "Oven igniter",
+        "pins": "terminals",
+        "label": "Oven igniter resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_igniter",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "igniter_ok",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_igniter_ol_igniter_ok",
+              "componentId": "igniter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_igniter",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace oven igniter",
+      "oemOutcome": "Igniter open or out of range \u2014 replace igniter.",
+      "requiresInput": false
+    },
+    {
+      "id": "igniter_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Oven igniter OK",
+      "oemOutcome": "Igniter 45\u2013400 \u03a9 verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ]
+}

@@ -1,0 +1,289 @@
+{
+  "id": "w11416395-test-01-acu-power",
+  "version": "1.0.0",
+  "title": "TEST #1: Main Control (ACU)",
+  "platformId": "whirlpool_mvw6200",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "voltage_check",
+    "supply_issue",
+    "F1E1",
+    "F6E1",
+    "F7E1",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "W11416395",
+    "manualTitle": "Maytag 4.8 cu ft Top Load Washer (MVW6200, W11416395B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11416395-revb mvw6200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1",
+    "oemTestTitle": "Main Control (ACU)",
+    "pages": [
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_console"
+    },
+    {
+      "id": "access_console",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access main control",
+      "body": "Remove console. Verify all connectors fully seated at ACU.",
+      "sourceExcerpt": "Remove console. Verify all connectors fully seated at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "restore_power_line"
+    },
+    {
+      "id": "restore_power_line",
+      "order": 3,
+      "type": "instruction",
+      "title": "Restore power for line check",
+      "body": "Plug in or reconnect power for live measurements only.",
+      "sourceExcerpt": "Plug in or reconnect power for live measurements only.",
+      "requiresInput": false,
+      "defaultNextStepId": "line_voltage"
+    },
+    {
+      "id": "line_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Line voltage J1-1 to J1-2",
+      "body": "AC voltmeter: black probe J1-1 (Neutral), red probe J1-2 (Line). Expect 120 VAC.",
+      "sourceExcerpt": "AC voltmeter: black probe J1-1 (Neutral), red probe J1-2 (Line). Expect 120 VAC.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "J1",
+        "pins": "1 & 2",
+        "label": "Line voltage J1-1 to J1-2",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "Neutral",
+            "wireColor": "BU",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "2",
+            "signal": "Line",
+            "wireColor": "GY",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "line_ok",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diagnostic_led",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "line_bad",
+          "label": "No line voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_power_cord",
+          "terminal": true,
+          "oemOutcome": "Check outlet, breaker, and AC power cord continuity.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416395-acu-pinout",
+          "caption": "Main control connectors & pinouts (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_mvw6200/w11416395-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "diagnostic_led",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Diagnostic LED state",
+      "body": "Is the Diagnostic LED flashing, continuously ON, or OFF?",
+      "sourceExcerpt": "Is the Diagnostic LED flashing, continuously ON, or OFF?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "led_flash",
+          "label": "Flashing (+5 VDC, micro operating)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_supply_critical_supply_ok"
+            }
+          ]
+        },
+        {
+          "id": "led_on",
+          "label": "ON steady (+5 VDC, micro failure)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "led_off",
+          "label": "OFF (+5 VDC missing)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_hmi",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolate_hmi",
+      "order": 6,
+      "type": "instruction",
+      "title": "Isolate HMI load on J5",
+      "body": "Disconnect power. Remove connector J5 from main control. Restore power.",
+      "sourceExcerpt": "Disconnect power. Remove connector J5 from main control. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "dc_12v"
+    },
+    {
+      "id": "dc_12v",
+      "order": 7,
+      "type": "measurement",
+      "title": "+12 VDC at J5",
+      "body": "DC volts: black J5-4 (Circuit Gnd), red J5-1 (+12 VDC). Do not short pins.",
+      "sourceExcerpt": "DC volts: black J5-4 (Circuit Gnd), red J5-1 (+12 VDC). Do not short pins.",
+      "measurementKnowledgeId": "whirlpoolMvw6200WasherAcu12Vdc",
+      "testPoint": {
+        "connector": "J5",
+        "pins": "1 & 4",
+        "label": "+12 VDC at J5",
+        "pinDetails": [
+          {
+            "pin": "1",
+            "signal": "+12 VDC",
+            "wireColor": "BK",
+            "wireColorConfidence": "verified"
+          },
+          {
+            "pin": "4",
+            "signal": "Circuit Gnd (AGND)",
+            "wireColor": "WH",
+            "wireColorConfidence": "verified"
+          }
+        ]
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v12_ok",
+          "label": "+12 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "v12_bad",
+          "label": "+12 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11416395-acu-pinout",
+          "caption": "Main control connectors & pinouts (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_mvw6200/w11416395-acu-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "check_power_cord",
+      "order": 8,
+      "type": "outcome",
+      "title": "Check power cord",
+      "oemOutcome": "Verify outlet and AC cord continuity per wiring diagram.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "ACU power verified",
+      "oemOutcome": "Line voltage and diagnostic LED OK \u2014 proceed to complaint-specific test or Service Diagnostic.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace ACU. Reassemble and run Service Diagnostic cycle to verify.",
+      "requiresInput": false
+    }
+  ]
+}

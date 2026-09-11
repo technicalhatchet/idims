@@ -1,0 +1,348 @@
+[
+  {
+    "id": "whirlpoolFreestandingRangeOvenSensorOhms",
+    "name": "Whirlpool Freestanding Range Oven RTD",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1000, "max": 1200 },
+      "warning": { "min": 900, "max": 1300 },
+      "critical": { "below": 500, "above": 2000 }
+    },
+    "typical": { "min": 1080, "max": 1100 },
+    "openCircuitCritical": true,
+    "purpose": "Verify main oven temperature sensor (RTD) at room temp per W11746350 P22 and W11174426 P3/Con3 charts.",
+    "failureModes": [
+      "Open (OL): F3E0 sensor fault — bake/broil may lock out",
+      "Short to chassis or reading far outside range: drift or damaged harness"
+    ],
+    "testingTips": [
+      "Measure with oven fully cooled; disconnect sensor from ACU before Ω check",
+      "W11746350: P22-1 to P22-2; LCX: P3-4 to P3-5; LCC: Con 3-9 to Con 3-10"
+    ],
+    "notes": "Resistance rises with temperature — baseline 1000–1200 Ω at room temp per Whirlpool freestanding range manuals",
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["sensor_check", "temp_accuracy_issue", "F3E0"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeDoorLatchOhms",
+    "name": "Whirlpool Freestanding Range Door Latch Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 500, "max": 3000 },
+      "warning": { "min": 400, "max": 3500 },
+      "critical": { "below": 100, "above": 5000 }
+    },
+    "typical": { "min": 800, "max": 2000 },
+    "openCircuitCritical": true,
+    "purpose": "Verify rear door latch motor winding for self-clean lock failures (F5E0/F5E1).",
+    "failureModes": [
+      "Open winding: latch motor will not cycle in Clean mode",
+      "Out of range: motor or latch assembly failure"
+    ],
+    "testingTips": [
+      "Disconnect leads before measuring; W11746350 P8-5 to P8-6; LCX P2-3 to P1-3 WH; LCC Con 1-4 to Con 1-1 W",
+      "Use Component Activation / Clean keypad in Diagnostics to verify latch cycles after repair"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["door_latch_check", "F5E1"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeHiddenBakeOhms",
+    "name": "Whirlpool Freestanding Hidden Bake Element (W11746350)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 22.1, "max": 24.5 },
+      "warning": { "min": 20, "max": 28 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 22.5, "max": 24 },
+    "openCircuitCritical": true,
+    "purpose": "Hidden main-cavity bake element cold resistance per W11746350 — 23.3 Ω ±5% at P4-3 to P4-4.",
+    "failureModes": [
+      "Open (OL): no bake heat, FEE6 path",
+      "Grounded or far outside range: shorted/damaged element"
+    ],
+    "testingTips": [
+      "Disconnect element leads before measuring",
+      "LCX/LCC models in W11174426 use 10–40 Ω nominal — use bakeElementOhms for those procedures"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_bake_heat_issue", "FEE6"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeConvectElementOhms",
+    "name": "Whirlpool Freestanding Convection Element (gas oven)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 14.5, "max": 16.1 },
+      "warning": { "min": 13, "max": 18 },
+      "critical": { "below": 5, "above": 25 }
+    },
+    "typical": { "min": 15, "max": 15.5 },
+    "openCircuitCritical": true,
+    "purpose": "Gas-range convection assist element — 14.5–16.1 Ω cold per W11746350 (914 W heated).",
+    "failureModes": [
+      "Open element: no convection heat on gas models with fan assist",
+      "Confounded with broil on some non-convect models — verify model features"
+    ],
+    "testingTips": [
+      "Disconnect leads before measuring resistance",
+      "Convection fan motor separate check: ~85 Ω ±10% on W11746350; 15–20 Ω on LCX/LCC electric charts"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "convection_issue", "FEE8"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeConvectFanOhms",
+    "name": "Whirlpool Freestanding Convection Fan Motor (W11746350)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 76.5, "max": 93.5 },
+      "warning": { "min": 65, "max": 100 },
+      "critical": { "below": 20, "above": 150 }
+    },
+    "typical": { "min": 80, "max": 90 },
+    "openCircuitCritical": true,
+    "purpose": "Convection fan motor winding — 85 Ω ±10% cold per W11746350 Component Testing.",
+    "failureModes": [
+      "Open winding: F7E5/F7E6 fan errors",
+      "Low resistance: shorted motor windings"
+    ],
+    "testingTips": [
+      "Disconnect fan leads before measuring",
+      "LCX electric models spec 15–20 Ω — different motor; verify against tech sheet"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["fan_motor_check", "convection_issue", "F7E5", "F7E6"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeDsiValveOhms",
+    "name": "Whirlpool Freestanding DSI Gas Valve Coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 194, "max": 238 },
+      "warning": { "min": 170, "max": 260 },
+      "critical": { "below": 50, "above": 400 }
+    },
+    "typical": { "min": 210, "max": 222 },
+    "openCircuitCritical": true,
+    "purpose": "Direct Spark Ignition (DSI) board gas valve / regulator solenoid — 216 Ω ±10% per W11746350 and W11174426 charts.",
+    "failureModes": [
+      "Open coil: no gas to bake or broil burner",
+      "Good Ω but no flame: igniter, flame rectification, or gas supply"
+    ],
+    "testingTips": [
+      "W11174426: J1-1 to J1-2 in Bake mode; J1-3 to J1-2 in Broil mode",
+      "W11746350 gas regulator solenoid terminals also 216 Ω ±10%",
+      "Verify 120 VAC to DSI and 8–18 VDC flame sense when burner lit"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["gas_valve_check", "ignition_issue", "no_bake_heat_issue"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeBridgeOuterOhms",
+    "name": "Whirlpool Freestanding Bridge Element (outer)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 65, "max": 72 },
+      "warning": { "min": 60, "max": 78 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 67, "max": 70 },
+    "openCircuitCritical": true,
+    "purpose": "Bridge cooktop element outer section — 68.5 Ω ±5% cold per W11746350.",
+    "failureModes": [
+      "Open outer section: partial or no heat on bridge burner",
+      "Inner section separate: 30.5 Ω ±5%"
+    ],
+    "testingTips": [
+      "Disconnect leads before measuring each section",
+      "Measure outer and inner elements independently"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeBridgeInnerOhms",
+    "name": "Whirlpool Freestanding Bridge Element (inner)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 29, "max": 32 },
+      "warning": { "min": 27, "max": 35 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 30, "max": 31 },
+    "openCircuitCritical": true,
+    "purpose": "Bridge cooktop element inner section — 30.5 Ω ±5% cold per W11746350.",
+    "failureModes": [
+      "Open inner section: bridge burner weak or one ring dead"
+    ],
+    "testingTips": [
+      "Pair with outer section measurement on same bridge element"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeSingleElementOhms",
+    "name": "Whirlpool Freestanding Single Cooktop Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 43.4, "max": 48 },
+      "warning": { "min": 40, "max": 52 },
+      "critical": { "below": 10, "above": 70 }
+    },
+    "typical": { "min": 45, "max": 47 },
+    "openCircuitCritical": true,
+    "purpose": "Single radiant cooktop element — 45.7 Ω ±5% cold per W11746350.",
+    "failureModes": [
+      "Open element: no heat on affected burner"
+    ],
+    "testingTips": [
+      "Disconnect leads at element before measuring"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeWarmingZoneOhms",
+    "name": "Whirlpool Freestanding Warming Zone Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 137.75, "max": 152.25 },
+      "warning": { "min": 130, "max": 160 },
+      "critical": { "below": 50, "above": 200 }
+    },
+    "typical": { "min": 142, "max": 148 },
+    "openCircuitCritical": true,
+    "purpose": "Warming zone element — 145 Ω ±5% cold per W11746350.",
+    "failureModes": [
+      "Open element: warming zone dead"
+    ],
+    "testingTips": [
+      "Disconnect leads before measuring"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeOvenLightOhms",
+    "name": "Whirlpool Freestanding Oven Light Bulb",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 40 },
+      "warning": { "min": 0, "max": 50 },
+      "critical": { "above": 100 }
+    },
+    "typical": { "min": 5, "max": 25 },
+    "openCircuitCritical": true,
+    "purpose": "Oven incandescent light assembly — 0–40 Ω nominal per W11174814 / W11746350 / W11174426 charts.",
+    "failureModes": [
+      "Open (OL): burned-out bulb or bad socket",
+      "Measure with light switch off and door closed for resistance check"
+    ],
+    "testingTips": [
+      "LCC: Con 1-5 BK to Con 1-1 W; LCX: P2-1 to P1-3 WH"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["light_check"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeWarmingDrawerElementOhms",
+    "name": "Whirlpool Freestanding Warming Drawer Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15, "max": 20 },
+      "warning": { "min": 12, "max": 25 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 16, "max": 19 },
+    "openCircuitCritical": true,
+    "purpose": "Warming drawer element — 15–20 Ω nominal per W11174814 Maxwell/MRC charts.",
+    "failureModes": [
+      "Open (OL): warming drawer element failed",
+      "Out of range: element or wiring fault"
+    ],
+    "testingTips": [
+      "Maxwell electric: P4-1 to W (P6-3); Maxwell gas: P1-4 to W; MRC electric: P4-2 to W",
+      "Measure with power off and leads disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range", "gas_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "no_heat"]
+  },
+  {
+    "id": "whirlpoolFreestandingRangeIndigoCeranOhms",
+    "name": "Whirlpool Indigo Ceran Cooktop Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 23, "max": 83 },
+      "warning": { "min": 18, "max": 100 },
+      "critical": { "below": 5, "above": 150 }
+    },
+    "typical": { "min": 30, "max": 70 },
+    "openCircuitCritical": true,
+    "purpose": "Indigo control ceran surface element — 23–83 Ω nominal at H1–H2 per W11174814 §3-46.",
+    "failureModes": [
+      "Open (OL): element or limiter fault",
+      "Thermal limiter opens at 1100°F (593°C) — check limiter if element reads OL"
+    ],
+    "testingTips": [
+      "Measure H1 to H2 at element terminals with power off",
+      "Hot-surface indicator limiter closes at 150°F (66°C) — infinite when cold is normal for indicator switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["electric_range"],
+      "templates": []
+    },
+    "dmaTags": ["heating_element_check", "surface_burner"]
+  }
+]

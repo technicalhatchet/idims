@@ -1,0 +1,235 @@
+{
+  "id": "w11174814-gas-igniter",
+  "version": "1.0.0",
+  "title": "Indigo Gas Oven Igniters (Bake / Broil)",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "surface_ignition"
+  ],
+  "tags": [
+    "ignition_issue",
+    "no_bake_heat_issue",
+    "no_broil_heat_issue"
+  ],
+  "source": {
+    "manualId": "W11174814",
+    "manualTitle": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana Ranges (W11174814 Rev B)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Igniter",
+    "oemTestTitle": "Bake and Broil Igniters",
+    "pages": [
+      86,
+      87
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug range or disconnect power before resistance measurements.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_igniter_ohms"
+    },
+    {
+      "id": "bake_igniter_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Bake igniter resistance",
+      "body": "Power off. Disconnect bake igniter pigtail. Measure P2-3 to W (P6-3). Expect 40\u2013400 \u03a9 at room temperature.",
+      "sourceExcerpt": "Power off. Disconnect bake igniter pigtail. Measure P2-3 to W (P6-3). Expect 40\u2013400 \u03a9 at room temperature.",
+      "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+      "testPoint": {
+        "connector": "P2",
+        "pins": [
+          "3",
+          "W"
+        ],
+        "label": "Bake igniter resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_ign_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_ign_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_ign_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_ign_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_igniter_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "surface_ignition",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "broil_igniter_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Broil igniter resistance",
+      "body": "Power off. Disconnect broil igniter pigtail. Measure P4-2 to W (P6-3). Expect 40\u2013400 \u03a9 at room temperature.",
+      "sourceExcerpt": "Power off. Disconnect broil igniter pigtail. Measure P4-2 to W (P6-3). Expect 40\u2013400 \u03a9 at room temperature.",
+      "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+      "testPoint": {
+        "connector": "P4",
+        "pins": [
+          "2",
+          "W"
+        ],
+        "label": "Broil igniter resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_ign_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_ign_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_ign_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil_igniter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "surface_ignition",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "broil_ign_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "igniters_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "surface_ignition",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bake_igniter",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace bake igniter",
+      "oemOutcome": "Bake igniter open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_broil_igniter",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace broil igniter",
+      "oemOutcome": "Broil igniter open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "igniters_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Igniters verified",
+      "oemOutcome": "Bake and broil igniters 40\u2013400 \u03a9 at room temperature.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11174814-indigo-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "bake_igniter_ohms"
+    }
+  ]
+}

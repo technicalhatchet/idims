@@ -1,0 +1,255 @@
+[
+  {
+    "id": "whirlpoolAcuFdInverterThermistorOhms",
+    "name": "Whirlpool ACU inverter FD cabinet thermistor (2k NTC)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1929, "max": 2083 },
+      "warning": { "min": 1500, "max": 28000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 1980, "max": 2030 },
+    "openCircuitCritical": true,
+    "purpose": "W11819775 — 2k Ω @ 77°F; 5.65k @ 37°F; 17.3k @ 0°F. Service tests 01/03/04/05 show °C or Er.",
+    "failureModes": ["Open — Er on service test", "Short — Er", "Warm zone — damper, evap fan, sealed system"],
+    "testingTips": ["CN6 harness; 1.6 VDC at board when powered"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_acu_fd_inverter"
+    },
+    "dmaTags": ["thermistor_check", "sensor_fault", "F3E1", "F3E2", "F3E4", "F3EC"]
+  },
+  {
+    "id": "whirlpoolAcuFdInverterImTrayThermistorOhms",
+    "name": "Whirlpool ACU inverter FD ice maker tray thermistor (5k NTC)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4950, "max": 5050 },
+      "warning": { "min": 4000, "max": 45000 },
+      "critical": { "below": 500, "above": 60000 }
+    },
+    "typical": { "min": 4980, "max": 5020 },
+    "openCircuitCritical": true,
+    "purpose": "W11819775 IM tray — 5k Ω @ 77°F. CN13-3/CN13-4; FBEB fault.",
+    "failureModes": ["FBEB — replace ice maker assembly"],
+    "testingTips": ["Service test 07 reads tray °C"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_acu_fd_inverter"
+    },
+    "dmaTags": ["thermistor_check", "no_ice", "FBEB"]
+  },
+  {
+    "id": "whirlpoolAcuFdInverterDefrostHeaterOhms",
+    "name": "Whirlpool ACU inverter FD defrost heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 55, "max": 61 },
+      "warning": { "min": 45, "max": 70 },
+      "critical": { "below": 5, "above": 80 }
+    },
+    "typical": { "min": 57, "max": 59 },
+    "openCircuitCritical": true,
+    "purpose": "W11819775 — FC defrost heater 58 Ω. Service test 38; CN12-2/CN12-4 = 115 VAC.",
+    "failureModes": ["Open — F4E1", "Thermofuse at 72°C"],
+    "testingTips": ["5 min run or until evap >60°F"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_acu_fd_inverter"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup", "F4E1"]
+  },
+  {
+    "id": "whirlpoolAcuFdInverterCompressorOhms",
+    "name": "Whirlpool ACU inverter FD compressor windings",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10.5, "max": 12.9 },
+      "warning": { "min": 8, "max": 15 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 11.2, "max": 12.2 },
+    "openCircuitCritical": true,
+    "purpose": "W11819775 — inverter compressor 11.7 Ω. CN18 U/V/W = 150 VAC in test 23.",
+    "failureModes": ["Inverter LED flash codes on ACU"],
+    "testingTips": ["Built-in inverter — check LED below CN10"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_acu_fd_inverter"
+    },
+    "dmaTags": ["compressor_check", "not_cooling", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolAcuFdInverterMullionHeaterOhms",
+    "name": "Whirlpool ACU inverter FD vertical mullion heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10.5, "max": 12.3 },
+      "warning": { "min": 8, "max": 15 },
+      "critical": { "below": 3, "above": 20 }
+    },
+    "typical": { "min": 11.0, "max": 11.8 },
+    "openCircuitCritical": true,
+    "purpose": "W11819775 — mullion heater 11.4 Ω. Service test 40.",
+    "failureModes": ["Moisture at flipper mullion"],
+    "testingTips": ["CN7-5 VR/H to CN7-11 = 12.7 VDC"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_acu_fd_inverter"
+    },
+    "dmaTags": ["heater_check", "moisture"]
+  },
+  {
+    "id": "whirlpoolTheseusCdfdThermistorOhms",
+    "name": "Whirlpool Theseus counter-depth FD thermistor (2.7k NTC)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2692, "max": 2858 },
+      "warning": { "min": 2000, "max": 40000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 2720, "max": 2830 },
+    "openCircuitCritical": true,
+    "purpose": "W11803249 — 2700 Ω @ 77°F. Service tests show oC/sC.",
+    "failureModes": ["Open oC / short sC on HMI"],
+    "testingTips": ["P5 RC/evap; P10 FC; P70 pantry"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_theseus_cdfd"
+    },
+    "dmaTags": ["thermistor_check", "sensor_fault"]
+  },
+  {
+    "id": "whirlpoolTheseusCdfdDefrostHeaterOhms",
+    "name": "Whirlpool Theseus CDFD defrost heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40.8, "max": 45.2 },
+      "warning": { "min": 35, "max": 50 },
+      "critical": { "below": 5, "above": 55 }
+    },
+    "typical": { "min": 42, "max": 44 },
+    "openCircuitCritical": true,
+    "purpose": "W11803249 — FC defrost 43 Ω. Test 131; P2-7/P1-2 = 115 VAC.",
+    "failureModes": ["Open — heavy frost"],
+    "testingTips": ["Display on/oF in test 131"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_theseus_cdfd"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolTheseusCdfdCompressorOhms",
+    "name": "Whirlpool Theseus CDFD inverter compressor windings",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 22.5, "max": 26.9 },
+      "warning": { "min": 18, "max": 32 },
+      "critical": { "below": 5, "above": 40 }
+    },
+    "typical": { "min": 23.5, "max": 25.9 },
+    "openCircuitCritical": true,
+    "purpose": "W11803249 — compressor 24.7 Ω; external inverter.",
+    "failureModes": ["Good windings — replace inverter"],
+    "testingTips": ["Tests 72/75; P8-8/P8-7 = 12.7 VDC"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_theseus_cdfd"
+    },
+    "dmaTags": ["compressor_check", "not_cooling", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolTheseusCdfdFillTubeHeaterOhms",
+    "name": "Whirlpool Theseus CDFD FC IM fill tube heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30.4, "max": 33.6 },
+      "warning": { "min": 25, "max": 40 },
+      "critical": { "below": 5, "above": 45 }
+    },
+    "typical": { "min": 31, "max": 33 },
+    "openCircuitCritical": true,
+    "purpose": "W11803249 — fill tube heater 32 Ω. Test 144.",
+    "failureModes": ["Frozen fill tube"],
+    "testingTips": ["P11-4/P11-5 = 12.7 VDC"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_theseus_cdfd"
+    },
+    "dmaTags": ["fill_tube_heater", "no_ice"]
+  },
+  {
+    "id": "whirlpoolBellaFdCompressorSensorOhms",
+    "name": "Whirlpool Bella linear compressor sensor winding",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 14, "max": 19 },
+      "warning": { "min": 10, "max": 25 },
+      "critical": { "below": 5, "above": 35 }
+    },
+    "typical": { "min": 15, "max": 18 },
+    "openCircuitCritical": true,
+    "purpose": "W10901168 — sensor 14–19 Ω; line-common 7–13 Ω; line-sensor 21–32 Ω.",
+    "failureModes": ["Replace compressor and Orion board"],
+    "testingTips": ["Service test 40 sealed system path"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_bella_french_door"
+    },
+    "dmaTags": ["compressor_check", "not_cooling", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolBellaFdThreeWayValveOhms",
+    "name": "Whirlpool Bella 3-way valve coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 43, "max": 49 },
+      "warning": { "min": 38, "max": 55 },
+      "critical": { "below": 10, "above": 70 }
+    },
+    "typical": { "min": 44, "max": 48 },
+    "openCircuitCritical": true,
+    "purpose": "W10901168 — 3-way valve 43–49 Ω center to each outer pin.",
+    "failureModes": ["No valve chatter in test 40 steps 01–02"],
+    "testingTips": ["Watt meter 4–5 W increase when valve opens"],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "KitchenAid", "Maytag"],
+      "platformId": "whirlpool_bella_french_door"
+    },
+    "dmaTags": ["sealed_system", "not_cooling"]
+  }
+]

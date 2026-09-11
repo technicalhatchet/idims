@@ -87,6 +87,12 @@
       "confirm": ["door_lock_failed"]
     },
     {
+      "id": "lid_lock_good",
+      "when": { "type": "field", "path": "functional_checks.lid_lock_operation", "equals": "good" },
+      "eliminate": ["door_lock_failed"],
+      "confirm": ["door_lock_ok"]
+    },
+    {
       "id": "wont_drain_chip",
       "when": { "type": "chip", "id": "wont_drain" },
       "suspect": ["drain_pump_failed"]
@@ -146,6 +152,12 @@
       "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms", "statusIn": ["critical"] },
       "eliminate": ["door_lock_ok"],
       "confirm": ["door_lock_failed"]
+    },
+    {
+      "id": "duet_door_lock_normal",
+      "when": { "type": "measurement", "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms", "statusIn": ["normal"] },
+      "eliminate": ["door_lock_failed"],
+      "confirm": ["door_lock_ok"]
     }
   ]
 }

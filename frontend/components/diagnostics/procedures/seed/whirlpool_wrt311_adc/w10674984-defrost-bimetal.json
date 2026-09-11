@@ -1,0 +1,138 @@
+{
+  "id": "w10674984-defrost-bimetal",
+  "version": "1.0.0",
+  "title": "WRT311 defrost bi-metal (opens 58\u00b0F)",
+  "platformId": "whirlpool_wrt311_adc",
+  "componentIds": [
+    "defrost_thermostat"
+  ],
+  "tags": [
+    "DF",
+    "frost_buildup",
+    "defrost_thermostat"
+  ],
+  "source": {
+    "manualId": "W10674984",
+    "manualTitle": "Whirlpool WRT311 ADC 2000 Wiring Sheet (W10674984 Rev A)",
+    "extractedTextFile": "backend/docs/manuals/wiring-sheet-W10674984-RevA wrt311fzdt00-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "component",
+    "oemTestTitle": "Defrost Bi-Metal",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks. Use caution on live ADC voltage tests.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_bimetal"
+    },
+    {
+      "id": "access_bimetal",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access defrost bi-metal",
+      "body": "Remove evaporator cover. Disconnect bi-metal harness. Service note: opens at 58\u00b0F on WRT311.",
+      "sourceExcerpt": "Remove evaporator cover. Disconnect bi-metal harness. Service note: opens at 58\u00b0F on WRT311.",
+      "requiresInput": false,
+      "defaultNextStepId": "bimetal_ohms"
+    },
+    {
+      "id": "bimetal_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Defrost bi-metal resistance",
+      "body": "Cold/frosted evaporator: <1 \u03a9 closed. Open when warm after defrost is normal.",
+      "sourceExcerpt": "Cold/frosted evaporator: <1 \u03a9 closed. Open when warm after defrost is normal.",
+      "measurementKnowledgeId": "whirlpoolWrt311DefrostBimetalOhms",
+      "testPoint": {
+        "connector": "defrost bi-metal",
+        "pins": "bi-metal terminals",
+        "label": "Defrost bi-metal resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_thermostat",
+              "evidenceId": "ref_ms_wp_wrt_bimetal_open"
+            }
+          ]
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "<1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_bimetal",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace bi-metal",
+      "oemOutcome": "Replace defrost bi-metal when open at frosted evaporator.",
+      "requiresInput": false
+    },
+    {
+      "id": "bimetal_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Bi-metal verified",
+      "oemOutcome": "Defrost bi-metal closed when evaporator frosted.",
+      "requiresInput": false
+    }
+  ]
+}

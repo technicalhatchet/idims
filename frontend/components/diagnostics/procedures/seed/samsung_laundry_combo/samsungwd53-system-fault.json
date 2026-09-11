@@ -1,0 +1,92 @@
+{
+  "id": "samsungwd53-system-fault",
+  "version": "1.0.0",
+  "title": "\u00a74-4: System error (SF)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "SF"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "System Error SF",
+    "pages": [
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "sf_power_cycle"
+    },
+    {
+      "id": "sf_power_cycle",
+      "order": 2,
+      "type": "instruction",
+      "title": "Power cycle",
+      "body": "Unplug 1 minute. SF = microcontroller operation fail per \u00a74-4.",
+      "sourceExcerpt": "Unplug 1 minute. SF = microcontroller operation fail per \u00a74-4.",
+      "requiresInput": false,
+      "defaultNextStepId": "sf_retest"
+    },
+    {
+      "id": "sf_retest",
+      "order": 3,
+      "type": "visual_check",
+      "title": "SF cleared?",
+      "body": "After power cycle, does combo run without SF?",
+      "sourceExcerpt": "After power cycle, does combo run without SF?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sf_cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sf_ok"
+        },
+        {
+          "id": "replace_pcb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_out",
+          "terminal": true,
+          "oemOutcome": "Replace Assy PCB per manual."
+        }
+      ]
+    },
+    {
+      "id": "replace_pcb_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace Assy PCB",
+      "oemOutcome": "Replace main PCB assembly when SF persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "sf_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "System OK",
+      "oemOutcome": "SF cleared after power cycle.",
+      "requiresInput": false
+    }
+  ]
+}

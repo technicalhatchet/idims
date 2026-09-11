@@ -1,0 +1,184 @@
+{
+  "id": "nsdwr3ss1-diverter",
+  "version": "1.0.0",
+  "title": "E8 \u2014 Diverter valve assembly",
+  "platformId": "insignia_dishwasher",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "E8",
+    "wash_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-DWR3-DISHWASHER",
+    "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E8",
+    "oemTestTitle": "Diverter valve assembly problem",
+    "pages": [
+      25,
+      28,
+      11
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect the power supply to the dishwasher.",
+      "requiresInput": false,
+      "defaultNextStepId": "e8_symptom"
+    },
+    {
+      "id": "e8_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "E8 behavior",
+      "body": "E8 = diverter valve assembly problem. Poor top-rack wash is a common complaint when diverter fails.",
+      "sourceExcerpt": "Diverter valve assembly problem",
+      "requiresInput": false,
+      "defaultNextStepId": "access_diverter"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service test entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "access_diverter"
+    },
+    {
+      "id": "access_diverter",
+      "order": 4,
+      "type": "instruction",
+      "title": "Access diverter",
+      "body": "Remove sump diverter valve cover and storm wash pipe (3 screws). Diverter motor mounts to sump with 2 screws. CN3 carries turbidity and diverter valve detection.",
+      "sourceExcerpt": "Remove sump diverter valve cover and storm wash pipe (3 screws). Diverter motor mounts to sump with 2 screws. CN3 carries turbidity and diverter valve detection.",
+      "requiresInput": false,
+      "defaultNextStepId": "diverter_motor_check"
+    },
+    {
+      "id": "diverter_motor_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Diverter motor and linkage",
+      "body": "Does diverter motor rotate and change spray path when commanded in service test? Linkage free of debris?",
+      "sourceExcerpt": "Does diverter motor rotate and change spray path when commanded in service test? Linkage free of debris?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "diverter_motor_ok_yes",
+          "label": "Motor moves",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_motor_ok"
+        },
+        {
+          "id": "diverter_motor_ok_no",
+          "label": "Motor failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diverter_motor_ok",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Diverter micro switch (CN3)",
+      "body": "With power off, verify diverter position micro-switch at CN3 toggles with motor travel (no stuck position).",
+      "sourceExcerpt": "With power off, verify diverter position micro-switch at CN3 toggles with motor travel (no stuck position).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "diverter_switch_ok_yes",
+          "label": "Switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_switch_ok"
+        },
+        {
+          "id": "diverter_switch_ok_no",
+          "label": "Switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_assembly",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "diverter_switch_ok",
+      "order": 7,
+      "type": "instruction",
+      "title": "CN3 harness",
+      "body": "Inspect CN3 harness between PCB and diverter detection circuit. Repair opens before replacing PCB.",
+      "sourceExcerpt": "Inspect CN3 harness between PCB and diverter detection circuit. Repair opens before replacing PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "diverter_verified"
+    },
+    {
+      "id": "replace_diverter_motor",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace diverter motor",
+      "body": "Replace diverter valve motor on sump.",
+      "oemOutcome": "Replace diverter valve motor on sump.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_diverter_assembly",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace diverter assembly",
+      "body": "Replace diverter motor and/or micro-switch assembly.",
+      "oemOutcome": "Replace diverter motor and/or micro-switch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "diverter_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Diverter verified",
+      "body": "Motor and position detection OK \u2014 E8 should not return.",
+      "oemOutcome": "Motor and position detection OK \u2014 E8 should not return.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "nsdwr3ss1-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

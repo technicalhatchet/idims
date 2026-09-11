@@ -1,0 +1,166 @@
+{
+  "id": "w11416805-moisture-sensor",
+  "version": "1.0.0",
+  "title": "TEST #5: Moisture Sensor",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "not_drying",
+    "F3E2",
+    "F3E5"
+  ],
+  "source": {
+    "manualId": "W11416805",
+    "manualTitle": "Whirlpool & Maytag ACU Top-Load Dryer Technical Manual (WED5100/WGD5100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11416805-revb wed5100 wgd5100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Moisture Sensor",
+    "pages": [
+      18
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "diag_moisture"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Mode entered. Use Service Diagnostics (HMI Test, Sensor Feedback, Diagnostic Cycle) as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "diag_moisture"
+    },
+    {
+      "id": "diag_moisture",
+      "order": 3,
+      "type": "instruction",
+      "title": "Service Diagnostics \u2192 Diagnostic Cycle",
+      "body": "Advance to Sensing phase with Right key. Open door and touch both moisture strips with wet cloth \u2014 drum light should turn off.",
+      "sourceExcerpt": "Advance to Sensing phase with Right key. Open door and touch both moisture strips with wet cloth \u2014 drum light should turn off.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_short_check"
+    },
+    {
+      "id": "door_short_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door open short check",
+      "body": "Open dryer door. Immediate beep or display response indicates short in moisture sensor harness \u2014 inspect harness and sensor.",
+      "sourceExcerpt": "Open dryer door. Immediate beep or display response indicates short in moisture sensor harness \u2014 inspect harness and sensor.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wet_cloth"
+        },
+        {
+          "id": "short_found",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_short",
+          "terminal": true,
+          "oemOutcome": "Repair short in moisture sensor harness or replace sensor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wet_cloth",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Wet cloth bridge test",
+      "body": "Touch both strips with wet cloth \u2014 status should change open\u2192closed.",
+      "sourceExcerpt": "Touch both strips with wet cloth \u2014 status should change open\u2192closed.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wet_pass",
+          "label": "Passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "moisture_verified"
+        },
+        {
+          "id": "wet_fail",
+          "label": "Fails",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_harness",
+          "terminal": true,
+          "oemOutcome": "Sensor failed wet-cloth test \u2014 bench test J13 harness at ACU.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_harness",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench J13 harness",
+      "body": "Disconnect J13 at ACU. Check harness to sensor; outer contacts to ground must be OL.",
+      "sourceExcerpt": "Disconnect J13 at ACU. Check harness to sensor; outer contacts to ground must be OL.",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_verified"
+    },
+    {
+      "id": "repair_short",
+      "order": 7,
+      "type": "outcome",
+      "title": "Repair moisture short",
+      "oemOutcome": "Clear short or replace moisture sensor / wire harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "moisture_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Moisture sensor verified",
+      "oemOutcome": "Sensor responds in service mode and harness OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11416805-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

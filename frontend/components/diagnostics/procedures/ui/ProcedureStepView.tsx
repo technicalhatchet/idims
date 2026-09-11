@@ -119,7 +119,7 @@ export default function ProcedureStepView({
             value={measurementDraft}
             onChange={(event) => onMeasurementDraftChange(event.target.value)}
             placeholder={knowledge?.unit ? `Reading (${knowledge.unit})` : 'Reading'}
-            className="flex-1 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2.5 text-sm text-white placeholder:text-[color:var(--solomon-text-placeholder)] focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-[color:var(--solomon-focus-ring)]"
+            className="flex-1 rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)] px-3 py-2.5 text-base text-white placeholder:text-[color:var(--solomon-text-placeholder)] focus:border-cyan-400/40 focus:outline-none focus:ring-1 focus:ring-[color:var(--solomon-focus-ring)]"
             disabled={disabled}
           />
           <button

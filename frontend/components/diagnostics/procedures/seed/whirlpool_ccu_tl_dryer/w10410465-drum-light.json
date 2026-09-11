@@ -1,0 +1,197 @@
+{
+  "id": "w10410465-drum-light",
+  "version": "1.0.0",
+  "title": "TEST #8: Drum Light",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "drum_light"
+  ],
+  "tags": [
+    "drum_light_check",
+    "no_light"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Drum Light",
+    "pages": [
+      20,
+      21
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_light_button"
+    },
+    {
+      "id": "drum_light_button",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drum light UI activation",
+      "body": "Hold EcoBoost/Drum Light button until LCD confirms drum light is on.",
+      "sourceExcerpt": "Hold EcoBoost/Drum Light button until LCD confirms drum light is on.",
+      "requiresInput": false,
+      "defaultNextStepId": "lcd_confirm"
+    },
+    {
+      "id": "lcd_confirm",
+      "order": 3,
+      "type": "visual_check",
+      "title": "LCD acknowledges drum light",
+      "body": "If LCD does not confirm the button press, replace the user interface.",
+      "sourceExcerpt": "If LCD does not confirm the button press, replace the user interface.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lcd_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "p13_connected"
+        },
+        {
+          "id": "lcd_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Replace user interface and housing assembly."
+        }
+      ]
+    },
+    {
+      "id": "p13_connected",
+      "order": 4,
+      "type": "visual_check",
+      "title": "P13 drum LED connector at UI",
+      "body": "Disconnect power. Verify drum LED connector P13 seated at UI.",
+      "sourceExcerpt": "Disconnect power. Verify drum LED connector P13 seated at UI.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "p13_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_check"
+        },
+        {
+          "id": "p13_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Reseat P13 at UI; if still fails, replace UI."
+        }
+      ]
+    },
+    {
+      "id": "harness_check",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Drum LED harness",
+      "body": "Check harness and inline connections between drum LED and UI.",
+      "sourceExcerpt": "Check harness and inline connections between drum LED and UI.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_current"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace drum LED harness."
+        }
+      ]
+    },
+    {
+      "id": "live_current",
+      "order": 6,
+      "type": "visual_check",
+      "title": "P13 driver current 150\u2013370 mA",
+      "body": "Unplug P13 from UI. Restore power. Hold EcoBoost/Drum Light. Milliamps across P13 pins 1 and 3.",
+      "sourceExcerpt": "Unplug P13 from UI. Restore power. Hold EcoBoost/Drum Light. Milliamps across P13 pins 1 and 3.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "current_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_led"
+        },
+        {
+          "id": "current_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Replace UI \u2014 drum LED driver missing."
+        }
+      ]
+    },
+    {
+      "id": "replace_ui",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace UI",
+      "oemOutcome": "Replace user interface and housing assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Repair drum LED harness or connections.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_led",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace drum LED",
+      "oemOutcome": "Replace drum light assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "drum_light_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Drum light verified",
+      "oemOutcome": "Drum light and UI driver OK.",
+      "requiresInput": false
+    }
+  ]
+}

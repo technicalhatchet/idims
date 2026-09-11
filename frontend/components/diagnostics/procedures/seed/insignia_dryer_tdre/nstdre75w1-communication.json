@@ -1,0 +1,150 @@
+{
+  "id": "nstdre75w1-communication",
+  "version": "1.0.0",
+  "title": "Display communication \u2014 C9 fault",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "user_interface",
+    "acu"
+  ],
+  "tags": [
+    "C9",
+    "hmi_check",
+    "no_power",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "C9",
+    "oemTestTitle": "Communication error",
+    "pages": [
+      24,
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "c9_symptom"
+    },
+    {
+      "id": "c9_symptom",
+      "order": 2,
+      "type": "instruction",
+      "title": "C9 behavior",
+      "body": "C9 after 110 s comm timeout: heater off, motor off, fault state. Often dead or frozen UI mid-cycle.",
+      "sourceExcerpt": "110 sec timeout \u2014 heater off, motor off, go to fault state.",
+      "requiresInput": false,
+      "defaultNextStepId": "inspect_cn9"
+    },
+    {
+      "id": "inspect_cn9",
+      "order": 3,
+      "type": "visual_check",
+      "title": "CN9 display harness seated",
+      "body": "Access main PCB. Is CN9 (display communication) fully seated with no pin damage?",
+      "sourceExcerpt": "Access main PCB. Is CN9 (display communication) fully seated with no pin damage?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn9_seated",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn9_continuity"
+        },
+        {
+          "id": "cn9_loose",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cn9",
+          "terminal": true,
+          "oemOutcome": "Reseat CN9 harness; verify display ribbon at UI board.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cn9_continuity",
+      "order": 4,
+      "type": "visual_check",
+      "title": "CN9 harness continuity",
+      "body": "With power off, verify continuity on CN9 harness between main PCB and display PCB (no opens).",
+      "sourceExcerpt": "With power off, verify continuity on CN9 harness between main PCB and display PCB (no opens).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn9_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified"
+        },
+        {
+          "id": "cn9_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_or_pcb",
+          "terminal": true,
+          "oemOutcome": "Replace display assembly or main PCB per failed path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reseat_cn9",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reseat and retest",
+      "body": "Reseat CN9 and display connectors; restore power and verify UI responds.",
+      "sourceExcerpt": "Reseat CN9 and display connectors; restore power and verify UI responds.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_verified"
+    },
+    {
+      "id": "replace_display_or_pcb",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace display or PCB",
+      "oemOutcome": "Replace display PCB assembly or main control board; retest for C9.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication verified",
+      "oemOutcome": "CN9 path OK \u2014 C9 should not return.",
+      "requiresInput": false
+    }
+  ]
+}

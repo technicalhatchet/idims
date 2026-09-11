@@ -1,0 +1,405 @@
+{
+  "id": "gegud27-heater-thermostats-electric",
+  "version": "1.0.0",
+  "title": "Heater Element & Thermostat Ohms",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "heating_element",
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "dryer_no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-34",
+    "oemTestTitle": "Heater Assembly & Thermostats \u2014 Electric",
+    "pages": [
+      34,
+      35,
+      36,
+      77
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_heater"
+    },
+    {
+      "id": "access_heater",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access heater assembly",
+      "body": "Remove drum per service guide. Disconnect leads at elements and thermostats. Biased thermostats must be cool.",
+      "sourceExcerpt": "Remove drum per service guide. Disconnect leads at elements and thermostats. Biased thermostats must be cool.",
+      "requiresInput": false,
+      "defaultNextStepId": "outer_element"
+    },
+    {
+      "id": "outer_element",
+      "order": 3,
+      "type": "measurement",
+      "title": "Outer element resistance",
+      "body": "Rx1 across outer element terminals: 23.7\u201326 \u03a9.",
+      "sourceExcerpt": "Rx1 across outer element terminals: 23.7\u201326 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerHeaterElementOhms",
+      "testPoint": {
+        "connector": "Heater outer",
+        "pins": "terminals",
+        "label": "Outer element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outer_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inner_element"
+        },
+        {
+          "id": "outer_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_outer",
+          "terminal": true,
+          "oemOutcome": "Replace outer heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "outer_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_outer",
+          "terminal": true,
+          "oemOutcome": "Replace outer heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "outer_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_outer",
+          "terminal": true,
+          "oemOutcome": "Replace outer heating element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inner_element",
+      "order": 4,
+      "type": "measurement",
+      "title": "Inner elements (combined)",
+      "body": "Rx1 across combined inner element path per wiring diagram p.77: 23.7\u201326 \u03a9.",
+      "sourceExcerpt": "Rx1 across combined inner element path per wiring diagram p.77: 23.7\u201326 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerHeaterElementOhms",
+      "testPoint": {
+        "connector": "Heater inner",
+        "pins": "terminals",
+        "label": "Inner elements (combined)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inner_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "safety_thermostat"
+        },
+        {
+          "id": "inner_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inner",
+          "terminal": true,
+          "oemOutcome": "Replace inner heating element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "inner_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inner",
+          "terminal": true,
+          "oemOutcome": "Replace inner heating element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "inner_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inner",
+          "terminal": true,
+          "oemOutcome": "Replace inner heating element(s).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safety_thermostat",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Safety thermostat continuity",
+      "body": "Cool thermostat: Rx1 across safety thermostat terminals = closed (0 \u03a9). Opens 235\u00b0F (225\u00b0F long vent).",
+      "sourceExcerpt": "Cool thermostat: Rx1 across safety thermostat terminals = closed (0 \u03a9). Opens 235\u00b0F (225\u00b0F long vent).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "safety_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_thermostat"
+        },
+        {
+          "id": "safety_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_safety",
+          "terminal": true,
+          "oemOutcome": "Replace safety thermostat; inspect vent restriction.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inlet_thermostat",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Inlet control thermostat continuity",
+      "body": "Cool thermostat: Rx1 = closed. Opens at 210\u00b0F, closes 180\u00b0F.",
+      "sourceExcerpt": "Cool thermostat: Rx1 = closed. Opens at 210\u00b0F, closes 180\u00b0F.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "inlet_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "outlet_thermostat"
+        },
+        {
+          "id": "inlet_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inlet",
+          "terminal": true,
+          "oemOutcome": "Replace inlet control thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "outlet_thermostat",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Outlet control thermostat continuity",
+      "body": "On blower housing. Cool: Rx1 = closed. Opens 130\u00b0F, closes 110\u00b0F.",
+      "sourceExcerpt": "On blower housing. Cool: Rx1 = closed. Opens 130\u00b0F, closes 110\u00b0F.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outlet_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "high_limit"
+        },
+        {
+          "id": "outlet_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_outlet",
+          "terminal": true,
+          "oemOutcome": "Replace outlet control thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "high_limit",
+      "order": 8,
+      "type": "visual_check",
+      "title": "High-limit thermostat continuity",
+      "body": "On heater housing upper right. Cool: Rx1 = closed. Opens 315\u00b0F.",
+      "sourceExcerpt": "On heater housing upper right. Cool: Rx1 = closed. Opens 315\u00b0F.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heating_element",
+              "evidenceId": "confirm_heater_ol_heating_element_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_outer",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace outer element",
+      "oemOutcome": "Replace outer heating element.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inner",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace inner element",
+      "oemOutcome": "Replace inner heating element(s).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_safety",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace safety thermostat",
+      "oemOutcome": "Replace safety thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inlet",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace inlet thermostat",
+      "oemOutcome": "Replace inlet control thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_outlet",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace outlet thermostat",
+      "oemOutcome": "Replace outlet control thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hilimit",
+      "order": 14,
+      "type": "outcome",
+      "title": "Replace high-limit",
+      "oemOutcome": "Replace high-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_verified",
+      "order": 15,
+      "type": "outcome",
+      "title": "Heater & thermostats OK",
+      "oemOutcome": "Element resistances and thermostat continuity within spec.",
+      "requiresInput": false
+    }
+  ]
+}

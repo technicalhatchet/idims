@@ -1,0 +1,108 @@
+{
+  "id": "samsungrf28-autofill-overflow",
+  "version": "1.0.0",
+  "title": "AutoFill infuser overflow",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "autofill",
+    "water_dispenser"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF28-FRIDGE",
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-2",
+    "oemTestTitle": "AUTO FILL infuser overflow",
+    "pages": [
+      59,
+      93
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+      "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "overflow_check"
+    },
+    {
+      "id": "overflow_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect infuser",
+      "body": "Check AutoFill pitcher for overflow or stuck float.",
+      "sourceExcerpt": "Check AutoFill pitcher for overflow or stuck float.",
+      "requiresInput": false,
+      "defaultNextStepId": "overflow_voltage"
+    },
+    {
+      "id": "overflow_voltage",
+      "order": 3,
+      "type": "measurement",
+      "title": "Overflow sense voltage",
+      "body": "CN90 pin 11 \u2194 pin 13 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow.",
+      "sourceExcerpt": "CN90 pin 11 \u2194 pin 13 \u2014 4.5\u20135 V normal; 0\u20134.5 V = overflow.",
+      "measurementKnowledgeId": "samsungRf28AutofillOverflowVoltage",
+      "testPoint": {
+        "connector": "CN90",
+        "pins": "11 \u2194 13",
+        "label": "Overflow sense voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "af_crit",
+          "label": "Out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true
+        },
+        {
+          "id": "af_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "af_overflow",
+          "terminal": true
+        },
+        {
+          "id": "af_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "af_ok"
+        }
+      ]
+    },
+    {
+      "id": "af_overflow",
+      "order": 4,
+      "type": "outcome",
+      "title": "Clear overflow",
+      "oemOutcome": "Empty infuser and correct overflow condition.",
+      "requiresInput": false
+    },
+    {
+      "id": "af_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "AutoFill OK",
+      "oemOutcome": "No overflow detected.",
+      "requiresInput": false
+    }
+  ]
+}

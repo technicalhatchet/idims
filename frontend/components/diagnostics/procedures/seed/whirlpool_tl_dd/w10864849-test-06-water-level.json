@@ -1,0 +1,158 @@
+{
+  "id": "w10864849-test-06-water-level",
+  "version": "1.0.0",
+  "title": "TEST #6: Water Level",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "pressure_sensor",
+    "F3E1",
+    "F8E1",
+    "F8E3",
+    "F8E6",
+    "long_fill"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Water Level",
+    "pages": [
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "small_load_fill"
+    },
+    {
+      "id": "small_load_fill",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Small load fill stops automatically",
+      "body": "Run small load cycle. Do valves shut off at correct water level?",
+      "sourceExcerpt": "Run small load cycle. Do valves shut off at correct water level?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Fill stops correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "fill_bad",
+          "label": "Overfill or long fill",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "drain_tub",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain_tub",
+      "order": 3,
+      "type": "instruction",
+      "title": "Drain tub completely",
+      "body": "Drain all water from tub before pressure hose service.",
+      "sourceExcerpt": "Drain all water from tub before pressure hose service.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_pressure_hose"
+    },
+    {
+      "id": "check_pressure_hose",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Pressure hose and dome",
+      "body": "Hose secure at transducer (ACU) and pressure dome on tub? Routed without pinch? Clear of water/suds/debris?",
+      "sourceExcerpt": "Hose secure at transducer (ACU) and pressure dome on tub? Routed without pinch? Clear of water/suds/debris?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Hose OK after service",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_level",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "hose_bad",
+          "label": "Pinch, leak, or debris",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_hose",
+      "order": 5,
+      "type": "instruction",
+      "title": "Service pressure hose",
+      "body": "Disconnect hose at ACU, blow clear, fix routing, replace if leaking. Retest fill.",
+      "sourceExcerpt": "Disconnect hose at ACU, blow clear, fix routing, replace if leaking. Retest fill.",
+      "requiresInput": false,
+      "defaultNextStepId": "small_load_fill"
+    },
+    {
+      "id": "level_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Water level OK",
+      "oemOutcome": "Pressure transducer and hose path verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_level",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Hose path good \u2014 replace main control; run fill cycle in Service Diagnostics.",
+      "requiresInput": false
+    }
+  ]
+}

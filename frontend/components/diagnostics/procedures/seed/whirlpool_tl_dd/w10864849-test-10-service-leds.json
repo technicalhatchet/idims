@@ -1,0 +1,184 @@
+{
+  "id": "w10864849-test-10-service-leds",
+  "version": "1.0.0",
+  "title": "TEST #10: Service LEDs",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "hmi_control"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "service_led"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10",
+    "oemTestTitle": "Service LEDs",
+    "pages": [
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_service_leds"
+    },
+    {
+      "id": "access_service_leds",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access UI service LEDs",
+      "body": "Separate glass top from lid frame (Whirlpool) or access console UI (Maytag). Locate amber Power, blue Data, white Button Sounds LEDs.",
+      "sourceExcerpt": "Separate glass top from lid frame (Whirlpool) or access console UI (Maytag). Locate amber Power, blue Data, white Button Sounds LEDs.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_led_flash"
+    },
+    {
+      "id": "power_led_flash",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Service Power LED flashes at 1 Hz",
+      "body": "With power applied, does amber Service Power LED flash?",
+      "sourceExcerpt": "With power applied, does amber Service Power LED flash?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pwr_led_ok",
+          "label": "Flashes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "data_led_on"
+        },
+        {
+          "id": "pwr_led_bad",
+          "label": "No flash",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_ui_harness_led",
+          "terminal": true,
+          "oemOutcome": "UI not powered \u2014 check harness and ACU (TEST #1, #4).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "data_led_on",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Service Data LED illuminates",
+      "body": "Press POWER or cycle power. Does blue Service Data LED illuminate?",
+      "sourceExcerpt": "Press POWER or cycle power. Does blue Service Data LED illuminate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "data_ok",
+          "label": "Data LED on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "audio_led_on"
+        },
+        {
+          "id": "data_bad",
+          "label": "Data LED off",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_ui_harness_led",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "audio_led_on",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Button Sounds LED with audio enabled",
+      "body": "Control Lock off. Audio Level not muted. Does white Service Button Sounds LED illuminate?",
+      "sourceExcerpt": "Control Lock off. Audio Level not muted. Does white Service Button Sounds LED illuminate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "audio_ok",
+          "label": "White LED on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_led_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "hmi_control",
+              "evidenceId": "eliminate_hmi_control_5v_hmi_control_ok"
+            }
+          ]
+        },
+        {
+          "id": "audio_bad",
+          "label": "Still off",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui_led",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "hmi_control",
+              "evidenceId": "confirm_hmi_control_5v_hmi_control_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_ui_harness_led",
+      "order": 6,
+      "type": "outcome",
+      "title": "Check UI harness and ACU",
+      "oemOutcome": "Verify J18/UI harness continuity per TEST #4.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_ui_led",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace UI",
+      "oemOutcome": "All three service LEDs do not behave \u2014 replace user interface.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_led_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Service LEDs verified",
+      "oemOutcome": "Service Power, Data, and Button Sounds LEDs behave per manual.",
+      "requiresInput": false
+    }
+  ]
+}

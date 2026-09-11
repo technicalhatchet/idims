@@ -1,0 +1,282 @@
+{
+  "id": "samsungnx60-power",
+  "version": "1.0.0",
+  "title": "\u00a74-2: No power / no display",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "no_power",
+    "display_dead",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Control parts \u2014 no display",
+    "pages": [
+      68,
+      74
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "apply_power_check"
+    },
+    {
+      "id": "apply_power_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Restore power for voltage test",
+      "body": "Plug in cord or reset breaker. Measure input voltage at plug \u2014 120 VAC L\u2013N.",
+      "sourceExcerpt": "Plug in cord or reset breaker. Measure input voltage at plug \u2014 120 VAC L\u2013N.",
+      "requiresInput": false,
+      "defaultNextStepId": "board_voltage"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "board_voltage"
+    },
+    {
+      "id": "board_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Main PCB supply voltage",
+      "body": "CNP100 on Main PCB pin 5\u20137 \u2014 120 VAC with power applied.",
+      "sourceExcerpt": "CNP100 on Main PCB pin 5\u20137 \u2014 120 VAC with power applied.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "CNP100",
+        "pins": "5 \u2194 7",
+        "label": "Main PCB supply voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pwr_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "pwr_pass",
+          "label": "120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "harness_ok"
+        }
+      ]
+    },
+    {
+      "id": "harness_ok",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Harness and display connections",
+      "body": "Verify CN220/CN430 display harness and CN100 sub\u2194main connections seated.",
+      "sourceExcerpt": "Verify CN220/CN430 display harness and CN100 sub\u2194main connections seated.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "display_5v"
+        },
+        {
+          "id": "harness_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace loose harness."
+        }
+      ]
+    },
+    {
+      "id": "display_5v",
+      "order": 6,
+      "type": "measurement",
+      "title": "Display 5 V supply",
+      "body": "CN430 pins 1\u20132 \u2014 5 VDC on Sub PCB when powered.",
+      "sourceExcerpt": "CN430 pins 1\u20132 \u2014 5 VDC on Sub PCB when powered.",
+      "measurementKnowledgeId": "supplyVoltage120",
+      "testPoint": {
+        "connector": "CN430",
+        "pins": "1 \u2194 2 (5 VDC)",
+        "label": "Display 5 V supply"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "5v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "5v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "5v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_supply_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "5v_pass",
+          "label": "5 V present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "power_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_cord",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace cord",
+      "oemOutcome": "Replace power cord or restore supply when L\u2013N not 120 VAC.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_harness",
+      "order": 8,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Reconnect or replace display/main harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_sub_pcb",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace Sub PCB",
+      "oemOutcome": "Replace Sub PCB or LED display assembly when 5 V missing.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and board feed verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "board_voltage"
+    }
+  ]
+}

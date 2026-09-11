@@ -1,0 +1,218 @@
+{
+  "id": "w11803249-test-72-compressor",
+  "version": "1.0.0",
+  "title": "Service Test 72/75: Compressor & inverter",
+  "platformId": "whirlpool_theseus_cdfd",
+  "componentIds": [
+    "compressor"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W11803249",
+    "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "72",
+    "oemTestTitle": "Compressor Cooling Test",
+    "pages": [
+      78,
+      117
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_72"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Manual control mode active. Advance to the test step for this procedure.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_72",
+      "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+    },
+    {
+      "id": "select_test_72",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to manual test 72",
+      "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 72. Confirm with 1st button.",
+      "sourceExcerpt": "Manual test 72 \u2014 Compressor cooling",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_test"
+    },
+    {
+      "id": "comp_test",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run compressor test",
+      "body": "Test 72: compressor + condenser fan 100% until exit. Test 75: step speeds with Enter.",
+      "sourceExcerpt": "Test 72: compressor + condenser fan 100% until exit. Test 75: step speeds with Enter.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_runs"
+    },
+    {
+      "id": "comp_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Compressor runs",
+      "body": "120 VAC black-white and 12.7 VDC orange-blue at inverter?",
+      "sourceExcerpt": "120 VAC black-white and 12.7 VDC orange-blue at inverter?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench",
+          "terminal": true,
+          "oemOutcome": "Check inverter LED fault codes."
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench windings",
+      "body": "Power off. Compressor = 24.7 \u03a9.",
+      "sourceExcerpt": "Power off. Compressor = 24.7 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "ohms"
+    },
+    {
+      "id": "ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Compressor windings",
+      "body": "24.7 \u03a9 \u2014 if good, replace inverter.",
+      "sourceExcerpt": "24.7 \u03a9 \u2014 if good, replace inverter.",
+      "measurementKnowledgeId": "whirlpoolTheseusCdfdCompressorOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "windings",
+        "label": "Compressor windings"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "c_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "c_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "c_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "c_pass",
+          "label": "24.7 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11803249-theseus-acu-pinout",
+          "caption": "Theseus ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_theseus_cdfd/w11803249-theseus-acu-pinout.png"
+        },
+        {
+          "id": "w11803249-voltage-chart",
+          "caption": "Theseus ACU voltage chart \u2014 P1\u2013P70",
+          "assetPath": "/images/procedures/whirlpool_theseus_cdfd/w11803249-voltage-chart.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_comp",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace compressor/inverter",
+      "oemOutcome": "Windings failed or inverter fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Compressor verified",
+      "oemOutcome": "Tests 72/75 and compressor path OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11803249-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

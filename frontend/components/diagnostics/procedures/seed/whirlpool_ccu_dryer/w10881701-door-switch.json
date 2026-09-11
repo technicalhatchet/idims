@@ -1,0 +1,159 @@
+{
+  "id": "w10881701-door-switch",
+  "version": "1.0.0",
+  "title": "TEST #7: Door Switch",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "wont_start",
+    "no_spin"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Door Switch",
+    "pages": [
+      20
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drum_light_check"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "drum_light_check"
+    },
+    {
+      "id": "drum_light_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drum light door check",
+      "body": "Open door \u2192 drum light on. Close door \u2192 drum light off. Confirms door switch sense path.",
+      "sourceExcerpt": "Open door \u2192 drum light on. Close door \u2192 drum light off. Confirms door switch sense path.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "light_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_wiring"
+        },
+        {
+          "id": "light_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch / wire assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11737351-access-front-panel",
+          "caption": "Removing front panel and door switch (W11737351 p.11)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-front-panel.png"
+        }
+      ]
+    },
+    {
+      "id": "door_wiring",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door switch wiring at ACU",
+      "body": "Power off. Verify door switch wires J8-4 (tan) and J8-3 (white) connected per wiring diagram.",
+      "sourceExcerpt": "Power off. Verify door switch wires J8-4 (tan) and J8-3 (white) connected per wiring diagram.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wire_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "wire_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_switch",
+              "evidenceId": "confirm_door_switch_no"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11737351-access-front-panel",
+          "caption": "Removing front panel and door switch (W11737351 p.11)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-front-panel.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace door switch; verify start/stop with door.",
+      "requiresInput": false
+    },
+    {
+      "id": "door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door switch verified",
+      "oemOutcome": "Drum light and door switch wiring OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

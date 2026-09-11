@@ -1,0 +1,156 @@
+{
+  "id": "w11428632-test-05-water-level",
+  "version": "1.0.0",
+  "title": "TEST #5: Water Level",
+  "platformId": "whirlpool_tl_psc_washer",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "pressure_sensor",
+    "F3E2",
+    "F8E1",
+    "F8E3",
+    "F8E6",
+    "long_fill"
+  ],
+  "source": {
+    "manualId": "W11428632",
+    "manualTitle": "Whirlpool Multimedia Enhanced Top Load Washer (W11428632C)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11428632-revC-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Water Level",
+    "pages": [
+      31
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "pressure_sensor_feedback"
+    },
+    {
+      "id": "pressure_sensor_feedback",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Water Level Pressure Sensor cycle",
+      "body": "In Service Sensor Feedback, run Water Level Pressure Sensor cycle. Valves open, level rises on display, then decreases as basket drains.",
+      "sourceExcerpt": "In Service Sensor Feedback, run Water Level Pressure Sensor cycle. Valves open, level rises on display, then decreases as basket drains.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sensor_ok",
+          "label": "Behaves correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "sensor_bad",
+          "label": "Does not behave correctly",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_pressure_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_pressure_hose",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Pressure hose and dome",
+      "body": "Power off. Hose secure at ACU transducer and tub dome? Routed without pinch? Clear of water/suds/debris?",
+      "sourceExcerpt": "Power off. Hose secure at ACU transducer and tub dome? Routed without pinch? Clear of water/suds/debris?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Hose OK after service",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_level",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "hose_bad",
+          "label": "Pinch, leak, or debris",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service_hose",
+      "order": 4,
+      "type": "instruction",
+      "title": "Service pressure hose",
+      "body": "Disconnect hose at ACU, blow clear, fix routing, replace if leaking. Retest Sensor Feedback.",
+      "sourceExcerpt": "Disconnect hose at ACU, blow clear, fix routing, replace if leaking. Retest Sensor Feedback.",
+      "requiresInput": false,
+      "defaultNextStepId": "pressure_sensor_feedback"
+    },
+    {
+      "id": "level_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Water level OK",
+      "oemOutcome": "Pressure transducer and hose path verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_level",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Hose path good \u2014 replace main control; run Water Level Sensor Feedback to verify.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11428632-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "pressure_sensor_feedback"
+    }
+  ]
+}

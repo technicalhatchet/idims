@@ -1,0 +1,201 @@
+{
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "platformId": "samsung_flexwash",
+  "templateId": "washer",
+  "label": "Samsung FlexWash WV55M9600 dual-load washer",
+  "notes": "\u00a74-2 Test Mode + \u00a74-3 corrective actions. Upper + lower compartments; AC7/DC4 FlexWash-specific.",
+  "plannedProcedures": [
+    {
+      "id": "samsungflexwash-water-level-sensor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Water level sensor (1C)",
+      "status": "generated",
+      "relatedCodes": [
+        "1C"
+      ]
+    },
+    {
+      "id": "samsungflexwash-motor-circuit",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Lower DD motor (3C)",
+      "status": "generated",
+      "relatedCodes": [
+        "3C"
+      ]
+    },
+    {
+      "id": "samsungflexwash-upper-motor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Upper washer motor (3C)",
+      "status": "generated",
+      "relatedCodes": [
+        "3C"
+      ]
+    },
+    {
+      "id": "samsungflexwash-inlet-valves",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Water supply (4C, 4C2)",
+      "status": "generated",
+      "relatedCodes": [
+        "4C",
+        "4C2"
+      ]
+    },
+    {
+      "id": "samsungflexwash-drain-pump",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Drain pump (5C)",
+      "status": "generated",
+      "relatedCodes": [
+        "5C"
+      ]
+    },
+    {
+      "id": "samsungflexwash-communication",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Sub/main PBA communication (AC)",
+      "status": "generated",
+      "relatedCodes": [
+        "AC"
+      ]
+    },
+    {
+      "id": "samsungflexwash-wifi-communication",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: WiFi module communication (AC4)",
+      "status": "generated",
+      "relatedCodes": [
+        "AC4"
+      ]
+    },
+    {
+      "id": "samsungflexwash-inverter-communication",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Inverter PBA communication (AC6)",
+      "status": "generated",
+      "relatedCodes": [
+        "AC6"
+      ]
+    },
+    {
+      "id": "samsungflexwash-interload-communication",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Upper-lower PBA communication (AC7)",
+      "status": "generated",
+      "relatedCodes": [
+        "AC7"
+      ]
+    },
+    {
+      "id": "samsungflexwash-hmi-check",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Control panel (BC2)",
+      "status": "generated",
+      "relatedCodes": [
+        "BC2"
+      ]
+    },
+    {
+      "id": "samsungflexwash-door-lock",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Lower door lock (DC, DC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "dC",
+        "DC"
+      ]
+    },
+    {
+      "id": "samsungflexwash-upper-door",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Upper compartment door (DC4, DC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "DC4"
+      ]
+    },
+    {
+      "id": "samsungflexwash-wash-heater",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Wash heater (HC, HC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "HC"
+      ]
+    },
+    {
+      "id": "samsungflexwash-wash-thermistor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Wash temperature sensor (TC1)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungflexwash-inverter-thermal",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Inverter over-temperature (TC4)",
+      "status": "generated",
+      "relatedCodes": [
+        "TC4"
+      ]
+    },
+    {
+      "id": "samsungflexwash-leak-check",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Water leakage (LC, LC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "LC"
+      ]
+    },
+    {
+      "id": "samsungflexwash-overflow",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Overflow (OC)",
+      "status": "generated",
+      "relatedCodes": [
+        "OC"
+      ]
+    },
+    {
+      "id": "samsungflexwash-unbalance",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Unbalance (UB)",
+      "status": "generated",
+      "relatedCodes": [
+        "UB"
+      ]
+    },
+    {
+      "id": "samsungflexwash-power-supply",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Power (9C1, 9C2)",
+      "status": "generated",
+      "relatedCodes": [
+        "9C1",
+        "9C2"
+      ]
+    },
+    {
+      "id": "samsungflexwash-mems-sensor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)",
+      "status": "generated",
+      "relatedCodes": [
+        "8C",
+        "8C1",
+        "8C2"
+      ]
+    },
+    {
+      "id": "samsungflexwash-system-fault",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: System fault (SF)",
+      "status": "generated",
+      "relatedCodes": [
+        "SF"
+      ]
+    }
+  ]
+}

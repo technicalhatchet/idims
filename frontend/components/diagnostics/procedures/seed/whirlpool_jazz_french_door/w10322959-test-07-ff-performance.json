@@ -1,0 +1,84 @@
+{
+  "id": "w10322959-test-07-ff-performance",
+  "version": "1.0.0",
+  "title": "Service Test 7: FF performance offset",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "control_board"
+  ],
+  "tags": [
+    "calibration",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "FF Performance Adjustment",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_7"
+    },
+    {
+      "id": "service_mode_after_se_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Service Test Mode (S-E) entered. Use Freezer UP/DOWN to select the test number for this procedure.",
+      "sourceExcerpt": "You are now in the SERVICES TEST operational mode and may use the diagnostic tests.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_7"
+    },
+    {
+      "id": "select_test_7",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 7",
+      "body": "In Service Test Mode (S-E), use Freezer UP/DOWN keys until freezer display shows 7. Refrigerator display blank until test is activated.",
+      "sourceExcerpt": "Service Test 7 \u2014 FF performance adjustment",
+      "requiresInput": false,
+      "defaultNextStepId": "ff_offset_info"
+    },
+    {
+      "id": "ff_offset_info",
+      "order": 4,
+      "type": "instruction",
+      "title": "Adjust FF performance offset",
+      "body": "Service Test 7 adjusts fresh food performance \u00b11\u00b0 per step. WARMER \u2190 (1 2 3 4 (5) 6 7 8 9) \u2192 COLDER using Refrigerator UP/DOWN. Default is 5. Last value saves when refrigerator door closes. Use only when cabinet temps verified normal and complaint is mild FF offset.",
+      "sourceExcerpt": "Adjustments of Service Test 7 will alter the performance of the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "ff_offset_done"
+    },
+    {
+      "id": "ff_offset_done",
+      "order": 5,
+      "type": "outcome",
+      "title": "FF offset documented",
+      "oemOutcome": "Record FF performance offset if adjusted. Re-check food temps after 24 hr.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10322959-service-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_se_entry"
+    }
+  ]
+}

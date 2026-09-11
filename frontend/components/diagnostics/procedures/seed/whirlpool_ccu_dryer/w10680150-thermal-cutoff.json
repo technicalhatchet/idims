@@ -1,0 +1,100 @@
+{
+  "id": "w10680150-thermal-cutoff",
+  "version": "1.0.0",
+  "title": "TEST #4c: Thermal Cut-Off",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "thermal_cutoff"
+  ],
+  "tags": [
+    "no_heat",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "W10680150",
+    "manualTitle": "Whirlpool & Maytag CCU Electric/Gas Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/whirlpool-electric-gas-dryers-extracted.txt",
+    "verifiedAt": "2026-03-08",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4c",
+    "oemTestTitle": "Thermal Cut-Off",
+    "pages": [
+      17
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_cutoff"
+    },
+    {
+      "id": "access_cutoff",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access thermal cut-off",
+      "body": "At heater assembly per Figure 20a/20b.",
+      "sourceExcerpt": "At heater assembly per Figure 20a/20b.",
+      "requiresInput": false,
+      "defaultNextStepId": "cutoff_continuity"
+    },
+    {
+      "id": "cutoff_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Cut-off continuity",
+      "body": "Open \u2192 replace thermal cut-off AND high-limit thermostat.",
+      "sourceExcerpt": "Open \u2192 replace thermal cut-off AND high-limit thermostat.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cutoff_verified"
+        },
+        {
+          "id": "cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace cut-off and high-limit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutoff",
+              "evidenceId": "confirm_thermal_cutoff_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_cutoff",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace cut-off & high-limit",
+      "oemOutcome": "Replace thermal cut-off and high-limit.",
+      "requiresInput": false
+    },
+    {
+      "id": "cutoff_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Cut-off verified",
+      "oemOutcome": "Thermal cut-off shows continuity.",
+      "requiresInput": false
+    }
+  ]
+}

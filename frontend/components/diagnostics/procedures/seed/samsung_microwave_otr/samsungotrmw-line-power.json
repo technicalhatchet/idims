@@ -1,0 +1,229 @@
+{
+  "id": "samsungotrmw-line-power",
+  "version": "1.0.0",
+  "title": "\u00a75-1: Dead Unit (No Display)",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "line_fuse"
+  ],
+  "tags": [
+    "no_power",
+    "fuse_check",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-dead",
+    "oemTestTitle": "Oven is dead \u2014 no display",
+    "pages": [
+      31,
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_ok"
+    },
+    {
+      "id": "fuse_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Line fuse continuity OK?",
+      "body": "If fuse is blown, replace primary, door sensing, power relay, and monitor switch together per \u00a71-1 NOTE 12.",
+      "sourceExcerpt": "Fuse is OK \u2192 check harness; fuse blown by monitor \u2192 replace switch set.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_check_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_check"
+        },
+        {
+          "id": "harness_check_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_interlock_set",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "line_fuse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_interlock_set",
+      "order": 3,
+      "type": "instruction",
+      "title": "Replace fuse and interlock set",
+      "body": "Replace line fuse and all interlock/monitor/relay parts per adjustment \u00a74-6.",
+      "sourceExcerpt": "Replace line fuse and all interlock/monitor/relay parts per adjustment \u00a74-6.",
+      "requiresInput": false,
+      "defaultNextStepId": "fuse_ok"
+    },
+    {
+      "id": "harness_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harness and connectors seated?",
+      "body": "Check for open or loose lead wire harness and PCB connectors.",
+      "sourceExcerpt": "Check for open or loose lead wire harness and PCB connectors.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "magnetron_tco_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "magnetron_tco"
+        },
+        {
+          "id": "magnetron_tco_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "line_fuse"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 5,
+      "type": "instruction",
+      "title": "Repair harness",
+      "body": "Repair or replace open harness; reseat PCB connectors.",
+      "sourceExcerpt": "Repair or replace open harness; reseat PCB connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "magnetron_tco",
+      "order": 6,
+      "type": "measurement",
+      "title": "Magnetron thermal cutout continuity",
+      "body": "Continuity across magnetron thermal cutout \u2014 normally closed.",
+      "sourceExcerpt": "Open thermal cutout (Magnetron) \u2014 check fan motor when defective.",
+      "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+      "testPoint": {
+        "connector": "Magnetron TCO",
+        "pins": "both terminals",
+        "label": "Magnetron thermal cutout continuity"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pcb_suspect_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pcb_suspect",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "pcb_suspect_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_mag_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "pcb_suspect_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_mag_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "pcb_suspect_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_mag_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-wiring-2",
+          "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_mag_tco",
+      "order": 7,
+      "type": "instruction",
+      "title": "Replace magnetron TCO",
+      "body": "Replace open magnetron thermal cutout; verify cooling fan.",
+      "sourceExcerpt": "Replace open magnetron thermal cutout; verify cooling fan.",
+      "requiresInput": false,
+      "defaultNextStepId": "magnetron_tco"
+    },
+    {
+      "id": "pcb_suspect",
+      "order": 8,
+      "type": "outcome",
+      "title": "Suspect main PCB or LVT",
+      "body": "Fuse, harness, and magnetron TCO OK \u2014 check low-voltage transformer and main PCB (Ass'y PCB).",
+      "oemOutcome": "Fuse, harness, and magnetron TCO OK \u2014 check low-voltage transformer and main PCB (Ass'y PCB).",
+      "requiresInput": false
+    }
+  ]
+}

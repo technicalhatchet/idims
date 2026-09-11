@@ -47,18 +47,41 @@ function compareOemTestNumber(a: string, b: string): number {
 }
 
 const COMPLAINT_CHIP_PROCEDURE_TAGS: Record<string, string[]> = {
+  // Washer / laundry
   wont_spin: ['spin_issue', 'motor_check', 'door_lock_check', 'wont_spin'],
   wont_agitate: ['spin_issue', 'motor_check'],
   wont_drain: ['drain_issue', 'pump_check', 'wont_drain'],
   lid_lock: ['door_lock_check', 'lid_lock', 'F5E1', 'F5E2', 'F5E3'],
-  no_heat: ['heating_element_check', 'F4E1', 'F4E2', 'no_heat', 'dry_heat', 'thermistor'],
   no_fill: ['water_valve_check', 'fill_issue', 'no_fill', 'F8E1'],
   vibration: ['motor_check'],
   noisy: ['motor_check', 'pump_check', 'vent_fan_check'],
-  error_code: ['error_code', 'F3E1', 'F8E1', 'F4E1', 'voltage_check', 'hmi_check', 'supply_issue'],
+  // Dryer (shared chips)
+  no_heat: ['heating_element_check', 'F4E1', 'F4E2', 'no_heat', 'dry_heat', 'thermistor', 'igniter_check', 'gas_valve_check', 'F9'],
+  error_code: ['error_code', 'F3E1', 'F8E1', 'F4E1', 'voltage_check', 'hmi_check', 'supply_issue', 'F1', 'F2', 'F6'],
   hmi_check: ['hmi_check', 'error_code', 'F3E1'],
   dispenser_check: ['dispenser_check', 'fill_issue'],
   vent_fan_check: ['vent_fan_check', 'noisy', 'dry_heat'],
+  // Refrigerator
+  frost_buildup: ['defrost_heater', 'frost_buildup', 'thermistor_check'],
+  not_cooling: ['no_cool', 'sensor_check', 'compressor_check', 'sealed_system'],
+  weak_cooling_ff: ['no_cool', 'sensor_check', 'thermistor_check'],
+  weak_cooling_fz: ['no_cool', 'sensor_check', 'defrost_heater'],
+  weak_cooling: ['no_cool', 'sensor_check'],
+  ice_maker: ['no_ice', 'ice_maker', 'E1', 'E2', 'E3', 'E4', 'E5'],
+  water_dispenser: ['dispenser_check', 'fill_issue'],
+  leaking: ['fill_issue'],
+  display_dead: ['no_power', 'hmi_check', 'supply_issue'],
+  compressor_wont_start: ['compressor_check', 'sealed_system', 'supply_issue'],
+  // Dishwasher
+  not_cleaning: ['wash_motor', 'motor_check'],
+  no_heat_dry: ['heating_element_check', 'no_heat'],
+  wont_start: ['no_power', 'supply_issue', 'hmi_check'],
+  // Range
+  no_bake: ['bake_element', 'heating_element_check', 'no_heat', 'F9'],
+  no_broil: ['broil_element', 'heating_element_check', 'no_heat'],
+  surface_burners: ['cooktop_element', 'surface_burner', 'surface_ignition'],
+  no_power: ['no_power', 'supply_issue', 'display_dead'],
+  self_clean: ['door_latch_check', 'door_lock_check'],
 };
 
 const UI_VARIANT_LABELS: Record<ServiceModeUiVariant, string> = {
@@ -118,7 +141,7 @@ function scoreProcedure(
   if (saved?.status === 'in_progress') return 100;
   if (saved?.status === 'completed') return 80;
 
-  let score = 0;
+  let score = 25;
 
   const matchedErrorCodes = procedureMatchesErrorCode(procedure.tags, errorCodes);
   score += matchedErrorCodes.length * 35;

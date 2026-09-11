@@ -1,0 +1,150 @@
+{
+  "manualId": "W11509412",
+  "platformId": "whirlpool_ka_french_door",
+  "templateId": "refrigerator",
+  "label": "Whirlpool/KitchenAid ACU French door refrigerator (W11509412)",
+  "notes": "Dispenser UI service diagnostics; RC ice-in-compartment; IM error codes E0\u2013E5 via test 56. EMD55CLT compressor.",
+  "plannedProcedures": [
+    {
+      "id": "w11509412-test-01-fc-thermistor",
+      "oemSection": "1",
+      "title": "Service Test 1: Freezer compartment thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11509412-test-02-rc-thermistor",
+      "oemSection": "2",
+      "title": "Service Test 2: Refrigerator compartment thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdThermistorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11509412-test-03-evap-fan-damper",
+      "oemSection": "3",
+      "title": "Service Test 3: Evaporator fan & air baffle",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11509412-test-04-compressor",
+      "oemSection": "4",
+      "title": "Service Test 4: Compressor & condenser fan",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdCompressorRunOhms",
+        "whirlpoolKaFdCompressorStartOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11509412-test-06-defrost",
+      "oemSection": "6",
+      "title": "Service Test 6: Defrost heater & bimetal",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdDefrostHeaterOhms",
+        "whirlpoolKaFdDefrostBimetalOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11509412-test-36-ice-box-fan",
+      "oemSection": "36",
+      "title": "Service Test 36: Ice box fan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "w11509412-test-37-ice-box-thermistor",
+      "oemSection": "37",
+      "title": "Service Test 37: Ice box thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdThermistorOhms"
+      ],
+      "relatedCodes": [
+        "E1",
+        "E5"
+      ]
+    },
+    {
+      "id": "w11509412-test-19-fill-tube-heater",
+      "oemSection": "19",
+      "title": "Service Test 19: Fill tube & fascia heater",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "w11509412-test-45-ice-water-fill",
+      "oemSection": "45",
+      "title": "Service Test 45: Ice maker water fill",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    },
+    {
+      "id": "w11509412-test-56-ice-maker-errors",
+      "oemSection": "56",
+      "title": "Service Test 56: Ice maker error codes (E0\u2013E5)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ]
+    },
+    {
+      "id": "w11509412-test-57-ice-harvest",
+      "oemSection": "57",
+      "title": "Service Test 57: Ice maker harvest",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E2"
+      ]
+    },
+    {
+      "id": "w11509412-test-58-ice-heater-thermistor",
+      "oemSection": "58",
+      "title": "Service Test 58: Ice maker heater & thermistor",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolKaFdIceMakerThermistorOhms"
+      ],
+      "relatedCodes": [
+        "E3",
+        "E5"
+      ]
+    },
+    {
+      "id": "w11509412-test-59-ice-motor",
+      "oemSection": "59",
+      "title": "Service Test 59: Ice maker motor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E2"
+      ]
+    }
+  ]
+}

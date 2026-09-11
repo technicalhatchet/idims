@@ -1,0 +1,39 @@
+{
+  "id": "w10864849-service-test-mode",
+  "version": "1.0.0",
+  "platformId": "whirlpool_tl_dd",
+  "manualId": "W10864849",
+  "title": "W10864849 \u2014 Service Test Mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Enter Service Test Mode via 2nd diagnostic button; select functions with Soil Level/Temperature; START toggles loads.",
+  "tags": [
+    "service_test",
+    "live_test",
+    "component_activation"
+  ],
+  "entryStepId": "service_test_entry",
+  "source": {
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "pages": [
+      15,
+      16,
+      17
+    ]
+  },
+  "steps": [
+    {
+      "id": "service_test_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Test Mode",
+      "body": "With Service Diagnostic mode active, press and release the 2nd button used for diagnostic entry. POWER and START indicators: START flashes. Use Soil Level (+) or Temperature (\u2212) to select function number (001\u2013018, 051 verification cycle, 052 load calibration). Press START to toggle selected function on/off \u2014 flashing display = function active. Max four functions on simultaneously. POWER exits to standby.",
+      "sourceExcerpt": "To enter Service Test Mode, press and release the 2nd button used to activate the Service Diagnostic mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

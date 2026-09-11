@@ -1,0 +1,172 @@
+{
+  "id": "w2225623-ime-errors",
+  "version": "1.0.0",
+  "title": "Test 56 ice maker errors (IME2\u2013IME5)",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IME2",
+    "IME3",
+    "IME4",
+    "IME5",
+    "E2",
+    "E3",
+    "E4",
+    "E5"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "56",
+    "oemTestTitle": "Electronic model ice maker service codes",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "ime_code"
+    },
+    {
+      "id": "ime_code",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Which test 56 code is displayed?",
+      "body": "French-door / electronic models show IME codes during service test 56. Modular 2225623 uses L/N/M/T/H/V test points.",
+      "sourceExcerpt": "French-door / electronic models show IME codes during service test 56. Modular 2225623 uses L/N/M/T/H/V test points.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ime_e2",
+          "label": "E2 / IME2 \u2014 motor home",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_e2"
+        },
+        {
+          "id": "ime_e3",
+          "label": "E3 / IME3 \u2014 heater timeout",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_e3"
+        }
+      ]
+    },
+    {
+      "id": "route_e2",
+      "order": 3,
+      "type": "instruction",
+      "title": "IME2 \u2014 motor path",
+      "body": "Run w2225623-motor-circuit: L\u2013M should read 8800 \u03a9 off support; verify cam \"D\" coupling alignment.",
+      "sourceExcerpt": "Run w2225623-motor-circuit: L\u2013M should read 8800 \u03a9 off support; verify cam \"D\" coupling alignment.",
+      "requiresInput": false,
+      "defaultNextStepId": "e2_done"
+    },
+    {
+      "id": "route_e3",
+      "order": 4,
+      "type": "instruction",
+      "title": "IME3 \u2014 heater / bimetal / fuse path",
+      "body": "Run w2225623-mold-heater (L\u2013H 72 \u03a9), w2225623-bimetal (T\u2013H), and w2225623-harness-fuse (IMFUSE).",
+      "sourceExcerpt": "Run w2225623-mold-heater (L\u2013H 72 \u03a9), w2225623-bimetal (T\u2013H), and w2225623-harness-fuse (IMFUSE).",
+      "requiresInput": false,
+      "defaultNextStepId": "e3_done"
+    },
+    {
+      "id": "ime_code_2",
+      "order": 5,
+      "type": "visual_check",
+      "title": "E4 or E5 displayed?",
+      "body": "E4/IME4 = dry cycle (no water). E5/IME5 = thermistor on electronic models; modular uses bimetal T\u2013H.",
+      "sourceExcerpt": "E4/IME4 = dry cycle (no water). E5/IME5 = thermistor on electronic models; modular uses bimetal T\u2013H.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ime_e4",
+          "label": "E4 / IME4 \u2014 dry cycle",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_e4"
+        },
+        {
+          "id": "ime_e5",
+          "label": "E5 / IME5 \u2014 thermistor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_e5"
+        }
+      ]
+    },
+    {
+      "id": "route_e4",
+      "order": 6,
+      "type": "instruction",
+      "title": "IME4 \u2014 water fill path",
+      "body": "Run w2225623-water-valve: N\u2013V valve voltage and 140 cc / 7.5 s fill specification.",
+      "sourceExcerpt": "Run w2225623-water-valve: N\u2013V valve voltage and 140 cc / 7.5 s fill specification.",
+      "requiresInput": false,
+      "defaultNextStepId": "e4_done"
+    },
+    {
+      "id": "route_e5",
+      "order": 7,
+      "type": "instruction",
+      "title": "IME5 \u2014 bimetal substitute",
+      "body": "On modular 2225623, harvest thermostat is bimetal T\u2013H (not thermistor). Run w2225623-bimetal procedure.",
+      "sourceExcerpt": "On modular 2225623, harvest thermostat is bimetal T\u2013H (not thermistor). Run w2225623-bimetal procedure.",
+      "requiresInput": false,
+      "defaultNextStepId": "e5_done"
+    },
+    {
+      "id": "e2_done",
+      "order": 8,
+      "type": "outcome",
+      "title": "IME2 path complete",
+      "oemOutcome": "Motor L\u2013M and cam coupling checked per 2225623 sheet.",
+      "requiresInput": false
+    },
+    {
+      "id": "e3_done",
+      "order": 9,
+      "type": "outcome",
+      "title": "IME3 path complete",
+      "oemOutcome": "Heater, bimetal, and harness fuse checked per 2225623 sheet.",
+      "requiresInput": false
+    },
+    {
+      "id": "e4_done",
+      "order": 10,
+      "type": "outcome",
+      "title": "IME4 path complete",
+      "oemOutcome": "Water valve N\u2013V and fill volume checked per 2225623 sheet.",
+      "requiresInput": false
+    },
+    {
+      "id": "e5_done",
+      "order": 11,
+      "type": "outcome",
+      "title": "IME5 path complete",
+      "oemOutcome": "Bimetal T\u2013H checked \u2014 modular module has no mold thermistor.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+---
+description: OEM procedure layer product intent, WO integration gaps, and fix order (ingestion first)
+alwaysApply: true
+---
+
+# OEM Procedure Layer — Product Intent & Integration Plan
+
+## What it is (not an alternative)
+
+The OEM procedure layer is an **additional** diagnostic source alongside the existing guided wizard, evidence graph, and intelligence — **not** a replacement.
+
+- **Wizard** = complaint routing, pre-checks, generic fields, elimination/intelligence, note output.
+- **OEM procedures** = platform-matched manual tests (step-through, ohms, diagrams, service modes) that **feed** diagnostic effects into the same evidence graph when run.
+- UX goal: **lead** the tech (surface the right OEM test when complaint/chips/error codes/platform match), not suggest backwards wizard steps like "Client Complaint" after that step is done.
+
+## Known WO gaps (Mar 2026)
+
+**Fixed:** OEM procedure panel was hidden on work orders because `showProcedurePanel` required `solomonMobileLayout` — removed; panel shows on WO + desktop guided diagnostics when platform resolves.
+
+**Remaining:**
+- No visible equipment context in wizard header (make/model only on OEM banner today).
+- Error-code → procedure scoring works but could lead wizard more aggressively.
+- Wizard `rankNextWizardSteps` can recommend already-completed steps — **partial fix** in `WizardSuggestedStep`.
+- `functional_checks.lid_lock_operation` asks obvious questions when lock failure is already asserted.
+- OEM procedures are not yet **primary lead** in the wizard flow (parallel UI, not integrated step).
+
+**WO procedure panel (Mar 2026):** Ungated — `showProcedurePanel` no longer requires `solomonMobileLayout`. Platform banner shows manual id, platform label, procedure count, and equipment make/model when platform resolves from WO fields.
+
+Dev smoke test: `/solomon/procedures/dev` (recommendation harness without a work order).
+
+## Fix order (do not reorder without user ask)
+
+### Phase 1 — Manual ingestion pipeline (FIRST)
+
+Build/extend the **assisted ingestion tool** for new service manuals before more WO UX work:
+- PDF extract → section index → draft procedure seeds → human review → validate → registry.
+- Family templates (Duet Sport washer/dryer, FL DD, etc.), not one-off generators forever.
+- Human-in-the-loop on branches, diagnostic effects, and evidence links — no blind LLM ingest to prod.
+
+Rationale: WO integration should surface **stable, reviewed** procedure content; ingesting more manuals without the pipeline creates more drift.
+
+### Phase 2 — Work-order diagnostic integration
+
+1. ~~Show `SolomonProcedurePanel` on WO guided diagnostics when `procedureCatalog.length > 0`~~ **Done** — removed `solomonMobileLayout` gate; desktop WO layout included.
+2. ~~Platform resolution banner~~ **Done** — manual id, platform label, procedure count on panel.
+3. Lead with OEM: complaint chips / error codes / intelligence suspects boost procedure panel; do not rely on hidden sidecar.
+4. Pull WO appliance fields into diagnostic header/context (make, model, subtype) — already used for `measurementContext`, make visible.
+
+### Phase 3 — Wizard + intelligence alignment
+
+1. Never recommend `complaint` (or any visited step) as "next suggested step". **Partial:** `WizardSuggestedStep` skips all `visitedStepKeys`.
+2. Map top OEM procedure recommendations into wizard lead (e.g. door lock → highlight mechanical + offer `w8178558-door-lock`).
+3. Skip or rephrase redundant functional questions when complaint/chips already assert the failure mode.
+
+## Platform notes
+
+- `WFW8300` matches `whirlpool_duet_sport` when make is Whirlpool/Maytag and template is `washer`.
+- Duet Sport door lock OEM: `w8178558-door-lock` (tags: F22, F26, F29, `door_lock_check`).
+- Duet Sport dryer: 13 procedures on `whirlpool_duet_sport_dryer`; gas-only seeds use `templateIds: ["gas_dryer"]`, electric heater uses `["electric_dryer"]`.
+- Ingestion playbook (per-manual checklists): `.cursor/rules/oem-manual-ingestion-playbook.mdc`.

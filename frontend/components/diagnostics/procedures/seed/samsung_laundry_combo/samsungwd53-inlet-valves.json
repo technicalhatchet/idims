@@ -1,0 +1,157 @@
+{
+  "id": "samsungwd53-inlet-valves",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Inlet valves (4C, Co/Ho manual check)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "4C",
+    "4C2",
+    "fill_issue",
+    "water_valve_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Water Supply Error 4C",
+    "pages": [
+      47,
+      55
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hose_routing"
+    },
+    {
+      "id": "hose_routing",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Hose routing",
+      "body": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer pressure hose not folded or torn.",
+      "sourceExcerpt": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer pressure hose not folded or torn.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hoses_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "smart_install_valves"
+        },
+        {
+          "id": "fix_hoses",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hoses_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose engagement and drawer hose routing."
+        }
+      ]
+    },
+    {
+      "id": "smart_install_valves",
+      "order": 3,
+      "type": "instruction",
+      "title": "Smart Install valve tests",
+      "body": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty.",
+      "sourceExcerpt": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_visual"
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "valve_visual"
+    },
+    {
+      "id": "valve_visual",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Valves operate in manual check",
+      "body": "Do cold and hot valves open when commanded?",
+      "sourceExcerpt": "Do cold and hot valves open when commanded?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified"
+        },
+        {
+          "id": "check_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_supply_out",
+          "terminal": true,
+          "oemOutcome": "Verify taps open, screens clean; replace valve assembly."
+        }
+      ]
+    },
+    {
+      "id": "fix_hoses_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Fix hose routing",
+      "oemOutcome": "Correct hot/cold engagement and drawer hose.",
+      "requiresInput": false
+    },
+    {
+      "id": "check_supply_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Check water supply",
+      "oemOutcome": "Open taps, clean mesh filters, verify pressure.",
+      "requiresInput": false
+    },
+    {
+      "id": "inlet_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Inlet valves OK",
+      "oemOutcome": "Valves operate in Smart Install.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungwd53-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "smart_install_valves",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungwd53-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "valve_visual"
+    }
+  ]
+}

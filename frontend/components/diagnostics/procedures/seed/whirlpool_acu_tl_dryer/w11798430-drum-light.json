@@ -1,0 +1,118 @@
+{
+  "id": "w11798430-drum-light",
+  "version": "1.0.0",
+  "title": "TEST #7: Drum Light",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "componentIds": [
+    "drum_light"
+  ],
+  "tags": [
+    "drum_light_check",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "W11798430",
+    "manualTitle": "Whirlpool 7.0 cu. ft. Gas & Electric Dryers Technical Manual (WED4100/WGD4100)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11798430-revc wed4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7",
+    "oemTestTitle": "Drum Light",
+    "pages": [
+      74
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_light_check"
+    },
+    {
+      "id": "door_light_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Door-open drum light",
+      "body": "Open door \u2014 drum light should illuminate. If not, access ACU and drum light harness.",
+      "sourceExcerpt": "Open door \u2014 drum light should illuminate. If not, access ACU and drum light harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "harness_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Harness continuity",
+      "body": "Power off. Check harness and inline connections between drum light and ACU.",
+      "sourceExcerpt": "Power off. Check harness and inline connections between drum light and ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j7_bulb_ohms"
+    },
+    {
+      "id": "j7_bulb_ohms",
+      "order": 4,
+      "type": "visual_check",
+      "title": "J7-3 to J7-4 with door open",
+      "body": "Ohms at ACU J7 pins 3\u20134, door open: expect 10 \u03a9\u20131.44 k\u03a9 (bulb good). Door closed = OL.",
+      "sourceExcerpt": "Ohms at ACU J7 pins 3\u20134, door open: expect 10 \u03a9\u20131.44 k\u03a9 (bulb good). Door closed = OL.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bulb_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drum_light_verified"
+        },
+        {
+          "id": "bulb_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bulb_or_switch",
+          "terminal": true,
+          "oemOutcome": "Replace bulb or door switch per pin-out test at light.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drum_light",
+              "evidenceId": "confirm_drum_light_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bulb_or_switch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace bulb or door switch",
+      "oemOutcome": "Replace drum light bulb; if bulb OK at light, replace door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_drum",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "oemOutcome": "Resistance good at board but no light \u2014 replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "drum_light_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Drum light verified",
+      "oemOutcome": "Drum light illuminates when door opens.",
+      "requiresInput": false
+    }
+  ]
+}

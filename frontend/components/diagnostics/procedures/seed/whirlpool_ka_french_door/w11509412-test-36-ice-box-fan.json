@@ -1,0 +1,131 @@
+{
+  "id": "w11509412-test-36-ice-box-fan",
+  "version": "1.0.0",
+  "title": "Service Test 36: Ice box fan",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "evap_fan",
+    "ice_maker"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "E1",
+    "evap_fan"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "36",
+    "oemTestTitle": "Ice Box Fan",
+    "pages": [
+      3
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_36"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_36"
+    },
+    {
+      "id": "select_test_36",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 36",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 36. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 36 \u2014 Ice box fan",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_fan_toggle"
+    },
+    {
+      "id": "ice_fan_toggle",
+      "order": 4,
+      "type": "instruction",
+      "title": "Toggle ice box fan",
+      "body": "Press SW3 to control ice box fan. Temp display: 01=on, 02=off. Verify airflow from ice box fan (3500 RPM spec).",
+      "sourceExcerpt": "Press SW3 to control ice box fan. Temp display: 01=on, 02=off. Verify airflow from ice box fan (3500 RPM spec).",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_fan_runs"
+    },
+    {
+      "id": "ice_fan_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Ice box fan operation",
+      "body": "With display 01 (fan on), is airflow present from the ice compartment fan?",
+      "sourceExcerpt": "With display 01 (fan on), is airflow present from the ice compartment fan?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_fan_verified"
+        },
+        {
+          "id": "fan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ice_fan",
+          "terminal": true,
+          "oemOutcome": "Ice box fan does not run \u2014 check P8-5/P8-4 harness and 12.7 VDC supply.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_kw_22e_evap_fan"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_ice_fan",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice box fan",
+      "oemOutcome": "Replace ice box fan motor when it does not run in service test 36.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_fan_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Ice box fan verified",
+      "oemOutcome": "Ice box fan operates correctly in service test 36.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

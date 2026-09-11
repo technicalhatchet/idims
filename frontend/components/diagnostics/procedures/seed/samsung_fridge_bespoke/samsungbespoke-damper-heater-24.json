@@ -1,0 +1,137 @@
+{
+  "id": "samsungbespoke-damper-heater-24",
+  "version": "1.0.0",
+  "title": "Damper heater (24 \u03a9 \u2014 RF32CG)",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper_heater"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF32CG-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF32CG/RF31CG/RF26CG",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf32cg-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Damper heater error",
+    "pages": [
+      98,
+      99
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "damp24_off"
+    },
+    {
+      "id": "damp24_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect CN40",
+      "body": "Power off. Disconnect CN40.",
+      "sourceExcerpt": "Power off. Disconnect CN40.",
+      "requiresInput": false,
+      "defaultNextStepId": "damp24_ohms"
+    },
+    {
+      "id": "damp24_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Damper heater 24 \u03a9",
+      "body": "CN40 25\u219427 \u2014 24 \u03a9 \u00b17%.",
+      "sourceExcerpt": "CN40 25\u219427 \u2014 24 \u03a9 \u00b17%.",
+      "measurementKnowledgeId": "samsungBespokeFridgeDamperHeaterOhms24",
+      "testPoint": {
+        "connector": "CN40",
+        "pins": "25 \u2194 27",
+        "label": "Damper heater 24 \u03a9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "d24_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_damp24",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d24_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_damp24",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d24_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_damp24",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "ref_ms_damper_bad_weak_ff",
+              "componentId": "damper_motor"
+            }
+          ]
+        },
+        {
+          "id": "d24_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "damp24_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_damp24",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace damper heater",
+      "oemOutcome": "Replace damper heater assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "damp24_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Damper heater OK",
+      "oemOutcome": "24 \u03a9 in range.",
+      "requiresInput": false
+    }
+  ]
+}

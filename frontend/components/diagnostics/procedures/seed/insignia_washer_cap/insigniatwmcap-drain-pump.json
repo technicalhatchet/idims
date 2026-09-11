@@ -1,0 +1,282 @@
+{
+  "id": "insigniatwmcap-drain-pump",
+  "version": "1.0.0",
+  "title": "Drain pump \u2014 E2 drain timeout",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "E2",
+    "drain_issue",
+    "pump_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4.5-B",
+    "oemTestTitle": "Water drainage time over (E2)",
+    "pages": [
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_hose_check"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "drain_hose_check"
+    },
+    {
+      "id": "drain_hose_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drain hose routing",
+      "body": "Drain hose straight, not kinked, and end height correct?",
+      "sourceExcerpt": "Drain hose straight, not kinked, and end height correct?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_harness"
+        },
+        {
+          "id": "hose_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_drain_hose",
+          "terminal": true,
+          "oemOutcome": "Straighten drain hose and verify end height.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_harness",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Pump harness continuity",
+      "body": "Pump harness intact with no open circuits?",
+      "sourceExcerpt": "Pump harness intact with no open circuits?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms"
+        },
+        {
+          "id": "pump_harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_harness",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pump_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Drain pump coil resistance",
+      "body": "Measure drain pump winding. Spec: 10\u201320 \u03a9.",
+      "sourceExcerpt": "Measure drain pump winding. Spec: 10\u201320 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherCapDrainPumpOhms",
+      "testPoint": {
+        "connector": "Drain pump",
+        "pins": "coil",
+        "label": "Drain pump coil resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pump_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "pump_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_blockage"
+        }
+      ]
+    },
+    {
+      "id": "pump_blockage",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Pump impeller blockage",
+      "body": "Disassemble pump \u2014 foreign object or blockage present?",
+      "sourceExcerpt": "Disassemble pump \u2014 foreign object or blockage present?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "blockage_found",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "clean_pump"
+        },
+        {
+          "id": "no_blockage",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_drain",
+          "terminal": true,
+          "oemOutcome": "No blockage \u2014 pump ohms in spec; replace PCBs if E2 persists.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_pump",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace drain pump \u2014 coil out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "clean_pump",
+      "order": 8,
+      "type": "outcome",
+      "title": "Clean pump",
+      "oemOutcome": "Remove obstruction from pump; reassemble and retest drain.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pump_harness",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace drain pump wiring harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "correct_drain_hose",
+      "order": 10,
+      "type": "outcome",
+      "title": "Correct drain hose",
+      "oemOutcome": "Correct drain hose routing and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb_drain",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace PCBs",
+      "oemOutcome": "Replace display and/or power PCB if drain path verified but E2 persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniatwmcap-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "id": "samsungdv6000-heat-pump-compressor",
+  "version": "1.0.0",
+  "title": "\u00a71-1 / \u00a74-4: Heat-pump HE/HC and compressor wiring",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "componentIds": [
+    "compressor",
+    "heating_element"
+  ],
+  "tags": [
+    "HE",
+    "HC",
+    "heat_pump_check",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-DV6000-DRYER",
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Heat-pump compressor path",
+    "pages": [
+      3,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "smart_install_hc"
+    },
+    {
+      "id": "service_mode_after_smart_install",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Smart Install entered. Continue with component checks below.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "smart_install_hc"
+    },
+    {
+      "id": "smart_install_hc",
+      "order": 3,
+      "type": "instruction",
+      "title": "Smart Install motor/heater check",
+      "body": "Enter Smart Install (Adjust Time Up + Temp 7 s \u2192 SC). Press Start \u2014 note OK vs HC.",
+      "sourceExcerpt": "Enter Smart Install (Adjust Time Up + Temp 7 s \u2192 SC). Press Start \u2014 note OK vs HC.",
+      "requiresInput": false,
+      "defaultNextStepId": "compressor_wiring"
+    },
+    {
+      "id": "compressor_wiring",
+      "order": 4,
+      "type": "instruction",
+      "title": "Compressor terminal wiring",
+      "body": "On heat-pump models, inspect compressor harness terminals for loose pins or desorption. Reseat and tighten per \u00a71-1 safety note.",
+      "sourceExcerpt": "On heat-pump models, inspect compressor harness terminals for loose pins or desorption. Reseat and tighten per \u00a71-1 safety note.",
+      "requiresInput": false,
+      "defaultNextStepId": "post_service_run"
+    },
+    {
+      "id": "post_service_run",
+      "order": 5,
+      "type": "instruction",
+      "title": "Post-service Time Dry 20 min",
+      "body": "Run Time Dry 20 minutes after repair. Verify HE does not return and HC clears.",
+      "sourceExcerpt": "Run Time Dry 20 minutes after repair. Verify HE does not return and HC clears.",
+      "requiresInput": false,
+      "defaultNextStepId": "heat_pump_result"
+    },
+    {
+      "id": "heat_pump_result",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Heat-pump cycle stable?",
+      "body": "Drum heats and tumbles through 20 min without HE/HC?",
+      "sourceExcerpt": "Drum heats and tumbles through 20 min without HE/HC?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heat_pump_ok"
+        },
+        {
+          "id": "escalate_compressor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "escalate_compressor_out",
+          "terminal": true,
+          "oemOutcome": "Replace compressor module or main PCB per Samsung heat-pump service guide."
+        }
+      ]
+    },
+    {
+      "id": "escalate_compressor_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Escalate heat-pump repair",
+      "oemOutcome": "Compressor or sealed-system fault \u2014 follow Samsung heat-pump service procedure.",
+      "requiresInput": false
+    },
+    {
+      "id": "heat_pump_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Heat-pump path OK",
+      "oemOutcome": "Smart Install and post-service run passed without HE/HC.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdv6000-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_smart_install"
+    }
+  ]
+}

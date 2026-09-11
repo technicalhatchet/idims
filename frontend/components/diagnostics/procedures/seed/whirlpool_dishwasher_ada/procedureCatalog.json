@@ -1,0 +1,80 @@
+{
+  "manualId": "W11187658",
+  "platformId": "whirlpool_dishwasher_ada",
+  "templateId": "dishwasher",
+  "label": "Whirlpool ADA built-in dishwasher (18\"/24\")",
+  "notes": "E-family LED flash codes E1\u2013E7 only (no F#E#). Bench ohms: CN5 valve ~24 \u03a9, PO1 heater ~14 \u03a9, CON2 drain 25\u201335 \u03a9, CN4 NTC 10 k\u03a9 @ 77\u00b0F.",
+  "plannedProcedures": [
+    {
+      "id": "w11187658-inlet-fill",
+      "oemSection": "E1",
+      "title": "E1 \u2014 Water inlet failure (4 min fill)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "w11187658-fill-valve",
+      "oemSection": "inlet-valve",
+      "title": "Water inlet valve \u2014 ~24 \u03a9 (CN5)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAdaFillValveOhms"
+      ],
+      "relatedCodes": [
+        "E1"
+      ]
+    },
+    {
+      "id": "w11187658-drain-pump",
+      "oemSection": "drain-pump",
+      "title": "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherDrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "E1",
+        "E4"
+      ]
+    },
+    {
+      "id": "w11187658-heater",
+      "oemSection": "E3",
+      "title": "E3 \u2014 Tub heater ~14 \u03a9",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolDishwasherAdaHeaterOhms"
+      ],
+      "relatedCodes": [
+        "E3"
+      ]
+    },
+    {
+      "id": "w11187658-tub-thermistor",
+      "oemSection": "thermistor",
+      "title": "Tub thermistor \u2014 E6/E7 NTC",
+      "status": "generated",
+      "knowledgeIds": [
+        "insigniaDishwasherTubThermistorOhms"
+      ],
+      "relatedCodes": [
+        "E3",
+        "E6",
+        "E7"
+      ]
+    },
+    {
+      "id": "w11187658-overflow",
+      "oemSection": "E4",
+      "title": "E4 \u2014 Overflow / base pan",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "E4"
+      ]
+    }
+  ]
+}

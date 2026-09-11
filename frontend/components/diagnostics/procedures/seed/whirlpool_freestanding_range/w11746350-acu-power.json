@@ -1,0 +1,188 @@
+{
+  "id": "w11746350-acu-power",
+  "version": "1.0.0",
+  "title": "ACU Power & Communication",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "supply"
+  ],
+  "tags": [
+    "supply_issue",
+    "no_power",
+    "F1E1",
+    "F1EA",
+    "F6E1",
+    "F9E0"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "ACU",
+    "oemTestTitle": "Electronic Control / ACU",
+    "pages": [
+      14,
+      29,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_acu_connections"
+    },
+    {
+      "id": "check_acu_connections",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inspect ACU and harness connections",
+      "body": "Power off. Inspect all connections to main control (ACU). Reseat loose connectors.",
+      "sourceExcerpt": "Power off. Inspect all connections to main control (ACU). Reseat loose connectors.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_voltage"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Loose or damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_acu",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "supply"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repair_harness_acu",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair harness and retest",
+      "body": "Repair or replace harness/terminals, restore power, retest.",
+      "sourceExcerpt": "Repair or replace harness/terminals, restore power, retest.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_acu_connections"
+    },
+    {
+      "id": "supply_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Line voltage at terminal block",
+      "body": "Confirm 120/240 VAC supply at wall outlet and terminal block per tech sheet (+10% / \u221215%).",
+      "sourceExcerpt": "Confirm 120/240 VAC supply at wall outlet and terminal block per tech sheet (+10% / \u221215%).",
+      "measurementKnowledgeId": "supplyVoltage240",
+      "testPoint": {
+        "connector": "Terminal block",
+        "pins": "L1\u2013L2 / L1\u2013N",
+        "label": "Line voltage at terminal block"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "supply_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "supply_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_acu",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "supply",
+              "evidenceId": "confirm_l1_l2_critical_supply_fault"
+            }
+          ]
+        },
+        {
+          "id": "supply_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "supply",
+              "evidenceId": "eliminate_l1_l2_critical_supply_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_acu",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace main oven control (ACU)",
+      "oemOutcome": "Supply good but F1E1/F1EA/F6E1 persists \u2014 replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "acu_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "ACU supply verified",
+      "oemOutcome": "Power and connections verified; clear codes in Service Diagnostics.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "check_acu_connections"
+    }
+  ]
+}

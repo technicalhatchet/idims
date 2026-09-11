@@ -1,0 +1,284 @@
+{
+  "id": "w11169659-moisture-sensor",
+  "version": "1.0.0",
+  "title": "TEST #5: Moisture Sensor",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "not_drying",
+    "F3E2",
+    "F3E5"
+  ],
+  "source": {
+    "manualId": "W11169659",
+    "manualTitle": "Whirlpool & Maytag 27 in Front-Load Gas & Electric Dryers Service Manual",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w11169659 wedmed9620-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Moisture Sensor",
+    "pages": [
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_wet_cloth"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "service_mode_wet_cloth"
+    },
+    {
+      "id": "service_mode_wet_cloth",
+      "order": 3,
+      "type": "instruction",
+      "title": "Service Diagnostic moisture test",
+      "body": "Enter Service Diagnostic Mode. Open door. Touch both moisture strips with wet cloth or finger \u2014 repeating beep and alphanumeric display = pass.",
+      "sourceExcerpt": "Enter Service Diagnostic Mode. Open door. Touch both moisture strips with wet cloth or finger \u2014 repeating beep and alphanumeric display = pass.",
+      "requiresInput": false,
+      "defaultNextStepId": "wet_cloth_result",
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        }
+      ]
+    },
+    {
+      "id": "wet_cloth_result",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Wet-cloth test result",
+      "body": "Repeating beep and number on display when both strips touched?",
+      "sourceExcerpt": "Repeating beep and number on display when both strips touched?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cloth_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "outlet_ntc_ref"
+        },
+        {
+          "id": "cloth_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_harness",
+          "terminal": true,
+          "oemOutcome": "No beep or beep before touch \u2014 continue bench checks.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_harness",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench moisture harness check",
+      "body": "Power off. Remove console/front panel. Disconnect 3-wire moisture sensor below door. Remove J13 at ACU.",
+      "sourceExcerpt": "Power off. Remove console/front panel. Disconnect 3-wire moisture sensor below door. Remove J13 at ACU.",
+      "requiresInput": false,
+      "defaultNextStepId": "j13_harness",
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        }
+      ]
+    },
+    {
+      "id": "j13_harness",
+      "order": 6,
+      "type": "visual_check",
+      "title": "J13 harness continuity",
+      "body": "Continuity from J13 at ACU to moisture sensor connector.",
+      "sourceExcerpt": "Continuity from J13 at ACU to moisture sensor connector.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "outer_contacts"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main wire harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        },
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
+        }
+      ]
+    },
+    {
+      "id": "outer_contacts",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Outermost contacts (with MOVs)",
+      "body": "Small resistance across outer contacts \u2192 clean metal strips; if still low, replace sensor harness.",
+      "sourceExcerpt": "Small resistance across outer contacts \u2192 clean metal strips; if still low, replace sensor harness.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "outer_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ground_isolation"
+        },
+        {
+          "id": "outer_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace moisture sensor harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ground_isolation",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Outer contacts to center ground",
+      "body": "Each outer contact to center terminal must read infinity (OL).",
+      "sourceExcerpt": "Each outer contact to center terminal must read infinity (OL).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ground_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rear_sensor_note"
+        },
+        {
+          "id": "ground_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace moisture sensor harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "moisture_sensor",
+              "evidenceId": "confirm_moisture_sensor_bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rear_sensor_note",
+      "order": 9,
+      "type": "instruction",
+      "title": "Rear moisture sensor (Quad Sense)",
+      "body": "Some Maytag models: repeat steps 6\u201310 using connector J23 for rear moisture sensor (F3E5).",
+      "sourceExcerpt": "Some Maytag models: repeat steps 6\u201310 using connector J23 for rear moisture sensor (F3E5).",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_verified"
+    },
+    {
+      "id": "outlet_ntc_ref",
+      "order": 10,
+      "type": "instruction",
+      "title": "Outlet thermistor follow-up",
+      "body": "If auto-dry still stops early after sensor OK, run TEST #4a outlet thermistor.",
+      "sourceExcerpt": "If auto-dry still stops early after sensor OK, run TEST #4a outlet thermistor.",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_verified"
+    },
+    {
+      "id": "replace_harness",
+      "order": 11,
+      "type": "outcome",
+      "title": "Replace harness/sensor",
+      "oemOutcome": "Replace moisture sensor harness or sensor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "moisture_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Moisture sensor verified",
+      "oemOutcome": "Service mode and bench checks pass.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11169659-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

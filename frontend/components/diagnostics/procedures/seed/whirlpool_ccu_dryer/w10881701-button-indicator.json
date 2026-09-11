@@ -1,0 +1,169 @@
+{
+  "id": "w10881701-button-indicator",
+  "version": "1.0.0",
+  "title": "TEST #6: Buttons and Indicators",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "hmi_check",
+    "F2E1",
+    "F2E3",
+    "F2E4",
+    "F2E5",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Buttons and Indicators",
+    "pages": [
+      19,
+      20
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "key_encoder_test"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "key_encoder_test"
+    },
+    {
+      "id": "key_encoder_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Key Activation & Encoder Test",
+      "body": "Service Diagnostics \u2192 press 1st button (Key Activation & Encoder Test). Verify all indicators, buttons, and beeps.",
+      "sourceExcerpt": "Service Diagnostics \u2192 press 1st button (Key Activation & Encoder Test). Verify all indicators, buttons, and beeps.",
+      "requiresInput": false,
+      "defaultNextStepId": "ui_test_pass",
+      "images": [
+        {
+          "id": "w11737351-access-top-console",
+          "caption": "Removing top panel and console/HMI (W11737351 p.8)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-top-console.png"
+        }
+      ]
+    },
+    {
+      "id": "ui_test_pass",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Key/encoder test result",
+      "body": "All indicators light, buttons respond, and beep heard?",
+      "sourceExcerpt": "All indicators light, buttons respond, and beep heard?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ui_pass",
+          "label": "Passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ui_verified"
+        },
+        {
+          "id": "ui_fail",
+          "label": "Fails",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "acu_ui_connectors"
+        }
+      ]
+    },
+    {
+      "id": "acu_ui_connectors",
+      "order": 5,
+      "type": "visual_check",
+      "title": "ACU and UI connectors seated",
+      "body": "All connectors fully seated; UI assembly in console?",
+      "sourceExcerpt": "All connectors fully seated; UI assembly in console?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_ui"
+        },
+        {
+          "id": "conn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Reseat UI and retest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "user_interface",
+              "evidenceId": "ed_kw_f2e1_ui"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
+        },
+        {
+          "id": "w11737351-access-top-console",
+          "caption": "Removing top panel and console/HMI (W11737351 p.8)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-top-console.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_ui",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace UI assembly",
+      "oemOutcome": "Replace user interface and housing assembly. If supply OK but UI dead, replace ACU.",
+      "requiresInput": false
+    },
+    {
+      "id": "ui_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "UI verified",
+      "oemOutcome": "Buttons and indicators respond in Key Activation & Encoder Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

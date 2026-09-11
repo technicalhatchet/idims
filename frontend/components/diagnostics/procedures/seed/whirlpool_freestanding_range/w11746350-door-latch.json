@@ -1,0 +1,217 @@
+{
+  "id": "w11746350-door-latch",
+  "version": "1.0.0",
+  "title": "Rear Door Latch Motor",
+  "platformId": "whirlpool_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "door_latch_check",
+    "F5E0",
+    "F5E1"
+  ],
+  "source": {
+    "manualId": "W11746350",
+    "manualTitle": "Whirlpool/Maytag Freestanding Gas & Electric Ranges (W11746350F)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11746350-revf-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "Latch",
+    "oemTestTitle": "Rear Door Latch",
+    "pages": [
+      12,
+      34,
+      35,
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off and disconnected harnesses. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_activation"
+    },
+    {
+      "id": "latch_activation",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Component Activation \u2014 Door Latch Motor",
+      "body": "In Service Diagnostics \u2192 Component Activation \u2192 Door Latch Motor \u2192 Latch Door. Wait 15+ sec \u2014 does latch status change on screen?",
+      "sourceExcerpt": "In Service Diagnostics \u2192 Component Activation \u2192 Door Latch Motor \u2192 Latch Door. Wait 15+ sec \u2014 does latch status change on screen?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_runs",
+          "label": "Status changes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_check"
+        },
+        {
+          "id": "latch_fail",
+          "label": "No status change",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "latch_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "latch_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Latch motor resistance P8-5 to P8-6",
+      "body": "Power off. Disconnect latch leads. Measure P8-5 to P8-6 \u2014 expect 500\u20133000 \u03a9 at 77\u00b0F (25\u00b0C).",
+      "sourceExcerpt": "Power off. Disconnect latch leads. Measure P8-5 to P8-6 \u2014 expect 500\u20133000 \u03a9 at 77\u00b0F (25\u00b0C).",
+      "measurementKnowledgeId": "whirlpoolFreestandingRangeDoorLatchOhms",
+      "testPoint": {
+        "connector": "P8",
+        "pins": "5 & 6",
+        "label": "Latch motor resistance P8-5 to P8-6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "latch_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_switch_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_switch_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Door position switch P3-5 to P3-6",
+      "body": "Door open = infinite \u03a9; door closed = 0 \u03a9 at P3-5 to P3-6.",
+      "sourceExcerpt": "Door open = infinite \u03a9; door closed = 0 \u03a9 at P3-5 to P3-6.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sw_ok",
+          "label": "Switch states correct",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "temp_sensor",
+              "evidenceId": "eliminate_temp_sensor_bad_temp_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "sw_bad",
+          "label": "Switch wrong",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_latch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "temp_sensor",
+              "evidenceId": "confirm_temp_sensor_bad_temp_sensor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_latch",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace door latch assembly",
+      "oemOutcome": "Latch motor or switch out of spec \u2014 replace latch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "latch_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Door latch verified",
+      "oemOutcome": "Latch motor and switches verified \u2014 clear F5E0/F5E1.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11746350-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "latch_activation"
+    }
+  ]
+}

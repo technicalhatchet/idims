@@ -1,0 +1,177 @@
+{
+  "id": "ldt7808-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Tub Thermistor (tE thermal error)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "tE",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-tE",
+    "oemTestTitle": "THERMAL ERROR",
+    "pages": [
+      47,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "wiring_ok"
+    },
+    {
+      "id": "wiring_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Thermistor harness connected?",
+      "body": "Verify RD6 \u2194 WH4 wiring is connected to main PCB.",
+      "sourceExcerpt": "Verify RD6 \u2194 WH4 wiring is connected to main PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_ohms_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "therm_ohms"
+        },
+        {
+          "id": "therm_ohms_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_wiring",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "heater"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_wiring",
+      "order": 3,
+      "type": "instruction",
+      "title": "Reconnect wiring",
+      "body": "Check and reconnect thermistor harness.",
+      "sourceExcerpt": "Check and reconnect thermistor harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "wiring_ok"
+    },
+    {
+      "id": "therm_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Thermistor resistance",
+      "body": "Disconnect power. Measure tub thermistor \u2014 manual spec 8~44 k\u03a9 (NTC varies with temperature).",
+      "sourceExcerpt": "The resistance is 8~44k\u03a9",
+      "measurementKnowledgeId": "lgDishwasherLdt7808ThermistorOhms",
+      "testPoint": {
+        "connector": "RD6",
+        "pins": "thermistor",
+        "label": "Thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "therm_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "heater",
+              "evidenceId": "eliminate_heater_ol_heater_ok"
+            }
+          ]
+        },
+        {
+          "id": "therm_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_therm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_verified_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_therm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_therm",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "confirm_heater_ol_heater_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "therm_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Thermistor verified",
+      "body": "Thermistor within expected range.",
+      "oemOutcome": "Thermistor within expected range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_therm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "body": "Replace thermistor.",
+      "oemOutcome": "Replace thermistor.",
+      "requiresInput": false
+    }
+  ]
+}

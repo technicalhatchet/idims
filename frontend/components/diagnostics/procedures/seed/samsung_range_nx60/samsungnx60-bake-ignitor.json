@@ -1,0 +1,211 @@
+{
+  "id": "samsungnx60-bake-ignitor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Bake burner HSI",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "ignition_issue",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Oven burner will not light \u2014 bake HSI",
+    "pages": [
+      83,
+      84
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_supply"
+    },
+    {
+      "id": "gas_supply",
+      "order": 2,
+      "type": "instruction",
+      "title": "Confirm gas supply",
+      "body": "Turn on cooktop burners to verify gas supply. Open gas valve if needed.",
+      "sourceExcerpt": "Turn on cooktop burners to verify gas supply. Open gas valve if needed.",
+      "requiresInput": false,
+      "defaultNextStepId": "bake_hsi_ohms"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component-specific OEM checks below.",
+      "sourceExcerpt": "After error recall or sub-line test entry, proceed with component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "bake_hsi_ohms"
+    },
+    {
+      "id": "bake_hsi_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Bake HSI resistance",
+      "body": "Power off. Measure bake hot surface ignitor \u2014 40\u2013400 \u03a9.",
+      "sourceExcerpt": "Power off. Measure bake hot surface ignitor \u2014 40\u2013400 \u03a9.",
+      "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms",
+      "testPoint": {
+        "connector": "Bake HSI",
+        "pins": "terminals",
+        "label": "Bake HSI resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bake_hsi_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_hsi_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_hsi_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake_hsi",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "igniter",
+              "evidenceId": "confirm_igniter_ol_igniter_failed"
+            }
+          ]
+        },
+        {
+          "id": "bake_hsi_pass",
+          "label": "40\u2013400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_hsi_glow"
+        }
+      ]
+    },
+    {
+      "id": "bake_hsi_glow",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Bake HSI glow",
+      "body": "Power on. Verify HSI heats/glows. Check 120 V at T504\u2013T505.",
+      "sourceExcerpt": "Power on. Verify HSI heats/glows. Check 120 V at T504\u2013T505.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "glow_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bake_ign_ok"
+        },
+        {
+          "id": "replace_bake_hsi2",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": "Replace bake HSI."
+        }
+      ]
+    },
+    {
+      "id": "replace_bake_hsi",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace bake HSI",
+      "oemOutcome": "Replace bake hot surface ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bake_hsi2",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace bake HSI",
+      "oemOutcome": "HSI not glowing \u2014 replace ignitor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace Main PCB",
+      "oemOutcome": "HSI good but no voltage \u2014 replace Main PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "bake_ign_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Bake ignitor OK",
+      "oemOutcome": "Bake HSI resistance and operation verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_range"
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungnx60-error-recall-entry",
+      "modeKind": "fault_codes",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    },
+    {
+      "bundleId": "samsungnx60-sub-line-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "service_mode_after_entry",
+      "continueToStepId": "bake_hsi_ohms"
+    }
+  ]
+}

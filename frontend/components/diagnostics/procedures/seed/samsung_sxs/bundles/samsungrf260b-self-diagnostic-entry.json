@@ -1,0 +1,36 @@
+{
+  "id": "samsungrf260b-self-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_sxs",
+  "manualId": "SAMSUNG-RF260B-FRIDGE",
+  "title": "Samsung RF260B \u2014 Self-diagnostic entry",
+  "modeKind": "hmi_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Run self-diagnostic checklist without full test-mode cycle.",
+  "tags": [
+    "service_diagnostic",
+    "sensor_check"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Samsung RF260B/RF261B Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung frdige rf260b-extracted.txt",
+    "pages": [
+      49
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter self-diagnostic",
+      "body": "Power Freezer + Power Fridge simultaneously 8 s during normal operation. Ding-dong confirms entry; fault LEDs blink 30 s.",
+      "sourceExcerpt": "Power Freezer + Power Fridge simultaneously 8 s during normal operation. Ding-dong confirms entry; fault LEDs blink 30 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

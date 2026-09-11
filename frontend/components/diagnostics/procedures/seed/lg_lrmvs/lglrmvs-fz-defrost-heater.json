@@ -1,0 +1,277 @@
+{
+  "id": "lglrmvs-fz-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a78-6: Freezer defrost heater (F dH)",
+  "platformId": "lg_lrmvs",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "F_dH",
+    "F dH",
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "LG-LRMVS-FRIDGE",
+    "manualTitle": "LG LRMVS3006 InstaView 4-Door Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/Lg-lrmvs3006s-refrigerator-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "8-6",
+    "oemTestTitle": "Defrost Heater Error (F dH)",
+    "pages": [
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. R-600a is flammable \u2014 follow sealed-system precautions for CH/CL codes.",
+      "sourceExcerpt": "Disconnect power before servicing. R-600a refrigerant precautions apply.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_gasket"
+    },
+    {
+      "id": "door_gasket",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door gasket sealing?",
+      "body": "Heavy ice or warm air leak can trigger F dH \u2014 inspect freezer door gasket before electrical tests.",
+      "sourceExcerpt": "Heavy ice or warm air leak can trigger F dH \u2014 inspect freezer door gasket before electrical tests.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "gasket_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms"
+        },
+        {
+          "id": "replace_gasket",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gasket_out",
+          "terminal": true,
+          "oemOutcome": "Replace damaged door gasket."
+        }
+      ]
+    },
+    {
+      "id": "replace_gasket_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace gasket",
+      "oemOutcome": "Replace freezer door gasket and allow manual defrost if heavily iced.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific voltage or resistance checks below.",
+      "sourceExcerpt": "After \u00a79 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "F defrost heater resistance",
+      "body": "Power off. CON9 pin 5 \u2194 13 \u2014 62\u201370 \u03a9 heater; Fuse-M should read 0 \u03a9.",
+      "sourceExcerpt": "Power off. CON9 pin 5 \u2194 13 \u2014 62\u201370 \u03a9 heater; Fuse-M should read 0 \u03a9.",
+      "measurementKnowledgeId": "lgDefrostHeaterOhmsFreezer",
+      "testPoint": {
+        "connector": "CON9",
+        "pins": "5 \u2194 13",
+        "label": "F defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fz_heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "fz_heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "fz_heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_f_defrost_ohms"
+            }
+          ]
+        },
+        {
+          "id": "fz_heater_pass",
+          "label": "62\u201370 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "test_mode_3"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace heater",
+      "oemOutcome": "Replace freezer defrost heater or Fuse-M when open/short.",
+      "requiresInput": false
+    },
+    {
+      "id": "test_mode_3",
+      "order": 7,
+      "type": "instruction",
+      "title": "Enter Test Mode 3",
+      "body": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+      "sourceExcerpt": "Push main PCB test button three times \u2014 display shows 33 33 (forced defrost).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "heater_voltage",
+      "order": 8,
+      "type": "measurement",
+      "title": "F defrost heater voltage",
+      "body": "CON9 pin 5 \u2194 13 \u2014 112\u2013116 V in Test Mode 3. Should read 0 V in Test Mode 1.",
+      "sourceExcerpt": "CON9 pin 5 \u2194 13 \u2014 112\u2013116 V in Test Mode 3. Should read 0 V in Test Mode 1.",
+      "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+      "testPoint": {
+        "connector": "CON9",
+        "pins": "5 \u2194 13",
+        "label": "F defrost heater voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fz_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "fz_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "fz_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "fz_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_pcb",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when heater \u03a9 good but no 112\u2013116 V output.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Defrost heater OK",
+      "oemOutcome": "Freezer defrost heater and PCB output verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lglrmvs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

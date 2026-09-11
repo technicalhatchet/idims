@@ -1,0 +1,66 @@
+{
+  "id": "samsungdv6000-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_dryer_dv6000",
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "title": "Samsung DV6000 dryer \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Adjust Time Up + Temp 7 s \u2192 SC; touch sensor and motor/heater diagnosis.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "dsi_prep",
+  "source": {
+    "manualTitle": "Samsung Front-Load Dryer DV6000T Family (DVE45T6000/6005/6200)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl dryer dv6000t-extracted.txt",
+    "pages": [
+      26
+    ]
+  },
+  "steps": [
+    {
+      "id": "dsi_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Power on \u2014 empty drum",
+      "body": "Dryer powered on. Drum empty.",
+      "sourceExcerpt": "Dryer powered on. Drum empty.",
+      "requiresInput": false,
+      "defaultNextStepId": "dsi_enter"
+    },
+    {
+      "id": "dsi_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press and hold Adjust Time Up + Temp for 7 seconds until SC displays.",
+      "sourceExcerpt": "Press and hold Adjust Time Up + Temp for 7 seconds until SC displays.",
+      "requiresInput": false,
+      "defaultNextStepId": "dsi_touch"
+    },
+    {
+      "id": "dsi_touch",
+      "order": 3,
+      "type": "instruction",
+      "title": "Touch sensor test",
+      "body": "Open door \u2014 0=open, 1=short. Wet cloth on sensor shows 1.",
+      "sourceExcerpt": "Open door \u2014 0=open, 1=short. Wet cloth on sensor shows 1.",
+      "requiresInput": false,
+      "defaultNextStepId": "dsi_motor_heater"
+    },
+    {
+      "id": "dsi_motor_heater",
+      "order": 4,
+      "type": "instruction",
+      "title": "Motor and heater test",
+      "body": "Press Start \u2014 OK = motor and heater normal; HC = fault.",
+      "sourceExcerpt": "Press Start \u2014 OK = motor and heater normal; HC = fault.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

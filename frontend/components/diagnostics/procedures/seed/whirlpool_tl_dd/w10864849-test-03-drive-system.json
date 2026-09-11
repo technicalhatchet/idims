@@ -1,0 +1,160 @@
+{
+  "id": "w10864849-test-03-drive-system",
+  "version": "1.0.0",
+  "title": "TEST #3: Drive System (pre-test)",
+  "platformId": "whirlpool_tl_dd",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "motor_check",
+    "F7E3",
+    "F7E4",
+    "F7E5",
+    "F7E6",
+    "F7E7",
+    "F7E9"
+  ],
+  "source": {
+    "manualId": "W10864849",
+    "manualTitle": "Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer",
+    "extractedTextFile": "backend/docs/manuals/w10864849-whirlpool-and-maytag-direct-drive-top-load-washer wtw9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3",
+    "oemTestTitle": "Drive System",
+    "pages": [
+      33
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_service_diag"
+    },
+    {
+      "id": "enter_service_diag",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Service Diagnostic and clear codes",
+      "body": "Activate Service Diagnostic mode. Retrieve and clear fault codes. F7E3\u2013F7E9 suggest motor/shifter path.",
+      "sourceExcerpt": "Activate Service Diagnostic mode. Retrieve and clear fault codes. F7E3\u2013F7E9 suggest motor/shifter path.",
+      "requiresInput": false,
+      "defaultNextStepId": "fast_agitate_test"
+    },
+    {
+      "id": "fast_agitate_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Fast Agitate runs 15\u201320 sec",
+      "body": "Enter Service Test Mode. Run Fast Agitate. Does motor run after 15\u201320 seconds?",
+      "sourceExcerpt": "Enter Service Test Mode. Run Fast Agitate. Does motor run after 15\u201320 seconds?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "agitate_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spin_test"
+        },
+        {
+          "id": "agitate_fail",
+          "label": "Motor does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "spin_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Spin test completes",
+      "body": "In Service Test Mode, command spin. If motor hums briefly then stops, check fault code display.",
+      "sourceExcerpt": "In Service Test Mode, command spin. If motor hums briefly then stops, check fault code display.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "spin_ok",
+          "label": "Spin OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drive_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drive_motor",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok"
+            }
+          ]
+        },
+        {
+          "id": "spin_fail",
+          "label": "Spin fails or hums out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_shifter_motor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Continue to shifter or motor test",
+      "body": "If shifter-related (F7E5) or mechanical bind \u2014 run TEST #3a Shifter. For motor circuit faults (F7E2\u2013F7E9, F1E2) \u2014 run TEST #3b Motor.",
+      "sourceExcerpt": "If shifter-related (F7E5) or mechanical bind \u2014 run TEST #3a Shifter. For motor circuit faults (F7E2\u2013F7E9, F1E2) \u2014 run TEST #3b Motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "drive_deferred"
+    },
+    {
+      "id": "drive_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Drive system OK",
+      "oemOutcome": "Fast Agitate and spin pass in Service Test Mode \u2014 no further drive diagnosis needed.",
+      "requiresInput": false
+    },
+    {
+      "id": "drive_deferred",
+      "order": 7,
+      "type": "outcome",
+      "title": "Run TEST #3a or #3b",
+      "oemOutcome": "Proceed to w10864849-test-03a-shifter or w10864849-test-03b-motor per fault code.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10864849-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "enter_service_diag"
+    }
+  ]
+}

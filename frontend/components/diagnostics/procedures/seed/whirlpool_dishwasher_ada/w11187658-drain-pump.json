@@ -1,0 +1,211 @@
+{
+  "id": "w11187658-drain-pump",
+  "version": "1.0.0",
+  "title": "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+  "platformId": "whirlpool_dishwasher_ada",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "E1",
+    "E4",
+    "drain_issue",
+    "pump_check"
+  ],
+  "source": {
+    "manualId": "W11187658",
+    "manualTitle": "Whirlpool 18\" & 24\" ADA Built-In Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Whirlpool Dishwasher Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "drain-pump",
+    "oemTestTitle": "Drain pump resistance",
+    "pages": [
+      40,
+      16
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Unplug dishwasher or disconnect power.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_drain_pump"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After service mode entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "access_drain_pump"
+    },
+    {
+      "id": "access_drain_pump",
+      "order": 3,
+      "type": "instruction",
+      "title": "Access drain pump",
+      "body": "Lay dishwasher on back after removing drip pan/float switch. Unplug CON2 from control board.",
+      "sourceExcerpt": "If the resistance is between 25-35 ohms, the drain pump and harness are good.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_pump_ohms"
+    },
+    {
+      "id": "drain_pump_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Drain pump winding resistance",
+      "body": "Measure across CON2 pin 1 (drain pump) and CON1 pin 1 (neutral). Expect 25\u201335 \u03a9.",
+      "sourceExcerpt": "Measure across CON2 pin 1 (drain pump) and CON1 pin 1 (neutral). Expect 25\u201335 \u03a9.",
+      "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+      "testPoint": {
+        "connector": "CON2",
+        "pins": "pin 1 / CON1-1",
+        "label": "Drain pump winding resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_pump_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_pump_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_crit",
+          "label": "Replace drain pump \u2014 open winding.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pump_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain_pump_verified",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Check valve and impeller",
+      "body": "Verify check valve flapper moves freely and impeller is not fractured.",
+      "sourceExcerpt": "Verify check valve flapper moves freely and impeller is not fractured.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_path_ok_yes",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_path_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "drain_path_ok_no",
+          "label": "Mechanical fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drain_pump",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_drain_pump",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "body": "Replace drain pump assembly; verify hose and clamp.",
+      "oemOutcome": "Replace drain pump assembly; verify hose and clamp.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Drain pump verified",
+      "body": "Pump ohms in spec and check valve OK.",
+      "oemOutcome": "Pump ohms in spec and check valve OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11187658-service-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

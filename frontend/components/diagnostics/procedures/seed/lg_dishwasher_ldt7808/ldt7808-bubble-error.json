@@ -1,0 +1,140 @@
+{
+  "id": "ldt7808-bubble-error",
+  "version": "1.0.0",
+  "title": "\u00a77-1: Bubble Error (BE suds fault)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "door_gasket"
+  ],
+  "tags": [
+    "BE",
+    "bubble_error"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-BE",
+    "oemTestTitle": "BUBBLE ERROR",
+    "pages": [
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "detergent_ok"
+    },
+    {
+      "id": "detergent_ok",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Dishwasher detergent only?",
+      "body": "Only use detergents designed for dishwashers. No dish soap or oversudsing agents.",
+      "sourceExcerpt": "Only use detergents designed for dishwashers. No dish soap or oversudsing agents.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "level_ok_be_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_ok_be"
+        },
+        {
+          "id": "level_ok_be_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "use_correct_detergent",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_gasket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "use_correct_detergent",
+      "order": 3,
+      "type": "instruction",
+      "title": "Use correct detergent",
+      "body": "Switch to dishwasher detergent only.",
+      "sourceExcerpt": "Switch to dishwasher detergent only.",
+      "requiresInput": false,
+      "defaultNextStepId": "detergent_ok"
+    },
+    {
+      "id": "level_ok_be",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Unit leveled?",
+      "body": "Verify dishwasher is installed level.",
+      "sourceExcerpt": "Verify dishwasher is installed level.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "be_resolved_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "be_resolved",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_gasket",
+              "evidenceId": "eliminate_gasket_bad_door_gasket_ok"
+            }
+          ]
+        },
+        {
+          "id": "be_resolved_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "level_be",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_gasket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "level_be",
+      "order": 5,
+      "type": "instruction",
+      "title": "Level dishwasher",
+      "body": "Level unit per installation instructions.",
+      "sourceExcerpt": "Level unit per installation instructions.",
+      "requiresInput": false,
+      "defaultNextStepId": "level_ok_be"
+    },
+    {
+      "id": "be_resolved",
+      "order": 6,
+      "type": "outcome",
+      "title": "BE resolved",
+      "body": "Correct detergent and leveling verified.",
+      "oemOutcome": "Correct detergent and leveling verified.",
+      "requiresInput": false
+    }
+  ]
+}

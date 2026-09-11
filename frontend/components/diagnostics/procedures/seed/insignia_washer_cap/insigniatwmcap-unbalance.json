@@ -1,0 +1,244 @@
+{
+  "id": "insigniatwmcap-unbalance",
+  "version": "1.0.0",
+  "title": "Unbalance / impact switch \u2014 E4 / E5",
+  "platformId": "insignia_washer_cap",
+  "componentIds": [
+    "suspension",
+    "lid_switch"
+  ],
+  "tags": [
+    "E4",
+    "E5",
+    "unbalance",
+    "spin_issue",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-TWM-WASHER",
+    "manualTitle": "Insignia NS-TWM41WH8A / NS-TWM35W1 top-load washer (capacitive level)",
+    "extractedTextFile": "backend/docs/manuals/NS-TWM41WH8A insignia washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4.5-D",
+    "oemTestTitle": "Unbalance (E4)",
+    "pages": [
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "load_balance"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "load_balance"
+    },
+    {
+      "id": "load_balance",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Load distribution",
+      "body": "Clothes evenly distributed in basket? Washer on level solid floor?",
+      "sourceExcerpt": "Clothes evenly distributed in basket? Washer on level solid floor?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "washer_level"
+        },
+        {
+          "id": "load_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_load",
+          "terminal": true,
+          "oemOutcome": "Redistribute laundry evenly and retest spin.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "washer_level",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Washer leveling",
+      "body": "All leveling legs adjusted so washer is level and not touching walls?",
+      "sourceExcerpt": "All leveling legs adjusted so washer is level and not touching walls?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "level_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "impact_switch"
+        },
+        {
+          "id": "level_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "level_washer",
+          "terminal": true,
+          "oemOutcome": "Adjust leveling legs.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "impact_switch",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Impact switch (E5)",
+      "body": "Impact switch: push bar to alternate position \u2014 resistance changes? Open-circuit at rest or short when pressed = replace.",
+      "sourceExcerpt": "Impact switch: push bar to alternate position \u2014 resistance changes? Open-circuit at rest or short when pressed = replace.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "impact_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "magnet_switch_e4"
+        },
+        {
+          "id": "impact_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_impact_switch",
+          "terminal": true,
+          "oemOutcome": "Replace impact switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "magnet_switch_e4",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Magnetic switch (E4 path)",
+      "body": "Place magnetic iron near switch \u2014 resistance OK? Short-circuit = replace switch.",
+      "sourceExcerpt": "Place magnetic iron near switch \u2014 resistance OK? Short-circuit = replace switch.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "magnet_e4_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_verified"
+        },
+        {
+          "id": "magnet_e4_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_magnet_switch_e4",
+          "terminal": true,
+          "oemOutcome": "Replace magnetic switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "suspension",
+              "evidenceId": "confirm_unbalance_load"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "redistribute_load",
+      "order": 7,
+      "type": "outcome",
+      "title": "Redistribute load",
+      "oemOutcome": "Balance laundry; unit retries up to 3 times before E4.",
+      "requiresInput": false
+    },
+    {
+      "id": "level_washer",
+      "order": 8,
+      "type": "outcome",
+      "title": "Level washer",
+      "oemOutcome": "Adjust feet for level installation.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_impact_switch",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace impact switch",
+      "oemOutcome": "Replace impact/collision switch (E5 on TWM35/WMT family).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_magnet_switch_e4",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace magnetic switch",
+      "oemOutcome": "Replace lid magnetic switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "unbalance_verified",
+      "order": 11,
+      "type": "outcome",
+      "title": "Mechanical path OK",
+      "oemOutcome": "Load, level, and switches OK \u2014 if E4/E5 persists, replace PCB.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniatwmcap-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "manualId": "W11416805",
+  "platformId": "whirlpool_acu_tl_dryer",
+  "templateId": "electric_dryer",
+  "label": "Whirlpool/Maytag ACU top-load dryer (WED4100/WED5100, W11798430/W11416805)",
+  "notes": "W11798430 WED41*/WGD41* + W11416805 WED51*/WGD51* share whirlpool_acu_tl_dryer. W4100 uses J7/J4 connectors; W5100 uses J8/J9/J14. W5100 adds moisture sensor and steam valve tests.",
+  "plannedProcedures": [
+    {
+      "id": "w11416805-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: Main Control (ACU)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11416805-supply-connections",
+      "oemSection": "2",
+      "title": "TEST #2: Supply Connections",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-motor-circuit",
+      "oemSection": "3",
+      "title": "TEST #3: Motor Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerMotorCircuitOhms",
+        "dryerDrumMotorWindingOhms",
+        "dryerDrumMotorWindingOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-heater-electric",
+      "oemSection": "4",
+      "title": "TEST #4: Heat System (electric)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuTlDryerHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11416805-heater-gas",
+      "oemSection": "4-gas",
+      "title": "TEST #4: Heat System (gas)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-thermistors",
+      "oemSection": "4a",
+      "title": "TEST #4a: Thermistors",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerExhaustThermistorOhms",
+        "dryerInletThermistorOhmsElectric",
+        "dryerInletThermistorOhmsGas"
+      ],
+      "relatedCodes": [
+        "F3E1",
+        "F3E3"
+      ]
+    },
+    {
+      "id": "w11416805-thermal-fuse",
+      "oemSection": "4b",
+      "title": "TEST #4b: Thermal Fuse",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-thermal-cutoff",
+      "oemSection": "4c",
+      "title": "TEST #4c: Thermal Cut-Off",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-gas-valve",
+      "oemSection": "4d",
+      "title": "TEST #4d: Gas Valve",
+      "status": "generated",
+      "knowledgeIds": [
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "hotSurfaceIgniterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-moisture-sensor",
+      "oemSection": "5",
+      "title": "TEST #5: Moisture Sensor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F3E2",
+        "F3E5"
+      ]
+    },
+    {
+      "id": "w11416805-hmi",
+      "oemSection": "6",
+      "title": "TEST #6: HMI",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F2E2",
+        "F6E1"
+      ]
+    },
+    {
+      "id": "w11416805-door-switch",
+      "oemSection": "7",
+      "title": "TEST #7: Door Switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-drum-light",
+      "oemSection": "8",
+      "title": "TEST #8: Drum Light",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11416805-water-valve",
+      "oemSection": "9",
+      "title": "TEST #9: Water Valve",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuTlDryerSteamValveOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-acu-power",
+      "oemSection": "1",
+      "title": "TEST #1: ACU Power Check",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F1E1",
+        "F6E1",
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w11798430-supply-connections",
+      "oemSection": "2",
+      "title": "TEST #2: Supply Connections",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-motor-circuit",
+      "oemSection": "3",
+      "title": "TEST #3: Motor Circuit",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerMotorCircuitOhms",
+        "whirlpoolAcuTlDryer4100MotorMainWindingOhms",
+        "whirlpoolAcuTlDryer4100MotorStartWindingOhms"
+      ],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11798430-heater-electric",
+      "oemSection": "4",
+      "title": "TEST #4: Heat System (electric)",
+      "status": "generated",
+      "knowledgeIds": [
+        "whirlpoolAcuTlDryerHeaterOhms"
+      ],
+      "relatedCodes": [
+        "F1E1"
+      ]
+    },
+    {
+      "id": "w11798430-heater-gas",
+      "oemSection": "4-gas",
+      "title": "TEST #4: Heat System (gas)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-thermistors",
+      "oemSection": "4a",
+      "title": "TEST #4a: Thermistors",
+      "status": "generated",
+      "knowledgeIds": [
+        "dryerInletThermistorOhmsElectric",
+        "dryerExhaustThermistorOhms"
+      ],
+      "relatedCodes": [
+        "F3E1",
+        "F3E3"
+      ]
+    },
+    {
+      "id": "w11798430-thermal-fuse",
+      "oemSection": "4b",
+      "title": "TEST #4b: Thermal Fuse",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-thermal-cutoff",
+      "oemSection": "4c",
+      "title": "TEST #4c: Thermal Cut-Off",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-gas-valve",
+      "oemSection": "4d",
+      "title": "TEST #4d: Gas Valve",
+      "status": "generated",
+      "knowledgeIds": [
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "gasValveCoilOhms",
+        "whirlpoolAcuTlDryer4100IgniterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-hmi",
+      "oemSection": "5",
+      "title": "TEST #5: HMI",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "F2E1",
+        "F6E1",
+        "F6E2"
+      ]
+    },
+    {
+      "id": "w11798430-door-switch",
+      "oemSection": "6",
+      "title": "TEST #6: Door Switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "w11798430-drum-light",
+      "oemSection": "7",
+      "title": "TEST #7: Drum Light",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

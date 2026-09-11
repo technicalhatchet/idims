@@ -1,0 +1,145 @@
+{
+  "id": "samsungdw-distributor",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Distributor Motor (PC)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "diverter_motor"
+  ],
+  "tags": [
+    "PC",
+    "diverter_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "PC cam position",
+    "pages": [
+      35,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dist_connector"
+    },
+    {
+      "id": "dist_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect distributor motor",
+      "body": "Check CN202 pin 7 distributor motor connector and cam/vane position.",
+      "sourceExcerpt": "Check CN202 pin 7 distributor motor connector and cam/vane position.",
+      "requiresInput": false,
+      "defaultNextStepId": "dist_smart_install"
+    },
+    {
+      "id": "dist_smart_install",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Vane alternates in Smart Install?",
+      "body": "Step 1 moves vane during drain; step 2/3 alternates nozzle positions. PC if position not detected in 2 min.",
+      "sourceExcerpt": "Step 1 moves vane during drain; step 2/3 alternates nozzle positions. PC if position not detected in 2 min.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cam_position_yes",
+          "label": "Positions detected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cam_position"
+        },
+        {
+          "id": "cam_position_no",
+          "label": "PC fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_distributor"
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 4,
+      "defaultNextStepId": "cam_position"
+    },
+    {
+      "id": "cam_position",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Cam and vane mechanically correct?",
+      "body": "Verify cam location correct and vane parks before bottom nozzle spray.",
+      "sourceExcerpt": "Verify cam location correct and vane parks before bottom nozzle spray.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dist_ok_yes",
+          "label": "Mechanical OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dist_ok"
+        },
+        {
+          "id": "dist_ok_no",
+          "label": "Cam/vane fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_distributor"
+        }
+      ]
+    },
+    {
+      "id": "replace_distributor",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace distributor motor",
+      "body": "Replace distributor motor or synchronous motor when PC persists.",
+      "oemOutcome": "Replace distributor motor or synchronous motor when PC persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "dist_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Distributor OK",
+      "body": "Distributor and vane path verified.",
+      "oemOutcome": "Distributor and vane path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdw-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "dist_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdw-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "cam_position"
+    }
+  ]
+}

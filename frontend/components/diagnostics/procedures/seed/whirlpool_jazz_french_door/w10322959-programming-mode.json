@@ -1,0 +1,105 @@
+{
+  "id": "w10322959-programming-mode",
+  "version": "1.0.0",
+  "title": "Programming mode (P-E): Program code",
+  "platformId": "whirlpool_jazz_french_door",
+  "componentIds": [
+    "control_board"
+  ],
+  "tags": [
+    "control_board",
+    "no_power",
+    "program_code",
+    "wont_run"
+  ],
+  "source": {
+    "manualId": "W10322959",
+    "manualTitle": "Whirlpool Jazz French Door Refrigerator (W10322959B, 19\u201322 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "P-E",
+    "oemTestTitle": "Programming Mode",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_programming"
+    },
+    {
+      "id": "enter_programming",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Programming Mode (P-E)",
+      "body": "Hold fresh food door light switch closed. Press Freezer DOWN 3 times within 10 seconds. Release door switch \u2014 display shows P-E. Press Freezer DOWN once more to confirm entry.",
+      "sourceExcerpt": "Press Freezer Temperature DOWN /- Key pad 3 times consecutively.",
+      "requiresInput": false,
+      "defaultNextStepId": "read_program_code"
+    },
+    {
+      "id": "read_program_code",
+      "order": 3,
+      "type": "instruction",
+      "title": "Validate program code",
+      "body": "Control displays current program code. Compare to code on serial plate after word CODE. Unit will NOT run with program code OO.",
+      "sourceExcerpt": "Control displays current program code. Compare to code on serial plate after word CODE. Unit will NOT run with program code OO.",
+      "requiresInput": false,
+      "defaultNextStepId": "code_match"
+    },
+    {
+      "id": "code_match",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Program code matches serial plate",
+      "body": "Does displayed program code match the serial plate?",
+      "sourceExcerpt": "Does displayed program code match the serial plate?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "code_ok",
+          "label": "Matches \u2014 close door to exit",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "programming_ok"
+        },
+        {
+          "id": "code_wrong",
+          "label": "Mismatch or OO",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "set_program_code"
+        }
+      ]
+    },
+    {
+      "id": "set_program_code",
+      "order": 5,
+      "type": "instruction",
+      "title": "Set program code",
+      "body": "Use Freezer and Refrigerator UP keys to advance digit. Press Freezer DOWN until code flashes (saved). Close door to exit. Repeat if incorrect.",
+      "sourceExcerpt": "The unit will NOT run with a Program Code of OO.",
+      "requiresInput": false,
+      "defaultNextStepId": "programming_ok"
+    },
+    {
+      "id": "programming_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Program code verified",
+      "oemOutcome": "Program code validated or corrected. All control functions off during P-E except damper holds position.",
+      "requiresInput": false
+    }
+  ]
+}

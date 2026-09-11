@@ -1,0 +1,161 @@
+{
+  "id": "lg-range-warming-zone",
+  "version": "1.0.0",
+  "title": "\u00a74-7: Center warming zone (CR)",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "warming_zone"
+  ],
+  "tags": [
+    "warming_zone",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-7",
+    "oemTestTitle": "Warming Zone",
+    "pages": [
+      42,
+      43
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "wz_ohms"
+    },
+    {
+      "id": "wz_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Warming zone element",
+      "body": "Disconnect CR element. R \u00d7 1 terminal to 1A \u2014 expect \u2248565 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Disconnect CR element. R \u00d7 1 terminal to 1A \u2014 expect \u2248565 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "lgRangeWarmingZoneOhms",
+      "testPoint": {
+        "connector": "CR element",
+        "pins": "terminal\u20131A",
+        "label": "Warming zone element"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wz_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_zone"
+            }
+          ]
+        },
+        {
+          "id": "wz_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_zone"
+            }
+          ]
+        },
+        {
+          "id": "wz_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wz",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_zone"
+            }
+          ]
+        },
+        {
+          "id": "wz_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wz_limiter",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_bake_element_ol_bake_element_ok",
+              "componentId": "warming_zone"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wz_limiter",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Warming zone limiters",
+      "body": "Verify 1A\u20132A continuity and 1B\u20132B thermal limiter same as single elements.",
+      "sourceExcerpt": "Verify 1A\u20132A continuity and 1B\u20132B thermal limiter same as single elements.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wz_lim_ok",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wz_ok"
+        },
+        {
+          "id": "wz_lim_bad",
+          "label": "Fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wz"
+        }
+      ]
+    },
+    {
+      "id": "replace_wz",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace warming zone element",
+      "oemOutcome": "Warming zone failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "wz_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Warming zone OK",
+      "oemOutcome": "Warming zone verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

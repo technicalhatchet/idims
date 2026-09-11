@@ -1,0 +1,370 @@
+[
+  {
+    "id": "lgRangeOvenSensorOhms",
+    "name": "LG range main oven sensor (thermistor)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 981, "max": 1199 },
+      "warning": { "min": 800, "max": 1500 },
+      "critical": { "below": 100, "above": 50000 }
+    },
+    "typical": { "min": 1050, "max": 1130 },
+    "openCircuitCritical": true,
+    "purpose": "LG LRE/LRGL/LSG — oven sensor ≈1.09 kΩ @ 77°F (25°C). Cool before measuring.",
+    "failureModes": ["Open — F-1 gas / sensing fail", "Short — F-2 gas", "Drift — F-6 oven hot"],
+    "testingTips": ["Disconnect harness; measure at sensor connector", "Gas manual: 1.06–1.12 kΩ between 65–85°F"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range", "gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["sensor_check", "F1", "F2", "F3", "F4", "F6", "sensing_fail"]
+  },
+  {
+    "id": "lgRangeWarmingDrawerSensorOhms",
+    "name": "LG electric range warming drawer sensor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 4140, "max": 5060 },
+      "warning": { "min": 3500, "max": 6000 },
+      "critical": { "below": 500, "above": 50000 }
+    },
+    "typical": { "min": 4500, "max": 4700 },
+    "openCircuitCritical": true,
+    "purpose": "LRE30755 warming drawer sensor — ≈4.6 kΩ @ 77°F.",
+    "failureModes": ["Open or short warming drawer sensor"],
+    "testingTips": ["LRE30755 only — verify model before test"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["sensor_check", "warming_drawer"]
+  },
+  {
+    "id": "lgRangeBakeElementOhms",
+    "name": "LG electric range bake element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 12.6, "max": 15.4 },
+      "warning": { "min": 10, "max": 18 },
+      "critical": { "below": 5, "above": 25 }
+    },
+    "typical": { "min": 13.5, "max": 14.5 },
+    "openCircuitCritical": true,
+    "purpose": "LRE bake element — ≈14 Ω @ room temp.",
+    "failureModes": ["Open bake — no heat", "Short — breaker trip"],
+    "testingTips": ["Cool element before Ω check"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["bake_element", "no_heat", "F9"]
+  },
+  {
+    "id": "lgRangeBroilElementOhms",
+    "name": "LG electric range broil element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.3, "max": 18.7 },
+      "warning": { "min": 12, "max": 22 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 16.5, "max": 17.5 },
+    "openCircuitCritical": true,
+    "purpose": "LRE broil element — ≈17 Ω @ room temp.",
+    "failureModes": ["Open broil — no broil heat"],
+    "testingTips": ["Same spec as convection element on LRE"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["broil_element", "no_heat"]
+  },
+  {
+    "id": "lgRangeConvectionElementOhms",
+    "name": "LG electric range convection element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.3, "max": 18.7 },
+      "warning": { "min": 12, "max": 22 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 16.5, "max": 17.5 },
+    "openCircuitCritical": true,
+    "purpose": "LRE convection element — ≈17 Ω @ room temp.",
+    "failureModes": ["Open convection element"],
+    "testingTips": ["§4-4 component test"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["convection_element", "no_heat"]
+  },
+  {
+    "id": "lgRangeConvectionMotorOhms",
+    "name": "LG electric range convection fan motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 30.2, "max": 36.9 },
+      "warning": { "min": 25, "max": 45 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 32, "max": 35 },
+    "openCircuitCritical": true,
+    "purpose": "LRE convection motor — ≈33.5 Ω ±10%.",
+    "failureModes": ["Open motor — no convection"],
+    "testingTips": ["R × 1 scale per manual"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["convection_fan", "motor_check"]
+  },
+  {
+    "id": "lgRangeDoorLatchMotorOhms",
+    "name": "LG range door latch motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 24.3, "max": 29.7 },
+      "warning": { "min": 18, "max": 35 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 26, "max": 28 },
+    "openCircuitCritical": true,
+    "purpose": "LRE / LSG door lock motor — ≈27 Ω ±10%.",
+    "failureModes": ["F-2 door lock system error (electric)"],
+    "testingTips": ["Also check micro switch 2.6 kΩ on latch"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range", "gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["door_latch_check", "F2"]
+  },
+  {
+    "id": "lgRangeMicroSwitchOhms",
+    "name": "LG range door latch micro switch (NO)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2340, "max": 2860 },
+      "warning": { "min": 2000, "max": 3500 },
+      "critical": { "below": 100, "above": 50000 }
+    },
+    "typical": { "min": 2500, "max": 2700 },
+    "openCircuitCritical": true,
+    "purpose": "Door latch micro switch — ≈2.6 kΩ; open=latched, closed=continuity.",
+    "failureModes": ["Door lock F-2"],
+    "testingTips": ["R × 1000 scale; verify continuity states"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range", "gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["door_latch_check", "F2"]
+  },
+  {
+    "id": "lgRangeCooktopElementOhms",
+    "name": "LG electric range single surface element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 41.4, "max": 50.6 },
+      "warning": { "min": 35, "max": 60 },
+      "critical": { "below": 5, "above": 80 }
+    },
+    "typical": { "min": 44, "max": 48 },
+    "openCircuitCritical": true,
+    "purpose": "LF/LR/RR ceran elements — ≈46 Ω ±10%.",
+    "failureModes": ["Cooktop no heat"],
+    "testingTips": ["Check limiter continuity 1A–2A and thermal 1B–2B"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["cooktop_element", "no_heat"]
+  },
+  {
+    "id": "lgRangeWarmingZoneOhms",
+    "name": "LG electric range center warming zone",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 508.5, "max": 621.5 },
+      "warning": { "min": 450, "max": 700 },
+      "critical": { "below": 50, "above": 900 }
+    },
+    "typical": { "min": 550, "max": 580 },
+    "openCircuitCritical": true,
+    "purpose": "Center rear warming zone — ≈565 Ω ±10%.",
+    "failureModes": ["Warming zone inoperative"],
+    "testingTips": ["§4-7 component test"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["warming_zone", "no_heat"]
+  },
+  {
+    "id": "lgRangeDualSurfaceInnerOhms",
+    "name": "LG electric range dual RF inner coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 28.8, "max": 35.2 },
+      "warning": { "min": 22, "max": 42 },
+      "critical": { "below": 5, "above": 55 }
+    },
+    "typical": { "min": 30, "max": 34 },
+    "openCircuitCritical": true,
+    "purpose": "Right-front dual element E1–1A — ≈32 Ω ±10%.",
+    "failureModes": ["Dual element partial heat"],
+    "testingTips": ["§4-8 dual surface RF"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["cooktop_element", "dual_element"]
+  },
+  {
+    "id": "lgRangeDualSurfaceOuterOhms",
+    "name": "LG electric range dual RF outer coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 49.5, "max": 60.5 },
+      "warning": { "min": 42, "max": 70 },
+      "critical": { "below": 5, "above": 85 }
+    },
+    "typical": { "min": 52, "max": 58 },
+    "openCircuitCritical": true,
+    "purpose": "Right-front dual element E2–1A — ≈55 Ω ±10%.",
+    "failureModes": ["Dual element partial heat"],
+    "testingTips": ["§4-8 dual surface RF"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["cooktop_element", "dual_element"]
+  },
+  {
+    "id": "lgRangeWarmingDrawerElementOhms",
+    "name": "LG electric range warming drawer element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 85.5, "max": 104.5 },
+      "warning": { "min": 70, "max": 120 },
+      "critical": { "below": 10, "above": 150 }
+    },
+    "typical": { "min": 92, "max": 98 },
+    "openCircuitCritical": true,
+    "purpose": "LRE30755 warming drawer heater — ≈95 Ω ±10%.",
+    "failureModes": ["Warming drawer no heat"],
+    "testingTips": ["LRE30755 only"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["warming_drawer", "no_heat"]
+  },
+  {
+    "id": "lgRangeOvenIgniterOhms",
+    "name": "LG gas range oven igniter",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 45, "max": 400 },
+      "warning": { "min": 30, "max": 500 },
+      "critical": { "below": 20, "above": 600 }
+    },
+    "typical": { "min": 80, "max": 300 },
+    "openCircuitCritical": true,
+    "purpose": "LRGL/LSG bake/broil igniter — 45–400 Ω room temp.",
+    "failureModes": ["F-9 no heat", "Glow no flame"],
+    "testingTips": ["Broil and bake igniters share spec"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["igniter_check", "F9", "no_heat"]
+  },
+  {
+    "id": "lgRangeOvenGasValveOhms",
+    "name": "LG gas range oven safety valve coil",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 3 },
+      "warning": { "min": 0.5, "max": 5 },
+      "critical": { "below": 0.3, "above": 10 }
+    },
+    "typical": { "min": 1.5, "max": 2.5 },
+    "openCircuitCritical": true,
+    "purpose": "Oven safety valve — ≈1–3 Ω upside/downside coil.",
+    "failureModes": ["F-9 no heat", "Gas valve failed"],
+    "testingTips": ["Turn off gas before disconnecting"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["gas_valve_check", "F9", "no_heat"]
+  },
+  {
+    "id": "lgRangeOvenLampOhms",
+    "name": "LG range oven lamp",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 0, "max": 5.5 },
+      "warning": { "min": 0, "max": 8 },
+      "critical": { "above": 20 }
+    },
+    "typical": { "min": 1, "max": 4 },
+    "openCircuitCritical": true,
+    "purpose": "Oven lamp — below 5 Ω (gas manual ≈5 Ω ±10%).",
+    "failureModes": ["Oven light inoperative"],
+    "testingTips": ["Cool bulb before test"],
+    "appliesTo": {
+      "equipmentSubtypes": ["range"],
+      "templates": ["electric_range", "gas_range"],
+      "manufacturers": ["LG"],
+      "platformId": "lg_freestanding_range"
+    },
+    "dmaTags": ["oven_lamp"]
+  }
+]

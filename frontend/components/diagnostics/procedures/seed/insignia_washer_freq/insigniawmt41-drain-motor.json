@@ -1,0 +1,256 @@
+{
+  "id": "insigniawmt41-drain-motor",
+  "version": "1.0.0",
+  "title": "Retractor / drain motor \u2014 E2",
+  "platformId": "insignia_washer_freq",
+  "componentIds": [
+    "drain_pump"
+  ],
+  "tags": [
+    "E2",
+    "drain_issue",
+    "pump_check",
+    "error_code"
+  ],
+  "source": {
+    "manualId": "INSIGNIA-WMT-WASHER",
+    "manualTitle": "Insignia NS-WMT41WA5 top-load washer (frequency level)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-NS-WMT41WA5-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "E2",
+    "oemTestTitle": "Drainage problems",
+    "pages": [
+      54,
+      55
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_clog"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "FCt test mode entered. Continue with component checks below.",
+      "sourceExcerpt": "After FCt test mode entry, proceed with OEM troubleshooting steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "drain_clog"
+    },
+    {
+      "id": "drain_clog",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Drain path obstruction",
+      "body": "Drain hose, valve, or pump obstructed by debris or small clothing?",
+      "sourceExcerpt": "Drain hose, valve, or pump obstructed by debris or small clothing?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "retractor_harness"
+        },
+        {
+          "id": "drain_clogged",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_drain",
+          "terminal": true,
+          "oemOutcome": "Clear drain hose, valve, or pump obstruction.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retractor_harness",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Retractor harness",
+      "body": "Harness to retractor/drain motor intact?",
+      "sourceExcerpt": "Harness to retractor/drain motor intact?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "retractor_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_motor_ohms"
+        },
+        {
+          "id": "retractor_harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_drain",
+          "terminal": true,
+          "oemOutcome": "Replace retractor harness.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "drain_motor_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Drain motor (Red\u2013Light blue)",
+      "body": "Retractor/drain motor winding: 5\u20137 \u03a9.",
+      "sourceExcerpt": "Retractor/drain motor winding: 5\u20137 \u03a9.",
+      "measurementKnowledgeId": "insigniaWasherFreqDrainPumpOhms",
+      "testPoint": {
+        "connector": "Retractor",
+        "pins": "Red-Light blue",
+        "label": "Drain motor (Red\u2013Light blue)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drain_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_retractor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 open circuit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_retractor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_retractor",
+          "terminal": true,
+          "oemOutcome": "Replace component \u2014 out of spec.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "drain_pump",
+              "evidenceId": "confirm_drain_pump_ol_drain_pump_failed"
+            }
+          ]
+        },
+        {
+          "id": "drain_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "drain_pump",
+              "evidenceId": "eliminate_drain_pump_ol_drain_pump_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "inverter_note",
+      "order": 6,
+      "type": "instruction",
+      "title": "Variable-frequency path",
+      "body": "On VFD models, try replacing frequency converter/inverter if retractor ohms OK but E2 persists.",
+      "sourceExcerpt": "On VFD models, try replacing frequency converter/inverter if retractor ohms OK but E2 persists.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_verified"
+    },
+    {
+      "id": "replace_retractor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace retractor",
+      "oemOutcome": "Replace retractor/drain motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "clear_drain",
+      "order": 8,
+      "type": "outcome",
+      "title": "Clear obstruction",
+      "oemOutcome": "Remove drain obstruction and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_harness_drain",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace harness",
+      "oemOutcome": "Replace retractor wiring harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Drain path verified",
+      "oemOutcome": "Retractor and drain path OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "insigniawmt41-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

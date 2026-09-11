@@ -1,0 +1,205 @@
+[
+  {
+    "id": "whirlpoolWtw4950WasherInletValveOhms",
+    "name": "Whirlpool WTW4950 Inlet Valve Coil Resistance (J9)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 890, "max": 1300 },
+      "warning": { "min": 840, "max": 1400 },
+      "critical": { "below": 50, "above": 1600 }
+    },
+    "typical": { "min": 950, "max": 1200 },
+    "openCircuitCritical": true,
+    "purpose": "Hot and cold solenoid coils on J9 — common J9-4 (L1) to valve pin.",
+    "failureModes": [
+      "Open coil — no fill on that leg (F8E1)",
+      "Tens of ohms outside range — replace valve assembly"
+    ],
+    "testingTips": [
+      "W11697231 TEST #2 — Hot J9-1&4, Cold J9-5&4",
+      "Live valve test via Manual Test Mode Cold/Hot valve tests"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["water_valve_check", "fill_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherMotorWindingOhms",
+    "name": "Whirlpool WTW4950 PSC Motor Winding Resistance (J2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3.5, "max": 9.5 },
+      "warning": { "min": 3, "max": 11 },
+      "critical": { "below": 1, "above": 15 }
+    },
+    "typical": { "min": 5, "max": 8.5 },
+    "openCircuitCritical": true,
+    "purpose": "PSC motor windings at J2 — CW J2-4↔6 and CCW J2-4↔5.",
+    "failureModes": [
+      "Open winding — F7E6 motor circuit open",
+      "Good ohms but hum/no start — check run capacitor"
+    ],
+    "testingTips": [
+      "W11697231 TEST #3b — 1/4 HP 5–9.5 Ω; 1/3 HP 3.5–6 Ω",
+      "Verify basket turns freely before condemning motor"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "agitate_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherShifterOhms",
+    "name": "Whirlpool WTW4950 Shifter Coil Resistance (J2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000, "max": 3500 },
+      "warning": { "min": 1800, "max": 3800 },
+      "critical": { "below": 500, "above": 5000 }
+    },
+    "typical": { "min": 2400, "max": 3200 },
+    "openCircuitCritical": true,
+    "purpose": "Shifter motor coil at J2-1 and J2-2.",
+    "failureModes": [
+      "Open — F7E5 shifter fault",
+      "Slider bind — mechanical before electrical"
+    ],
+    "testingTips": [
+      "Verify splutch cam moves freely before ohms",
+      "J12-3 shifter switch: SPIN +5 VDC / AGITATE 0 VDC"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["motor_check", "agitate_issue", "spin_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherDrainPumpOhms",
+    "name": "Whirlpool WTW4950 Drain Pump Resistance (J2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 14, "max": 25 },
+      "warning": { "min": 12, "max": 28 },
+      "critical": { "below": 5, "above": 35 }
+    },
+    "typical": { "min": 17, "max": 22 },
+    "openCircuitCritical": true,
+    "purpose": "Drain pump coil at J2-2 and J2-3.",
+    "failureModes": [
+      "Open — F9E1 long drain",
+      "Pump hums — obstruction or impeller"
+    ],
+    "testingTips": [
+      "W11697231 TEST #7 — drain pump J2-2↔3",
+      "Check coin trap before condemning pump"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["drain_pump_check", "drain_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+    "name": "Whirlpool WTW4950 Lid Lock Solenoid (J6)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 85, "max": 155 },
+      "warning": { "min": 70, "max": 170 },
+      "critical": { "below": 20, "above": 200 }
+    },
+    "typical": { "min": 100, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Lid lock solenoid J6-1↔2 with lid closed.",
+    "failureModes": [
+      "Open solenoid — F5E2/F5E4 lid lock faults",
+      "Switch state wrong — harness or lock assembly"
+    ],
+    "testingTips": [
+      "W11697231 TEST #8 — solenoid and switch states",
+      "Lid must be closed for lock engagement test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["door_lock_check", "lid_lock_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherInletThermistorOhms",
+    "name": "Whirlpool WTW4950 Inlet Thermistor (J9)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 40000, "max": 60000 },
+      "warning": { "min": 30000, "max": 70000 },
+      "critical": { "below": 5000, "above": 100000 }
+    },
+    "typical": { "min": 48000, "max": 52000 },
+    "openCircuitCritical": true,
+    "purpose": "Inlet water thermistor J9-3↔7 — ~50 kΩ @ 25°C.",
+    "failureModes": [
+      "Open — F3E2 inlet temp fault",
+      "Short — erratic temperature fill"
+    ],
+    "testingTips": [
+      "W11697231 TEST #5 — use OEM R/T table",
+      "Measure at thermistor with connector disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["thermistor_check", "temp_issue"]
+  },
+  {
+    "id": "whirlpoolWtw4950WasherAcu12Vdc",
+    "name": "Whirlpool WTW4950 ACU +12 VDC (J12)",
+    "unit": "VDC",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 11.5, "max": 13.5 },
+      "warning": { "min": 10.5, "max": 14.5 },
+      "critical": { "below": 9, "above": 16 }
+    },
+    "typical": { "min": 12, "max": 13 },
+    "openCircuitCritical": false,
+    "purpose": "W11697231 TEST #1 — +12 VDC at J12-1↔4 on main control.",
+    "failureModes": [
+      "Missing +12 V — ACU fault or supply",
+      "+12 present but no run — isolate J12 for shifter short"
+    ],
+    "testingTips": [
+      "Verify 120 VAC at J5 before DC checks",
+      "Disconnect J12 to isolate shifter short pulling +12 low"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Whirlpool", "Maytag"],
+      "platformId": "whirlpool_tl_dd"
+    },
+    "dmaTags": ["supply_issue", "hmi_check"]
+  }
+]

@@ -1,0 +1,160 @@
+{
+  "id": "samsungtldv50-gas-ignitor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Gas igniter (101D)",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "igniter"
+  ],
+  "tags": [
+    "igniter_check",
+    "no_heat",
+    "ignition_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Igniter",
+    "pages": [
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_access"
+    },
+    {
+      "id": "ignitor_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Igniter 101D",
+      "body": "Disconnect power. Do not touch igniter element.",
+      "sourceExcerpt": "Disconnect power. Do not touch igniter element.",
+      "requiresInput": false,
+      "defaultNextStepId": "ignitor_ohms"
+    },
+    {
+      "id": "ignitor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Igniter resistance",
+      "body": "Expected 40\u2013400 \u03a9.",
+      "sourceExcerpt": "Expected 40\u2013400 \u03a9.",
+      "measurementKnowledgeId": "samsungTlDv50DryerIgnitorOhms",
+      "testPoint": {
+        "connector": "Igniter 101D",
+        "pins": "Terminals",
+        "label": "Igniter resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ign_pass",
+          "label": "40\u2013400 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_igniter_ol_igniter_ok",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        },
+        {
+          "id": "ign_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_igniter_ol_igniter_failed",
+              "componentId": "igniter"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungtldv50-burner",
+          "caption": "Gas burner assembly (\u00a73-2 p.17)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_dv50/samsungtldv50-burner.png"
+        },
+        {
+          "id": "samsungtldv50-component-test-gas",
+          "caption": "Gas valve and igniter tests (\u00a74-4 p.27)",
+          "assetPath": "/images/procedures/samsung_tl_dryer_dv50/samsungtldv50-component-test-gas.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_ignitor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace igniter",
+      "oemOutcome": "Replace open or out-of-range igniter.",
+      "requiresInput": false
+    },
+    {
+      "id": "ignitor_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ignitor OK",
+      "oemOutcome": "Igniter in spec \u2014 verify gas supply and valve coils.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

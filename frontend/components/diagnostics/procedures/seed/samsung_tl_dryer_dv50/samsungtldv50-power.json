@@ -1,0 +1,133 @@
+{
+  "id": "samsungtldv50-power",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+  "platformId": "samsung_tl_dryer_dv50",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "9C1",
+    "FC",
+    "AC",
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-DV50-DRYER",
+    "manualTitle": "Samsung Top-Load / Vented Dryer DV50R Family (DVE50R, DVG50R)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl dryer dv50r5200-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Power / PCB",
+    "pages": [
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Touch power cord plug to discharge static before PCB work.",
+      "sourceExcerpt": "Before commencing with tests the appliance must be disconnected from the supply.",
+      "requiresInput": false,
+      "defaultNextStepId": "outlet_check"
+    },
+    {
+      "id": "outlet_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Outlet and voltage",
+      "body": "Verify proper supply voltage and frequency. Dedicated circuit.",
+      "sourceExcerpt": "Verify proper supply voltage and frequency. Dedicated circuit.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_pcb"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct electrical supply."
+        }
+      ]
+    },
+    {
+      "id": "harness_pcb",
+      "order": 3,
+      "type": "instruction",
+      "title": "PCB and harness",
+      "body": "Inspect PCB wire harness. AC invalid communication \u2014 check harness first.",
+      "sourceExcerpt": "Inspect PCB wire harness. AC invalid communication \u2014 check harness first.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_verified"
+    },
+    {
+      "id": "power_verified",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Fault cleared?",
+      "body": "After harness repair and power cycle, do 9C1/FC/AC codes clear?",
+      "sourceExcerpt": "After harness repair and power cycle, do 9C1/FC/AC codes clear?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pwr_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok"
+        },
+        {
+          "id": "replace_pcb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB."
+        }
+      ]
+    },
+    {
+      "id": "fix_supply_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Fix supply",
+      "oemOutcome": "Correct installation voltage and frequency.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcb_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace PCB",
+      "oemOutcome": "Replace main control PCB.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and PCB communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

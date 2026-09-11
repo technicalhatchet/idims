@@ -1,0 +1,195 @@
+{
+  "id": "ldt7808-leak-float",
+  "version": "1.0.0",
+  "title": "\u00a77-1/7-2: Leak / Float (AE leakage error)",
+  "platformId": "lg_dishwasher_ldt7808",
+  "componentIds": [
+    "door_gasket"
+  ],
+  "tags": [
+    "AE",
+    "leak_ae",
+    "leak_issue"
+  ],
+  "source": {
+    "manualId": "LG-LDT7808-DISHWASHER",
+    "manualTitle": "LG LDT7808 Top-Control Dishwasher Service Manual",
+    "extractedTextFile": "backend/docs/manuals/LDT7808ST-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "7-1-AE",
+    "oemTestTitle": "LEAKAGE ERROR",
+    "pages": [
+      47,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "DISCONNECT POWER SUPPLY LINE BEFORE SERVICING.",
+      "requiresInput": false,
+      "defaultNextStepId": "ae_checklist"
+    },
+    {
+      "id": "ae_checklist",
+      "order": 2,
+      "type": "instruction",
+      "title": "AE service checklist",
+      "body": "Document cycle count, detergent type, leveling, and when AE appeared. Remove water under floater switch (safety switch).",
+      "sourceExcerpt": "Document cycle count, detergent type, leveling, and when AE appeared. Remove water under floater switch (safety switch).",
+      "requiresInput": false,
+      "defaultNextStepId": "door_gasket_check"
+    },
+    {
+      "id": "door_gasket_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door gasket secure?",
+      "body": "Check door gasket/liner is not loose or fallen off.",
+      "sourceExcerpt": "Check door gasket/liner is not loose or fallen off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "float_ok"
+        },
+        {
+          "id": "float_ok_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_liner",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_gasket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_door_liner",
+      "order": 4,
+      "type": "instruction",
+      "title": "Replace door liner",
+      "body": "Replace door liner assembly.",
+      "sourceExcerpt": "Replace door liner assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_gasket_check"
+    },
+    {
+      "id": "float_ok",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Float / safety switch free?",
+      "body": "Verify float assembly is not stuck. Tilt unit and drain base water if flooded.",
+      "sourceExcerpt": "Verify float assembly is not stuck. Tilt unit and drain base water if flooded.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "level_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_ok"
+        },
+        {
+          "id": "level_ok_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_float",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_gasket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_float",
+      "order": 6,
+      "type": "instruction",
+      "title": "Replace float assembly",
+      "body": "Replace floater / safety switch assembly.",
+      "sourceExcerpt": "Replace floater / safety switch assembly.",
+      "requiresInput": false,
+      "defaultNextStepId": "float_ok"
+    },
+    {
+      "id": "level_ok",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Unit leveled and sealed?",
+      "body": "Level dishwasher; verify sump seal and drain hose connections.",
+      "sourceExcerpt": "Level dishwasher; verify sump seal and drain hose connections.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "leak_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_gasket",
+              "evidenceId": "eliminate_gasket_bad_door_gasket_ok"
+            }
+          ]
+        },
+        {
+          "id": "leak_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "level_unit",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "door_gasket"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "level_unit",
+      "order": 8,
+      "type": "instruction",
+      "title": "Level unit",
+      "body": "Level machine and verify mounting bracket.",
+      "sourceExcerpt": "Level machine and verify mounting bracket.",
+      "requiresInput": false,
+      "defaultNextStepId": "level_ok"
+    },
+    {
+      "id": "leak_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Leak path addressed",
+      "body": "Physical leak sources checked. Replace main PCB if AE persists with no leak found.",
+      "oemOutcome": "Physical leak sources checked. Replace main PCB if AE persists with no leak found.",
+      "requiresInput": false
+    }
+  ]
+}

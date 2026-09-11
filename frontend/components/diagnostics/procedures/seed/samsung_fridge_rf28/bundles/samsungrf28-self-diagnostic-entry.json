@@ -1,0 +1,38 @@
+{
+  "id": "samsungrf28-self-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_rf28",
+  "manualId": "SAMSUNG-RF28-FRIDGE",
+  "title": "Samsung RF28 \u2014 Self-diagnostic entry",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Fridge + FlexZone 10 s \u2014 ding-dong then fault LED checklist 30 s.",
+  "tags": [
+    "fault_codes",
+    "service_diagnostic",
+    "sensor_check"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "pages": [
+      54,
+      55
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Run self-diagnosis",
+      "body": "Fridge + FlexZone 6 s (display blinks) then continue to 10 s total. Ding-dong confirms; fault LEDs display 30 s. Clear with 10 s hold after repair.",
+      "sourceExcerpt": "Fridge + FlexZone 6 s (display blinks) then continue to 10 s total. Ding-dong confirms; fault LEDs display 30 s. Clear with 10 s hold after repair.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "id": "lg-range-broil-element",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Broil element",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "broil_element"
+  ],
+  "tags": [
+    "no_heat",
+    "broil_element"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Broil element",
+    "pages": [
+      39,
+      40
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "cool_broil"
+    },
+    {
+      "id": "cool_broil",
+      "order": 2,
+      "type": "instruction",
+      "title": "Cool broil element",
+      "body": "Allow broil element to cool before measuring.",
+      "sourceExcerpt": "Allow broil element to cool before measuring.",
+      "requiresInput": false,
+      "defaultNextStepId": "broil_ohms"
+    },
+    {
+      "id": "broil_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Broil element resistance",
+      "body": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Disconnect leads. R \u00d7 1 \u2014 expect \u224817 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "lgRangeBroilElementOhms",
+      "testPoint": {
+        "connector": "Broil element",
+        "pins": "terminals",
+        "label": "Broil element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "broil_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_broil_element_ol_broil_element_failed",
+              "componentId": "broil_element"
+            }
+          ]
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_broil_element_ol_broil_element_failed",
+              "componentId": "broil_element"
+            }
+          ]
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_broil_element_ol_broil_element_failed",
+              "componentId": "broil_element"
+            }
+          ]
+        },
+        {
+          "id": "broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_ok",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_broil_element_ol_broil_element_ok",
+              "componentId": "broil_element"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_broil",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace broil element",
+      "oemOutcome": "Broil element open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "broil_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Broil element OK",
+      "oemOutcome": "Broil element \u224817 \u03a9 verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

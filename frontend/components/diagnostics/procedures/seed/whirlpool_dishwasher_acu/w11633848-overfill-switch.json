@@ -1,0 +1,410 @@
+{
+  "id": "w11633848-overfill-switch",
+  "version": "1.0.0",
+  "title": "\u00a73-12: Overfill Float Switch",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "F6E4",
+    "F8E5",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-12",
+    "oemTestTitle": "Overfill Switch Circuit",
+    "pages": [
+      46
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "overfill_prereq"
+    },
+    {
+      "id": "overfill_prereq",
+      "order": 2,
+      "type": "instruction",
+      "title": "Overfill prerequisites",
+      "body": "Same fill-path checks as \u00a73-8. Inspect leak pan for water and float freedom.",
+      "sourceExcerpt": "Same fill-path checks as \u00a73-8. Inspect leak pan for water and float freedom.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p6_overfill"
+    },
+    {
+      "id": "disconnect_p6_overfill",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P6",
+      "body": "Power off. Unplug P6 from control.",
+      "sourceExcerpt": "Power off. Unplug P6 from control.",
+      "requiresInput": false,
+      "defaultNextStepId": "overfill_valve_ohms"
+    },
+    {
+      "id": "overfill_valve_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Fill valve \u2014 P6 pins 7 & 9",
+      "body": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9.",
+      "sourceExcerpt": "Ohms between P6-7 and P6-9. Expected 890\u20131600 \u03a9.",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+      "testPoint": {
+        "connector": "P6",
+        "pins": "7 & 9",
+        "label": "Fill valve \u2014 P6 pins 7 & 9"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_down_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "float_down_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "float_down_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_down_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_down_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fill_valve_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-fill-valve-strip",
+          "caption": "Fill valve strip circuit (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-fill-valve-strip.png"
+        },
+        {
+          "id": "w11633848-overfill-strip",
+          "caption": "Overfill float switch strip circuit (\u00a73-12)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-overfill-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "float_down_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Float down \u2014 P6 pins 4 & 6",
+      "body": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less.",
+      "sourceExcerpt": "Float in normal (down) position: ohms P6-4 to P6-6. Expect 3 \u03a9 or less.",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testPoint": {
+        "connector": "P6",
+        "pins": "4 & 6 (float down)",
+        "label": "Float down \u2014 P6 pins 4 & 6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_up_ohms_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "float_up_ohms",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_crit",
+          "label": "Out of spec / open",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_ohms_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "repair_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-fill-valve-strip",
+          "caption": "Fill valve strip circuit (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-fill-valve-strip.png"
+        },
+        {
+          "id": "w11633848-overfill-strip",
+          "caption": "Overfill float switch strip circuit (\u00a73-12)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-overfill-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "float_up_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Float up \u2014 P6 pins 4 & 6",
+      "body": "Raise float (up position): expect open circuit between P6-4 and P6-6.",
+      "sourceExcerpt": "Raise float (up position): expect open circuit between P6-4 and P6-6.",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testPoint": {
+        "connector": "P6",
+        "pins": "4 & 6 (float up)",
+        "label": "Float up \u2014 P6 pins 4 & 6"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "float_up_pass",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "reconnect_p6_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        },
+        {
+          "id": "float_up_fail",
+          "label": "Continuity with float up",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_float_switch",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11633848-fill-valve-strip",
+          "caption": "Fill valve strip circuit (\u00a73-8)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-fill-valve-strip.png"
+        },
+        {
+          "id": "w11633848-overfill-strip",
+          "caption": "Overfill float switch strip circuit (\u00a73-12)",
+          "assetPath": "/images/procedures/whirlpool_dishwasher_acu/w11633848-overfill-strip.png"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p6_overfill",
+      "order": 7,
+      "type": "instruction",
+      "title": "Reconnect P6 and restore power",
+      "body": "Reconnect P6. Restore power.",
+      "sourceExcerpt": "Reconnect P6. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_overfill_fill"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 8,
+      "defaultNextStepId": "live_overfill_fill"
+    },
+    {
+      "id": "live_overfill_fill",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Fill valve energizes in Service Diagnostics?",
+      "body": "120 VAC between P10-1 and P6-9 during fill interval (valve connected).",
+      "sourceExcerpt": "120 VAC between P10-1 and P6-9 during fill interval (valve connected).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "overfill_verified_yes",
+          "label": "Energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "overfill_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "inlet_valve",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok"
+            }
+          ]
+        },
+        {
+          "id": "overfill_verified_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_overfill",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "inlet_valve",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_fill_valve_overfill",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace fill valve",
+      "body": "Replace fill valve if coil failed.",
+      "oemOutcome": "Replace fill valve if coil failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "repair_float_switch",
+      "order": 11,
+      "type": "outcome",
+      "title": "Repair float harness",
+      "body": "Repair harness or connections to float switch.",
+      "oemOutcome": "Repair harness or connections to float switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_float_switch",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace float switch",
+      "body": "Replace overfill/float switch assembly.",
+      "oemOutcome": "Replace overfill/float switch assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_overfill",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Components good but no fill drive \u2014 replace control.",
+      "oemOutcome": "Components good but no fill drive \u2014 replace control.",
+      "requiresInput": false
+    },
+    {
+      "id": "overfill_verified",
+      "order": 14,
+      "type": "outcome",
+      "title": "Overfill circuit verified",
+      "body": "Fill valve and float switch verified.",
+      "oemOutcome": "Fill valve and float switch verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

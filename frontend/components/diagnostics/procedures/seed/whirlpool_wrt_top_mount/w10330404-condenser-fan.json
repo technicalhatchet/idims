@@ -1,0 +1,175 @@
+{
+  "id": "w10330404-condenser-fan",
+  "version": "1.0.0",
+  "title": "\u00a75-3: Condenser fan motor (shaded pole)",
+  "platformId": "whirlpool_wrt_top_mount",
+  "componentIds": [
+    "condenser_fan"
+  ],
+  "tags": [
+    "running_often",
+    "not_cooling",
+    "condenser_fan",
+    "airflow"
+  ],
+  "source": {
+    "manualId": "W10330404",
+    "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+    "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-3",
+    "oemTestTitle": "Condenser Fan Motor Resistance",
+    "pages": [
+      58,
+      59
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_cond_fan"
+    },
+    {
+      "id": "access_cond_fan",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access condenser fan",
+      "body": "Remove machine compartment cover. Disconnect condenser fan motor wires. Static condenser models have no fan \u2014 skip if not equipped.",
+      "sourceExcerpt": "Remove machine compartment cover. Disconnect condenser fan motor wires. Static condenser models have no fan \u2014 skip if not equipped.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_type"
+    },
+    {
+      "id": "motor_type",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Motor type check",
+      "body": "Shaded-pole motors can be ohm-tested (~700 \u03a9). Stepper motors cannot \u2014 use 120 VAC functional test only.",
+      "sourceExcerpt": "Shaded-pole motors can be ohm-tested (~700 \u03a9). Stepper motors cannot \u2014 use 120 VAC functional test only.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "shaded",
+          "label": "Shaded pole \u2014 proceed with ohms",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cond_fan_ohms"
+        },
+        {
+          "id": "stepper",
+          "label": "Stepper \u2014 functional test only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "stepper_functional"
+        }
+      ]
+    },
+    {
+      "id": "cond_fan_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Condenser fan winding resistance",
+      "body": "Measure across motor leads \u2014 shaded pole example ~700 \u03a9. OL indicates open winding.",
+      "sourceExcerpt": "Measure across motor leads \u2014 shaded pole example ~700 \u03a9. OL indicates open winding.",
+      "measurementKnowledgeId": "whirlpoolWrtCondenserFanOhms",
+      "testPoint": {
+        "connector": "condenser fan motor",
+        "pins": "motor leads",
+        "label": "Condenser fan winding resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cond_fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "condenser_fan",
+              "evidenceId": "ref_ms_006_frost_chip_heavy_frost_evap_fan_no"
+            }
+          ]
+        },
+        {
+          "id": "cond_fan_pass",
+          "label": "~600\u2013800 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cond_fan_ok"
+        }
+      ]
+    },
+    {
+      "id": "stepper_functional",
+      "order": 5,
+      "type": "outcome",
+      "title": "Stepper motor \u2014 functional test",
+      "oemOutcome": "Verify 120 VAC to stepper condenser fan when compressor runs; replace motor if voltage present and fan does not turn.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cond_fan",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace condenser fan",
+      "oemOutcome": "Replace shaded-pole condenser fan motor when winding open or out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "cond_fan_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Condenser fan verified",
+      "oemOutcome": "Condenser fan winding resistance verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "id": "nstdre75w1-thermal-hi-limit",
+  "version": "1.0.0",
+  "title": "Regulating thermostat & hi-limit",
+  "platformId": "insignia_dryer_tdre",
+  "componentIds": [
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "NS-TDRE75W1",
+    "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "hi-limit",
+    "oemTestTitle": "Regulating thermostat and hi-limit",
+    "pages": [
+      29,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before accessing internal components.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_regulating"
+    },
+    {
+      "id": "access_regulating",
+      "order": 2,
+      "type": "instruction",
+      "title": "Locate regulating thermostat",
+      "body": "Regulating thermostat (158/122\u00b0F 25A) and hi-limit in heat path. Power off.",
+      "sourceExcerpt": "Regulating thermostat (158/122\u00b0F 25A) and hi-limit in heat path. Power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "regulating_continuity"
+    },
+    {
+      "id": "regulating_continuity",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Regulating thermostat < 1 \u03a9",
+      "body": "Resistance across regulating thermostat: < 1 \u03a9. Infinity = replace.",
+      "sourceExcerpt": "Regulating Thermostat resistance < 1\u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reg_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hilimit_check"
+        },
+        {
+          "id": "reg_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_regulating",
+          "terminal": true,
+          "oemOutcome": "Replace regulating thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_fuse",
+              "evidenceId": "confirm_thermal_fuse_open_thermal_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hilimit_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Hi-limit < 1 \u03a9",
+      "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if supply was cut from overtemperature.",
+      "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if supply was cut from overtemperature.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hilimit_verified"
+        },
+        {
+          "id": "hilimit_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace hi-limit thermostat.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_fuse",
+              "evidenceId": "confirm_thermal_fuse_open_thermal_fuse_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_regulating",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace regulating thermostat",
+      "oemOutcome": "Replace regulating thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_hilimit",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace hi-limit",
+      "oemOutcome": "Replace hi-limit thermostat.",
+      "requiresInput": false
+    },
+    {
+      "id": "hilimit_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Thermostats OK",
+      "oemOutcome": "Regulating thermostat and hi-limit continuity pass.",
+      "requiresInput": false
+    }
+  ]
+}

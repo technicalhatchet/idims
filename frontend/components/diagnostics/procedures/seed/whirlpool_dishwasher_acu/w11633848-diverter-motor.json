@@ -1,0 +1,189 @@
+{
+  "id": "w11633848-diverter-motor",
+  "version": "1.0.0",
+  "title": "\u00a73-13: Diverter Motor",
+  "platformId": "whirlpool_dishwasher_acu",
+  "componentIds": [
+    "circulation_pump"
+  ],
+  "tags": [
+    "F9E1",
+    "F10E5",
+    "wash_issue"
+  ],
+  "source": {
+    "manualId": "W11633848",
+    "manualTitle": "Amana & Whirlpool 24\" Dishwashers",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11633848-revb amana and whirlpool dishwasher-extracted.txt",
+    "verifiedAt": "2026-03-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-13",
+    "oemTestTitle": "Diverter Motor",
+    "pages": [
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "diverter_listen"
+    },
+    {
+      "id": "diverter_listen",
+      "order": 2,
+      "type": "instruction",
+      "title": "Diverter in Service Diagnostics",
+      "body": "Run Service Diagnostics \u2014 listen for spray zone changes or inspect diverter shaft rotation. Verify diverter disk installed.",
+      "sourceExcerpt": "Run Service Diagnostics \u2014 listen for spray zone changes or inspect diverter shaft rotation. Verify diverter disk installed.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_p6_diverter"
+    },
+    {
+      "id": "disconnect_p6_diverter",
+      "order": 3,
+      "type": "instruction",
+      "title": "Disconnect P6 / measure at P7",
+      "body": "Power off. Unplug P6. Measure diverter motor at P7-4 and P7-6 (use P10-1 test pad for P7-4 per manual).",
+      "sourceExcerpt": "Power off. Unplug P6. Measure diverter motor at P7-4 and P7-6 (use P10-1 test pad for P7-4 per manual).",
+      "requiresInput": false,
+      "defaultNextStepId": "diverter_motor_ohms"
+    },
+    {
+      "id": "diverter_motor_ohms",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Diverter motor 600\u20131800 \u03a9?",
+      "body": "Ohms between P7-4 and P7-6. Expected 600\u20131800 \u03a9.",
+      "sourceExcerpt": "Ohms between P7-4 and P7-6. Expected 600\u20131800 \u03a9.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "reconnect_p6_diverter_yes",
+          "label": "600\u20131800 \u03a9",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reconnect_p6_diverter"
+        },
+        {
+          "id": "reconnect_p6_diverter_no",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_p6_diverter",
+      "order": 5,
+      "type": "instruction",
+      "title": "Reconnect P6 and restore power",
+      "body": "Reconnect P6. Restore power.",
+      "sourceExcerpt": "Reconnect P6. Restore power.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_diverter"
+    },
+    {
+      "id": "service_mode_before_live_test",
+      "type": "instruction",
+      "title": "Continue after Service Diagnostics entry",
+      "body": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below.",
+      "sourceExcerpt": "Refer to Component Testing; use Service Diagnostics Cycle for live load verification.",
+      "requiresInput": false,
+      "order": 6,
+      "defaultNextStepId": "live_diverter"
+    },
+    {
+      "id": "live_diverter",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Diverter rotates in Service Diagnostics?",
+      "body": "120 VAC at P6-4 and P6-6 during diverter interval; motor must be connected.",
+      "sourceExcerpt": "120 VAC at P6-4 and P6-6 during diverter interval; motor must be connected.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "diverter_motor_verified_yes",
+          "label": "Rotates",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_motor_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "circulation_pump",
+              "evidenceId": "eliminate_circulation_pump_ol_circulation_pump_ok"
+            }
+          ]
+        },
+        {
+          "id": "diverter_motor_verified_no",
+          "label": "No drive/rotation",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_diverter",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "circulation_pump",
+              "evidenceId": "confirm_circulation_pump_ol_circulation_pump_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_diverter",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace diverter assembly",
+      "body": "Replace diverter motor assembly if open/out of range.",
+      "oemOutcome": "Replace diverter motor assembly if open/out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_diverter",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace ACU",
+      "body": "Motor good but no AC output \u2014 replace control. If error persists, run diverter sensor test.",
+      "oemOutcome": "Motor good but no AC output \u2014 replace control. If error persists, run diverter sensor test.",
+      "requiresInput": false
+    },
+    {
+      "id": "diverter_motor_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "Diverter motor verified",
+      "body": "Diverter motor verified.",
+      "oemOutcome": "Diverter motor verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11633848-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_before_live_test"
+    }
+  ]
+}

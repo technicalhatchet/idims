@@ -1,0 +1,160 @@
+{
+  "id": "w11800233-test-05-water-level",
+  "version": "1.0.0",
+  "title": "TEST #5: Water Level",
+  "platformId": "whirlpool_tl_dd_4100",
+  "componentIds": [
+    "water_level_sensor"
+  ],
+  "tags": [
+    "pressure_sensor",
+    "F3E2",
+    "F8E1",
+    "F8E3",
+    "F9E1",
+    "long_fill"
+  ],
+  "source": {
+    "manualId": "W11800233",
+    "manualTitle": "Whirlpool 4.0\u20134.3 cu ft Top Load Washer (WTW4100 ACU)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-W11800233-revc wtw4100-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5",
+    "oemTestTitle": "Water Level",
+    "pages": [
+      90,
+      91
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected.",
+      "requiresInput": false,
+      "defaultNextStepId": "auto_test_fill"
+    },
+    {
+      "id": "auto_test_fill",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Automatic Test fill step (70 mm)",
+      "body": "Run Automatic Test. During step 2, do valves open and basket fill to 70 mm before advancing?",
+      "sourceExcerpt": "Run Automatic Test. During step 2, do valves open and basket fill to 70 mm before advancing?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Fill step passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "auto_test_drain_level"
+        },
+        {
+          "id": "fill_bad",
+          "label": "Long fill or no pressure change",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_pressure_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "auto_test_drain_level",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Automatic Test drain step (3 mm)",
+      "body": "During step 3, does drain pump run and washer sense 3 mm water remaining?",
+      "sourceExcerpt": "During step 3, does drain pump run and washer sense 3 mm water remaining?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "level_ok",
+          "label": "Fill and drain steps OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "water_level_sensor",
+              "evidenceId": "eliminate_water_level_sensor_5v_water_level_sensor_ok"
+            }
+          ]
+        },
+        {
+          "id": "level_bad",
+          "label": "Drain/level step fails",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_pressure_hose",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "water_level_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_pressure_hose",
+      "order": 4,
+      "type": "instruction",
+      "title": "Inspect pressure hose and dome",
+      "body": "Power off. Remove console. Hose secure at transducer and tub dome? Routed without pinch? Clear of water/suds/debris?",
+      "sourceExcerpt": "Power off. Remove console. Hose secure at transducer and tub dome? Routed without pinch? Clear of water/suds/debris?",
+      "requiresInput": false,
+      "defaultNextStepId": "service_hose"
+    },
+    {
+      "id": "service_hose",
+      "order": 5,
+      "type": "instruction",
+      "title": "Service pressure hose",
+      "body": "Disconnect hose at main control, blow clear, fix routing, replace if leaking. Retest Automatic Test.",
+      "sourceExcerpt": "Disconnect hose at main control, blow clear, fix routing, replace if leaking. Retest Automatic Test.",
+      "requiresInput": false,
+      "defaultNextStepId": "auto_test_fill"
+    },
+    {
+      "id": "level_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Water level OK",
+      "oemOutcome": "On-board pressure transducer and hose path verified via Automatic Test.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_acu_level",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Hose path good \u2014 replace main control; calibrate and run Automatic Test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11800233-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "auto_test_fill"
+    }
+  ]
+}

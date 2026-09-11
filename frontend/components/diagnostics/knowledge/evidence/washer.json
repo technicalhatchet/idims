@@ -60,6 +60,14 @@
       ]
     },
     {
+      "id": "control_board",
+      "label": "Main Control / CCU",
+      "dmaTags": [
+        "control_board",
+        "error_code"
+      ]
+    },
+    {
       "id": "water_level",
       "label": "Water Level / Pressure Switch",
       "dmaTags": [
@@ -156,6 +164,15 @@
       "categoryId": "control_hmi",
       "dmaTags": [
         "hmi_check",
+        "error_code"
+      ]
+    },
+    {
+      "id": "control_board",
+      "label": "Main control board (CCU)",
+      "categoryId": "control_board",
+      "dmaTags": [
+        "control_board",
         "error_code"
       ]
     },
@@ -523,7 +540,7 @@
           "type": "measurement",
           "knowledgeId": "washerDoorLockSwitchOhms",
           "statusIn": [
-            "critical"
+            "normal"
           ]
         }
       ],
@@ -532,7 +549,65 @@
       "effect": {
         "effect": "eliminate"
       },
-      "explanation": "Door lock OK ruled out by diagnostic evidence."
+      "explanation": "Door lock switch within spec — lock assembly cleared at component."
+    },
+    {
+      "id": "confirm_wash_heater_ol_wash_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Wash heater failed \u2014 supported by diagnostic evidence.",
+      "dmaTags": [
+        "heating_element_check"
+      ]
+    },
+    {
+      "id": "cat_up_wash_heater_ol_wash_heater_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heating",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 38
+      },
+      "explanation": "Wash heater failed \u2014 category evidence increased."
+    },
+    {
+      "id": "eliminate_wash_heater_ol_wash_heater_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherHeaterOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "wash_heater",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Wash heater OK ruled out by diagnostic evidence."
     },
     {
       "id": "confirm_wash_heater_ol_wash_heater_failed",
@@ -909,12 +984,12 @@
       "recommendStepKey": "functional"
     },
     {
-      "id": "eliminate_lid_lock_bad_door_lock_ok",
+      "id": "eliminate_lid_lock_good_door_lock_assembly",
       "when": [
         {
           "type": "field",
           "path": "functional_checks.lid_lock_operation",
-          "equals": "bad"
+          "equals": "good"
         }
       ],
       "target": "door_lock",
@@ -922,8 +997,201 @@
       "effect": {
         "effect": "eliminate"
       },
-      "explanation": "Door lock OK ruled out by diagnostic evidence.",
-      "recommendStepKey": "functional"
+      "explanation": "Door lock operation good — lock assembly unlikely at component.",
+      "recommendStepKey": "electrical"
+    },
+    {
+      "id": "cat_down_lid_lock_good",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "good"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "decrease",
+        "value": 30
+      },
+      "explanation": "Lock operation good — door lock assembly less likely.",
+      "recommendStepKey": "electrical"
+    },
+    {
+      "id": "w_ms_lid_lock_good_ccu",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        },
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "good"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 14
+      },
+      "explanation": "Lock operates but complaint persists — suspect CCU lock output or intermittent harness (not HMI).",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "door_lock_check",
+        "control_board"
+      ]
+    },
+    {
+      "id": "w_ms_duet_door_lock_normal",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Duet Sport door lock solenoid within spec — lock assembly cleared.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "w_ms_lid_lock_bad_ohms_normal_harness",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "washerDoorLockSwitchOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 18
+      },
+      "explanation": "Lock symptom but switch ohms normal — lock assembly cleared; check harness and CCU lock output.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "w_ms_duet_lid_lock_bad_ohms_normal_harness",
+      "when": [
+        {
+          "type": "field",
+          "path": "functional_checks.lid_lock_operation",
+          "equals": "bad"
+        },
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 20
+      },
+      "explanation": "Lock symptom but solenoid ohms normal at CCU — assembly unlikely; isolate harness or CCU lock output.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "confirm_control_board_ccu_door_lock_failed",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "CCU door-lock output failed — lock circuit good at assembly; no energize in manual diagnostic test.",
+      "recommendStepKey": "diagnosis",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_control_board_ccu_door_lock_failed",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 42
+      },
+      "explanation": "CCU door-lock output failed — main control suspect (not HMI).",
+      "recommendStepKey": "diagnosis",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "eliminate_control_board_ccu_door_lock_ok",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "CCU door-lock output verified in manual diagnostic test.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
     },
     {
       "id": "chip_wont_drain_drain_pump",
@@ -940,7 +1208,28 @@
         "value": 22
       },
       "explanation": "Complaint: won't drain \u2014 points toward Drain Pump.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "pump_check",
+        "drain_issue"
+      ]
+    },
+    {
+      "id": "chip_wont_drain_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "wont_drain"
+        }
+      ],
+      "target": "drain_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Won't drain complaint \u2014 check pump, drain path, and OEM drain test.",
+      "recommendStepKey": "electrical",
       "dmaTags": [
         "pump_check",
         "drain_issue"
@@ -961,10 +1250,31 @@
         "value": 22
       },
       "explanation": "Complaint: no fill \u2014 points toward Fill / Water Supply.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "electrical",
       "dmaTags": [
         "water_valve_check",
         "fill_issue"
+      ]
+    },
+    {
+      "id": "chip_no_fill_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "no_fill"
+        }
+      ],
+      "target": "inlet_valves",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "No fill complaint \u2014 check inlet valves, supply, and pressure switch.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check"
       ]
     },
     {
@@ -1024,10 +1334,30 @@
         "value": 22
       },
       "explanation": "Complaint: lid lock issue \u2014 points toward Door / Lid Lock.",
-      "recommendStepKey": "complaint",
+      "recommendStepKey": "mechanical",
       "dmaTags": [
         "door_lock_check",
         "safety_switch"
+      ]
+    },
+    {
+      "id": "chip_lid_lock_component_nudge",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "door_lock",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 28
+      },
+      "explanation": "Lid/door lock complaint \u2014 verify latch, harness, and OEM lock test before control.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": [
+        "door_lock_check"
       ]
     },
     {

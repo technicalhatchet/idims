@@ -1,0 +1,217 @@
+{
+  "id": "samsungflexwash-motor-circuit",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Lower DD motor (3C)",
+  "platformId": "samsung_flexwash",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "3C",
+    "motor_check",
+    "spin_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+    "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Lower Washing Motor 3C",
+    "pages": [
+      37,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_motor"
+    },
+    {
+      "id": "disconnect_motor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect lower motor connector",
+      "body": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material. Verify IPM terminal on main PBA connected.",
+      "sourceExcerpt": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material. Verify IPM terminal on main PBA connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Lower motor winding resistance",
+      "body": "Disconnect connector. Measure Blue-White, White-Red, Red-Blue pairs \u2014 equal ~15 \u03a9.",
+      "sourceExcerpt": "Disconnect connector. Measure Blue-White, White-Red, Red-Blue pairs \u2014 equal ~15 \u03a9.",
+      "measurementKnowledgeId": "samsungFlexWashMotorOhms",
+      "testPoint": {
+        "connector": "Lower DD motor",
+        "pins": "Blue-White / White-Red / Red-Blue",
+        "label": "Lower motor winding resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_drive_motor_ol_drive_motor_failed",
+              "componentId": "drive_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_pass",
+          "label": "~15 \u03a9 equal",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_drive_motor_ol_drive_motor_ok",
+              "componentId": "drive_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reconnect_motor",
+      "order": 4,
+      "type": "instruction",
+      "title": "Reconnect motor",
+      "body": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify lower drum spin.",
+      "sourceExcerpt": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify lower drum spin.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_motor_check"
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 5,
+      "defaultNextStepId": "live_motor_check"
+    },
+    {
+      "id": "live_motor_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Motor runs in manual check",
+      "body": "Does lower drum spin in Smart Install dehydration test?",
+      "sourceExcerpt": "Does lower drum spin in Smart Install dehydration test?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok"
+        },
+        {
+          "id": "suspect_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA or main PBA after confirming motor and harness."
+        }
+      ]
+    },
+    {
+      "id": "replace_motor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace lower DD motor when windings open or out of OEM range.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Motor verified",
+      "oemOutcome": "Lower motor ohms and live spin verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_inverter_out",
+      "order": 9,
+      "type": "outcome",
+      "title": "Suspect inverter/main PBA",
+      "oemOutcome": "Replace inverter PBA (AC6 path) or main PBA when motor checks pass but 3C remains.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungflexwash-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "reconnect_motor",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungflexwash-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "live_motor_check"
+    }
+  ]
+}

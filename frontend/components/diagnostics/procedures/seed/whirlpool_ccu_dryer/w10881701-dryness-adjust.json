@@ -1,0 +1,84 @@
+{
+  "id": "w10881701-dryness-adjust",
+  "version": "1.0.0",
+  "title": "TEST #5a: Customer Dryness Level",
+  "platformId": "whirlpool_ccu_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "not_drying"
+  ],
+  "source": {
+    "manualId": "W10881701",
+    "manualTitle": "Whirlpool & Maytag 9.2 Cu. Ft. Steam Dryer Service Manual",
+    "extractedTextFile": "backend/docs/manuals/servicemanual-w10881701-l-91 wed9500-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5a",
+    "oemTestTitle": "Adjusting Customer-Focused Dryness Level",
+    "pages": [
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_entry"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Key Activation, fault scroll, or Service Test as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "dryness_entry"
+    },
+    {
+      "id": "dryness_entry",
+      "order": 3,
+      "type": "instruction",
+      "title": "Enter dryness adjust mode",
+      "body": "Standby: press and hold DRYNESS ~3 sec until current level (default 2) shows on 7-segment display.",
+      "sourceExcerpt": "Standby: press and hold DRYNESS ~3 sec until current level (default 2) shows on 7-segment display.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_level"
+    },
+    {
+      "id": "select_level",
+      "order": 4,
+      "type": "instruction",
+      "title": "Select dryness offset",
+      "body": "Press DRYNESS to cycle 0 (30% less) through 4 (30% more). Press START to save to ACU EEPROM.",
+      "sourceExcerpt": "Press DRYNESS to cycle 0 (30% less) through 4 (30% more). Press START to save to ACU EEPROM.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_saved"
+    },
+    {
+      "id": "dryness_saved",
+      "order": 5,
+      "type": "outcome",
+      "title": "Dryness level updated",
+      "oemOutcome": "Customer auto-dry aggressiveness saved.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10881701-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

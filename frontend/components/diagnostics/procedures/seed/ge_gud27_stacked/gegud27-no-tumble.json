@@ -1,0 +1,297 @@
+{
+  "id": "gegud27-no-tumble",
+  "version": "1.0.0",
+  "title": "No Tumble / Drum Not Turning",
+  "platformId": "ge_gud27_stacked",
+  "componentIds": [
+    "motor",
+    "drive_belt"
+  ],
+  "tags": [
+    "motor_check",
+    "dryer_no_tumble",
+    "wont_spin"
+  ],
+  "source": {
+    "manualId": "GE-GUD27-STACKED",
+    "manualTitle": "GE 24/27 in Unitized Laundry Centers (GUD27ESS/GUD27GSS)",
+    "extractedTextFile": "backend/docs/manuals/gud27essmww-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "TS-28",
+    "oemTestTitle": "Drive Belt, Idler & Motor",
+    "pages": [
+      28,
+      30
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the laundry center or disconnect power before servicing the dryer section. Timer and start switch are intentionally ungrounded \u2014 shock risk if power is on during access.",
+      "sourceExcerpt": "Disconnect power before servicing. Timer may present electric shock during servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "belt_idler_visual"
+    },
+    {
+      "id": "belt_idler_visual",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Drive belt & idler",
+      "body": "Inspect belt for breakage and idler arm tension. Idler arm is under high tension \u2014 do not snap back.",
+      "sourceExcerpt": "Inspect belt for breakage and idler arm tension. Idler arm is under high tension \u2014 do not snap back.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "start_winding"
+        },
+        {
+          "id": "belt_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_idler",
+          "terminal": true,
+          "oemOutcome": "Replace drive belt and/or idler assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "start_winding",
+      "order": 3,
+      "type": "measurement",
+      "title": "Motor start winding M6\u2013M4",
+      "body": "Disconnect motor harness. Rx1 at motor M6 to M4: 2.98\u20133.30 \u03a9.",
+      "sourceExcerpt": "Disconnect motor harness. Rx1 at motor M6 to M4: 2.98\u20133.30 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerMotorStartWindingOhms",
+      "testPoint": {
+        "connector": "Motor",
+        "pins": "M6\u2013M4",
+        "label": "Motor start winding M6\u2013M4"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "start_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "run_winding"
+        },
+        {
+          "id": "start_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor (overload internal).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor (overload internal).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "start_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor (overload internal).",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "run_winding",
+      "order": 4,
+      "type": "measurement",
+      "title": "Motor run winding",
+      "body": "Terminal 2 on start switch to NO on door switch (door closed): 3.19\u20133.53 \u03a9.",
+      "sourceExcerpt": "Terminal 2 on start switch to NO on door switch (door closed): 3.19\u20133.53 \u03a9.",
+      "measurementKnowledgeId": "geGud27DryerMotorRunWindingOhms",
+      "testPoint": {
+        "connector": "Motor run",
+        "pins": "start sw 2\u2013door NO",
+        "label": "Motor run winding"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "run_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_belt_switch"
+        },
+        {
+          "id": "run_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "run_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        },
+        {
+          "id": "run_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_belt_switch",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Door switch & belt switch",
+      "body": "Door closed: door switch passes motor neutral. Belt switch engages when idler pulley up.",
+      "sourceExcerpt": "Door closed: door switch passes motor neutral. Belt switch engages when idler pulley up.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "switches_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tumble_verified"
+        },
+        {
+          "id": "switch_fault",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switches",
+          "terminal": true,
+          "oemOutcome": "Replace door switch or belt switch.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "motor",
+              "evidenceId": "confirm_motor_ol_motor_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_belt_idler",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace belt/idler",
+      "oemOutcome": "Replace drive belt and/or idler.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace motor",
+      "oemOutcome": "Replace drive motor and blower assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_switches",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace switches",
+      "oemOutcome": "Replace door or belt switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "tumble_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Tumble path OK",
+      "oemOutcome": "Belt, motor windings, and switches within spec.",
+      "requiresInput": false
+    }
+  ]
+}

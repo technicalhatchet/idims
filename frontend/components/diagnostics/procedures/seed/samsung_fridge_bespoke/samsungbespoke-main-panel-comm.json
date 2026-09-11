@@ -1,0 +1,122 @@
+{
+  "id": "samsungbespoke-main-panel-comm",
+  "version": "1.0.0",
+  "title": "Main \u2194 display panel communication",
+  "platformId": "samsung_fridge_bespoke",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "41E",
+    "display_dead",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "manualTitle": "Samsung Bespoke French-door RF23BB/RF24BB/RF29BB/RF30BB",
+    "extractedTextFile": "backend/docs/manuals/samsung fridge rf23bb-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-2",
+    "oemTestTitle": "Main \u2194 Panel communication",
+    "pages": [
+      91,
+      137
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB.",
+      "sourceExcerpt": "Disconnect power before servicing heater or harness resistance tests.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_check"
+    },
+    {
+      "id": "harness_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Display harness",
+      "body": "Reseat display/UI harness. Check for hinge pinch or corrosion.",
+      "sourceExcerpt": "Reseat display/UI harness. Check for hinge pinch or corrosion.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "scope_check"
+        },
+        {
+          "id": "fix_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace display harness."
+        }
+      ]
+    },
+    {
+      "id": "scope_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Oscilloscope comm line",
+      "body": "If harness OK, verify comm waveform between main and panel PCBs.",
+      "sourceExcerpt": "If harness OK, verify comm waveform between main and panel PCBs.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_ok"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or display PCB after harness ruled out."
+        }
+      ]
+    },
+    {
+      "id": "harness_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Replace display harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_boards_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace main and/or display PCB per scope findings.",
+      "requiresInput": false
+    },
+    {
+      "id": "panel_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "41Er cleared \u2014 panel communication restored.",
+      "requiresInput": false
+    }
+  ]
+}

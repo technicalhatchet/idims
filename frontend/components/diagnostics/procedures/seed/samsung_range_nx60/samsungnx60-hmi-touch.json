@@ -1,0 +1,142 @@
+{
+  "id": "samsungnx60-hmi-touch",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Touch keypad",
+  "platformId": "samsung_range_nx60",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manualTitle": "Samsung NX60T8311S Slide-In Gas Range",
+    "extractedTextFile": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Touch control keypads not working",
+    "pages": [
+      70,
+      75
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and gas",
+      "body": "Turn off gas supply and disconnect electrical power before servicing. Use appropriate PPE for live voltage checks.",
+      "sourceExcerpt": "Turn off the gas supply before working on/servicing the appliance. Disconnect power before working on electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "child_lock"
+    },
+    {
+      "id": "child_lock",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Child lock / Sabbath off",
+      "body": "Hold lock key 3+ s to clear child lock. Bake+1 (Sabbath) 3+ s to exit Sabbath mode.",
+      "sourceExcerpt": "Hold lock key 3+ s to clear child lock. Bake+1 (Sabbath) 3+ s to exit Sabbath mode.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn701_check"
+        },
+        {
+          "id": "clear_lock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_lock_out",
+          "terminal": true,
+          "oemOutcome": "Clear lock or Sabbath mode.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "gr_ms_011_no_oven_heat_supply_critical"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cn701_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "CN701 touch tail",
+      "body": "Verify Sub PCB CN701 and touch film tail CNS701/CN701 fully connected.",
+      "sourceExcerpt": "Verify Sub PCB CN701 and touch film tail CNS701/CN701 fully connected.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "touch_ok"
+        },
+        {
+          "id": "reseat_tail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_touch",
+          "terminal": true,
+          "oemOutcome": "Reseat touch film tail.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "gr_ms_011_no_oven_heat_supply_critical"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "clear_lock_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Clear lock modes",
+      "oemOutcome": "Disable child lock or Sabbath before further HMI service.",
+      "requiresInput": false
+    },
+    {
+      "id": "reseat_tail",
+      "order": 5,
+      "type": "outcome",
+      "title": "Reseat tail",
+      "oemOutcome": "Reconnect touch film tail securely.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_sub_touch",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace Sub PCB / touch",
+      "oemOutcome": "Replace Sub PCB or Assy Touch when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "touch_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Touch OK",
+      "oemOutcome": "Touch keypad operation verified.",
+      "requiresInput": false
+    }
+  ]
+}

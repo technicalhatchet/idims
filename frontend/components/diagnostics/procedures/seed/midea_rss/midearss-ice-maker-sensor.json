@@ -1,0 +1,176 @@
+{
+  "id": "midearss-ice-maker-sensor",
+  "version": "1.0.0",
+  "title": "\u00a710.8 EE: Ice maker sensor circuit",
+  "platformId": "midea_rss",
+  "componentIds": [
+    "ice_maker_module",
+    "thermistor"
+  ],
+  "tags": [
+    "EE",
+    "ice_maker",
+    "thermistor_check"
+  ],
+  "source": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+    "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "10.8",
+    "oemTestTitle": "Ice maker sensor circuit fault",
+    "pages": [
+      48,
+      42
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "ee_harness"
+    },
+    {
+      "id": "ee_harness",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Ice maker sensor harness",
+      "body": "Verify ice maker sensor terminal at main PCB is seated with no foreign matter.",
+      "sourceExcerpt": "Verify ice maker sensor terminal at main PCB is seated with no foreign matter.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ee_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_im_sensor"
+        },
+        {
+          "id": "replace_im_sensor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker sensor or module.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bench_im_sensor",
+      "order": 3,
+      "type": "instruction",
+      "title": "Bench ice maker sensor",
+      "body": "Disconnect power. Measure ice machine sensor at bottom of ice-making box \u2014 B3839 R/T table \u00a79.4.",
+      "sourceExcerpt": "Disconnect power. Measure ice machine sensor at bottom of ice-making box \u2014 B3839 R/T table \u00a79.4.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_sensor_ohms"
+    },
+    {
+      "id": "im_sensor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Ice maker sensor resistance",
+      "body": "B3839 NTC at ice maker sensor \u2014 ~2.0 k\u03a9 @ 25\u00b0C.",
+      "sourceExcerpt": "B3839 NTC at ice maker sensor \u2014 ~2.0 k\u03a9 @ 25\u00b0C.",
+      "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+      "testPoint": {
+        "connector": "ice maker sensor",
+        "pins": "sensor pair",
+        "label": "Ice maker sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "im_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "im_ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "im_ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_sensor_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_im_sensor_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ice maker sensor",
+      "oemOutcome": "Replace ice maker sensor or ice maker assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_sensor_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Ice maker sensor OK",
+      "oemOutcome": "Ice maker sensor B3839 verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "samsungtlcg71-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_tl_washer_cg71",
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "title": "Samsung TL CG71 \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) from Self Clean course for automatic/manual component checks.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung Top-Load Washer CG71 Family (WA7000A) (WA55CG71, WA55CG75, WA54CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl new style-extracted.txt",
+    "pages": [
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Standby \u2014 empty drum",
+      "body": "Washer standby. Drum empty. Set course to Self Clean.",
+      "sourceExcerpt": "Washer standby. Drum empty. Set course to Self Clean.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Start/Pause for 7 seconds. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Standby \u2192 Self Clean \u2192 Start/Pause 7 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

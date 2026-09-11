@@ -1,0 +1,195 @@
+{
+  "id": "w2225623-mold-heater",
+  "version": "1.0.0",
+  "title": "Mold heater (L\u2013H) \u2014 72 \u03a9",
+  "platformId": "whirlpool_modular_ice_maker",
+  "componentIds": [
+    "ice_maker_module",
+    "heater"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "IME3",
+    "E3",
+    "IMFUSE"
+  ],
+  "source": {
+    "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+    "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+    "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "L\u2013H",
+    "oemTestTitle": "Mold heater resistance and voltage",
+    "pages": [
+      1
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+      "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_setup"
+    },
+    {
+      "id": "heater_setup",
+      "order": 2,
+      "type": "instruction",
+      "title": "Prepare for L\u2013H ohms",
+      "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold heater attached to support; power off.",
+      "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold heater attached to support; power off.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Mold heater resistance (L\u2013H)",
+      "body": "185 W @ 120 V = 72 \u03a9 at L\u2013H with heater on support, blades in park.",
+      "sourceExcerpt": "185 W @ 120 V = 72 \u03a9 at L\u2013H with heater on support, blades in park.",
+      "measurementKnowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms",
+      "testPoint": {
+        "connector": "module",
+        "pins": "L \u2194 H",
+        "label": "Mold heater resistance (L\u2013H)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_mold_heater"
+            }
+          ]
+        },
+        {
+          "id": "lh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_mold_heater"
+            }
+          ]
+        },
+        {
+          "id": "lh_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_im_mold_heater"
+            }
+          ]
+        },
+        {
+          "id": "lh_pass",
+          "label": "72 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_live"
+        }
+      ]
+    },
+    {
+      "id": "heater_live",
+      "order": 4,
+      "type": "instruction",
+      "title": "Live heater voltage (L\u2013H)",
+      "body": "Restore power and initiate cycle electrically. L\u2013H line voltage = heater ON; 0 V = OFF.",
+      "sourceExcerpt": "Restore power and initiate cycle electrically. L\u2013H line voltage = heater ON; 0 V = OFF.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "heater_voltage",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Heater energizes during harvest?",
+      "body": "During harvest heat phase, does L\u2013H show line voltage?",
+      "sourceExcerpt": "During harvest heat phase, does L\u2013H show line voltage?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok"
+        },
+        {
+          "id": "heater_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "heater_control_out",
+          "terminal": true,
+          "oemOutcome": "Heater ohms OK but no L\u2013H voltage \u2014 module control or bimetal path.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace mold heater / module",
+      "oemOutcome": "Open or out-of-spec L\u2013H heater \u2014 replace module (IME3/E3 heater timeout).",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_control_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Module control fault",
+      "oemOutcome": "Heater element OK but no harvest heat \u2014 check bimetal T\u2013H and module.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Mold heater verified",
+      "oemOutcome": "L\u2013H 72 \u03a9 and harvest heater voltage verified.",
+      "requiresInput": false
+    }
+  ]
+}

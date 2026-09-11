@@ -1,0 +1,196 @@
+{
+  "id": "w10410465-heater-gas",
+  "version": "1.0.0",
+  "title": "TEST #4: Heat System (gas)",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "gas_valve",
+    "thermal_fuse"
+  ],
+  "tags": [
+    "no_heat",
+    "ignition_issue",
+    "gas_heater_check"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-gas",
+    "oemTestTitle": "Heat System \u2014 Gas",
+    "pages": [
+      14,
+      15
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "access_gas_thermal"
+    },
+    {
+      "id": "access_gas_thermal",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access gas thermal path",
+      "body": "Remove top panel. Locate thermal fuse, cut-off, high-limit per Figure 20b.",
+      "sourceExcerpt": "Remove top panel. Locate thermal fuse, cut-off, high-limit per Figure 20b.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_fuse"
+    },
+    {
+      "id": "gas_fuse",
+      "order": 3,
+      "type": "visual_check",
+      "title": "TEST #4b \u2014 thermal fuse",
+      "body": "Thermal fuse in gas valve circuit: continuity required.",
+      "sourceExcerpt": "Thermal fuse in gas valve circuit: continuity required.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_cutoff"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace thermal fuse.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_cutoff",
+      "order": 4,
+      "type": "visual_check",
+      "title": "TEST #4c \u2014 thermal cut-off",
+      "body": "Cut-off continuity. Open \u2192 replace cut-off and high-limit.",
+      "sourceExcerpt": "Cut-off continuity. Open \u2192 replace cut-off and high-limit.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_hilimit"
+        },
+        {
+          "id": "cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace cut-off and high-limit.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_hilimit",
+      "order": 5,
+      "type": "visual_check",
+      "title": "High-limit thermostat",
+      "body": "Red to black wire continuity at high-limit.",
+      "sourceExcerpt": "Red to black wire continuity at high-limit.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_valve_ref"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit and cut-off.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "gas_valve",
+              "evidenceId": "confirm_gas_valve_ol_gas_valve_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gas_valve_ref",
+      "order": 6,
+      "type": "instruction",
+      "title": "TEST #4d \u2014 gas valve & ignitor",
+      "body": "Run w10410465-gas-valve coil checks and verify ignitor 50\u2013500 \u03a9. Check flame sensor continuity.",
+      "sourceExcerpt": "Run w10410465-gas-valve coil checks and verify ignitor 50\u2013500 \u03a9. Check flame sensor continuity.",
+      "requiresInput": false,
+      "defaultNextStepId": "gas_heat_verified"
+    },
+    {
+      "id": "replace_fuse",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace thermal fuse",
+      "oemOutcome": "Replace thermal fuse.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_cutoff",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace cut-off & high-limit",
+      "oemOutcome": "Replace thermal cut-off and high-limit.",
+      "requiresInput": false
+    },
+    {
+      "id": "gas_heat_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Gas heat path verified",
+      "oemOutcome": "Thermal limits and gas valve path OK \u2014 suspect CCU if still no heat.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "gas_dryer"
+  ]
+}

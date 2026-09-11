@@ -1,0 +1,130 @@
+{
+  "id": "w11509412-test-59-ice-motor",
+  "version": "1.0.0",
+  "title": "Service Test 59: Ice maker motor",
+  "platformId": "whirlpool_ka_french_door",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "E2",
+    "ice_maker",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "W11509412",
+    "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+    "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "59",
+    "oemTestTitle": "Ref. Compartment Ice Maker Motor",
+    "pages": [
+      4
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_59"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+      "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_59"
+    },
+    {
+      "id": "select_test_59",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 59",
+      "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 59. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+      "sourceExcerpt": "Service Test 59 \u2014 Ice maker motor",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_sequence"
+    },
+    {
+      "id": "motor_sequence",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run motor sequence",
+      "body": "Press SW3 to step motor sequence. Digit 1: 0=off, 1=CW to home, 2=off, 3=CCW to home. Digit 2: 0=in progress, 1=completed, 2=timeout (70 s).",
+      "sourceExcerpt": "Press SW3 to step motor sequence. Digit 1: 0=off, 1=CW to home, 2=off, 3=CCW to home. Digit 2: 0=in progress, 1=completed, 2=timeout (70 s).",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_home"
+    },
+    {
+      "id": "motor_home",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Motor finds home",
+      "body": "Did motor complete home position (digit 2 = 1) without timeout?",
+      "sourceExcerpt": "Did motor complete home position (digit 2 = 1) without timeout?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified"
+        },
+        {
+          "id": "motor_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_fail_out",
+          "terminal": true,
+          "oemOutcome": "Motor lost position \u2014 E2. Check for ice obstruction or replace ice maker module.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e4_dry"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "motor_fail_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker module",
+      "oemOutcome": "Ice maker motor did not find home \u2014 obstruction or failed motor/driver.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Ice maker motor verified",
+      "oemOutcome": "Motor sequence completed in service test 59.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11509412-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

@@ -31,7 +31,7 @@
       "order": 1,
       "type": "safety",
       "title": "Disconnect power",
-      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.\n\nIf the door is stuck locked and you need access before continuing, the manual unlock steps are in Service & test mode reference below.",
       "sourceExcerpt": "WARNING \u2014 Electrical Shock Hazard. Disconnect power before accessing. Replace all parts and panels before operating.",
       "requiresInput": false,
       "defaultNextStepId": "disconnect_dl3"
@@ -41,8 +41,8 @@
       "order": 2,
       "type": "instruction",
       "title": "Disconnect DL3 at CCU",
-      "body": "Refer to job aid \u00a74-14 for door switch access. Disconnect door lock/unlock solenoids connector DL3 from the CCU.",
-      "sourceExcerpt": "Refer to job aid \u00a74-14 for door switch access. Disconnect door lock/unlock solenoids connector DL3 from the CCU.",
+      "body": "Access the door lock at the CCU: remove top cover and console, remove lower front access panel, open the door, and release the bellows retaining wire to reach the lock harness. Disconnect door lock/unlock solenoids connector DL3 from the CCU.",
+      "sourceExcerpt": "§4-14 — remove console and access panel; release bellows wire; disconnect DL3 at CCU.",
       "requiresInput": false,
       "defaultNextStepId": "lock_solenoid_ohms"
     },
@@ -77,7 +77,7 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -92,7 +92,7 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -107,7 +107,7 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -176,7 +176,7 @@
           "when": {
             "kind": "measurement_open"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -191,7 +191,7 @@
           "when": {
             "kind": "measurement_warning"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -206,7 +206,7 @@
           "when": {
             "kind": "measurement_critical"
           },
-          "nextStepId": "replace_door_lock",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -269,7 +269,7 @@
           "when": {
             "kind": "checkpoint_yes"
           },
-          "nextStepId": "door_lock_verified",
+          "nextStepId": "reconnect_door_lock_harness",
           "diagnosticEffects": [
             {
               "type": "eliminate",
@@ -284,9 +284,7 @@
           "when": {
             "kind": "checkpoint_no"
           },
-          "nextStepId": "replace_door_switch",
-          "terminal": true,
-          "oemOutcome": "Replace door lock/switch assembly when DS2 does not read 0 \u03a9 closed.",
+          "nextStepId": "harness_test_prep",
           "diagnosticEffects": [
             {
               "type": "confirm",
@@ -314,12 +312,163 @@
       "requiresInput": false
     },
     {
-      "id": "door_lock_verified",
+      "id": "harness_test_prep",
       "order": 9,
+      "type": "instruction",
+      "title": "Isolate harness for continuity test",
+      "body": "DL3 or DS2 failed at the CCU — the fault may be the lock assembly or an open/shorted harness wire. DL3 and DS2 should still be unplugged at the CCU. At the door lock assembly, disconnect DL3 and DS2 so the harness is open on both ends. Power must remain off.",
+      "sourceExcerpt": "When component ohms fail at the CCU, disconnect wiring at both ends before pin-for-pin harness continuity.",
+      "requiresInput": false,
+      "defaultNextStepId": "harness_continuity_check",
+      "images": [
+        {
+          "id": "w8178558-door-dl3-ds2",
+          "caption": "Door lock DL3 & door switch DS2 (§5-5)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport/w8178558-door-dl3-ds2.png"
+        }
+      ]
+    },
+    {
+      "id": "harness_continuity_check",
+      "order": 10,
+      "type": "visual_check",
+      "title": "Pin-for-pin harness continuity (DL3 & DS2)",
+      "body": "Set the ohmmeter to ohms (R×1). With the harness disconnected at both the CCU and the lock assembly, check each wire by itself — one meter lead on a pin at the CCU connector and the other lead on the same pin number at the lock connector.\n\nDL3 (3 wires on this platform): pin 1 ↔ pin 1, pin 2 ↔ pin 2, pin 3 ↔ pin 3. Each pair should read continuity (≈0 Ω). OL on any wire = open harness.\n\nDS2 door switch: pin 3 ↔ pin 3 and pin 1 ↔ pin 1 — same continuity expectation.\n\nAlso verify no continuity between different pins on the same connector (short). Repair or replace the harness if any wire is open or shorted.",
+      "sourceExcerpt": "Check the harness of the suspected component between the CCU and door lock mechanism for continuity.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "All wires show continuity, no shorts",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_door_lock"
+        },
+        {
+          "id": "harness_bad",
+          "label": "Open wire or short between pins",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_door_lock",
+          "terminal": true,
+          "oemOutcome": "Replace door lock harness — open or shorted wire between CCU (DL3/DS2) and lock assembly.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w8178558-ccu-pinout-figure4-5",
+          "caption": "CCU connector callouts (§4-5, manual p. 43)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport/w8178558-ccu-pinout-figure4-5.png"
+        }
+      ]
+    },
+    {
+      "id": "reconnect_door_lock_harness",
+      "order": 11,
+      "type": "instruction",
+      "title": "Reconnect DL3 and DS2",
+      "body": "Reconnect DL3 and DS2 at the door lock assembly, then at the CCU. Seat connectors fully and confirm no damaged terminals before restoring power.",
+      "sourceExcerpt": "Reconnect door lock/unlock solenoids connector DL3 and door switch DS2 at the CCU.",
+      "requiresInput": false,
+      "defaultNextStepId": "service_mode_before_lock_test"
+    },
+    {
+      "id": "service_mode_before_lock_test",
+      "order": 12,
+      "type": "instruction",
+      "title": "Continue to Manual Diagnostic Test",
+      "body": "Restore power. Follow the Manual Diagnostic Test steps on the next screens to enter service mode and exercise the door lock from the CCU. The first step locks the door — listen for the solenoid click.",
+      "sourceExcerpt": "Manual Diagnostic Test §6-7 — door lock is the first exercised output.",
+      "requiresInput": false,
+      "defaultNextStepId": "live_test_door_lock"
+    },
+    {
+      "id": "live_test_door_lock",
+      "order": 13,
+      "type": "visual_check",
+      "title": "Door lock energizes in Manual Diagnostic Test",
+      "body": "During Manual Diagnostic Test, advance to the door lock step. Does the lock solenoid energize (audible click / latch movement) when commanded?",
+      "sourceExcerpt": "Manual Overview Test Program §6-7 — door lock step.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_energizes_yes",
+          "label": "Lock energizes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_lock_path_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            },
+            {
+              "type": "eliminate",
+              "componentId": "control_board",
+              "evidenceId": "eliminate_control_board_ccu_door_lock_ok"
+            }
+          ]
+        },
+        {
+          "id": "lock_energizes_no",
+          "label": "Lock does not energize",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_ccu_door_lock",
+          "oemOutcome": "Lock and harness verified at component — no energize from CCU in manual test. Suspect CCU output or control.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "confirm_control_board_ccu_door_lock_failed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_harness_door_lock",
+      "order": 14,
       "type": "outcome",
-      "title": "Door lock circuit verified",
-      "oemOutcome": "DL3 solenoids and DS2 door switch within OEM spec.",
+      "title": "Replace door lock harness",
+      "oemOutcome": "Replace harness between CCU (DL3/DS2) and door lock assembly.",
       "requiresInput": false
+    },
+    {
+      "id": "door_lock_path_verified",
+      "order": 15,
+      "type": "outcome",
+      "title": "Door lock path verified",
+      "oemOutcome": "Component, harness, and CCU lock output verified. Continue mechanical checks for intermittent complaints.",
+      "requiresInput": false
+    },
+    {
+      "id": "suspect_ccu_door_lock",
+      "order": 16,
+      "type": "outcome",
+      "title": "Suspect CCU / control",
+      "oemOutcome": "Replace CCU when lock circuit and harness test good but lock does not energize in manual diagnostic test.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w8178558-manual-diagnostic-test",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_lock_test",
+      "continueToStepId": "live_test_door_lock"
     }
   ]
 }
