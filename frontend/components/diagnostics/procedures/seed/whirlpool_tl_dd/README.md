@@ -1,8 +1,9 @@
 # whirlpool_tl_dd — W10864849 procedure seeds
 
 **Manual:** Whirlpool & Maytag 6.2 cu ft Direct Drive Top Load Washer (W10864849)  
-**Platform:** `whirlpool_tl_dd` — models `WTW*`, `MVW*` (Whirlpool/Maytag top-load DD)  
-**Extraction:** `frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md`
+**Platform:** `whirlpool_tl_dd` — models `WTW85*`/`MVWB85*` (Cabrio W10758836), `WTW*`/`MVW*` (W10864849 WTW9500 family)  
+**Extraction:** `frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md`  
+**Cabrio alias:** W10758836 (WTW8500) — see [WHIRLPOOL_W10758836_CABRIO_WASHER_EXTRACTION.md](../../../knowledge/pattern-catalog/WHIRLPOOL_W10758836_CABRIO_WASHER_EXTRACTION.md) (reuses seeds below; no Ω delta)
 
 ## Regenerate
 

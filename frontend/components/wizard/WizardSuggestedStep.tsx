@@ -16,9 +16,15 @@ export default function WizardSuggestedStep({ className = '' }) {
     context,
   } = useWizard();
 
-  const ctx = context as WizardIntelContext;
+  const ctx = context as WizardIntelContext & {
+    oemRepairDecisionPending?: boolean;
+  };
   const intelligence = ctx?.intelligence;
   const stepKeyLabels = intelligence?.stepKeyLabels || {};
+
+  if (ctx?.oemRepairDecisionPending) {
+    return null;
+  }
 
   const jumpIndex = resolveRecommendedWizardStepIndex(
     visibleSteps,

@@ -1,0 +1,240 @@
+{
+  "id": "samsungdwm9-circulation-motor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Circulation Pump (3C)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "wash_motor"
+  ],
+  "tags": [
+    "3C",
+    "PC",
+    "wash_issue",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Circulation Pump Check",
+    "pages": [
+      46,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_clear"
+    },
+    {
+      "id": "motor_clear",
+      "order": 2,
+      "type": "instruction",
+      "title": "Clear circulation path",
+      "body": "Remove foreign material from circulation hose and pump. Reseat circulation pump connector.",
+      "sourceExcerpt": "Remove foreign material from circulation hose and pump. Reseat circulation pump connector.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ohms"
+    },
+    {
+      "id": "motor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Circulation pump coil",
+      "body": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "samsungDishwasherM9CirculationMotorOhms",
+      "testPoint": {
+        "connector": "CN901",
+        "pins": "U/V/W",
+        "label": "Circulation pump coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_pass",
+          "label": "~5.8 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inverter_led",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_wash_motor_ol_wash_motor_ok",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        },
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_wash_motor_ol_wash_motor_failed",
+              "componentId": "wash_motor"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-layout",
+          "caption": "Main PCB connector map (\u00a75-1)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-layout.png"
+        }
+      ]
+    },
+    {
+      "id": "inverter_led",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Main PBA red LED on during C-pump run?",
+      "body": "During Smart Install step 3 or manual step 2, main PBA operating LED should be fully on. Faulty: replace inverter PBA.",
+      "sourceExcerpt": "During Smart Install step 3 or manual step 2, main PBA operating LED should be fully on. Faulty: replace inverter PBA.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "nozzle_spray_yes",
+          "label": "LED on / pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "nozzle_spray"
+        },
+        {
+          "id": "nozzle_spray_no",
+          "label": "LED off / 3C",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter"
+        }
+      ]
+    },
+    {
+      "id": "nozzle_spray",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Nozzle injects water in Smart Install?",
+      "body": "Step 3: BLDC 2400 RPM alternation nozzles spray at each position for 10 s.",
+      "sourceExcerpt": "Step 3: BLDC 2400 RPM alternation nozzles spray at each position for 10 s.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "motor_ok_yes",
+          "label": "Sprays normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok"
+        },
+        {
+          "id": "motor_ok_no",
+          "label": "No spray",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor"
+        }
+      ]
+    },
+    {
+      "id": "replace_inverter",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace inverter PBA",
+      "body": "Replace inverter PBA when coil good but drive fails (3C/AC6).",
+      "oemOutcome": "Replace inverter PBA when coil good but drive fails (3C/AC6).",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_motor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace circulation pump",
+      "body": "Replace circulation pump when coil open or spray fails after clearing passages.",
+      "oemOutcome": "Replace circulation pump when coil open or spray fails after clearing passages.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 8,
+      "defaultNextStepId": "motor_ok"
+    },
+    {
+      "id": "motor_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Circulation OK",
+      "body": "Motor and nozzle path verified.",
+      "oemOutcome": "Motor and nozzle path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdwm9-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "nozzle_spray",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdwm9-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "motor_ok"
+    }
+  ]
+}

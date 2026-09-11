@@ -1,0 +1,180 @@
+{
+  "manualId": "LG-LRE-RANGE",
+  "platformId": "lg_freestanding_range",
+  "templateId": "electric_range",
+  "label": "LG freestanding & slide-in range (LRE/LRGL/LSG)",
+  "notes": "Dual fuel: electric_range (LRE*) + gas_range (LRGL*, LSG*). \u00a74 component tests + \u00a76-1 no power.",
+  "plannedProcedures": [
+    {
+      "id": "lg-range-oven-sensor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Main oven temperature sensor",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeOvenSensorOhms"
+      ],
+      "relatedCodes": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F6"
+      ]
+    },
+    {
+      "id": "lg-range-door-switch",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Oven door switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-oven-lamp",
+      "oemSection": "4-5",
+      "title": "\u00a74-5: Oven lamp",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeOvenLampOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-door-latch",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Door latch motor & micro switch",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeDoorLatchMotorOhms",
+        "lgRangeMicroSwitchOhms"
+      ],
+      "relatedCodes": [
+        "F2"
+      ]
+    },
+    {
+      "id": "lg-range-bake-element",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Bake element",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeBakeElementOhms"
+      ],
+      "relatedCodes": [
+        "F9"
+      ]
+    },
+    {
+      "id": "lg-range-broil-element",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Broil element",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeBroilElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-convection-element",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Convection element",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeConvectionElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-convection-motor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Convection fan motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeConvectionMotorOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-warming-drawer",
+      "oemSection": "4-3",
+      "title": "\u00a74-3/4: Warming drawer sensor & element",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeWarmingDrawerSensorOhms",
+        "lgRangeWarmingDrawerElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-cooktop-single",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Single surface elements (LF/LR/RR)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeCooktopElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-warming-zone",
+      "oemSection": "4-7",
+      "title": "\u00a74-7: Center warming zone (CR)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeWarmingZoneOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-dual-rf-element",
+      "oemSection": "4-8",
+      "title": "\u00a74-8: Dual surface element (RF)",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeDualSurfaceInnerOhms",
+        "lgRangeDualSurfaceOuterOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-oven-igniter",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Oven bake/broil igniter",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeOvenIgniterOhms"
+      ],
+      "relatedCodes": [
+        "F9"
+      ]
+    },
+    {
+      "id": "lg-range-oven-gas-valve",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Oven safety valve",
+      "status": "generated",
+      "knowledgeIds": [
+        "lgRangeOvenGasValveOhms"
+      ],
+      "relatedCodes": [
+        "F9"
+      ]
+    },
+    {
+      "id": "lg-range-ignition-switch",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Surface ignition switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "lg-range-no-power",
+      "oemSection": "6-1",
+      "title": "\u00a76-1: No display / no power",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

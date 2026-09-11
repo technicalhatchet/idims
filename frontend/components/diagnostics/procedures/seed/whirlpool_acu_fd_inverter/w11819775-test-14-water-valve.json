@@ -1,0 +1,122 @@
+{
+  "id": "w11819775-test-14-water-valve",
+  "version": "1.0.0",
+  "title": "Service Test / Test 14: Isolation water valve",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "water_valve"
+  ],
+  "tags": [
+    "no_ice",
+    "water_valve_check",
+    "no_water"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "14",
+    "oemTestTitle": "Water Valve",
+    "pages": [
+      105
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_im_for_fill"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "run_im_for_fill"
+    },
+    {
+      "id": "run_im_for_fill",
+      "order": 3,
+      "type": "instruction",
+      "title": "Activate valve via IM test",
+      "body": "Run FC IM test mode \u2014 water valve energizes at end of cycle. Or verify household supply and pressure.",
+      "sourceExcerpt": "Run FC IM test mode \u2014 water valve energizes at end of cycle. Or verify household supply and pressure.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_voltage"
+    },
+    {
+      "id": "valve_voltage",
+      "order": 4,
+      "type": "instruction",
+      "title": "Check valve voltage",
+      "body": "CN15-1 V-L to CN15-3 ACN = 115 VAC at ACU. At valve: blue to red = 115 VAC.",
+      "sourceExcerpt": "CN15-1 V-L to CN15-3 ACN = 115 VAC at ACU. At valve: blue to red = 115 VAC.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_flows"
+    },
+    {
+      "id": "water_flows",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Water enters system",
+      "body": "Water flows when valve energized?",
+      "sourceExcerpt": "Water flows when valve energized?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_verified"
+        },
+        {
+          "id": "valve_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "No water \u2014 valve, supply, or frozen line."
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace isolation water valve",
+      "oemOutcome": "Replace valve when 115 VAC present but no flow.",
+      "requiresInput": false
+    },
+    {
+      "id": "valve_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Water valve verified",
+      "oemOutcome": "Isolation valve and supply verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-fc-im-test-mode-entry",
+      "modeKind": "component_activation",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

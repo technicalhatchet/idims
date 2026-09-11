@@ -1,0 +1,156 @@
+{
+  "id": "lg-range-no-power",
+  "version": "1.0.0",
+  "title": "\u00a76-1: No display / no power",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "no_power",
+    "display_dead",
+    "supply_issue"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6-1",
+    "oemTestTitle": "No display (No power)",
+    "pages": [
+      69,
+      72
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_connections"
+    },
+    {
+      "id": "check_connections",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Inspect connections and corrosion",
+      "body": "Power off. Disconnect and reconnect all Main PCB and harness connectors. Check for corrosion.",
+      "sourceExcerpt": "Power off. Disconnect and reconnect all Main PCB and harness connectors. Check for corrosion.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_voltage"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Corrosion/loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness"
+        }
+      ]
+    },
+    {
+      "id": "repair_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Repair harness",
+      "body": "Repair terminals and reseat connectors.",
+      "sourceExcerpt": "Repair terminals and reseat connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_voltage"
+    },
+    {
+      "id": "supply_voltage",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Line voltage at outlet",
+      "body": "Restore power. Verify 120/240 VAC at wall outlet and range cord per tech sheet.",
+      "sourceExcerpt": "Restore power. Verify 120/240 VAC at wall outlet and range cord per tech sheet.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vac_ok",
+          "label": "Voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pcb_check"
+        },
+        {
+          "id": "vac_bad",
+          "label": "No/low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply"
+        }
+      ]
+    },
+    {
+      "id": "fix_supply",
+      "order": 5,
+      "type": "outcome",
+      "title": "Correct supply issue",
+      "oemOutcome": "Restore proper line voltage to range.",
+      "requiresInput": false
+    },
+    {
+      "id": "pcb_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Main PCB power LED / display",
+      "body": "If supply OK but no display \u2014 inspect Main PCB (6871W1N009A) and cooktop display PCB.",
+      "sourceExcerpt": "If supply OK but no display \u2014 inspect Main PCB (6871W1N009A) and cooktop display PCB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "pcb_bad",
+          "label": "PCB fault",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_pcb"
+        },
+        {
+          "id": "pcb_ok",
+          "label": "PCB appears OK",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_verified"
+        }
+      ]
+    },
+    {
+      "id": "replace_pcb",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace Main PCB or display PCB",
+      "oemOutcome": "No display with good supply \u2014 replace failed PCB assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "Power path verified",
+      "oemOutcome": "Supply and connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

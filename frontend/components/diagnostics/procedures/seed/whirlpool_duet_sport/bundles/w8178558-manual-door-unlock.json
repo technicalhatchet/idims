@@ -1,0 +1,43 @@
+{
+  "id": "w8178558-manual-door-unlock",
+  "version": "1.0.0",
+  "platformId": "whirlpool_duet_sport",
+  "manualId": "W8178558",
+  "title": "Manual door unlock (§6-8)",
+  "modeKind": "component_activation",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Release a stuck door lock before or during service — power must be disconnected first.",
+  "tags": [
+    "door_lock_check",
+    "manual_unlock"
+  ],
+  "entryStepId": "manual_unlock_steps",
+  "source": {
+    "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
+    "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
+    "pages": [
+      86
+    ]
+  },
+  "steps": [
+    {
+      "id": "manual_unlock_steps",
+      "order": 1,
+      "type": "instruction",
+      "title": "Manually unlock the door lock system",
+      "body": "1. Unplug washer or disconnect power.\n2. Remove the lower kick panel.\n3. Reach up along the inside of the front and locate the bottom of the door switch/lock unit.\n4. On the bottom of the lock is a teardrop-shaped tab.\n5. Gently pull the tab down about ¼″ until a click is heard.\n6. The door may be opened.",
+      "sourceExcerpt": "Manually Unlocking the Door Lock System — §6-8.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue",
+      "images": [
+        {
+          "id": "w8178558-manual-door-unlock",
+          "caption": "Manual door unlock procedure (§6-8, manual p. 86)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport/w8178558-manual-door-unlock.png"
+        }
+      ]
+    }
+  ]
+}

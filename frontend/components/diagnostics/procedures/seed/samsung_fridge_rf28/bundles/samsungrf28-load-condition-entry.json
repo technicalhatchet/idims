@@ -1,0 +1,37 @@
+{
+  "id": "samsungrf28-load-condition-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_rf28",
+  "manualId": "SAMSUNG-RF28-FRIDGE",
+  "title": "Samsung RF28 \u2014 Load condition display",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Fridge + FlexZone 6 s then Freezer key \u2014 shows MICOM load outputs 30 s.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "lc_enter",
+  "source": {
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "pages": [
+      62,
+      64
+    ]
+  },
+  "steps": [
+    {
+      "id": "lc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter load condition mode",
+      "body": "Fridge + FlexZone 6 s (all segments blink 4 s). Press Freezer key \u2014 commanded loads blink 0.5 s for 30 s.",
+      "sourceExcerpt": "Fridge + FlexZone 6 s (all segments blink 4 s). Press Freezer key \u2014 commanded loads blink 0.5 s for 30 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

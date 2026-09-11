@@ -1,0 +1,238 @@
+{
+  "id": "samsungrf28-ice-room-frozen-service",
+  "version": "1.0.0",
+  "title": "Frozen ice room \u2014 bulletin service measures",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "ice_maker_module",
+    "evap_fan",
+    "dispenser_panel"
+  ],
+  "tags": [
+    "no_ice",
+    "ice_maker_frozen",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+    "manualTitle": "Samsung French Door Direct Cool Ice Maker Frozen (ASC20170602002)",
+    "extractedTextFile": "backend/docs/manuals/samsung-service-bulletin-ice-maker-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1-7",
+    "oemTestTitle": "RTV seal, water line, auger, route, bucket, Y-clip kit, ice maker",
+    "pages": [
+      4,
+      10
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before removing ice maker or sealing ice room. After ice maker removal, keep unit unplugged so cooling loop does not frost during service.",
+      "sourceExcerpt": "When the ice maker is removed, unplug the refrigerator to ensure the cooling loop does not frost over during service.",
+      "requiresInput": false,
+      "defaultNextStepId": "rtv_seal"
+    },
+    {
+      "id": "rtv_seal",
+      "order": 2,
+      "type": "instruction",
+      "title": "Seal ice room with RTV",
+      "body": "Apply Samsung RTV sealant (DA81-05595A) along housing-to-liner joints (45\u00b0 applicator tip). Seal all gaps between ice room housing and liner wall.",
+      "sourceExcerpt": "Apply Samsung RTV sealant (DA81-05595A) along housing-to-liner joints (45\u00b0 applicator tip). Seal all gaps between ice room housing and liner wall.",
+      "requiresInput": false,
+      "defaultNextStepId": "water_line"
+    },
+    {
+      "id": "water_line",
+      "order": 3,
+      "type": "instruction",
+      "title": "Adjust water fill line",
+      "body": "From rear, press grey retainer ring and back fill hose out ~10 mm. Re-inspect with mirror \u2014 line must not protrude too far into fill area. Re-secure hoses flush on rear cabinet.",
+      "sourceExcerpt": "From rear, press grey retainer ring and back fill hose out ~10 mm. Re-inspect with mirror \u2014 line must not protrude too far into fill area. Re-secure hoses flush on rear cabinet.",
+      "requiresInput": false,
+      "defaultNextStepId": "auger_styrofoam"
+    },
+    {
+      "id": "auger_styrofoam",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Auger motor styrofoam",
+      "body": "Inspect auger motor assembly for leftover styrofoam packing blocking ice room fan airflow.",
+      "sourceExcerpt": "Inspect auger motor assembly for leftover styrofoam packing blocking ice room fan airflow.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_route"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "auger_blocked",
+          "terminal": true,
+          "oemOutcome": "Remove styrofoam packing from auger fan."
+        }
+      ]
+    },
+    {
+      "id": "ice_route",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Ice route flapper seal",
+      "body": "Inspect ice route flapper \u2014 rubber pliable, no tears, fully closed. Pour water in chute: no leak at dispenser = good seal.",
+      "sourceExcerpt": "Inspect ice route flapper \u2014 rubber pliable, no tears, fully closed. Pour water in chute: no leak at dispenser = good seal.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bucket_gasket"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_route",
+          "terminal": true,
+          "oemOutcome": "Replace ice route assembly."
+        }
+      ]
+    },
+    {
+      "id": "bucket_gasket",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Ice bucket gasket",
+      "body": "Inspect bucket for base cracks and gasket rips/rigidity preventing seal. Replace ice bucket if defective.",
+      "sourceExcerpt": "Inspect bucket for base cracks and gasket rips/rigidity preventing seal. Replace ice bucket if defective.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "y_clip_kit"
+        },
+        {
+          "id": "cp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bucket",
+          "terminal": true,
+          "oemOutcome": "Replace ice bucket assembly."
+        }
+      ]
+    },
+    {
+      "id": "y_clip_kit",
+      "order": 7,
+      "type": "instruction",
+      "title": "Install Y-clip service kit",
+      "body": "Replace cooling-loop retainer with kit part. Install both Y-clips on cooling loop pressed firmly against insulation \u2014 clips pointing straight down.",
+      "sourceExcerpt": "Replace cooling-loop retainer with kit part. Install both Y-clips on cooling loop pressed firmly against insulation \u2014 clips pointing straight down.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_im"
+    },
+    {
+      "id": "replace_im",
+      "order": 8,
+      "type": "instruction",
+      "title": "Replace ice maker",
+      "body": "Replace ice maker assembly per bulletin model chart. After install, verify Y-clips still point straight down.",
+      "sourceExcerpt": "Replace ice maker assembly per bulletin model chart. After install, verify Y-clips still point straight down.",
+      "requiresInput": false,
+      "defaultNextStepId": "verify_operation"
+    },
+    {
+      "id": "verify_operation",
+      "order": 9,
+      "type": "visual_check",
+      "title": "Verify ice maker operation",
+      "body": "Reapply power. Confirm ice maker harvest/fill and no frost recurrence after 24\u201348 h.",
+      "sourceExcerpt": "Reapply power. Confirm ice maker harvest/fill and no frost recurrence after 24\u201348 h.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_complete"
+        },
+        {
+          "id": "v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "escalate",
+          "terminal": true,
+          "oemOutcome": "Recheck seals, Y-clips, and water line; escalate to Samsung ASC if frost returns."
+        }
+      ]
+    },
+    {
+      "id": "service_complete",
+      "order": 10,
+      "type": "outcome",
+      "title": "Service complete",
+      "oemOutcome": "Bulletin service measures completed \u2014 ice maker replaced and verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "auger_blocked",
+      "order": 11,
+      "type": "outcome",
+      "title": "Clear auger blockage",
+      "oemOutcome": "Remove styrofoam from auger fan assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_route",
+      "order": 12,
+      "type": "outcome",
+      "title": "Replace ice route",
+      "oemOutcome": "Replace ice route assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_bucket",
+      "order": 13,
+      "type": "outcome",
+      "title": "Replace ice bucket",
+      "oemOutcome": "Replace ice bucket assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "escalate",
+      "order": 14,
+      "type": "outcome",
+      "title": "Escalate",
+      "oemOutcome": "Recheck bulletin steps or escalate.",
+      "requiresInput": false
+    }
+  ]
+}

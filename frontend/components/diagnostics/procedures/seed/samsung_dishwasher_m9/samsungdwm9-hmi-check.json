@@ -1,0 +1,134 @@
+{
+  "id": "samsungdwm9-hmi-check",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "bC2",
+    "bC3",
+    "bE-2",
+    "bE-3",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Key input check",
+    "pages": [
+      46,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_connectors"
+    },
+    {
+      "id": "hmi_connectors",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect sub PBA connectors",
+      "body": "Reconnect CN103 display control module and CON100 touch module. Check for condensation.",
+      "sourceExcerpt": "Reconnect CN103 display control module and CON100 touch module. Check for condensation.",
+      "requiresInput": false,
+      "defaultNextStepId": "condensation_check"
+    },
+    {
+      "id": "condensation_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "No condensation on PBA?",
+      "body": "CN103 and CON100 must be dry. Remove moisture if present.",
+      "sourceExcerpt": "CN103 and CON100 must be dry. Remove moisture if present.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "stuck_button_yes",
+          "label": "Dry",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "stuck_button"
+        },
+        {
+          "id": "stuck_button_no",
+          "label": "Condensation present",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel"
+        }
+      ]
+    },
+    {
+      "id": "stuck_button",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Stuck button or object on panel?",
+      "body": "bC2/bE-2 when button held \u226530 s. Remove object; verify touch panel not damaged.",
+      "sourceExcerpt": "bC2/bE-2 when button held \u226530 s. Remove object; verify touch panel not damaged.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "version_display_yes",
+          "label": "Panel clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "version_display"
+        },
+        {
+          "id": "version_display_no",
+          "label": "Stuck key",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel"
+        }
+      ]
+    },
+    {
+      "id": "version_display",
+      "order": 5,
+      "type": "instruction",
+      "title": "Version display test (n1)",
+      "body": "In AS: Hi-Temp cycles n1. Normal=Sub PBA version, Heavy=Touch IC SW, Delicate=Model option, Express=Inverter SW, Rinse=WiFi module.",
+      "sourceExcerpt": "In AS: Hi-Temp cycles n1. Normal=Sub PBA version, Heavy=Touch IC SW, Delicate=Model option, Express=Inverter SW, Rinse=WiFi module.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_ok"
+    },
+    {
+      "id": "replace_control_panel",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace control panel assy",
+      "body": "Replace display control module, touch module, or sub-wire when bC2/bC3 or condensation fault.",
+      "oemOutcome": "Replace display control module, touch module, or sub-wire when bC2/bC3 or condensation fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "HMI OK",
+      "body": "Touch panel and sub PBA verified.",
+      "oemOutcome": "Touch panel and sub PBA verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "id": "lg-range-door-latch",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Door latch motor & micro switch",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "door_latch_check",
+    "F2"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Door locking Motor / Micro Switch",
+    "pages": [
+      37,
+      38
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_motor_ohms"
+    },
+    {
+      "id": "latch_motor_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Door latch motor resistance",
+      "body": "Disconnect latch motor leads. R \u00d7 1 \u2014 expect \u224827 \u03a9 \u00b110%.",
+      "sourceExcerpt": "Disconnect latch motor leads. R \u00d7 1 \u2014 expect \u224827 \u03a9 \u00b110%.",
+      "measurementKnowledgeId": "lgRangeDoorLatchMotorOhms",
+      "testPoint": {
+        "connector": "Latch motor",
+        "pins": "leads",
+        "label": "Door latch motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "latch_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "latch_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "latch_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "latch_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "micro_switch_ohms",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "micro_switch_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Latch micro switch (NO)",
+      "body": "R \u00d7 1000 at NO\u2013COM \u2014 \u22482.6 k\u03a9 \u00b110%. Latch open = infinite; locked = continuity.",
+      "sourceExcerpt": "R \u00d7 1000 at NO\u2013COM \u2014 \u22482.6 k\u03a9 \u00b110%. Latch open = infinite; locked = continuity.",
+      "measurementKnowledgeId": "lgRangeMicroSwitchOhms",
+      "testPoint": {
+        "connector": "Micro switch",
+        "pins": "NO\u2013COM",
+        "label": "Latch micro switch (NO)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "micro_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "micro_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "micro_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "micro_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_verified",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_latch",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace door latch assembly",
+      "oemOutcome": "Latch motor or micro switch out of spec \u2014 replace latch.",
+      "requiresInput": false
+    },
+    {
+      "id": "latch_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Door latch OK",
+      "oemOutcome": "Latch motor and micro switch verified \u2014 clear F-2.",
+      "requiresInput": false
+    }
+  ]
+}

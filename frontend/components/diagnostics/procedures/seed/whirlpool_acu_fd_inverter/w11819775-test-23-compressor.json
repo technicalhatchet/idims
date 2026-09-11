@@ -1,0 +1,218 @@
+{
+  "id": "w11819775-test-23-compressor",
+  "version": "1.0.0",
+  "title": "Service Test 23: Inverter compressor speed",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "compressor"
+  ],
+  "tags": [
+    "not_cooling",
+    "compressor_check",
+    "sealed_system"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "23",
+    "oemTestTitle": "Compressor Speed Change With Ramping",
+    "pages": [
+      58,
+      93
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_23"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_23"
+    },
+    {
+      "id": "select_test_23",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 23",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 23. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 23 \u2014 Compressor speed ramp",
+      "requiresInput": false,
+      "defaultNextStepId": "set_speed"
+    },
+    {
+      "id": "set_speed",
+      "order": 4,
+      "type": "instruction",
+      "title": "Ramp compressor speed",
+      "body": "Use \u25b2 to select speed 00\u201309 (0\u20134500 rpm). Press Freezer to activate \u2014 compressor and condenser fan run until exit. 5 min protection delay between state changes.",
+      "sourceExcerpt": "Use \u25b2 to select speed 00\u201309 (0\u20134500 rpm). Press Freezer to activate \u2014 compressor and condenser fan run until exit. 5 min protection delay between state changes.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_runs"
+    },
+    {
+      "id": "comp_runs",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Compressor runs",
+      "body": "At selected speed, does compressor run? Check CN18 U/V/W to CN20-3 ACN \u2248 150 VAC each.",
+      "sourceExcerpt": "At selected speed, does compressor run? Check CN18 U/V/W to CN20-3 ACN \u2248 150 VAC each.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_verified"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_comp",
+          "terminal": true,
+          "oemOutcome": "No 150 VAC at CN18 \u2014 ACU inverter fault (check LED below CN10)."
+        }
+      ]
+    },
+    {
+      "id": "bench_comp",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench compressor windings",
+      "body": "Disconnect power. Ohm compressor windings = 11.7 \u03a9.",
+      "sourceExcerpt": "Disconnect power. Ohm compressor windings = 11.7 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_ohms"
+    },
+    {
+      "id": "comp_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Compressor windings",
+      "body": "11.7 \u03a9 between windings.",
+      "sourceExcerpt": "11.7 \u03a9 between windings.",
+      "measurementKnowledgeId": "whirlpoolAcuFdInverterCompressorOhms",
+      "testPoint": {
+        "connector": "compressor",
+        "pins": "windings",
+        "label": "Compressor windings"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "comp_pass",
+          "label": "11.7 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11819775-acu-connector-pinout",
+          "caption": "ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-acu-connector-pinout.png"
+        },
+        {
+          "id": "w11819775-voltage-chart-a",
+          "caption": "ACU voltage chart \u2014 CN20/CN12/CN7/CN18",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-voltage-chart-a.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_comp",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace compressor or ACU",
+      "oemOutcome": "Compressor windings failed or inverter LED fault \u2014 replace per inverter fault table.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Compressor path verified",
+      "oemOutcome": "Service test 23 and compressor circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

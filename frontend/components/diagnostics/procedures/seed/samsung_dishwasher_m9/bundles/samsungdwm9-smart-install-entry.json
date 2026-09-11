@@ -1,0 +1,47 @@
+{
+  "id": "samsungdwm9-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_dishwasher_m9",
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "title": "Samsung DW80M9 \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Service Inspection Mode (Smart Install) for automatic/manual component inspection.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "pages": [
+      39,
+      40
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Power on \u2014 set 17 h timer",
+      "body": "Power on dishwasher and set timer for 17 hours.",
+      "sourceExcerpt": "Power on dishwasher and set timer for 17 hours.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Hi-Temp Wash key for at least 7 seconds. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Power On \u2192 17 h timer \u2192 Hi-Temp Wash 7 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

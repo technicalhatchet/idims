@@ -1,0 +1,240 @@
+{
+  "id": "samsungdw-dispenser",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Detergent Dispenser",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "dispenser"
+  ],
+  "tags": [
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Detergent is not dispensed",
+    "pages": [
+      49,
+      50
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "detergent_loaded"
+    },
+    {
+      "id": "detergent_loaded",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Detergent in dispenser?",
+      "body": "Confirm detergent loaded and dispenser not blocked by large items.",
+      "sourceExcerpt": "Confirm detergent loaded and dispenser not blocked by large items.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_connector_yes",
+          "label": "Loaded",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_connector"
+        },
+        {
+          "id": "disp_connector_no",
+          "label": "Empty / blocked",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "load_detergent"
+        }
+      ]
+    },
+    {
+      "id": "load_detergent",
+      "order": 3,
+      "type": "instruction",
+      "title": "Load detergent and clear obstruction",
+      "body": "Add detergent; rearrange racks so dispenser can open.",
+      "sourceExcerpt": "Add detergent; rearrange racks so dispenser can open.",
+      "requiresInput": false,
+      "defaultNextStepId": "disp_connector"
+    },
+    {
+      "id": "disp_connector",
+      "order": 4,
+      "type": "instruction",
+      "title": "Inspect dispenser connector",
+      "body": "Reconnect dispenser connector CN202 pin 5.",
+      "sourceExcerpt": "Reconnect dispenser connector CN202 pin 5.",
+      "requiresInput": false,
+      "defaultNextStepId": "disp_ohms"
+    },
+    {
+      "id": "disp_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Dispenser solenoid",
+      "body": "Disconnect connector. Measure resistance. Normal: approx. 2.3 k\u03a9.",
+      "sourceExcerpt": "Disconnect connector. Measure resistance. Normal: approx. 2.3 k\u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherDispenserOhms",
+      "testPoint": {
+        "connector": "CN202",
+        "pins": "5",
+        "label": "Dispenser solenoid"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_pass",
+          "label": "~2.3 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disp_operate",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_dispenser_ol_dispenser_ok",
+              "componentId": "dispenser"
+            }
+          ]
+        },
+        {
+          "id": "disp_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_dispenser_ol_dispenser_failed",
+              "componentId": "dispenser"
+            }
+          ]
+        },
+        {
+          "id": "disp_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_dispenser_ol_dispenser_failed",
+              "componentId": "dispenser"
+            }
+          ]
+        },
+        {
+          "id": "disp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dispenser",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_dispenser_ol_dispenser_failed",
+              "componentId": "dispenser"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disp_operate",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Dispenser operates 130 s in Smart Install?",
+      "body": "Auto step 3 runs dispenser actuator 130 seconds.",
+      "sourceExcerpt": "Auto step 3 runs dispenser actuator 130 seconds.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_ok_yes",
+          "label": "Operates",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_ok"
+        },
+        {
+          "id": "disp_ok_no",
+          "label": "No movement",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_disp"
+        }
+      ]
+    },
+    {
+      "id": "replace_dispenser",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace dispenser",
+      "body": "Replace dispenser when solenoid open.",
+      "oemOutcome": "Replace dispenser when solenoid open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pba_disp",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when 120 V missing at CN101/CN202 during operate.",
+      "oemOutcome": "Replace main PBA when 120 V missing at CN101/CN202 during operate.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 9,
+      "defaultNextStepId": "disp_ok"
+    },
+    {
+      "id": "disp_ok",
+      "order": 10,
+      "type": "outcome",
+      "title": "Dispenser OK",
+      "body": "Dispenser circuit verified.",
+      "oemOutcome": "Dispenser circuit verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdw-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "disp_operate",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdw-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "disp_ok"
+    }
+  ]
+}

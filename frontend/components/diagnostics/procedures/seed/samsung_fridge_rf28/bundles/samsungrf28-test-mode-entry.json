@@ -1,0 +1,48 @@
+{
+  "id": "samsungrf28-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_fridge_rf28",
+  "manualId": "SAMSUNG-RF28-FRIDGE",
+  "title": "Samsung RF28 \u2014 Test mode entry",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Fridge + FlexZone 6 s \u2192 FlexZone enters Test Mode (FF \u2192 OF r \u2192 rd \u2192 Fd).",
+  "tags": [
+    "service_diagnostic",
+    "load_test",
+    "defrost"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "pages": [
+      51,
+      53
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press Fridge + FlexZone \u22656 s until display blinks 0.5 s. Release and press FlexZone to enter Test Mode.",
+      "sourceExcerpt": "Press Fridge + FlexZone \u22656 s until display blinks 0.5 s. Release and press FlexZone to enter Test Mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_cycle"
+    },
+    {
+      "id": "tm_cycle",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test mode sequence",
+      "body": "Within 15 s press any key: FF (manual op 1) \u2192 OF r (manual op 2) \u2192 rd (R defrost) \u2192 Fd (F+R defrost) \u2192 cancel. Power cycle cancels.",
+      "sourceExcerpt": "Within 15 s press any key: FF (manual op 1) \u2192 OF r (manual op 2) \u2192 rd (R defrost) \u2192 Fd (F+R defrost) \u2192 cancel. Power cycle cancels.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

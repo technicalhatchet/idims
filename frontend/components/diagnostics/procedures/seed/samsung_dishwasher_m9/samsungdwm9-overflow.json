@@ -1,0 +1,121 @@
+{
+  "id": "samsungdwm9-overflow",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Overflow Sensor (OC)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "float_switch"
+  ],
+  "tags": [
+    "OC",
+    "overfill"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "OC overflow",
+    "pages": [
+      36,
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "overflow_drain"
+    },
+    {
+      "id": "overflow_drain",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drain tub",
+      "body": "Unit performs 3\u00d7 3 min drain on OC. Verify tub not overfilled.",
+      "sourceExcerpt": "Unit performs 3\u00d7 3 min drain on OC. Verify tub not overfilled.",
+      "requiresInput": false,
+      "defaultNextStepId": "overflow_sensor"
+    },
+    {
+      "id": "overflow_sensor",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Overflow sensor >3 V when tub empty?",
+      "body": "CN503 pin 1 overflow: OC when \u22643 V for 5 s. Should read >3 V when tub empty after drain.",
+      "sourceExcerpt": "CN503 pin 1 overflow: OC when \u22643 V for 5 s. Should read >3 V when tub empty after drain.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_stuck_yes",
+          "label": ">3 V dry",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_stuck"
+        },
+        {
+          "id": "valve_stuck_no",
+          "label": "Still \u22643 V",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "overflow_ok"
+        }
+      ]
+    },
+    {
+      "id": "valve_stuck",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Inlet valve stuck open?",
+      "body": "Check water valve shuts off; case brake/flow meter not falsely indicating fill (4C5).",
+      "sourceExcerpt": "Check water valve shuts off; case brake/flow meter not falsely indicating fill (4C5).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "replace_overflow_yes",
+          "label": "Valve shuts off",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_overflow"
+        },
+        {
+          "id": "replace_overflow_no",
+          "label": "Valve stuck / case brake fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "overflow_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_overflow",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace valve or case brake",
+      "body": "Replace inlet valve or case brake/flow meter when OC persists with empty tub.",
+      "oemOutcome": "Replace inlet valve or case brake/flow meter when OC persists with empty tub.",
+      "requiresInput": false
+    },
+    {
+      "id": "overflow_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Overflow cleared",
+      "body": "Overflow condition resolved.",
+      "oemOutcome": "Overflow condition resolved.",
+      "requiresInput": false
+    }
+  ]
+}

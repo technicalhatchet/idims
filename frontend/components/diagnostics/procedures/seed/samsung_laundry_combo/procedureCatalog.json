@@ -1,0 +1,228 @@
+{
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "platformId": "samsung_laundry_combo",
+  "templateId": "aio_laundry",
+  "label": "Samsung all-in-one laundry combo WD53/WD80",
+  "notes": "\u00a74-3 Smart Install + \u00a74-4 wash corrective actions + \u00a74-5 heat-pump \u03a9. Motor 6.0 \u03a9 @ connector.",
+  "plannedProcedures": [
+    {
+      "id": "samsungwd53-water-level-sensor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Water level sensor (1C)",
+      "status": "generated",
+      "relatedCodes": [
+        "1C"
+      ]
+    },
+    {
+      "id": "samsungwd53-motor-circuit",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Washing motor (3C)",
+      "status": "generated",
+      "relatedCodes": [
+        "3C",
+        "3C1",
+        "3C2",
+        "3C3",
+        "3C4",
+        "3E"
+      ]
+    },
+    {
+      "id": "samsungwd53-inlet-valves",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Inlet valves (4C, Co/Ho manual check)",
+      "status": "generated",
+      "relatedCodes": [
+        "4C",
+        "4C2"
+      ]
+    },
+    {
+      "id": "samsungwd53-drain-pump",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Drain pump (5C) / \u00a74-5 pump motor",
+      "status": "generated",
+      "relatedCodes": [
+        "5C"
+      ]
+    },
+    {
+      "id": "samsungwd53-communication",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: PBA communication (AC, AC3\u2013AC6)",
+      "status": "generated",
+      "relatedCodes": [
+        "AC"
+      ]
+    },
+    {
+      "id": "samsungwd53-door-lock",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Door lock and switch (DC, DC1, dC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "DC",
+        "dC1",
+        "dC2",
+        "dC"
+      ]
+    },
+    {
+      "id": "samsungwd53-wash-heater",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Wash heater (HC, HC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "HC"
+      ]
+    },
+    {
+      "id": "samsungwd53-wash-thermistor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Wash temperature sensor (TC1)",
+      "status": "generated",
+      "relatedCodes": [
+        "TC1"
+      ]
+    },
+    {
+      "id": "samsungwd53-overflow",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Overflow (OC)",
+      "status": "generated",
+      "relatedCodes": [
+        "OC"
+      ]
+    },
+    {
+      "id": "samsungwd53-unbalance",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Unbalance (UB, UB1)",
+      "status": "generated",
+      "relatedCodes": [
+        "UB"
+      ]
+    },
+    {
+      "id": "samsungwd53-mems-sensor",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: MEMS sensor (8C, 8C1, 8C2)",
+      "status": "generated",
+      "relatedCodes": [
+        "8C",
+        "8C1",
+        "8C2"
+      ]
+    },
+    {
+      "id": "samsungwd53-power-supply",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Power (9C1, 9C2, 9C5)",
+      "status": "generated",
+      "relatedCodes": [
+        "9C1",
+        "9C2",
+        "9C5",
+        "9C9"
+      ]
+    },
+    {
+      "id": "samsungwd53-hmi-check",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Switch error (BC2, bC2)",
+      "status": "generated",
+      "relatedCodes": [
+        "BC2",
+        "bC2"
+      ]
+    },
+    {
+      "id": "samsungwd53-leak-check",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: Water leakage (LC)",
+      "status": "generated",
+      "relatedCodes": [
+        "LC"
+      ]
+    },
+    {
+      "id": "samsungwd53-heat-pump-thermistors",
+      "oemSection": "4-5",
+      "title": "\u00a74-5: Heat pump thermistors (tC, TC5\u2013TCB)",
+      "status": "generated",
+      "relatedCodes": [
+        "tC",
+        "TC5",
+        "TC7",
+        "TC8",
+        "TCA",
+        "TCB",
+        "TCH"
+      ]
+    },
+    {
+      "id": "samsungwd53-dry-heater",
+      "oemSection": "4-5",
+      "title": "\u00a74-5: Dry heater element (#5)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungwd53-compressor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: BLDC compressor (3CA, HC)",
+      "status": "generated",
+      "relatedCodes": [
+        "3CA",
+        "3CA1",
+        "3CA2",
+        "3CA3",
+        "3CA4",
+        "3CA5",
+        "3CA6",
+        "3CA7",
+        "3CA8",
+        "HC"
+      ]
+    },
+    {
+      "id": "samsungwd53-filter-check",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Filter and cover magnets (NC, NC2, NC3)",
+      "status": "generated",
+      "relatedCodes": [
+        "NC",
+        "NC2",
+        "NC3"
+      ]
+    },
+    {
+      "id": "samsungwd53-foam-detection",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Foam detection (ULC)",
+      "status": "generated",
+      "relatedCodes": [
+        "ULC"
+      ]
+    },
+    {
+      "id": "samsungwd53-auto-open-door",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Auto-open door (DC5)",
+      "status": "generated",
+      "relatedCodes": [
+        "DC5"
+      ]
+    },
+    {
+      "id": "samsungwd53-system-fault",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: System error (SF)",
+      "status": "generated",
+      "relatedCodes": [
+        "SF"
+      ]
+    }
+  ]
+}

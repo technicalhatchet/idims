@@ -1,0 +1,123 @@
+{
+  "id": "w11819775-test-25-damper",
+  "version": "1.0.0",
+  "title": "Service Test 25: Refrigerator damper",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper_check",
+    "weak_cooling_ff",
+    "airflow"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "25",
+    "oemTestTitle": "Refrigerator Damper State",
+    "pages": [
+      59,
+      102
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_25"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_25"
+    },
+    {
+      "id": "select_test_25",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 25",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 25. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 25 \u2014 RC damper",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_cycle"
+    },
+    {
+      "id": "damper_cycle",
+      "order": 4,
+      "type": "instruction",
+      "title": "Cycle damper",
+      "body": "Select on/oF \u2014 damper cycles open/closed while fan runs. Modes 00=closed, 01=open.",
+      "sourceExcerpt": "Select on/oF \u2014 damper cycles open/closed while fan runs. Modes 00=closed, 01=open.",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_moves"
+    },
+    {
+      "id": "damper_moves",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Damper opens and closes",
+      "body": "CN7 stepper pins = 6.3 VDC while moving. Does damper cycle?",
+      "sourceExcerpt": "CN7 stepper pins = 6.3 VDC while moving. Does damper cycle?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "damper_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_verified"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper",
+          "terminal": true,
+          "oemOutcome": "Damper motor or feedback failed."
+        }
+      ]
+    },
+    {
+      "id": "replace_damper",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace RC damper",
+      "oemOutcome": "Replace damper assembly when it fails to move in test 25.",
+      "requiresInput": false
+    },
+    {
+      "id": "damper_verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Damper verified",
+      "oemOutcome": "RC damper cycles correctly in service test 25.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

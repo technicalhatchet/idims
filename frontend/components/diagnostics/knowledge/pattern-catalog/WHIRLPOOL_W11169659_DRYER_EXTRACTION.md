@@ -3,8 +3,9 @@
 **Source:** `backend/docs/manuals/service-manual-w11169659 wedmed9620.pdf` (Part W11169659 Rev L-98)  
 **Extracted text:** `backend/docs/manuals/service-manual-w11169659 wedmed9620-extracted.txt`  
 **Scope:** 6.7 cu ft Medallion steam dryer — console + LCD-in-door HMI, steam water valve, drum LED, WiFi on some models  
-**Models:** WED9620*, MED9620*, WGD9620*, MGD9620* (27" front-load)  
+**Models:** WED9620*, MED9620*, WGD9620*, MGD9620*; also WED5620*, WED7*, MED7*, WGD7*, MGD7* (27" FL console/LCD family)  
 **Platform:** `whirlpool_ccu_dryer` — third manual on shared ACU/CCU platform (after W10680150 tech sheet + W10881701 WED9500)  
+**Access manual:** W11737351 — component-access crops attach to shared W10881701 / W11169659 procedure steps (see [WHIRLPOOL_W11737351_FL_DRYER_ACCESS_EXTRACTION.md](./WHIRLPOOL_W11737351_FL_DRYER_ACCESS_EXTRACTION.md))  
 **Status:** Reuses W10881701 procedures where identical; 4 manual-specific variants + 2 service-mode bundles
 
 Cross-reference: [WHIRLPOOL_W10881701_DRYER_EXTRACTION.md](./WHIRLPOOL_W10881701_DRYER_EXTRACTION.md), [DRYER_SERVICE_MANUAL_EXTRACTION.md](./DRYER_SERVICE_MANUAL_EXTRACTION.md).
@@ -27,7 +28,7 @@ Cross-reference: [WHIRLPOOL_W10881701_DRYER_EXTRACTION.md](./WHIRLPOOL_W10881701
 | TEST #5a dryness | DRYNESS hold adjust | **Not in manual** |
 | TEST #10 service LEDs | UI underside LEDs | **Not in manual** |
 
-**Verdict:** Extend `whirlpool_ccu_dryer`. Model patterns `WED96*`, `MED96*`, `WGD96*`, `MGD96*`. Reuse 10 W10881701 procedure seeds; generate 4 `w11169659-*` deltas only.
+**Verdict:** Extend `whirlpool_ccu_dryer`. Explicit FL console/LCD patterns `/WED56/i`, `/WED66/i`, `/WED562/i`, `/MED56/i`, `/MED66/i` (electric) and `/WGD56/i`, `/WGD66/i` (gas) precede the broad `/WED/i` catch-all. WED7*/MED7*/WGD7*/MGD7* also resolve here (W11737351 access pairs with this catalog). Reuse 10 W10881701 procedure seeds; generate 4 `w11169659-*` deltas only.
 
 ---
 
@@ -118,7 +119,7 @@ python backend/scripts/run_procedure_manual_pipeline.py --manual W11169659
 cd frontend && npx tsc --noEmit
 ```
 
-WO smoke: WED9620 + Whirlpool → `whirlpool_ccu_dryer`; F3E2 → `w11169659-moisture-sensor`; steam → `w10881701-water-valve`.
+WO smoke: WED9620 or WED5620 or WED7120 + Whirlpool → `whirlpool_ccu_dryer`; F3E2 → `w11169659-moisture-sensor`; steam → `w10881701-water-valve`.
 
 ---
 

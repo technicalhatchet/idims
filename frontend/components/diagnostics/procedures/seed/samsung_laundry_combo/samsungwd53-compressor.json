@@ -1,0 +1,179 @@
+{
+  "id": "samsungwd53-compressor",
+  "version": "1.0.0",
+  "title": "\u00a74-2: BLDC compressor (3CA, HC)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "compressor",
+    "inverter"
+  ],
+  "tags": [
+    "3CA",
+    "3CA1",
+    "3CA2",
+    "3CA3",
+    "3CA4",
+    "3CA5",
+    "3CA6",
+    "3CA7",
+    "3CA8",
+    "HC",
+    "compressor",
+    "heat_pump_dry"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Compressor / Inverter 3CA",
+    "pages": [
+      50,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_harness"
+    },
+    {
+      "id": "comp_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Compressor harness",
+      "body": "Check wire terminals between PBA connector and compressor. Look for short circuit on PBA.",
+      "sourceExcerpt": "Check wire terminals between PBA connector and compressor. Look for short circuit on PBA.",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_fan_check"
+    },
+    {
+      "id": "comp_fan_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Compressor / inverter fan",
+      "body": "Apply DC 12 V to compressor fan (Red\u2013Black) and inverter frame fan per \u00a74-5 #8\u20139. Fans run?",
+      "sourceExcerpt": "Apply DC 12 V to compressor fan (Red\u2013Black) and inverter frame fan per \u00a74-5 #8\u20139. Fans run?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fans_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_overload_check"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace fan motor or harness."
+        }
+      ]
+    },
+    {
+      "id": "comp_overload_check",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Rule out overload (3CA1)",
+      "body": "3CA1 can display from too much laundry in dry \u2014 reduce load and retest.",
+      "sourceExcerpt": "3CA1 can display from too much laundry in dry \u2014 reduce load and retest.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "suspect_inverter"
+        },
+        {
+          "id": "reduce_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reduce_load_out",
+          "terminal": true,
+          "oemOutcome": "Reduce dry load and retest."
+        }
+      ]
+    },
+    {
+      "id": "suspect_inverter",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Inverter PBA / compressor",
+      "body": "If harness and fans OK but 3CA/HC persists, replace inverter PBA or compressor per \u00a74-2.",
+      "sourceExcerpt": "If harness and fans OK but 3CA/HC persists, replace inverter PBA or compressor per \u00a74-2.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "compressor_ok"
+        },
+        {
+          "id": "replace_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA or BLDC compressor."
+        }
+      ]
+    },
+    {
+      "id": "replace_fan_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace fan",
+      "oemOutcome": "Replace compressor or inverter cooling fan.",
+      "requiresInput": false
+    },
+    {
+      "id": "reduce_load_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Reduce load",
+      "oemOutcome": "Correct overload condition before condemning compressor.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_inverter_out",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace inverter/compressor",
+      "oemOutcome": "Replace inverter PBA or BLDC compressor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "compressor_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Compressor path OK",
+      "oemOutcome": "Harness, fans, and load verified.",
+      "requiresInput": false
+    }
+  ]
+}

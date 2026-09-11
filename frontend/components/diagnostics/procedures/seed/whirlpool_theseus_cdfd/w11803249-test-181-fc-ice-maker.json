@@ -1,0 +1,122 @@
+{
+  "id": "w11803249-test-181-fc-ice-maker",
+  "version": "1.0.0",
+  "title": "Service Test 181: FC ice maker harvest",
+  "platformId": "whirlpool_theseus_cdfd",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "ice_maker"
+  ],
+  "source": {
+    "manualId": "W11803249",
+    "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "181",
+    "oemTestTitle": "FC IM Harvest Test",
+    "pages": [
+      79,
+      128
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_on"
+    },
+    {
+      "id": "im_on",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enable IM switch",
+      "body": "Verify FC IM switch ON at ice maker.",
+      "sourceExcerpt": "Verify FC IM switch ON at ice maker.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_181"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Test Mode",
+      "body": "Manual control mode active. Advance to the test step for this procedure.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "select_test_181",
+      "sourceExcerpt": "Manual control mode active. Advance to the test step for this procedure."
+    },
+    {
+      "id": "select_test_181",
+      "order": 4,
+      "type": "instruction",
+      "title": "Navigate to manual test 181",
+      "body": "Enter Service Test Mode (any 3 keys \u00d73 within 8 s). Manual control: 1st button short = enter step list; 3rd button advances to step 181. Confirm with 1st button.",
+      "sourceExcerpt": "Manual test 181 \u2014 IM harvest",
+      "requiresInput": false,
+      "defaultNextStepId": "harvest"
+    },
+    {
+      "id": "harvest",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Harvest completes",
+      "body": "Display on then oF \u2014 P11-1/P11-2 motor; P70-3/P70-4 position switch. Bale arm up at home?",
+      "sourceExcerpt": "Display on then oF \u2014 P11-1/P11-2 motor; P70-3/P70-4 position switch. Bale arm up at home?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace IM \u2014 motor or bale arm down at home."
+        }
+      ]
+    },
+    {
+      "id": "replace_im",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "IM motor or position switch failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "FC ice maker verified",
+      "oemOutcome": "Harvest test 181 OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11803249-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "id": "samsungrs28-ice-pipe-heater",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Ice pipe heater",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "ice_pipe_heater"
+  ],
+  "tags": [
+    "ice_maker",
+    "water_dispenser",
+    "33E"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Self-diagnostic \u2014 Ice Pipe Heater",
+    "pages": [
+      68,
+      101
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_pipe_run"
+    },
+    {
+      "id": "ice_pipe_run",
+      "order": 2,
+      "type": "instruction",
+      "title": "Command ice pipe heater",
+      "body": "Dispense water or run ice maker fill so ice pipe heater is commanded on.",
+      "sourceExcerpt": "Dispense water or run ice maker fill so ice pipe heater is commanded on.",
+      "requiresInput": false,
+      "defaultNextStepId": "ice_pipe_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "ice_pipe_voltage"
+    },
+    {
+      "id": "ice_pipe_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Ice pipe heater voltage",
+      "body": "CN90 pin 1 \u2194 pin 5 \u2014 7\u201312 V while heater commanded.",
+      "sourceExcerpt": "CN90 pin 1 \u2194 pin 5 \u2014 7\u201312 V while heater commanded.",
+      "measurementKnowledgeId": "refrigeratorEvapFanFeedbackVoltage",
+      "testPoint": {
+        "connector": "CN90",
+        "pins": "1 \u2194 5",
+        "label": "Ice pipe heater voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ice_pipe_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_evap_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "ice_pipe_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_evap_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "ice_pipe_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ice_pipe",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "evap_fan",
+              "evidenceId": "ref_ms_evap_fan_voltage_low"
+            }
+          ]
+        },
+        {
+          "id": "ice_pipe_pass",
+          "label": "7\u201312 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ice_pipe_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungrs28-main-pcb-connectors",
+          "caption": "MAIN PCB connector layout \u2014 CN20/CN40/CN70/CN85/CN90 (\u00a76-2)",
+          "assetPath": "/images/procedures/samsung_sxs/samsungrs28-main-pcb-connectors.png"
+        },
+        {
+          "id": "samsungrs28-main-pcb-layout",
+          "caption": "MAIN PCB layout \u2014 inverter, fan, damper, ice maker (\u00a76-1)",
+          "assetPath": "/images/procedures/samsung_sxs/samsungrs28-main-pcb-layout.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_ice_pipe",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace ice pipe heater",
+      "oemOutcome": "Replace ice pipe heater or repair harness when voltage out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_pipe_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Ice pipe heater OK",
+      "oemOutcome": "Ice pipe heater voltage verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrs28-engineer-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-led-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-self-diagnostic-entry",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "ice_pipe_voltage"
+    }
+  ]
+}

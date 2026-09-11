@@ -1,0 +1,84 @@
+{
+  "id": "w10410465-dryness-adjust",
+  "version": "1.0.0",
+  "title": "TEST #5a: Customer Dryness Level",
+  "platformId": "whirlpool_ccu_tl_dryer",
+  "componentIds": [
+    "moisture_sensor"
+  ],
+  "tags": [
+    "long_dry",
+    "not_drying"
+  ],
+  "source": {
+    "manualId": "W10410465",
+    "manualTitle": "Whirlpool & Maytag CCU Top-Load Dryer Service Data Sheet",
+    "extractedTextFile": "backend/docs/manuals/WPL Top load Dryer Service Manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5a",
+    "oemTestTitle": "Adjusting Customer-Focused Dryness Level",
+    "pages": [
+      19
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing.",
+      "requiresInput": false,
+      "defaultNextStepId": "auto_cycle"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service Diagnostics entered. Use Diagnostics Home or Component Activation as needed, then continue below.",
+      "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "auto_cycle"
+    },
+    {
+      "id": "auto_cycle",
+      "order": 3,
+      "type": "instruction",
+      "title": "Automatic cycle + dryness menu",
+      "body": "Select automatic cycle. Hold Dryness Level ~3 sec for Customer-Focused Dryness screen.",
+      "sourceExcerpt": "Select automatic cycle. Hold Dryness Level ~3 sec for Customer-Focused Dryness screen.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_level"
+    },
+    {
+      "id": "select_level",
+      "order": 4,
+      "type": "instruction",
+      "title": "Select dryness offset",
+      "body": "Choose Factory Preset, 15% More, 30% More, 15% Less, or 30% Less. Stored in CCU EEPROM.",
+      "sourceExcerpt": "Choose Factory Preset, 15% More, 30% More, 15% Less, or 30% Less. Stored in CCU EEPROM.",
+      "requiresInput": false,
+      "defaultNextStepId": "dryness_saved"
+    },
+    {
+      "id": "dryness_saved",
+      "order": 5,
+      "type": "outcome",
+      "title": "Dryness level updated",
+      "oemOutcome": "Customer auto-dry aggressiveness saved.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10410465-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

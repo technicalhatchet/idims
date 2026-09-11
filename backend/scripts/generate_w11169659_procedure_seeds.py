@@ -510,6 +510,7 @@ def main() -> None:
     for script_name in (
         "attach_w11169659_diagnostic_effects.py",
         "attach_w11169659_service_modes.py",
+        "attach_w11737351_access_procedure_diagrams.py",
     ):
         script = ROOT / "backend" / "scripts" / script_name
         if script.exists():

@@ -7,6 +7,7 @@ import {
 } from './evaluateProcedureMeasurement';
 import { getServiceProcedure } from './procedureRegistry';
 import { getProcedureStep } from './procedureRunner';
+import { resolveProcedureStepTone, type ProcedureStepTone } from './procedureRunPresentation';
 import type {
   DiagnosticEffect,
   ProcedureRunState,
@@ -25,6 +26,7 @@ export interface ProcedureRunReviewEntry {
   branchLabel?: string;
   branchOutcome?: string;
   diagnosticEffectSummaries: string[];
+  tone: ProcedureStepTone;
 }
 
 export interface ProcedureRunReview {
@@ -144,6 +146,29 @@ export function buildProcedureRunReview(
       diagnosticEffectSummaries: effects.map((effect) =>
         formatDiagnosticEffect(effect, componentLabel),
       ),
+      tone: resolveProcedureStepTone(
+        stepId,
+        step.type,
+        input?.value,
+        evaluation?.status,
+        effects,
+      ),
+    });
+  }
+
+  const outcomeStep = procedure.steps.find((step) => step.id === runState.currentStepId);
+  if (
+    runState.status === 'completed'
+    && outcomeStep?.type === 'outcome'
+    && !steps.some((entry) => entry.stepId === outcomeStep.id)
+  ) {
+    steps.push({
+      stepId: outcomeStep.id,
+      order: outcomeStep.order,
+      stepTitle: outcomeStep.title,
+      stepType: outcomeStep.type,
+      diagnosticEffectSummaries: [],
+      tone: resolveProcedureStepTone(outcomeStep.id, outcomeStep.type),
     });
   }
 

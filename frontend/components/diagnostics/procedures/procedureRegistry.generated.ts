@@ -16,6 +16,12 @@ import midea_rss_bundles_midearss_mandatory_mode_entry from './seed/midea_rss/bu
 import midea_rss_bundles_mideartm18_test_mode_entry from './seed/midea_rss/bundles/mideartm18-test-mode-entry.json';
 import midea_uz21_bundles_mideauz21_forced_defrost_entry from './seed/midea_uz21/bundles/mideauz21-forced-defrost-entry.json';
 import midea_uz21_bundles_mideauz21_test_mode_entry from './seed/midea_uz21/bundles/mideauz21-test-mode-entry.json';
+import samsung_dishwasher_bundles_samsungdw_inspection_code_display from './seed/samsung_dishwasher/bundles/samsungdw-inspection-code-display.json';
+import samsung_dishwasher_bundles_samsungdw_manual_check_mode from './seed/samsung_dishwasher/bundles/samsungdw-manual-check-mode.json';
+import samsung_dishwasher_bundles_samsungdw_smart_install_entry from './seed/samsung_dishwasher/bundles/samsungdw-smart-install-entry.json';
+import samsung_dishwasher_m9_bundles_samsungdwm9_inspection_code_display from './seed/samsung_dishwasher_m9/bundles/samsungdwm9-inspection-code-display.json';
+import samsung_dishwasher_m9_bundles_samsungdwm9_manual_check_mode from './seed/samsung_dishwasher_m9/bundles/samsungdwm9-manual-check-mode.json';
+import samsung_dishwasher_m9_bundles_samsungdwm9_smart_install_entry from './seed/samsung_dishwasher_m9/bundles/samsungdwm9-smart-install-entry.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-error-recall.json';
 import samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry from './seed/samsung_fl_dryer_bb8700/bundles/samsungbb8700-dryer-smart-install-entry.json';
 import samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall from './seed/samsung_fl_dryer_dv6000/bundles/samsungdv6000-error-recall.json';
@@ -23,6 +29,9 @@ import samsung_fl_dryer_dv6000_bundles_samsungdv6000_smart_install_entry from '.
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-diagnostic-code-check.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-manual-check-mode.json';
 import samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry from './seed/samsung_fl_washer_bb8700/bundles/samsungbb8700-smart-install-entry.json';
+import samsung_fl_washer_wf6000r_bundles_samsungwf6000r_diagnostic_code_check from './seed/samsung_fl_washer_wf6000r/bundles/samsungwf6000r-diagnostic-code-check.json';
+import samsung_fl_washer_wf6000r_bundles_samsungwf6000r_manual_check_mode from './seed/samsung_fl_washer_wf6000r/bundles/samsungwf6000r-manual-check-mode.json';
+import samsung_fl_washer_wf6000r_bundles_samsungwf6000r_smart_install_entry from './seed/samsung_fl_washer_wf6000r/bundles/samsungwf6000r-smart-install-entry.json';
 import samsung_flexwash_bundles_samsungflexwash_diagnostic_code_check from './seed/samsung_flexwash/bundles/samsungflexwash-diagnostic-code-check.json';
 import samsung_flexwash_bundles_samsungflexwash_manual_check_mode from './seed/samsung_flexwash/bundles/samsungflexwash-manual-check-mode.json';
 import samsung_flexwash_bundles_samsungflexwash_smart_install_entry from './seed/samsung_flexwash/bundles/samsungflexwash-smart-install-entry.json';
@@ -31,21 +40,39 @@ import samsung_fridge_bespoke_bundles_samsungbespoke_fhub_engineer_entry from '.
 import samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-self-diagnosis-entry.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf23bb-digital.json';
 import samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons from './seed/samsung_fridge_bespoke/bundles/samsungbespoke-test-mode-rf32cg-buttons.json';
+import samsung_fridge_rf28_bundles_samsungrf28_load_condition_entry from './seed/samsung_fridge_rf28/bundles/samsungrf28-load-condition-entry.json';
+import samsung_fridge_rf28_bundles_samsungrf28_self_diagnostic_entry from './seed/samsung_fridge_rf28/bundles/samsungrf28-self-diagnostic-entry.json';
+import samsung_fridge_rf28_bundles_samsungrf28_test_mode_entry from './seed/samsung_fridge_rf28/bundles/samsungrf28-test-mode-entry.json';
+import samsung_laundry_combo_bundles_samsungwd53_diagnostic_code_check from './seed/samsung_laundry_combo/bundles/samsungwd53-diagnostic-code-check.json';
+import samsung_laundry_combo_bundles_samsungwd53_manual_check_mode from './seed/samsung_laundry_combo/bundles/samsungwd53-manual-check-mode.json';
+import samsung_laundry_combo_bundles_samsungwd53_smart_install_entry from './seed/samsung_laundry_combo/bundles/samsungwd53-smart-install-entry.json';
+import samsung_microwave_otr_bundles_samsungotrmw_sensor_quick_test from './seed/samsung_microwave_otr/bundles/samsungotrmw-sensor-quick-test.json';
 import samsung_range_nx60_bundles_samsungnx60_error_recall_entry from './seed/samsung_range_nx60/bundles/samsungnx60-error-recall-entry.json';
 import samsung_range_nx60_bundles_samsungnx60_sub_line_test_entry from './seed/samsung_range_nx60/bundles/samsungnx60-sub-line-test-entry.json';
 import samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry from './seed/samsung_sxs/bundles/samsungrf260b-self-diagnostic-entry.json';
 import samsung_sxs_bundles_samsungrf260b_test_mode_entry from './seed/samsung_sxs/bundles/samsungrf260b-test-mode-entry.json';
+import samsung_sxs_bundles_samsungrs28_engineer_test_entry from './seed/samsung_sxs/bundles/samsungrs28-engineer-test-entry.json';
+import samsung_sxs_bundles_samsungrs28_led_test_mode_entry from './seed/samsung_sxs/bundles/samsungrs28-led-test-mode-entry.json';
+import samsung_sxs_bundles_samsungrs28_self_diagnostic_entry from './seed/samsung_sxs/bundles/samsungrs28-self-diagnostic-entry.json';
+import samsung_tl_dryer_cg71_bundles_samsungtlcg71d_smart_install_entry from './seed/samsung_tl_dryer_cg71/bundles/samsungtlcg71d-smart-install-entry.json';
 import samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry from './seed/samsung_tl_dryer_dv50/bundles/samsungtldv50-smart-install-entry.json';
 import samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check from './seed/samsung_tl_washer_a50/bundles/samsungtla50-diagnostic-code-check.json';
 import samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode from './seed/samsung_tl_washer_a50/bundles/samsungtla50-manual-check-mode.json';
 import samsung_tl_washer_a50_bundles_samsungtla50_smart_install_entry from './seed/samsung_tl_washer_a50/bundles/samsungtla50-smart-install-entry.json';
+import samsung_tl_washer_cg71_bundles_samsungtlcg71_diagnostic_code_check from './seed/samsung_tl_washer_cg71/bundles/samsungtlcg71-diagnostic-code-check.json';
+import samsung_tl_washer_cg71_bundles_samsungtlcg71_manual_check_mode from './seed/samsung_tl_washer_cg71/bundles/samsungtlcg71-manual-check-mode.json';
+import samsung_tl_washer_cg71_bundles_samsungtlcg71_smart_install_entry from './seed/samsung_tl_washer_cg71/bundles/samsungtlcg71-smart-install-entry.json';
+import whirlpool_acu_fd_inverter_bundles_w11819775_fc_im_test_mode_entry from './seed/whirlpool_acu_fd_inverter/bundles/w11819775-fc-im-test-mode-entry.json';
+import whirlpool_acu_fd_inverter_bundles_w11819775_service_diagnostic_entry from './seed/whirlpool_acu_fd_inverter/bundles/w11819775-service-diagnostic-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11416805-diagnostic-entry.json';
 import whirlpool_acu_tl_dryer_bundles_w11798430_diagnostic_entry from './seed/whirlpool_acu_tl_dryer/bundles/w11798430-diagnostic-entry.json';
+import whirlpool_bella_french_door_bundles_w10901168_diagnostic_entry from './seed/whirlpool_bella_french_door/bundles/w10901168-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10680150-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w10881701-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w10881701_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w10881701-service-test-mode.json';
 import whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry from './seed/whirlpool_ccu_dryer/bundles/w11169659-diagnostic-entry.json';
 import whirlpool_ccu_dryer_bundles_w11169659_service_test_mode from './seed/whirlpool_ccu_dryer/bundles/w11169659-service-test-mode.json';
+import whirlpool_ccu_tl_dryer_bundles_w10410465_diagnostic_entry from './seed/whirlpool_ccu_tl_dryer/bundles/w10410465-diagnostic-entry.json';
 import whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry from './seed/whirlpool_centennial_dryer/bundles/w8178629-diagnostic-entry.json';
 import whirlpool_connected_smart_gen3_bundles_w10785366a_dishwasher_service_diagnostic_cycle from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-dishwasher-service-diagnostic-cycle.json';
 import whirlpool_connected_smart_gen3_bundles_w10785366a_fridge_service_mode_entry from './seed/whirlpool_connected_smart_gen3/bundles/w10785366a-fridge-service-mode-entry.json';
@@ -56,6 +83,7 @@ import whirlpool_dishwasher_acu_bundles_w11633848_service_diagnostic_entry from 
 import whirlpool_dishwasher_ada_bundles_w11187658_service_mode_entry from './seed/whirlpool_dishwasher_ada/bundles/w11187658-service-mode-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry from './seed/whirlpool_duet_sport/bundles/w8178558-diagnostic-history-entry.json';
 import whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test from './seed/whirlpool_duet_sport/bundles/w8178558-manual-diagnostic-test.json';
+import whirlpool_duet_sport_bundles_w8178558_manual_door_unlock from './seed/whirlpool_duet_sport/bundles/w8178558-manual-door-unlock.json';
 import whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry from './seed/whirlpool_duet_sport_dryer/bundles/w8178559-diagnostic-entry.json';
 import whirlpool_fl_dd_bundles_w11169652_component_activation_dry_blower from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-dry-blower.json';
 import whirlpool_fl_dd_bundles_w11169652_component_activation_vent_fan from './seed/whirlpool_fl_dd/bundles/w11169652-component-activation-vent-fan.json';
@@ -72,6 +100,9 @@ import whirlpool_jazz_french_door_bundles_w10322959_service_test_entry from './s
 import whirlpool_ka_french_door_bundles_w11509412_service_diagnostic_entry from './seed/whirlpool_ka_french_door/bundles/w11509412-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry from './seed/whirlpool_mvw6200/bundles/w11416395-service-diagnostic-entry.json';
 import whirlpool_mvw6200_bundles_w11416395_service_test_mode from './seed/whirlpool_mvw6200/bundles/w11416395-service-test-mode.json';
+import whirlpool_sxs_w11296289_bundles_w11296289_athena_service_entry from './seed/whirlpool_sxs_w11296289/bundles/w11296289-athena-service-entry.json';
+import whirlpool_sxs_w11296289_bundles_w11296289_theseus_service_entry from './seed/whirlpool_sxs_w11296289/bundles/w11296289-theseus-service-entry.json';
+import whirlpool_theseus_cdfd_bundles_w11803249_service_diagnostic_entry from './seed/whirlpool_theseus_cdfd/bundles/w11803249-service-diagnostic-entry.json';
 import whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry from './seed/whirlpool_tl_dd/bundles/w10864849-service-diagnostic-entry.json';
 import whirlpool_tl_dd_bundles_w10864849_service_test_mode from './seed/whirlpool_tl_dd/bundles/w10864849-service-test-mode.json';
 import whirlpool_tl_dd_bundles_w11697231_manual_test_mode from './seed/whirlpool_tl_dd/bundles/w11697231-manual-test-mode.json';
@@ -82,6 +113,8 @@ import whirlpool_tl_dd_5100_bundles_w11416787_component_activation from './seed/
 import whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry from './seed/whirlpool_tl_dd_5100/bundles/w11416787-service-diagnostic-entry.json';
 import whirlpool_tl_dd_6157_bundles_w11455152_automatic_test_mode from './seed/whirlpool_tl_dd_6157/bundles/w11455152-automatic-test-mode.json';
 import whirlpool_tl_dd_6157_bundles_w11455152_service_diagnostic_entry from './seed/whirlpool_tl_dd_6157/bundles/w11455152-service-diagnostic-entry.json';
+import whirlpool_tl_psc_washer_bundles_w11428632_automatic_test_mode from './seed/whirlpool_tl_psc_washer/bundles/w11428632-automatic-test-mode.json';
+import whirlpool_tl_psc_washer_bundles_w11428632_service_diagnostic_entry from './seed/whirlpool_tl_psc_washer/bundles/w11428632-service-diagnostic-entry.json';
 import whirlpool_wrt311_adc_bundles_w10674984_adc_defrost_test_entry from './seed/whirlpool_wrt311_adc/bundles/w10674984-adc-defrost-test-entry.json';
 
 import frigidaire_prmc_french_door_frigidaireprmc_ff_defrost_sensor from './seed/frigidaire_prmc_french_door/frigidaireprmc-ff-defrost-sensor.json';
@@ -147,6 +180,22 @@ import lg_dishwasher_ldt7808_ldt7808_leak_float from './seed/lg_dishwasher_ldt78
 import lg_dishwasher_ldt7808_ldt7808_thermistor from './seed/lg_dishwasher_ldt7808/ldt7808-thermistor.json';
 import lg_dishwasher_ldt7808_ldt7808_vario_valve from './seed/lg_dishwasher_ldt7808/ldt7808-vario-valve.json';
 import lg_dishwasher_ldt7808_ldt7808_wash_motor from './seed/lg_dishwasher_ldt7808/ldt7808-wash-motor.json';
+import lg_freestanding_range_lg_range_bake_element from './seed/lg_freestanding_range/lg-range-bake-element.json';
+import lg_freestanding_range_lg_range_broil_element from './seed/lg_freestanding_range/lg-range-broil-element.json';
+import lg_freestanding_range_lg_range_convection_element from './seed/lg_freestanding_range/lg-range-convection-element.json';
+import lg_freestanding_range_lg_range_convection_motor from './seed/lg_freestanding_range/lg-range-convection-motor.json';
+import lg_freestanding_range_lg_range_cooktop_single from './seed/lg_freestanding_range/lg-range-cooktop-single.json';
+import lg_freestanding_range_lg_range_door_latch from './seed/lg_freestanding_range/lg-range-door-latch.json';
+import lg_freestanding_range_lg_range_door_switch from './seed/lg_freestanding_range/lg-range-door-switch.json';
+import lg_freestanding_range_lg_range_dual_rf_element from './seed/lg_freestanding_range/lg-range-dual-rf-element.json';
+import lg_freestanding_range_lg_range_ignition_switch from './seed/lg_freestanding_range/lg-range-ignition-switch.json';
+import lg_freestanding_range_lg_range_no_power from './seed/lg_freestanding_range/lg-range-no-power.json';
+import lg_freestanding_range_lg_range_oven_gas_valve from './seed/lg_freestanding_range/lg-range-oven-gas-valve.json';
+import lg_freestanding_range_lg_range_oven_igniter from './seed/lg_freestanding_range/lg-range-oven-igniter.json';
+import lg_freestanding_range_lg_range_oven_lamp from './seed/lg_freestanding_range/lg-range-oven-lamp.json';
+import lg_freestanding_range_lg_range_oven_sensor from './seed/lg_freestanding_range/lg-range-oven-sensor.json';
+import lg_freestanding_range_lg_range_warming_drawer from './seed/lg_freestanding_range/lg-range-warming-drawer.json';
+import lg_freestanding_range_lg_range_warming_zone from './seed/lg_freestanding_range/lg-range-warming-zone.json';
 import lg_lrmvs_lglrmvs_condenser_fan from './seed/lg_lrmvs/lglrmvs-condenser-fan.json';
 import lg_lrmvs_lglrmvs_convert_sensor from './seed/lg_lrmvs/lglrmvs-convert-sensor.json';
 import lg_lrmvs_lglrmvs_display_communication from './seed/lg_lrmvs/lglrmvs-display-communication.json';
@@ -194,6 +243,36 @@ import midea_uz21_mideauz21_fz_defrost_heater from './seed/midea_uz21/mideauz21-
 import midea_uz21_mideauz21_fz_defrost_sensor from './seed/midea_uz21/mideauz21-fz-defrost-sensor.json';
 import midea_uz21_mideauz21_fz_temp_sensor from './seed/midea_uz21/mideauz21-fz-temp-sensor.json';
 import midea_uz21_mideauz21_high_temp_alarm from './seed/midea_uz21/mideauz21-high-temp-alarm.json';
+import samsung_dishwasher_samsungdw_circulation_motor from './seed/samsung_dishwasher/samsungdw-circulation-motor.json';
+import samsung_dishwasher_samsungdw_communication from './seed/samsung_dishwasher/samsungdw-communication.json';
+import samsung_dishwasher_samsungdw_dispenser from './seed/samsung_dishwasher/samsungdw-dispenser.json';
+import samsung_dishwasher_samsungdw_distributor from './seed/samsung_dishwasher/samsungdw-distributor.json';
+import samsung_dishwasher_samsungdw_door_switch from './seed/samsung_dishwasher/samsungdw-door-switch.json';
+import samsung_dishwasher_samsungdw_drain_pump from './seed/samsung_dishwasher/samsungdw-drain-pump.json';
+import samsung_dishwasher_samsungdw_dry_system from './seed/samsung_dishwasher/samsungdw-dry-system.json';
+import samsung_dishwasher_samsungdw_fill_valve from './seed/samsung_dishwasher/samsungdw-fill-valve.json';
+import samsung_dishwasher_samsungdw_heater from './seed/samsung_dishwasher/samsungdw-heater.json';
+import samsung_dishwasher_samsungdw_hmi_check from './seed/samsung_dishwasher/samsungdw-hmi-check.json';
+import samsung_dishwasher_samsungdw_leak_sensor from './seed/samsung_dishwasher/samsungdw-leak-sensor.json';
+import samsung_dishwasher_samsungdw_overflow from './seed/samsung_dishwasher/samsungdw-overflow.json';
+import samsung_dishwasher_samsungdw_power_supply from './seed/samsung_dishwasher/samsungdw-power-supply.json';
+import samsung_dishwasher_samsungdw_thermistor from './seed/samsung_dishwasher/samsungdw-thermistor.json';
+import samsung_dishwasher_m9_samsungdwm9_circulation_motor from './seed/samsung_dishwasher_m9/samsungdwm9-circulation-motor.json';
+import samsung_dishwasher_m9_samsungdwm9_communication from './seed/samsung_dishwasher_m9/samsungdwm9-communication.json';
+import samsung_dishwasher_m9_samsungdwm9_dispenser from './seed/samsung_dishwasher_m9/samsungdwm9-dispenser.json';
+import samsung_dishwasher_m9_samsungdwm9_distributor from './seed/samsung_dishwasher_m9/samsungdwm9-distributor.json';
+import samsung_dishwasher_m9_samsungdwm9_door_switch from './seed/samsung_dishwasher_m9/samsungdwm9-door-switch.json';
+import samsung_dishwasher_m9_samsungdwm9_drain_pump from './seed/samsung_dishwasher_m9/samsungdwm9-drain-pump.json';
+import samsung_dishwasher_m9_samsungdwm9_dry_system from './seed/samsung_dishwasher_m9/samsungdwm9-dry-system.json';
+import samsung_dishwasher_m9_samsungdwm9_fill_valve from './seed/samsung_dishwasher_m9/samsungdwm9-fill-valve.json';
+import samsung_dishwasher_m9_samsungdwm9_heater from './seed/samsung_dishwasher_m9/samsungdwm9-heater.json';
+import samsung_dishwasher_m9_samsungdwm9_hmi_check from './seed/samsung_dishwasher_m9/samsungdwm9-hmi-check.json';
+import samsung_dishwasher_m9_samsungdwm9_leak_sensor from './seed/samsung_dishwasher_m9/samsungdwm9-leak-sensor.json';
+import samsung_dishwasher_m9_samsungdwm9_overflow from './seed/samsung_dishwasher_m9/samsungdwm9-overflow.json';
+import samsung_dishwasher_m9_samsungdwm9_power_supply from './seed/samsung_dishwasher_m9/samsungdwm9-power-supply.json';
+import samsung_dishwasher_m9_samsungdwm9_thermistor from './seed/samsung_dishwasher_m9/samsungdwm9-thermistor.json';
+import samsung_dishwasher_m9_samsungdwm9_vane_motor from './seed/samsung_dishwasher_m9/samsungdwm9-vane-motor.json';
+import samsung_dishwasher_m9_samsungdwm9_voltage_abnormal from './seed/samsung_dishwasher_m9/samsungdwm9-voltage-abnormal.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-belt-cutoff.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-door-switch.json';
 import samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor from './seed/samsung_fl_dryer_bb8700/samsungbb8700-dryer-gas-flame-sensor.json';
@@ -224,6 +303,19 @@ import samsung_fl_washer_bb8700_samsungbb8700_power_supply from './seed/samsung_
 import samsung_fl_washer_bb8700_samsungbb8700_wash_heater from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-heater.json';
 import samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor from './seed/samsung_fl_washer_bb8700/samsungbb8700-wash-thermistor.json';
 import samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor from './seed/samsung_fl_washer_bb8700/samsungbb8700-water-level-sensor.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_communication from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-communication.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_door_lock from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-door-lock.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_drain_pump from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-drain-pump.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_hmi_switch from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-hmi-switch.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_inlet_valves from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-inlet-valves.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_mems_sensor from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-mems-sensor.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_motor_circuit from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-motor-circuit.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_overflow from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-overflow.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_power_supply from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-power-supply.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_unbalance from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-unbalance.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_wash_heater from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-wash-heater.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_wash_thermistor from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-wash-thermistor.json';
+import samsung_fl_washer_wf6000r_samsungwf6000r_water_level_sensor from './seed/samsung_fl_washer_wf6000r/samsungwf6000r-water-level-sensor.json';
 import samsung_flexwash_samsungflexwash_communication from './seed/samsung_flexwash/samsungflexwash-communication.json';
 import samsung_flexwash_samsungflexwash_door_lock from './seed/samsung_flexwash/samsungflexwash-door-lock.json';
 import samsung_flexwash_samsungflexwash_drain_pump from './seed/samsung_flexwash/samsungflexwash-drain-pump.json';
@@ -268,6 +360,67 @@ import samsung_fridge_bespoke_samsungbespoke_ice_room_fan from './seed/samsung_f
 import samsung_fridge_bespoke_samsungbespoke_ice_room_heater from './seed/samsung_fridge_bespoke/samsungbespoke-ice-room-heater.json';
 import samsung_fridge_bespoke_samsungbespoke_main_inverter_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-inverter-comm.json';
 import samsung_fridge_bespoke_samsungbespoke_main_panel_comm from './seed/samsung_fridge_bespoke/samsungbespoke-main-panel-comm.json';
+import samsung_fridge_rf28_samsungrf28_ambient_sensor from './seed/samsung_fridge_rf28/samsungrf28-ambient-sensor.json';
+import samsung_fridge_rf28_samsungrf28_autofill_overflow from './seed/samsung_fridge_rf28/samsungrf28-autofill-overflow.json';
+import samsung_fridge_rf28_samsungrf28_compressor_inverter from './seed/samsung_fridge_rf28/samsungrf28-compressor-inverter.json';
+import samsung_fridge_rf28_samsungrf28_convertible_fan from './seed/samsung_fridge_rf28/samsungrf28-convertible-fan.json';
+import samsung_fridge_rf28_samsungrf28_damper_heater from './seed/samsung_fridge_rf28/samsungrf28-damper-heater.json';
+import samsung_fridge_rf28_samsungrf28_dispenser_panel_comm from './seed/samsung_fridge_rf28/samsungrf28-dispenser-panel-comm.json';
+import samsung_fridge_rf28_samsungrf28_flex_sensor from './seed/samsung_fridge_rf28/samsungrf28-flex-sensor.json';
+import samsung_fridge_rf28_samsungrf28_freezer_defrost_heater from './seed/samsung_fridge_rf28/samsungrf28-freezer-defrost-heater.json';
+import samsung_fridge_rf28_samsungrf28_freezer_defrost_sensor from './seed/samsung_fridge_rf28/samsungrf28-freezer-defrost-sensor.json';
+import samsung_fridge_rf28_samsungrf28_freezer_fan from './seed/samsung_fridge_rf28/samsungrf28-freezer-fan.json';
+import samsung_fridge_rf28_samsungrf28_freezer_sensor from './seed/samsung_fridge_rf28/samsungrf28-freezer-sensor.json';
+import samsung_fridge_rf28_samsungrf28_fridge_defrost_heater from './seed/samsung_fridge_rf28/samsungrf28-fridge-defrost-heater.json';
+import samsung_fridge_rf28_samsungrf28_fridge_defrost_sensor from './seed/samsung_fridge_rf28/samsungrf28-fridge-defrost-sensor.json';
+import samsung_fridge_rf28_samsungrf28_fridge_fan from './seed/samsung_fridge_rf28/samsungrf28-fridge-fan.json';
+import samsung_fridge_rf28_samsungrf28_fridge_sensor from './seed/samsung_fridge_rf28/samsungrf28-fridge-sensor.json';
+import samsung_fridge_rf28_samsungrf28_humidity_sensor from './seed/samsung_fridge_rf28/samsungrf28-humidity-sensor.json';
+import samsung_fridge_rf28_samsungrf28_ice_duct_heater from './seed/samsung_fridge_rf28/samsungrf28-ice-duct-heater.json';
+import samsung_fridge_rf28_samsungrf28_ice_maker_function from './seed/samsung_fridge_rf28/samsungrf28-ice-maker-function.json';
+import samsung_fridge_rf28_samsungrf28_ice_maker_sensor from './seed/samsung_fridge_rf28/samsungrf28-ice-maker-sensor.json';
+import samsung_fridge_rf28_samsungrf28_ice_room_fan from './seed/samsung_fridge_rf28/samsungrf28-ice-room-fan.json';
+import samsung_fridge_rf28_samsungrf28_ice_room_frozen_prep from './seed/samsung_fridge_rf28/samsungrf28-ice-room-frozen-prep.json';
+import samsung_fridge_rf28_samsungrf28_ice_room_frozen_service from './seed/samsung_fridge_rf28/samsungrf28-ice-room-frozen-service.json';
+import samsung_fridge_rf28_samsungrf28_ice_room_heater from './seed/samsung_fridge_rf28/samsungrf28-ice-room-heater.json';
+import samsung_fridge_rf28_samsungrf28_ice_room_sensor from './seed/samsung_fridge_rf28/samsungrf28-ice-room-sensor.json';
+import samsung_fridge_rf28_samsungrf28_main_inverter_comm from './seed/samsung_fridge_rf28/samsungrf28-main-inverter-comm.json';
+import samsung_fridge_rf28_samsungrf28_main_panel_comm from './seed/samsung_fridge_rf28/samsungrf28-main-panel-comm.json';
+import samsung_laundry_combo_samsungwd53_auto_open_door from './seed/samsung_laundry_combo/samsungwd53-auto-open-door.json';
+import samsung_laundry_combo_samsungwd53_communication from './seed/samsung_laundry_combo/samsungwd53-communication.json';
+import samsung_laundry_combo_samsungwd53_compressor from './seed/samsung_laundry_combo/samsungwd53-compressor.json';
+import samsung_laundry_combo_samsungwd53_door_lock from './seed/samsung_laundry_combo/samsungwd53-door-lock.json';
+import samsung_laundry_combo_samsungwd53_drain_pump from './seed/samsung_laundry_combo/samsungwd53-drain-pump.json';
+import samsung_laundry_combo_samsungwd53_dry_heater from './seed/samsung_laundry_combo/samsungwd53-dry-heater.json';
+import samsung_laundry_combo_samsungwd53_filter_check from './seed/samsung_laundry_combo/samsungwd53-filter-check.json';
+import samsung_laundry_combo_samsungwd53_foam_detection from './seed/samsung_laundry_combo/samsungwd53-foam-detection.json';
+import samsung_laundry_combo_samsungwd53_heat_pump_thermistors from './seed/samsung_laundry_combo/samsungwd53-heat-pump-thermistors.json';
+import samsung_laundry_combo_samsungwd53_hmi_check from './seed/samsung_laundry_combo/samsungwd53-hmi-check.json';
+import samsung_laundry_combo_samsungwd53_inlet_valves from './seed/samsung_laundry_combo/samsungwd53-inlet-valves.json';
+import samsung_laundry_combo_samsungwd53_leak_check from './seed/samsung_laundry_combo/samsungwd53-leak-check.json';
+import samsung_laundry_combo_samsungwd53_mems_sensor from './seed/samsung_laundry_combo/samsungwd53-mems-sensor.json';
+import samsung_laundry_combo_samsungwd53_motor_circuit from './seed/samsung_laundry_combo/samsungwd53-motor-circuit.json';
+import samsung_laundry_combo_samsungwd53_overflow from './seed/samsung_laundry_combo/samsungwd53-overflow.json';
+import samsung_laundry_combo_samsungwd53_power_supply from './seed/samsung_laundry_combo/samsungwd53-power-supply.json';
+import samsung_laundry_combo_samsungwd53_system_fault from './seed/samsung_laundry_combo/samsungwd53-system-fault.json';
+import samsung_laundry_combo_samsungwd53_unbalance from './seed/samsung_laundry_combo/samsungwd53-unbalance.json';
+import samsung_laundry_combo_samsungwd53_wash_heater from './seed/samsung_laundry_combo/samsungwd53-wash-heater.json';
+import samsung_laundry_combo_samsungwd53_wash_thermistor from './seed/samsung_laundry_combo/samsungwd53-wash-thermistor.json';
+import samsung_laundry_combo_samsungwd53_water_level_sensor from './seed/samsung_laundry_combo/samsungwd53-water-level-sensor.json';
+import samsung_microwave_otr_samsungotrmw_door_interlock from './seed/samsung_microwave_otr/samsungotrmw-door-interlock.json';
+import samsung_microwave_otr_samsungotrmw_humidity_sensor from './seed/samsung_microwave_otr/samsungotrmw-humidity-sensor.json';
+import samsung_microwave_otr_samsungotrmw_hv_capacitor from './seed/samsung_microwave_otr/samsungotrmw-hv-capacitor.json';
+import samsung_microwave_otr_samsungotrmw_hv_diode from './seed/samsung_microwave_otr/samsungotrmw-hv-diode.json';
+import samsung_microwave_otr_samsungotrmw_hv_transformer from './seed/samsung_microwave_otr/samsungotrmw-hv-transformer.json';
+import samsung_microwave_otr_samsungotrmw_keypad_touch from './seed/samsung_microwave_otr/samsungotrmw-keypad-touch.json';
+import samsung_microwave_otr_samsungotrmw_line_power from './seed/samsung_microwave_otr/samsungotrmw-line-power.json';
+import samsung_microwave_otr_samsungotrmw_magnetron from './seed/samsung_microwave_otr/samsungotrmw-magnetron.json';
+import samsung_microwave_otr_samsungotrmw_no_heat from './seed/samsung_microwave_otr/samsungotrmw-no-heat.json';
+import samsung_microwave_otr_samsungotrmw_pcb_comm from './seed/samsung_microwave_otr/samsungotrmw-pcb-comm.json';
+import samsung_microwave_otr_samsungotrmw_temp_sensor from './seed/samsung_microwave_otr/samsungotrmw-temp-sensor.json';
+import samsung_microwave_otr_samsungotrmw_thermal_cutout from './seed/samsung_microwave_otr/samsungotrmw-thermal-cutout.json';
+import samsung_microwave_otr_samsungotrmw_turntable from './seed/samsung_microwave_otr/samsungotrmw-turntable.json';
+import samsung_microwave_otr_samsungotrmw_vent_motor from './seed/samsung_microwave_otr/samsungotrmw-vent-motor.json';
 import samsung_range_nx60_samsungnx60_bake_element from './seed/samsung_range_nx60/samsungnx60-bake-element.json';
 import samsung_range_nx60_samsungnx60_bake_ignitor from './seed/samsung_range_nx60/samsungnx60-bake-ignitor.json';
 import samsung_range_nx60_samsungnx60_broil_element from './seed/samsung_range_nx60/samsungnx60-broil-element.json';
@@ -300,6 +453,34 @@ import samsung_sxs_samsungrf260b_ice_maker_sensor from './seed/samsung_sxs/samsu
 import samsung_sxs_samsungrf260b_option_error from './seed/samsung_sxs/samsungrf260b-option-error.json';
 import samsung_sxs_samsungrf260b_panel_communication from './seed/samsung_sxs/samsungrf260b-panel-communication.json';
 import samsung_sxs_samsungrf260b_pantry_sensor from './seed/samsung_sxs/samsungrf260b-pantry-sensor.json';
+import samsung_sxs_samsungrs28_ambient_sensor from './seed/samsung_sxs/samsungrs28-ambient-sensor.json';
+import samsung_sxs_samsungrs28_c_fan from './seed/samsung_sxs/samsungrs28-c-fan.json';
+import samsung_sxs_samsungrs28_damper_heater from './seed/samsung_sxs/samsungrs28-damper-heater.json';
+import samsung_sxs_samsungrs28_dispenser_communication from './seed/samsung_sxs/samsungrs28-dispenser-communication.json';
+import samsung_sxs_samsungrs28_f_def_sensor from './seed/samsung_sxs/samsungrs28-f-def-sensor.json';
+import samsung_sxs_samsungrs28_f_defrost_heater from './seed/samsung_sxs/samsungrs28-f-defrost-heater.json';
+import samsung_sxs_samsungrs28_f_fan from './seed/samsung_sxs/samsungrs28-f-fan.json';
+import samsung_sxs_samsungrs28_f_sensor from './seed/samsung_sxs/samsungrs28-f-sensor.json';
+import samsung_sxs_samsungrs28_humidity_sensor from './seed/samsung_sxs/samsungrs28-humidity-sensor.json';
+import samsung_sxs_samsungrs28_ice_maker_function from './seed/samsung_sxs/samsungrs28-ice-maker-function.json';
+import samsung_sxs_samsungrs28_ice_maker_sensor from './seed/samsung_sxs/samsungrs28-ice-maker-sensor.json';
+import samsung_sxs_samsungrs28_ice_pipe_heater from './seed/samsung_sxs/samsungrs28-ice-pipe-heater.json';
+import samsung_sxs_samsungrs28_inverter_communication from './seed/samsung_sxs/samsungrs28-inverter-communication.json';
+import samsung_sxs_samsungrs28_io_expander_communication from './seed/samsung_sxs/samsungrs28-io-expander-communication.json';
+import samsung_sxs_samsungrs28_panel_communication from './seed/samsung_sxs/samsungrs28-panel-communication.json';
+import samsung_sxs_samsungrs28_r_sensor from './seed/samsung_sxs/samsungrs28-r-sensor.json';
+import samsung_sxs_samsungrs28_wifi_communication from './seed/samsung_sxs/samsungrs28-wifi-communication.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_belt_cutoff from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-belt-cutoff.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_door_switch from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-door-switch.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_gas_flame_sensor from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-gas-flame-sensor.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_gas_ignitor from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-gas-ignitor.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_gas_valve from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-gas-valve.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_heater_electric from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-heater-electric.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_hmi from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-hmi.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_motor_circuit from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-motor-circuit.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_power from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-power.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_thermal_cutoff from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-thermal-cutoff.json';
+import samsung_tl_dryer_cg71_samsungtlcg71d_thermistor from './seed/samsung_tl_dryer_cg71/samsungtlcg71d-thermistor.json';
 import samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff from './seed/samsung_tl_dryer_dv50/samsungtldv50-belt-cutoff.json';
 import samsung_tl_dryer_dv50_samsungtldv50_door_switch from './seed/samsung_tl_dryer_dv50/samsungtldv50-door-switch.json';
 import samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor from './seed/samsung_tl_dryer_dv50/samsungtldv50-gas-flame-sensor.json';
@@ -326,6 +507,35 @@ import samsung_tl_washer_a50_samsungtla50_unbalance from './seed/samsung_tl_wash
 import samsung_tl_washer_a50_samsungtla50_wash_heater from './seed/samsung_tl_washer_a50/samsungtla50-wash-heater.json';
 import samsung_tl_washer_a50_samsungtla50_wash_thermistor from './seed/samsung_tl_washer_a50/samsungtla50-wash-thermistor.json';
 import samsung_tl_washer_a50_samsungtla50_water_level_sensor from './seed/samsung_tl_washer_a50/samsungtla50-water-level-sensor.json';
+import samsung_tl_washer_cg71_samsungtlcg71_clutch from './seed/samsung_tl_washer_cg71/samsungtlcg71-clutch.json';
+import samsung_tl_washer_cg71_samsungtlcg71_communication from './seed/samsung_tl_washer_cg71/samsungtlcg71-communication.json';
+import samsung_tl_washer_cg71_samsungtlcg71_detergent_drawer from './seed/samsung_tl_washer_cg71/samsungtlcg71-detergent-drawer.json';
+import samsung_tl_washer_cg71_samsungtlcg71_door_lock from './seed/samsung_tl_washer_cg71/samsungtlcg71-door-lock.json';
+import samsung_tl_washer_cg71_samsungtlcg71_drain_pump from './seed/samsung_tl_washer_cg71/samsungtlcg71-drain-pump.json';
+import samsung_tl_washer_cg71_samsungtlcg71_hmi_check from './seed/samsung_tl_washer_cg71/samsungtlcg71-hmi-check.json';
+import samsung_tl_washer_cg71_samsungtlcg71_inlet_valves from './seed/samsung_tl_washer_cg71/samsungtlcg71-inlet-valves.json';
+import samsung_tl_washer_cg71_samsungtlcg71_leak_check from './seed/samsung_tl_washer_cg71/samsungtlcg71-leak-check.json';
+import samsung_tl_washer_cg71_samsungtlcg71_mems_sensor from './seed/samsung_tl_washer_cg71/samsungtlcg71-mems-sensor.json';
+import samsung_tl_washer_cg71_samsungtlcg71_motor_circuit from './seed/samsung_tl_washer_cg71/samsungtlcg71-motor-circuit.json';
+import samsung_tl_washer_cg71_samsungtlcg71_overflow from './seed/samsung_tl_washer_cg71/samsungtlcg71-overflow.json';
+import samsung_tl_washer_cg71_samsungtlcg71_power_supply from './seed/samsung_tl_washer_cg71/samsungtlcg71-power-supply.json';
+import samsung_tl_washer_cg71_samsungtlcg71_unbalance from './seed/samsung_tl_washer_cg71/samsungtlcg71-unbalance.json';
+import samsung_tl_washer_cg71_samsungtlcg71_wash_heater from './seed/samsung_tl_washer_cg71/samsungtlcg71-wash-heater.json';
+import samsung_tl_washer_cg71_samsungtlcg71_wash_thermistor from './seed/samsung_tl_washer_cg71/samsungtlcg71-wash-thermistor.json';
+import samsung_tl_washer_cg71_samsungtlcg71_water_level_sensor from './seed/samsung_tl_washer_cg71/samsungtlcg71-water-level-sensor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_01_rc_thermistor from './seed/whirlpool_acu_fd_inverter/w11819775-test-01-rc-thermistor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_03_fc_thermistor from './seed/whirlpool_acu_fd_inverter/w11819775-test-03-fc-thermistor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_05_fc_evap_thermistor from './seed/whirlpool_acu_fd_inverter/w11819775-test-05-fc-evap-thermistor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_07_im_tray_thermistor from './seed/whirlpool_acu_fd_inverter/w11819775-test-07-im-tray-thermistor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_10_rh_sensor from './seed/whirlpool_acu_fd_inverter/w11819775-test-10-rh-sensor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_13_fc_ice_maker from './seed/whirlpool_acu_fd_inverter/w11819775-test-13-fc-ice-maker.json';
+import whirlpool_acu_fd_inverter_w11819775_test_14_water_valve from './seed/whirlpool_acu_fd_inverter/w11819775-test-14-water-valve.json';
+import whirlpool_acu_fd_inverter_w11819775_test_23_compressor from './seed/whirlpool_acu_fd_inverter/w11819775-test-23-compressor.json';
+import whirlpool_acu_fd_inverter_w11819775_test_25_damper from './seed/whirlpool_acu_fd_inverter/w11819775-test-25-damper.json';
+import whirlpool_acu_fd_inverter_w11819775_test_27_fc_fan from './seed/whirlpool_acu_fd_inverter/w11819775-test-27-fc-fan.json';
+import whirlpool_acu_fd_inverter_w11819775_test_28_condenser_fan from './seed/whirlpool_acu_fd_inverter/w11819775-test-28-condenser-fan.json';
+import whirlpool_acu_fd_inverter_w11819775_test_38_defrost from './seed/whirlpool_acu_fd_inverter/w11819775-test-38-defrost.json';
+import whirlpool_acu_fd_inverter_w11819775_test_40_mullion_heater from './seed/whirlpool_acu_fd_inverter/w11819775-test-40-mullion-heater.json';
 import whirlpool_acu_tl_dryer_w11416805_acu_power from './seed/whirlpool_acu_tl_dryer/w11416805-acu-power.json';
 import whirlpool_acu_tl_dryer_w11416805_door_switch from './seed/whirlpool_acu_tl_dryer/w11416805-door-switch.json';
 import whirlpool_acu_tl_dryer_w11416805_drum_light from './seed/whirlpool_acu_tl_dryer/w11416805-drum-light.json';
@@ -352,6 +562,20 @@ import whirlpool_acu_tl_dryer_w11798430_supply_connections from './seed/whirlpoo
 import whirlpool_acu_tl_dryer_w11798430_thermal_cutoff from './seed/whirlpool_acu_tl_dryer/w11798430-thermal-cutoff.json';
 import whirlpool_acu_tl_dryer_w11798430_thermal_fuse from './seed/whirlpool_acu_tl_dryer/w11798430-thermal-fuse.json';
 import whirlpool_acu_tl_dryer_w11798430_thermistors from './seed/whirlpool_acu_tl_dryer/w11798430-thermistors.json';
+import whirlpool_bella_french_door_w10901168_test_01_rc_thermistor from './seed/whirlpool_bella_french_door/w10901168-test-01-rc-thermistor.json';
+import whirlpool_bella_french_door_w10901168_test_02_fc_thermistor from './seed/whirlpool_bella_french_door/w10901168-test-02-fc-thermistor.json';
+import whirlpool_bella_french_door_w10901168_test_05_pantry_thermistor from './seed/whirlpool_bella_french_door/w10901168-test-05-pantry-thermistor.json';
+import whirlpool_bella_french_door_w10901168_test_120_121_im_harvest from './seed/whirlpool_bella_french_door/w10901168-test-120-121-im-harvest.json';
+import whirlpool_bella_french_door_w10901168_test_14_ice_box_thermistor from './seed/whirlpool_bella_french_door/w10901168-test-14-ice-box-thermistor.json';
+import whirlpool_bella_french_door_w10901168_test_40_compressor_sealed_system from './seed/whirlpool_bella_french_door/w10901168-test-40-compressor-sealed-system.json';
+import whirlpool_bella_french_door_w10901168_test_42_pantry_baffle from './seed/whirlpool_bella_french_door/w10901168-test-42-pantry-baffle.json';
+import whirlpool_bella_french_door_w10901168_test_56_fc_fan from './seed/whirlpool_bella_french_door/w10901168-test-56-fc-fan.json';
+import whirlpool_bella_french_door_w10901168_test_57_rc_fan from './seed/whirlpool_bella_french_door/w10901168-test-57-rc-fan.json';
+import whirlpool_bella_french_door_w10901168_test_58_condenser_fan from './seed/whirlpool_bella_french_door/w10901168-test-58-condenser-fan.json';
+import whirlpool_bella_french_door_w10901168_test_59_ice_box_fan from './seed/whirlpool_bella_french_door/w10901168-test-59-ice-box-fan.json';
+import whirlpool_bella_french_door_w10901168_test_89_defrost_heater from './seed/whirlpool_bella_french_door/w10901168-test-89-defrost-heater.json';
+import whirlpool_bella_french_door_w10901168_test_96_water_valve from './seed/whirlpool_bella_french_door/w10901168-test-96-water-valve.json';
+import whirlpool_bella_french_door_w10901168_test_97_98_im_water_fill from './seed/whirlpool_bella_french_door/w10901168-test-97-98-im-water-fill.json';
 import whirlpool_ccu_dryer_w10680150_button_indicator from './seed/whirlpool_ccu_dryer/w10680150-button-indicator.json';
 import whirlpool_ccu_dryer_w10680150_ccu_power from './seed/whirlpool_ccu_dryer/w10680150-ccu-power.json';
 import whirlpool_ccu_dryer_w10680150_door_switch from './seed/whirlpool_ccu_dryer/w10680150-door-switch.json';
@@ -385,6 +609,21 @@ import whirlpool_ccu_dryer_w11169659_acu_power from './seed/whirlpool_ccu_dryer/
 import whirlpool_ccu_dryer_w11169659_drum_led from './seed/whirlpool_ccu_dryer/w11169659-drum-led.json';
 import whirlpool_ccu_dryer_w11169659_heater_electric from './seed/whirlpool_ccu_dryer/w11169659-heater-electric.json';
 import whirlpool_ccu_dryer_w11169659_moisture_sensor from './seed/whirlpool_ccu_dryer/w11169659-moisture-sensor.json';
+import whirlpool_ccu_tl_dryer_w10410465_button_indicator from './seed/whirlpool_ccu_tl_dryer/w10410465-button-indicator.json';
+import whirlpool_ccu_tl_dryer_w10410465_ccu_power from './seed/whirlpool_ccu_tl_dryer/w10410465-ccu-power.json';
+import whirlpool_ccu_tl_dryer_w10410465_door_switch from './seed/whirlpool_ccu_tl_dryer/w10410465-door-switch.json';
+import whirlpool_ccu_tl_dryer_w10410465_drum_light from './seed/whirlpool_ccu_tl_dryer/w10410465-drum-light.json';
+import whirlpool_ccu_tl_dryer_w10410465_dryness_adjust from './seed/whirlpool_ccu_tl_dryer/w10410465-dryness-adjust.json';
+import whirlpool_ccu_tl_dryer_w10410465_gas_valve from './seed/whirlpool_ccu_tl_dryer/w10410465-gas-valve.json';
+import whirlpool_ccu_tl_dryer_w10410465_heater_electric from './seed/whirlpool_ccu_tl_dryer/w10410465-heater-electric.json';
+import whirlpool_ccu_tl_dryer_w10410465_heater_gas from './seed/whirlpool_ccu_tl_dryer/w10410465-heater-gas.json';
+import whirlpool_ccu_tl_dryer_w10410465_moisture_sensor from './seed/whirlpool_ccu_tl_dryer/w10410465-moisture-sensor.json';
+import whirlpool_ccu_tl_dryer_w10410465_motor_circuit from './seed/whirlpool_ccu_tl_dryer/w10410465-motor-circuit.json';
+import whirlpool_ccu_tl_dryer_w10410465_myst_valve from './seed/whirlpool_ccu_tl_dryer/w10410465-myst-valve.json';
+import whirlpool_ccu_tl_dryer_w10410465_supply_connections from './seed/whirlpool_ccu_tl_dryer/w10410465-supply-connections.json';
+import whirlpool_ccu_tl_dryer_w10410465_thermal_cutoff from './seed/whirlpool_ccu_tl_dryer/w10410465-thermal-cutoff.json';
+import whirlpool_ccu_tl_dryer_w10410465_thermal_fuse from './seed/whirlpool_ccu_tl_dryer/w10410465-thermal-fuse.json';
+import whirlpool_ccu_tl_dryer_w10410465_thermistors from './seed/whirlpool_ccu_tl_dryer/w10410465-thermistors.json';
 import whirlpool_centennial_dryer_w8178629_door_switch from './seed/whirlpool_centennial_dryer/w8178629-door-switch.json';
 import whirlpool_centennial_dryer_w8178629_drive_motor from './seed/whirlpool_centennial_dryer/w8178629-drive-motor.json';
 import whirlpool_centennial_dryer_w8178629_electric_heater from './seed/whirlpool_centennial_dryer/w8178629-electric-heater.json';
@@ -545,6 +784,32 @@ import whirlpool_mvw6200_w11416395_test_05_temp_thermistor from './seed/whirlpoo
 import whirlpool_mvw6200_w11416395_test_06_water_level from './seed/whirlpool_mvw6200/w11416395-test-06-water-level.json';
 import whirlpool_mvw6200_w11416395_test_07_drain_pump from './seed/whirlpool_mvw6200/w11416395-test-07-drain-pump.json';
 import whirlpool_mvw6200_w11416395_test_08_lid_lock from './seed/whirlpool_mvw6200/w11416395-test-08-lid-lock.json';
+import whirlpool_sxs_w11296289_w11296289_athena_fail_display from './seed/whirlpool_sxs_w11296289/w11296289-athena-fail-display.json';
+import whirlpool_sxs_w11296289_w11296289_test_01_fc_thermistor from './seed/whirlpool_sxs_w11296289/w11296289-test-01-fc-thermistor.json';
+import whirlpool_sxs_w11296289_w11296289_test_03_rc_thermistor from './seed/whirlpool_sxs_w11296289/w11296289-test-03-rc-thermistor.json';
+import whirlpool_sxs_w11296289_w11296289_test_05_defrost_thermistor from './seed/whirlpool_sxs_w11296289/w11296289-test-05-defrost-thermistor.json';
+import whirlpool_sxs_w11296289_w11296289_test_07_compressor_cond_fan from './seed/whirlpool_sxs_w11296289/w11296289-test-07-compressor-cond-fan.json';
+import whirlpool_sxs_w11296289_w11296289_test_09_damper_open from './seed/whirlpool_sxs_w11296289/w11296289-test-09-damper-open.json';
+import whirlpool_sxs_w11296289_w11296289_test_11_damper_heater from './seed/whirlpool_sxs_w11296289/w11296289-test-11-damper-heater.json';
+import whirlpool_sxs_w11296289_w11296289_test_13_defrost_heater from './seed/whirlpool_sxs_w11296289/w11296289-test-13-defrost-heater.json';
+import whirlpool_sxs_w11296289_w11296289_test_15_evap_fan from './seed/whirlpool_sxs_w11296289/w11296289-test-15-evap-fan.json';
+import whirlpool_sxs_w11296289_w11296289_test_19_water_valve from './seed/whirlpool_sxs_w11296289/w11296289-test-19-water-valve.json';
+import whirlpool_sxs_w11296289_w11296289_test_21_rc_door_switch from './seed/whirlpool_sxs_w11296289/w11296289-test-21-rc-door-switch.json';
+import whirlpool_sxs_w11296289_w11296289_test_23_fc_door_switch from './seed/whirlpool_sxs_w11296289/w11296289-test-23-fc-door-switch.json';
+import whirlpool_sxs_w11296289_w11296289_test_33_im_tray_thermistor from './seed/whirlpool_sxs_w11296289/w11296289-test-33-im-tray-thermistor.json';
+import whirlpool_theseus_cdfd_w11803249_test_10_fc_evap_thermistor from './seed/whirlpool_theseus_cdfd/w11803249-test-10-fc-evap-thermistor.json';
+import whirlpool_theseus_cdfd_w11803249_test_111_fc_evap_fan from './seed/whirlpool_theseus_cdfd/w11803249-test-111-fc-evap-fan.json';
+import whirlpool_theseus_cdfd_w11803249_test_113_condenser_fan from './seed/whirlpool_theseus_cdfd/w11803249-test-113-condenser-fan.json';
+import whirlpool_theseus_cdfd_w11803249_test_12_fc_thermistor from './seed/whirlpool_theseus_cdfd/w11803249-test-12-fc-thermistor.json';
+import whirlpool_theseus_cdfd_w11803249_test_13_rc_thermistor from './seed/whirlpool_theseus_cdfd/w11803249-test-13-rc-thermistor.json';
+import whirlpool_theseus_cdfd_w11803249_test_13_water_valve from './seed/whirlpool_theseus_cdfd/w11803249-test-13-water-valve.json';
+import whirlpool_theseus_cdfd_w11803249_test_131_defrost from './seed/whirlpool_theseus_cdfd/w11803249-test-131-defrost.json';
+import whirlpool_theseus_cdfd_w11803249_test_15_heaters from './seed/whirlpool_theseus_cdfd/w11803249-test-15-heaters.json';
+import whirlpool_theseus_cdfd_w11803249_test_17_pantry_thermistor from './seed/whirlpool_theseus_cdfd/w11803249-test-17-pantry-thermistor.json';
+import whirlpool_theseus_cdfd_w11803249_test_181_fc_ice_maker from './seed/whirlpool_theseus_cdfd/w11803249-test-181-fc-ice-maker.json';
+import whirlpool_theseus_cdfd_w11803249_test_29_rh_sensor from './seed/whirlpool_theseus_cdfd/w11803249-test-29-rh-sensor.json';
+import whirlpool_theseus_cdfd_w11803249_test_72_compressor from './seed/whirlpool_theseus_cdfd/w11803249-test-72-compressor.json';
+import whirlpool_theseus_cdfd_w11803249_test_80_rc_damper from './seed/whirlpool_theseus_cdfd/w11803249-test-80-rc-damper.json';
 import whirlpool_tl_dd_w10864849_test_01_acu_power from './seed/whirlpool_tl_dd/w10864849-test-01-acu-power.json';
 import whirlpool_tl_dd_w10864849_test_02_valves from './seed/whirlpool_tl_dd/w10864849-test-02-valves.json';
 import whirlpool_tl_dd_w10864849_test_03_drive_system from './seed/whirlpool_tl_dd/w10864849-test-03-drive-system.json';
@@ -598,6 +863,15 @@ import whirlpool_tl_dd_6157_w11455152_test_04_hmi from './seed/whirlpool_tl_dd_6
 import whirlpool_tl_dd_6157_w11455152_test_05_water_level from './seed/whirlpool_tl_dd_6157/w11455152-test-05-water-level.json';
 import whirlpool_tl_dd_6157_w11455152_test_06_drain_pump from './seed/whirlpool_tl_dd_6157/w11455152-test-06-drain-pump.json';
 import whirlpool_tl_dd_6157_w11455152_test_07_lid_lock from './seed/whirlpool_tl_dd_6157/w11455152-test-07-lid-lock.json';
+import whirlpool_tl_psc_washer_w11428632_test_01_acu_power from './seed/whirlpool_tl_psc_washer/w11428632-test-01-acu-power.json';
+import whirlpool_tl_psc_washer_w11428632_test_02_valves from './seed/whirlpool_tl_psc_washer/w11428632-test-02-valves.json';
+import whirlpool_tl_psc_washer_w11428632_test_03_drive_system from './seed/whirlpool_tl_psc_washer/w11428632-test-03-drive-system.json';
+import whirlpool_tl_psc_washer_w11428632_test_03a_shifter from './seed/whirlpool_tl_psc_washer/w11428632-test-03a-shifter.json';
+import whirlpool_tl_psc_washer_w11428632_test_03b_motor from './seed/whirlpool_tl_psc_washer/w11428632-test-03b-motor.json';
+import whirlpool_tl_psc_washer_w11428632_test_04_hmi from './seed/whirlpool_tl_psc_washer/w11428632-test-04-hmi.json';
+import whirlpool_tl_psc_washer_w11428632_test_05_water_level from './seed/whirlpool_tl_psc_washer/w11428632-test-05-water-level.json';
+import whirlpool_tl_psc_washer_w11428632_test_06_drain_pump from './seed/whirlpool_tl_psc_washer/w11428632-test-06-drain-pump.json';
+import whirlpool_tl_psc_washer_w11428632_test_07_lid_lock from './seed/whirlpool_tl_psc_washer/w11428632-test-07-lid-lock.json';
 import whirlpool_wrt311_adc_w10674984_adc_cooling_voltage from './seed/whirlpool_wrt311_adc/w10674984-adc-cooling-voltage.json';
 import whirlpool_wrt311_adc_w10674984_adc_heater_voltage from './seed/whirlpool_wrt311_adc/w10674984-adc-heater-voltage.json';
 import whirlpool_wrt311_adc_w10674984_defrost_bimetal from './seed/whirlpool_wrt311_adc/w10674984-defrost-bimetal.json';
@@ -628,6 +902,12 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   midea_rss_bundles_mideartm18_test_mode_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_forced_defrost_entry as ServiceModeBundle,
   midea_uz21_bundles_mideauz21_test_mode_entry as ServiceModeBundle,
+  samsung_dishwasher_bundles_samsungdw_inspection_code_display as ServiceModeBundle,
+  samsung_dishwasher_bundles_samsungdw_manual_check_mode as ServiceModeBundle,
+  samsung_dishwasher_bundles_samsungdw_smart_install_entry as ServiceModeBundle,
+  samsung_dishwasher_m9_bundles_samsungdwm9_inspection_code_display as ServiceModeBundle,
+  samsung_dishwasher_m9_bundles_samsungdwm9_manual_check_mode as ServiceModeBundle,
+  samsung_dishwasher_m9_bundles_samsungdwm9_smart_install_entry as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_error_recall as ServiceModeBundle,
   samsung_fl_dryer_bb8700_bundles_samsungbb8700_dryer_smart_install_entry as ServiceModeBundle,
   samsung_fl_dryer_dv6000_bundles_samsungdv6000_error_recall as ServiceModeBundle,
@@ -635,6 +915,9 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fl_washer_bb8700_bundles_samsungbb8700_diagnostic_code_check as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_manual_check_mode as ServiceModeBundle,
   samsung_fl_washer_bb8700_bundles_samsungbb8700_smart_install_entry as ServiceModeBundle,
+  samsung_fl_washer_wf6000r_bundles_samsungwf6000r_diagnostic_code_check as ServiceModeBundle,
+  samsung_fl_washer_wf6000r_bundles_samsungwf6000r_manual_check_mode as ServiceModeBundle,
+  samsung_fl_washer_wf6000r_bundles_samsungwf6000r_smart_install_entry as ServiceModeBundle,
   samsung_flexwash_bundles_samsungflexwash_diagnostic_code_check as ServiceModeBundle,
   samsung_flexwash_bundles_samsungflexwash_manual_check_mode as ServiceModeBundle,
   samsung_flexwash_bundles_samsungflexwash_smart_install_entry as ServiceModeBundle,
@@ -643,21 +926,39 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   samsung_fridge_bespoke_bundles_samsungbespoke_self_diagnosis_entry as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf23bb_digital as ServiceModeBundle,
   samsung_fridge_bespoke_bundles_samsungbespoke_test_mode_rf32cg_buttons as ServiceModeBundle,
+  samsung_fridge_rf28_bundles_samsungrf28_load_condition_entry as ServiceModeBundle,
+  samsung_fridge_rf28_bundles_samsungrf28_self_diagnostic_entry as ServiceModeBundle,
+  samsung_fridge_rf28_bundles_samsungrf28_test_mode_entry as ServiceModeBundle,
+  samsung_laundry_combo_bundles_samsungwd53_diagnostic_code_check as ServiceModeBundle,
+  samsung_laundry_combo_bundles_samsungwd53_manual_check_mode as ServiceModeBundle,
+  samsung_laundry_combo_bundles_samsungwd53_smart_install_entry as ServiceModeBundle,
+  samsung_microwave_otr_bundles_samsungotrmw_sensor_quick_test as ServiceModeBundle,
   samsung_range_nx60_bundles_samsungnx60_error_recall_entry as ServiceModeBundle,
   samsung_range_nx60_bundles_samsungnx60_sub_line_test_entry as ServiceModeBundle,
   samsung_sxs_bundles_samsungrf260b_self_diagnostic_entry as ServiceModeBundle,
   samsung_sxs_bundles_samsungrf260b_test_mode_entry as ServiceModeBundle,
+  samsung_sxs_bundles_samsungrs28_engineer_test_entry as ServiceModeBundle,
+  samsung_sxs_bundles_samsungrs28_led_test_mode_entry as ServiceModeBundle,
+  samsung_sxs_bundles_samsungrs28_self_diagnostic_entry as ServiceModeBundle,
+  samsung_tl_dryer_cg71_bundles_samsungtlcg71d_smart_install_entry as ServiceModeBundle,
   samsung_tl_dryer_dv50_bundles_samsungtldv50_smart_install_entry as ServiceModeBundle,
   samsung_tl_washer_a50_bundles_samsungtla50_diagnostic_code_check as ServiceModeBundle,
   samsung_tl_washer_a50_bundles_samsungtla50_manual_check_mode as ServiceModeBundle,
   samsung_tl_washer_a50_bundles_samsungtla50_smart_install_entry as ServiceModeBundle,
+  samsung_tl_washer_cg71_bundles_samsungtlcg71_diagnostic_code_check as ServiceModeBundle,
+  samsung_tl_washer_cg71_bundles_samsungtlcg71_manual_check_mode as ServiceModeBundle,
+  samsung_tl_washer_cg71_bundles_samsungtlcg71_smart_install_entry as ServiceModeBundle,
+  whirlpool_acu_fd_inverter_bundles_w11819775_fc_im_test_mode_entry as ServiceModeBundle,
+  whirlpool_acu_fd_inverter_bundles_w11819775_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11416805_diagnostic_entry as ServiceModeBundle,
   whirlpool_acu_tl_dryer_bundles_w11798430_diagnostic_entry as ServiceModeBundle,
+  whirlpool_bella_french_door_bundles_w10901168_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10680150_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w10881701_service_test_mode as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w11169659_diagnostic_entry as ServiceModeBundle,
   whirlpool_ccu_dryer_bundles_w11169659_service_test_mode as ServiceModeBundle,
+  whirlpool_ccu_tl_dryer_bundles_w10410465_diagnostic_entry as ServiceModeBundle,
   whirlpool_centennial_dryer_bundles_w8178629_diagnostic_entry as ServiceModeBundle,
   whirlpool_connected_smart_gen3_bundles_w10785366a_dishwasher_service_diagnostic_cycle as ServiceModeBundle,
   whirlpool_connected_smart_gen3_bundles_w10785366a_fridge_service_mode_entry as ServiceModeBundle,
@@ -668,6 +969,7 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_dishwasher_ada_bundles_w11187658_service_mode_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_diagnostic_history_entry as ServiceModeBundle,
   whirlpool_duet_sport_bundles_w8178558_manual_diagnostic_test as ServiceModeBundle,
+  whirlpool_duet_sport_bundles_w8178558_manual_door_unlock as ServiceModeBundle,
   whirlpool_duet_sport_dryer_bundles_w8178559_diagnostic_entry as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_component_activation_dry_blower as ServiceModeBundle,
   whirlpool_fl_dd_bundles_w11169652_component_activation_vent_fan as ServiceModeBundle,
@@ -684,6 +986,9 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_ka_french_door_bundles_w11509412_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_mvw6200_bundles_w11416395_service_test_mode as ServiceModeBundle,
+  whirlpool_sxs_w11296289_bundles_w11296289_athena_service_entry as ServiceModeBundle,
+  whirlpool_sxs_w11296289_bundles_w11296289_theseus_service_entry as ServiceModeBundle,
+  whirlpool_theseus_cdfd_bundles_w11803249_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w10864849_service_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_bundles_w11697231_manual_test_mode as ServiceModeBundle,
@@ -694,6 +999,8 @@ export const GENERATED_SERVICE_MODE_BUNDLES: ServiceModeBundle[] = [
   whirlpool_tl_dd_5100_bundles_w11416787_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_tl_dd_6157_bundles_w11455152_automatic_test_mode as ServiceModeBundle,
   whirlpool_tl_dd_6157_bundles_w11455152_service_diagnostic_entry as ServiceModeBundle,
+  whirlpool_tl_psc_washer_bundles_w11428632_automatic_test_mode as ServiceModeBundle,
+  whirlpool_tl_psc_washer_bundles_w11428632_service_diagnostic_entry as ServiceModeBundle,
   whirlpool_wrt311_adc_bundles_w10674984_adc_defrost_test_entry as ServiceModeBundle,
 ];
 
@@ -761,6 +1068,22 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   lg_dishwasher_ldt7808_ldt7808_thermistor as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_vario_valve as ServiceProcedureSeed,
   lg_dishwasher_ldt7808_ldt7808_wash_motor as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_bake_element as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_broil_element as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_convection_element as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_convection_motor as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_cooktop_single as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_door_latch as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_door_switch as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_dual_rf_element as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_ignition_switch as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_no_power as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_oven_gas_valve as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_oven_igniter as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_oven_lamp as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_oven_sensor as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_warming_drawer as ServiceProcedureSeed,
+  lg_freestanding_range_lg_range_warming_zone as ServiceProcedureSeed,
   lg_lrmvs_lglrmvs_condenser_fan as ServiceProcedureSeed,
   lg_lrmvs_lglrmvs_convert_sensor as ServiceProcedureSeed,
   lg_lrmvs_lglrmvs_display_communication as ServiceProcedureSeed,
@@ -808,6 +1131,36 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   midea_uz21_mideauz21_fz_defrost_sensor as ServiceProcedureSeed,
   midea_uz21_mideauz21_fz_temp_sensor as ServiceProcedureSeed,
   midea_uz21_mideauz21_high_temp_alarm as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_circulation_motor as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_communication as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_dispenser as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_distributor as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_door_switch as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_drain_pump as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_dry_system as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_fill_valve as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_heater as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_hmi_check as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_leak_sensor as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_overflow as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_power_supply as ServiceProcedureSeed,
+  samsung_dishwasher_samsungdw_thermistor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_circulation_motor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_communication as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_dispenser as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_distributor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_door_switch as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_drain_pump as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_dry_system as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_fill_valve as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_heater as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_hmi_check as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_leak_sensor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_overflow as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_power_supply as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_thermistor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_vane_motor as ServiceProcedureSeed,
+  samsung_dishwasher_m9_samsungdwm9_voltage_abnormal as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_belt_cutoff as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_door_switch as ServiceProcedureSeed,
   samsung_fl_dryer_bb8700_samsungbb8700_dryer_gas_flame_sensor as ServiceProcedureSeed,
@@ -838,6 +1191,19 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fl_washer_bb8700_samsungbb8700_wash_heater as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_wash_thermistor as ServiceProcedureSeed,
   samsung_fl_washer_bb8700_samsungbb8700_water_level_sensor as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_communication as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_door_lock as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_drain_pump as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_hmi_switch as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_inlet_valves as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_mems_sensor as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_motor_circuit as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_overflow as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_power_supply as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_unbalance as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_wash_heater as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_wash_thermistor as ServiceProcedureSeed,
+  samsung_fl_washer_wf6000r_samsungwf6000r_water_level_sensor as ServiceProcedureSeed,
   samsung_flexwash_samsungflexwash_communication as ServiceProcedureSeed,
   samsung_flexwash_samsungflexwash_door_lock as ServiceProcedureSeed,
   samsung_flexwash_samsungflexwash_drain_pump as ServiceProcedureSeed,
@@ -882,6 +1248,67 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_fridge_bespoke_samsungbespoke_ice_room_heater as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_main_inverter_comm as ServiceProcedureSeed,
   samsung_fridge_bespoke_samsungbespoke_main_panel_comm as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ambient_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_autofill_overflow as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_compressor_inverter as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_convertible_fan as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_damper_heater as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_dispenser_panel_comm as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_flex_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_freezer_defrost_heater as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_freezer_defrost_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_freezer_fan as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_freezer_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_fridge_defrost_heater as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_fridge_defrost_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_fridge_fan as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_fridge_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_humidity_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_duct_heater as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_maker_function as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_maker_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_room_fan as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_room_frozen_prep as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_room_frozen_service as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_room_heater as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_ice_room_sensor as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_main_inverter_comm as ServiceProcedureSeed,
+  samsung_fridge_rf28_samsungrf28_main_panel_comm as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_auto_open_door as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_communication as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_compressor as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_door_lock as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_drain_pump as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_dry_heater as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_filter_check as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_foam_detection as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_heat_pump_thermistors as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_hmi_check as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_inlet_valves as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_leak_check as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_mems_sensor as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_motor_circuit as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_overflow as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_power_supply as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_system_fault as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_unbalance as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_wash_heater as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_wash_thermistor as ServiceProcedureSeed,
+  samsung_laundry_combo_samsungwd53_water_level_sensor as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_door_interlock as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_humidity_sensor as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_hv_capacitor as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_hv_diode as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_hv_transformer as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_keypad_touch as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_line_power as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_magnetron as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_no_heat as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_pcb_comm as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_temp_sensor as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_thermal_cutout as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_turntable as ServiceProcedureSeed,
+  samsung_microwave_otr_samsungotrmw_vent_motor as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_bake_element as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_bake_ignitor as ServiceProcedureSeed,
   samsung_range_nx60_samsungnx60_broil_element as ServiceProcedureSeed,
@@ -914,6 +1341,34 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_sxs_samsungrf260b_option_error as ServiceProcedureSeed,
   samsung_sxs_samsungrf260b_panel_communication as ServiceProcedureSeed,
   samsung_sxs_samsungrf260b_pantry_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_ambient_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_c_fan as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_damper_heater as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_dispenser_communication as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_f_def_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_f_defrost_heater as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_f_fan as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_f_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_humidity_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_ice_maker_function as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_ice_maker_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_ice_pipe_heater as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_inverter_communication as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_io_expander_communication as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_panel_communication as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_r_sensor as ServiceProcedureSeed,
+  samsung_sxs_samsungrs28_wifi_communication as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_belt_cutoff as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_door_switch as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_gas_flame_sensor as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_gas_ignitor as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_gas_valve as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_heater_electric as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_hmi as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_motor_circuit as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_power as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_thermal_cutoff as ServiceProcedureSeed,
+  samsung_tl_dryer_cg71_samsungtlcg71d_thermistor as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_belt_cutoff as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_door_switch as ServiceProcedureSeed,
   samsung_tl_dryer_dv50_samsungtldv50_gas_flame_sensor as ServiceProcedureSeed,
@@ -940,6 +1395,35 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   samsung_tl_washer_a50_samsungtla50_wash_heater as ServiceProcedureSeed,
   samsung_tl_washer_a50_samsungtla50_wash_thermistor as ServiceProcedureSeed,
   samsung_tl_washer_a50_samsungtla50_water_level_sensor as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_clutch as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_communication as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_detergent_drawer as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_door_lock as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_drain_pump as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_hmi_check as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_inlet_valves as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_leak_check as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_mems_sensor as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_motor_circuit as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_overflow as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_power_supply as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_unbalance as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_wash_heater as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_wash_thermistor as ServiceProcedureSeed,
+  samsung_tl_washer_cg71_samsungtlcg71_water_level_sensor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_01_rc_thermistor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_03_fc_thermistor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_05_fc_evap_thermistor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_07_im_tray_thermistor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_10_rh_sensor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_13_fc_ice_maker as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_14_water_valve as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_23_compressor as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_25_damper as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_27_fc_fan as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_28_condenser_fan as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_38_defrost as ServiceProcedureSeed,
+  whirlpool_acu_fd_inverter_w11819775_test_40_mullion_heater as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_acu_power as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_door_switch as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11416805_drum_light as ServiceProcedureSeed,
@@ -966,6 +1450,20 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_acu_tl_dryer_w11798430_thermal_cutoff as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_thermal_fuse as ServiceProcedureSeed,
   whirlpool_acu_tl_dryer_w11798430_thermistors as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_01_rc_thermistor as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_02_fc_thermistor as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_05_pantry_thermistor as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_120_121_im_harvest as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_14_ice_box_thermistor as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_40_compressor_sealed_system as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_42_pantry_baffle as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_56_fc_fan as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_57_rc_fan as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_58_condenser_fan as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_59_ice_box_fan as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_89_defrost_heater as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_96_water_valve as ServiceProcedureSeed,
+  whirlpool_bella_french_door_w10901168_test_97_98_im_water_fill as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_button_indicator as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_ccu_power as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w10680150_door_switch as ServiceProcedureSeed,
@@ -999,6 +1497,21 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_ccu_dryer_w11169659_drum_led as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w11169659_heater_electric as ServiceProcedureSeed,
   whirlpool_ccu_dryer_w11169659_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_button_indicator as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_ccu_power as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_door_switch as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_drum_light as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_dryness_adjust as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_gas_valve as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_heater_electric as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_heater_gas as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_moisture_sensor as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_motor_circuit as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_myst_valve as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_supply_connections as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_thermal_cutoff as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_thermal_fuse as ServiceProcedureSeed,
+  whirlpool_ccu_tl_dryer_w10410465_thermistors as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_door_switch as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_drive_motor as ServiceProcedureSeed,
   whirlpool_centennial_dryer_w8178629_electric_heater as ServiceProcedureSeed,
@@ -1159,6 +1672,32 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_mvw6200_w11416395_test_06_water_level as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_07_drain_pump as ServiceProcedureSeed,
   whirlpool_mvw6200_w11416395_test_08_lid_lock as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_athena_fail_display as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_01_fc_thermistor as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_03_rc_thermistor as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_05_defrost_thermistor as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_07_compressor_cond_fan as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_09_damper_open as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_11_damper_heater as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_13_defrost_heater as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_15_evap_fan as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_19_water_valve as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_21_rc_door_switch as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_23_fc_door_switch as ServiceProcedureSeed,
+  whirlpool_sxs_w11296289_w11296289_test_33_im_tray_thermistor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_10_fc_evap_thermistor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_111_fc_evap_fan as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_113_condenser_fan as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_12_fc_thermistor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_13_rc_thermistor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_13_water_valve as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_131_defrost as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_15_heaters as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_17_pantry_thermistor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_181_fc_ice_maker as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_29_rh_sensor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_72_compressor as ServiceProcedureSeed,
+  whirlpool_theseus_cdfd_w11803249_test_80_rc_damper as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_01_acu_power as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_02_valves as ServiceProcedureSeed,
   whirlpool_tl_dd_w10864849_test_03_drive_system as ServiceProcedureSeed,
@@ -1212,6 +1751,15 @@ export const GENERATED_PROCEDURE_SEEDS: ServiceProcedureSeed[] = [
   whirlpool_tl_dd_6157_w11455152_test_05_water_level as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_06_drain_pump as ServiceProcedureSeed,
   whirlpool_tl_dd_6157_w11455152_test_07_lid_lock as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_01_acu_power as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_02_valves as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_03_drive_system as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_03a_shifter as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_03b_motor as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_04_hmi as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_05_water_level as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_06_drain_pump as ServiceProcedureSeed,
+  whirlpool_tl_psc_washer_w11428632_test_07_lid_lock as ServiceProcedureSeed,
   whirlpool_wrt311_adc_w10674984_adc_cooling_voltage as ServiceProcedureSeed,
   whirlpool_wrt311_adc_w10674984_adc_heater_voltage as ServiceProcedureSeed,
   whirlpool_wrt311_adc_w10674984_defrost_bimetal as ServiceProcedureSeed,

@@ -1,0 +1,48 @@
+{
+  "id": "samsungrs28-led-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_sxs",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "title": "Samsung RS28 \u2014 LED test mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Enter test mode for manual operation and forced defrost (\u00a74-2-8).",
+  "tags": [
+    "service_diagnostic",
+    "defrost",
+    "load_test"
+  ],
+  "entryStepId": "tm_enter",
+  "source": {
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "pages": [
+      60,
+      62
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter test mode",
+      "body": "Press Fridge + Power Cool simultaneously 6 s \u2014 display blinks 0.5 s. Release and press Power Cool to enter test mode.",
+      "sourceExcerpt": "Press Fridge + Power Cool simultaneously 6 s \u2014 display blinks 0.5 s. Release and press Power Cool to enter test mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_cycle"
+    },
+    {
+      "id": "tm_cycle",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test mode sequence",
+      "body": "Within 15 s press any key: FF (manual op) \u2192 Fd (forced F defrost) \u2192 cancel (display off). Power cycle cancels.",
+      "sourceExcerpt": "Within 15 s press any key: FF (manual op) \u2192 Fd (forced F defrost) \u2192 cancel (display off). Power cycle cancels.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

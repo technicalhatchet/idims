@@ -60,6 +60,14 @@
       ]
     },
     {
+      "id": "control_board",
+      "label": "Main Control / CCU",
+      "dmaTags": [
+        "control_board",
+        "error_code"
+      ]
+    },
+    {
       "id": "water_level",
       "label": "Water Level / Pressure Switch",
       "dmaTags": [
@@ -156,6 +164,15 @@
       "categoryId": "control_hmi",
       "dmaTags": [
         "hmi_check",
+        "error_code"
+      ]
+    },
+    {
+      "id": "control_board",
+      "label": "Main control board (CCU)",
+      "categoryId": "control_board",
+      "dmaTags": [
+        "control_board",
         "error_code"
       ]
     },
@@ -948,7 +965,7 @@
       "recommendStepKey": "electrical"
     },
     {
-      "id": "w_ms_lid_lock_good_harness",
+      "id": "w_ms_lid_lock_good_ccu",
       "when": [
         {
           "type": "chip",
@@ -960,13 +977,13 @@
           "equals": "good"
         }
       ],
-      "target": "control_hmi",
+      "target": "control_board",
       "targetLayer": "category",
       "effect": {
         "effect": "increase",
-        "value": 18
+        "value": 14
       },
-      "explanation": "Lock tests good with lock complaint — check harness, door switch, and CCU inputs.",
+      "explanation": "Lock operates but complaint persists — suspect CCU lock output or intermittent harness (not HMI).",
       "recommendStepKey": "electrical",
       "dmaTags": [
         "door_lock_check",
@@ -1000,34 +1017,6 @@
       ]
     },
     {
-      "id": "w_ms_duet_door_lock_normal_harness",
-      "when": [
-        {
-          "type": "chip",
-          "id": "lid_lock"
-        },
-        {
-          "type": "measurement",
-          "knowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
-          "statusIn": [
-            "normal"
-          ]
-        }
-      ],
-      "target": "control_hmi",
-      "targetLayer": "category",
-      "effect": {
-        "effect": "increase",
-        "value": 16
-      },
-      "explanation": "Lock solenoid ohms good — suspect harness or CCU door-lock circuit.",
-      "recommendStepKey": "electrical",
-      "dmaTags": [
-        "control_board",
-        "door_lock_check"
-      ]
-    },
-    {
       "id": "w_ms_lid_lock_bad_ohms_normal_harness",
       "when": [
         {
@@ -1043,13 +1032,13 @@
           ]
         }
       ],
-      "target": "control_hmi",
+      "target": "control_board",
       "targetLayer": "category",
       "effect": {
         "effect": "increase",
         "value": 18
       },
-      "explanation": "Lock symptom but switch ohms normal — lock assembly cleared; check harness and CCU inputs.",
+      "explanation": "Lock symptom but switch ohms normal — lock assembly cleared; check harness and CCU lock output.",
       "recommendStepKey": "electrical",
       "dmaTags": [
         "control_board",
@@ -1072,14 +1061,75 @@
           ]
         }
       ],
-      "target": "control_hmi",
+      "target": "control_board",
       "targetLayer": "category",
       "effect": {
         "effect": "increase",
         "value": 20
       },
-      "explanation": "Lock symptom but solenoid ohms normal — assembly unlikely; follow harness and CCU door-lock circuit.",
+      "explanation": "Lock symptom but solenoid ohms normal at CCU — assembly unlikely; isolate harness or CCU lock output.",
       "recommendStepKey": "electrical",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "confirm_control_board_ccu_door_lock_failed",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "CCU door-lock output failed — lock circuit good at assembly; no energize in manual diagnostic test.",
+      "recommendStepKey": "diagnosis",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "cat_up_control_board_ccu_door_lock_failed",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "category",
+      "effect": {
+        "effect": "increase",
+        "value": 42
+      },
+      "explanation": "CCU door-lock output failed — main control suspect (not HMI).",
+      "recommendStepKey": "diagnosis",
+      "dmaTags": [
+        "control_board",
+        "door_lock_check"
+      ]
+    },
+    {
+      "id": "eliminate_control_board_ccu_door_lock_ok",
+      "when": [
+        {
+          "type": "chip",
+          "id": "lid_lock"
+        }
+      ],
+      "target": "control_board",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "CCU door-lock output verified in manual diagnostic test.",
+      "recommendStepKey": "mechanical",
       "dmaTags": [
         "control_board",
         "door_lock_check"

@@ -1,0 +1,113 @@
+{
+  "id": "w11296289-test-23-fc-door-switch",
+  "version": "1.0.0",
+  "title": "Service step 23: FC door switch",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "door_switch"
+  ],
+  "tags": [
+    "door_switch_check",
+    "lighting",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "23",
+    "oemTestTitle": "FC Door Switch Input",
+    "pages": [
+      27,
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_23"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_23"
+    },
+    {
+      "id": "navigate_step_23",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 23",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 23 (FC door switch). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 23 \u2014 FC door switch",
+      "requiresInput": false,
+      "defaultNextStepId": "fc_door_test"
+    },
+    {
+      "id": "fc_door_test",
+      "order": 4,
+      "type": "visual_check",
+      "title": "FC compartment lights",
+      "body": "At step 23: Door open = FC lights ON; Door closed = FC lights OFF. THESEUS P3-5 FC door switch.",
+      "sourceExcerpt": "At step 23: Door open = FC lights ON; Door closed = FC lights OFF. THESEUS P3-5 FC door switch.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fc_door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fc_door_verified"
+        },
+        {
+          "id": "fc_door_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fc_door_fail_out",
+          "terminal": true,
+          "oemOutcome": "FC lights do not respond \u2014 check P3-5 door switch."
+        }
+      ]
+    },
+    {
+      "id": "fc_door_fail_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace FC door switch",
+      "oemOutcome": "Replace FC door switch or repair harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "fc_door_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "FC door switch verified",
+      "oemOutcome": "FC door switch operates in step 23.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

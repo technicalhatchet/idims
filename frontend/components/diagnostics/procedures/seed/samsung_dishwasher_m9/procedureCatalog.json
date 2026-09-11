@@ -1,0 +1,197 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "platformId": "samsung_dishwasher_m9",
+  "templateId": "dishwasher",
+  "label": "Samsung premium dishwasher DW80M9 (DW80M9960, DW80M9550, DW80M9990)",
+  "notes": "\u00a74-2 Service Inspection Mode + \u00a74-3 check-code troubleshooting. BLDC wash/drain via inverter PBA.",
+  "plannedProcedures": [
+    {
+      "id": "samsungdwm9-power-supply",
+      "oemSection": "4-3",
+      "title": "No Power & Power Relay Check",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungdwm9-thermistor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Water Thermistor (tC)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9ThermistorOhms"
+      ],
+      "relatedCodes": [
+        "tC",
+        "HC",
+        "HC1"
+      ]
+    },
+    {
+      "id": "samsungdwm9-heater",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Heater Operation (HC / HC1)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9HeaterOhms"
+      ],
+      "relatedCodes": [
+        "HC",
+        "HC1"
+      ]
+    },
+    {
+      "id": "samsungdwm9-circulation-motor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Circulation Pump (3C)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9CirculationMotorOhms"
+      ],
+      "relatedCodes": [
+        "3C",
+        "PC"
+      ]
+    },
+    {
+      "id": "samsungdwm9-door-switch",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Door Sensing Switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "dC",
+        "dC1"
+      ]
+    },
+    {
+      "id": "samsungdwm9-fill-valve",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9FillValveOhms"
+      ],
+      "relatedCodes": [
+        "4C",
+        "4C5",
+        "4E"
+      ]
+    },
+    {
+      "id": "samsungdwm9-drain-pump",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Drain Pump (5C)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9DrainPumpOhms"
+      ],
+      "relatedCodes": [
+        "5C"
+      ]
+    },
+    {
+      "id": "samsungdwm9-dispenser",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Detergent Dispenser",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9DispenserOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungdwm9-dry-system",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9DryFanOhms",
+        "samsungDishwasherM9ThermalActuatorOhms"
+      ],
+      "relatedCodes": [
+        "FC",
+        "dC3"
+      ]
+    },
+    {
+      "id": "samsungdwm9-leak-sensor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Leak Sensor (LC)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "LC"
+      ]
+    },
+    {
+      "id": "samsungdwm9-overflow",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Overflow Sensor (OC)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "OC"
+      ]
+    },
+    {
+      "id": "samsungdwm9-distributor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Distributor Motor (PC)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9DistributorMotorOhms"
+      ],
+      "relatedCodes": [
+        "PC"
+      ]
+    },
+    {
+      "id": "samsungdwm9-vane-motor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Lower Vane Motor (7C)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherM9VaneMotorOhms"
+      ],
+      "relatedCodes": [
+        "7C"
+      ]
+    },
+    {
+      "id": "samsungdwm9-communication",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: PBA Communication (AC / AC6)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "AC",
+        "AC6"
+      ]
+    },
+    {
+      "id": "samsungdwm9-hmi-check",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "bC2",
+        "bC3",
+        "bE-2",
+        "bE-3"
+      ]
+    },
+    {
+      "id": "samsungdwm9-voltage-abnormal",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "9C1",
+        "9C2"
+      ]
+    }
+  ]
+}

@@ -1,4 +1,9 @@
 import type { ComponentEvidenceScore, DiagnosticIntelligenceResult } from './evidenceTypes';
+import type { ProcedureRunState } from '../procedures/types';
+
+const COMPLAINT_ONLY_FIELD_PREFIXES = [
+  'customer_complaint.',
+];
 
 export interface EvidenceShareItem {
   id: string;
@@ -227,6 +232,49 @@ const DIY_STRENGTH_WORD: Record<DiagnosisConfidenceTier | 'confirmed', string> =
 /**
  * Compact DIY mobile card — uses existing computeDiagnosisConfidence percent (not evidence share %).
  */
+function hasUserGatheredEvidence(
+  fields: Record<string, unknown> = {},
+): boolean {
+  return Object.entries(fields).some(([key, value]) => {
+    if (COMPLAINT_ONLY_FIELD_PREFIXES.some((prefix) => key.startsWith(prefix))) {
+      return false;
+    }
+    if (value === undefined || value === null || value === '' || value === false) {
+      return false;
+    }
+    return true;
+  });
+}
+
+/**
+ * Leading hypothesis card waits for real diagnostic input — not complaint chips alone.
+ */
+export function shouldShowLeadingHypothesis(
+  intelligence: DiagnosticIntelligenceResult | null | undefined,
+  options: {
+    visitedStepKeys?: string[];
+    procedureRuns?: Record<string, ProcedureRunState>;
+    fields?: Record<string, unknown>;
+    currentStepKey?: string | null;
+  } = {},
+): boolean {
+  if (!intelligence?.topCategories?.some((category) => category.evidence > 0)) {
+    return false;
+  }
+
+  const currentStepKey = options.currentStepKey;
+  if (!currentStepKey || currentStepKey === 'complaint') {
+    return false;
+  }
+
+  const visited = options.visitedStepKeys || [];
+  const beyondComplaint = visited.some((key) => key !== 'complaint');
+  const procedureRuns = options.procedureRuns || {};
+  const hasProcedureActivity = Object.values(procedureRuns).some((run) => Boolean(run));
+
+  return beyondComplaint || hasProcedureActivity || hasUserGatheredEvidence(options.fields);
+}
+
 export function formatDiyLeadCard(
   intelligence: DiagnosticIntelligenceResult | null | undefined,
 ): DiyLeadCardPresentation | null {

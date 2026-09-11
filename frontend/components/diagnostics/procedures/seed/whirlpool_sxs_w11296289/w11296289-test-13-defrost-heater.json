@@ -1,0 +1,317 @@
+{
+  "id": "w11296289-test-13-defrost-heater",
+  "version": "1.0.0",
+  "title": "Service step 13: Defrost heater",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "defrost_heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "13",
+    "oemTestTitle": "Defrost Heater ON",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_13"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_13"
+    },
+    {
+      "id": "navigate_step_13",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 13",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 13 (Defrost heater). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 13 \u2014 Defrost heater",
+      "requiresInput": false,
+      "defaultNextStepId": "activate_defrost"
+    },
+    {
+      "id": "activate_defrost",
+      "order": 4,
+      "type": "instruction",
+      "title": "Energize defrost heater",
+      "body": "At step 13, defrost heater turns on. Monitor heat at evaporator heater.",
+      "sourceExcerpt": "At step 13, defrost heater turns on. Monitor heat at evaporator heater.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_heat"
+    },
+    {
+      "id": "heater_heat",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Defrost heater heat",
+      "body": "Does defrost heater produce heat at evaporator?",
+      "sourceExcerpt": "Does defrost heater produce heat at evaporator?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_off_heater_ohms"
+        },
+        {
+          "id": "no_heat",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_off_heater_ohms",
+          "terminal": true,
+          "oemOutcome": "No heat in step 13 \u2014 bench test heater ohms and ACU output.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power_off_heater_ohms",
+      "order": 6,
+      "type": "instruction",
+      "title": "Disconnect power for ohms",
+      "body": "Unplug refrigerator for resistance checks.",
+      "sourceExcerpt": "Unplug refrigerator for resistance checks.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Defrost heater resistance",
+      "body": "550\u2013650 \u03a9 @ 115 VAC. THESEUS P2-7 or ATHENA JP1-2 when defrosting outputs 120 VAC.",
+      "sourceExcerpt": "550\u2013650 \u03a9 @ 115 VAC. THESEUS P2-7 or ATHENA JP1-2 when defrosting outputs 120 VAC.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289DefrostHeaterOhms",
+      "testPoint": {
+        "connector": "defrost_heater",
+        "pins": "heater terminals",
+        "label": "Defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_007_heavy_frost_heater_open"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "550\u2013650 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        }
+      ]
+    },
+    {
+      "id": "heater_voltage",
+      "order": 8,
+      "type": "measurement",
+      "title": "Defrost heater voltage (optional)",
+      "body": "At step 13 with power on: THESEUS P2-7 \u2194 P1-2 or ATHENA JP1-2 \u2194 JP1-6 \u2014 120 VAC.",
+      "sourceExcerpt": "At step 13 with power on: THESEUS P2-7 \u2194 P1-2 or ATHENA JP1-2 \u2194 JP1-6 \u2014 120 VAC.",
+      "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+      "testPoint": {
+        "connector": "P2 / JP1",
+        "pins": "P2-7\u2194P1-2 / JP1-2\u2194JP1-6",
+        "label": "Defrost heater voltage (optional)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_board_defrost",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "hv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_board_defrost",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "hv_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_board_defrost",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "control_board",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        },
+        {
+          "id": "hv_pass",
+          "label": "108\u2013132 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11296289-theseus-voltage-test-points",
+          "caption": "THESEUS ACU voltage test points \u2014 P1\u2013P11 (\u00a73-3)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-theseus-voltage-test-points.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-b",
+          "caption": "ATHENA voltage test points \u2014 diagram B (\u00a73-5)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-b.png"
+        },
+        {
+          "id": "w11296289-athena-voltage-test-points-c",
+          "caption": "ATHENA voltage test points \u2014 diagram C (\u00a73-7)",
+          "assetPath": "/images/procedures/whirlpool_sxs_w11296289/w11296289-athena-voltage-test-points-c.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace evaporator heater when open or out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_board_defrost",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace main control",
+      "oemOutcome": "Replace ACU when heater good but no voltage at step 13.",
+      "requiresInput": false
+    },
+    {
+      "id": "defrost_ok",
+      "order": 11,
+      "type": "outcome",
+      "title": "Defrost circuit verified",
+      "oemOutcome": "Service step 13 and heater ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

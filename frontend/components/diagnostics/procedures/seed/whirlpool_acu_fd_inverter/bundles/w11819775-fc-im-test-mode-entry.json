@@ -1,0 +1,36 @@
+{
+  "id": "w11819775-fc-im-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "manualId": "W11819775",
+  "title": "W11819775 \u2014 FC ice maker test mode entry",
+  "modeKind": "component_activation",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Lock + Freezer/Mode with both doors open \u2014 harvest and fill test cycle.",
+  "tags": [
+    "ice_maker",
+    "service_test"
+  ],
+  "entryStepId": "im_enter",
+  "source": {
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "pages": [
+      62
+    ]
+  },
+  "steps": [
+    {
+      "id": "im_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter FC IM test mode",
+      "body": "Empty tray. Lock 3 sec. RC+FC doors open. Freezer + Mode 3 sec \u2014 Freezer Ice Off blinks.",
+      "sourceExcerpt": "Empty tray. Lock 3 sec. RC+FC doors open. Freezer + Mode 3 sec \u2014 Freezer Ice Off blinks.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

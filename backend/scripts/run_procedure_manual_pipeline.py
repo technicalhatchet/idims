@@ -71,6 +71,7 @@ def main() -> int:
         run_script(pipeline.get("generate"), "Generate procedure seeds")
 
     run_script(pipeline.get("attachDiagrams"), "Attach diagram assets")
+    run_script(pipeline.get("attachAccessDiagrams"), "Attach access diagram assets")
     run_script(pipeline.get("attachDiagnosticEffects"), "Attach diagnostic effects")
     run_script(pipeline.get("attachServiceModes"), "Attach service modes")
 

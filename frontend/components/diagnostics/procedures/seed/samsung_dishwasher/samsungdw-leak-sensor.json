@@ -1,0 +1,95 @@
+{
+  "id": "samsungdw-leak-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Leak Sensor (LC)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "leak_sensor"
+  ],
+  "tags": [
+    "LC",
+    "leak_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Leakage Check",
+    "pages": [
+      47,
+      48
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "leak_visual"
+    },
+    {
+      "id": "leak_visual",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect for water leakage",
+      "body": "Check shutter and base for water traces. Normal: no leakage trace.",
+      "sourceExcerpt": "Check shutter and base for water traces. Normal: no leakage trace.",
+      "requiresInput": false,
+      "defaultNextStepId": "leak_sensor_check"
+    },
+    {
+      "id": "leak_sensor_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Leak sensor reads >3 V after dry?",
+      "body": "CN505 pin 3 leakage input: LC when \u22643 V for 3 s. After 3 min drain, sensor should read >3 V if dry.",
+      "sourceExcerpt": "CN505 pin 3 leakage input: LC when \u22643 V for 3 s. After 3 min drain, sensor should read >3 V if dry.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "find_leak_yes",
+          "label": "Sensor dry / >3 V",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "find_leak"
+        },
+        {
+          "id": "find_leak_no",
+          "label": "Still \u22643 V wet",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "leak_ok"
+        }
+      ]
+    },
+    {
+      "id": "find_leak",
+      "order": 4,
+      "type": "instruction",
+      "title": "Locate and repair leak",
+      "body": "Find leak at hose, door, sump seals, heater, or pump joints. Repair and dry base.",
+      "sourceExcerpt": "Find leak at hose, door, sump seals, heater, or pump joints. Repair and dry base.",
+      "requiresInput": false,
+      "defaultNextStepId": "leak_ok"
+    },
+    {
+      "id": "leak_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Leak resolved",
+      "body": "No active leak; sensor dry. Replace main PBA only if leak repaired but LC persists.",
+      "oemOutcome": "No active leak; sensor dry. Replace main PBA only if leak repaired but LC persists.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "id": "samsungrs28-engineer-test-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_sxs",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "title": "Samsung RS28 \u2014 Engineer mode / Force Run entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "lcd_in_door"
+  ],
+  "description": "Enter Fridge Function Test for Force Run and Force Defrost (\u00a74-2-1).",
+  "tags": [
+    "service_diagnostic",
+    "defrost",
+    "load_test"
+  ],
+  "entryStepId": "eng_enter",
+  "source": {
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "pages": [
+      48,
+      51
+    ]
+  },
+  "steps": [
+    {
+      "id": "eng_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter engineer mode",
+      "body": "Within 3 s touch A-B-A-B-A-B on display (toast: Engineer mode). Choose Fridge Function Test.",
+      "sourceExcerpt": "Within 3 s touch A-B-A-B-A-B on display (toast: Engineer mode). Choose Fridge Function Test.",
+      "requiresInput": false,
+      "defaultNextStepId": "eng_force_run"
+    },
+    {
+      "id": "eng_force_run",
+      "order": 2,
+      "type": "instruction",
+      "title": "Force Run / Force Defrost",
+      "body": "Force Run 1/2/3 (FF 1/2/A) runs compressor + F-fan 24 h. Force Defrost (Fd) defrosts F+R compartments. TEST CANCEL or power cycle exits.",
+      "sourceExcerpt": "Force Run 1/2/3 (FF 1/2/A) runs compressor + F-fan 24 h. Force Defrost (Fd) defrosts F+R compartments. TEST CANCEL or power cycle exits.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

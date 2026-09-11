@@ -1,0 +1,175 @@
+{
+  "id": "w11296289-athena-fail-display",
+  "version": "1.0.0",
+  "title": "Athena service mode: Display fail message decode",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "control_board",
+    "thermistor"
+  ],
+  "tags": [
+    "hmi_check",
+    "sensor_fault",
+    "control_board",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "6",
+    "oemTestTitle": "Display Fail Message State",
+    "pages": [
+      26,
+      27
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_athena_service"
+    },
+    {
+      "id": "enter_athena_service",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Athena service mode",
+      "body": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 (3 s between presses) to step 6.",
+      "sourceExcerpt": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 (3 s between presses) to step 6.",
+      "requiresInput": false,
+      "defaultNextStepId": "read_fail_leds"
+    },
+    {
+      "id": "read_fail_leds",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Fail LED pattern at step 6",
+      "body": "Which fail pattern is displayed? (D9/D8/D7/D6) All blank = drivers and sensors OK. D6 only = main board driver; D7 = RC sensor; D8 = defrost sensor; D7+D8 = both sensors; D6+D7 or D6+D8 = board + sensor; all on = multiple failures.",
+      "sourceExcerpt": "Which fail pattern is displayed? (D9/D8/D7/D6) All blank = drivers and sensors OK. D6 only = main board driver; D7 = RC sensor; D8 = defrost sensor; D7+D8 = both sensors; D6+D7 or D6+D8 = board + sensor; all on = multiple failures.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "all_blank",
+          "label": "All blank \u2014 no fault",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "athena_ok"
+        },
+        {
+          "id": "rc_sensor",
+          "label": "D7 \u2014 RC sensor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_rc_sensor"
+        },
+        {
+          "id": "def_sensor",
+          "label": "D8 \u2014 defrost sensor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_def_sensor"
+        },
+        {
+          "id": "board_fault",
+          "label": "D6 \u2014 main board driver",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_board"
+        },
+        {
+          "id": "multi",
+          "label": "Multiple LEDs / combined",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_multi"
+        }
+      ]
+    },
+    {
+      "id": "route_rc_sensor",
+      "order": 4,
+      "type": "instruction",
+      "title": "RC sensor follow-up",
+      "body": "Run w11296289-test-03-rc-thermistor or measure ATHENA J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C.",
+      "sourceExcerpt": "Run w11296289-test-03-rc-thermistor or measure ATHENA J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C.",
+      "requiresInput": false,
+      "defaultNextStepId": "athena_sensor_out"
+    },
+    {
+      "id": "route_def_sensor",
+      "order": 5,
+      "type": "instruction",
+      "title": "Defrost sensor follow-up",
+      "body": "Run w11296289-test-05-defrost-thermistor or measure evaporator thermistor circuit.",
+      "sourceExcerpt": "Run w11296289-test-05-defrost-thermistor or measure evaporator thermistor circuit.",
+      "requiresInput": false,
+      "defaultNextStepId": "athena_sensor_out"
+    },
+    {
+      "id": "route_board",
+      "order": 6,
+      "type": "instruction",
+      "title": "Main board driver fault",
+      "body": "Verify heater and compressor outputs at JP1 before replacing ATHENA control.",
+      "sourceExcerpt": "Verify heater and compressor outputs at JP1 before replacing ATHENA control.",
+      "requiresInput": false,
+      "defaultNextStepId": "athena_board_out"
+    },
+    {
+      "id": "route_multi",
+      "order": 7,
+      "type": "instruction",
+      "title": "Multiple failures",
+      "body": "Address sensor faults first, then retest step 6. Replace board if sensors verified good.",
+      "sourceExcerpt": "Address sensor faults first, then retest step 6. Replace board if sensors verified good.",
+      "requiresInput": false,
+      "defaultNextStepId": "athena_board_out"
+    },
+    {
+      "id": "athena_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Athena diagnostics clear",
+      "oemOutcome": "No stored fail pattern at step 6.",
+      "requiresInput": false
+    },
+    {
+      "id": "athena_sensor_out",
+      "order": 9,
+      "type": "outcome",
+      "title": "Service sensor circuit",
+      "oemOutcome": "Replace thermistor or harness per fail LED.",
+      "requiresInput": false
+    },
+    {
+      "id": "athena_board_out",
+      "order": 10,
+      "type": "outcome",
+      "title": "Service main control",
+      "oemOutcome": "Replace ATHENA ACU when outputs failed with good loads.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-athena-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "enter_athena_service"
+    }
+  ]
+}

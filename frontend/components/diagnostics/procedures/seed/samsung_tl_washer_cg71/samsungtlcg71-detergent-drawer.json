@@ -1,0 +1,84 @@
+{
+  "id": "samsungtlcg71-detergent-drawer",
+  "version": "1.0.0",
+  "title": "\u00a75-2: Detergent drawer (SDC)",
+  "platformId": "samsung_tl_washer_cg71",
+  "componentIds": [
+    "dispenser"
+  ],
+  "tags": [
+    "SDC",
+    "dispenser_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-TL-CG71-WASHER",
+    "manualTitle": "Samsung Top-Load Washer CG71 Family (WA7000A) (WA55CG71, WA55CG75, WA54CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl new style-extracted.txt",
+    "verifiedAt": "2026-09-09",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-2",
+    "oemTestTitle": "Detergent Drawer SDC",
+    "pages": [
+      32,
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "drawer_closed"
+    },
+    {
+      "id": "drawer_closed",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Detergent drawer fully closed",
+      "body": "Close the detergent drawer until it clicks. SDC displays when the drawer is not completely closed before start.",
+      "sourceExcerpt": "Close the detergent drawer until it clicks. SDC displays when the drawer is not completely closed before start.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "drawer_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drawer_verified"
+        },
+        {
+          "id": "close_drawer",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_drawer_out",
+          "terminal": true,
+          "oemOutcome": "Close drawer until click and clear detergent buildup in track."
+        }
+      ]
+    },
+    {
+      "id": "close_drawer_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Close detergent drawer",
+      "oemOutcome": "Seat drawer until click; remove debris blocking closure.",
+      "requiresInput": false
+    },
+    {
+      "id": "drawer_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Drawer OK",
+      "oemOutcome": "Detergent drawer closes and latches \u2014 retest cycle.",
+      "requiresInput": false
+    }
+  ]
+}

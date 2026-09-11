@@ -1,0 +1,36 @@
+{
+  "id": "w10901168-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_bella_french_door",
+  "manualId": "W10901168",
+  "title": "W10901168 \u2014 Bella Diagnostics entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Eyebrow UI diagnostics \u2014 Recommended + Drawer hold 5 s.",
+  "tags": [
+    "service_test",
+    "service_diagnostic"
+  ],
+  "entryStepId": "enter",
+  "source": {
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "pages": [
+      19
+    ]
+  },
+  "steps": [
+    {
+      "id": "enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Diagnostics",
+      "body": "Hold Recommended + Drawer 5 s (chime, lights out). Up/Down navigate; Icemaker2 select; Fast Cool back; test 00 or 20 min timeout to exit.",
+      "sourceExcerpt": "Hold Recommended + Drawer 5 s (chime, lights out). Up/Down navigate; Icemaker2 select; Fast Cool back; test 00 or 20 min timeout to exit.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

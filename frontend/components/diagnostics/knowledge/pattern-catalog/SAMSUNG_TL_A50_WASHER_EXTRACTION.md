@@ -1,9 +1,9 @@
 # Samsung top-load washer (A50 / WA5000R family) — extraction
 
 **Source:** `backend/docs/manuals/samsung tl washer wa50r5200.pdf`  
-**Also:** `backend/docs/manuals/samsung tl new style.pdf` (same architecture; extracted)  
 **Extracted text:** `backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt`  
-**Scope:** Samsung top-load washers WA50R*, WA51DG*, WA52DG*, WF45A* class  
+**Scope:** Samsung top-load washers WA50R*, WA51D*, WA52D*, WF45A* class  
+**Note:** WA55CG* / WA7000A "new style" → separate platform `samsung_tl_washer_cg71`  
 **Platform:** `samsung_tl_washer_a50`  
 **Status:** Complete — §5 Test Mode, error codes, §5-3 corrective actions with Ω specs  
 **Knowledge:** `measurement-knowledge-batch26.json`

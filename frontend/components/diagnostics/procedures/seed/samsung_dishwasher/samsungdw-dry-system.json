@@ -1,0 +1,329 @@
+{
+  "id": "samsungdw-dry-system",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "fan_motor",
+    "vent"
+  ],
+  "tags": [
+    "FC",
+    "dC3",
+    "dry_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Dry is not satisfied",
+    "pages": [
+      50,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "rinse_aid"
+    },
+    {
+      "id": "rinse_aid",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Rinse aid sufficient?",
+      "body": "Rinse refill LED off; dispenser has rinse aid.",
+      "sourceExcerpt": "Rinse refill LED off; dispenser has rinse aid.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_connector_yes",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_connector"
+        },
+        {
+          "id": "fan_connector_no",
+          "label": "Refill needed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "refill_rinse"
+        }
+      ]
+    },
+    {
+      "id": "refill_rinse",
+      "order": 3,
+      "type": "instruction",
+      "title": "Refill rinse aid",
+      "body": "Fill rinse aid dispenser and retest dry performance.",
+      "sourceExcerpt": "Fill rinse aid dispenser and retest dry performance.",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_connector"
+    },
+    {
+      "id": "fan_connector",
+      "order": 4,
+      "type": "instruction",
+      "title": "Inspect dry fan and actuator",
+      "body": "Reconnect dry fan motor and thermal actuator connectors (CN201/CN302).",
+      "sourceExcerpt": "Reconnect dry fan motor and thermal actuator connectors (CN201/CN302).",
+      "requiresInput": false,
+      "defaultNextStepId": "fan_ohms"
+    },
+    {
+      "id": "fan_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Dry fan motor coil",
+      "body": "Disconnect connector. Normal: approx. 150 \u03a9.",
+      "sourceExcerpt": "Disconnect connector. Normal: approx. 150 \u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherDryFanOhms",
+      "testPoint": {
+        "connector": "Dry fan",
+        "pins": "Coil",
+        "label": "Dry fan motor coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fan_pass",
+          "label": "~150 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "actuator_ohms",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_fan_motor_ol_fan_motor_ok",
+              "componentId": "fan_motor"
+            }
+          ]
+        },
+        {
+          "id": "fan_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_fan_motor_ol_fan_motor_failed",
+              "componentId": "fan_motor"
+            }
+          ]
+        },
+        {
+          "id": "fan_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_fan_motor_ol_fan_motor_failed",
+              "componentId": "fan_motor"
+            }
+          ]
+        },
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_fan_motor_ol_fan_motor_failed",
+              "componentId": "fan_motor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "actuator_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "Thermal actuator",
+      "body": "Disconnect connector. Normal: approx. 1.45 k\u03a9.",
+      "sourceExcerpt": "Disconnect connector. Normal: approx. 1.45 k\u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherThermalActuatorOhms",
+      "testPoint": {
+        "connector": "CN201",
+        "pins": "9",
+        "label": "Thermal actuator"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "act_pass",
+          "label": "~1.45 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dry_smart_install",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_vent_ol_vent_ok",
+              "componentId": "vent"
+            }
+          ]
+        },
+        {
+          "id": "act_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_actuator",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_vent_ol_vent_failed",
+              "componentId": "vent"
+            }
+          ]
+        },
+        {
+          "id": "act_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_actuator",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_vent_ol_vent_failed",
+              "componentId": "vent"
+            }
+          ]
+        },
+        {
+          "id": "act_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_actuator",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_vent_ol_vent_failed",
+              "componentId": "vent"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dry_smart_install",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Fan and auto door in Smart Install step 5?",
+      "body": "Step 5: auto door actuator runs; fan 30 s. FC if fan <3000 RPM; dC3 if door not sensed open.",
+      "sourceExcerpt": "Step 5: auto door actuator runs; fan 30 s. FC if fan <3000 RPM; dC3 if door not sensed open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dry_ok_yes",
+          "label": "Fan and door OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dry_ok"
+        },
+        {
+          "id": "dry_ok_no",
+          "label": "FC / dC3",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_dry"
+        }
+      ]
+    },
+    {
+      "id": "replace_fan",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace dry fan",
+      "body": "Replace dry fan motor assembly.",
+      "oemOutcome": "Replace dry fan motor assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_actuator",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace thermal actuator",
+      "body": "Replace thermal actuator when open.",
+      "oemOutcome": "Replace thermal actuator when open.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_pba_dry",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when 120 V relay drive missing during dry operate.",
+      "oemOutcome": "Replace main PBA when 120 V relay drive missing during dry operate.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 11,
+      "defaultNextStepId": "dry_ok"
+    },
+    {
+      "id": "dry_ok",
+      "order": 12,
+      "type": "outcome",
+      "title": "Dry system OK",
+      "body": "Dry fan and auto door path verified.",
+      "oemOutcome": "Dry fan and auto door path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdw-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "dry_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdw-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "dry_ok"
+    }
+  ]
+}

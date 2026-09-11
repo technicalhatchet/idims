@@ -3,25 +3,25 @@
   "version": "1.0.0",
   "platformId": "whirlpool_duet_sport",
   "manualId": "W8178558",
-  "title": "W8178558 \u2014 Manual Diagnostic Test entry",
+  "title": "W8178558 — Manual Diagnostic Test entry",
   "modeKind": "load_test",
   "uiVariants": [
     "any"
   ],
-  "description": "Enter Manual Diagnostic Test mode and navigate component exercise steps (\u00a76-7).",
+  "description": "Enter Manual Diagnostic Test mode and navigate component exercise steps (§6-7).",
   "tags": [
     "live_test",
     "motor_check",
     "pump_check",
-    "water_valve_check"
+    "water_valve_check",
+    "door_lock_check"
   ],
   "entryStepId": "manual_prep_empty",
   "source": {
     "manualTitle": "Whirlpool Duet Sport Front-Load Washer (Job Aid L-78)",
     "extractedTextFile": "backend/docs/manuals/jobaid-8178558-l-78 whirlpool fl washer 2013 era-extracted.txt",
     "pages": [
-      85,
-      86
+      85
     ]
   },
   "steps": [
@@ -38,11 +38,18 @@
       "id": "manual_touchpad_entry",
       "order": 2,
       "type": "instruction",
-      "title": "Manual test entry \u2014 4 sec \u00d7 4 pattern (\u00a76-7)",
-      "body": "Select any one key (except PAUSE/CANCEL). Press and hold 4 seconds \u2192 release 4 seconds \u2192 press and hold 4 seconds \u2192 release 4 seconds \u2192 press and hold 4 seconds \u2192 release 4 seconds \u2192 press and hold 4 seconds, then release. Program loops continuously; press the same key to advance each step. Press PAUSE/CANCEL to exit. Steps include door lock, fill/valves, dispenser, motor reversing (10 min), drain pump (4 min), and spin ramp.",
-      "sourceExcerpt": "MANUAL DIAGNOSTIC TEST \u2014 Press/hold 4 sec, release 4 sec (four hold cycles).",
+      "title": "Manual test entry — 4 sec × 4 pattern (§6-7)",
+      "body": "Select any one key (except PAUSE/CANCEL). Press and hold 4 seconds → release 4 seconds → press and hold 4 seconds → release 4 seconds → press and hold 4 seconds → release 4 seconds → press and hold 4 seconds, then release.\n\nThe program loops continuously. Press the same key to advance each step. Press PAUSE/CANCEL to exit.\n\nStep sequence (first output is door lock):\n1. Door locks (door lock system)\n2. Main wash fill — both valves\n3. Bleach fill — hot valve only\n4. Fabric softener fill — both valves\n5. Bypass fill — cold valve only\n6. Motor reversing at wash speed (10 min)\n7. Drain pump on (4 min)\n8. Spin ramp to maximum speed\n9. Motor stops; door unlocks\n\nFor this door-lock test, advance to step 1 and confirm the lock energizes.",
+      "sourceExcerpt": "MANUAL DIAGNOSTIC TEST — Press/hold 4 sec, release 4 sec (four hold cycles). Door lock is first output.",
       "requiresInput": false,
-      "defaultNextStepId": "@continue"
+      "defaultNextStepId": "@continue",
+      "images": [
+        {
+          "id": "w8178558-manual-diagnostic-test",
+          "caption": "Manual Diagnostic Test touchpad entry (§6-7, manual p. 85)",
+          "assetPath": "/images/procedures/whirlpool_duet_sport/w8178558-manual-diagnostic-test.png"
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,122 @@
+{
+  "id": "samsungwd53-mems-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-4: MEMS sensor (8C, 8C1, 8C2)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "8C",
+    "8C1",
+    "8C2"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Mems Error 8C",
+    "pages": [
+      49,
+      58
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "mems_vibration"
+    },
+    {
+      "id": "mems_vibration",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Excessive vibration",
+      "body": "Check unit for excessive vibration per \u00a74-4 8C1.",
+      "sourceExcerpt": "Check unit for excessive vibration per \u00a74-4 8C1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "vibration_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_wiring"
+        },
+        {
+          "id": "level_unit",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "level_unit_out",
+          "terminal": true,
+          "oemOutcome": "Level machine and reduce vibration source."
+        }
+      ]
+    },
+    {
+      "id": "mems_wiring",
+      "order": 3,
+      "type": "visual_check",
+      "title": "MEMS harness",
+      "body": "Check wire connections to main PBA. Rule out disconnection.",
+      "sourceExcerpt": "Check wire connections to main PBA. Rule out disconnection.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wiring_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA when 8C persists."
+        }
+      ]
+    },
+    {
+      "id": "level_unit_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Level unit",
+      "oemOutcome": "Correct installation level and vibration.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pba_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "oemOutcome": "Replace main PBA when wiring intact but 8C persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "mems_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "MEMS path OK",
+      "oemOutcome": "Vibration and connections verified.",
+      "requiresInput": false
+    }
+  ]
+}

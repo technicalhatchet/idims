@@ -1,0 +1,178 @@
+[
+  {
+    "id": "whirlpoolSxsW11296289ThermistorOhms",
+    "name": "Whirlpool W11296289 SxS Cabinet Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2430, "max": 2970 },
+      "warning": { "min": 1500, "max": 8000 },
+      "critical": { "below": 500, "above": 15000 }
+    },
+    "typical": { "min": 2600, "max": 2800 },
+    "openCircuitCritical": true,
+    "purpose": "W11296289 service matrix — 2.7 kΩ @ 25°C for FC, RC, and defrost thermistors. Service mode LED open/short/pass on steps 1, 3, 5.",
+    "failureModes": [
+      "Open — THESEUS LED6+7 on; ATHENA D7/D8/D9 fail pattern",
+      "Short — THESEUS LED8 on",
+      "In range but warm cabinet — damper (step 9) or sealed system"
+    ],
+    "testingTips": [
+      "THESEUS: P5 RC (GY), P5 FC (TN), P8 defrost (PK) — 5 VDC input circuits",
+      "ATHENA: J2-1/2 evaporator, J2-3/4 refrigerator",
+      "Measure at harness with power disconnected for bench ohms"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["thermistor_check", "sensor_fault"]
+  },
+  {
+    "id": "whirlpoolSxsW11296289DefrostHeaterOhms",
+    "name": "Whirlpool W11296289 SxS Defrost Heater",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 550, "max": 650 },
+      "warning": { "min": 480, "max": 720 },
+      "critical": { "below": 50, "above": 900 }
+    },
+    "typical": { "min": 580, "max": 620 },
+    "openCircuitCritical": true,
+    "purpose": "550–650 Ω @ 115 VAC (all cu ft). Service step 13 energizes heater; THESEUS P2-7 or ATHENA JP1-2/6 when defrosting.",
+    "failureModes": [
+      "Open — no defrost; heavy evap frost",
+      "Good ohms but no heat in step 13 — ACU relay or thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect power before resistance check",
+      "Verify 120 VAC at P2-7 (THESEUS) or JP1-2/6 (ATHENA) during step 13"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "whirlpoolSxsW11296289EvapFanOhms",
+    "name": "Whirlpool W11296289 SxS Evaporator Fan Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2, "max": 9 },
+      "warning": { "min": 1, "max": 12 },
+      "critical": { "below": 0.5, "above": 20 }
+    },
+    "typical": { "min": 3, "max": 7 },
+    "openCircuitCritical": true,
+    "purpose": "Evaporator fan 2–9 Ω. Service step 15 commands fan on; THESEUS P2-6 outputs 120 VAC when cooling.",
+    "failureModes": [
+      "Open winding — fan silent in step 15",
+      "Low ohms — shorted motor"
+    ],
+    "testingTips": [
+      "Service step 15: verify fan runs and airflow at evaporator",
+      "Check P2-6 ↔ P1-2 for 120 VAC when fan commanded"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["evap_fan", "airflow"]
+  },
+  {
+    "id": "whirlpoolSxsW11296289CondenserFanOhms",
+    "name": "Whirlpool W11296289 SxS Condenser Fan Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 3, "max": 12 },
+      "warning": { "min": 2, "max": 15 },
+      "critical": { "below": 1, "above": 25 }
+    },
+    "typical": { "min": 5, "max": 10 },
+    "openCircuitCritical": true,
+    "purpose": "Condenser fan 3–12 Ω. Service step 7 turns on compressor/condenser fan path.",
+    "failureModes": [
+      "Open — condenser fan does not run with compressor in step 7",
+      "Overheat/no cooling with compressor running"
+    ],
+    "testingTips": [
+      "Step 7 monitors cond fan with compressor circuit",
+      "Verify condenser coil clean before condemning fan"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["condenser_fan", "not_cooling"]
+  },
+  {
+    "id": "whirlpoolSxsW11296289CompressorRunOhms",
+    "name": "Whirlpool W11296289 SxS Compressor Run Windings",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 1, "max": 5 },
+      "warning": { "min": 0.5, "max": 8 },
+      "critical": { "below": 0.3, "above": 15 }
+    },
+    "typical": { "min": 2, "max": 4 },
+    "openCircuitCritical": true,
+    "purpose": "EGX60HLC / EM3Y60HLP run windings 1–5 Ω. Service step 7 energizes compressor/cond fan.",
+    "failureModes": [
+      "Open winding — compressor silent; relay may click",
+      "Good ohms but no run — start device/overload or sealed system"
+    ],
+    "testingTips": [
+      "Disconnect power before terminal ohms",
+      "EGX60HLC 102 W / EM3Y60HLP 109 W per cu ft matrix"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["compressor_check", "sealed_system"]
+  },
+  {
+    "id": "whirlpoolSxsW11296289LineVoltage120",
+    "name": "Whirlpool W11296289 SxS 120 VAC Load Output",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 108, "max": 132 },
+      "warning": { "min": 100, "max": 140 },
+      "critical": { "below": 90, "above": 150 }
+    },
+    "typical": { "min": 115, "max": 127 },
+    "purpose": "120 VAC at THESEUS P1/P2/P3 or ATHENA JP1 when load commanded (compressor, defrost, evap fan, water valve).",
+    "failureModes": [
+      "No voltage with load commanded — ACU relay or harness",
+      "Low voltage — supply cord, outlet, or thermal fuse"
+    ],
+    "testingTips": [
+      "THESEUS: P1-1/2 input constant; P1-2/4 compressor; P2-7 defrost; P2-6 evap fan",
+      "ATHENA: JP1-3/6 input; JP1-4/6 compressor+fans; JP1-2/6 defrost",
+      "Disconnect power after live measurements"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "manufacturers": ["Whirlpool", "Maytag", "Amana", "IKEA"],
+      "platformId": "whirlpool_sxs_w11296289"
+    },
+    "dmaTags": ["voltage_check", "supply_issue"]
+  }
+]

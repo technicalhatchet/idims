@@ -1,0 +1,31 @@
+[
+  {
+    "id": "samsungRs28DamperHeaterOhms",
+    "name": "Samsung RS28 R-room damper heater (CN40)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 45, "max": 51 },
+      "warning": { "min": 42, "max": 54 },
+      "critical": { "below": 5, "above": 60 }
+    },
+    "typical": { "min": 46, "max": 50 },
+    "openCircuitCritical": true,
+    "purpose": "RS28 SxS R-room damper heater at CN40 pin 25 ↔ pin 27 with harness disconnected (power off).",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or harness"
+    ],
+    "testingTips": [
+      "Self-diagnostic Damper Heater Error — 48 Ω ±7% per §4-2 checklist (RS28A500 manual)",
+      "LED-panel RS28T5B manuals may list 7–12 V when heater is commanded — verify model variant",
+      "Disconnect CN40 from MAIN PCB before resistance test"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_sxs"
+    },
+    "dmaTags": ["defrost_heater", "damper", "airflow", "RD"]
+  }
+]

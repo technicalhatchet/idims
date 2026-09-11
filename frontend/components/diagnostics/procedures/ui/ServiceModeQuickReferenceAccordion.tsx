@@ -38,6 +38,26 @@ function ServiceModeCard({ bundle }: { bundle: ServiceModeBundle }) {
             {step.body ? (
               <p className="mt-0.5 whitespace-pre-wrap">{step.body}</p>
             ) : null}
+            {step.images?.length ? (
+              <div className="mt-2 space-y-2">
+                {step.images.map((image) => (
+                  <figure key={image.id} className="overflow-hidden rounded-md border border-[color:var(--solomon-border-subtle)]">
+                    {image.assetPath ? (
+                      <img
+                        src={image.assetPath}
+                        alt={image.caption}
+                        className="w-full bg-white object-contain"
+                      />
+                    ) : null}
+                    {image.caption ? (
+                      <figcaption className="px-2 py-1 text-[10px] text-[var(--solomon-text-muted)]">
+                        {image.caption}
+                      </figcaption>
+                    ) : null}
+                  </figure>
+                ))}
+              </div>
+            ) : null}
           </li>
         ))}
       </ol>

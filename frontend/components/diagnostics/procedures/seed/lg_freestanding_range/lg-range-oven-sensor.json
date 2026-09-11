@@ -1,0 +1,146 @@
+{
+  "id": "lg-range-oven-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Main oven temperature sensor",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "temp_sensor"
+  ],
+  "tags": [
+    "sensor_check",
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F6",
+    "sensing_fail"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Oven Sensor",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "cool_sensor"
+    },
+    {
+      "id": "cool_sensor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Allow sensor to cool",
+      "body": "Oven sensor is temperature-sensitive. Allow cavity and sensor to cool to room temp before measuring.",
+      "sourceExcerpt": "Oven sensor is temperature-sensitive. Allow cavity and sensor to cool to room temp before measuring.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ohms"
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Oven sensor resistance",
+      "body": "Disconnect sensor harness. Measure at connector \u2014 expect \u22481.09 k\u03a9 \u00b110% at 77\u00b0F (25\u00b0C).",
+      "sourceExcerpt": "Disconnect sensor harness. Measure at connector \u2014 expect \u22481.09 k\u03a9 \u00b110% at 77\u00b0F (25\u00b0C).",
+      "measurementKnowledgeId": "lgRangeOvenSensorOhms",
+      "testPoint": {
+        "connector": "Oven sensor",
+        "pins": "terminals",
+        "label": "Oven sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sensor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "sensor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "sensor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "sensor_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_verified",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_temp_sensor_ol_temp_sensor_ok",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace oven sensor",
+      "oemOutcome": "RTD out of range \u2014 replace oven temperature sensor.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_verified",
+      "order": 5,
+      "type": "outcome",
+      "title": "Oven sensor OK",
+      "oemOutcome": "Sensor 1.09 k\u03a9 \u00b110% \u2014 clear F-1/F-2 sensing codes if applicable.",
+      "requiresInput": false
+    }
+  ]
+}

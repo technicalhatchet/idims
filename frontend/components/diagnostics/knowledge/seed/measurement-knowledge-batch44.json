@@ -1,0 +1,243 @@
+[
+  {
+    "id": "samsungRf28FridgeThermistorVoltage",
+    "name": "Samsung RF28 Cabinet Thermistor Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 1.0, "max": 4.5 },
+      "warning": { "min": 0.6, "max": 4.8 },
+      "critical": { "below": 0.2, "above": 5.0 }
+    },
+    "typical": { "min": 1.5, "max": 3.5 },
+    "purpose": "Verify NTC thermistor signal at MAIN PCB — 4.5 V warm → 1.0 V cold.",
+    "failureModes": [
+      "Stuck high (~4.5 V) or low (~0 V) = open/short or harness fault",
+      "Out of range vs compartment temp = failed sensor or wrong connector pin"
+    ],
+    "testingTips": [
+      "RF28 self-diagnosis CHECK LIST §4-1-2: CN20/CN40/CN60/CN90 pin pairs listed in extraction doc",
+      "Flowchart §4-2-1: 0.6–4.6 V normal vs PCB ground"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["thermistor", "sensor_check"]
+  },
+  {
+    "id": "samsungRf28FridgeEvapFanFeedbackVoltage",
+    "name": "Samsung RF28 Evap Fan Feedback Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 7, "max": 12 },
+      "warning": { "min": 5, "max": 13 },
+      "critical": { "below": 2, "above": 14 }
+    },
+    "typical": { "min": 8, "max": 11 },
+    "purpose": "Confirm BLDC fan feedback while fan is commanded on.",
+    "failureModes": [
+      "No 7–12 V feedback with command present = motor, harness, or FG line fault"
+    ],
+    "testingTips": [
+      "F-FAN CN20 16–18; Fridge fan CN20 15–17; C-FAN CN40 11–13; Ice room fan CN20 22–24",
+      "Door open may stop F-fan; allow 1 min after close at high ambient"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["evap_fan", "airflow"]
+  },
+  {
+    "id": "samsungRf28FridgeInverterIpmVoltage",
+    "name": "Samsung RF28 Inverter IPM DC Supply",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 13.5, "max": 20 },
+      "warning": { "min": 12, "max": 22 },
+      "critical": { "below": 12 }
+    },
+    "typical": { "min": 14, "max": 18 },
+    "purpose": "Verify inverter DC bus for BLDC compressor start.",
+    "failureModes": [
+      "Under 13.5 V DC = comp starting failure / IPM fault"
+    ],
+    "testingTips": [
+      "Check compressor terminal shorts and IPM pin shorts before replacing inverter",
+      "Low line voltage thresholds: 60 V (110–127 V supply) / 106 V (220–240 V supply)"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["compressor", "sealed_system", "control_board"]
+  },
+  {
+    "id": "samsungRf28FreezerDefrostHeaterOhms",
+    "name": "Samsung RF28 Freezer Defrost Heater (63 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 58, "max": 68 },
+      "warning": { "min": 50, "max": 75 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 61, "max": 66 },
+    "openCircuitCritical": true,
+    "purpose": "Verify freezer defrost heater — 63 (230) Ω ±7% at power off.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open defrost bimetal"
+    ],
+    "testingTips": [
+      "§4-2-5: CN70 pin 5 (BRN) ↔ CN71_1 pin 5 (BLK) — harness disconnected",
+      "63 Ω @ 115 V line; 230 Ω variant at 230 V input"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "samsungRf28FridgeDefrostHeaterOhms",
+    "name": "Samsung RF28 Fridge Defrost Heater (120 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 111, "max": 128 },
+      "warning": { "min": 100, "max": 140 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 115, "max": 125 },
+    "openCircuitCritical": true,
+    "purpose": "Verify fresh-food defrost heater — 120 Ω ±7%.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open bimetal"
+    ],
+    "testingTips": [
+      "§4-2-5: CN70 pin 3 (WHT) ↔ CN71_1 pin 5 (BLK) — harness disconnected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["defrost_heater", "frost_buildup"]
+  },
+  {
+    "id": "samsungRf28FlexDamperHeaterOhms",
+    "name": "Samsung RF28 Flex-Zone Damper Heater (135 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 125, "max": 145 },
+      "warning": { "min": 115, "max": 155 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 130, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Verify Flex-Zone damper heater — 135 Ω ±7%.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect CN40; measure CN40 pin 25 ↔ pin 27"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["defrost_heater", "damper"]
+  },
+  {
+    "id": "samsungRf28IceDuctHeaterOhms",
+    "name": "Samsung RF28 Fridge Ice Duct Heater (63 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 58, "max": 68 },
+      "warning": { "min": 50, "max": 75 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 61, "max": 66 },
+    "openCircuitCritical": true,
+    "purpose": "Verify fridge ice duct heater — 63 (230) Ω ±7%.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect CN20; measure pin 21 ↔ pin 23"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "samsungRf28IceRoomHeaterOhms",
+    "name": "Samsung RF28 Fridge Ice Room Heater (135 Ω)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 125, "max": 145 },
+      "warning": { "min": 115, "max": 155 },
+      "critical": { "below": 10, "above": 200 }
+    },
+    "typical": { "min": 130, "max": 140 },
+    "openCircuitCritical": true,
+    "purpose": "Verify fridge ice room heater — 135 Ω ±7%.",
+    "failureModes": [
+      "0 Ω = heater short",
+      "∞ Ω = open heater or open thermal fuse"
+    ],
+    "testingTips": [
+      "Disconnect CN20; measure pin 19 ↔ pin 23"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["ice_maker", "defrost_heater"]
+  },
+  {
+    "id": "samsungRf28AutofillOverflowVoltage",
+    "name": "Samsung RF28 AutoFill Overflow Sense Voltage",
+    "unit": "V",
+    "inputKind": "voltage",
+    "ranges": {
+      "normal": { "min": 4.5, "max": 5.0 },
+      "warning": { "min": 4.0, "max": 4.5 },
+      "critical": { "below": 4.0 }
+    },
+    "typical": { "min": 4.7, "max": 5.0 },
+    "purpose": "Verify AutoFill infuser overflow sensor at CN90.",
+    "failureModes": [
+      "0–4.5 V = water overflow detected",
+      "4.5–5 V = no overflow"
+    ],
+    "testingTips": [
+      "CN90 pin 11 ↔ pin 13 per §4-1-2 CHECK LIST"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["refrigerator"],
+      "templates": ["refrigerator"],
+      "platformId": "samsung_fridge_rf28"
+    },
+    "dmaTags": ["water_dispenser", "sensor_check"]
+  }
+]

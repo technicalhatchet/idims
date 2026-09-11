@@ -184,7 +184,8 @@
 | PDF | Notes |
 |-----|-------|
 | `technical-manual-w11746350-revf.pdf` | **Range** — access/removal only; no TEST # |
-| `technical-manual-w11737351-reva access manual fl dryers.pdf` | **Access only** — skip procedures |
+| `technical-manual-w11737351-reva access manual fl dryers.pdf` | **Access diagrams** — crops attach to `whirlpool_ccu_dryer` W10881701/W11169659 steps; WED7*/WED5620* route to shared platform |
+| `jobaid-w10758836-l-87.pdf` | Cabrio WTW8500 — routes to `whirlpool_tl_dd`; reuses W10864849 seeds |
 | `service-manual-w11174814-revb` ranges | Range — no range template yet |
 | `technical-manual-w11174426-revb` ranges | Range |
 | `jobaid-w10378809-kr38.pdf` | KitchenAid refrigerator — extracted |

@@ -1,0 +1,38 @@
+{
+  "id": "samsungotrmw-sensor-quick-test",
+  "version": "1.0.0",
+  "platformId": "samsung_microwave_otr",
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "title": "ME11 \u2014 Sensor quick test entry (\u00a74-14)",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Humidity/gas sensor quick test \u2014 Auto Defrost + Popcorn hold; 15\u2013185 normal.",
+  "tags": [
+    "C-10",
+    "sensor_check",
+    "humidity_sensor",
+    "service_diagnostic"
+  ],
+  "entryStepId": "sensor_quick_entry",
+  "source": {
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "pages": [
+      30
+    ]
+  },
+  "steps": [
+    {
+      "id": "sensor_quick_entry",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter sensor quick test",
+      "body": "Unit plugged in at least 5 minutes. From standby (clock displayed), touch and hold Auto Defrost and Popcorn pads together. Observe diagnostic number: 15\u2013185 = normal (verify with detection test); 213 or higher = sensor open, unplugged, wiring, or smart board; less than 6 = shorted sensor or smart board.",
+      "sourceExcerpt": "With 2 fingers touch and hold Auto Defrost and Popcorn pads at the same time by standby mode.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

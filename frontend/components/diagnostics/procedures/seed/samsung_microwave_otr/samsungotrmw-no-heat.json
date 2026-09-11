@@ -1,0 +1,236 @@
+{
+  "id": "samsungotrmw-no-heat",
+  "version": "1.0.0",
+  "title": "\u00a75-1: No Heat (Timer Runs, No Oscillation)",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "magnetron"
+  ],
+  "tags": [
+    "no_heat",
+    "magnetron_check",
+    "door_switch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "5-1-no-heat",
+    "oemTestTitle": "No microwave oscillation",
+    "pages": [
+      32,
+      33
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_alignment"
+    },
+    {
+      "id": "latch_alignment",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door and latch switches aligned?",
+      "body": "Off-alignment of latch switches prevents oscillation \u2014 adjust per \u00a74-6.",
+      "sourceExcerpt": "Off-alignment of latch switches prevents oscillation \u2014 adjust per \u00a74-6.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "magnetron_tco_heat_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "magnetron_tco_heat"
+        },
+        {
+          "id": "magnetron_tco_heat_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_interlock_path",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_interlock_path",
+      "order": 3,
+      "type": "instruction",
+      "title": "Run door interlock procedure",
+      "body": "Complete \u00a74-6 door interlock continuity and latch adjustment.",
+      "sourceExcerpt": "Complete \u00a74-6 door interlock continuity and latch adjustment.",
+      "requiresInput": false,
+      "defaultNextStepId": "latch_alignment"
+    },
+    {
+      "id": "magnetron_tco_heat",
+      "order": 4,
+      "type": "measurement",
+      "title": "Magnetron thermal cutout closed?",
+      "body": "Magnetron TCO should read continuity \u2014 opens at 302\u00b0F (150\u00b0C).",
+      "sourceExcerpt": "Magnetron TCO should read continuity \u2014 opens at 302\u00b0F (150\u00b0C).",
+      "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+      "testPoint": {
+        "connector": "Magnetron TCO",
+        "pins": "both terminals",
+        "label": "Magnetron thermal cutout closed?"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "relay_check_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "relay_check",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "relay_check_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_mag_tco_heat",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_check_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_mag_tco_heat",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "relay_check_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_mag_tco_heat",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-wiring-2",
+          "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_mag_tco_heat",
+      "order": 5,
+      "type": "instruction",
+      "title": "Replace magnetron TCO",
+      "body": "Replace open magnetron thermal cutout.",
+      "sourceExcerpt": "Replace open magnetron thermal cutout.",
+      "requiresInput": false,
+      "defaultNextStepId": "magnetron_tco_heat"
+    },
+    {
+      "id": "relay_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Power relay contacts OK?",
+      "body": "Check continuity of power relay contacts after START \u2014 open or loose relay wiring causes no heat.",
+      "sourceExcerpt": "Check continuity of power relay contacts after START \u2014 open or loose relay wiring causes no heat.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hv_path_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hv_path",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "magnetron",
+              "evidenceId": "eliminate_magnetron_open_magnetron_ok"
+            }
+          ]
+        },
+        {
+          "id": "hv_path_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_relay_pcb",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "magnetron"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_relay_pcb",
+      "order": 7,
+      "type": "instruction",
+      "title": "Replace relay or PCB",
+      "body": "Replace power relay (RY200/RY201) or main PCB if relay defective.",
+      "sourceExcerpt": "Replace power relay (RY200/RY201) or main PCB if relay defective.",
+      "requiresInput": false,
+      "defaultNextStepId": "relay_check"
+    },
+    {
+      "id": "hv_path",
+      "order": 8,
+      "type": "outcome",
+      "title": "Continue HV component tests",
+      "body": "Interlock and relay OK \u2014 run HV transformer, capacitor, diode, and magnetron procedures (\u00a74-1\u2013\u00a74-4).",
+      "oemOutcome": "Interlock and relay OK \u2014 run HV transformer, capacitor, diode, and magnetron procedures (\u00a74-1\u2013\u00a74-4).",
+      "requiresInput": false
+    }
+  ]
+}

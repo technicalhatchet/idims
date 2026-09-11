@@ -1,0 +1,47 @@
+{
+  "id": "samsungdw-smart-install-entry",
+  "version": "1.0.0",
+  "platformId": "samsung_dishwasher",
+  "manualId": "SAMSUNG-DISHWASHER",
+  "title": "Samsung DW80 \u2014 Smart Install entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Enter Smart Install (AS) for automatic/manual component inspection.",
+  "tags": [
+    "service_diagnostic",
+    "smart_install"
+  ],
+  "entryStepId": "si_prep",
+  "source": {
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "pages": [
+      38,
+      39
+    ]
+  },
+  "steps": [
+    {
+      "id": "si_prep",
+      "order": 1,
+      "type": "instruction",
+      "title": "Power on \u2014 set 17 h timer",
+      "body": "Power on dishwasher and set timer for 17 hours.",
+      "sourceExcerpt": "Power on dishwasher and set timer for 17 hours.",
+      "requiresInput": false,
+      "defaultNextStepId": "si_enter"
+    },
+    {
+      "id": "si_enter",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Smart Install",
+      "body": "Press Hi-Temp Wash key for at least 7 seconds. Display shows AS when Smart Install is active.",
+      "sourceExcerpt": "Power On \u2192 17 h timer \u2192 Hi-Temp Wash 7 s.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

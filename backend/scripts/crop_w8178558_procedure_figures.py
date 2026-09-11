@@ -54,6 +54,16 @@ FIGURES: list[tuple[str, int, str]] = [
         78,
         "Drive motor MS2 & interlock switch (§5-8)",
     ),
+    (
+        "w8178558-manual-diagnostic-test.png",
+        85,
+        "Manual Diagnostic Test entry — 4 sec × 4 pattern (§6-7)",
+    ),
+    (
+        "w8178558-manual-door-unlock.png",
+        86,
+        "Manually unlock door lock system (§6-8)",
+    ),
 ]
 
 

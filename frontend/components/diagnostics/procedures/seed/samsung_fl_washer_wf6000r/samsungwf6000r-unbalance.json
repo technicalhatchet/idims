@@ -1,0 +1,122 @@
+{
+  "id": "samsungwf6000r-unbalance",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Unbalance (UV, UB)",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "componentIds": [
+    "drive_motor"
+  ],
+  "tags": [
+    "UV",
+    "UB",
+    "unbalance",
+    "vibration"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Unbalance Error UV",
+    "pages": [
+      32
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual. Replace all parts before operating.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "load_type"
+    },
+    {
+      "id": "load_type",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Load type and size",
+      "body": "Check laundry mix \u2014 single heavy item, tangled sheets, or small load can cause UV/UB.",
+      "sourceExcerpt": "Check laundry mix \u2014 single heavy item, tangled sheets, or small load can cause UV/UB.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "load_balanced",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_ok"
+        },
+        {
+          "id": "rebalance_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rebalance_out",
+          "terminal": true,
+          "oemOutcome": "Pause, redistribute or remove items, press Start to continue."
+        }
+      ]
+    },
+    {
+      "id": "hall_path",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Hall sensor after rebalance",
+      "body": "If UV repeats on balanced load, suspect hall sensor or motor \u2014 run motor circuit procedure.",
+      "sourceExcerpt": "If UV repeats on balanced load, suspect hall sensor or motor \u2014 run motor circuit procedure.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "uv_cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_ok"
+        },
+        {
+          "id": "run_motor_proc",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_motor_out",
+          "terminal": true,
+          "oemOutcome": "Proceed to \u00a74-3 3C motor/hall diagnosis."
+        }
+      ]
+    },
+    {
+      "id": "rebalance_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Rebalance load",
+      "oemOutcome": "Educate consumer on load size; redistribute and continue cycle.",
+      "requiresInput": false
+    },
+    {
+      "id": "run_motor_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Motor/hall diagnosis",
+      "oemOutcome": "Run samsungwf6000r-motor-circuit when UV persists on balanced loads.",
+      "requiresInput": false
+    },
+    {
+      "id": "unbalance_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Unbalance resolved",
+      "oemOutcome": "Load rebalance cleared UV \u2014 no part replacement.",
+      "requiresInput": false
+    }
+  ]
+}

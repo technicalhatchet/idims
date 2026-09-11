@@ -54,7 +54,19 @@
       "body": "Access ACU. Measure J8-4 to J9-1. 1\u20136 \u03a9 = motor circuit OK at ACU \u2014 suspect ACU if still no run.",
       "sourceExcerpt": "Access ACU. Measure J8-4 to J9-1. 1\u20136 \u03a9 = motor circuit OK at ACU \u2014 suspect ACU if still no run.",
       "requiresInput": false,
-      "defaultNextStepId": "door_switch_bench"
+      "defaultNextStepId": "door_switch_bench",
+      "images": [
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
+        },
+        {
+          "id": "w11737351-access-drive-motor",
+          "caption": "Drive motor; thermal fuse and outlet thermistor (W11737351 p.14)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drive-motor.png"
+        }
+      ]
     },
     {
       "id": "door_switch_bench",
@@ -100,7 +112,14 @@
       "body": "Release belt from belt switch pulley. Disconnect motor switch white connector.",
       "sourceExcerpt": "Release belt from belt switch pulley. Disconnect motor switch white connector.",
       "requiresInput": false,
-      "defaultNextStepId": "motor_circuit_ohms"
+      "defaultNextStepId": "motor_circuit_ohms",
+      "images": [
+        {
+          "id": "w11737351-access-drive-motor",
+          "caption": "Drive motor; thermal fuse and outlet thermistor (W11737351 p.14)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drive-motor.png"
+        }
+      ]
     },
     {
       "id": "motor_circuit_ohms",
@@ -187,6 +206,16 @@
           "id": "w10881701-acu-pinout",
           "caption": "ACU connectors & pinouts \u2014 J14 thermistors (\u00a73-7)",
           "assetPath": "/images/procedures/whirlpool_ccu_dryer/w10881701-acu-pinout.png"
+        },
+        {
+          "id": "w11737351-access-drive-motor",
+          "caption": "Drive motor; thermal fuse and outlet thermistor (W11737351 p.14)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drive-motor.png"
+        },
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
         }
       ]
     },
@@ -275,6 +304,11 @@
           "id": "w10881701-acu-pinout",
           "caption": "ACU connectors & pinouts \u2014 J14 thermistors (\u00a73-7)",
           "assetPath": "/images/procedures/whirlpool_ccu_dryer/w10881701-acu-pinout.png"
+        },
+        {
+          "id": "w11737351-access-drive-motor",
+          "caption": "Drive motor; thermal fuse and outlet thermistor (W11737351 p.14)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drive-motor.png"
         }
       ]
     },
@@ -363,6 +397,11 @@
           "id": "w10881701-acu-pinout",
           "caption": "ACU connectors & pinouts \u2014 J14 thermistors (\u00a73-7)",
           "assetPath": "/images/procedures/whirlpool_ccu_dryer/w10881701-acu-pinout.png"
+        },
+        {
+          "id": "w11737351-access-drive-motor",
+          "caption": "Drive motor; thermal fuse and outlet thermistor (W11737351 p.14)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drive-motor.png"
         }
       ]
     },

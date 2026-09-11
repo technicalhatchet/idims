@@ -54,7 +54,14 @@
       "body": "Enter Service Diagnostic Mode. Open door. Touch both moisture strips with wet cloth or finger \u2014 repeating beep and alphanumeric display = pass.",
       "sourceExcerpt": "Enter Service Diagnostic Mode. Open door. Touch both moisture strips with wet cloth or finger \u2014 repeating beep and alphanumeric display = pass.",
       "requiresInput": false,
-      "defaultNextStepId": "wet_cloth_result"
+      "defaultNextStepId": "wet_cloth_result",
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        }
+      ]
     },
     {
       "id": "wet_cloth_result",
@@ -100,7 +107,14 @@
       "body": "Power off. Remove console/front panel. Disconnect 3-wire moisture sensor below door. Remove J13 at ACU.",
       "sourceExcerpt": "Power off. Remove console/front panel. Disconnect 3-wire moisture sensor below door. Remove J13 at ACU.",
       "requiresInput": false,
-      "defaultNextStepId": "j13_harness"
+      "defaultNextStepId": "j13_harness",
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        }
+      ]
     },
     {
       "id": "j13_harness",
@@ -135,6 +149,18 @@
               "evidenceId": "confirm_moisture_sensor_bad"
             }
           ]
+        }
+      ],
+      "images": [
+        {
+          "id": "w11737351-access-drum-light-moisture",
+          "caption": "Drum light and moisture sensor access (W11737351 p.12)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-drum-light-moisture.png"
+        },
+        {
+          "id": "w11737351-access-acu",
+          "caption": "Removing the ACU (W11737351 p.10)",
+          "assetPath": "/images/procedures/whirlpool_fl_dryer_access/w11737351-access-acu.png"
         }
       ]
     },

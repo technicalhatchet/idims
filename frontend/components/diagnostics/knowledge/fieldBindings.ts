@@ -51,8 +51,8 @@ const STACKED_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
 
 const AIO_LAUNDRY_FIELD_KNOWLEDGE: Record<string, string> = {
   'wash_electrical.supply_voltage': 'supplyVoltage120',
-  'wash_electrical.wash_motor_ohms': 'washerMotorWindingOhms',
-  'wash_electrical.drain_pump_ohms': 'washerDrainPumpOhms',
+  'wash_electrical.wash_motor_ohms': 'samsungLaundryComboMotorOhms',
+  'wash_electrical.drain_pump_ohms': 'samsungLaundryComboDrainPumpOhms',
   'heat_pump_readings.compressor_amps': 'compressorRunAmps',
   'heat_pump_readings.compressor_ohms': 'compressorRunWindingOhms',
   'heat_pump_readings.heat_pump_fan_amps': 'condenserFanAmps',

@@ -1,0 +1,282 @@
+{
+  "id": "samsungdwm9-fill-valve",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "inlet_valve"
+  ],
+  "tags": [
+    "4C",
+    "4C5",
+    "4E",
+    "fill_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Water supply check",
+    "pages": [
+      45,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "supply_tap"
+    },
+    {
+      "id": "supply_tap",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Water supply open and pressure OK?",
+      "body": "Faucet open; pressure >0.5 bar (20 psi). Inlet hose and aqua-stop filter clear.",
+      "sourceExcerpt": "Faucet open; pressure >0.5 bar (20 psi). Inlet hose and aqua-stop filter clear.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_connector_yes",
+          "label": "Supply OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_connector"
+        },
+        {
+          "id": "valve_connector_no",
+          "label": "Low pressure / closed valve",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply"
+        }
+      ]
+    },
+    {
+      "id": "fix_supply",
+      "order": 3,
+      "type": "instruction",
+      "title": "Correct water supply",
+      "body": "Open valve, clear inlet filter/aqua-stop, verify adequate pressure.",
+      "sourceExcerpt": "Open valve, clear inlet filter/aqua-stop, verify adequate pressure.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_connector"
+    },
+    {
+      "id": "valve_connector",
+      "order": 4,
+      "type": "instruction",
+      "title": "Inspect CN401 water valve",
+      "body": "Check CN401 pin 6 water valve connector seated; inspect flow meter at CN503 pin 11.",
+      "sourceExcerpt": "Check CN401 pin 6 water valve connector seated; inspect flow meter at CN503 pin 11.",
+      "requiresInput": false,
+      "defaultNextStepId": "valve_ohms"
+    },
+    {
+      "id": "valve_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "Inlet valve coil",
+      "body": "Disconnect connector. Normal: approx. 990 \u03a9 \u00b110% (890\u20131089 \u03a9).",
+      "sourceExcerpt": "Disconnect connector. Normal: approx. 990 \u03a9 \u00b110% (890\u20131089 \u03a9).",
+      "measurementKnowledgeId": "samsungDishwasherM9FillValveOhms",
+      "testPoint": {
+        "connector": "CN401",
+        "pins": "6",
+        "label": "Inlet valve coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "valve_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fill_smart_install",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_inlet_valve_ol_inlet_valve_ok",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        },
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_inlet_valve_ol_inlet_valve_failed",
+              "componentId": "inlet_valve"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-layout",
+          "caption": "Main PCB connector map (\u00a75-1)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-layout.png"
+        },
+        {
+          "id": "samsungdwm9-main-pcb-pinout",
+          "caption": "CN101/CN401/CN503/CN802 pinout (\u00a75-2)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "fill_smart_install",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Water fills in Smart Install step 2?",
+      "body": "Auto step 2 supplies 4.5 L. 4C if pulses <10 in 20 s or level not reached in 5 min (inspection) / 60 min (normal).",
+      "sourceExcerpt": "Auto step 2 supplies 4.5 L. 4C if pulses <10 in 20 s or level not reached in 5 min (inspection) / 60 min (normal).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "flow_meter_yes",
+          "label": "Fills normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flow_meter"
+        },
+        {
+          "id": "flow_meter_no",
+          "label": "4C / no fill",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve"
+        }
+      ]
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 7,
+      "defaultNextStepId": "flow_meter"
+    },
+    {
+      "id": "flow_meter",
+      "order": 8,
+      "type": "visual_check",
+      "title": "Flow meter pulses during fill?",
+      "body": "CN503 pin 11 flow meter detects pulses during fill. 4C5 if 200 pulses when valve should be off.",
+      "sourceExcerpt": "CN503 pin 11 flow meter detects pulses during fill. 4C5 if 200 pulses when valve should be off.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "fill_ok_yes",
+          "label": "Pulses normal",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_ok"
+        },
+        {
+          "id": "fill_ok_no",
+          "label": "No / false pulses",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flow_meter"
+        }
+      ]
+    },
+    {
+      "id": "replace_valve",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace inlet valve",
+      "body": "Replace water valve and assy guide water-sub when coil open or valve stuck.",
+      "oemOutcome": "Replace water valve and assy guide water-sub when coil open or valve stuck.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_flow_meter",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace flow meter / case brake",
+      "body": "Replace case brake or flow meter when pulse detection fails.",
+      "oemOutcome": "Replace case brake or flow meter when pulse detection fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "fill_ok",
+      "order": 11,
+      "type": "outcome",
+      "title": "Fill path OK",
+      "body": "Fill and flow meter verified.",
+      "oemOutcome": "Fill and flow meter verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdwm9-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "fill_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdwm9-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "flow_meter"
+    }
+  ]
+}

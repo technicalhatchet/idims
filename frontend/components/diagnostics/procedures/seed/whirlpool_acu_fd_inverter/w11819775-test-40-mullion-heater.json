@@ -1,0 +1,217 @@
+{
+  "id": "w11819775-test-40-mullion-heater",
+  "version": "1.0.0",
+  "title": "Service Test 40: Vertical mullion heater",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "heater"
+  ],
+  "tags": [
+    "heater_check",
+    "moisture"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "40",
+    "oemTestTitle": "Vertical Mullion Heater Activation Mode",
+    "pages": [
+      60,
+      103
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_40"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_40"
+    },
+    {
+      "id": "select_test_40",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 40",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 40. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 40 \u2014 Mullion heater",
+      "requiresInput": false,
+      "defaultNextStepId": "mullion_on"
+    },
+    {
+      "id": "mullion_on",
+      "order": 4,
+      "type": "instruction",
+      "title": "Activate mullion heater",
+      "body": "Select on/oF. CN7-5 VR/H to CN7-11 +12V = 12.7 VDC at heater (two orange wires).",
+      "sourceExcerpt": "Select on/oF. CN7-5 VR/H to CN7-11 +12V = 12.7 VDC at heater (two orange wires).",
+      "requiresInput": false,
+      "defaultNextStepId": "mullion_heat"
+    },
+    {
+      "id": "mullion_heat",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Mullion heater warms",
+      "body": "Heater energizes with 12.7 VDC?",
+      "sourceExcerpt": "Heater energizes with 12.7 VDC?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mh_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_mh"
+        },
+        {
+          "id": "mh_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_mh",
+          "terminal": true,
+          "oemOutcome": "Mullion heater failed to heat."
+        }
+      ]
+    },
+    {
+      "id": "bench_mh",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench mullion heater ohms",
+      "body": "Disconnect power. Vertical mullion heater = 11.4 \u03a9.",
+      "sourceExcerpt": "Disconnect power. Vertical mullion heater = 11.4 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "mh_ohms"
+    },
+    {
+      "id": "mh_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Mullion heater resistance",
+      "body": "11.4 \u03a9 spec.",
+      "sourceExcerpt": "11.4 \u03a9 spec.",
+      "measurementKnowledgeId": "whirlpoolAcuFdInverterMullionHeaterOhms",
+      "testPoint": {
+        "connector": "mullion",
+        "pins": "heater terminals",
+        "label": "Mullion heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "mh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_kw_moisture_mullion"
+            }
+          ]
+        },
+        {
+          "id": "mh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_kw_moisture_mullion"
+            }
+          ]
+        },
+        {
+          "id": "mh_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "heater",
+              "evidenceId": "ref_kw_moisture_mullion"
+            }
+          ]
+        },
+        {
+          "id": "mh_pass",
+          "label": "11.4 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "mh_verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11819775-acu-connector-pinout",
+          "caption": "ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-acu-connector-pinout.png"
+        },
+        {
+          "id": "w11819775-voltage-chart-a",
+          "caption": "ACU voltage chart \u2014 CN20/CN12/CN7/CN18",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-voltage-chart-a.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_mh",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace mullion heater",
+      "oemOutcome": "Replace vertical mullion heater when open or out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "mh_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "Mullion heater verified",
+      "oemOutcome": "Service test 40 and heater ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

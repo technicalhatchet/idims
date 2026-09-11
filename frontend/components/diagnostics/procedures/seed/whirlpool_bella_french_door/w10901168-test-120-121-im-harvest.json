@@ -1,0 +1,131 @@
+{
+  "id": "w10901168-test-120-121-im-harvest",
+  "version": "1.0.0",
+  "title": "Service Test 120/121: Ice maker harvest",
+  "platformId": "whirlpool_bella_french_door",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "E1",
+    "E2",
+    "E3",
+    "E4"
+  ],
+  "source": {
+    "manualId": "W10901168",
+    "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+    "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "120",
+    "oemTestTitle": "Check Door Ice Maker Harvest",
+    "pages": [
+      19,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_120"
+    },
+    {
+      "id": "service_mode_after_diag_entry",
+      "type": "instruction",
+      "title": "Continue in Bella Diagnostics",
+      "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_120",
+      "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+    },
+    {
+      "id": "select_test_120",
+      "order": 3,
+      "type": "instruction",
+      "title": "Select Service Test 120",
+      "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 120. Press Icemaker2 to select. Fast Cool backs out.",
+      "sourceExcerpt": "Service Test 120 \u2014 Door IM harvest (or 121 freezer)",
+      "requiresInput": false,
+      "defaultNextStepId": "harvest"
+    },
+    {
+      "id": "harvest",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Harvest result",
+      "body": "Errors E1\u2013E4 = replace IM. IB = bin full (verify bin). 00/01 on test 79 bin switch?",
+      "sourceExcerpt": "Errors E1\u2013E4 = replace IM. IB = bin full (verify bin). 00/01 on test 79 bin switch?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Harvest OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified"
+        },
+        {
+          "id": "err",
+          "label": "E1\u2013E4 error",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im"
+        },
+        {
+          "id": "ib",
+          "label": "IB bin full",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_bin"
+        }
+      ]
+    },
+    {
+      "id": "check_bin",
+      "order": 5,
+      "type": "instruction",
+      "title": "Ice bin switch",
+      "body": "Test 79: 00 no bin, 01 bin installed.",
+      "sourceExcerpt": "Test 79: 00 no bin, 01 bin installed.",
+      "requiresInput": false,
+      "defaultNextStepId": "verified"
+    },
+    {
+      "id": "replace_im",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Harvest error E1\u2013E4 \u2014 replace ice maker module.",
+      "requiresInput": false
+    },
+    {
+      "id": "verified",
+      "order": 7,
+      "type": "outcome",
+      "title": "Harvest verified",
+      "oemOutcome": "Tests 120/121 OK.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w10901168-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_diag_entry"
+    }
+  ]
+}

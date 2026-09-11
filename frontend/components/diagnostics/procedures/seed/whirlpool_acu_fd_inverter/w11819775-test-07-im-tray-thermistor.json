@@ -1,0 +1,209 @@
+{
+  "id": "w11819775-test-07-im-tray-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 7: FC ice maker tray thermistor",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "thermistor",
+    "ice_maker"
+  ],
+  "tags": [
+    "thermistor_check",
+    "no_ice",
+    "FBEB"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "07",
+    "oemTestTitle": "FC Ice Maker Tray Thermistor",
+    "pages": [
+      57,
+      98
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_07"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_07"
+    },
+    {
+      "id": "select_test_07",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 07",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 07. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 07 \u2014 IM tray thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "read_im_temp"
+    },
+    {
+      "id": "read_im_temp",
+      "order": 4,
+      "type": "visual_check",
+      "title": "IM tray thermistor reading",
+      "body": "Service test 07 reads tray temperature \u00b0C. Valid reading or Er?",
+      "sourceExcerpt": "Service test 07 reads tray temperature \u00b0C. Valid reading or Er?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_verified"
+        },
+        {
+          "id": "im_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im",
+          "terminal": true,
+          "oemOutcome": "Tray thermistor Er \u2014 part of ice maker assembly."
+        }
+      ]
+    },
+    {
+      "id": "bench_im",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench IM tray thermistor",
+      "body": "Disconnect power. CN13-3 V-R to CN13-4 GND \u2014 5k \u03a9 @ 77\u00b0F (4950\u20135050 \u03a9).",
+      "sourceExcerpt": "Disconnect power. CN13-3 V-R to CN13-4 GND \u2014 5k \u03a9 @ 77\u00b0F (4950\u20135050 \u03a9).",
+      "requiresInput": false,
+      "defaultNextStepId": "im_ohms"
+    },
+    {
+      "id": "im_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "IM tray thermistor",
+      "body": "5k NTC chart \u2014 replace IM assembly if failed.",
+      "sourceExcerpt": "5k NTC chart \u2014 replace IM assembly if failed.",
+      "measurementKnowledgeId": "whirlpoolAcuFdInverterImTrayThermistorOhms",
+      "testPoint": {
+        "connector": "CN13",
+        "pins": "CN13-3 \u2194 CN13-4",
+        "label": "IM tray thermistor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_kw_im_e3_heater"
+            }
+          ]
+        },
+        {
+          "id": "im_pass",
+          "label": "5k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11819775-acu-connector-pinout",
+          "caption": "ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-acu-connector-pinout.png"
+        },
+        {
+          "id": "w11819775-voltage-chart-b",
+          "caption": "ACU voltage chart \u2014 CN6/CN13/CN10 thermistors & loads",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-voltage-chart-b.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_im",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "FBEB \u2014 replace ice maker assembly (tray thermistor not separately serviceable).",
+      "requiresInput": false
+    },
+    {
+      "id": "im_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "IM tray thermistor verified",
+      "oemOutcome": "Service test 7 and tray thermistor verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

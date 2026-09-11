@@ -1,0 +1,82 @@
+{
+  "id": "samsungwd53-auto-open-door",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Auto-open door (DC5)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "DC5"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Auto-Open Door DC5",
+    "pages": [
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "door_clearance"
+    },
+    {
+      "id": "door_clearance",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Door clearance",
+      "body": "Ensure enough space for auto-open door. Wait for function to complete.",
+      "sourceExcerpt": "Ensure enough space for auto-open door. Wait for function to complete.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "clearance_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc5_verified"
+        },
+        {
+          "id": "clear_obstruction",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_obstruction_out",
+          "terminal": true,
+          "oemOutcome": "Clear obstruction blocking door swing."
+        }
+      ]
+    },
+    {
+      "id": "clear_obstruction_out",
+      "order": 3,
+      "type": "outcome",
+      "title": "Clear obstruction",
+      "oemOutcome": "Provide door swing clearance and retest.",
+      "requiresInput": false
+    },
+    {
+      "id": "dc5_verified",
+      "order": 4,
+      "type": "outcome",
+      "title": "Auto-open OK",
+      "oemOutcome": "Door opens automatically \u2014 inspect door component or PBA if DC5 returns.",
+      "requiresInput": false
+    }
+  ]
+}

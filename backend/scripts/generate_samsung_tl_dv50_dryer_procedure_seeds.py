@@ -347,6 +347,7 @@ def main() -> None:
     for script in (
         "attach_samsung_tl_dv50_dryer_diagnostic_effects.py",
         "attach_samsung_tl_dv50_dryer_service_modes.py",
+        "attach_samsung_tl_dv50_procedure_diagrams.py",
     ):
         path = ROOT / "backend" / "scripts" / script
         if path.exists():

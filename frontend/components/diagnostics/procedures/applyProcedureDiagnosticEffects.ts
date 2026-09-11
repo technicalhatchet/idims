@@ -200,9 +200,6 @@ function applyDirectProcedureEffect(
       const categoryId = component.categoryId;
       const categoryScore = categoryScores.get(categoryId) ?? 0;
       categoryScores.set(categoryId, clampScore(categoryScore - (wasConfirmed ? 40 : 28)));
-      const harnessCategory = 'control_hmi';
-      const harnessScore = categoryScores.get(harnessCategory) ?? 0;
-      categoryScores.set(harnessCategory, clampScore(harnessScore + (wasConfirmed ? 20 : 14)));
     }
   } else {
     delta = SUSPECT_EVIDENCE_BOOST;

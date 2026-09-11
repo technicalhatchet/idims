@@ -1,0 +1,263 @@
+[
+  {
+    "id": "samsungFlWf6000rWasherMotorOhms",
+    "name": "Samsung FL WF6000R Washer Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5.4, "max": 6.6 },
+      "warning": { "min": 4.8, "max": 7.5 },
+      "critical": { "below": 2, "above": 12 }
+    },
+    "typical": { "min": 5.8, "max": 6.2 },
+    "openCircuitCritical": true,
+    "purpose": "DD motor stator — any two of three terminals at motor connector. §4-3 3C cites 6.0 Ω @ 25°C (not 19.3 Ω TL or 15 Ω §3 rear-motor checkpoint).",
+    "failureModes": [
+      "Open winding — 3C motor error",
+      "Unequal pairs — rotor/stator or harness fault"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before ohms",
+      "Rule out 3E overload before condemning motor",
+      "Smart Install manual check step 8 exercises spin"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "3C"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherHallSensorOhms",
+    "name": "Samsung FL WF6000R Motor Hall Sensor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 2000000, "max": 4000000 },
+      "warning": { "min": 1500000, "max": 5000000 },
+      "critical": { "below": 500000, "above": 10000000 }
+    },
+    "typical": { "min": 2500000, "max": 3500000 },
+    "openCircuitCritical": true,
+    "purpose": "Hall sensor on main PCB motor connector — pins 1–3 and 1–4 expect approx. 2–4 MΩ per §4-3 3C.",
+    "failureModes": [
+      "Low or open hall sensor — 3C with good motor windings",
+      "Connector moisture — dry harness before replace"
+    ],
+    "testingTips": [
+      "Measure at four-pin motor connector on main PBA side",
+      "Verify voltage when powered on if resistance borderline"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["motor_check", "3C"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherHeaterOhms",
+    "name": "Samsung FL WF6000R Wash Heater Resistance (bench)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 29 },
+      "warning": { "min": 23, "max": 31 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 26.2, "max": 27.1 },
+    "openCircuitCritical": true,
+    "purpose": "Heater element removed from tub — 27.1 Ω (1900 W) or 26.2 Ω (2000 W) per §3.",
+    "failureModes": [
+      "Open element — HC / no heat",
+      "Low ohms — shorted element"
+    ],
+    "testingTips": [
+      "Ensure heater seated in bracket on reassembly",
+      "§4-3 TYPE 1 in-circuit A–B expects 16.05 ± 0.65 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherHeaterInCircuitOhms",
+    "name": "Samsung FL WF6000R Wash Heater In-Circuit (A–B)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.4, "max": 16.7 },
+      "warning": { "min": 14.5, "max": 17.5 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 15.9, "max": 16.2 },
+    "openCircuitCritical": true,
+    "purpose": "Heater terminals A and B at tub front per §4-3 HC corrective TYPE 1.",
+    "failureModes": [
+      "Open — replace heater",
+      "Good heater ohms but HC — check wash thermistor TYPE 2"
+    ],
+    "testingTips": [
+      "Disconnect power before accessing heater terminals",
+      "If TYPE 1 OK, replace wash thermistor at back of tub"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherThermistorOhms",
+    "name": "Samsung FL WF6000R Wash Thermistor (room temp)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10000, "max": 14000 },
+      "warning": { "min": 8000, "max": 18000 },
+      "critical": { "below": 2000, "above": 50000 }
+    },
+    "typical": { "min": 11500, "max": 12500 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater NTC at room temperature — ~12 kΩ per §3 thermistor check point.",
+    "failureModes": [
+      "Open/shorted NTC — TC1 / HC after heater ruled out",
+      "Frozen hose in winter — defrost before condemning sensor"
+    ],
+    "testingTips": [
+      "Measure at thermistor connector with leads attached",
+      "Compare after heater A–B passes TYPE 1 check"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["TC1", "thermistor", "HC"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherDoorSwitchOhms",
+    "name": "Samsung FL WF6000R Door Switch (TYPE 1 pins 1–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 150, "max": 200 },
+      "warning": { "min": 120, "max": 230 },
+      "critical": { "below": 50, "above": 500 }
+    },
+    "typical": { "min": 165, "max": 185 },
+    "openCircuitCritical": true,
+    "purpose": "Door switch TYPE 1 — resistance pins 1 and 3 approximately 175 Ω per §4-3 DC.",
+    "failureModes": [
+      "Open switch — DC door error",
+      "120 V door feed — verify insulation before ohms"
+    ],
+    "testingTips": [
+      "Disconnect power — 120 V present on door circuit when energized",
+      "TYPE 2 lock slider pushed: pins 2–3 expect 60–90 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["DC", "door_lock_check"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherDoorLockOhms",
+    "name": "Samsung FL WF6000R Door Lock Switch (TYPE 2 pins 2–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 60, "max": 90 },
+      "warning": { "min": 45, "max": 110 },
+      "critical": { "below": 20, "above": 200 }
+    },
+    "typical": { "min": 65, "max": 85 },
+    "openCircuitCritical": true,
+    "purpose": "Door lock switch with slider pushed — pins 2–3 approximately 60–90 Ω per §4-3 DC1.",
+    "failureModes": [
+      "Out of range — replace door lock assembly",
+      "DC1 persists — main PBA door sensing circuit"
+    ],
+    "testingTips": [
+      "Push lock slider to simulate latched state",
+      "Lock motor 1–2 pin: 46.57 ± 15 Ω for add-door variants"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["DC1", "door_lock_check"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherDoorLockMotorOhms",
+    "name": "Samsung FL WF6000R Door Lock Motor (pins 1–2)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 32, "max": 62 },
+      "warning": { "min": 25, "max": 70 },
+      "critical": { "below": 10, "above": 100 }
+    },
+    "typical": { "min": 40, "max": 55 },
+    "openCircuitCritical": true,
+    "purpose": "Add-door lock motor coil 46.57 ± 15 Ω at pins 1–2 per §4-3 DDC/DC3.",
+    "failureModes": [
+      "Open coil — add door / barrier lock fault",
+      "Mechanical bind — check barrier pillars before electrical"
+    ],
+    "testingTips": [
+      "Verify lock stroke and detection switches mechanically",
+      "Press door switch button and confirm resistance changes"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["DC3", "DDC", "door_lock_check"]
+  },
+  {
+    "id": "samsungFlWf6000rWasherWaterLevelFrequency",
+    "name": "Samsung FL WF6000R Water Level Sensor Frequency (no load)",
+    "unit": "kHz",
+    "inputKind": "frequency",
+    "ranges": {
+      "normal": { "min": 24.5, "max": 26.5 },
+      "warning": { "min": 22, "max": 28 },
+      "critical": { "below": 18, "above": 30 }
+    },
+    "typical": { "min": 25.2, "max": 25.8 },
+    "purpose": "Pressure level sensor — approx. 25.5 kHz with no load on pink and orange wires per §4-3 1C.",
+    "failureModes": [
+      "Out of band — replace water level sensor",
+      "Wrong material-code sensor installed — verify part number"
+    ],
+    "testingTips": [
+      "Connect sensor and harness before frequency check",
+      "Verify hose not folded, cut, or clogged with lubricant"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["washer", "washing_machine"],
+      "templates": ["washer"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_fl_washer_wf6000r"
+    },
+    "dmaTags": ["1C", "fill_issue"]
+  }
+]

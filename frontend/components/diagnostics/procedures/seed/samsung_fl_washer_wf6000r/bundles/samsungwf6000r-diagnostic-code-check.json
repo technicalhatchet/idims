@@ -1,0 +1,36 @@
+{
+  "id": "samsungwf6000r-diagnostic-code-check",
+  "version": "1.0.0",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "title": "Samsung WF6000R \u2014 Diagnostic code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored diagnostic codes (up to 7 digits) from Smart Install.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "dc_enter",
+  "source": {
+    "manualTitle": "Samsung Front-Load Washer WF6000R Family (WF45T/WF45R/WF22R)",
+    "extractedTextFile": "backend/docs/manuals/samsung fl washer wf45t6000-extracted.txt",
+    "pages": [
+      29
+    ]
+  },
+  "steps": [
+    {
+      "id": "dc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Diagnostic information display",
+      "body": "From AS: press first bottom-right button \u2192 CR display \u2192 jog dial CW for up to 7 stored codes (latest first).",
+      "sourceExcerpt": "From AS: press first bottom-right button \u2192 CR display \u2192 jog dial CW for up to 7 stored codes (latest first).",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

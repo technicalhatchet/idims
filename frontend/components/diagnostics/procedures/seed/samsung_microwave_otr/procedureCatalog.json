@@ -1,0 +1,157 @@
+{
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "templateId": "microwave",
+  "label": "Samsung ME11/ME21 over-the-range microwave",
+  "notes": "\u00a74 alignment; \u00a75 troubleshooting; C-* information codes; sensor quick test \u00a74-14.",
+  "plannedProcedures": [
+    {
+      "id": "samsungotrmw-door-interlock",
+      "oemSection": "4-6",
+      "title": "\u00a74-6: Door Interlock Switches",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveDoorInterlockSwitchOhms",
+        "microwaveDoorInterlockSwitchOhms",
+        "microwaveDoorInterlockSwitchOhms"
+      ],
+      "relatedCodes": [
+        "C-F0"
+      ]
+    },
+    {
+      "id": "samsungotrmw-line-power",
+      "oemSection": "5-1-dead",
+      "title": "\u00a75-1: Dead Unit (No Display)",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveThermalCutoutOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-no-heat",
+      "oemSection": "5-1-no-heat",
+      "title": "\u00a75-1: No Heat (Timer Runs, No Oscillation)",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveThermalCutoutOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-hv-transformer",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: High-Voltage Transformer",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungMe11HvTransformerPrimaryOhms",
+        "samsungMe11HvTransformerSecondaryOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-hv-capacitor",
+      "oemSection": "4-3",
+      "title": "\u00a74-3: High-Voltage Capacitor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-hv-diode",
+      "oemSection": "4-4",
+      "title": "\u00a74-4: High-Voltage Diode",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveHVDiodeCheck"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-magnetron",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Magnetron",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveMagnetronFilamentOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-vent-motor",
+      "oemSection": "4-7",
+      "title": "\u00a74-7: Vent Exhaust Blower Motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungMe11VentBlowerOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungotrmw-humidity-sensor",
+      "oemSection": "4-14",
+      "title": "\u00a74-14 / C-10: Humidity (Gas) Sensor",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungMe11HumiditySensorHeaterOhms"
+      ],
+      "relatedCodes": [
+        "C-10"
+      ]
+    },
+    {
+      "id": "samsungotrmw-temp-sensor",
+      "oemSection": "C-20",
+      "title": "C-20: Temperature Sensor Error",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C-20"
+      ]
+    },
+    {
+      "id": "samsungotrmw-keypad-touch",
+      "oemSection": "5-3-3",
+      "title": "C-F2 / C-d0: Touch and Key Failure",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C-F2",
+        "C-d0"
+      ]
+    },
+    {
+      "id": "samsungotrmw-pcb-comm",
+      "oemSection": "5-3-2",
+      "title": "C-F0 / C-F1: PCB Communication",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "C-F0",
+        "C-F1"
+      ]
+    },
+    {
+      "id": "samsungotrmw-thermal-cutout",
+      "oemSection": "4-8",
+      "title": "\u00a74-8: Thermal Cutouts (TCO)",
+      "status": "generated",
+      "knowledgeIds": [
+        "microwaveThermalCutoutOhms",
+        "microwaveThermalCutoutOhms"
+      ],
+      "relatedCodes": [
+        "C-21"
+      ]
+    },
+    {
+      "id": "samsungotrmw-turntable",
+      "oemSection": "3-7",
+      "title": "\u00a73-7: Turntable Drive Motor",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

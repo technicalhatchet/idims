@@ -1,7 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useScrollAnchorIntoView } from '../../hooks/useScrollAnchorIntoView';
 import {
   formatServiceModeRequirements,
 } from '../diagnostics/procedures/recommendServiceProcedures';
@@ -65,20 +64,9 @@ function ProcedureRunCard({
         ? 'Paused'
         : 'Not started';
 
-  const procedureScrollKey = isExpanded
-    ? isRunning && currentStep
-      ? `${procedure.id}:${currentStep.id}`
-      : procedure.id
-    : null;
-  const procedureAnchorRef = useScrollAnchorIntoView(procedureScrollKey, {
-    enabled: isExpanded,
-    delayMs: 140,
-  });
-
   return (
     <div
-      ref={procedureAnchorRef}
-      className="scroll-mt-3 rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/60 overflow-hidden"
+      className="rounded-[var(--solomon-radius-card)] border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/60 overflow-hidden"
     >
       <button
         type="button"
@@ -270,6 +258,7 @@ export default function SolomonProcedurePanel({
   showCatalog = true,
   catalogPlacement = 'none',
   bannerOnly = false,
+  hideRecommendations = false,
 }) {
   const recommendedIds = useMemo(
     () => new Set(recommendations.map((item) => item.procedureId)),
@@ -285,17 +274,11 @@ export default function SolomonProcedurePanel({
   const isCompact = density === 'compact';
   const showInlineCatalog = showCatalog && catalogPlacement === 'inline';
 
-  const topRecommendation = recommendations[0];
-  const topLeadId = topRecommendation?.procedureId || null;
-  const topLeadIsStrong =
-    Boolean(topRecommendation?.matchedErrorCodes?.length)
-    || (topRecommendation?.priority ?? 0) >= 35;
-
   useEffect(() => {
-    if (!topLeadId || !topLeadIsStrong) return;
-    if (activeProcedureId) return;
-    setExpandedId((current) => current || topLeadId);
-  }, [topLeadId, topLeadIsStrong, activeProcedureId]);
+    if (activeProcedureId) {
+      setExpandedId(activeProcedureId);
+    }
+  }, [activeProcedureId]);
 
   const handleToggle = useCallback(
     (procedureId) => {
@@ -355,7 +338,7 @@ export default function SolomonProcedurePanel({
         />
       ) : null}
 
-      {recommendations.length ? (
+      {!hideRecommendations && recommendations.length ? (
         <>
           <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>Recommended OEM test</p>
           <div className={`space-y-2 ${isCompact ? 'mt-2' : 'mt-3'}`}>

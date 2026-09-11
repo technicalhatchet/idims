@@ -625,6 +625,36 @@ const W11800233_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
   'Drain pump': [W11800233_PINOUT],
 };
 
+const W11428632_ASSET_BASE = '/images/procedures/whirlpool_tl_psc_washer';
+
+/** Cropped OEM figures for W11428632 — crop_w11428632_procedure_figures.py */
+export const W11428632_DIAGRAMS: Record<string, ProcedureImage> = {
+  'w11428632-connector-pinout': {
+    id: 'w11428632-connector-pinout',
+    caption: 'ACU connector pinouts (Figure 4–5)',
+    assetPath: `${W11428632_ASSET_BASE}/w11428632-connector-pinout.png`,
+  },
+  'w11428632-acu-strip-circuits': {
+    id: 'w11428632-acu-strip-circuits',
+    caption: 'Main control strip circuits (Figure 7) & PSC bottom view (Figure 8)',
+    assetPath: `${W11428632_ASSET_BASE}/w11428632-acu-strip-circuits.png`,
+  },
+};
+
+const W11428632_PINOUT = 'w11428632-connector-pinout';
+const W11428632_STRIP = 'w11428632-acu-strip-circuits';
+
+const W11428632_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  J1: [W11428632_PINOUT, W11428632_STRIP],
+  J5: [W11428632_PINOUT, W11428632_STRIP],
+  J8: [W11428632_PINOUT, W11428632_STRIP],
+  J4: [W11428632_PINOUT, W11428632_STRIP],
+  J2: [W11428632_PINOUT, W11428632_STRIP],
+  J6: [W11428632_PINOUT, W11428632_STRIP],
+  'PSC motor': [W11428632_STRIP, W11428632_PINOUT],
+  'Drain pump': [W11428632_STRIP, W11428632_PINOUT],
+};
+
 const W11455152_ASSET_BASE = '/images/procedures/whirlpool_tl_dd_6157';
 
 export const W11455152_DIAGRAMS: Record<string, ProcedureImage> = {
@@ -655,10 +685,124 @@ export const W11169659_DIAGRAMS: Record<string, ProcedureImage> = {
   },
 };
 
+const SAMSUNG_FL_WF6000R_ASSET_BASE = '/images/procedures/samsung_fl_washer_wf6000r';
+
+export const SAMSUNG_FL_WF6000R_DIAGRAMS: Record<string, ProcedureImage> = {
+  'samsungwf6000r-rear-motor': {
+    id: 'samsungwf6000r-rear-motor',
+    caption: 'Rear motor — winding checkpoint Blue-White-Red (§3-2 p.15)',
+    assetPath: `${SAMSUNG_FL_WF6000R_ASSET_BASE}/samsungwf6000r-rear-motor.png`,
+  },
+  'samsungwf6000r-main-pcb': {
+    id: 'samsungwf6000r-main-pcb',
+    caption: 'Main PCB connectors (§3-2 p.19)',
+    assetPath: `${SAMSUNG_FL_WF6000R_ASSET_BASE}/samsungwf6000r-main-pcb.png`,
+  },
+  'samsungwf6000r-door-lock': {
+    id: 'samsungwf6000r-door-lock',
+    caption: 'Door lock switch location (§3-2 p.21)',
+    assetPath: `${SAMSUNG_FL_WF6000R_ASSET_BASE}/samsungwf6000r-door-lock.png`,
+  },
+  'samsungwf6000r-valves-level-sensor': {
+    id: 'samsungwf6000r-valves-level-sensor',
+    caption: 'Inlet valves and water level sensor (§3-2 p.23)',
+    assetPath: `${SAMSUNG_FL_WF6000R_ASSET_BASE}/samsungwf6000r-valves-level-sensor.png`,
+  },
+  'samsungwf6000r-heater-thermistor': {
+    id: 'samsungwf6000r-heater-thermistor',
+    caption: 'Wash heater and thermistor (§3-2 p.27)',
+    assetPath: `${SAMSUNG_FL_WF6000R_ASSET_BASE}/samsungwf6000r-heater-thermistor.png`,
+  },
+};
+
+const SAMSUNG_SXS_ASSET_BASE = '/images/procedures/samsung_sxs';
+
+export const SAMSUNG_SXS_DIAGRAMS: Record<string, ProcedureImage> = {
+  'samsungrs28-main-pcb-connectors': {
+    id: 'samsungrs28-main-pcb-connectors',
+    caption: 'MAIN PCB connector layout — CN20/CN40/CN70/CN85/CN90 (§6-2)',
+    assetPath: `${SAMSUNG_SXS_ASSET_BASE}/samsungrs28-main-pcb-connectors.png`,
+  },
+  'samsungrs28-main-pcb-layout': {
+    id: 'samsungrs28-main-pcb-layout',
+    caption: 'MAIN PCB layout — inverter, fan, damper, ice maker (§6-1)',
+    assetPath: `${SAMSUNG_SXS_ASSET_BASE}/samsungrs28-main-pcb-layout.png`,
+  },
+};
+
+const SAMSUNG_SXS_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  CN20: ['samsungrs28-main-pcb-connectors', 'samsungrs28-main-pcb-layout'],
+  CN40: ['samsungrs28-main-pcb-connectors', 'samsungrs28-main-pcb-layout'],
+  CN70: ['samsungrs28-main-pcb-connectors', 'samsungrs28-main-pcb-layout'],
+  CN85: ['samsungrs28-main-pcb-connectors'],
+  CN90: ['samsungrs28-main-pcb-connectors', 'samsungrs28-main-pcb-layout'],
+};
+
+const SAMSUNG_FL_WF6000R_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  Motor: ['samsungwf6000r-rear-motor', 'samsungwf6000r-main-pcb'],
+  'Motor hall': ['samsungwf6000r-main-pcb', 'samsungwf6000r-rear-motor'],
+  Heater: ['samsungwf6000r-heater-thermistor'],
+  'Heater element': ['samsungwf6000r-heater-thermistor'],
+  Thermistor: ['samsungwf6000r-heater-thermistor'],
+  'Door switch': ['samsungwf6000r-door-lock'],
+  'Door lock': ['samsungwf6000r-door-lock'],
+  'Lock motor': ['samsungwf6000r-door-lock'],
+  'Level sensor': ['samsungwf6000r-valves-level-sensor'],
+};
+
+const SAMSUNG_DISHWASHER_M9_ASSET_BASE = '/images/procedures/samsung_dishwasher_m9';
+
+export const SAMSUNG_DISHWASHER_M9_DIAGRAMS: Record<string, ProcedureImage> = {
+  'samsungdwm9-main-pcb-layout': {
+    id: 'samsungdwm9-main-pcb-layout',
+    caption: 'Main PCB connector map (§5-1)',
+    assetPath: `${SAMSUNG_DISHWASHER_M9_ASSET_BASE}/samsungdwm9-main-pcb-layout.png`,
+  },
+  'samsungdwm9-main-pcb-pinout': {
+    id: 'samsungdwm9-main-pcb-pinout',
+    caption: 'CN101/CN401/CN503/CN802 pinout (§5-2)',
+    assetPath: `${SAMSUNG_DISHWASHER_M9_ASSET_BASE}/samsungdwm9-main-pcb-pinout.png`,
+  },
+};
+
+const SAMSUNG_DISHWASHER_M9_CONNECTOR_DIAGRAM_IDS: Record<string, string[]> = {
+  CN101: ['samsungdwm9-main-pcb-layout', 'samsungdwm9-main-pcb-pinout'],
+  CN401: ['samsungdwm9-main-pcb-layout', 'samsungdwm9-main-pcb-pinout'],
+  CN501: ['samsungdwm9-main-pcb-pinout'],
+  CN503: ['samsungdwm9-main-pcb-layout', 'samsungdwm9-main-pcb-pinout'],
+  CN802: ['samsungdwm9-main-pcb-pinout'],
+  CN901: ['samsungdwm9-main-pcb-layout'],
+  CN902: ['samsungdwm9-main-pcb-layout'],
+  Heater: ['samsungdwm9-main-pcb-pinout'],
+  'Drain pump': ['samsungdwm9-main-pcb-pinout'],
+  'Vane motor': ['samsungdwm9-main-pcb-pinout'],
+};
+
 export function resolveDiagramsForConnector(
   connector: string,
   platformId?: string,
 ): ProcedureImage[] {
+  if (platformId === 'samsung_sxs') {
+    const ids = SAMSUNG_SXS_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => SAMSUNG_SXS_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'samsung_fl_washer_wf6000r') {
+    const ids = SAMSUNG_FL_WF6000R_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => SAMSUNG_FL_WF6000R_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'samsung_dishwasher_m9') {
+    const ids = SAMSUNG_DISHWASHER_M9_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => SAMSUNG_DISHWASHER_M9_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
   if (platformId === 'whirlpool_duet_sport_dryer') {
     const ids = W8178559_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
@@ -737,6 +881,13 @@ export function resolveDiagramsForConnector(
     const ids = W11455152_CONNECTOR_DIAGRAM_IDS[connector] || [];
     return ids
       .map((id) => W11455152_DIAGRAMS[id])
+      .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
+  }
+
+  if (platformId === 'whirlpool_tl_psc_washer') {
+    const ids = W11428632_CONNECTOR_DIAGRAM_IDS[connector] || [];
+    return ids
+      .map((id) => W11428632_DIAGRAMS[id])
       .filter((item): item is ProcedureImage => Boolean(item?.assetPath));
   }
 

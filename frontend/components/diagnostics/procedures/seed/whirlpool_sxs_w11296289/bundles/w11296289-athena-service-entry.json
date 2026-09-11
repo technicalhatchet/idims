@@ -1,0 +1,37 @@
+{
+  "id": "w11296289-athena-service-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_sxs_w11296289",
+  "manualId": "W11296289",
+  "title": "W11296289 \u2014 ATHENA service mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "console"
+  ],
+  "description": "Enter ATHENA auto service mode (7 steps + fail display).",
+  "tags": [
+    "service_test",
+    "service_diagnostic",
+    "control_board"
+  ],
+  "entryStepId": "athena_enter",
+  "source": {
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "pages": [
+      26
+    ]
+  },
+  "steps": [
+    {
+      "id": "athena_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter ATHENA service mode",
+      "body": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 \u2014 wait 3 s between presses. Step 6 shows fail LED pattern if fault stored.",
+      "sourceExcerpt": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 \u2014 wait 3 s between presses. Step 6 shows fail LED pattern if fault stored.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

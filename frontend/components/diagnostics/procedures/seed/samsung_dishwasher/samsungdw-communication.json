@@ -1,0 +1,131 @@
+{
+  "id": "samsungdw-communication",
+  "version": "1.0.0",
+  "title": "\u00a74-1: PBA Communication (AC / AC6)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "AC",
+    "AC6",
+    "communication"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "AC / AC6 communication",
+    "pages": [
+      34,
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_harness"
+    },
+    {
+      "id": "comm_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect CN401 sub comms",
+      "body": "Check CN401 main-to-sub harness (pins 4\u20135 TX/RX) and inverter PBA connection.",
+      "sourceExcerpt": "Check CN401 main-to-sub harness (pins 4\u20135 TX/RX) and inverter PBA connection.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_smart_install"
+    },
+    {
+      "id": "comm_smart_install",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Comms stable in test mode?",
+      "body": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73.",
+      "sourceExcerpt": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sub_pba_yes",
+          "label": "Stable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sub_pba"
+        },
+        {
+          "id": "sub_pba_no",
+          "label": "AC / AC6",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_comm"
+        }
+      ]
+    },
+    {
+      "id": "sub_pba",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Sub PBA and inverter seated?",
+      "body": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins.",
+      "sourceExcerpt": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok_yes",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok"
+        },
+        {
+          "id": "comm_ok_no",
+          "label": "Damaged board/harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_pba"
+        }
+      ]
+    },
+    {
+      "id": "replace_sub_pba",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sub or inverter PBA",
+      "body": "Replace failed sub PBA or inverter PBA.",
+      "oemOutcome": "Replace failed sub PBA or inverter PBA.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_main_comm",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace main PBA",
+      "body": "Replace main PBA when harness good but comms fail.",
+      "oemOutcome": "Replace main PBA when harness good but comms fail.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "body": "PBA communication verified.",
+      "oemOutcome": "PBA communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

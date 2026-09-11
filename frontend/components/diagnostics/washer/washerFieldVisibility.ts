@@ -83,4 +83,9 @@ export const washerFieldVisibilityRules: FieldVisibilityRule[] = [
     field: 'customer_complaint.flex_compartment',
     showWhen: [{ type: 'chip', id: 'flexwash' }, { type: 'chip', id: 'flexwash_upper' }],
   },
+  {
+    id: 'lid_lock_operation',
+    field: 'functional_checks.lid_lock_operation',
+    showWhen: [{ type: 'chip', id: 'wont_spin' }, { type: 'chip', id: 'wont_agitate' }],
+  },
 ];

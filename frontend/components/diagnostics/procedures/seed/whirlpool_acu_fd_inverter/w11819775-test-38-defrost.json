@@ -1,0 +1,218 @@
+{
+  "id": "w11819775-test-38-defrost",
+  "version": "1.0.0",
+  "title": "Service Test 38: Defrost heater",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "defrost_heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "F4E1"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "38",
+    "oemTestTitle": "Run Defrost Heater",
+    "pages": [
+      60,
+      96
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_38"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_38"
+    },
+    {
+      "id": "select_test_38",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 38",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 38. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 38 \u2014 Defrost heater",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_on"
+    },
+    {
+      "id": "heater_on",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run defrost heater",
+      "body": "Select on \u2014 heater runs 5 min or until evap >60\u00b0F. CN12-2 F-H to CN12-4 ACN = 115 VAC.",
+      "sourceExcerpt": "Select on \u2014 heater runs 5 min or until evap >60\u00b0F. CN12-2 F-H to CN12-4 ACN = 115 VAC.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_heat"
+    },
+    {
+      "id": "heater_heat",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Defrost heater energizes",
+      "body": "Heater warms and voltage present at CN12?",
+      "sourceExcerpt": "Heater warms and voltage present at CN12?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_heater"
+        },
+        {
+          "id": "heat_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": "No heat \u2014 check wiring or heater."
+        }
+      ]
+    },
+    {
+      "id": "bench_heater",
+      "order": 6,
+      "type": "instruction",
+      "title": "Bench defrost heater ohms",
+      "body": "Disconnect power. Heater = 58 \u03a9 (non-resettable thermofuse at 72\u00b0C).",
+      "sourceExcerpt": "Disconnect power. Heater = 58 \u03a9 (non-resettable thermofuse at 72\u00b0C).",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_ohms"
+    },
+    {
+      "id": "heater_ohms",
+      "order": 7,
+      "type": "measurement",
+      "title": "Defrost heater resistance",
+      "body": "58 \u03a9 spec.",
+      "sourceExcerpt": "58 \u03a9 spec.",
+      "measurementKnowledgeId": "whirlpoolAcuFdInverterDefrostHeaterOhms",
+      "testPoint": {
+        "connector": "CN12",
+        "pins": "heater terminals",
+        "label": "Defrost heater resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_jazz_defrost_heater"
+            }
+          ]
+        },
+        {
+          "id": "heater_pass",
+          "label": "58 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11819775-acu-connector-pinout",
+          "caption": "ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-acu-connector-pinout.png"
+        },
+        {
+          "id": "w11819775-voltage-chart-a",
+          "caption": "ACU voltage chart \u2014 CN20/CN12/CN7/CN18",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-voltage-chart-a.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace defrost heater",
+      "oemOutcome": "Replace FC defrost heater when open or out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "defrost_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Defrost circuit verified",
+      "oemOutcome": "Service test 38 and heater ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

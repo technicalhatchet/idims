@@ -1,0 +1,100 @@
+{
+  "id": "samsungrs28-ice-maker-function",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Ice maker function",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Self-diagnostic \u2014 Ice Maker Function",
+    "pages": [
+      68
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_error_count"
+    },
+    {
+      "id": "im_error_count",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Ice maker error history",
+      "body": "Freezer ice maker error displays after 3 failures. Inspect fill tube, harness, and module installation.",
+      "sourceExcerpt": "Freezer ice maker error displays after 3 failures. Inspect fill tube, harness, and module installation.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_test"
+        },
+        {
+          "id": "replace_im",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module and verify harvest.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_ms_011_ice_maker_ff_temp_high"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "im_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Verify ice maker operation",
+      "body": "After replacement, confirm harvest cycle and fill complete without repeating error.",
+      "sourceExcerpt": "After replacement, confirm harvest cycle and fill complete without repeating error.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_ok"
+    },
+    {
+      "id": "replace_im_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker",
+      "oemOutcome": "Replace ice maker module when function error persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "Ice maker function verified after service.",
+      "requiresInput": false
+    }
+  ]
+}

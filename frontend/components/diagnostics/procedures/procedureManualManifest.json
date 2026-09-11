@@ -120,6 +120,21 @@
       }
     },
     {
+      "manualId": "W10410465",
+      "platformId": "whirlpool_ccu_tl_dryer",
+      "templateId": "electric_dryer",
+      "seedDir": "whirlpool_ccu_tl_dryer",
+      "label": "Whirlpool/Maytag CCU top-load dryer (tech sheet W10410465)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10410465_TL_CCU_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ccu_tl_dryer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10410465_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w10410465_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w10410465_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10410465_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10881701",
       "platformId": "whirlpool_ccu_dryer",
       "templateId": "electric_dryer",
@@ -139,12 +154,13 @@
       "platformId": "whirlpool_ccu_dryer",
       "templateId": "electric_dryer",
       "seedDir": "whirlpool_ccu_dryer",
-      "label": "Whirlpool/Maytag 27 in Medallion steam dryer (W11169659 WED/MED9620)",
+      "label": "Whirlpool/Maytag 27 in FL dryer (W11169659 WED5620/WED7*/WED96*)",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169659_DRYER_EXTRACTION.md",
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_ccu_dryer/procedureCatalog.json",
       "pipeline": {
         "generate": "backend/scripts/generate_w11169659_procedure_seeds.py",
         "attachDiagrams": "backend/scripts/attach_w11169659_procedure_diagrams.py",
+        "attachAccessDiagrams": "backend/scripts/attach_w11737351_access_procedure_diagrams.py",
         "attachDiagnosticEffects": "backend/scripts/attach_w11169659_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_w11169659_service_modes.py"
       }
@@ -315,6 +331,36 @@
       }
     },
     {
+      "manualId": "W11428632",
+      "platformId": "whirlpool_tl_psc_washer",
+      "templateId": "washer",
+      "seedDir": "whirlpool_tl_psc_washer",
+      "label": "Whirlpool Multimedia Enhanced PSC top-load washer (W11428632)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11428632_TL_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_psc_washer/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11428632_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w11428632_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w11428632_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11428632_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "seedDir": "samsung_fl_washer_wf6000r",
+      "label": "Samsung FL washer WF6000R (WF45T/WF45R/WF22R)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fl_washer_wf6000r/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_fl_wf6000r_washer_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_fl_wf6000r_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_fl_wf6000r_washer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_fl_wf6000r_washer_service_modes.py"
+      }
+    },
+    {
       "manualId": "SAMSUNG-FL-BB8700-WASHER",
       "platformId": "samsung_fl_washer_bb8700",
       "templateId": "washer",
@@ -349,7 +395,7 @@
       "platformId": "samsung_tl_washer_a50",
       "templateId": "washer",
       "seedDir": "samsung_tl_washer_a50",
-      "label": "Samsung TL washer A50 (WA50R5200, WF45A, new style)",
+      "label": "Samsung TL washer A50 (WA50R5200, WA51D, WF45A)",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md",
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_washer_a50/procedureCatalog.json",
       "pipeline": {
@@ -360,18 +406,48 @@
       }
     },
     {
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "platformId": "samsung_tl_washer_cg71",
+      "templateId": "washer",
+      "seedDir": "samsung_tl_washer_cg71",
+      "label": "Samsung TL washer CG71 (WA55CG7100, WA54CG)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_washer_cg71/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_tl_cg71_washer_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_tl_cg71_washer_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_tl_cg71_washer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_tl_cg71_washer_service_modes.py"
+      }
+    },
+    {
       "manualId": "SAMSUNG-TL-DV50-DRYER",
       "platformId": "samsung_tl_dryer_dv50",
       "templateId": "electric_dryer",
       "seedDir": "samsung_tl_dryer_dv50",
-      "label": "Samsung TL dryer DV50 (DV50R5200, DVE/DVG50, new style)",
+      "label": "Samsung TL dryer DV50 (DV50R5200, DVE/DVG50)",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md",
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_dryer_dv50/procedureCatalog.json",
       "pipeline": {
         "generate": "backend/scripts/generate_samsung_tl_dv50_dryer_procedure_seeds.py",
-        "attachDiagrams": null,
+        "attachDiagrams": "backend/scripts/attach_samsung_tl_dv50_procedure_diagrams.py",
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_tl_dv50_dryer_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_tl_dv50_dryer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "platformId": "samsung_tl_dryer_cg71",
+      "templateId": "electric_dryer",
+      "seedDir": "samsung_tl_dryer_cg71",
+      "label": "Samsung TL dryer CG71 (DVE55CG7100, DVG55CG)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_tl_dryer_cg71/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_tl_cg71_dryer_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_tl_cg71_dryer_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_tl_cg71_dryer_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_tl_cg71_dryer_service_modes.py"
       }
     },
     {
@@ -402,6 +478,66 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_rf260b_fridge_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_rf260b_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RS28-SXS",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_sxs",
+      "label": "Samsung RS28/RS23 SpaceMax side-by-side refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS28_FRIDGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_sxs/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_rs28_fridge_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_rs28_fridge_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_rs28_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_rs28_fridge_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RS22T-SXS",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_sxs",
+      "label": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_sxs/procedureCatalog.json",
+      "pipeline": {
+        "generate": null,
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": null,
+        "attachServiceModes": null
+      }
+    },
+    {
+      "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_fridge_rf28",
+      "label": "Samsung French-door direct cool ice maker frozen (ASC20170602002)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ICE_MAKER_BULLETIN_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fridge_rf28/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_ice_maker_bulletin_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_rf28_fridge_diagnostic_effects.py",
+        "attachServiceModes": null
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF28-FRIDGE",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "seedDir": "samsung_fridge_rf28",
+      "label": "Samsung RF28 French-door refrigerator (RF28R)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_fridge_rf28/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_rf28_fridge_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_rf28_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_rf28_fridge_service_modes.py"
       }
     },
     {
@@ -525,6 +661,66 @@
       }
     },
     {
+      "manualId": "W10901168",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_bella_french_door",
+      "label": "Whirlpool Orion+GF2 French door (W10901168 Bella + W11366204 WRF954 family)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_bella_french_door/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w10901168_bella_fridge_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w10901168_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w10901168_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w10901168_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11819775",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_acu_fd_inverter",
+      "label": "Whirlpool ACU inverter French door 31 cu ft (W11819775)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_acu_fd_inverter/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11819775_acu_fd_inverter_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w11819775_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w11819775_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11819775_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11803249",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_theseus_cdfd",
+      "label": "Whirlpool Theseus counter-depth French door 24 cu ft (W11803249)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_theseus_cdfd/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11803249_theseus_cdfd_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w11803249_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w11803249_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11803249_service_modes.py"
+      }
+    },
+    {
+      "manualId": "W11296289",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "seedDir": "whirlpool_sxs_w11296289",
+      "label": "Whirlpool/Maytag/Amana/IKEA SxS refrigerator (W11296289)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/whirlpool_sxs_w11296289/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_w11296289_sxs_fridge_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_w11296289_sxs_fridge_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_w11296289_sxs_fridge_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_w11296289_sxs_fridge_service_modes.py"
+      }
+    },
+    {
       "manualId": "W10785366A",
       "platformId": "whirlpool_connected_smart_gen3",
       "templateId": "washer",
@@ -552,6 +748,21 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_samsung_flexwash_washer_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_samsung_flexwash_washer_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "seedDir": "samsung_laundry_combo",
+      "label": "Samsung all-in-one laundry combo WD53/WD80 (WD53DBA900HZA1)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_laundry_combo/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_laundry_combo_wd53_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_laundry_combo_wd53_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_laundry_combo_wd53_service_modes.py"
       }
     },
     {
@@ -597,6 +808,36 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_insignia_dwr3_dishwasher_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_insignia_dwr3_dishwasher_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-DISHWASHER",
+      "platformId": "samsung_dishwasher",
+      "templateId": "dishwasher",
+      "seedDir": "samsung_dishwasher",
+      "label": "Samsung DW80/DW82 dishwasher (DW80R5060, DW80R5061, DW80T5040)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_dishwasher/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_dishwasher_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_dishwasher_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_dishwasher_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-DISHWASHER-M9",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "seedDir": "samsung_dishwasher_m9",
+      "label": "Samsung premium dishwasher DW80M9 (DW80M9960, DW80M9550, DW80M9990)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_dishwasher_m9/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_dishwasher_m9_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_dishwasher_m9_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_dishwasher_m9_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_dishwasher_m9_service_modes.py"
       }
     },
     {
@@ -672,6 +913,36 @@
         "attachDiagrams": null,
         "attachDiagnosticEffects": "backend/scripts/attach_lg_lmhm2237_microwave_diagnostic_effects.py",
         "attachServiceModes": "backend/scripts/attach_lg_lmhm2237_microwave_service_modes.py"
+      }
+    },
+    {
+      "manualId": "LG-LRE-RANGE",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "seedDir": "lg_freestanding_range",
+      "label": "LG freestanding & slide-in range (LRE/LRGL/LSG)",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/lg_freestanding_range/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_lg_range_procedure_seeds.py",
+        "attachDiagrams": null,
+        "attachDiagnosticEffects": "backend/scripts/attach_lg_range_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_lg_range_service_modes.py"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr",
+      "templateId": "microwave",
+      "seedDir": "samsung_microwave_otr",
+      "label": "Samsung ME11/ME21 over-the-range microwave",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+      "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_microwave_otr/procedureCatalog.json",
+      "pipeline": {
+        "generate": "backend/scripts/generate_samsung_me11_microwave_procedure_seeds.py",
+        "attachDiagrams": "backend/scripts/attach_samsung_me11_microwave_procedure_diagrams.py",
+        "attachDiagnosticEffects": "backend/scripts/attach_samsung_me11_microwave_diagnostic_effects.py",
+        "attachServiceModes": "backend/scripts/attach_samsung_me11_microwave_service_modes.py"
       }
     },
     {

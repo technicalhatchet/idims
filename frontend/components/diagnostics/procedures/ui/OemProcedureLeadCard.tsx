@@ -1,7 +1,10 @@
 'use client';
 
 import type { ProcedureRecommendation } from '../recommendServiceProcedures';
-import { resolveWizardStepLabelForProcedure } from '../procedureWizardLead';
+import {
+  isStrongProcedureLead,
+  resolveWizardStepLabelForProcedure,
+} from '../procedureWizardLead';
 
 interface OemProcedureLeadCardProps {
   recommendation: ProcedureRecommendation | null | undefined;
@@ -25,11 +28,7 @@ export default function OemProcedureLeadCard({
 }: OemProcedureLeadCardProps) {
   if (!recommendation) return null;
 
-  const isStrongLead =
-    recommendation.priority >= 35
-    || Boolean(recommendation.matchedErrorCodes?.length);
-
-  if (!isStrongLead) return null;
+  if (!isStrongProcedureLead(recommendation)) return null;
 
   const isMobile = variant === 'mobile';
   const wizardStepLabel = resolveWizardStepLabelForProcedure(

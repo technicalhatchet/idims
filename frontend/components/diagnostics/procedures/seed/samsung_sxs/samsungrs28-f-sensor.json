@@ -1,0 +1,181 @@
+{
+  "id": "samsungrs28-f-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+  "platformId": "samsung_sxs",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor",
+    "sensor_check",
+    "not_cooling"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RS28-SXS",
+    "manualTitle": "Samsung RS28/RS23 Side-by-Side Refrigerator (SpaceMax)",
+    "extractedTextFile": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Self-diagnostic \u2014 F-Sensor",
+    "pages": [
+      67,
+      68
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing electrical parts. For voltage checks on powered circuits, use appropriate PPE and one-hand test technique.",
+      "sourceExcerpt": "Unplug the appliance before the changing or repairing the electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "apply_power"
+    },
+    {
+      "id": "apply_power",
+      "order": 2,
+      "type": "instruction",
+      "title": "Apply power for voltage test",
+      "body": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+      "sourceExcerpt": "Restore power. Allow control to stabilize. Measure sensor voltage at MAIN PCB with harness connected.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "Service mode or self-diagnostic entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "sensor_voltage"
+    },
+    {
+      "id": "sensor_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Sensor voltage",
+      "body": "Measure voltage CN20 1 \u2194 3 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+      "sourceExcerpt": "Measure voltage CN20 1 \u2194 3 \u2014 4.5 V warm \u2192 1.0 V cold per OEM table.",
+      "measurementKnowledgeId": "refrigeratorThermistorVoltage",
+      "testPoint": {
+        "connector": "CN20",
+        "pins": "1 \u2194 3",
+        "label": "Sensor voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_ms_thermistor_voltage_bad"
+            }
+          ]
+        },
+        {
+          "id": "sv_pass",
+          "label": "4.5\u20131.0 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok"
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungrs28-main-pcb-connectors",
+          "caption": "MAIN PCB connector layout \u2014 CN20/CN40/CN70/CN85/CN90 (\u00a76-2)",
+          "assetPath": "/images/procedures/samsung_sxs/samsungrs28-main-pcb-connectors.png"
+        },
+        {
+          "id": "samsungrs28-main-pcb-layout",
+          "caption": "MAIN PCB layout \u2014 inverter, fan, damper, ice maker (\u00a76-1)",
+          "assetPath": "/images/procedures/samsung_sxs/samsungrs28-main-pcb-layout.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sensor",
+      "oemOutcome": "Replace F-Sensor sensor or repair harness when voltage out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Sensor verified",
+      "oemOutcome": "F-Sensor voltage and connections verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungrs28-engineer-test-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-led-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    },
+    {
+      "bundleId": "samsungrs28-self-diagnostic-entry",
+      "modeKind": "hmi_test",
+      "attachAfterStepId": "service_mode_after_test_entry",
+      "continueToStepId": "sensor_voltage"
+    }
+  ]
+}

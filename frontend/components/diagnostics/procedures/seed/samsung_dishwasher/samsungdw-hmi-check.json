@@ -1,0 +1,122 @@
+{
+  "id": "samsungdw-hmi-check",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+  "platformId": "samsung_dishwasher",
+  "componentIds": [
+    "user_interface"
+  ],
+  "tags": [
+    "bC2",
+    "bC3",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER",
+    "manualTitle": "Samsung Dishwasher DW80R5060/R5061/T5040",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "LED or Input Key Fail",
+    "pages": [
+      51,
+      52
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dishwasher or disconnect power before servicing. Replace panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_connectors"
+    },
+    {
+      "id": "hmi_connectors",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect sub PBA connectors",
+      "body": "Reconnect sub PBA and touch panel harnesses.",
+      "sourceExcerpt": "Reconnect sub PBA and touch panel harnesses.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_led_test"
+    },
+    {
+      "id": "hmi_led_test",
+      "order": 3,
+      "type": "visual_check",
+      "title": "LED and key test pass?",
+      "body": "Hi-Temp+Sanitize+Power \u2192 all LEDs. Normal\u2013Sanitize \u2192 each LED. Delay Start \u00d78 cycles LEDs. Start \u2192 1234. Auto \u2192 version.",
+      "sourceExcerpt": "Hi-Temp+Sanitize+Power \u2192 all LEDs. Normal\u2013Sanitize \u2192 each LED. Delay Start \u00d78 cycles LEDs. Start \u2192 1234. Auto \u2192 version.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "stuck_button_yes",
+          "label": "All tests pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "stuck_button"
+        },
+        {
+          "id": "stuck_button_no",
+          "label": "LED/key fail",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_pba_hmi"
+        }
+      ]
+    },
+    {
+      "id": "stuck_button",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Stuck button or object on panel?",
+      "body": "bC2 when button held \u226530 s. Remove object; verify touch panel not damaged.",
+      "sourceExcerpt": "bC2 when button held \u226530 s. Remove object; verify touch panel not damaged.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hmi_ok_yes",
+          "label": "Panel clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_ok"
+        },
+        {
+          "id": "hmi_ok_no",
+          "label": "bC2 / bC3 persists",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_pba_hmi"
+        }
+      ]
+    },
+    {
+      "id": "replace_sub_pba_hmi",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace sub PBA / touch panel",
+      "body": "Replace sub PBA or touch button PBA when bC2/bC3 or LED test fails.",
+      "oemOutcome": "Replace sub PBA or touch button PBA when bC2/bC3 or LED test fails.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "HMI OK",
+      "body": "Touch panel and sub PBA verified.",
+      "oemOutcome": "Touch panel and sub PBA verified.",
+      "requiresInput": false
+    }
+  ]
+}

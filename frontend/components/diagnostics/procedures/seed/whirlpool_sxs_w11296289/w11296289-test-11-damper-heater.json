@@ -1,0 +1,121 @@
+{
+  "id": "w11296289-test-11-damper-heater",
+  "version": "1.0.0",
+  "title": "Service step 11: Damper heater",
+  "platformId": "whirlpool_sxs_w11296289",
+  "componentIds": [
+    "damper_motor",
+    "heater"
+  ],
+  "tags": [
+    "damper_check",
+    "frost_buildup",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "W11296289",
+    "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+    "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "11",
+    "oemTestTitle": "Damper Heater ON",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "navigate_step_11"
+    },
+    {
+      "id": "service_mode_after_entry",
+      "type": "instruction",
+      "title": "Continue in service mode",
+      "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+      "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "navigate_step_11"
+    },
+    {
+      "id": "navigate_step_11",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to service step 11",
+      "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 11 (Damper heater). Wait at least 1 second between key presses.",
+      "sourceExcerpt": "Service step 11 \u2014 Damper heater",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_heater_on"
+    },
+    {
+      "id": "damper_heater_on",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Damper heater energizes",
+      "body": "At step 11, damper heater turns on. Can you verify heat at damper housing?",
+      "sourceExcerpt": "At step 11, damper heater turns on. Can you verify heat at damper housing?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "heater_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_heater_verified"
+        },
+        {
+          "id": "heater_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_heater_fail",
+          "terminal": true,
+          "oemOutcome": "No heat \u2014 check P11-3 \u2194 P11-4 (12 VDC) or damper heater element.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "damper_motor",
+              "evidenceId": "ref_ms_damper_bad_weak_ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "damper_heater_fail",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace damper heater",
+      "oemOutcome": "Replace damper heater or damper assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "damper_heater_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "Damper heater verified",
+      "oemOutcome": "Damper heater operates in service step 11.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11296289-theseus-service-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_entry"
+    }
+  ]
+}

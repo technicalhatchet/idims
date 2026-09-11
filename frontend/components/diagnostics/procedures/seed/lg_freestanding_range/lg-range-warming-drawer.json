@@ -1,0 +1,228 @@
+{
+  "id": "lg-range-warming-drawer",
+  "version": "1.0.0",
+  "title": "\u00a74-3/4: Warming drawer sensor & element",
+  "platformId": "lg_freestanding_range",
+  "componentIds": [
+    "warming_drawer"
+  ],
+  "tags": [
+    "warming_drawer",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "LG-LRE-RANGE",
+    "manualTitle": "LG Freestanding & Slide-In Ranges (LRE30451/LRE30755, LRGL5821S, LSG4513)",
+    "extractedTextFile": "backend/docs/manuals/LG electric freestanding range-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Warming Drawer Sensor / element",
+    "pages": [
+      38,
+      40
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power (and gas if applicable)",
+      "body": "Unplug the range or disconnect power. Turn off gas supply on gas models. Resistance checks require power off and disconnected harnesses. Replace all panels before operating.",
+      "sourceExcerpt": "Resistance checks must be made with power cord unplugged from outlet.",
+      "requiresInput": false,
+      "defaultNextStepId": "model_check"
+    },
+    {
+      "id": "model_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Confirm LRE30755 warming drawer",
+      "body": "Warming drawer element (95 \u03a9) applies to LRE30755 only. Skip element if not equipped.",
+      "sourceExcerpt": "Warming drawer element (95 \u03a9) applies to LRE30755 only. Skip element if not equipped.",
+      "requiresInput": false,
+      "defaultNextStepId": "wd_sensor_ohms"
+    },
+    {
+      "id": "wd_sensor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Warming drawer sensor",
+      "body": "Cool sensor. R \u00d7 1000 \u2014 expect \u22484.6 k\u03a9 \u00b110% at room temp.",
+      "sourceExcerpt": "Cool sensor. R \u00d7 1000 \u2014 expect \u22484.6 k\u03a9 \u00b110% at room temp.",
+      "measurementKnowledgeId": "lgRangeWarmingDrawerSensorOhms",
+      "testPoint": {
+        "connector": "Warming drawer sensor",
+        "pins": "terminals",
+        "label": "Warming drawer sensor"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wd_sen_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wd_sen_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wd_sen_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_temp_sensor_ol_temp_sensor_failed",
+              "componentId": "temp_sensor"
+            }
+          ]
+        },
+        {
+          "id": "wd_sen_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_element_ohms",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_temp_sensor_ol_temp_sensor_ok",
+              "componentId": "temp_sensor"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wd_element_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Warming drawer element",
+      "body": "R \u00d7 1 \u2014 expect \u224895 \u03a9 \u00b110% (LRE30755).",
+      "sourceExcerpt": "R \u00d7 1 \u2014 expect \u224895 \u03a9 \u00b110% (LRE30755).",
+      "measurementKnowledgeId": "lgRangeWarmingDrawerElementOhms",
+      "testPoint": {
+        "connector": "Warming drawer element",
+        "pins": "terminals",
+        "label": "Warming drawer element"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "wd_el_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_drawer"
+            }
+          ]
+        },
+        {
+          "id": "wd_el_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_drawer"
+            }
+          ]
+        },
+        {
+          "id": "wd_el_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wd_element",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "effectId": "confirm_bake_element_ol_bake_element_failed",
+              "componentId": "warming_drawer"
+            }
+          ]
+        },
+        {
+          "id": "wd_el_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wd_ok",
+          "diagnosticEffects": [
+            {
+              "effectId": "eliminate_bake_element_ol_bake_element_ok",
+              "componentId": "warming_drawer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_wd_sensor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace warming drawer sensor",
+      "oemOutcome": "Sensor out of range.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_wd_element",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace warming drawer element",
+      "oemOutcome": "Element open or shorted.",
+      "requiresInput": false
+    },
+    {
+      "id": "wd_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Warming drawer OK",
+      "oemOutcome": "Sensor and element verified.",
+      "requiresInput": false
+    }
+  ],
+  "templateIds": [
+    "electric_range"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "id": "samsungwd53-foam-detection",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Foam detection (ULC)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "ULC"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Foam ULC",
+    "pages": [
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "foam_clear"
+    },
+    {
+      "id": "foam_clear",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Remove foam",
+      "body": "Remove foam inside dryer. Run dehumidification course.",
+      "sourceExcerpt": "Remove foam inside dryer. Run dehumidification course.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "foam_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "touch_sensor"
+        },
+        {
+          "id": "clear_foam",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_foam_out",
+          "terminal": true,
+          "oemOutcome": "Remove foam and retest."
+        }
+      ]
+    },
+    {
+      "id": "touch_sensor",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Touch sensor clean",
+      "body": "Check touch sensor inside dryer for water or magnetic substance.",
+      "sourceExcerpt": "Check touch sensor inside dryer for water or magnetic substance.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "sensor_clean",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ulc_verified"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace PBA if ULC persists after cleaning."
+        }
+      ]
+    },
+    {
+      "id": "clear_foam_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Clear foam",
+      "oemOutcome": "Remove foam and run dehumidification course.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pba_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PBA",
+      "oemOutcome": "Replace PBA when cleaning does not clear ULC.",
+      "requiresInput": false
+    },
+    {
+      "id": "ulc_verified",
+      "order": 6,
+      "type": "outcome",
+      "title": "ULC resolved",
+      "oemOutcome": "Foam cleared and sensor clean.",
+      "requiresInput": false
+    }
+  ]
+}

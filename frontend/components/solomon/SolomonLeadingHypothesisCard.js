@@ -1,6 +1,9 @@
 'use client';
 
-import { formatDiyLeadCard } from '../diagnostics/intelligence/evidenceDisplay';
+import {
+  formatDiyLeadCard,
+  shouldShowLeadingHypothesis,
+} from '../diagnostics/intelligence/evidenceDisplay';
 import SolomonCategoryIcon from './categoryIcons';
 
 /**
@@ -11,7 +14,22 @@ export default function SolomonLeadingHypothesisCard({
   onOpenReasoning,
   variant = 'mobile',
   density = 'default',
+  visitedStepKeys = [],
+  procedureRuns = {},
+  fields = {},
+  currentStepKey = null,
 }) {
+  if (
+    !shouldShowLeadingHypothesis(intelligence, {
+      visitedStepKeys,
+      procedureRuns,
+      fields,
+      currentStepKey,
+    })
+  ) {
+    return null;
+  }
+
   const lead = formatDiyLeadCard(intelligence);
   if (!lead) return null;
 

@@ -1,0 +1,36 @@
+{
+  "id": "samsungtlcg71-diagnostic-code-check",
+  "version": "1.0.0",
+  "platformId": "samsung_tl_washer_cg71",
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "title": "Samsung TL CG71 \u2014 Diagnostic code display",
+  "modeKind": "fault_codes",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Review stored diagnostic codes (up to 7 digits) from Smart Install.",
+  "tags": [
+    "fault_codes",
+    "error_code"
+  ],
+  "entryStepId": "dc_enter",
+  "source": {
+    "manualTitle": "Samsung Top-Load Washer CG71 Family (WA7000A) (WA55CG71, WA55CG75, WA54CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl new style-extracted.txt",
+    "pages": [
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "dc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Diagnostic information display",
+      "body": "From AS: press Soil \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display.",
+      "sourceExcerpt": "From AS: press Soil \u2192 CR appears. Turn jog dial CW \u2014 up to 7 stored codes display.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

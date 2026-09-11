@@ -1,0 +1,208 @@
+{
+  "id": "w11819775-test-01-rc-thermistor",
+  "version": "1.0.0",
+  "title": "Service Test 01: RC compartment thermistor",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "thermistor_check",
+    "weak_cooling_ff",
+    "F3E1"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "01",
+    "oemTestTitle": "RC compartment Thermistor",
+    "pages": [
+      57,
+      97
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "select_test_01"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "select_test_01"
+    },
+    {
+      "id": "select_test_01",
+      "order": 3,
+      "type": "instruction",
+      "title": "Navigate to Service Test 01",
+      "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 01. Press Freezer button to enter test. Amber step number; result on display.",
+      "sourceExcerpt": "Service Test 01 \u2014 RC compartment thermistor",
+      "requiresInput": false,
+      "defaultNextStepId": "read_temp"
+    },
+    {
+      "id": "read_temp",
+      "order": 4,
+      "type": "visual_check",
+      "title": "RC compartment thermistor reading",
+      "body": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?",
+      "sourceExcerpt": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "temp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ntc_verified"
+        },
+        {
+          "id": "temp_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": true,
+          "oemOutcome": "RC compartment thermistor Er or out of range \u2014 bench test harness."
+        }
+      ]
+    },
+    {
+      "id": "bench_ntc",
+      "order": 5,
+      "type": "instruction",
+      "title": "Bench RC compartment thermistor ohms",
+      "body": "Disconnect power. Measure at CN6 CN6-1 \u2194 CN6-2 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F.",
+      "sourceExcerpt": "Disconnect power. Measure at CN6 CN6-1 \u2194 CN6-2 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ohms"
+    },
+    {
+      "id": "ntc_ohms",
+      "order": 6,
+      "type": "measurement",
+      "title": "RC compartment thermistor resistance",
+      "body": "Measure at harness with power off.",
+      "sourceExcerpt": "Measure at harness with power off.",
+      "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+      "testPoint": {
+        "connector": "CN6",
+        "pins": "CN6-1 \u2194 CN6-2",
+        "label": "RC compartment thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "ref_kw_8e_thermistor"
+            }
+          ]
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ntc_verified"
+        }
+      ],
+      "images": [
+        {
+          "id": "w11819775-acu-connector-pinout",
+          "caption": "ACU connector pinouts (CONTROL BOARD / CONNECTORS & PINOUTS)",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-acu-connector-pinout.png"
+        },
+        {
+          "id": "w11819775-voltage-chart-b",
+          "caption": "ACU voltage chart \u2014 CN6/CN13/CN10 thermistors & loads",
+          "assetPath": "/images/procedures/whirlpool_acu_fd_inverter/w11819775-voltage-chart-b.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_ntc",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace RC compartment thermistor",
+      "oemOutcome": "Replace RC compartment thermistor or repair harness at CN6.",
+      "requiresInput": false
+    },
+    {
+      "id": "ntc_verified",
+      "order": 8,
+      "type": "outcome",
+      "title": "RC compartment thermistor verified",
+      "oemOutcome": "Service test 01 and bench ohms verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-service-diagnostic-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

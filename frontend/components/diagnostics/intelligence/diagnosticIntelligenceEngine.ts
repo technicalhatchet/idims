@@ -51,16 +51,6 @@ function isNormalMeasurementRule(rule: EvidenceRule): boolean {
   );
 }
 
-function applyDoorLockEliminationShift(
-  categoryScores: Map<string, number>,
-  wasConfirmed: boolean,
-): void {
-  const doorLockCategory = categoryScores.get('door_lock') ?? 0;
-  categoryScores.set('door_lock', clampScore(doorLockCategory - (wasConfirmed ? 40 : 28)));
-  const harnessCategory = categoryScores.get('control_hmi') ?? 0;
-  categoryScores.set('control_hmi', clampScore(harnessCategory + (wasConfirmed ? 20 : 14)));
-}
-
 function evidenceWhenMatches(
   when: EvidenceWhenClause[],
   complaintChipIds: string[],
@@ -148,9 +138,6 @@ function applyEffect(
       }
       delta = wasConfirmed ? -100 : -current.evidence;
       componentScores.set(rule.target, { evidence: 0, state: 'eliminated' });
-      if (rule.target === 'door_lock') {
-        applyDoorLockEliminationShift(categoryScores, wasConfirmed);
-      }
     }
   }
 

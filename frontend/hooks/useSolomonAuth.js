@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { apiClient } from '../utils/api-client';
+import { getUserRole } from '../utils/auth0-helpers';
 import {
   hasSolomonDiySignupIntent,
   hasSolomonSession,
@@ -49,8 +50,10 @@ export function useSolomonAuth() {
         return roles;
       })
       .catch(() => {
-        setDbRoles([]);
-        return [];
+        const auth0Role = getUserRole(user);
+        const fallbackRoles = auth0Role ? [auth0Role] : [];
+        setDbRoles(fallbackRoles);
+        return fallbackRoles;
       })
       .finally(() => setRolesLoading(false));
   }, [user?.sub]);

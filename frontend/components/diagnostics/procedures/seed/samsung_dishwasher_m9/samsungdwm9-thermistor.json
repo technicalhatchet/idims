@@ -1,0 +1,185 @@
+{
+  "id": "samsungdwm9-thermistor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Water Thermistor (tC)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "tC",
+    "HC",
+    "HC1",
+    "temperature_sensor"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Thermistor Check",
+    "pages": [
+      50,
+      51
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_connector"
+    },
+    {
+      "id": "thermistor_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect CN503 thermistor",
+      "body": "Check CN503 pin 4 water thermistor connector seated. Reconnect if loose.",
+      "sourceExcerpt": "Check CN503 pin 4 water thermistor connector seated. Reconnect if loose.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_voltage"
+    },
+    {
+      "id": "thermistor_voltage",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Thermistor voltage 0.05\u20134.95 V?",
+      "body": "With power on, measure voltage across thermistor at CN503 pin 4. Normal: 0.05\u20134.95 V.",
+      "sourceExcerpt": "With power on, measure voltage across thermistor at CN503 pin 4. Normal: 0.05\u20134.95 V.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "thermistor_ohms_yes",
+          "label": "In range",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermistor_ohms"
+        },
+        {
+          "id": "thermistor_ohms_no",
+          "label": "Out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermistor"
+        }
+      ]
+    },
+    {
+      "id": "thermistor_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "Thermistor resistance",
+      "body": "Power off. Disconnect connector. Measure resistance \u2014 ~49 k\u03a9 @ 25\u00b0C per OEM table.",
+      "sourceExcerpt": "Power off. Disconnect connector. Measure resistance \u2014 ~49 k\u03a9 @ 25\u00b0C per OEM table.",
+      "measurementKnowledgeId": "samsungDishwasherM9ThermistorOhms",
+      "testPoint": {
+        "connector": "CN503",
+        "pins": "4",
+        "label": "Thermistor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_ok",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_thermistor_ol_thermistor_ok",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "therm_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_thermistor_ol_thermistor_failed",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "therm_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_thermistor_ol_thermistor_failed",
+              "componentId": "thermistor"
+            }
+          ]
+        },
+        {
+          "id": "therm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_thermistor_ol_thermistor_failed",
+              "componentId": "thermistor"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-layout",
+          "caption": "Main PCB connector map (\u00a75-1)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-layout.png"
+        },
+        {
+          "id": "samsungdwm9-main-pcb-pinout",
+          "caption": "CN101/CN401/CN503/CN802 pinout (\u00a75-2)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "body": "Replace thermistor when out of spec.",
+      "oemOutcome": "Replace thermistor when out of spec.",
+      "requiresInput": false
+    },
+    {
+      "id": "thermistor_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Thermistor OK",
+      "body": "Thermistor verified \u2014 if tC/HC persists, check heater and main PBA.",
+      "oemOutcome": "Thermistor verified \u2014 if tC/HC persists, check heater and main PBA.",
+      "requiresInput": false
+    }
+  ]
+}

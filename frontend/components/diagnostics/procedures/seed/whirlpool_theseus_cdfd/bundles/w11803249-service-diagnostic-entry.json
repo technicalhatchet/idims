@@ -1,0 +1,36 @@
+{
+  "id": "w11803249-service-diagnostic-entry",
+  "version": "1.0.0",
+  "platformId": "whirlpool_theseus_cdfd",
+  "manualId": "W11803249",
+  "title": "W11803249 \u2014 Service Diagnostic Mode entry",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Three-key \u00d73 entry; manual control, auto test, and fault modes.",
+  "tags": [
+    "service_test",
+    "service_diagnostic"
+  ],
+  "entryStepId": "sd_enter",
+  "source": {
+    "manualTitle": "Whirlpool 36 in Counter-Depth 24 cu ft French Door (W11803249B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11803249-revb cdfd2024-extracted.txt",
+    "pages": [
+      76
+    ]
+  },
+  "steps": [
+    {
+      "id": "sd_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter Service Test Mode",
+      "body": "Press any 3 keypad buttons three times (1,2,3; 1,2,3; 1,2,3) within 8 s. Hold 1st button 5 s to exit.",
+      "sourceExcerpt": "Press any 3 keypad buttons three times (1,2,3; 1,2,3; 1,2,3) within 8 s. Hold 1st button 5 s to exit.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

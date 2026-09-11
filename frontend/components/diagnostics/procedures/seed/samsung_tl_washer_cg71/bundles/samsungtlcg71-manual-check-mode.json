@@ -1,0 +1,36 @@
+{
+  "id": "samsungtlcg71-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_tl_washer_cg71",
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "title": "Samsung TL CG71 \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install \u2014 press Spin to advance component tests.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung Top-Load Washer CG71 Family (WA7000A) (WA55CG71, WA55CG75, WA54CG)",
+    "extractedTextFile": "backend/docs/manuals/samsung tl new style-extracted.txt",
+    "pages": [
+      28
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual check",
+      "body": "From AS: press Spin. Spin advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "sourceExcerpt": "From AS: press Spin. Spin advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

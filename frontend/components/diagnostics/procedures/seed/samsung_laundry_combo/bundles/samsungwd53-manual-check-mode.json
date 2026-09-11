@@ -1,0 +1,37 @@
+{
+  "id": "samsungwd53-manual-check-mode",
+  "version": "1.0.0",
+  "platformId": "samsung_laundry_combo",
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "title": "Samsung WD53 \u2014 Manual check mode",
+  "modeKind": "load_test",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Manual Smart Install \u2014 press Start Manual mode to advance each component test.",
+  "tags": [
+    "service_diagnostic",
+    "load_test"
+  ],
+  "entryStepId": "mc_enter",
+  "source": {
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "pages": [
+      54,
+      56
+    ]
+  },
+  "steps": [
+    {
+      "id": "mc_enter",
+      "order": 1,
+      "type": "instruction",
+      "title": "Enter manual check",
+      "body": "From AS: Start Manual mode. Each press advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door. OK(Ot)=pass; nG=fail.",
+      "sourceExcerpt": "From AS: Start Manual mode. Each press advances: 1 door lock, 2 drain, 3 prep valve, Co cold, Ho hot, 6 water shot/heater/rinse, 7 drain, 8 spin, 9 dry heater/fan, 10 door. OK(Ot)=pass; nG=fail.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

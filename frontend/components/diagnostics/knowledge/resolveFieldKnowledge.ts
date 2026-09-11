@@ -25,13 +25,16 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherMotorWindingOhms', platformId: 'whirlpool_mvw6200' },
         { knowledgeId: 'whirlpoolMvw6200WasherMotorWindingOhms', platformId: 'whirlpool_tl_dd_6157' },
+        { knowledgeId: 'whirlpoolMvw6200WasherMotorWindingOhms', platformId: 'whirlpool_tl_psc_washer' },
         { knowledgeId: 'whirlpoolWtw4100WasherMotorWindingOhms', platformId: 'whirlpool_tl_dd_4100' },
         { knowledgeId: 'whirlpoolTlDdWasherMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherMotorOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherMotorOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashMotorOhms', platformId: 'samsung_flexwash' },
         { knowledgeId: 'samsungTlA50WasherMotorOhms', platformId: 'samsung_tl_washer_a50' },
+        { knowledgeId: 'samsungTlA50WasherMotorOhms', platformId: 'samsung_tl_washer_cg71' },
         { knowledgeId: 'samsungFlBb8700WasherMotorOhms', platformId: 'samsung_fl_washer_bb8700' },
+        { knowledgeId: 'samsungFlWf6000rWasherMotorOhms', platformId: 'samsung_fl_washer_wf6000r' },
         {
           knowledgeId: 'insigniaWasherFreqDriveMotorOhms',
           platformId: 'insignia_washer_freq',
@@ -44,12 +47,14 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherDrainPumpOhms', platformId: 'whirlpool_mvw6200' },
         { knowledgeId: 'whirlpoolMvw6200WasherDrainPumpOhms', platformId: 'whirlpool_tl_dd_6157' },
+        { knowledgeId: 'whirlpoolMvw6200WasherDrainPumpOhms', platformId: 'whirlpool_tl_psc_washer' },
         { knowledgeId: 'whirlpoolWtw4100WasherDrainPumpOhms', platformId: 'whirlpool_tl_dd_4100' },
         { knowledgeId: 'whirlpoolTlDdWasherDrainPumpOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDrainPumpOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherDrainPumpOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashDrainPumpOhms', platformId: 'samsung_flexwash' },
         { knowledgeId: 'samsungTlA50WasherDrainPumpOhms', platformId: 'samsung_tl_washer_a50' },
+        { knowledgeId: 'samsungTlA50WasherDrainPumpOhms', platformId: 'samsung_tl_washer_cg71' },
         {
           knowledgeId: 'insigniaWasherCapDrainPumpOhms',
           platformId: 'insignia_washer_cap',
@@ -66,12 +71,14 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherInletValveOhms', platformId: 'whirlpool_mvw6200' },
         { knowledgeId: 'whirlpoolMvw6200WasherInletValveOhms', platformId: 'whirlpool_tl_dd_6157' },
+        { knowledgeId: 'whirlpoolMvw6200WasherInletValveOhms', platformId: 'whirlpool_tl_psc_washer' },
         { knowledgeId: 'whirlpoolWtw4100WasherInletValveOhms', platformId: 'whirlpool_tl_dd_4100' },
         { knowledgeId: 'whirlpoolTlDdWasherInletValveOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherInletValveOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'whirlpoolFlWasherInletValveOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashInletValveOhms', platformId: 'samsung_flexwash' },
         { knowledgeId: 'samsungTlA50WasherInletValveOhms', platformId: 'samsung_tl_washer_a50' },
+        { knowledgeId: 'samsungTlA50WasherInletValveOhms', platformId: 'samsung_tl_washer_cg71' },
         {
           knowledgeId: 'insigniaWasherCapInletValveOhms',
           platformId: 'insignia_washer_cap',
@@ -88,6 +95,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolFlWasherHeaterOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'samsungFlexWashHeaterOhms', platformId: 'samsung_flexwash' },
         { knowledgeId: 'samsungFlBb8700WasherHeaterOhms', platformId: 'samsung_fl_washer_bb8700' },
+        { knowledgeId: 'samsungFlWf6000rWasherHeaterOhms', platformId: 'samsung_fl_washer_wf6000r' },
       ],
     },
     'electrical_measurements.recirc_pump_ohms': {
@@ -100,12 +108,15 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolMvw6200WasherLidLockSolenoidOhms', platformId: 'whirlpool_mvw6200' },
         { knowledgeId: 'whirlpoolMvw6200WasherLidLockSolenoidOhms', platformId: 'whirlpool_tl_dd_6157' },
+        { knowledgeId: 'whirlpoolMvw6200WasherLidLockSolenoidOhms', platformId: 'whirlpool_tl_psc_washer' },
         { knowledgeId: 'whirlpoolWtw4100WasherLidLockSolenoidOhms', platformId: 'whirlpool_tl_dd_4100' },
         { knowledgeId: 'whirlpoolTlDdWasherLidLockMotorOhms', platformId: 'whirlpool_tl_dd' },
         { knowledgeId: 'whirlpoolFlWasherDoorLockSolenoidOhms', platformId: 'whirlpool_fl_dd' },
         { knowledgeId: 'whirlpoolDuetSportWasherDoorLockSolenoidOhms', platformId: 'whirlpool_duet_sport' },
         { knowledgeId: 'samsungTlA50WasherDoorLockMotorOhms', platformId: 'samsung_tl_washer_a50' },
+        { knowledgeId: 'samsungTlA50WasherDoorLockMotorOhms', platformId: 'samsung_tl_washer_cg71' },
         { knowledgeId: 'samsungFlBb8700WasherDoorLockOhms', platformId: 'samsung_fl_washer_bb8700' },
+        { knowledgeId: 'samsungFlWf6000rWasherDoorLockOhms', platformId: 'samsung_fl_washer_wf6000r' },
         {
           knowledgeId: 'insigniaWasherCapDoorLockOhms',
           platformId: 'insignia_washer_cap',
@@ -126,6 +137,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           manufacturers: [...INSIGNIA],
         },
         { knowledgeId: 'lgDishwasherLdt7808HeaterOhms', platformId: 'lg_dishwasher_ldt7808' },
+        { knowledgeId: 'samsungDishwasherM9HeaterOhms', platformId: 'samsung_dishwasher_m9' },
         { knowledgeId: 'dishwasherHeatingElementOhms', isDefault: true },
       ],
     },
@@ -142,6 +154,8 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           manufacturers: [...INSIGNIA],
         },
         { knowledgeId: 'lgDishwasherLdt7808ThermistorOhms', platformId: 'lg_dishwasher_ldt7808' },
+        { knowledgeId: 'samsungDishwasherThermistorOhms', platformId: 'samsung_dishwasher' },
+        { knowledgeId: 'samsungDishwasherM9ThermistorOhms', platformId: 'samsung_dishwasher_m9' },
         { knowledgeId: 'dishwasherTubThermistorOhms', isDefault: true },
       ],
     },
@@ -149,6 +163,8 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
       candidates: [
         { knowledgeId: 'whirlpoolDishwasherAcuWashMotorOhms', platformId: 'whirlpool_dishwasher_acu' },
         { knowledgeId: 'lgDishwasherLdt7808WashMotorOhms', platformId: 'lg_dishwasher_ldt7808' },
+        { knowledgeId: 'samsungDishwasherCirculationMotorOhms', platformId: 'samsung_dishwasher' },
+        { knowledgeId: 'samsungDishwasherM9CirculationMotorOhms', platformId: 'samsung_dishwasher_m9' },
         { knowledgeId: 'dishwasherCirculationPumpOhms', isDefault: true },
       ],
     },
@@ -165,6 +181,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           manufacturers: [...INSIGNIA],
         },
         { knowledgeId: 'lgDishwasherLdt7808DrainPumpOhms', platformId: 'lg_dishwasher_ldt7808' },
+        { knowledgeId: 'samsungDishwasherM9DrainPumpOhms', platformId: 'samsung_dishwasher_m9' },
         { knowledgeId: 'dishwasherDrainPumpOhms', isDefault: true },
       ],
     },
@@ -178,6 +195,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
           manufacturers: [...INSIGNIA],
         },
         { knowledgeId: 'lgDishwasherLdt7808InletValveOhms', platformId: 'lg_dishwasher_ldt7808' },
+        { knowledgeId: 'samsungDishwasherM9FillValveOhms', platformId: 'samsung_dishwasher_m9' },
         { knowledgeId: 'dishwasherWaterValveOhms', isDefault: true },
       ],
     },
@@ -189,6 +207,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
         { knowledgeId: 'whirlpoolDuetSportDryerHeaterOhms', platformId: 'whirlpool_duet_sport_dryer' },
         { knowledgeId: 'whirlpoolAcuTlDryerHeaterOhms', platformId: 'whirlpool_acu_tl_dryer' },
         { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_dryer' },
+        { knowledgeId: 'whirlpoolCcuDryerHeaterOhms', platformId: 'whirlpool_ccu_tl_dryer' },
         {
           knowledgeId: 'insigniaDryerHeaterOhms',
           platformId: 'insignia_dryer_tdre',
@@ -306,6 +325,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   gas_range: {
     'electrical_at_board.igniter_resistance': {
       candidates: [
+        { knowledgeId: 'lgRangeOvenIgniterOhms', platformId: 'lg_freestanding_range' },
         { knowledgeId: 'samsungNx60OvenIgnitorOhms', platformId: 'samsung_range_nx60' },
         { knowledgeId: 'hotSurfaceIgniterOhms', isDefault: true },
       ],
@@ -318,6 +338,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'element_sensor_readings.temp_sensor_ohms': {
       candidates: [
+        { knowledgeId: 'lgRangeOvenSensorOhms', platformId: 'lg_freestanding_range' },
         { knowledgeId: 'samsungNx60OvenSensorOhms', platformId: 'samsung_range_nx60' },
         { knowledgeId: 'ovenTempSensorOhms', isDefault: true },
       ],
@@ -326,12 +347,14 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
   electric_range: {
     'element_sensor_readings.temp_sensor_ohms': {
       candidates: [
+        { knowledgeId: 'lgRangeOvenSensorOhms', platformId: 'lg_freestanding_range' },
         { knowledgeId: 'samsungNx60OvenSensorOhms', platformId: 'samsung_range_nx60' },
         { knowledgeId: 'ovenTempSensorOhms', isDefault: true },
       ],
     },
     'board_readings.convection_output': {
       candidates: [
+        { knowledgeId: 'lgRangeConvectionMotorOhms', platformId: 'lg_freestanding_range' },
         { knowledgeId: 'samsungNx60ConvectionFanOhms', platformId: 'samsung_range_nx60' },
         { knowledgeId: 'convectionFanMotorAmps', isDefault: true },
       ],
@@ -349,12 +372,15 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_heater_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolSxsW11296289DefrostHeaterOhms', platformId: 'whirlpool_sxs_w11296289' },
         { knowledgeId: 'whirlpoolKaFdDefrostHeaterOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdDefrostHeaterOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'whirlpoolWrt311DefrostHeaterOhms', platformId: 'whirlpool_wrt311_adc' },
         { knowledgeId: 'whirlpoolWrtDefrostHeaterOhms', platformId: 'whirlpool_wrt_top_mount' },
         { knowledgeId: 'samsungRefrigeratorDefrostHeaterOhms', platformId: 'samsung_sxs' },
         { knowledgeId: 'samsungBespokeFridgeDefrostHeaterOhms63', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'samsungRf28FreezerDefrostHeaterOhms', platformId: 'samsung_fridge_rf28' },
+        { knowledgeId: 'samsungRf28FridgeDefrostHeaterOhms', platformId: 'samsung_fridge_rf28' },
         {
           knowledgeId: 'mideaRssDefrostHeaterOhms',
           platformId: 'midea_rss',
@@ -377,6 +403,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'defrost_circuit.defrost_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolSxsW11296289ThermistorOhms', platformId: 'whirlpool_sxs_w11296289' },
         { knowledgeId: 'whirlpoolKaFdThermistorOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
@@ -392,6 +419,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'compressor_sealed_system.run_winding_ohms': {
       candidates: [
+        { knowledgeId: 'whirlpoolSxsW11296289CompressorRunOhms', platformId: 'whirlpool_sxs_w11296289' },
         { knowledgeId: 'whirlpoolKaFdCompressorRunOhms', platformId: 'whirlpool_ka_french_door' },
         { knowledgeId: 'whirlpoolJazzFdCompressorRunOhms', platformId: 'whirlpool_jazz_french_door' },
         { knowledgeId: 'compressorRunWindingOhms', isDefault: true },
@@ -437,6 +465,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'fans_and_electrical.freezer_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolSxsW11296289ThermistorOhms', platformId: 'whirlpool_sxs_w11296289' },
         { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
@@ -448,6 +477,7 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     },
     'fans_and_electrical.fresh_food_thermistor': {
       candidates: [
+        { knowledgeId: 'whirlpoolSxsW11296289ThermistorOhms', platformId: 'whirlpool_sxs_w11296289' },
         { knowledgeId: 'whirlpoolJazzFdThermistorOhms', platformId: 'whirlpool_jazz_french_door' },
         {
           knowledgeId: 'mideaB3839ThermistorKohm',
@@ -460,18 +490,21 @@ const LAYERED_BINDINGS_BY_TEMPLATE: Record<string, Record<string, FieldKnowledge
     'fans_and_electrical.thermistor_voltage_v': {
       candidates: [
         { knowledgeId: 'samsungBespokeFridgeThermistorVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'samsungRf28FridgeThermistorVoltage', platformId: 'samsung_fridge_rf28' },
         { knowledgeId: 'refrigeratorThermistorVoltage', platformId: 'samsung_sxs' },
       ],
     },
     'fans_and_electrical.evap_fan_feedback_voltage': {
       candidates: [
         { knowledgeId: 'samsungBespokeFridgeEvapFanFeedbackVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'samsungRf28FridgeEvapFanFeedbackVoltage', platformId: 'samsung_fridge_rf28' },
         { knowledgeId: 'refrigeratorEvapFanFeedbackVoltage', platformId: 'samsung_sxs' },
       ],
     },
     'fans_and_electrical.inverter_ipm_voltage': {
       candidates: [
         { knowledgeId: 'samsungBespokeFridgeInverterIpmVoltage', platformId: 'samsung_fridge_bespoke' },
+        { knowledgeId: 'samsungRf28FridgeInverterIpmVoltage', platformId: 'samsung_fridge_rf28' },
         { knowledgeId: 'refrigeratorInverterIpmVoltage', platformId: 'samsung_sxs' },
       ],
     },
@@ -582,6 +615,29 @@ export function listLayeredFieldKeysForTemplate(templateId: string): string[] {
   const layered = Object.keys(LAYERED_BINDINGS_BY_TEMPLATE[templateId] || {});
   const flat = Object.keys(FLAT_BINDINGS_BY_TEMPLATE[templateId] || {});
   return [...new Set([...layered, ...flat])];
+}
+
+/** Reverse lookup — wizard field path for a measurement knowledge id (OEM → wizard sync). */
+export function findWizardFieldForKnowledgeId(
+  templateId: string | null | undefined,
+  knowledgeId: string,
+  ctx?: MeasurementContext | null,
+): string | null {
+  if (!templateId || !knowledgeId) return null;
+
+  const context: MeasurementContext = ctx || { templateId };
+
+  for (const fieldKey of listLayeredFieldKeysForTemplate(templateId)) {
+    const resolved = resolveFieldKnowledgeId(templateId, fieldKey, context);
+    if (resolved === knowledgeId) return fieldKey;
+
+    const binding = getFieldBinding(templateId, fieldKey);
+    if (binding?.candidates.some((candidate) => candidate.knowledgeId === knowledgeId)) {
+      return fieldKey;
+    }
+  }
+
+  return null;
 }
 
 /** Register flat bindings for non-layered templates (called from fieldBindings.ts). */

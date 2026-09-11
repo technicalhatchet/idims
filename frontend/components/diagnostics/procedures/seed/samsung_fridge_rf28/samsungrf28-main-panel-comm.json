@@ -1,0 +1,121 @@
+{
+  "id": "samsungrf28-main-panel-comm",
+  "version": "1.0.0",
+  "title": "Main \u2194 display panel communication",
+  "platformId": "samsung_fridge_rf28",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "hmi_check",
+    "display_dead"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-RF28-FRIDGE",
+    "manualTitle": "Samsung RF28 French-door refrigerator",
+    "extractedTextFile": "backend/docs/manuals/samsung rf28 fddeli-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-1-2",
+    "oemTestTitle": "Main \u2194 Panel communication",
+    "pages": [
+      58,
+      90
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug refrigerator before resistance checks. Discharge PCB per manual. High voltage on inverter PCB and SMPS.",
+      "sourceExcerpt": "Unplug the appliance before changing or repairing electric parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "panel_harness"
+    },
+    {
+      "id": "panel_harness",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Panel harness",
+      "body": "Reseat display harness at hinge and MAIN PCB. Check for moisture or pin damage.",
+      "sourceExcerpt": "Reseat display harness at hinge and MAIN PCB. Check for moisture or pin damage.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_scope"
+        },
+        {
+          "id": "fix_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace display harness."
+        }
+      ]
+    },
+    {
+      "id": "comm_scope",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Comm line check",
+      "body": "If harness OK, verify comm waveform between main and panel PCBs with oscilloscope.",
+      "sourceExcerpt": "If harness OK, verify comm waveform between main and panel PCBs with oscilloscope.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_comm_ok"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or panel PCB."
+        }
+      ]
+    },
+    {
+      "id": "harness_out",
+      "order": 4,
+      "type": "outcome",
+      "title": "Repair harness",
+      "oemOutcome": "Replace display harness.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_boards_out",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace main and/or panel PCB per scope findings.",
+      "requiresInput": false
+    },
+    {
+      "id": "panel_comm_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "Panel communication restored.",
+      "requiresInput": false
+    }
+  ]
+}

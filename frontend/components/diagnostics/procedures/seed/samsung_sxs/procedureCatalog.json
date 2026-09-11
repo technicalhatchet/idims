@@ -1,9 +1,9 @@
 {
-  "manualId": "SAMSUNG-RF260B-FRIDGE",
+  "manualId": "SAMSUNG-RS28-SXS",
   "platformId": "samsung_sxs",
   "templateId": "refrigerator",
-  "label": "Samsung RF260B/RF261B side-by-side refrigerator",
-  "notes": "\u00a74-1 test mode + \u00a74-1-3 self-diagnostic checklist. Shares samsung_sxs platform with RS28 field bindings.",
+  "label": "Samsung SxS refrigerator (RF260B + RS28/RS23)",
+  "notes": "RF260B \u00a74-1-3 (CN30/CN76) + RS28 \u00a74-2 checklist (CN20/CN40/CN90). Shared samsung_sxs platform.",
   "plannedProcedures": [
     {
       "id": "samsungrf260b-fz-sensor",
@@ -122,6 +122,151 @@
       "relatedCodes": [
         "OP-Er",
         "OP Er"
+      ]
+    },
+    {
+      "id": "samsungrs28-f-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-r-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)",
+      "status": "generated",
+      "relatedCodes": [
+        "8E"
+      ]
+    },
+    {
+      "id": "samsungrs28-f-def-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)",
+      "status": "generated",
+      "relatedCodes": [
+        "5E",
+        "SE"
+      ]
+    },
+    {
+      "id": "samsungrs28-ambient-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Ambient sensor",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-humidity-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Humidity sensor",
+      "status": "generated",
+      "relatedCodes": [
+        "14E"
+      ]
+    },
+    {
+      "id": "samsungrs28-ice-maker-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Ice maker sensor",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-f-fan",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: F fan feedback",
+      "status": "generated",
+      "relatedCodes": [
+        "22E"
+      ]
+    },
+    {
+      "id": "samsungrs28-c-fan",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: C fan feedback",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-f-defrost-heater",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Freezer defrost heater (F-DEF)",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-damper-heater",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: R-room damper heater",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-ice-pipe-heater",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Ice pipe heater",
+      "status": "generated",
+      "relatedCodes": [
+        "33E"
+      ]
+    },
+    {
+      "id": "samsungrs28-ice-maker-function",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Ice maker function",
+      "status": "generated",
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungrs28-panel-communication",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Panel communication (41Er)",
+      "status": "generated",
+      "relatedCodes": [
+        "41Er",
+        "41E"
+      ]
+    },
+    {
+      "id": "samsungrs28-inverter-communication",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Inverter communication (44Er)",
+      "status": "generated",
+      "relatedCodes": [
+        "44Er",
+        "44E"
+      ]
+    },
+    {
+      "id": "samsungrs28-io-expander-communication",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: I/O expander communication (46Er)",
+      "status": "generated",
+      "relatedCodes": [
+        "46Er",
+        "46E"
+      ]
+    },
+    {
+      "id": "samsungrs28-dispenser-communication",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Dispenser panel communication (47Er)",
+      "status": "generated",
+      "relatedCodes": [
+        "47Er",
+        "47E"
+      ]
+    },
+    {
+      "id": "samsungrs28-wifi-communication",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Wi-Fi communication (52Er)",
+      "status": "generated",
+      "relatedCodes": [
+        "52Er",
+        "52E"
       ]
     }
   ]

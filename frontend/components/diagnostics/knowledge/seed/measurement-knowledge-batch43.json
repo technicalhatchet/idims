@@ -1,0 +1,379 @@
+[
+  {
+    "id": "samsungLaundryComboMotorOhms",
+    "name": "Samsung WD53 Laundry Combo Motor Winding Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 5.4, "max": 6.6 },
+      "warning": { "min": 4.8, "max": 7.5 },
+      "critical": { "below": 2, "above": 12 }
+    },
+    "typical": { "min": 5.8, "max": 6.2 },
+    "openCircuitCritical": true,
+    "purpose": "DD wash motor — any two of three terminals at connector. §4-4 3C cites 6.0 Ω @ 25°C.",
+    "failureModes": [
+      "Open winding — 3C motor error",
+      "Unequal pairs — rotor/stator or harness fault"
+    ],
+    "testingTips": [
+      "Disconnect motor connector before ohms",
+      "Rule out 3E/3C1 overload before condemning motor",
+      "Smart Install manual check step 8 exercises dehydration spin"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["motor_check", "spin_issue", "3C"]
+  },
+  {
+    "id": "samsungLaundryComboWashHeaterInCircuitOhms",
+    "name": "Samsung WD53 Wash Heater In-Circuit (A–B)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 15.4, "max": 16.7 },
+      "warning": { "min": 14.5, "max": 17.5 },
+      "critical": { "below": 5, "above": 30 }
+    },
+    "typical": { "min": 15.9, "max": 16.2 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater terminals A and B at tub front per §4-4 HC TYPE 1.",
+    "failureModes": [
+      "Open — replace heater",
+      "Good heater ohms but HC — check wash thermistor TYPE 2"
+    ],
+    "testingTips": [
+      "Disconnect power before accessing heater terminals",
+      "If TYPE 1 OK, replace wash thermistor at back of tub"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungLaundryComboWashHeaterOhms",
+    "name": "Samsung WD53 Wash Heater Bench Resistance",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 25, "max": 29 },
+      "warning": { "min": 23, "max": 31 },
+      "critical": { "below": 5, "above": 50 }
+    },
+    "typical": { "min": 26.2, "max": 27.1 },
+    "openCircuitCritical": true,
+    "purpose": "Heater element removed from tub — 27.1 Ω (1900 W) or 26.2 Ω (2000 W) per §3.",
+    "failureModes": [
+      "Open element — HC / no heat",
+      "Low ohms — shorted element"
+    ],
+    "testingTips": [
+      "Ensure heater seated in bracket on reassembly",
+      "§4-4 TYPE 1 in-circuit A–B expects 16.05 ± 0.65 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["no_heat", "HC", "HC1"]
+  },
+  {
+    "id": "samsungLaundryComboWashThermistorOhms",
+    "name": "Samsung WD53 Wash Thermistor (room temp)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 10000, "max": 14000 },
+      "warning": { "min": 8000, "max": 18000 },
+      "critical": { "below": 2000, "above": 50000 }
+    },
+    "typical": { "min": 11500, "max": 12500 },
+    "openCircuitCritical": true,
+    "purpose": "Wash heater NTC at room temperature — ~12 kΩ per §3 thermistor checkpoint.",
+    "failureModes": [
+      "Open/shorted NTC — TC1 / HC after heater ruled out",
+      "Frozen hose in winter — defrost before condemning sensor"
+    ],
+    "testingTips": [
+      "Measure at thermistor connector with leads attached",
+      "Compare after heater A–B passes TYPE 1 check"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["TC1", "thermistor", "HC"]
+  },
+  {
+    "id": "samsungLaundryComboDoorSwitchOhms",
+    "name": "Samsung WD53 Door Switch (TYPE 1 pins 1–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 150, "max": 200 },
+      "warning": { "min": 120, "max": 230 },
+      "critical": { "below": 50, "above": 500 }
+    },
+    "typical": { "min": 165, "max": 185 },
+    "openCircuitCritical": true,
+    "purpose": "Door switch TYPE 1 — resistance pins 1 and 3 approximately 175 Ω per §4-4 DC.",
+    "failureModes": [
+      "Open switch — DC door error",
+      "120 V door feed — verify insulation before ohms"
+    ],
+    "testingTips": [
+      "Disconnect power — 120 V present on door circuit when energized",
+      "TYPE 2/3 lock slider pushed: pins 2–3 expect 60–90 Ω or 65–75 Ω"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["DC", "door_lock_check"]
+  },
+  {
+    "id": "samsungLaundryComboDoorLockOhms",
+    "name": "Samsung WD53 Door Lock Switch (TYPE 2/3 pins 2–3)",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 60, "max": 90 },
+      "warning": { "min": 50, "max": 100 },
+      "critical": { "below": 20, "above": 200 }
+    },
+    "typical": { "min": 65, "max": 85 },
+    "openCircuitCritical": true,
+    "purpose": "Door lock switch with slider pushed — TYPE 2: 60–90 Ω; TYPE 3: 65–75 Ω per §4-4 DC1.",
+    "failureModes": [
+      "Out of range — replace door lock assembly",
+      "dC1 persists — check CAM, lever door, door sagging"
+    ],
+    "testingTips": [
+      "Push lock slider to simulate latched state",
+      "Inspect CAM and LEVER DOOR before condemning switch"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["DC1", "dC1", "door_lock_check"]
+  },
+  {
+    "id": "samsungLaundryComboWaterLevelFrequency",
+    "name": "Samsung WD53 Water Level Sensor Frequency (no load)",
+    "unit": "kHz",
+    "inputKind": "frequency",
+    "ranges": {
+      "normal": { "min": 24.5, "max": 26.5 },
+      "warning": { "min": 22, "max": 28 },
+      "critical": { "below": 18, "above": 30 }
+    },
+    "typical": { "min": 25.2, "max": 25.8 },
+    "purpose": "Pressure level sensor — approx. 25.5 kHz with no load on pink and orange wires per §4-4 1C.",
+    "failureModes": [
+      "Out of band — replace water level sensor",
+      "Wrong material-code sensor installed — verify part number"
+    ],
+    "testingTips": [
+      "Connect sensor and harness before frequency check",
+      "Verify hose not folded, cut, or clogged"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["1C", "fill_issue"]
+  },
+  {
+    "id": "samsungLaundryComboDrainPumpOhms",
+    "name": "Samsung WD53 Drain / Circulation Pump Motor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 280, "max": 380 },
+      "warning": { "min": 250, "max": 420 },
+      "critical": { "below": 100, "above": 600 }
+    },
+    "typical": { "min": 310, "max": 350 },
+    "openCircuitCritical": true,
+    "purpose": "Pump motor resistance — 330 Ω per §4-5 #7 (operation guarantee ±15% of rated 220 V).",
+    "failureModes": [
+      "Open pump — 5C drain error",
+      "Impeller damaged — pump runs but does not drain"
+    ],
+    "testingTips": [
+      "Clear bellows of foreign material before condemning pump",
+      "Rule out winter freeze in drain hose"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["5C", "drain_issue", "condensate"]
+  },
+  {
+    "id": "samsungLaundryComboDuctThermistorOhms",
+    "name": "Samsung WD53 Duct / Discharge Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 46500, "max": 53500 },
+      "warning": { "min": 40000, "max": 60000 },
+      "critical": { "below": 20000, "above": 100000 }
+    },
+    "typical": { "min": 48000, "max": 52000 },
+    "openCircuitCritical": true,
+    "purpose": "DUCT and DISCHARGE thermistor — 50 kΩ ± 7% @ 25°C (2P pins 1–2) per §4-5 #1 / tC.",
+    "failureModes": [
+      "Open/high resistance — tC code",
+      "Dirty condenser filter — clean before condemning sensor"
+    ],
+    "testingTips": [
+      "Clean case filter first when tC displays",
+      "Measure at connector with leads attached"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["tC", "TC5", "heat_pump_dry"]
+  },
+  {
+    "id": "samsungLaundryComboEvaThermistorOhms",
+    "name": "Samsung WD53 EVA IN / EVA OUT Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 9700, "max": 10300 },
+      "warning": { "min": 9000, "max": 11000 },
+      "critical": { "below": 5000, "above": 20000 }
+    },
+    "typical": { "min": 9900, "max": 10100 },
+    "openCircuitCritical": true,
+    "purpose": "Evaporator thermistors — 10 kΩ ± 3% @ 25°C (4P pins 1–2 / 3–4) per §4-5 #2 / HC.",
+    "failureModes": [
+      "Out of range — TC7/TC8 or compressor overheat HC",
+      "Connector loose — recheck harness before replace"
+    ],
+    "testingTips": [
+      "Measure EVA IN and EVA OUT separately",
+      "If HC with good ohms, enter line test mode per manual"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["TC7", "TC8", "HC", "heat_pump_dry"]
+  },
+  {
+    "id": "samsungLaundryComboCompTopThermistorOhms",
+    "name": "Samsung WD53 Compressor Top Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 194000, "max": 206000 },
+      "warning": { "min": 180000, "max": 220000 },
+      "critical": { "below": 50000, "above": 400000 }
+    },
+    "typical": { "min": 198000, "max": 202000 },
+    "openCircuitCritical": true,
+    "purpose": "Compressor top thermistor — 200 kΩ ± 3% @ 25°C (2P pins 1–2) per §4-5 #3 / TCA.",
+    "failureModes": [
+      "Open/shorted — TCA fault",
+      "Compressor overheating — verify fan and condenser airflow"
+    ],
+    "testingTips": [
+      "Check inverter fan operation with 12 V bench test per §4-5 #8–9",
+      "Inspect compressor harness terminals for damage"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["TCA", "compressor", "heat_pump_dry"]
+  },
+  {
+    "id": "samsungLaundryComboHeaterThermistorOhms",
+    "name": "Samsung WD53 Dry Heater Thermistor",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 220400, "max": 256000 },
+      "warning": { "min": 200000, "max": 280000 },
+      "critical": { "below": 50000, "above": 500000 }
+    },
+    "typical": { "min": 230000, "max": 246000 },
+    "openCircuitCritical": true,
+    "purpose": "Dry heater thermistor — 238.23 kΩ ± 7.5% @ 25°C (4P pins 1–4) per §4-5 #4 / TCB.",
+    "failureModes": [
+      "Out of range — TCB fault",
+      "Heater thermistor open — dry heat path disabled"
+    ],
+    "testingTips": [
+      "Also 3.16 kΩ ± 3% @ 150°C when hot — room temp check first",
+      "Verify connector seated on heat pump module"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["TCB", "heat_pump_dry"]
+  },
+  {
+    "id": "samsungLaundryComboDryHeaterOhms",
+    "name": "Samsung WD53 Heat-Pump Dry Heater Element",
+    "unit": "Ω",
+    "inputKind": "resistance",
+    "ranges": {
+      "normal": { "min": 35.6, "max": 39.4 },
+      "warning": { "min": 33, "max": 42 },
+      "critical": { "below": 10, "above": 60 }
+    },
+    "typical": { "min": 36.5, "max": 38.5 },
+    "openCircuitCritical": true,
+    "purpose": "Dry heater element — 35.6–39.4 Ω at 3P pins 1–3 per §4-5 #5.",
+    "failureModes": [
+      "Open element — poor dry performance",
+      "Shorted element — thermal protection trip"
+    ],
+    "testingTips": [
+      "Disconnect power before measuring at heat pump module",
+      "Pair with dry heater thermistor (TCB) when heat fault suspected"
+    ],
+    "appliesTo": {
+      "equipmentSubtypes": ["aio_laundry"],
+      "templates": ["aio_laundry"],
+      "manufacturers": ["Samsung"],
+      "platformId": "samsung_laundry_combo"
+    },
+    "dmaTags": ["no_heat", "heat_pump_dry"]
+  }
+]

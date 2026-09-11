@@ -1,0 +1,243 @@
+{
+  "id": "samsungdwm9-distributor",
+  "version": "1.0.0",
+  "title": "\u00a74-3: Distributor Motor (PC)",
+  "platformId": "samsung_dishwasher_m9",
+  "componentIds": [
+    "diverter_motor"
+  ],
+  "tags": [
+    "PC",
+    "diverter_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-DISHWASHER-M9",
+    "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+    "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Half load / PC cam position",
+    "pages": [
+      48,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+      "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dist_connector"
+    },
+    {
+      "id": "dist_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inspect distributor motor",
+      "body": "Check CN401 pin 3 distributor motor and micro switch connectors on CN501.",
+      "sourceExcerpt": "Check CN401 pin 3 distributor motor and micro switch connectors on CN501.",
+      "requiresInput": false,
+      "defaultNextStepId": "dist_ohms"
+    },
+    {
+      "id": "dist_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Distributor motor coil",
+      "body": "Disconnect connector. Normal: approx. 3.6\u20134.0 k\u03a9.",
+      "sourceExcerpt": "Disconnect connector. Normal: approx. 3.6\u20134.0 k\u03a9.",
+      "measurementKnowledgeId": "samsungDishwasherM9DistributorMotorOhms",
+      "testPoint": {
+        "connector": "CN401",
+        "pins": "3",
+        "label": "Distributor motor coil"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dist_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "micro_switch",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_diverter_motor_ol_diverter_motor_ok",
+              "componentId": "diverter_motor"
+            }
+          ]
+        },
+        {
+          "id": "dist_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_distributor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_diverter_motor_ol_diverter_motor_failed",
+              "componentId": "diverter_motor"
+            }
+          ]
+        },
+        {
+          "id": "dist_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_distributor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_diverter_motor_ol_diverter_motor_failed",
+              "componentId": "diverter_motor"
+            }
+          ]
+        },
+        {
+          "id": "dist_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_distributor",
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_diverter_motor_ol_diverter_motor_failed",
+              "componentId": "diverter_motor"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsungdwm9-main-pcb-layout",
+          "caption": "Main PCB connector map (\u00a75-1)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-layout.png"
+        },
+        {
+          "id": "samsungdwm9-main-pcb-pinout",
+          "caption": "CN101/CN401/CN503/CN802 pinout (\u00a75-2)",
+          "assetPath": "/images/procedures/samsung_dishwasher_m9/samsungdwm9-main-pcb-pinout.png"
+        }
+      ]
+    },
+    {
+      "id": "micro_switch",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Micro switch toggles ON/OFF?",
+      "body": "Service test: brown/violet micro switch SHORT when ON, OPEN when OFF. NG if stuck either state 120 s. Do not supply water during test.",
+      "sourceExcerpt": "Service test: brown/violet micro switch SHORT when ON, OPEN when OFF. NG if stuck either state 120 s. Do not supply water during test.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dist_smart_install_yes",
+          "label": "Switch toggles",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dist_smart_install"
+        },
+        {
+          "id": "dist_smart_install_no",
+          "label": "Stuck ON/OFF",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_micro_switch"
+        }
+      ]
+    },
+    {
+      "id": "dist_smart_install",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Half load operates in Smart Install?",
+      "body": "Step 1 moves vane during drain; step 3 alternates nozzle positions. PC if position not detected in 2 min.",
+      "sourceExcerpt": "Step 1 moves vane during drain; step 3 alternates nozzle positions. PC if position not detected in 2 min.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dist_ok_yes",
+          "label": "Positions detected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dist_ok"
+        },
+        {
+          "id": "dist_ok_no",
+          "label": "PC fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_distributor"
+        }
+      ]
+    },
+    {
+      "id": "replace_micro_switch",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace micro switch",
+      "body": "Replace position sensing micro switch when stuck.",
+      "oemOutcome": "Replace position sensing micro switch when stuck.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_distributor",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace distributor motor",
+      "body": "Replace distributor motor, cam assy, or valve distributor when PC persists.",
+      "oemOutcome": "Replace distributor motor, cam assy, or valve distributor when PC persists.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_component",
+      "type": "instruction",
+      "title": "Continue component check",
+      "body": "Smart Install active. Continue below for component-specific verification.",
+      "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2.",
+      "requiresInput": false,
+      "order": 8,
+      "defaultNextStepId": "dist_ok"
+    },
+    {
+      "id": "dist_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Distributor OK",
+      "body": "Distributor and half-load path verified.",
+      "oemOutcome": "Distributor and half-load path verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungdwm9-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "dist_smart_install",
+      "continueToStepId": "service_mode_before_component"
+    },
+    {
+      "bundleId": "samsungdwm9-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_component",
+      "continueToStepId": "dist_ok"
+    }
+  ]
+}

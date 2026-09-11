@@ -1,0 +1,160 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "platformId": "samsung_dishwasher",
+  "templateId": "dishwasher",
+  "label": "Samsung dishwasher DW80/DW82 (DW80R5060, DW80R5061, DW80T5040)",
+  "notes": "\u00a74 Smart Install + check-code troubleshooting. Heater bench \u03a9 deferred (missing from PDF extract).",
+  "plannedProcedures": [
+    {
+      "id": "samsungdw-power-supply",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Main PBA Power & DC Supplies",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungdw-thermistor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Water Thermistor (tC)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherThermistorOhms"
+      ],
+      "relatedCodes": [
+        "tC",
+        "HC",
+        "HC1"
+      ]
+    },
+    {
+      "id": "samsungdw-heater",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Heater Operation (HC / HC1)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "HC",
+        "HC1"
+      ]
+    },
+    {
+      "id": "samsungdw-circulation-motor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Circulation Motor & Nozzle",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherCirculationMotorOhms"
+      ],
+      "relatedCodes": [
+        "PC"
+      ]
+    },
+    {
+      "id": "samsungdw-door-switch",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Door Sensing Switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungdw-fill-valve",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "4C",
+        "4C5",
+        "4E"
+      ]
+    },
+    {
+      "id": "samsungdw-drain-pump",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Drain Pump (5C)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "5C"
+      ]
+    },
+    {
+      "id": "samsungdw-dispenser",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Detergent Dispenser",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherDispenserOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungdw-dry-system",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungDishwasherDryFanOhms",
+        "samsungDishwasherThermalActuatorOhms"
+      ],
+      "relatedCodes": [
+        "FC",
+        "dC3"
+      ]
+    },
+    {
+      "id": "samsungdw-leak-sensor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Leak Sensor (LC)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "LC"
+      ]
+    },
+    {
+      "id": "samsungdw-overflow",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Overflow Sensor (OC)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "OC"
+      ]
+    },
+    {
+      "id": "samsungdw-distributor",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Distributor Motor (PC)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "PC"
+      ]
+    },
+    {
+      "id": "samsungdw-communication",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: PBA Communication (AC / AC6)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "AC",
+        "AC6"
+      ]
+    },
+    {
+      "id": "samsungdw-hmi-check",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "bC2",
+        "bC3"
+      ]
+    }
+  ]
+}

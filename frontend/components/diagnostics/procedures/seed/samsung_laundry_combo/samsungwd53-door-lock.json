@@ -1,0 +1,352 @@
+{
+  "id": "samsungwd53-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a74-4: Door lock and switch (DC, DC1, dC1)",
+  "platformId": "samsung_laundry_combo",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "DC",
+    "DC1",
+    "dC1",
+    "dC2",
+    "dC",
+    "door_lock_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+    "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-4",
+    "oemTestTitle": "Door Error DC / DC1",
+    "pages": [
+      50,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+      "sourceExcerpt": "Make sure to disconnect the power plug before servicing.",
+      "requiresInput": false,
+      "defaultNextStepId": "dc_boil_check"
+    },
+    {
+      "id": "dc_boil_check",
+      "order": 2,
+      "type": "visual_check",
+      "title": "DC during Boil cycle?",
+      "body": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+      "sourceExcerpt": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "door_closed",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_type_check"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door securely and retest."
+        }
+      ]
+    },
+    {
+      "id": "door_type_check",
+      "order": 3,
+      "type": "visual_check",
+      "title": "Door switch type",
+      "body": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2/3 lock switch (pins 2\u20133 with slider pushed)?",
+      "sourceExcerpt": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2/3 lock switch (pins 2\u20133 with slider pushed)?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "type1",
+          "label": "TYPE 1 door switch",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_ohms"
+        },
+        {
+          "id": "type23",
+          "label": "TYPE 2/3 lock switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_lock_ohms"
+        }
+      ]
+    },
+    {
+      "id": "door_switch_ohms",
+      "order": 4,
+      "type": "measurement",
+      "title": "TYPE 1 door switch (pins 1\u20133)",
+      "body": "Approximately 175 \u03a9.",
+      "sourceExcerpt": "Approximately 175 \u03a9.",
+      "measurementKnowledgeId": "samsungLaundryComboDoorSwitchOhms",
+      "testPoint": {
+        "connector": "Door switch",
+        "pins": "1 & 3",
+        "label": "TYPE 1 door switch (pins 1\u20133)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ds_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "ds_pass",
+          "label": "~175 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_lock_ohms",
+      "order": 5,
+      "type": "measurement",
+      "title": "TYPE 2/3 lock switch (pins 2\u20133)",
+      "body": "Push slider \u2014 TYPE 2: 60\u201390 \u03a9; TYPE 3: 65\u201375 \u03a9.",
+      "sourceExcerpt": "Push slider \u2014 TYPE 2: 60\u201390 \u03a9; TYPE 3: 65\u201375 \u03a9.",
+      "measurementKnowledgeId": "samsungLaundryComboDoorLockOhms",
+      "testPoint": {
+        "connector": "Door lock",
+        "pins": "2 & 3",
+        "label": "TYPE 2/3 lock switch (pins 2\u20133)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "dl_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "action": "confirm",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed",
+              "componentId": "door_lock"
+            }
+          ]
+        },
+        {
+          "id": "dl_pass",
+          "label": "60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_cam_check",
+          "diagnosticEffects": [
+            {
+              "action": "eliminate",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok",
+              "componentId": "door_lock"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "door_cam_check",
+      "order": 6,
+      "type": "visual_check",
+      "title": "CAM and lever door",
+      "body": "Check CAM status, lever door, and door sagging per \u00a74-2 dC1.",
+      "sourceExcerpt": "Check CAM status, lever door, and door sagging per \u00a74-2 dC1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "cam_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified"
+        },
+        {
+          "id": "replace_lock_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lock_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door lock switch when CAM/lever OK but dC1 persists."
+        }
+      ]
+    },
+    {
+      "id": "close_door_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Close door",
+      "oemOutcome": "Ensure door closed and laundry not caught.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_switch",
+      "order": 8,
+      "type": "outcome",
+      "title": "Replace door switch",
+      "oemOutcome": "Replace faulty door switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_door_lock",
+      "order": 9,
+      "type": "outcome",
+      "title": "Replace door lock",
+      "oemOutcome": "Replace door lock assembly.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_lock_switch_out",
+      "order": 10,
+      "type": "outcome",
+      "title": "Replace lock switch",
+      "oemOutcome": "Replace door lock switch when mechanical path OK.",
+      "requiresInput": false
+    },
+    {
+      "id": "service_mode_before_manual_check",
+      "type": "instruction",
+      "title": "Continue to manual check",
+      "body": "Smart Install active. Continue below for component-specific checks.",
+      "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3.",
+      "requiresInput": false,
+      "order": 11,
+      "defaultNextStepId": "door_verified"
+    },
+    {
+      "id": "door_verified",
+      "order": 12,
+      "type": "outcome",
+      "title": "Door circuit OK",
+      "oemOutcome": "Door switch/lock in spec \u2014 inspect main PBA if code persists.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "samsungwd53-smart-install-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "door_type_check",
+      "continueToStepId": "service_mode_before_manual_check"
+    },
+    {
+      "bundleId": "samsungwd53-manual-check-mode",
+      "modeKind": "load_test",
+      "attachAfterStepId": "service_mode_before_manual_check",
+      "continueToStepId": "door_verified"
+    }
+  ]
+}

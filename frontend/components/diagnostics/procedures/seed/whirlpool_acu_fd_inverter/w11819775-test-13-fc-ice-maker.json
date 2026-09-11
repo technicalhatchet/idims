@@ -1,0 +1,150 @@
+{
+  "id": "w11819775-test-13-fc-ice-maker",
+  "version": "1.0.0",
+  "title": "FC ice maker test mode & FBEC/FBEB faults",
+  "platformId": "whirlpool_acu_fd_inverter",
+  "componentIds": [
+    "ice_maker"
+  ],
+  "tags": [
+    "no_ice",
+    "ice_maker",
+    "FBEC",
+    "FBEB"
+  ],
+  "source": {
+    "manualId": "W11819775",
+    "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+    "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "13",
+    "oemTestTitle": "FC Ice Maker",
+    "pages": [
+      62,
+      104
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+      "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_im_test"
+    },
+    {
+      "id": "service_mode_after_sd_entry",
+      "type": "instruction",
+      "title": "Continue in Service Diagnostics",
+      "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+      "sourceExcerpt": "Navigate with temperature up/down arrows.",
+      "requiresInput": false,
+      "order": 2,
+      "defaultNextStepId": "enter_im_test"
+    },
+    {
+      "id": "enter_im_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Enter FC ice maker test mode",
+      "body": "Empty ice tray. Lock button 3 sec. Both RC and FC doors open \u2014 hold Freezer + Mode 3 sec. Freezer Ice Off light blinks.",
+      "sourceExcerpt": "Empty ice tray. Lock button 3 sec. Both RC and FC doors open \u2014 hold Freezer + Mode 3 sec. Freezer Ice Off light blinks.",
+      "requiresInput": false,
+      "defaultNextStepId": "run_im_test"
+    },
+    {
+      "id": "run_im_test",
+      "order": 4,
+      "type": "instruction",
+      "title": "Run IM test cycle",
+      "body": "IM initializes, harvests, then fills with water. Listen for fill \u2014 no error code if fill fails.",
+      "sourceExcerpt": "IM initializes, harvests, then fills with water. Listen for fill \u2014 no error code if fill fails.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_result"
+    },
+    {
+      "id": "im_result",
+      "order": 5,
+      "type": "visual_check",
+      "title": "Ice maker test result",
+      "body": "Did test complete without FBEC/FBEB error on display?",
+      "sourceExcerpt": "Did test complete without FBEC/FBEB error on display?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "im_pass",
+          "label": "Completed OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_voltage_ok"
+        },
+        {
+          "id": "imbec",
+          "label": "FBEC \u2014 IM malfunction",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "im_fbec_outcome"
+        },
+        {
+          "id": "imbeb",
+          "label": "FBEB \u2014 tray thermistor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "im_tray_proc"
+        }
+      ]
+    },
+    {
+      "id": "im_voltage_ok",
+      "order": 6,
+      "type": "instruction",
+      "title": "Verify IM voltages during harvest",
+      "body": "CN2-1 A+ to CN2-2 A- = 12.7 VDC motor; CN2-6 CE/SW to CN2-7 GND = 5 VDC switch.",
+      "sourceExcerpt": "CN2-1 A+ to CN2-2 A- = 12.7 VDC motor; CN2-6 CE/SW to CN2-7 GND = 5 VDC switch.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_verified"
+    },
+    {
+      "id": "im_fbec_outcome",
+      "order": 7,
+      "type": "outcome",
+      "title": "FBEC \u2014 replace ice maker",
+      "oemOutcome": "FC ice maker malfunction \u2014 obstruction, motor, or module failure.",
+      "requiresInput": false
+    },
+    {
+      "id": "im_tray_proc",
+      "order": 8,
+      "type": "instruction",
+      "title": "Check tray thermistor",
+      "body": "Run service test 07 for tray thermistor. FBEB = tray thermistor fault.",
+      "sourceExcerpt": "Run service test 07 for tray thermistor. FBEB = tray thermistor fault.",
+      "requiresInput": false,
+      "defaultNextStepId": "im_verified"
+    },
+    {
+      "id": "im_verified",
+      "order": 9,
+      "type": "outcome",
+      "title": "FC ice maker verified",
+      "oemOutcome": "IM test mode completed or voltages verified.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "w11819775-fc-im-test-mode-entry",
+      "modeKind": "component_activation",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_sd_entry"
+    }
+  ]
+}

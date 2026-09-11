@@ -1,0 +1,341 @@
+{
+  "id": "samsungotrmw-thermal-cutout",
+  "version": "1.0.0",
+  "title": "\u00a74-8: Thermal Cutouts (TCO)",
+  "platformId": "samsung_microwave_otr",
+  "componentIds": [
+    "thermal_cutout"
+  ],
+  "tags": [
+    "no_heat",
+    "thermal_cutout",
+    "C-21"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-ME11-MICROWAVE",
+    "manualTitle": "Samsung ME11A7510DSAA Over-the-Range Microwave Service Manual",
+    "extractedTextFile": "backend/docs/manuals/Samsung ME11A7510DSAA microwave-extracted.txt",
+    "verifiedAt": "2026-09-10",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "4-8",
+    "oemTestTitle": "Cavity, hood, bottom, and magnetron TCO",
+    "pages": [
+      26,
+      28
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power and discharge HV",
+      "body": "Unplug the microwave or disconnect power before servicing. Discharge the high-voltage capacitor and vent run capacitor before touching HV or blower circuits. Never operate the unit with interlock switches bypassed.",
+      "sourceExcerpt": "Before touching any oven components or wiring, always unplug the oven and discharge the high voltage capacitor.",
+      "requiresInput": false,
+      "defaultNextStepId": "cavity_tco"
+    },
+    {
+      "id": "cavity_tco",
+      "order": 2,
+      "type": "measurement",
+      "title": "Cavity / flame sensor TCO (248\u00b0F)",
+      "body": "Oven thermal cutout on cavity top \u2014 non-resettable; should read closed unless tripped.",
+      "sourceExcerpt": "Oven thermal cutout on cavity top \u2014 non-resettable; should read closed unless tripped.",
+      "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+      "testPoint": {
+        "connector": "Cavity TCO",
+        "pins": "both terminals",
+        "label": "Cavity / flame sensor TCO (248\u00b0F)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "magnetron_tco_tco_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "magnetron_tco_tco",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "magnetron_tco_tco_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cavity_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "magnetron_tco_tco_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cavity_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "magnetron_tco_tco_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cavity_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-pcb-main-connectors",
+          "caption": "Main PBA connectors CN250/CN200 (\u00a76-2, p.41)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-main-connectors.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_cavity_tco",
+      "order": 3,
+      "type": "instruction",
+      "title": "Replace cavity TCO",
+      "body": "Replace open cavity/flame sensor thermal cutout.",
+      "sourceExcerpt": "Replace open cavity/flame sensor thermal cutout.",
+      "requiresInput": false,
+      "defaultNextStepId": "cavity_tco"
+    },
+    {
+      "id": "magnetron_tco_tco",
+      "order": 4,
+      "type": "measurement",
+      "title": "Magnetron TCO (302\u00b0F resettable)",
+      "body": "Magnetron TCO normally closed; opens at 302\u00b0F, resets at 140\u00b0F.",
+      "sourceExcerpt": "Magnetron TCO normally closed; opens at 302\u00b0F, resets at 140\u00b0F.",
+      "measurementKnowledgeId": "microwaveThermalCutoutOhms",
+      "testPoint": {
+        "connector": "Magnetron TCO",
+        "pins": "both terminals",
+        "label": "Magnetron TCO (302\u00b0F resettable)"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "hood_tco_note_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hood_tco_note",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "hood_tco_note_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_magnetron_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "hood_tco_note_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_magnetron_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        },
+        {
+          "id": "hood_tco_note_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_magnetron_tco",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermal_cutout",
+              "evidenceId": "confirm_thermal_cutout_open_thermal_cutout_failed"
+            }
+          ]
+        }
+      ],
+      "images": [
+        {
+          "id": "samsung-me11-wiring-2",
+          "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+          "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+        }
+      ]
+    },
+    {
+      "id": "replace_magnetron_tco",
+      "order": 5,
+      "type": "instruction",
+      "title": "Replace magnetron TCO",
+      "body": "Replace magnetron thermal cutout.",
+      "sourceExcerpt": "Replace magnetron thermal cutout.",
+      "requiresInput": false,
+      "defaultNextStepId": "magnetron_tco_tco"
+    },
+    {
+      "id": "hood_tco_note",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Hood TCO normally open at room temp?",
+      "body": "Hood TCO reads open at room temperature \u2014 closes at 158\u00b0F to energize vent fan.",
+      "sourceExcerpt": "Normally open when checked with ohmmeter at room temp.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "bottom_tco_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bottom_tco"
+        },
+        {
+          "id": "bottom_tco_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "hood_tco_ok",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "thermal_cutout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bottom_tco",
+      "order": 7,
+      "type": "visual_check",
+      "title": "Bottom TCO closed at room temp?",
+      "body": "Bottom TCO (248\u00b0F non-resettable) should read closed unless fire condition opened it.",
+      "sourceExcerpt": "Bottom TCO (248\u00b0F non-resettable) should read closed unless fire condition opened it.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "tco_verified_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tco_verified",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermal_cutout",
+              "evidenceId": "eliminate_thermal_cutout_open_thermal_cutout_ok"
+            }
+          ]
+        },
+        {
+          "id": "tco_verified_no",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bottom_tco",
+          "diagnosticEffects": [
+            {
+              "type": "suspect",
+              "componentId": "thermal_cutout"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_bottom_tco",
+      "order": 8,
+      "type": "instruction",
+      "title": "Replace bottom TCO",
+      "body": "Replace open bottom thermal cutout.",
+      "sourceExcerpt": "Replace open bottom thermal cutout.",
+      "requiresInput": false,
+      "defaultNextStepId": "bottom_tco"
+    },
+    {
+      "id": "hood_tco_ok",
+      "order": 9,
+      "type": "outcome",
+      "title": "Hood TCO normal",
+      "body": "Hood TCO open at room temp is expected.",
+      "oemOutcome": "Hood TCO open at room temp is expected.",
+      "requiresInput": false
+    },
+    {
+      "id": "tco_verified",
+      "order": 10,
+      "type": "outcome",
+      "title": "TCOs verified",
+      "body": "Thermal cutout circuits within expected states.",
+      "oemOutcome": "Thermal cutout circuits within expected states.",
+      "requiresInput": false
+    }
+  ],
+  "images": [
+    {
+      "id": "samsung-me11-pcb-main-connectors",
+      "caption": "Main PBA connectors CN250/CN200 (\u00a76-2, p.41)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-pcb-main-connectors.png"
+    },
+    {
+      "id": "samsung-me11-wiring-2",
+      "caption": "Wiring diagram sheet 2 (\u00a77-1, p.43)",
+      "assetPath": "/images/procedures/samsung_microwave_otr/samsung-me11-wiring-2.png"
+    }
+  ]
+}
