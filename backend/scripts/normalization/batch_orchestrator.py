@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -10,9 +11,11 @@ from typing import Any
 try:
     from .paths import CANDIDATES_DIR, MANIFEST_PATH, REVIEW_DIR
     from .pilot_batch import _classify_manual_slot
+    from .pipeline import find_manual_entry, load_manifest, run_manual_normalization
 except ImportError:  # pragma: no cover - direct script execution
     from paths import CANDIDATES_DIR, MANIFEST_PATH, REVIEW_DIR
     from pilot_batch import _classify_manual_slot
+    from pipeline import find_manual_entry, load_manifest, run_manual_normalization
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CALIBRATION_DIR = (
@@ -70,6 +73,14 @@ class PilotBaselineOverwriteError(RuntimeError):
     """Raised when a pilot baseline manual would be silently overwritten."""
 
 
+class BatchNormalizationError(RuntimeError):
+    """Raised when normalization fails for a cohort manual."""
+
+
+NormalizeManualFn = Callable[[dict[str, Any]], dict[str, Any]]
+ManifestLoaderFn = Callable[[], dict[str, Any]]
+
+
 @dataclass
 class BatchRunOptions:
     cohort_path: Path = COHORT_PATH
@@ -81,6 +92,8 @@ class BatchRunOptions:
     force_manual_ids: frozenset[str] = field(default_factory=frozenset)
     max_manuals: int | None = None
     write_artifacts: bool = True
+    normalize_manual_fn: NormalizeManualFn | None = None
+    manifest_loader_fn: ManifestLoaderFn | None = None
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -227,13 +240,83 @@ def compute_manual_content_hash(manual_id: str) -> str:
 
 def _entry_to_slot(entry: dict[str, Any]) -> dict[str, Any]:
     return {
-        "slotId": entry.get("manualId"),
+        "slotId": entry.get("slotId") or entry.get("manualId"),
         "manualId": entry.get("manualId"),
-        "readiness": "ready",
+        "readiness": str(entry.get("readiness") or "ready"),
         "batchStopExpected": bool(
             (entry.get("specialHandling") or {}).get("batchHandling")
             == "architecture_exception_expected"
         ),
+        "prerequisite": entry.get("prerequisite"),
+    }
+
+
+def _cohort_entries(cohort: dict[str, Any]) -> list[dict[str, Any]]:
+    return list(cohort.get("entries") or cohort.get("slots") or [])
+
+
+def resolve_frozen_manifest_entry(
+    cohort_entry: dict[str, Any],
+    manifest: dict[str, Any],
+) -> dict[str, Any]:
+    manual_id = str(cohort_entry.get("manualId"))
+    try:
+        return find_manual_entry(manifest, manual_id)
+    except ValueError as exc:
+        raise BatchManifestFreezeError(
+            f"cohort manual {manual_id} missing from frozen procedureManualManifest.json"
+        ) from exc
+
+
+def should_skip_normalization(
+    manual_id: str,
+    *,
+    pilot_baseline: bool,
+    force_manual: bool,
+    idempotent_skip: bool,
+) -> str | None:
+    if idempotent_skip:
+        return "content_hash_unchanged"
+    if pilot_baseline and not force_manual:
+        return "pilot_baseline_protected"
+    return None
+
+
+def execute_manual_normalization(
+    cohort_entry: dict[str, Any],
+    manifest: dict[str, Any],
+    *,
+    normalize_fn: NormalizeManualFn,
+) -> dict[str, Any]:
+    manual_entry = resolve_frozen_manifest_entry(cohort_entry, manifest)
+    manual_id = str(manual_entry.get("manualId"))
+    try:
+        normalization_result = normalize_fn(manual_entry)
+    except Exception as exc:
+        return {
+            "manualId": manual_id,
+            "status": "failed",
+            "error": str(exc),
+            "result": None,
+        }
+    return {
+        "manualId": manual_id,
+        "status": "success",
+        "error": None,
+        "result": normalization_result,
+    }
+
+
+def classification_for_normalization_failure(normalization: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "manualId": normalization.get("manualId"),
+        "executionStatus": "normalization_failed",
+        "pipelineDisposition": "block",
+        "outcomeCounts": None,
+        "architectureException": False,
+        "promotionBlocked": True,
+        "batchStop": False,
+        "normalizationError": normalization.get("error"),
     }
 
 
@@ -270,6 +353,8 @@ def build_manual_audit_manifest(
     content_hash: str,
     batch_state: str,
     skipped_reason: str | None = None,
+    normalization_status: str | None = None,
+    normalization_error: str | None = None,
 ) -> dict[str, Any]:
     mapped_count = _mapping_count(classification, "candidate")
     compound_count = _mapping_count(classification, "COMPOUND_TERM_CANDIDATE")
@@ -318,6 +403,8 @@ def build_manual_audit_manifest(
             "batchRunId": batch_run_id,
             "contentHash": content_hash,
             "skippedReason": skipped_reason,
+            "normalizationStatus": normalization_status,
+            "normalizationError": normalization_error,
         },
         "batchState": batch_state,
     }
@@ -432,9 +519,17 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         raise FrozenHashMutationError("; ".join(frozen_before["errors"]))
 
     cohort = _read_json(options.cohort_path)
-    entries = list(cohort.get("entries") or [])
+    entries = _cohort_entries(cohort)
     if options.max_manuals is not None:
         entries = entries[: options.max_manuals]
+
+    normalize_fn = options.normalize_manual_fn or run_manual_normalization
+    if options.manifest_loader_fn is not None:
+        manifest = options.manifest_loader_fn()
+    elif options.manifest_path != MANIFEST_PATH:
+        manifest = _read_json(options.manifest_path)
+    else:
+        manifest = load_manifest()
 
     completed_manual_ids: set[str] = set()
     manual_audits: list[dict[str, Any]] = []
@@ -499,6 +594,8 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
                     content_hash=content_hash,
                     batch_state=batch_state,
                     skipped_reason="pilot_baseline_protected_stop_retained",
+                    normalization_status="skipped",
+                    normalization_error=None,
                 )
             else:
                 audit = build_manual_audit_manifest(
@@ -508,6 +605,8 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
                     content_hash=content_hash,
                     batch_state="skipped_authorized",
                     skipped_reason="pilot_baseline_protected",
+                    normalization_status="skipped",
+                    normalization_error=None,
                 )
             manual_audits.append(audit)
             completed_manual_ids.add(manual_id)
@@ -530,7 +629,19 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
                 f"force-manual on pilot baseline {manual_id} requires locked execution authorization"
             )
 
-        classification = classify_manual_entry(entry)
+        normalization_outcome = execute_manual_normalization(
+            entry,
+            manifest,
+            normalize_fn=normalize_fn,
+        )
+        content_hash = compute_manual_content_hash(manual_id)
+        normalization_status = normalization_outcome.get("status")
+        normalization_error = normalization_outcome.get("error")
+        if normalization_outcome.get("status") != "success":
+            classification = classification_for_normalization_failure(normalization_outcome)
+        else:
+            classification = classify_manual_entry(entry)
+
         batch_state = "completed"
         if classification.get("batchStop"):
             batch_state = "stopped_trigger"
@@ -547,6 +658,8 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
             batch_run_id=batch_run_id,
             content_hash=content_hash,
             batch_state=batch_state,
+            normalization_status=normalization_status,
+            normalization_error=normalization_error,
         )
         manual_audits.append(audit)
         completed_manual_ids.add(manual_id)
