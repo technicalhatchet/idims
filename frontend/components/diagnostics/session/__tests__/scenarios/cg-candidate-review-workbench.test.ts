@@ -195,4 +195,17 @@ test('review workbench UI and API files exist with no promotion path', () => {
   assert.ok(!apiSource.includes('plan_promotion'));
   assert.ok(!apiSource.includes('apply_promotion'));
   assert.ok(apiSource.includes('promotionExcluded'));
+  assert.match(apiSource, /req\.method === 'GET'/);
+  assert.match(apiSource, /Staff access required/);
+  assert.match(apiSource, /ALLOWED_STATUSES/);
+  assert.ok(!apiSource.includes('ledger'));
+});
+
+test('workbench renders Where / Provenance section', () => {
+  const workbench = readFileSync(
+    join(process.cwd(), 'components/solomon/knowledge/CandidateReviewWorkbench.js'),
+    'utf8',
+  );
+  assert.match(workbench, /Where \/ Provenance/);
+  assert.match(workbench, /formatWhereProvenance/);
 });

@@ -1,22 +1,20 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   SOLOMON_GLASS_PANEL_CLASS,
   SOLOMON_REFERENCE_EYEBROW_CLASS,
 } from '../solomonListPageUi';
 import reviewIndex from '../../diagnostics/knowledge/normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json';
-
-const REVIEW_CLASS_LABELS = {
-  inheritedKnowledge: 'Inherited knowledge',
-  existingCanonicalMapping: 'Existing canonical mapping',
-  newPlatformKnowledge: 'New platform knowledge',
-  newCanonicalKnowledge: 'Possible new canonical abstraction',
-  implementationSpecific: 'Implementation specific',
-  unresolved: 'Unresolved',
-  architectureException: 'Architecture exception',
-};
+import {
+  decisionsMapFromStore,
+  EXISTING_CANONICAL_MAPPING_NOTICE,
+  formatWhereProvenance,
+  mergeHydratedDecisions,
+  NEW_CANONICAL_KNOWLEDGE_NOTICE,
+  REVIEW_CLASS_LABELS,
+  REVIEW_DECISIONS_API,
+} from './candidateReviewWorkflow';
 
 const REVIEW_CLASSES = Object.keys(REVIEW_CLASS_LABELS);
-
 const REVIEW_STATUSES = ['unreviewed', 'accepted', 'rejected', 'deferred'];
 
 function classNames(...parts) {
@@ -60,11 +58,54 @@ export default function CandidateReviewWorkbench() {
   const [promotionBlockedFilter, setPromotionBlockedFilter] = useState('all');
   const [selectedId, setSelectedId] = useState(null);
   const [decisionState, setDecisionState] = useState({});
+  const [decisionsLoading, setDecisionsLoading] = useState(true);
+  const [decisionsLoadError, setDecisionsLoadError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
-  const records = reviewIndex.candidateRecords || [];
+  const baseRecords = reviewIndex.candidateRecords || [];
   const reconciliations = reviewIndex.manualReconciliations || [];
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function hydrateDecisions() {
+      setDecisionsLoading(true);
+      setDecisionsLoadError(null);
+      try {
+        const response = await fetch(REVIEW_DECISIONS_API);
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || 'Failed to load review decisions');
+        }
+        if (cancelled) return;
+        setDecisionState(decisionsMapFromStore(payload));
+      } catch (err) {
+        if (!cancelled) {
+          setDecisionsLoadError(err.message || 'Failed to load review decisions');
+        }
+      } finally {
+        if (!cancelled) {
+          setDecisionsLoading(false);
+        }
+      }
+    }
+
+    hydrateDecisions();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const records = useMemo(
+    () => mergeHydratedDecisions(baseRecords, { decisions: Object.fromEntries(
+      Object.entries(decisionState).map(([candidateId, reviewStatus]) => [
+        candidateId,
+        { candidateId, reviewStatus },
+      ]),
+    ) }),
+    [baseRecords, decisionState],
+  );
 
   const manualOptions = useMemo(() => {
     const manuals = [...new Set(records.map((record) => record.manualId))].sort();
@@ -80,7 +121,7 @@ export default function CandidateReviewWorkbench() {
     if (manualFilter !== 'all' && record.manualId !== manualFilter) return false;
     if (classFilter !== 'all' && record.reviewClass !== classFilter) return false;
     if (typeFilter !== 'all' && record.mapsTo?.candidateType !== typeFilter) return false;
-    const status = decisionState[record.candidateId] || record.reviewStatus || 'unreviewed';
+    const status = record.reviewStatus || 'unreviewed';
     if (statusFilter !== 'all' && status !== statusFilter) return false;
     if (blockedFilter === 'blocked' && !record.blockers?.blockedReason) return false;
     if (blockedFilter === 'unblocked' && record.blockers?.blockedReason) return false;
@@ -95,7 +136,6 @@ export default function CandidateReviewWorkbench() {
     statusFilter,
     blockedFilter,
     promotionBlockedFilter,
-    decisionState,
   ]);
 
   const selected = filtered.find((record) => record.candidateId === selectedId)
@@ -107,7 +147,7 @@ export default function CandidateReviewWorkbench() {
     setSaving(true);
     setError(null);
     try {
-      const response = await fetch('/api/knowledge/normalization/review/decisions', {
+      const response = await fetch(REVIEW_DECISIONS_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -132,9 +172,7 @@ export default function CandidateReviewWorkbench() {
     }
   }, [selected]);
 
-  const selectedStatus = selected
-    ? (decisionState[selected.candidateId] || selected.reviewStatus || 'unreviewed')
-    : null;
+  const selectedStatus = selected?.reviewStatus || 'unreviewed';
 
   const selectedReconciliation = selected
     ? reconciliations.find((entry) => entry.manualId === selected.manualId)
@@ -149,6 +187,8 @@ export default function CandidateReviewWorkbench() {
         </p>
         <p className="mt-1 text-[11px] text-[var(--solomon-text-muted)]">
           Batch {reviewIndex.batchRunId} · {reviewIndex.totalCandidateRecords} candidates indexed
+          {decisionsLoading ? ' · loading review decisions…' : ''}
+          {decisionsLoadError ? ` · ${decisionsLoadError}` : ''}
         </p>
       </div>
 
@@ -201,30 +241,27 @@ export default function CandidateReviewWorkbench() {
             {filtered.length} candidates
           </div>
           <ul className="max-h-[70vh] overflow-y-auto divide-y divide-white/5">
-            {filtered.map((record) => {
-              const status = decisionState[record.candidateId] || record.reviewStatus || 'unreviewed';
-              return (
-                <li key={record.candidateId}>
-                  <button
-                    type="button"
-                    onClick={() => setSelectedId(record.candidateId)}
-                    className={classNames(
-                      'w-full px-3 py-2 text-left hover:bg-white/5',
-                      selectedId === record.candidateId && 'bg-white/10',
-                    )}
-                  >
-                    <div className="text-xs font-medium text-[var(--solomon-text-primary)] truncate">
-                      {record.what?.sourceTerm || record.candidateId}
-                    </div>
-                    <div className="mt-0.5 flex flex-wrap gap-2 text-[10px] text-[var(--solomon-text-muted)]">
-                      <span>{record.manualId}</span>
-                      <span>{REVIEW_CLASS_LABELS[record.reviewClass] || record.reviewClass}</span>
-                      <span>{status}</span>
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
+            {filtered.map((record) => (
+              <li key={record.candidateId}>
+                <button
+                  type="button"
+                  onClick={() => setSelectedId(record.candidateId)}
+                  className={classNames(
+                    'w-full px-3 py-2 text-left hover:bg-white/5',
+                    selectedId === record.candidateId && 'bg-white/10',
+                  )}
+                >
+                  <div className="text-xs font-medium text-[var(--solomon-text-primary)] truncate">
+                    {record.what?.sourceTerm || record.candidateId}
+                  </div>
+                  <div className="mt-0.5 flex flex-wrap gap-2 text-[10px] text-[var(--solomon-text-muted)]">
+                    <span>{record.manualId}</span>
+                    <span>{REVIEW_CLASS_LABELS[record.reviewClass] || record.reviewClass}</span>
+                    <span>{record.reviewStatus || 'unreviewed'}</span>
+                  </div>
+                </button>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -247,6 +284,10 @@ export default function CandidateReviewWorkbench() {
                 {'\n'}sourceTerm: {selected.what?.sourceTerm || '—'}
               </DetailSection>
 
+              <DetailSection title="Where / Provenance">
+                {formatWhereProvenance(selected)}
+              </DetailSection>
+
               <DetailSection title="Maps to">
                 proposedCanonicalId: {selected.mapsTo?.proposedCanonicalId || '—'}
                 {'\n'}mappingType: {selected.mapsTo?.mappingType || '—'}
@@ -255,15 +296,13 @@ export default function CandidateReviewWorkbench() {
 
               {selected.reviewClass === 'existingCanonicalMapping' ? (
                 <div className="rounded-md border border-cyan-500/25 bg-cyan-500/5 p-2 text-[11px] text-cyan-100/90">
-                  This candidate maps to an existing frozen canonical function. Review acceptance
-                  does not modify or promote the canonical ontology.
+                  {EXISTING_CANONICAL_MAPPING_NOTICE}
                 </div>
               ) : null}
 
               {selected.reviewClass === 'newCanonicalKnowledge' ? (
                 <div className="rounded-md border border-amber-500/25 bg-amber-500/5 p-2 text-[11px] text-amber-100/90">
-                  Possible new canonical abstraction — architecture gate required. Review acceptance
-                  does not approve ontology changes or promotion.
+                  {NEW_CANONICAL_KNOWLEDGE_NOTICE}
                 </div>
               ) : null}
 
@@ -295,7 +334,7 @@ export default function CandidateReviewWorkbench() {
                     <button
                       key={status}
                       type="button"
-                      disabled={saving}
+                      disabled={saving || decisionsLoading}
                       onClick={() => submitDecision(status)}
                       className="rounded-md border border-white/15 px-3 py-1.5 text-xs text-[var(--solomon-text-primary)] hover:bg-white/10 disabled:opacity-50"
                     >
