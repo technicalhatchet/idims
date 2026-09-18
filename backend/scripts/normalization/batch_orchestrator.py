@@ -703,6 +703,47 @@ def build_manual_audit_manifest(
     }
 
 
+_PROCESSED_BATCH_STATES = frozenset(
+    {
+        "completed",
+        "skipped_authorized",
+        "stopped_trigger",
+        "cleared_stop",
+    }
+)
+
+
+def _latest_audit_per_manual(manual_audits: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    latest: dict[str, dict[str, Any]] = {}
+    for audit in manual_audits:
+        manual_id = str(audit.get("manualId") or "")
+        if manual_id:
+            latest[manual_id] = audit
+    return latest
+
+
+def compute_batch_manual_counts(
+    manual_audits: list[dict[str, Any]],
+    *,
+    batch_status: str,
+    cohort_size: int,
+) -> tuple[int, int]:
+    """Derive headline counters from the latest audit row per manual.
+
+    Resume continuation appends new audits without removing historical observation
+    rows, so raw list counts can retain superseded ``pending`` states.
+    """
+    latest = _latest_audit_per_manual(manual_audits)
+    manuals_completed = sum(
+        1 for audit in latest.values() if audit.get("batchState") in _PROCESSED_BATCH_STATES
+    )
+    manuals_pending = sum(1 for audit in latest.values() if audit.get("batchState") == "pending")
+    if batch_status == "completed":
+        manuals_pending = 0
+        manuals_completed = cohort_size
+    return manuals_completed, manuals_pending
+
+
 def checkpoint_path(batch_run_id: str) -> Path:
     return CALIBRATION_DIR / f"CG_PRODUCTION_NORMALIZATION_BATCH_CHECKPOINT_{batch_run_id}.json"
 
@@ -1042,8 +1083,11 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         stop_reason = "; ".join(frozen_after["errors"])
 
     finished_at = _utc_now()
-    manuals_completed = sum(1 for audit in manual_audits if audit.get("batchState") in {"completed", "skipped_authorized", "stopped_trigger"})
-    manuals_pending = sum(1 for audit in manual_audits if audit.get("batchState") == "pending")
+    manuals_completed, manuals_pending = compute_batch_manual_counts(
+        manual_audits,
+        batch_status=batch_status,
+        cohort_size=len(entries),
+    )
 
     checkpoint_manifest_freeze = freeze
     if resume_context is not None:

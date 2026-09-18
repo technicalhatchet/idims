@@ -19,6 +19,7 @@ from normalization.batch_orchestrator import (
     assert_execution_authorized,
     build_batch_run_id,
     checkpoint_path,
+    compute_batch_manual_counts,
     compute_cohort_hash,
     compute_manifest_hash,
     execute_manual_normalization,
@@ -768,17 +769,23 @@ def test_resume_unauthorized_manifest_delta_fails(tmp_path: Path):
 
 def test_valid_resume_authorization_accepts_remediated_manifest():
     manifest_path = REPO_ROOT / "frontend/components/diagnostics/procedures/procedureManualManifest.json"
-    checkpoint_path_file = (
-        REPO_ROOT
-        / "frontend/components/diagnostics/knowledge/normalization/calibration"
-        / f"CG_PRODUCTION_NORMALIZATION_BATCH_CHECKPOINT_{BATCH_RUN_ID}.json"
-    )
     resume_auth_path = (
         REPO_ROOT
         / "frontend/components/diagnostics/knowledge/normalization/calibration"
         / f"CG_PRODUCTION_NORMALIZATION_BATCH_RESUME_AUTHORIZATION_{BATCH_RUN_ID}.json"
     )
-    checkpoint = json.loads(checkpoint_path_file.read_text(encoding="utf-8"))
+    checkpoint = {
+        "batchRunId": BATCH_RUN_ID,
+        "manifestHash": OBSERVATION_MANIFEST_HASH,
+        "cohortHash": OBSERVATION_COHORT_HASH,
+        "manualAudits": [
+            {
+                "manualId": "SAMSUNG-FLEXWASH-WASHER",
+                "batchState": "stopped_trigger",
+                "primaryDisposition": "architecture_exception",
+            }
+        ],
+    }
     resume_auth = json.loads(resume_auth_path.read_text(encoding="utf-8"))
     context = validate_resume_authorization(
         resume_auth,
@@ -829,6 +836,101 @@ def test_resume_skip_set_and_flexwash_cleared_stop(tmp_path: Path, monkeypatch):
     assert normalize_calls == ["SAMSUNG-LAUNDRY-COMBO-WD53"]
     assert result["batchStatus"] == "completed"
     assert result.get("resumeGeneration") == 2
+    assert result["manualsPending"] == 0
+    assert result["manualsCompleted"] == len(json.loads(cohort_path.read_text(encoding="utf-8"))["entries"])
+
+
+def test_compute_batch_manual_counts_ignores_superseded_pending_rows():
+    cohort_size = 3
+    manual_audits = [
+        {"manualId": "A", "batchState": "completed"},
+        {"manualId": "B", "batchState": "pending"},
+        {"manualId": "B", "batchState": "completed"},
+        {"manualId": "C", "batchState": "skipped_authorized"},
+    ]
+    completed, pending = compute_batch_manual_counts(
+        manual_audits,
+        batch_status="completed",
+        cohort_size=cohort_size,
+    )
+    assert completed == cohort_size
+    assert pending == 0
+
+
+def test_completed_batch_reports_zero_pending_after_resume_style_continuation(tmp_path: Path, monkeypatch):
+    cohort_path, checkpoint, resume_auth, _ = _resume_fixture(tmp_path)
+    cohort = json.loads(cohort_path.read_text(encoding="utf-8"))
+    cohort["entries"] = [
+        {
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer",
+            "templateId": "electric_dryer",
+            "provenance": {"manifestSource": "procedureManualManifest.json"},
+        },
+        {
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash",
+            "templateId": "washer",
+            "specialHandling": {"batchHandling": "architecture_exception_expected"},
+            "provenance": {"manifestSource": "procedureManualManifest.json"},
+        },
+        {
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo",
+            "templateId": "aio_laundry",
+            "provenance": {"manifestSource": "procedureManualManifest.json"},
+        },
+    ]
+    cohort_path.write_text(json.dumps(cohort), encoding="utf-8")
+    checkpoint_data = json.loads(checkpoint.read_text(encoding="utf-8"))
+    checkpoint_data["manualAudits"] = [
+        {
+            "manualId": "W8178559",
+            "batchState": "completed",
+            "primaryDisposition": "canonical_mapping",
+            "provenance": {"contentHash": "abc"},
+        },
+        {
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "batchState": "stopped_trigger",
+            "primaryDisposition": "architecture_exception",
+            "provenance": {"contentHash": "flex"},
+        },
+        {
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "batchState": "pending",
+            "primaryDisposition": "pending",
+            "provenance": {},
+        },
+    ]
+    checkpoint.write_text(json.dumps(checkpoint_data), encoding="utf-8")
+
+    monkeypatch.setattr("normalization.batch_orchestrator.checkpoint_path", lambda _id: checkpoint)
+    result = run_batch(
+        BatchRunOptions(
+            cohort_path=cohort_path,
+            skip_auth=True,
+            dry_run=True,
+            write_artifacts=False,
+            resume_batch_run_id=BATCH_RUN_ID,
+            resume_authorization_path=resume_auth,
+            normalize_manual_fn=lambda entry: {
+                "manualId": entry["manualId"],
+                "manifest": {"status": "candidate"},
+            },
+            manifest_loader_fn=_resume_manifest,
+        )
+    )
+
+    latest = {}
+    for audit in result["manualAudits"]:
+        latest[audit["manualId"]] = audit["batchState"]
+    assert result["batchStatus"] == "completed"
+    assert result["manualsCompleted"] == 3
+    assert result["manualsPending"] == 0
+    assert latest["SAMSUNG-LAUNDRY-COMBO-WD53"] == "completed"
+    assert latest["SAMSUNG-FLEXWASH-WASHER"] == "cleared_stop"
+    assert "pending" not in latest.values()
 
 
 def test_non_cleared_architecture_exception_still_stops(tmp_path: Path, monkeypatch):
