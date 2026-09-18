@@ -1,0 +1,727 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_overlay_mapping_gate_table",
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "platformFamilyId": "midea_rss",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "midea_rss.json",
+  "priorPublishedManualIds": [
+    "SAMSUNG-RS28-SXS",
+    "W11296289",
+    "LG-LSC27926-SXS"
+  ],
+  "status": "published",
+  "compoundingContract": "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json",
+  "workPackage": "WP4",
+  "generatedAt": "2026-09-16T13:51:59.290286+00:00",
+  "gateFraming": {
+    "question": "What does this SxS manual teach us about the frozen refrigerator contract?",
+    "manufacturerBoundary": "independent \u2014 NS-RSS26 evidence not inherited from Samsung, Whirlpool, LG SxS, or CG-9 R2 calibration",
+    "configurationNote": "side_by_side \u2014 compounding target is frozen french_door_refrigerator rev1",
+    "freezeReopenBlocked": true,
+    "cg9BoundaryProbe": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "cg9AutoApprovalBlocked": true
+  },
+  "manufacturerIsolation": {
+    "priorOverlaysBlocked": [
+      "lg_lrmvs.json",
+      "samsung_sxs.json",
+      "whirlpool_sxs_w11296289.json",
+      "lg_sxs.json"
+    ],
+    "rule": "Do not import LRMVS linear, Samsung SxS, Whirlpool SxS, or LG SxS aliases, bindings, or topology.",
+    "crossOverlayDependentCount": 0,
+    "cg8FrenchDoorOverlaysByteStableRequired": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_fridge_bespoke.json",
+      "lg_lrmvs.json"
+    ],
+    "cg95Wp1OverlayByteStableRequired": "samsung_sxs.json",
+    "cg95Wp2OverlayByteStableRequired": "whirlpool_sxs_w11296289.json",
+    "cg95Wp3OverlayByteStableRequired": "lg_sxs.json"
+  },
+  "pipelineCounts": {
+    "procedures": 11,
+    "mappingCandidates": 28,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 8
+  },
+  "normalizeRun": {
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "generatedAt": null
+  },
+  "gatePolicy": {
+    "gateKind": "sxs_production_compounding_midea",
+    "compoundingPhase": "CG-9.5",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "forbiddenCanonicalIds": [
+      "airflow_path",
+      "cooling_system",
+      "defrost_system"
+    ],
+    "conditionalBindingIds": [
+      "temperature_sensor",
+      "compressor",
+      "ice_maker"
+    ]
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "midearss-control-board",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "midearss-mandatory-mode-entry"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "\u00a710.5 mandatory mode (LOCK + FRZ.TEMP 3 s) \u2014 forced compressor / ice-maker orchestration on Midea RSS main control. Independent of prior SxS overlays.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-user-interface",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "midearss-communication"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "\u00a710.8 E6 display\u2194main CN9 communication \u2014 independent HMI diagnostic on Midea RSS without importing LG/Samsung/Whirlpool SxS overlays.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-defrost-heater",
+      "gateQuestion": "Does NS-RSS26 SxS teach frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "midearss-fz-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "\u00a76.3 / \u00a78.6 freezer defrost heater 115 V 240 W (~55 \u03a9) \u2014 direct canonical inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-door-switch-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen door_switch?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_insufficient_procedure_evidence",
+      "gateAction": "defer_human_review",
+      "independentEvidence": false,
+      "rationale": "E9 high-temp alarm flowchart references door switches but no standalone door-switch procedure seed on midea_rss. Abstain \u2014 same class as Samsung RS28.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-evaporator-fan-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS teach frozen evaporator_fan?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_procedure_seed",
+      "gateAction": "defer_human_review",
+      "rationale": "No evaporator-fan procedure seed on midea_rss (contrast midea_uz21 evap-fan seed). Deferred until RSS26 fan diagnostic seed exists.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-air-damper-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen air_damper?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_procedure_seed",
+      "gateAction": "defer_human_review",
+      "rationale": "No damper / baffle procedure seed on NS-RSS26 manual extraction.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-condenser-fan-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS teach conditional condenser_fan?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_procedure_seed",
+      "gateAction": "defer_human_review",
+      "rationale": "VFD SxS uses BLDC compressor drive \u2014 no condenser_fan procedure seed. Not bound without independent gate evidence.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-water-dispenser-abstention",
+      "gateQuestion": "NS-RSS26 water_dispenser conditional binding?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_not_on_manual",
+      "gateAction": "defer_human_review",
+      "rationale": "RSS26 E-family covers ice maker (E0/EE) but no water-dispenser procedure seed. EH/EF/CA/EP codes deferred until dispenser seeds exist.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-compressor-vfd-conditional",
+      "gateQuestion": "What does NS-RSS26 teach about conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "vfd_mediated",
+      "procedureIds": [
+        "midearss-vfd-inverter"
+      ],
+      "seedComponentIds": [
+        "compressor",
+        "inverter_board"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "\u00a711.2 VFD inverter fault LED \u2014 functional compressor role as conditionalConcept only. VFD implementation stays platform layer. NOT canonical compressor promotion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-temp-fresh-food-conditional",
+      "gateQuestion": "NS-RSS26 RC cabinet NTC scope (E1)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "midearss-rc-temp-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-temp-freezer-conditional",
+      "gateQuestion": "NS-RSS26 FZ cabinet NTC scope (E2)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "midearss-fz-temp-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-temp-ambient-conditional",
+      "gateQuestion": "NS-RSS26 ambient NTC scope (E7)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "procedureIds": [
+        "midearss-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-ice-maker-conditional",
+      "gateQuestion": "NS-RSS26 optional ice_maker conditional binding (E0/EE)?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "ice_maker",
+      "procedureIds": [
+        "midearss-ice-maker",
+        "midearss-ice-maker-sensor"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "\u00a710.8 E0 ice maker fault + EE sensor circuit \u2014 optional feature domain only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-rc-defrost-sensor-platform",
+      "gateQuestion": "RC defrost NTC vocabulary (E4)?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "midearss-rc-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "E4 refrigerating-chamber defrost sensor \u2014 platform defrost_sensor vocabulary, not cabinet temperature_sensor conditional.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-fz-defrost-sensor-platform",
+      "gateQuestion": "FZ defrost NTC vocabulary (E5)?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "midearss-fz-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-display-cn9-platform",
+      "gateQuestion": "Main\u2194display CN9 implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "display_communication",
+      "canonicalFunctionalRole": [
+        "user_interface"
+      ],
+      "procedureIds": [
+        "midearss-communication"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "CN9 harness between main control and display panel \u2014 platform HMI comm path, not canonical control_board expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-vfd-inverter-platform",
+      "gateQuestion": "VFD inverter board implementation (\u00a711.2)?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "midearss-vfd-inverter"
+      ],
+      "implementationComponents": [
+        "inverter_board",
+        "compressor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Variable-frequency driver fault LED codes \u2014 platform compressor_controller. Distinct from Samsung inverter PBA and LG conventional relay paths.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-b3839-ntc-platform",
+      "gateQuestion": "B3839 NTC thermistor implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "b3839_ntc",
+      "procedureIds": [
+        "midearss-rc-temp-sensor",
+        "midearss-fz-temp-sensor",
+        "midearss-ambient-sensor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "B3839 ~2.0 k\u03a9 @ 25\u00b0C spec (mideaB3839ThermistorKohm) \u2014 platform NTC vocabulary for cabinet/ambient conditional scopes.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-mandatory-mode-platform",
+      "gateQuestion": "Mandatory mode service entry implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "platformTarget": "mandatory_mode_entry",
+      "procedureIds": [
+        "midearss-mandatory-mode-entry"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "LOCK + FRZ.TEMP 3 s entry \u2014 platform service-mode vocabulary implementing canonical control_board orchestration.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-high-temp-routing",
+      "gateQuestion": "E9 high-temperature alarm complaint routing?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_complaint_routing",
+      "procedureIds": [
+        "midearss-high-temp-alarm"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "E9 routes through door/compressor/thermistor checks \u2014 complaint routing only, not door_switch canonical promotion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-ice-maker-sensor-platform",
+      "gateQuestion": "Ice maker sensor (EE) implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "midea_rss_platform_implementation",
+      "implementationComponent": "ice_maker_module",
+      "procedureIds": [
+        "midearss-ice-maker-sensor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "EE ice-maker sensor circuit \u2014 implements conditional ice_maker feature domain.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-aggregate-resurrection-blocked",
+      "gateQuestion": "Do NS-RSS26 terms resurrect removed aggregates?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_aggregate_resurrection",
+      "removedConcepts": [
+        "airflow_path",
+        "cooling_system",
+        "defrost_system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "E-family and VFD steps decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    },
+    {
+      "teachingId": "midearss-cg9-r2-evidence-isolation",
+      "gateQuestion": "Does CG-9 R2 boundary observation auto-approve overlay rows?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_cg9_calibration_inheritance",
+      "gateAction": "reject_canonical_promotion",
+      "boundaryProbeArtifact": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+      "rationale": "CG-9 R2 triangulation closed family boundary \u2014 calibration only. Each teaching row requires independent NS-RSS26 procedure evidence in this gate.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp4"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-ambient-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-ambient-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e7:-ambient-temperature-sensor",
+      "sourceTerm": "\u00a710.8 E7: Ambient temperature sensor",
+      "procedureId": "midearss-ambient-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-display_panel",
+      "sourceTerm": "display_panel",
+      "procedureId": "midearss-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-main_control",
+      "sourceTerm": "main_control",
+      "procedureId": "midearss-communication",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e6:-display-\u2194-main-communication",
+      "sourceTerm": "\u00a710.8 E6: Display \u2194 main communication",
+      "procedureId": "midearss-communication",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-fz-defrost-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "midearss-fz-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-defrost_heater",
+      "sourceTerm": "defrost_heater",
+      "procedureId": "midearss-fz-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-/-\u00a78.6:-freezer-defrost-heater",
+      "sourceTerm": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+      "procedureId": "midearss-fz-defrost-heater",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-fz-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-fz-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-defrost_thermostat",
+      "sourceTerm": "defrost_thermostat",
+      "procedureId": "midearss-fz-defrost-sensor",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor",
+      "sourceTerm": "\u00a710.8 E5: Freezing chamber defrost sensor",
+      "procedureId": "midearss-fz-defrost-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-fz-temp-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-fz-temp-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor",
+      "sourceTerm": "\u00a710.8 E2: Freezing chamber temperature sensor",
+      "procedureId": "midearss-fz-temp-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-door_switch",
+      "sourceTerm": "door_switch",
+      "procedureId": "midearss-high-temp-alarm",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-high-temp-alarm-compressor",
+      "sourceTerm": "compressor",
+      "procedureId": "midearss-high-temp-alarm",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-high-temp-alarm-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-high-temp-alarm",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e9:-freezer-high-temperature-alarm",
+      "sourceTerm": "\u00a710.8 E9: Freezer high-temperature alarm",
+      "procedureId": "midearss-high-temp-alarm",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-ice_maker_module",
+      "sourceTerm": "ice_maker_module",
+      "procedureId": "midearss-ice-maker-sensor",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-ice-maker-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-ice-maker-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-ee:-ice-maker-sensor-circuit",
+      "sourceTerm": "\u00a710.8 EE: Ice maker sensor circuit",
+      "procedureId": "midearss-ice-maker-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e0:-ice-maker-fault",
+      "sourceTerm": "\u00a710.8 E0: Ice maker fault",
+      "procedureId": "midearss-ice-maker",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-rc-defrost-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-rc-defrost-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e4:-refrigerating-chamber-defrost-sensor",
+      "sourceTerm": "\u00a710.8 E4: Refrigerating chamber defrost sensor",
+      "procedureId": "midearss-rc-defrost-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-rc-temp-sensor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "midearss-rc-temp-sensor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-e1:-refrigerating-chamber-temperature-sensor",
+      "sourceTerm": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+      "procedureId": "midearss-rc-temp-sensor",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    },
+    {
+      "candidateId": "map-midea-rss-fridge-unresolved-midearss-vfd-inverter-compressor",
+      "sourceTerm": "compressor",
+      "procedureId": "midearss-vfd-inverter",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-inverter_board",
+      "sourceTerm": "inverter_board",
+      "procedureId": "midearss-vfd-inverter",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-MIDEA-RSS-FRIDGE-compound-vfd-inverter-board-fault-led",
+      "sourceTerm": "\u00a711.2: VFD inverter board fault LED",
+      "procedureId": "midearss-vfd-inverter",
+      "disposition": "reject_procedural_title",
+      "outcome": "procedural_noise",
+      "gateAction": "reject_procedural_title"
+    }
+  ],
+  "auditBoundaries": {
+    "vfdMediatedCompressor": [
+      "midearss-compressor-vfd-conditional",
+      "midearss-vfd-inverter-platform"
+    ],
+    "doorSwitchAbstention": [
+      "midearss-door-switch-abstention"
+    ],
+    "compartmentThermistors": [
+      "midearss-temp-fresh-food-conditional",
+      "midearss-temp-freezer-conditional",
+      "midearss-temp-ambient-conditional"
+    ],
+    "defrostSensorPlatform": [
+      "midearss-rc-defrost-sensor-platform",
+      "midearss-fz-defrost-sensor-platform"
+    ],
+    "cg9R2EvidenceIsolation": [
+      "midearss-cg9-r2-evidence-isolation"
+    ],
+    "aggregateResurrectionBlocked": [
+      "midearss-aggregate-resurrection-blocked"
+    ],
+    "mandatoryModeEntry": [
+      "midearss-control-board",
+      "midearss-mandatory-mode-platform"
+    ]
+  },
+  "accounting": {
+    "canonicalInheritance": 3,
+    "conditionalBinding": 5,
+    "overlayLearning": 10,
+    "intentionalAbstention": 5,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "mappingCandidatesTotal": 28,
+    "intentionalAbstentions": 5,
+    "overlayLearningEvents": 10
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 3,
+    "intentional_abstention": 5,
+    "conditional_binding": 5,
+    "overlay_knowledge": 10
+  },
+  "humanGateApprovedAt": "2026-09-16T13:52:05.359286+00:00",
+  "humanGateReviewer": "human_gate_cg95_wp4",
+  "publishedAt": "2026-09-16T13:52:05.536786+00:00",
+  "promotionId": "promo-MIDEA-RSS-FRIDGE-CG95-20260916135205"
+}

@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_refrigerator_family_boundary_observation",
+  "phase": "CG-9",
+  "status": "discovery_only",
+  "generatedAt": "2026-09-16T12:55:37.199782+00:00",
+  "canonicalExpansion": 0,
+  "canonicalMutation": 0,
+  "freezeReopened": false,
+  "discoveryCorpusInheritance": 0,
+  "sourceMetadata": {
+    "primaryManualId": "SAMSUNG-RS28-SXS",
+    "primaryPdf": "backend/docs/manuals/samsung rs28 sxs.pdf",
+    "primaryExtractedText": "backend/docs/manuals/samsung rs28 sxs-extracted.txt",
+    "supplementarySvcManual": "backend/docs/manuals/samsung-refrigerator-sxs-svc manual.pdf",
+    "supplementaryExtractedText": "backend/docs/manuals/samsung-refrigerator-sxs-svc manual-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS28_FRIDGE_EXTRACTION.md",
+    "platformId": "samsung_sxs",
+    "manufacturer": "Samsung",
+    "configuration": "side_by_side",
+    "smokeModel": "RS28A500ASR",
+    "procedureSeedDir": "frontend/components/diagnostics/knowledge/procedures/seed/samsung_sxs",
+    "procedureCounts": {
+      "rs28ProcedureSeeds": 0,
+      "rf260bProcedureSeeds": 0,
+      "totalProcedureSeedsOnPlatform": 0,
+      "serviceModeBundles": 0,
+      "proceduresWithMeasurementSteps": 0
+    },
+    "supplementaryManuals": [
+      {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "role": "model_routing_reuse",
+        "note": "Reuses samsungrs28-* procedures \u2014 not primary evidence."
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "role": "platform_sibling",
+        "note": "Same samsung_sxs platform, CN30/CN76 map \u2014 topology variant only."
+      }
+    ],
+    "manualSelectionRationale": "SAMSUNG-RS28-SXS is the richest SxS anchor: 17 RS28 procedure seeds + shared RF260B variants on samsung_sxs, full \u00a74-2 self-diagnostic checklist, and cross-linked svc manual for door-switch flowcharts. RS22T reuses RS28 seeds; RF260B is platform sibling only."
+  },
+  "frozenOntologyReference": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "hashVerifiedAtGeneration": true,
+    "components": [
+      "control_board",
+      "user_interface",
+      "door_switch",
+      "evaporator_fan",
+      "air_damper",
+      "defrost_heater"
+    ],
+    "conditionalConcepts": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "isolationGuards": {
+    "cg7DiscoveryCorpusUsedAsInheritance": false,
+    "cg8FrenchDoorOverlaysUsedAsEvidence": false,
+    "priorOverlayHashesObserved": {
+      "whirlpool_jazz_french_door.json": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+      "samsung_fridge_bespoke.json": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+      "lg_lrmvs.json": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b"
+    },
+    "sideBySideCanonicalOntologyCreated": false,
+    "manufacturerOverlayPublished": false
+  },
+  "candidateConceptVocabulary": [
+    {
+      "term": "main_pba",
+      "classification": "shared_function",
+      "mapsTo": "control_board"
+    },
+    {
+      "term": "display_panel",
+      "classification": "shared_function",
+      "mapsTo": "user_interface"
+    },
+    {
+      "term": "reed_door_switch",
+      "classification": "shared_function",
+      "mapsTo": "door_switch"
+    },
+    {
+      "term": "f_fan",
+      "classification": "shared_function",
+      "mapsTo": "evaporator_fan"
+    },
+    {
+      "term": "c_fan",
+      "classification": "configuration_specific",
+      "note": "Topology label \u2014 role ambiguous vs condenser_fan"
+    },
+    {
+      "term": "damper_heater",
+      "classification": "shared_function",
+      "mapsTo": "air_damper"
+    },
+    {
+      "term": "f_def_heater",
+      "classification": "shared_function",
+      "mapsTo": "defrost_heater"
+    },
+    {
+      "term": "inverter_board",
+      "classification": "implementation_specific",
+      "mapsTo": "compressor_controller"
+    },
+    {
+      "term": "io_expander",
+      "classification": "implementation_specific",
+      "mapsTo": "platform_comm_path"
+    },
+    {
+      "term": "dispenser_panel",
+      "classification": "implementation_specific",
+      "mapsTo": "water_dispenser"
+    },
+    {
+      "term": "in_door_ice_maker",
+      "classification": "configuration_specific",
+      "mapsTo": "ice_maker"
+    },
+    {
+      "term": "pantry_sensor",
+      "classification": "configuration_specific",
+      "mapsTo": "temperature_sensor:pantry"
+    },
+    {
+      "term": "humidity_sensor",
+      "classification": "deferred",
+      "mapsTo": "humidity_control"
+    },
+    {
+      "term": "airflow_path",
+      "classification": "shared_function",
+      "note": "Decomposes to fan+damper \u2014 remains dead aggregate"
+    },
+    {
+      "term": "defrost_system",
+      "classification": "shared_function",
+      "note": "Decomposes to heater+sensor \u2014 remains dead aggregate"
+    },
+    {
+      "term": "dispenser_panel_as_hmi",
+      "classification": "possible_new_canonical_function",
+      "verdict": "rejected_pending_review",
+      "note": "47Er is comm path for dispenser feature \u2014 not separate from user_interface canonically"
+    }
+  ],
+  "sixKeepFunctionEvidence": [
+    {
+      "concept": "control_board",
+      "evidence": "Main PBA orchestrates engineer mode, self-diagnosis, force run/defrost, load status.",
+      "procedureOrTest": [
+        "samsungrs28-engineer-test-entry",
+        "samsungrs28-self-diagnostic-entry",
+        "samsungrs28-led-test-mode-entry"
+      ],
+      "functionalRole": "Refrigeration control orchestration",
+      "configurationEffect": "SxS touch/LED panel entry paths \u2014 not a different control function.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "user_interface",
+      "evidence": "41Er main\u2194display communication; demo/cooling-off display behavior.",
+      "procedureOrTest": [
+        "samsungrs28-panel-communication",
+        "samsungrs28-led-test-mode-entry"
+      ],
+      "functionalRole": "HMI / display surface",
+      "configurationEffect": "Through-door dispenser UI may add 47Er path \u2014 still HMI domain.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "door_switch",
+      "evidence": "\u00a75-4 door-alarm troubleshooting: F/R door sensing CN20 voltage (5 V open / 0 V closed) and reed switch \u03a9 \u2014 no dedicated procedure seed yet.",
+      "procedureOrTest": [
+        "manual \u00a75-4 flowchart (svc manual p.99)"
+      ],
+      "functionalRole": "Door authorization / alarm / fan interlock",
+      "configurationEffect": "Dual vertical doors (F-door + R-door) vs french-door quadrants \u2014 same role.",
+      "disposition": "shared_function",
+      "confidence": "medium"
+    },
+    {
+      "concept": "evaporator_fan",
+      "evidence": "F-FAN feedback 22E; RS28 uses F+C fan pair (RF260B adds FF fan).",
+      "procedureOrTest": [
+        "samsungrs28-f-fan",
+        "samsungrs28-c-fan",
+        "samsungrf260b-fz-fan",
+        "samsungrf260b-ff-fan"
+      ],
+      "functionalRole": "Compartment evaporator airflow",
+      "configurationEffect": "RS28 two-fan topology vs RF260B three-fan \u2014 instance overlay, not new function.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "air_damper",
+      "evidence": "R-room damper heater CN40 (48 \u03a9 / 7\u201312 V); RD weak-FF routing.",
+      "procedureOrTest": [
+        "samsungrs28-damper-heater"
+      ],
+      "functionalRole": "Fresh-food airflow regulation",
+      "configurationEffect": "True-taste / R-room naming \u2014 same damper function as french-door flex paths.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "defrost_heater",
+      "evidence": "F-DEF heater 63 \u03a9; RF260B adds separate FF defrost heater.",
+      "procedureOrTest": [
+        "samsungrs28-f-defrost-heater",
+        "samsungrf260b-fz-defrost-heater",
+        "samsungrf260b-ff-defrost-heater"
+      ],
+      "functionalRole": "Defrost heat actuation",
+      "configurationEffect": "Single vs dual heater instances by model \u2014 compartment-scoped overlay.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    }
+  ],
+  "fiveConditionalFunctionEvidence": [
+    {
+      "concept": "temperature_sensor",
+      "instanceScopes": [
+        "freezer",
+        "fresh_food",
+        "ambient",
+        "defrost",
+        "pantry",
+        "humidity"
+      ],
+      "evidence": "F/R cabinet NTCs, F-DEF NTC, ambient, pantry (RF260B), humidity 14E.",
+      "procedureOrTest": [
+        "samsungrs28-f-sensor",
+        "samsungrs28-r-sensor",
+        "samsungrs28-f-def-sensor",
+        "samsungrs28-ambient-sensor",
+        "samsungrf260b-pantry-sensor",
+        "samsungrs28-humidity-sensor"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "shared_function",
+      "instanceSemantics": "Must preserve compartment scopes \u2014 do not collapse to one sensor.",
+      "confidence": "high"
+    },
+    {
+      "concept": "compressor",
+      "evidence": "Inverter PBA 44Er/84C; force-run paths; IPM voltage checks.",
+      "procedureOrTest": [
+        "samsungrs28-inverter-communication"
+      ],
+      "roleAssessment": "same_functional_role",
+      "implementation": "inverter_pba_mediated (matches RF23BB bespoke, not relay Jazz)",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "condenser_fan",
+      "evidence": "C-FAN 22C in \u00a74-2 checklist \u2014 weak-FF complaint routing ties C-fan to fresh-food path.",
+      "procedureOrTest": [
+        "samsungrs28-c-fan"
+      ],
+      "roleAssessment": "unresolved_implementation_ambiguity",
+      "disposition": "needs_second_manual",
+      "note": "Procedure seed tags condenser_fan but manual routing suggests evaporator/convert path \u2014 same ambiguity class as Samsung RF23BB 22C. Not evidence for new canonical role.",
+      "confidence": "low"
+    },
+    {
+      "concept": "ice_maker",
+      "evidence": "In-door ice maker on RS28; ice pipe 33E; ice maker sensor/function procedures.",
+      "procedureOrTest": [
+        "samsungrs28-ice-maker-sensor",
+        "samsungrs28-ice-maker-function",
+        "samsungrs28-ice-pipe-heater"
+      ],
+      "roleAssessment": "same_functional_role",
+      "configurationEffect": "In-door vs freezer-bin ice \u2014 optional feature placement only.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    },
+    {
+      "concept": "water_dispenser",
+      "evidence": "47Er dispenser panel comm; through-door dispense troubleshooting \u00a75.",
+      "procedureOrTest": [
+        "samsungrs28-dispenser-communication"
+      ],
+      "roleAssessment": "same_functional_role",
+      "configurationEffect": "SxS external dispenser standard \u2014 stronger than french-door Jazz gap.",
+      "disposition": "shared_function",
+      "confidence": "high"
+    }
+  ],
+  "architecturalDifferences": [
+    {
+      "area": "compartment_layout",
+      "sxSEvidence": "Vertical F|Fz split doors (RS28) vs french-door quadrants",
+      "functionalImpact": false,
+      "layer": "configuration"
+    },
+    {
+      "area": "fan_topology",
+      "sxSEvidence": "RS28: F-fan + C-fan only; RF260B: FZ + FF + C fans",
+      "functionalImpact": false,
+      "layer": "configuration_instance_overlay"
+    },
+    {
+      "area": "ice_placement",
+      "sxSEvidence": "In-door ice on RS28 fridge door",
+      "functionalImpact": false,
+      "layer": "configuration_optional_feature"
+    },
+    {
+      "area": "compressor_drive",
+      "sxSEvidence": "Inverter PBA 44Er/84C \u2014 same class as RF23BB bespoke",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "comm_architecture",
+      "sxSEvidence": "IO expander 46Er, WiFi 52Er, dispenser 47Er \u2014 extra harness nodes",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "door_sensing",
+      "sxSEvidence": "Reed switches with CN20 F/R door voltage flowchart \u00a75-4",
+      "functionalImpact": false,
+      "layer": "implementation"
+    },
+    {
+      "area": "c_fan_role",
+      "sxSEvidence": "22C tagged condenser_fan in seed but weak-FF routing",
+      "functionalImpact": "unresolved",
+      "layer": "needs_second_manual"
+    }
+  ],
+  "familyBoundaryHypotheses": {
+    "hypothesisA_shareFrenchDoorOntology": {
+      "statement": "Side-by-side shares existing french_door_refrigerator functional ontology.",
+      "status": "supported",
+      "supportingEvidence": [
+        "All six KEEP functions independently evidenced on RS28/SxS manual.",
+        "Five conditional concepts map with same instance-semantics discipline.",
+        "Removed aggregates (defrost_system, cooling_system, airflow_path) decompose identically."
+      ],
+      "contradictoryEvidence": [
+        "Ontology id/name says french_door \u2014 lexical mismatch with SxS configuration."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "SxS manual exposes a diagnostic functional role not expressible in frozen KEEP+conditional contract."
+    },
+    "hypothesisB_broaderRefrigeratorOntology": {
+      "statement": "French-door and side-by-side belong to a broader refrigerator ontology; current freeze is configuration-scoped naming.",
+      "status": "supported",
+      "supportingEvidence": [
+        "Frozen ontology designPrinciples already model generic refrigeration behavior.",
+        "SxS adds no new canonical functional nodes \u2014 only configuration/instance overlays.",
+        "CG-8 compounding absorbed Jazz/inverter/linear without ontology mutation."
+      ],
+      "contradictoryEvidence": [
+        "CG-7 freeze artifact is explicitly french_door_refrigerator \u2014 organizational debt only."
+      ],
+      "conceptsThatWouldDiffer": [
+        "ontology_id",
+        "variant_label"
+      ],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "A second non-Samsung SxS manual requires functional nodes outside frozen contract."
+    },
+    "hypothesisC_distinctSideBySideOntology": {
+      "statement": "Side-by-side requires a distinct canonical functional ontology.",
+      "status": "contradicted",
+      "supportingEvidence": [
+        "SxS-specific harness nodes (IO expander, dispenser panel) are implementation vocabulary."
+      ],
+      "contradictoryEvidence": [
+        "No independent diagnostic functional role found that french_door contract cannot express.",
+        "Physical side-by-side layout does not change control/cooling/defrost/airflow diagnostic model."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [
+        "control_board",
+        "user_interface",
+        "door_switch",
+        "evaporator_fan",
+        "air_damper",
+        "defrost_heater",
+        "temperature_sensor",
+        "compressor",
+        "condenser_fan",
+        "ice_maker",
+        "water_dispenser"
+      ],
+      "falsification": "Would require at least one KEEP/conditional concept unique to SxS \u2014 not observed."
+    },
+    "hypothesisD_insufficientEvidence": {
+      "statement": "Evidence insufficient to decide family boundary.",
+      "status": "partially_unresolved",
+      "supportingEvidence": [
+        "Only Samsung SxS studied \u2014 no Whirlpool/Maytag/LG SxS triangulation yet.",
+        "C-FAN vs condenser_fan role ambiguous on Samsung SxS."
+      ],
+      "contradictoryEvidence": [
+        "Strong single-manual functional alignment across all KEEP roles.",
+        "Platform samsung_sxs already shares procedure patterns with french-door Samsung bespoke."
+      ],
+      "conceptsThatWouldDiffer": [],
+      "conceptsThatRemainShared": [],
+      "falsification": "Non-Samsung SxS manual breaks functional alignment for \u22652 KEEP roles.",
+      "nextManualRequirements": [
+        "Whirlpool/Maytag W11296289 side-by-side (in corpus)",
+        "Second Samsung SxS variant only if C-fan role remains ambiguous"
+      ]
+    }
+  },
+  "possibleNewCanonicalFunctions": [
+    {
+      "proposedId": "dispenser_panel",
+      "verdict": "rejected_at_discovery",
+      "reason": "47Er dispenser comm implements water_dispenser/HMI path \u2014 not a new canonical function.",
+      "inComponentsArray": false
+    }
+  ],
+  "unresolvedConcepts": [
+    {
+      "concept": "condenser_fan",
+      "reason": "C-FAN 22C role ambiguous on Samsung SxS \u2014 evaporator-path vs condenser-path."
+    },
+    {
+      "concept": "humidity_control",
+      "reason": "14E procedure exists but CG-7 deferred \u2014 single-manufacturer on SxS."
+    }
+  ],
+  "proposedNextManualRequirements": [
+    {
+      "manualId": "W11296289",
+      "corpusPath": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator.pdf",
+      "purpose": "Non-Samsung SxS triangulation \u2014 falsify Hypothesis C/D."
+    },
+    {
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "purpose": "Platform sibling \u2014 confirm fan/heater instance topology only."
+    }
+  ],
+  "recommendedNextStep": "Run CG-9 R2 with Whirlpool W11296289 SxS before any canonical family decision. If R2 confirms functional alignment, treat french_door_refrigerator as operationally shared refrigerator functional ontology (Hypothesis A+B) and defer ontology rename to a future human re-freeze gate \u2014 do NOT create side_by_side_refrigerator.json from one Samsung manual."
+}

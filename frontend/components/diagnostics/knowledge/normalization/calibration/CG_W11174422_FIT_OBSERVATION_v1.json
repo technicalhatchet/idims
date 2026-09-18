@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_observation",
+  "workstream": "CG-WALL-OVEN-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:10:00+00:00",
+  "contract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Whirlpool/Maytag/KitchenAid",
+  "model": "WOS/WOD/WOC Smart Wall Oven family (e.g. WOS51EC0H, WOD77EC0H)",
+  "manualId": "W11174422",
+  "templateId": "wall_oven",
+  "productConfigurations": {
+    "singleWallOven": true,
+    "doubleWallOven": true,
+    "microwaveCombo": true,
+    "fuelTypesDocumented": ["electric"],
+    "gasNomenclatureOnly": true
+  },
+  "fitScopeNote": "Microwave-combo (WOC) upper cavity is out of wall_oven fit scope — microwave is separate frozen canonical family. Oven-compartment diagnostics on combo units classify against range_oven; MWO sections excluded from wall_oven witness count.",
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "range_oven",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/service-manual-w11174422-revBwplwallovens.pdf",
+    "extractedText": "backend/docs/manuals/service-manual-w11174422-revBwplwallovens-extracted.txt",
+    "procedureSeedDir": null,
+    "note": "No procedure seeds ingested — classifications from OEM error-code diagnostics and component-activation domains"
+  },
+  "functionalArchitectureSummary": {
+    "ovenCavity": "Built-in electric wall oven — bake, broil, true convection element and fan; no cooktop/surface heating",
+    "control": "Copernicus Application Manager (ACU) per oven cavity; HMI-Central UI board; diagnostics mode with component activation",
+    "doubleOven": "Independent upper/lower Copernicus ACU, per-cavity temperature sensors (F3 E0 main/upper vs E1 bottom/lower), per-cavity door latch (F5 E0/E1 vs E3/E4)",
+    "sensing": "Cavity RTD ~1000–1200 Ω at 77°F; door/latch PTC ~500–3000 Ω",
+    "cooling": "Dedicated cavity cooling fan high/low (F8E0/F8E1) — distinct from convection fan in component activation list",
+    "surfaceHeatingAbsent": "No infinite-switch, cooktop relay, or surface zone vocabulary — surface_heating_system not instantiated"
+  },
+  "classificationHistogram": {
+    "range_oven": 6,
+    "shared_function": 1,
+    "implementation_specific": 2,
+    "unresolved": 0
+  },
+  "diagnosticPathClassifications": [
+    {
+      "pathId": "w11174422-copernicus-acu",
+      "oemSection": "§2 F1E1",
+      "pages": [40],
+      "classification": "range_oven",
+      "functionalDomain": "control_board",
+      "provenance": "Copernicus Application Manager internal error — maps to range_oven.control_board orchestration node.",
+      "frozenContractFit": "range_oven.control_board"
+    },
+    {
+      "pathId": "w11174422-hmi-ui",
+      "oemSection": "§2 F1 Internal E0 / F2 Keypad",
+      "pages": [39, 40],
+      "classification": "range_oven",
+      "functionalDomain": "oven_ui_control",
+      "provenance": "HMI-Central/UI board and keypad faults — maps to user_interface + control_board communication.",
+      "frozenContractFit": "range_oven.user_interface + control_board"
+    },
+    {
+      "pathId": "w11174422-cavity-temp-sensor",
+      "oemSection": "§2 F3 Sensors E0/E1",
+      "pages": [41, 42],
+      "classification": "range_oven",
+      "functionalDomain": "temperature_sensing_control",
+      "provenance": "Main/upper and bottom/lower oven RTD open/short — instance-scoped temperature_sensor on double-oven products.",
+      "frozenContractFit": "range_oven.temperature_sensor[upper/lower] overlay binding"
+    },
+    {
+      "pathId": "w11174422-door-latch",
+      "oemSection": "§2 F5 Inputs E0–E4",
+      "pages": [42, 43, 44],
+      "classification": "range_oven",
+      "functionalDomain": "door_latch_safety",
+      "provenance": "Door/latch switch disagreement and latch motor non-operation — conditionalConcept oven_door_switch + platform door_latch_motor.",
+      "frozenContractFit": "range_oven.conditionalConcepts.oven_door_switch + overlay door_latch_motor"
+    },
+    {
+      "pathId": "w11174422-bake-broil-convection",
+      "oemSection": "§2 Component Activation / §3 Component Testing",
+      "pages": [21, 1177],
+      "classification": "range_oven",
+      "functionalDomain": "bake_broil_convection_thermal",
+      "provenance": "Bake, broil, convection element and convection fan activation — instanceScopes bake_heating_element, broil_heating_element, convection_heating_element, conditional convection_fan.",
+      "frozenContractFit": "range_oven.instanceScopes + oven_heat_generation domain"
+    },
+    {
+      "pathId": "w11174422-double-oven-dual-acu",
+      "oemSection": "§2 F1E1 double-oven note / upper-lower activation lists",
+      "pages": [40, 1193],
+      "classification": "shared_function",
+      "functionalDomain": "double_oven_composition",
+      "provenance": "Double wall oven uses two Copernicus ACUs with per-cavity sensors and latches — composition of two oven instance scopes on frozen range_oven, not new orchestration family.",
+      "frozenContractFit": "range_oven oven-compartment instance binding ×2 — overlay composition"
+    },
+    {
+      "pathId": "w11174422-cooling-fan",
+      "oemSection": "§2 F8E0/F8E1 / cooling fan activation",
+      "pages": [1527, 1185],
+      "classification": "implementation_specific",
+      "functionalDomain": "cooling_ventilation",
+      "provenance": "Cavity cooling fan high/low distinct from convection fan — range_oven deferredConcept cooling_fan; platform overlay vocabulary, not canonical expansion.",
+      "frozenContractFit": "range_oven.deferredConcepts.cooling_fan — platform overlay only"
+    },
+    {
+      "pathId": "w11174422-heat-relay",
+      "oemSection": "§2 F4E1 relay errors",
+      "pages": [38],
+      "classification": "implementation_specific",
+      "functionalDomain": "bake_broil_convection_thermal",
+      "provenance": "Relay/triac heat output faults — control_board switching implementation; same role as freestanding range oven relay paths.",
+      "frozenContractFit": "range_oven.control_board → oven_heat_generation — platform relay vocabulary"
+    },
+    {
+      "pathId": "w11174422-diagnostics-mode",
+      "oemSection": "§2 Diagnostics Mode",
+      "pages": [21],
+      "classification": "range_oven",
+      "functionalDomain": "oven_ui_control",
+      "provenance": "Service diagnostics entry, error history, sensors & switches readout — user_interface service-mode packaging on control_board.",
+      "frozenContractFit": "range_oven.user_interface + control_board service-mode overlay"
+    }
+  ],
+  "rangeSpecificDomainsAbsent": {
+    "surface_heating_system": "Not present — by product design (built-in oven only), not diagnostic gap",
+    "infinite_switch_cooktop": "Not present",
+    "gas_ignitor_valve": "Nomenclature supports gas (G=GAS) but this manual documents electric smart wall ovens — gas wall-oven witness deferred"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "wall_oven.json new canonical graph",
+      "reason": "All oven-compartment diagnostic paths map to existing range_oven domains with surface_heating_system omitted"
+    },
+    {
+      "candidate": "MWO magnetron/inverter as wall_oven domain",
+      "reason": "Combo microwave upper cavity — separate microwave canonical family scope"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_discovery_contract",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-DISCOVERY",
+  "status": "active",
+  "activatedAt": "2026-09-17T14:05:00+00:00",
+  "humanAuthorization": {
+    "approvedAt": "2026-09-17T14:05:00+00:00",
+    "authorizationStatement": "APPROVED — AUTHORIZE CG-AIO-LAUNDRY-COMBO-DISCOVERY. Fit-test architectural_divergence accepted; single-witness limitation is a constraint on generalization, not permission to over-generalize.",
+    "priorFitOutcome": "architectural_divergence",
+    "priorDivergencePackage": "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json"
+  },
+  "priorPhaseClosed": "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+  "discoveryMode": "minimal_functional_contract_discovery_single_witness_discipline",
+  "coreConstraint": "Discovery proposes minimum functional responsibilities required for AIO laundry-combo diagnostics — not OEM component lists. Samsung WD53 establishes candidate architecture only; it does not establish manufacturer-independent canonical truth without corroboration.",
+  "immutableFitInputs": {
+    "policy": "Read-only — discovery must not mutate fit artifacts",
+    "artifacts": [
+      "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+      "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_TRIANGULATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json"
+    ]
+  },
+  "discoveryRules": [
+    "Functional responsibilities only — no manufacturer-specific component ontology.",
+    "No component promotion merely because a component is novel.",
+    "Preserve existing frozen laundry concepts where they genuinely fit — reuse front_load_washer wash domains by reference, do not duplicate.",
+    "Identify only functional domains that cannot be represented by existing frozen contracts.",
+    "Prefer reusable functional boundaries over implementation-specific boundaries.",
+    "Do not create a new canonical family solely because two existing families are packaged together.",
+    "Every proposed new canonical concept must be labeled single_witness_candidate until independent corroboration.",
+    "Standalone heat-pump dryer evidence is not AIO evidence — do not borrow for corroboration."
+  ],
+  "notCreating": [
+    "aio_laundry_combo.json",
+    "frozen:true canonical file",
+    "manufacturer overlay compounding",
+    "canonical promotion of compressor",
+    "canonical promotion of condenser",
+    "canonical promotion of evaporator",
+    "canonical promotion of expansion_valve",
+    "canonical promotion of refrigerant_thermistor",
+    "canonical promotion of dehumidifying_kit",
+    "mutations to front_load_washer.json",
+    "mutations to top_load_washer.json",
+    "mutations to vented_dryer.json",
+    "mutations to microwave.json",
+    "mutations to range_oven.json",
+    "mutations to any other frozen canonical graph",
+    "corpus-wide normalization or compounding"
+  ],
+  "centerpieceQuestion": {
+    "id": "minimal_aio_functional_contract",
+    "question": "What is the minimum set of new canonical FUNCTIONS — not components — required to represent AIO laundry-combo diagnostics that cannot already be represented by frozen front_load_washer and vented_dryer graphs?",
+    "framing": "Wash path reuses front_load_washer. Dry path diverges from vented_dryer. Integration may require a third orchestration function. Packaging alone is insufficient justification.",
+    "disallowedShortcut": "Promoting compressor, EVA thermistors, dehumidifying kit, and auto-open door as separate canonical nodes because Samsung tests them"
+  },
+  "investigationLayers": {
+    "orchestration": [
+      "unified_control_architecture",
+      "wash_dry_mode_orchestration",
+      "shared_motor_drum",
+      "cross_mode_safety_interlocks",
+      "cross_mode_sensing_dependencies"
+    ],
+    "washing": {
+      "posture": "reuse_front_load_washer_unchanged",
+      "domains": [
+        "water_inlet",
+        "drain",
+        "water_level",
+        "wash_heating",
+        "door_interlock_wash",
+        "drive_wash"
+      ]
+    },
+    "drying": {
+      "posture": "new_functional_contract_required",
+      "investigate": [
+        "heat_pump_thermal_transfer",
+        "refrigerant_loop_operation",
+        "sealed_airflow",
+        "condensation_dehumidification",
+        "moisture_rejection_without_exhaust",
+        "dry_temperature_sensing",
+        "dry_thermal_protection",
+        "drying_control"
+      ],
+      "implementationVocabularyGuard": [
+        "compressor",
+        "condenser",
+        "evaporator",
+        "expansion_valve",
+        "refrigerant_thermistor",
+        "dehumidifying_kit",
+        "eva_in",
+        "eva_out"
+      ]
+    },
+    "otherFunctions": [
+      "auto_open_door",
+      "foam_management",
+      "leak_management",
+      "auxiliary_heater",
+      "ULC",
+      "Smart_Install"
+    ]
+  },
+  "relationshipDiscovery": {
+    "investigate": [
+      "wash_function → dry_function",
+      "control_board → wash_control",
+      "control_board → dry_control",
+      "shared_drive → wash_function",
+      "shared_drive → dry_function",
+      "sealed_dry_system → sealed_dry_airflow",
+      "sealed_dry_airflow → condensation_moisture_rejection",
+      "wash_residue → dry_path_inhibition"
+    ],
+    "rule": "Establish whether relationships are stable functional contracts or Samsung implementation details before proposing canonical edges"
+  },
+  "singleWitnessDiscipline": {
+    "witnessCount": 1,
+    "requiredLabel": "single_witness_candidate",
+    "requiredFields": [
+      "exact source/page/section provenance",
+      "functional justification",
+      "why existing canonical families cannot represent it",
+      "implementation-specific alternatives considered",
+      "independent evidence required to validate"
+    ],
+    "corroborationStatus": "insufficient_corpus_evidence"
+  },
+  "corpusSearch": {
+    "searchedAt": "2026-09-17T14:05:00+00:00",
+    "queries": [
+      "all-in-one washer dryer / LAUNDRY COMBO",
+      "ventless washer-dryer combo",
+      "heat-pump washer-dryer combo",
+      "compressor refrigerant drying in laundry combo context"
+    ],
+    "aioWitnessFound": [
+      {
+        "manual": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+        "platformId": "samsung_laundry_combo",
+        "dryingArchitecture": "heat_pump_ventless"
+      }
+    ],
+    "excludedFromAioCorroboration": [
+      {
+        "candidate": "GE GUD27",
+        "reason": "Stacked laundry center — not single-drum AIO"
+      },
+      {
+        "candidate": "Samsung FlexWash WV55M9600",
+        "reason": "Dual-load washer — no integrated dry in same drum"
+      },
+      {
+        "candidate": "Whirlpool W11169652 combo dry heater",
+        "reason": "Optional condenser duct on some FL washers — not full AIO; ventless condensing accessory not heat-pump AIO witness"
+      },
+      {
+        "candidate": "NS-TWM41 / NS-TWM35",
+        "reason": "Safety text references combination washer-dryer — no AIO service architecture ingested"
+      },
+      {
+        "candidate": "Samsung DV22N8650 heat-pump dryer",
+        "reason": "Standalone heat-pump dryer — separate fit-test candidate; not AIO evidence per discovery rules"
+      }
+    ],
+    "corroborationStatus": "insufficient_corpus_evidence"
+  },
+  "candidateArtifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+  "closureArtifact": "CG_AIO_LAUNDRY_COMBO_DISCOVERY_CLOSURE_v1.json",
+  "permittedDiscoveryOutcomes": [
+    "candidate_ready_for_freeze",
+    "discovery_insufficient",
+    "existing_family_can_be_extended"
+  ],
+  "successCriteria": {
+    "canonicalExpansion": 0,
+    "canonicalMutation": 0,
+    "componentPromotionCount": 0,
+    "freezeExecuted": false
+  }
+}

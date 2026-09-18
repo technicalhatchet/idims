@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_observation",
+  "workstream": "CG-9.5",
+  "workPackage": "WP4",
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "compoundingSequence": 4,
+  "verdict": {
+    "canonicalInheritances": 3,
+    "conditionalBindings": 5,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 5,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "Fourth SxS production compounding \u2014 VFD-mediated compressor conditional, B3839 NTC platform, E4/E5 defrost-sensor platform vocabulary, mandatory-mode control_board. Door_switch abstained (no standalone seed). Prior Samsung/Whirlpool/LG SxS overlays not imported. Seven refrigerator overlays now on frozen contract.",
+  "gateArtifact": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "MIDEA_RSS_SXS_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T13:52:05.359286+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  }
+}

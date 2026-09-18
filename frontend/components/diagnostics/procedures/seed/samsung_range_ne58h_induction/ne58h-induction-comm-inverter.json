@@ -1,0 +1,69 @@
+{
+  "id": "ne58h-induction-comm-inverter",
+  "version": "1.0.0",
+  "title": "Cooktop: Display \u2194 inverter communication",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "surface_element",
+    "display_panel"
+  ],
+  "tags": [
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Inverter communication",
+    "pages": [
+      56,
+      57
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "inverter_voltage"
+    },
+    {
+      "id": "inverter_voltage",
+      "order": 2,
+      "type": "instruction",
+      "title": "Inverter CN101 5V/12V",
+      "body": "Measure inverter module supply and communication harness.",
+      "sourceExcerpt": "Measure inverter module supply and communication harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_inverter_ok"
+    },
+    {
+      "id": "replace_inverter_pcb",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace inverter PCB",
+      "oemOutcome": "Replace Assy-Inverter Module or filter PCB fuse path.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_inverter_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Inverter comm OK",
+      "oemOutcome": "Display \u2194 inverter communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

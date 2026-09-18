@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "gateKind": "sxs_production_compounding_midea",
+  "gateArtifact": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+  "generatedAt": "2026-09-16T13:52:05.359286+00:00",
+  "reviewer": "human_gate_cg95_wp4",
+  "compoundingPhase": "CG-9.5",
+  "workPackage": "WP4",
+  "entries": [
+    {
+      "artifactId": "midearss-control-board",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen control_board?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "control_board",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-mandatory-mode-entry"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rationale": "\u00a710.5 mandatory mode (LOCK + FRZ.TEMP 3 s) \u2014 forced compressor / ice-maker orchestration on Midea RSS main control. Independent of prior SxS overlays.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "midearss-user-interface",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen user_interface?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "user_interface",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-communication"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "rationale": "\u00a710.8 E6 display\u2194main CN9 communication \u2014 independent HMI diagnostic on Midea RSS without importing LG/Samsung/Whirlpool SxS overlays.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "midearss-defrost-heater",
+      "gateQuestion": "Does NS-RSS26 SxS teach frozen defrost_heater?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "defrost_heater",
+      "conditionalConcept": null,
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-fz-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "rationale": "\u00a76.3 / \u00a78.6 freezer defrost heater 115 V 240 W (~55 \u03a9) \u2014 direct canonical inheritance.",
+      "independentEvidence": true
+    },
+    {
+      "artifactId": "midearss-door-switch-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen door_switch?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "E9 high-temp alarm flowchart references door switches but no standalone door-switch procedure seed on midea_rss. Abstain \u2014 same class as Samsung RS28.",
+      "independentEvidence": false
+    },
+    {
+      "artifactId": "midearss-evaporator-fan-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS teach frozen evaporator_fan?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "No evaporator-fan procedure seed on midea_rss (contrast midea_uz21 evap-fan seed). Deferred until RSS26 fan diagnostic seed exists.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-air-damper-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS independently teach frozen air_damper?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "No damper / baffle procedure seed on NS-RSS26 manual extraction.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-condenser-fan-abstention",
+      "gateQuestion": "Does NS-RSS26 SxS teach conditional condenser_fan?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "VFD SxS uses BLDC compressor drive \u2014 no condenser_fan procedure seed. Not bound without independent gate evidence.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-water-dispenser-abstention",
+      "gateQuestion": "NS-RSS26 water_dispenser conditional binding?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "RSS26 E-family covers ice maker (E0/EE) but no water-dispenser procedure seed. EH/EF/CA/EP codes deferred until dispenser seeds exist.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-compressor-vfd-conditional",
+      "gateQuestion": "What does NS-RSS26 teach about conditional compressor?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "compressor",
+      "instanceScope": "vfd_mediated",
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-vfd-inverter"
+      ],
+      "seedComponentIds": [
+        "compressor",
+        "inverter_board"
+      ],
+      "rationale": "\u00a711.2 VFD inverter fault LED \u2014 functional compressor role as conditionalConcept only. VFD implementation stays platform layer. NOT canonical compressor promotion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-temp-fresh-food-conditional",
+      "gateQuestion": "NS-RSS26 RC cabinet NTC scope (E1)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-rc-temp-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-temp-freezer-conditional",
+      "gateQuestion": "NS-RSS26 FZ cabinet NTC scope (E2)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-fz-temp-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-temp-ambient-conditional",
+      "gateQuestion": "NS-RSS26 ambient NTC scope (E7)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "ambient",
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-ambient-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-ice-maker-conditional",
+      "gateQuestion": "NS-RSS26 optional ice_maker conditional binding (E0/EE)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "ice_maker",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-ice-maker",
+        "midearss-ice-maker-sensor"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "rationale": "\u00a710.8 E0 ice maker fault + EE sensor circuit \u2014 optional feature domain only.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-rc-defrost-sensor-platform",
+      "gateQuestion": "RC defrost NTC vocabulary (E4)?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": "fresh_food",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "midearss-rc-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "rationale": "E4 refrigerating-chamber defrost sensor \u2014 platform defrost_sensor vocabulary, not cabinet temperature_sensor conditional.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-fz-defrost-sensor-platform",
+      "gateQuestion": "FZ defrost NTC vocabulary (E5)?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": "freezer",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "midearss-fz-defrost-sensor"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "rationale": null,
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-display-cn9-platform",
+      "gateQuestion": "Main\u2194display CN9 implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "display_communication",
+      "procedureIds": [
+        "midearss-communication"
+      ],
+      "seedComponentIds": [],
+      "rationale": "CN9 harness between main control and display panel \u2014 platform HMI comm path, not canonical control_board expansion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-vfd-inverter-platform",
+      "gateQuestion": "VFD inverter board implementation (\u00a711.2)?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "midearss-vfd-inverter"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Variable-frequency driver fault LED codes \u2014 platform compressor_controller. Distinct from Samsung inverter PBA and LG conventional relay paths.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-b3839-ntc-platform",
+      "gateQuestion": "B3839 NTC thermistor implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "b3839_ntc",
+      "procedureIds": [
+        "midearss-rc-temp-sensor",
+        "midearss-fz-temp-sensor",
+        "midearss-ambient-sensor"
+      ],
+      "seedComponentIds": [],
+      "rationale": "B3839 ~2.0 k\u03a9 @ 25\u00b0C spec (mideaB3839ThermistorKohm) \u2014 platform NTC vocabulary for cabinet/ambient conditional scopes.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-mandatory-mode-platform",
+      "gateQuestion": "Mandatory mode service entry implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "mandatory_mode_entry",
+      "procedureIds": [
+        "midearss-mandatory-mode-entry"
+      ],
+      "seedComponentIds": [],
+      "rationale": "LOCK + FRZ.TEMP 3 s entry \u2014 platform service-mode vocabulary implementing canonical control_board orchestration.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-high-temp-routing",
+      "gateQuestion": "E9 high-temperature alarm complaint routing?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-high-temp-alarm"
+      ],
+      "seedComponentIds": [],
+      "rationale": "E9 routes through door/compressor/thermistor checks \u2014 complaint routing only, not door_switch canonical promotion.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-ice-maker-sensor-platform",
+      "gateQuestion": "Ice maker sensor (EE) implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "midearss-ice-maker-sensor"
+      ],
+      "seedComponentIds": [],
+      "rationale": "EE ice-maker sensor circuit \u2014 implements conditional ice_maker feature domain.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-aggregate-resurrection-blocked",
+      "gateQuestion": "Do NS-RSS26 terms resurrect removed aggregates?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "E-family and VFD steps decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "independentEvidence": null
+    },
+    {
+      "artifactId": "midearss-cg9-r2-evidence-isolation",
+      "gateQuestion": "Does CG-9 R2 boundary observation auto-approve overlay rows?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "CG-9 R2 triangulation closed family boundary \u2014 calibration only. Each teaching row requires independent NS-RSS26 procedure evidence in this gate.",
+      "independentEvidence": null
+    }
+  ],
+  "summary": {
+    "canonicalInheritances": 3,
+    "conditionalBindings": 5,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 5,
+    "newOverlaySemanticDecisions": 10,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "accounting": {
+    "canonicalInheritances": 3,
+    "conditionalBindings": 5,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 5,
+    "newOverlaySemanticDecisions": 10,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  }
+}

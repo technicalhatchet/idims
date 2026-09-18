@@ -22,7 +22,6 @@ ATTACH_AFTER_SAFETY = {
     "samsungdv6000-heater-electric.json",
     "samsungdv6000-motor-circuit.json",
     "samsungdv6000-hmi.json",
-    "samsungdv6000-heat-pump-compressor.json",
 }
 
 

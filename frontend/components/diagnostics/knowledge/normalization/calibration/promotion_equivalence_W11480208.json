@@ -1,0 +1,39 @@
+{
+  "manualId": "W11480208",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 15,
+    "generatedCount": 15,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 20,
+    "generatedCount": 20,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 14,
+    "generatedCount": 14,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ]
+}

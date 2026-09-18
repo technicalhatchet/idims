@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_freeze_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T22:30:00+00:00",
+  "phase": "CG-P08-FLEXWASH-FREEZE",
+  "verdict": "GREEN / P08_FLEXWASH_INTEGRATION_BOUNDARY_FROZEN",
+  "closureStatement": "P08 FlexWash integration boundary frozen. Fit → discovery → W1 fit → W2 corroboration → human freeze complete. Architecture composes front_load_washer[LOWER] + front_load_washer[UPPER] with frozen integration boundary (system_supervision corroborated, inter_instance_control_communication W1_DERIVED, enable_inhibit facet). Simultaneous active wash NOT_PROVEN. WV60 platform generation registered. No canonical family file authored. Normalization deferred.",
+  "freezeLock": "CG_P08_FLEXWASH_FREEZE_LOCK_v1.json",
+  "freezeAudit": "CG_P08_FLEXWASH_FREEZE_AUDIT_v1.json",
+  "frozenContract": {
+    "file": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "frozenRevision": "v1",
+    "frozenHash": "af4fa710941c9bb26dc802de390d1f4c9dcc09106c04da6fb5f6be84651950d3",
+    "notCanonicalFile": true
+  },
+  "finalArchitecture": {
+    "instances": [
+      "front_load_washer[LOWER]",
+      "front_load_washer[UPPER]"
+    ],
+    "integrationBoundary": {
+      "system_supervision": { "oem": "SF", "evidence": "CORROBORATED" },
+      "inter_instance_control_communication": { "oem": "AC7", "evidence": "W1_DERIVED" },
+      "enable_inhibit": { "form": "FACET", "isCanonicalNode": false }
+    },
+    "sharedImplementationOnly": ["power_supply", "shared_hmi", "shared_cabinet_system_resources"],
+    "simultaneousActiveWash": "NOT_PROVEN",
+    "wv60Ac7": "UNDOCUMENTED"
+  },
+  "governanceConclusion": {
+    "p08IntegrationBoundaryLocked": true,
+    "canonicalExpansion": 0,
+    "newCanonicalFamilyFile": false,
+    "frozenSourceGraphHashesMutated": false,
+    "architectureExceptionPreserved": true,
+    "w1FitArtifactsPreserved": true,
+    "w2FitArtifactsPreserved": true,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false,
+    "overlayBindingAuthorized": false,
+    "pilotClosureAuthorized": false
+  },
+  "workstreamChain": [
+    "CG-P08-FLEXWASH-ARCHITECTURE-DECISION — Path B",
+    "CG-P08-FLEXWASH-INTEGRATION-DISCOVERY",
+    "CG-P08-FLEXWASH-FIT-TEST — W1 partially fits",
+    "CG-P08-FLEXWASH-W2-FIT — W2 partially corroborates",
+    "CG-P08-FLEXWASH-FREEZE — integration boundary frozen"
+  ],
+  "nextDisciplinedStep": "P08 architecture gate complete at integration-boundary freeze. Production normalization, UI integration, and pilot closure remain HOLD until explicitly authorized. architecture_exception.json retained as historical STOP evidence."
+}

@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_benchmark",
+  "version": "v1",
+  "phase": "CG-6.3",
+  "generatedAt": "2026-09-14T02:39:03.646075+00:00",
+  "readOnly": true,
+  "calibrationCorpus": "compounding_calibration_corpus_v1.json",
+  "efficiencyBaseline": "compounding_efficiency_v1.json",
+  "semanticRules": "semantic_inheritance_rules_v1.json",
+  "guardrails": [
+    "semantic matching may improve inheritance",
+    "semantic matching may NOT promote ontology",
+    "semantic matching may NOT bypass human gates where confidence is insufficient",
+    "semantic matching may NOT cross manufacturer boundaries",
+    "semantic matching may NOT infer topology"
+  ],
+  "comparison": {
+    "frozenGatePreviewBefore": {
+      "source": "compounding_efficiency_v1.json",
+      "totalHumanGateDecisions": 48,
+      "documentedSemanticInheritanceCases": 1,
+      "newCanonicalKnowledge": 0,
+      "leakage": {
+        "samsung_to_whirlpool_platform": 0,
+        "whirlpool_to_samsung_platform": 0,
+        "newCanonicalAcrossCohort": 0,
+        "frozenOntologyCandidatesTouched": 0,
+        "perManual": [
+          {
+            "manualId": "W8178558",
+            "newCanonicalKnowledge": null,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "W11169652",
+            "newCanonicalKnowledge": null,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "W10864849",
+            "newCanonicalKnowledge": 0,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "W11697231",
+            "newCanonicalKnowledge": 0,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "W11416787",
+            "newCanonicalKnowledge": 0,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "newCanonicalKnowledge": 0,
+            "inheritedWhirlpoolPlatform": null
+          },
+          {
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "newCanonicalKnowledge": 0,
+            "inheritedWhirlpoolPlatform": 0
+          }
+        ]
+      }
+    },
+    "mappingSimulation": {
+      "note": "Mapping-candidate gate burden with semantic rules off vs on. Frozen 6.2 totals include overlay gate items; projected total applies mapping delta only.",
+      "beforeMappingHumanGateDecisions": 71,
+      "afterMappingHumanGateDecisions": 67,
+      "mappingDelta": 4,
+      "semanticInheritanceAutoResolved": 4,
+      "projectedTotalHumanGateDecisions": 44
+    },
+    "table": {
+      "columns": [
+        "BEFORE 6.3 (frozen)",
+        "AFTER 6.3 (projected)"
+      ],
+      "rows": {
+        "humanGateDecisions": [
+          48,
+          44
+        ],
+        "semanticInheritsHumanBurden": [
+          1,
+          0
+        ],
+        "semanticInheritsAutoResolved": [
+          0,
+          4
+        ],
+        "abstentions": [
+          0,
+          4
+        ],
+        "leakage": [
+          0,
+          0
+        ],
+        "newCanonical": [
+          0,
+          0
+        ]
+      }
+    },
+    "abstentionsNote": "Abstention = partial semantic signal in scope but insufficient evidence for auto-inherit; deliberate human gate. R1 may yield 0 on frozen corpus \u2014 metric is for R2+ resistance."
+  },
+  "perManual": {
+    "beforeMappingOnly": [
+      {
+        "manualId": "W8178558",
+        "humanGateDecisions": 10
+      },
+      {
+        "manualId": "W11169652",
+        "humanGateDecisions": 9
+      },
+      {
+        "manualId": "W10864849",
+        "humanGateDecisions": 14
+      },
+      {
+        "manualId": "W11697231",
+        "humanGateDecisions": 14
+      },
+      {
+        "manualId": "W11416787",
+        "humanGateDecisions": 9
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "humanGateDecisions": 6
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "humanGateDecisions": 9
+      }
+    ],
+    "afterMappingWithSemanticRules": [
+      {
+        "manualId": "W8178558",
+        "mappingCandidates": 31,
+        "humanGateDecisions": 10,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 8,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "W11169652",
+        "mappingCandidates": 36,
+        "humanGateDecisions": 9,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 10,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "W10864849",
+        "mappingCandidates": 29,
+        "humanGateDecisions": 14,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 10,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "W11697231",
+        "mappingCandidates": 29,
+        "humanGateDecisions": 14,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 10,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "W11416787",
+        "mappingCandidates": 21,
+        "humanGateDecisions": 9,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 9,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "mappingCandidates": 20,
+        "humanGateDecisions": 6,
+        "semanticInheritanceAuto": 0,
+        "exactInheritanceAuto": 8,
+        "semanticMatches": [],
+        "abstentions": [],
+        "abstentionCount": 0
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "mappingCandidates": 24,
+        "humanGateDecisions": 5,
+        "semanticInheritanceAuto": 4,
+        "exactInheritanceAuto": 8,
+        "semanticMatches": [
+          {
+            "sourceTerm": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+            "canonicalId": "control_board",
+            "ruleId": "samsung-fl-pba-communication-control-board"
+          },
+          {
+            "sourceTerm": "\u00a74-3: Drain / leakage (LC, 5C)",
+            "canonicalId": "drain_pump",
+            "ruleId": "samsung-fl-drain-leakage-drain-pump"
+          },
+          {
+            "sourceTerm": "\u00a74-3: Overflow (OC)",
+            "canonicalId": "water_level_sensor",
+            "ruleId": "samsung-fl-overflow-oc-water-level-sensor"
+          },
+          {
+            "sourceTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+            "canonicalId": "inverter_board",
+            "ruleId": "samsung-fl-inverter-board-power-voltage-codes"
+          }
+        ],
+        "abstentions": [
+          {
+            "sourceTerm": "drain_pump",
+            "ruleId": "samsung-fl-drain-leakage-drain-pump",
+            "signalType": "token_cluster",
+            "reason": "Drain reference without leakage OEM title compound \u2014 deliberate human gate"
+          },
+          {
+            "sourceTerm": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+            "ruleId": "samsung-fl-pba-communication-control-board",
+            "signalType": "token_cluster",
+            "reason": "Samsung PBA board terminology without communication compound \u2014 deliberate human gate (e.g. MEMS PBA)"
+          },
+          {
+            "sourceTerm": "water_level_sensor",
+            "ruleId": "samsung-fl-overflow-oc-water-level-sensor",
+            "signalType": "token_cluster",
+            "reason": "Water level reference without overflow/OC functional inference context \u2014 deliberate human gate"
+          },
+          {
+            "sourceTerm": "\u00a74-3: Water level sensor (1C)",
+            "ruleId": "samsung-fl-overflow-oc-water-level-sensor",
+            "signalType": "token_cluster",
+            "reason": "Water level reference without overflow/OC functional inference context \u2014 deliberate human gate"
+          }
+        ],
+        "abstentionCount": 4
+      }
+    ]
+  },
+  "incrementalAccounting": {
+    "note": "R3 validated baseline is frozen \u2014 R4+ deltas are reported incrementally without rewriting CG-6.2 or prior rule validation artifacts.",
+    "r3ValidatedBaseline": {
+      "source": "compounding_semantic_inheritance_rule3_validated_v1.json",
+      "mappingGateBurden": 68,
+      "projectedCohortHumanGateDecisions": 45,
+      "semanticInheritsAutoResolved": 3,
+      "regressionAbstentions": 1,
+      "regressionFalsePositives": 0
+    },
+    "currentRuleDelta": {
+      "mappingGateBurdenDelta": 1,
+      "projectedCohortDelta": 1,
+      "semanticInheritsAutoResolvedDelta": 1,
+      "regressionAbstentionsDelta": 1,
+      "mappingCandidateAbstentions": 4,
+      "falsePositives": 0
+    }
+  },
+  "regression": {
+    "ruleCount": 4,
+    "expectedMatchCount": 4,
+    "matchCount": 4,
+    "matches": [
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+        "ruleId": "samsung-fl-pba-communication-control-board",
+        "canonicalId": "control_board"
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-3: Drain / leakage (LC, 5C)",
+        "ruleId": "samsung-fl-drain-leakage-drain-pump",
+        "canonicalId": "drain_pump"
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-3: Overflow (OC)",
+        "ruleId": "samsung-fl-overflow-oc-water-level-sensor",
+        "canonicalId": "water_level_sensor"
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+        "ruleId": "samsung-fl-inverter-board-power-voltage-codes",
+        "canonicalId": "inverter_board"
+      }
+    ],
+    "abstentionCount": 2,
+    "abstentions": [
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+        "ruleId": "samsung-fl-pba-communication-control-board",
+        "signalType": "token_cluster",
+        "reason": "Samsung PBA board terminology without communication compound \u2014 deliberate human gate (e.g. MEMS PBA)"
+      },
+      {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "sourceTerm": "\u00a74-3: Water level sensor (1C)",
+        "ruleId": "samsung-fl-overflow-oc-water-level-sensor",
+        "signalType": "token_cluster",
+        "reason": "Water level reference without overflow/OC functional inference context \u2014 deliberate human gate"
+      }
+    ],
+    "falsePositiveCheck": "PASS"
+  },
+  "headline": "Mapping gate burden 71 -> 67; projected cohort total 48 -> 44"
+}

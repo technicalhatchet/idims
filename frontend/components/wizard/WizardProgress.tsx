@@ -32,7 +32,7 @@ export default function WizardProgress({ className = '' }: WizardProgressProps) 
     >
       <div className="flex items-center justify-between gap-3 text-xs">
         <span className={isMobile ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}>
-          Step {currentStepIndex + 1} of {visibleSteps.length}
+          Step {currentStepIndex + 1}
         </span>
         <span
           className={`font-medium truncate text-right ${

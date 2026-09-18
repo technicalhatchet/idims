@@ -1,0 +1,1381 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "candidates": [
+    {
+      "id": "map-samsung-tl-cg71-washer-unresolved-samsungtlcg71-clutch-clutch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "clutch",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-clutch-position-(pc,-pc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Clutch position (PC, PC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Clutch position (PC, PC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-pba-communication-(ac)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: PBA communication (AC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA communication (AC)"
+    },
+    {
+      "id": "map-samsung-tl-cg71-washer-unresolved-samsungtlcg71-detergent-drawer-dispenser",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "dispenser",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "CROSS_APPLIANCE_TERM",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-detergent-drawer",
+            "pages": [
+              32,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-detergent-drawer-(sdc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Detergent drawer (SDC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "detergent",
+        "component": "drawer sdc",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-detergent-drawer",
+        "pages": [
+          32,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-detergent-drawer",
+            "pages": [
+              32,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "detergent",
+              "component": "drawer sdc",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Detergent drawer (SDC)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "canonicalId": "door_lock",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "lock"
+      },
+      "matchedPhrase": "door lock",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door lock",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "lock"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door lock (DC, DC1, DC2)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-drain-pump-(5c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Drain pump (5C)",
+      "canonicalId": "drain_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain pump (5C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-seed-user_interface-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "seedComponentId": "user_interface",
+      "canonicalId": "hmi_control",
+      "confidence": 0.92,
+      "mappingType": "seed_component_id",
+      "reviewLevel": "normal",
+      "registryScope": "washer",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "seed_component_registry",
+            "seedComponentId": "user_interface",
+            "notes": "Seed id for UI/console procedures"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-control-panel-(bc2)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Control panel (BC2)",
+      "canonicalId": "hmi_control",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": "control panel",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "control panel",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Control panel (BC2)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-water-supply-(4c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water supply (4C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "supply 4c",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "supply 4c",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water supply (4C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-water-leakage-(lc,-lc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water leakage (LC, LC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "leakage lc lc1",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "leakage lc lc1",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water leakage (LC, LC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-mems-sensor-(8c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: MEMS sensor (8C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "mems",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-mems-sensor",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-mems-sensor",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "mems",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "MEMS sensor (8C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-washing-motor-(3c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Washing motor (3C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "washing",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "washing",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Washing motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-overflow-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Overflow (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow (OC)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-power-(uc,-9c1,-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Power (UC, 9C1, 9C2)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-unbalance-(ub)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-2: Unbalance (UB)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Unbalance (UB)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-wash_heater-wash_heater",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_heater",
+      "extractedTerm": null,
+      "canonicalId": "wash_heater",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-wash-heater-(hc,-hc1)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Wash heater (HC, HC1)",
+      "canonicalId": "wash_heater",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": "wash heater",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash heater",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wash heater (HC, HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-temperature-sensors-(tc1\u2013tc4)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-wash-thermistor",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-wash-thermistor",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Temperature sensors (TC1\u2013TC4)"
+    },
+    {
+      "id": "map-SAMSUNG-TL-CG71-WASHER-compound-water-level-sensor-(1c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a75-3: Water level sensor (1C)",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "water level sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "water level sensor",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water level sensor (1C)"
+    }
+  ]
+}

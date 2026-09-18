@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "platformFamilyId": "samsung_fl_bb8700_direct_drive",
+  "ontologyId": "front_load_washer",
+  "description": "CG-5.6 Samsung FL #1 — 6 gate term resolutions (5 inherited corpus + 1 Samsung platform).",
+  "resolutions": [
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-pba-communication-(ac,-ac6)",
+      "oemTerm": "§4-3: PBA communication (AC, AC6)",
+      "canonicalId": "control_board",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "Main ↔ sub/inverter PBA comm faults (AC/AC6) — maps to control_board at canonical layer; Whirlpool FL corpus concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-drain-/-leakage-(lc,-lc1)",
+      "oemTerm": "§4-3: Drain / leakage (LC, LC1)",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "LC/LC1 drain path — inherited FL washer corpus concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-inlet-valves-(co-/-ho-manual-check)",
+      "oemTerm": "§4-2: Inlet valves (Co / Ho manual check)",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "Smart Install Co/Ho manual check — inherited FL inlet valve concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-washing-motor-(3c)",
+      "oemTerm": "§4-3: Washing motor (3C)",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "3C drum motor fault — inherited FL drive_motor concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-overflow-(oc)",
+      "oemTerm": "§4-3: Overflow (OC)",
+      "canonicalId": "water_level_sensor",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "OC overflow / water level path — inherited FL water_level_sensor concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-BB8700-WASHER-compound-power-/-current-sense-(9c5)",
+      "oemTerm": "§4-3: Power / current sense (9C5)",
+      "canonicalId": "inverter_board",
+      "classification": "new_platform_knowledge",
+      "rationale": "9C5 abnormal current sense on Samsung inverter PBA — Samsung platform vocabulary, not Whirlpool supply path."
+    }
+  ]
+}

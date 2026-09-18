@@ -1,0 +1,239 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "top_load_washer_rev1_derivation",
+  "generatedAt": "2026-09-15T19:47:25.494101+00:00",
+  "sourceArtifacts": [
+    "top_load_washer_cg6x_candidate_v1.json",
+    "TOP_LOAD_WASHER_CG6X_FREEZE_RECOMMENDATION_v1.json",
+    "W10864849_tl_cg6x_observation_v1.json",
+    "W11697231_tl_cg6x_observation_v1.json",
+    "W11416787_tl_cg6x_observation_v1.json"
+  ],
+  "outputArtifact": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json",
+  "ontology": {
+    "id": "top_load_washer",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-15T19:45:00+00:00",
+    "componentCount": 17,
+    "relationshipCount": 20
+  },
+  "freezeApplication": {
+    "keep": [
+      "lid_lock",
+      "inlet_valve",
+      "water_level_sensor",
+      "drain_pump",
+      "drain_path",
+      "drive_motor",
+      "transmission_or_shifter",
+      "agitator_or_impeller",
+      "spin_system",
+      "suspension_system",
+      "power_supply",
+      "control_board",
+      "hmi_control",
+      "temperature_sensor",
+      "tub",
+      "basket"
+    ],
+    "conditional": [
+      "lid_switch"
+    ],
+    "remove": [
+      "drive_system"
+    ],
+    "overlayOnly": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "mode_shifter",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "bulk_level_switch",
+      "motor_controller",
+      "drum_bearing"
+    ]
+  },
+  "componentMap": [
+    {
+      "componentId": "power_supply",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "control_board",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "hmi_control",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "lid_switch",
+      "freezeAction": "CONDITIONAL",
+      "inRev1": true
+    },
+    {
+      "componentId": "lid_lock",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "inlet_valve",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "water_level_sensor",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "drain_pump",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "drain_path",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "drive_motor",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "drive_system",
+      "freezeAction": "REMOVE",
+      "inRev1": false
+    },
+    {
+      "componentId": "agitator_or_impeller",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "spin_system",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "transmission_or_shifter",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "tub",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "basket",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "suspension_system",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "temperature_sensor",
+      "freezeAction": "KEEP",
+      "inRev1": true
+    },
+    {
+      "componentId": "splutch",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "clutch",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "gearcase",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "capacitor",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "stator",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "rotor",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "manufacturer_motor_controller",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "mode_shifter",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "pressure_sensor",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "recirc_pump",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "wash_heater",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "bulk_level_switch",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "motor_controller",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    },
+    {
+      "componentId": "drum_bearing",
+      "freezeAction": "OVERLAY_ONLY",
+      "inRev1": false
+    }
+  ],
+  "precedents": {
+    "drive_system_removed": "Three manuals independently produced zero drive_system matcher hits and collapsed drive diagnostics to control_board -> drive_motor -> motor_output_test.",
+    "transmission_or_shifter_kept": "All three manuals expose dedicated shifter procedures \u2014 canonical owns functional mode selection; OEM splutch/clutch/gearcase vocabulary stays overlay-only.",
+    "lid_switch_conditional": "Procedure role evidence in 3/3 test-08-lid-lock procedures with 0/3 matcher discovery \u2014 preserve concept without manufacturing matcher aliases."
+  },
+  "relationshipRederivation": {
+    "removedNode": "drive_system",
+    "replacements": [
+      "control_board -> controls -> drive_motor",
+      "drive_motor -> mechanically_drives -> transmission_or_shifter",
+      "transmission_or_shifter -> mechanically_drives -> agitator_or_impeller | spin_system",
+      "lid_lock -> enables -> drive_motor"
+    ]
+  },
+  "verdict": "rev1 derived mechanically from candidate + freeze recommendation; legacy top_load_washer.json not used as source."
+}

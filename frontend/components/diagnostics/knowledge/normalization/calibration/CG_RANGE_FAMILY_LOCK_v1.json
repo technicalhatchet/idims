@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T07:00:00+00:00",
+  "verdict": "CLOSED / RANGE_FAMILY_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Range family architecture is closed. CG-10 electric discovery/freeze, CG-11–13 fit tests, family review, implementation gate, normalization, and four-sequence compounding demonstrate that one frozen range_oven functional contract absorbs electric radiant, gas, induction, dual-fuel, and cross-brand corroboration with zero canonical expansion. Additional range manuals are coverage work, not architecture validation.",
+  "canonicalOntology": {
+    "primaryId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T04:30:00+00:00",
+    "electricRangeRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "rangeOvenOrganizationalHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "hashUnchangedThroughClosure": true,
+    "files": {
+      "historicalFreeze": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+      "organizationalPrimary": "frontend/components/diagnostics/knowledge/canonical/range_oven.json"
+    },
+    "discoveryLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "aliasRegistry": "CG_RANGE_CANONICAL_ONTOLOGY_ALIAS_REGISTRY_v1.json"
+  },
+  "headlineMetrics": {
+    "fitTestsClosed": 3,
+    "normalizationTargets": 4,
+    "compoundingSequencesClosed": 4,
+    "publishedOverlays": 4,
+    "canonicalExpansionCumulative": 0,
+    "canonicalHashMutations": 0,
+    "fuelSpecificCanonicalGraphsCreated": false,
+    "fitArtifactsReopened": 0,
+    "cg10Through13HistoricalMutations": 0
+  },
+  "provenanceChain": {
+    "phases": [
+      { "phase": "CG-10", "label": "Electric discovery / freeze", "status": "closed", "artifact": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json" },
+      { "phase": "CG-11", "label": "Gas fit", "status": "closed", "artifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json" },
+      { "phase": "CG-12", "label": "Induction fit", "status": "closed", "artifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json" },
+      { "phase": "CG-13", "label": "Dual-fuel fit", "status": "closed", "artifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json" },
+      { "phase": "CG-RANGE-FAMILY-REVIEW", "label": "Organizational decisions", "status": "closed", "artifact": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json" },
+      { "phase": "CG-RANGE-IMPLEMENTATION-GATE", "label": "Resolver + template routing", "status": "closed", "artifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json" },
+      { "phase": "CG-RANGE-NORMALIZATION", "label": "Corpus normalization", "status": "closed", "artifact": "CG_RANGE_NORMALIZATION_AUDIT_v1.json" },
+      { "phase": "CG-RANGE-COMPOUNDING", "label": "Implementation compounding", "status": "closed", "artifact": "CG_RANGE_COMPOUNDING_v1.json" }
+    ],
+    "complete": true
+  },
+  "proofMatrix": {
+    "description": "4 implementation families on one frozen range_oven contract — compounding closure point",
+    "frozenContract": "range_oven rev1 (adopted from electric_range rev1)",
+    "sequences": [
+      {
+        "sequence": 1,
+        "implementationFamily": "gas",
+        "targetId": "samsung_nx60_gas",
+        "manufacturer": "Samsung",
+        "platformId": "samsung_range_nx60",
+        "templateId": "gas_range",
+        "overlayFile": "samsung_range_nx60.json",
+        "manualId": "SAMSUNG-NX60-RANGE",
+        "fitWitness": "CG-11",
+        "compoundingAudit": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json"
+      },
+      {
+        "sequence": 2,
+        "implementationFamily": "induction",
+        "targetId": "samsung_ne58r9560ws_induction",
+        "manufacturer": "Samsung",
+        "platformId": "samsung_range_ne58",
+        "templateId": "induction_range",
+        "overlayFile": "samsung_range_ne58.json",
+        "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+        "fitWitness": "CG-12",
+        "compoundingAudit": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json"
+      },
+      {
+        "sequence": 3,
+        "implementationFamily": "dual_fuel",
+        "targetId": "samsung_ny63t8751ss_dual_fuel",
+        "manufacturer": "Samsung",
+        "platformId": "samsung_range_ny63",
+        "templateId": "dual_fuel_range",
+        "overlayFile": "samsung_range_ny63.json",
+        "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+        "fitWitness": "CG-13",
+        "compoundingAudit": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json"
+      },
+      {
+        "sequence": 4,
+        "implementationFamily": "cross_brand_corroboration",
+        "targetId": "whirlpool_w11174814_corpus",
+        "manufacturer": "Whirlpool-family",
+        "platformId": "whirlpool_freestanding_range",
+        "templateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+        "overlayFile": "whirlpool_freestanding_range_w11174814.json",
+        "manualId": "W11174814",
+        "role": "corroboration",
+        "notRetroactiveFitEvidence": true,
+        "compoundingAudit": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json"
+      }
+    ]
+  },
+  "templateRouting": {
+    "primaryCanonicalId": "range_oven",
+    "implementationTemplateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+    "allRouteToSharedContract": true,
+    "registryFile": "canonical/canonicalOntologyAliases.ts",
+    "absentFuelSpecificCanonicalFiles": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"]
+  },
+  "resolverRegistration": {
+    "ontologyId": "range_oven",
+    "registryFile": "canonical/resolveDiagnosticGraph.ts",
+    "overlayCount": 4,
+    "overlays": [
+      "samsung_range_nx60.json",
+      "samsung_range_ne58.json",
+      "samsung_range_ny63.json",
+      "whirlpool_freestanding_range_w11174814.json"
+    ]
+  },
+  "byteStabilityProof": {
+    "policy": "Canonical and overlay byte hashes pinned at family closure; CG-10–13 historical artifacts immutable",
+    "electricRangeRev1HashBefore": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "electricRangeRev1HashAfter": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "rangeOvenHashBefore": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenHashAfter": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "overlayHashesAtClosure": {
+      "samsung_range_nx60.json": "38cda79c1d4489ace53d516f2303e4cfc6a8e340dddb306929096ae1236f8c2e",
+      "samsung_range_ne58.json": "df60968cf551ea69bea5fe83cd802f21ed69eeed0696e9ae299fd315fcd92616",
+      "samsung_range_ny63.json": "736c8ce9ad8a855050048d501aedf643549b5f9b1e58dd2c3361a1571caaf9ab",
+      "whirlpool_freestanding_range_w11174814.json": "d81f2db24d8e1e6fbc0dd0aaf1a9e63c8b9bc3ac03480255536b5ca354285db0"
+    },
+    "historicalArtifactHashesAtClosure": {
+      "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json": "47fbc627c0f106a508e6b92c7146c3379fa3e589dbb54e15b4a0b5941ed8fe02",
+      "CG11_GAS_RANGE_FIT_CLOSURE_v1.json": "620389cb8bc700f3bc28eca411f38a499e8658a97e66ae2a2fc4575bc6ffb8aa",
+      "CG12_INDUCTION_FIT_CLOSURE_v1.json": "d3e2f4d1290939c93c7b645c6e99ba664e881e69f9f38ad954e00bc1771348e4",
+      "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json": "fd03e4fc6ca64f3041bd15525c3420a3fb95f59edd44a8f60f582eb147a63a20",
+      "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json": "d139e62b4c251e26760b4b177e940e235b94976356980abe4a3e7a2a71f08d3a",
+      "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json": "b2d24ab6bb1536d841e0cc9d3c85ce66ae5eca6f2e830b25f7139ac3c96754b2",
+      "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json": "b9e1aa6cc413a6867461bc5ea2dd7d8e8ca92b6decdbb0411ccfccc2668e418a",
+      "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json": "f5cf17e2a0ba6be0e5ad1b59d8efe69a534afc020dc9fdcef3c336256197ccc1"
+    }
+  },
+  "deferredOrganizational": {
+    "crossManufacturerFitMatrix": "PENDING — not required for family architectural closure; CG-11/12/13 Samsung witnesses sufficient",
+    "wfi505InductionR2": "WFI505S0JZ not in W11174814 wiring index — separate manual if R2 matrix needed",
+    "warmingDrawerAccessory": "platform_only — does not affect canonical scope",
+    "ovenLightAccessory": "platform_only — no canonical oven_light node in range_oven rev1",
+    "additionalManualCoverage": "Whirlpool W11746350 / W11174426 shared seed dir — coverage expansion, not architecture gate"
+  },
+  "futureWorkPolicy": {
+    "additionalRangeManuals": "coverage_work_not_architecture_validation",
+    "canonicalExpansion": "requires_separate_ontology_gate",
+    "noReopen": ["CG-10", "CG-11", "CG-12", "CG-13", "CG-RANGE-COMPOUNDING closure artifacts without explicit gate"]
+  },
+  "closureArtifact": "CG_RANGE_FAMILY_CLOSURE_AUDIT_v1.json",
+  "regressionProof": "CG_RANGE_FAMILY_REGRESSION_PROOF_v1.json"
+}

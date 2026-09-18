@@ -1,0 +1,384 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool Jazz French-door refrigerator (W10322959)",
+  "gateArtifact": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_jazz_french_door",
+      "platformId": "whirlpool_jazz_french_door",
+      "manualId": "W10322959",
+      "label": "Whirlpool Jazz French-door 19\u201322 cu ft (WRF53/54/55/56/98/99, KRMF55)",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "Whirlpool",
+          "KitchenAid",
+          "JennAir"
+        ],
+        "modelPatterns": [
+          "WRF5*",
+          "WRF9*",
+          "KRMF5*",
+          "KRFF5*",
+          "GI5F*"
+        ],
+        "platformIds": [
+          "whirlpool_jazz_french_door"
+        ]
+      },
+      "oemTermAliases": {
+        "control board": "control_board",
+        "jazz control board": "control_board",
+        "programming mode": "control_board",
+        "service test mode": "control_board",
+        "door light switch": "door_switch",
+        "door switch": "door_switch",
+        "evap_fan": "evaporator_fan",
+        "freezer fan": "evaporator_fan",
+        "defrost heater": "defrost_heater",
+        "defrost_thermostat": "defrost_thermostat",
+        "damper_motor": "damper_motor",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "condenser_fan": "condenser_fan",
+        "sealed system": "sealed_system"
+      },
+      "displayTerms": {
+        "control_board": "Jazz control board (S-E / P-E / F-d orchestration)",
+        "user_interface": "Door keypad + segment display codes",
+        "door_switch": "Door light switch (service-mode authorization)",
+        "evaporator_fan": "Freezer/evaporator fan (service test 3)",
+        "air_damper": "Fresh-food damper (service test 6)",
+        "defrost_heater": "Defrost heater (service test 1)",
+        "temperature_sensor": "Compartment NTC (FF test 4 / FZ test 5 \u2014 conditional scope)",
+        "compressor": "EM2Y60 compressor via relay drive (conditional)",
+        "defrost_thermostat": "Defrost bimetal (platform termination sensor)",
+        "sealed_system": "Sealed-system complaint routing only \u2014 not canonical"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "relay_drive_em2y60",
+          "procedureIds": [
+            "w10322959-test-02-compressor"
+          ]
+        },
+        {
+          "conditionalConceptId": "condenser_fan",
+          "procedureIds": [
+            "w10322959-test-02-compressor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "w10322959-test-04-ff-thermistor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "w10322959-test-05-fz-thermistor"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "defrost_thermostat",
+            "name": "Defrost bimetal / thermostat",
+            "aliases": [
+              "defrost thermostat",
+              "defrost_thermostat"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "implementsCanonicalId": "defrost_heater",
+            "note": "Jazz bimetal termination \u2014 platform defrost_sensor vocabulary; pairs with defrost_heater test 1."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Fresh-food damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Jazz damper motor implements frozen air_damper \u2014 service test 6."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay",
+            "aliases": [
+              "relay",
+              "compressor relay"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Jazz relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "start_capacitor",
+            "name": "Compressor start capacitor",
+            "aliases": [
+              "start capacitor",
+              "start cap"
+            ],
+            "systemId": "cooling",
+            "type": "passive",
+            "implementsPlatformId": "compressor_controller",
+            "note": "EM2Y60 start cap \u2014 platform drive electronics."
+          },
+          {
+            "id": "em2y60_compressor",
+            "name": "EM2Y60 compressor",
+            "aliases": [
+              "em2y60",
+              "embraco em2y60"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_em2y60",
+            "note": "Jazz compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          },
+          {
+            "id": "defrost_thermostat",
+            "name": "Defrost bimetal / thermostat",
+            "aliases": [
+              "defrost thermostat",
+              "defrost_thermostat"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "implementsCanonicalId": "defrost_heater",
+            "note": "Jazz bimetal termination \u2014 platform defrost_sensor vocabulary; pairs with defrost_heater test 1."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Fresh-food damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Jazz damper motor implements frozen air_damper \u2014 service test 6."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay",
+            "aliases": [
+              "relay",
+              "compressor relay"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Jazz relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "start_capacitor",
+            "name": "Compressor start capacitor",
+            "aliases": [
+              "start capacitor",
+              "start cap"
+            ],
+            "systemId": "cooling",
+            "type": "passive",
+            "implementsPlatformId": "compressor_controller",
+            "note": "EM2Y60 start cap \u2014 platform drive electronics."
+          },
+          {
+            "id": "em2y60_compressor",
+            "name": "EM2Y60 compressor",
+            "aliases": [
+              "em2y60",
+              "embraco em2y60"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_em2y60",
+            "note": "Jazz compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "w10322959-programming-mode",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w10322959-service-test-entry",
+          "canonicalComponents": [
+            "control_board",
+            "user_interface",
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "w10322959-forced-defrost-entry",
+          "canonicalComponents": [
+            "control_board",
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "w10322959-test-01-defrost",
+          "canonicalComponents": [
+            "defrost_heater"
+          ]
+        },
+        {
+          "procedureId": "w10322959-test-02-compressor",
+          "conditionalConcepts": [
+            "compressor",
+            "condenser_fan"
+          ]
+        },
+        {
+          "procedureId": "w10322959-test-03-evap-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "w10322959-test-04-ff-thermistor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "w10322959-test-05-fz-thermistor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "w10322959-test-06-damper",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [
+        {
+          "procedureIds": [
+            "w10322959-service-test-entry",
+            "w10322959-forced-defrost-entry"
+          ],
+          "canonicalComponents": [
+            "door_switch"
+          ],
+          "signalPhrases": [
+            "door light switch",
+            "hold door switch"
+          ],
+          "teachingId": "jazz-door-switch-service-entry"
+        },
+        {
+          "procedureIds": [
+            "w10322959-service-test-entry",
+            "w10322959-programming-mode"
+          ],
+          "canonicalComponents": [
+            "user_interface"
+          ],
+          "signalPhrases": [
+            "refrigerator up",
+            "freezer down",
+            "display shows"
+          ],
+          "teachingId": "jazz-user-interface-keypad"
+        }
+      ],
+      "deferredArtifacts": [
+        {
+          "teachingId": "jazz-ff-performance-calibration",
+          "procedureIds": [
+            "w10322959-test-07-ff-performance"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_platform_calibration"
+        },
+        {
+          "teachingId": "jazz-fz-performance-calibration",
+          "procedureIds": [
+            "w10322959-test-08-fz-performance"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_platform_calibration"
+        },
+        {
+          "teachingId": "jazz-defrost-interval-scheduling",
+          "procedureIds": [
+            "w10322959-test-09-defrost-interval"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_overlay_scheduling"
+        },
+        {
+          "teachingId": "jazz-water-dispenser-gap",
+          "disposition": "intentional_abstention",
+          "layer": "defer_optional_feature"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "sealed_system",
+          "teachingId": "jazz-sealed-system-complaint-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "Warm-both routing is diagnostic evidence only \u2014 PLATFORM_ONLY per CG-7 freeze."
+        },
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "jazz-defrost-interval-scheduling",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Adaptive defrost interval is board scheduling \u2014 not defrost_system aggregate."
+        }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "whirlpool_jazz_first_manual_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-8",
+    "workPackage": "WP1",
+    "manualId": "W10322959",
+    "platformId": "whirlpool_jazz_french_door",
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "WHIRLPOOL_JAZZ_FD_gate_decision_ledger_v1.json",
+    "accounting": {
+      "canonicalInheritances": 6,
+      "conditionalBindings": 4,
+      "overlayLearningEvents": 4,
+      "intentionalAbstentions": 4,
+      "newOverlaySemanticDecisions": 4,
+      "canonicalExpansion": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "publishedAt": "2026-09-16T06:15:09.197288+00:00"
+  }
+}

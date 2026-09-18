@@ -1,0 +1,953 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg7_fd_refrigerator_r2_boundary_observation",
+  "experiment": "CG-7 R2 \u2014 Samsung RF23BB bespoke French-door boundary test against R1 Whirlpool Jazz evidence. Delta-focused; no cross-manual inference beyond W10322959 + RF23BB.",
+  "workstream": "CG-7",
+  "stage": "R2_boundary_test",
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "ontologyId": "french_door_refrigerator",
+  "ontologyFrozen": false,
+  "canonicalExpansion": 0,
+  "freezeEligible": false,
+  "generatedAt": "2026-09-16T04:05:17.944158+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "canonicalDirectoryMutable": false,
+  "candidateSkeletonMutable": false,
+  "crossManualInference": false,
+  "r1Reference": {
+    "manualId": "W10322959",
+    "platformId": "whirlpool_jazz_french_door",
+    "observationArtifact": "W10322959_fd_cg7x_observation_v1.json",
+    "verdictHistogram": {
+      "needs_second_manual": 10,
+      "canonical_functional": 3,
+      "platform_implementation": 3,
+      "deferred": 8
+    }
+  },
+  "graphArtifacts": {
+    "cg7xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\french_door_refrigerator_cg7x_candidate_v1.json",
+    "r1Observation": "W10322959_fd_cg7x_observation_v1.json",
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md",
+    "extractedText": "backend\\docs\\manuals\\samsung fridge rf23bb-extracted.txt",
+    "procedureSeedDir": "frontend\\components\\diagnostics\\knowledge\\procedures\\seed\\samsung_fridge_bespoke"
+  },
+  "pipelineCounts": {
+    "procedures": 18,
+    "mappingCandidates": 32,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "generatedAt": null
+  },
+  "conflicts": 0,
+  "mappingSummary": {
+    "total": 32,
+    "unresolved": 32
+  },
+  "samsungEvidenceSummary": {
+    "procedureCount": 0,
+    "seedComponentUsage": {},
+    "tagUsage": {},
+    "procedureBySeed": {},
+    "manualPhrases": {
+      "compressor": [
+        "compressor",
+        "inverter comp",
+        "inverter pba"
+      ],
+      "condenser": [
+        "condenser"
+      ],
+      "condenser_fan": [],
+      "door_switch": [
+        "door switch",
+        "flex zone door switch",
+        "freezer door switch"
+      ],
+      "dispenser": [
+        "water dispenser",
+        "dispenser",
+        "autofill"
+      ],
+      "defrost": [
+        "forced defrost",
+        "f-def",
+        "r-def",
+        "defrost heater"
+      ],
+      "humidity": [
+        "humidity"
+      ],
+      "ice_maker": [
+        "ice maker",
+        "ice pipe",
+        "ice room"
+      ],
+      "inverter": [
+        "inverter pcb",
+        "inverter pba",
+        "main pcb and inverter"
+      ],
+      "fans": [
+        "f-fan",
+        "fridge fan",
+        "c-fan"
+      ],
+      "damper": [
+        "damper"
+      ]
+    },
+    "selfDiagnosisRows": [
+      "freezer_sensor",
+      "fridge_sensor",
+      "defrost_sensor",
+      "evap_fan",
+      "defrost_heater",
+      "damper_heater",
+      "compressor",
+      "inverter_board",
+      "humidity_sensor",
+      "ice_maker_sensor",
+      "autofill"
+    ]
+  },
+  "boundaryEvaluations": {
+    "compressor": {
+      "conceptId": "compressor",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "platform_implementation",
+        "rationale": "Samsung diagnostics route compressor faults through inverter PBA (44E/84C) and samsungbespoke-compressor-inverter \u2014 not a standalone compressor component procedure. \u00a76-6 inverter COMP troubleshooting.",
+        "procedureIds": [
+          "samsungbespoke-compressor-inverter",
+          "samsungbespoke-main-inverter-comm"
+        ],
+        "seedComponentIds": [
+          "inverter_board"
+        ],
+        "manualPhrases": [
+          "compressor",
+          "inverter comp",
+          "inverter pba",
+          "inverter pcb",
+          "inverter pba",
+          "main pcb and inverter"
+        ],
+        "diagnosticCodes": [
+          "44E",
+          "84C"
+        ],
+        "oemRefs": [
+          "\u00a75-1-2",
+          "\u00a76-6"
+        ]
+      },
+      "crossManufacturerResult": "implementation_diverges",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Whirlpool exposes compressor as service-test actuator; Samsung exposes inverter architecture \u2014 canonical compressor node unresolved.",
+      "platformImplementationGuard": "Do not canonicalize compressor from Samsung inverter exposure alone.",
+      "freezeEligible": false
+    },
+    "compressor_controller": {
+      "conceptId": "compressor_controller",
+      "r1Status": "platform_implementation",
+      "r2Evidence": {
+        "verdict": "platform_implementation",
+        "rationale": "Distinct main\u2194inverter harness diagnostics (44Er) and inverter_board seed. Controller domain is explicit on Samsung inverter platforms.",
+        "procedureIds": [
+          "samsungbespoke-compressor-inverter",
+          "samsungbespoke-main-inverter-comm"
+        ],
+        "seedComponentIds": [
+          "inverter_board"
+        ],
+        "manualPhrases": [],
+        "diagnosticCodes": [
+          "44E",
+          "84C"
+        ],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "platform_specific_both_manuals",
+      "candidateDisposition": "platform_implementation",
+      "boundaryQuestion": "Relay-drive Jazz vs inverter PBA \u2014 remains overlay implementation, not canonical expansion.",
+      "platformImplementationGuard": "Must not become canonical merely because both manuals expose drive electronics.",
+      "freezeEligible": false
+    },
+    "condenser_fan": {
+      "conceptId": "condenser_fan",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "deferred",
+        "rationale": "No condenser_fan procedure or self-diagnosis row on RF23BB. C-FAN refers to convertible/evaporator-path fan, not condenser fan.",
+        "procedureIds": [
+          "samsungbespoke-convertible-fan"
+        ],
+        "seedComponentIds": [
+          "evap_fan"
+        ],
+        "manualPhrases": [
+          "f-fan",
+          "fridge fan",
+          "c-fan"
+        ],
+        "diagnosticCodes": [
+          "22C"
+        ],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "whirlpool_only_evidence",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Whirlpool bundles condenser fan with compressor test 2; Samsung has no equivalent exposure in R2.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "evaporator_fan": {
+      "conceptId": "evaporator_fan",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Three independent fan diagnostics: freezer-fan (22E), fridge-fan, convertible-fan (22C). Functional airflow actuator role recurs but architecture is multi-fan.",
+        "procedureIds": [
+          "samsungbespoke-freezer-fan",
+          "samsungbespoke-fridge-fan",
+          "samsungbespoke-convertible-fan"
+        ],
+        "seedComponentIds": [
+          "evap_fan"
+        ],
+        "manualPhrases": [
+          "f-fan",
+          "fridge fan",
+          "c-fan"
+        ],
+        "diagnosticCodes": [
+          "22E",
+          "22C"
+        ],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Same functional role or architecture-dependent fan topology?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "air_damper": {
+      "conceptId": "air_damper",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "platform_implementation",
+        "rationale": "Samsung exposes damper_heater \u03a9 checks on damper_motor seed \u2014 not damper position toggle like Whirlpool service test 6. Different implementation surface.",
+        "procedureIds": [
+          "samsungbespoke-damper-heater-135",
+          "samsungbespoke-damper-heater-24"
+        ],
+        "seedComponentIds": [
+          "damper_motor"
+        ],
+        "manualPhrases": [
+          "damper"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "implementation_diverges",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Does fresh-food airflow control survive as functional air_damper across implementations?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "airflow_path": {
+      "conceptId": "airflow_path",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Samsung decomposes into multiple evap_fan procedures plus damper heaters \u2014 no airflow_path aggregate named in manual or seeds.",
+        "procedureIds": [
+          "samsungbespoke-fridge-fan",
+          "samsungbespoke-freezer-fan",
+          "samsungbespoke-convertible-fan",
+          "samsungbespoke-damper-heater-135"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "f-fan",
+          "fridge fan",
+          "c-fan",
+          "damper"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "aggregate_unresolved_both_manuals",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Does airflow deserve a canonical functional node vs fan+damper members?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Self-diagnosis splits fridge, freezer, flex-zone, ambient, and defrost NTCs into separate procedures \u2014 pressures generic temperature_sensor vs compartment roles.",
+        "procedureIds": [
+          "samsungbespoke-fridge-sensor",
+          "samsungbespoke-freezer-sensor",
+          "samsungbespoke-flex-sensor",
+          "samsungbespoke-ambient-sensor",
+          "samsungbespoke-fridge-defrost-sensor",
+          "samsungbespoke-freezer-defrost-sensor"
+        ],
+        "seedComponentIds": [
+          "thermistor"
+        ],
+        "manualPhrases": [],
+        "diagnosticCodes": [
+          "F",
+          "R"
+        ],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "compartment_split_pressure",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Can generic temperature_sensor survive without prematurely splitting FF/FZ/flex/defrost domains?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "defrost_system": {
+      "conceptId": "defrost_system",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Forced defrost in test mode (Fd) plus separate F-DEF/R-DEF sensor procedures and freezer-defrost-heater \u2014 evidence decomposes aggregate into components.",
+        "procedureIds": [
+          "samsungbespoke-freezer-defrost-heater",
+          "samsungbespoke-freezer-defrost-sensor",
+          "samsungbespoke-fridge-defrost-sensor"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "forced defrost",
+          "f-def",
+          "r-def",
+          "defrost heater"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a75-1-2",
+          "Test mode Fd"
+        ]
+      },
+      "crossManufacturerResult": "aggregate_vs_components",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Does defrost_system aggregate recur or must canonical layer use separate functions?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "defrost_heater": {
+      "conceptId": "defrost_heater",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "freezer-defrost-heater procedure with 63 \u03a9 spec on CN20 \u2014 distinct actuator evidence matching Whirlpool test 1 heater path.",
+        "procedureIds": [
+          "samsungbespoke-freezer-defrost-heater"
+        ],
+        "seedComponentIds": [
+          "heater"
+        ],
+        "manualPhrases": [
+          "forced defrost",
+          "f-def",
+          "r-def",
+          "defrost heater"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Functional canonical defrost_heater vs implementation of broader defrost function?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "defrost_sensor": {
+      "conceptId": "defrost_sensor",
+      "r1Status": "platform_implementation",
+      "r2Evidence": {
+        "verdict": "platform_implementation",
+        "rationale": "F-DEF and R-DEF NTC procedures use thermistor seed with defrost_sensor tags \u2014 compartment-specific platform naming, not a single canonical termination sensor.",
+        "procedureIds": [
+          "samsungbespoke-freezer-defrost-sensor",
+          "samsungbespoke-fridge-defrost-sensor"
+        ],
+        "seedComponentIds": [
+          "thermistor"
+        ],
+        "manualPhrases": [
+          "forced defrost",
+          "f-def",
+          "r-def",
+          "defrost heater"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "platform_specific_both_manuals",
+      "candidateDisposition": "platform_implementation",
+      "boundaryQuestion": "Jazz bimetal vs Samsung F-DEF/R-DEF NTC \u2014 platform vocabulary only.",
+      "platformImplementationGuard": "Do not canonicalize defrost_sensor from equivalent hardware exposure.",
+      "freezeEligible": false
+    },
+    "cooling_system": {
+      "conceptId": "cooling_system",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Complaint routing decomposes to inverter compressor, fans, and defrost components \u2014 no cooling_system aggregate test on Samsung.",
+        "procedureIds": [
+          "samsungbespoke-compressor-inverter"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "compressor",
+          "inverter comp",
+          "inverter pba"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a76-6"
+        ]
+      },
+      "crossManufacturerResult": "aggregate_unresolved_both_manuals",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Useful canonical abstraction or redundant with member actuators?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "power_supply": {
+      "conceptId": "power_supply",
+      "r1Status": "needs_second_manual",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Manual includes electrical safety and connector voltage tables but no dedicated supply-path service test \u2014 same implied-only posture as R1 Whirlpool.",
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "voltage"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "both_implied_only",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Functional appliance-level power_supply vs architecture-dependent implementation?",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "r1Status": "canonical_functional",
+      "r2Evidence": {
+        "verdict": "canonical_functional",
+        "rationale": "Main PBA orchestrates engineer/test mode, self-diagnosis, and inverter comm. Independent control domain on Samsung R2 evidence.",
+        "procedureIds": [
+          "samsungbespoke-main-panel-comm"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "inverter pcb",
+          "inverter pba",
+          "main pcb and inverter",
+          "engineer mode",
+          "test mode"
+        ],
+        "diagnosticCodes": [
+          "41E",
+          "46E"
+        ],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "R1 canonical_functional survives Samsung boundary \u2014 LG triangulation still required.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "r1Status": "canonical_functional",
+      "r2Evidence": {
+        "verdict": "canonical_functional",
+        "rationale": "display_panel seed for main-panel-comm; service entry via Fridge+FlexZone key holds and digital inner display test mode paths.",
+        "procedureIds": [
+          "samsungbespoke-main-panel-comm"
+        ],
+        "seedComponentIds": [
+          "display_panel"
+        ],
+        "manualPhrases": [
+          "engineer mode",
+          "test mode",
+          "display"
+        ],
+        "diagnosticCodes": [
+          "41E"
+        ],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "HMI surface confirmed on both manufacturers \u2014 freeze still blocked until R3.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "door_switch": {
+      "conceptId": "door_switch",
+      "r1Status": "canonical_functional",
+      "r2Evidence": {
+        "verdict": "canonical_functional",
+        "rationale": "Manual documents Flex Zone door switch and Freezer door switch assemblies (\u00a74-8, \u00a74-9). Door authorization role distinct from cooling actuators.",
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "door switch",
+          "flex zone door switch",
+          "freezer door switch"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a74-8",
+          "\u00a74-9"
+        ]
+      },
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "R1 door light switch entry vs Samsung multi-door switches \u2014 functional role holds, naming differs.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "condenser": {
+      "conceptId": "condenser",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "deferred",
+        "rationale": "Condenser described as sealed-system physical component (\u00a74-37) \u2014 no component-level diagnostic procedure.",
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "condenser"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a74-37"
+        ]
+      },
+      "crossManufacturerResult": "both_deferred",
+      "candidateDisposition": "deferred",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "evaporator": {
+      "conceptId": "evaporator",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "deferred",
+        "rationale": "No evaporator coil component test \u2014 physical node still not earned on Samsung.",
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "evaporator"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "both_deferred",
+      "candidateDisposition": "deferred",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "door_heater": {
+      "conceptId": "door_heater",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "deferred",
+        "rationale": "No door/mullion anti-sweat heater procedure \u2014 damper/ice duct heaters are distinct domains.",
+        "procedureIds": [],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "damper"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "both_deferred",
+      "candidateDisposition": "deferred",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "water_inlet_valve": {
+      "conceptId": "water_inlet_valve",
+      "r1Status": "platform_implementation",
+      "r2Evidence": {
+        "verdict": "platform_implementation",
+        "rationale": "AutoFill overflow sensor on ice_maker_module \u2014 water path tied to dispenser/ice feature hardware, not standalone inlet valve procedure.",
+        "procedureIds": [
+          "samsungbespoke-autofill-overflow"
+        ],
+        "seedComponentIds": [
+          "ice_maker_module"
+        ],
+        "manualPhrases": [
+          "water dispenser",
+          "dispenser",
+          "autofill"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "platform_specific_both_manuals",
+      "candidateDisposition": "platform_implementation",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": "Do not canonicalize inlet valve from Samsung AutoFill overflow path alone.",
+      "freezeEligible": false
+    },
+    "water_dispenser": {
+      "conceptId": "water_dispenser",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "\u00a76-12 dispenser troubleshooting and AutoFill overflow procedure \u2014 feature domain evidenced on Samsung only.",
+        "procedureIds": [
+          "samsungbespoke-autofill-overflow"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "water dispenser",
+          "dispenser",
+          "autofill"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a76-12"
+        ]
+      },
+      "crossManufacturerResult": "samsung_only_feature_evidence",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Optional feature domain \u2014 canonical only if LG triangulation agrees.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "water_level_sensor": {
+      "conceptId": "water_level_sensor",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "AutoFill overflow voltage check (CN90) is fill/overflow sensing for dispenser feature.",
+        "procedureIds": [
+          "samsungbespoke-autofill-overflow"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "autofill",
+          "overflow"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "samsung_only_feature_evidence",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "ice_maker": {
+      "conceptId": "ice_maker",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "Multiple ice procedures: ice-maker-sensor, ice-pipe-heater, ice-room-fan/heater, ice-duct-heater \u2014 feature domain present on Samsung, absent on Jazz R1.",
+        "procedureIds": [
+          "samsungbespoke-ice-maker-sensor",
+          "samsungbespoke-ice-pipe-heater-72",
+          "samsungbespoke-ice-room-fan",
+          "samsungbespoke-ice-room-heater"
+        ],
+        "seedComponentIds": [
+          "ice_maker_module",
+          "ice_pipe_heater"
+        ],
+        "manualPhrases": [
+          "ice maker",
+          "ice pipe",
+          "ice room"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": []
+      },
+      "crossManufacturerResult": "samsung_only_feature_evidence",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": "Optional ice_maker canonical domain vs platform module \u2014 LG third vote required.",
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "humidity_control": {
+      "conceptId": "humidity_control",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "needs_second_manual",
+        "rationale": "humidity-sensor procedure on CN60 \u2014 absent on Jazz R1.",
+        "procedureIds": [
+          "samsungbespoke-humidity-sensor"
+        ],
+        "seedComponentIds": [
+          "thermistor"
+        ],
+        "manualPhrases": [
+          "humidity"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a75-1-2"
+        ]
+      },
+      "crossManufacturerResult": "samsung_only_feature_evidence",
+      "candidateDisposition": "needs_second_manual",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    },
+    "sealed_system": {
+      "conceptId": "sealed_system",
+      "r1Status": "deferred",
+      "r2Evidence": {
+        "verdict": "deferred",
+        "rationale": "Compressor/inverter troubleshooting decomposes sealed path \u2014 no sealed_system aggregate test.",
+        "procedureIds": [
+          "samsungbespoke-compressor-inverter"
+        ],
+        "seedComponentIds": [],
+        "manualPhrases": [
+          "compressor",
+          "inverter comp",
+          "inverter pba",
+          "condenser"
+        ],
+        "diagnosticCodes": [],
+        "oemRefs": [
+          "\u00a76-6"
+        ]
+      },
+      "crossManufacturerResult": "both_deferred",
+      "candidateDisposition": "deferred",
+      "boundaryQuestion": null,
+      "platformImplementationGuard": null,
+      "freezeEligible": false
+    }
+  },
+  "boundaryPressureSummary": [
+    {
+      "conceptId": "compressor",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "implementation_diverges",
+      "boundaryQuestion": "Whirlpool exposes compressor as service-test actuator; Samsung exposes inverter architecture \u2014 canonical compressor node unresolved."
+    },
+    {
+      "conceptId": "compressor_controller",
+      "r1Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "crossManufacturerResult": "platform_specific_both_manuals",
+      "boundaryQuestion": "Relay-drive Jazz vs inverter PBA \u2014 remains overlay implementation, not canonical expansion."
+    },
+    {
+      "conceptId": "condenser_fan",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "whirlpool_only_evidence",
+      "boundaryQuestion": "Whirlpool bundles condenser fan with compressor test 2; Samsung has no equivalent exposure in R2."
+    },
+    {
+      "conceptId": "evaporator_fan",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "boundaryQuestion": "Same functional role or architecture-dependent fan topology?"
+    },
+    {
+      "conceptId": "air_damper",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "implementation_diverges",
+      "boundaryQuestion": "Does fresh-food airflow control survive as functional air_damper across implementations?"
+    },
+    {
+      "conceptId": "airflow_path",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "aggregate_unresolved_both_manuals",
+      "boundaryQuestion": "Does airflow deserve a canonical functional node vs fan+damper members?"
+    },
+    {
+      "conceptId": "temperature_sensor",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "compartment_split_pressure",
+      "boundaryQuestion": "Can generic temperature_sensor survive without prematurely splitting FF/FZ/flex/defrost domains?"
+    },
+    {
+      "conceptId": "defrost_system",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "aggregate_vs_components",
+      "boundaryQuestion": "Does defrost_system aggregate recur or must canonical layer use separate functions?"
+    },
+    {
+      "conceptId": "defrost_heater",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "functional_role_confirmed_needs_r3",
+      "boundaryQuestion": "Functional canonical defrost_heater vs implementation of broader defrost function?"
+    },
+    {
+      "conceptId": "cooling_system",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "aggregate_unresolved_both_manuals",
+      "boundaryQuestion": "Useful canonical abstraction or redundant with member actuators?"
+    },
+    {
+      "conceptId": "power_supply",
+      "r1Status": "needs_second_manual",
+      "candidateDisposition": "needs_second_manual",
+      "crossManufacturerResult": "both_implied_only",
+      "boundaryQuestion": "Functional appliance-level power_supply vs architecture-dependent implementation?"
+    }
+  ],
+  "platformImplementationGuards": [
+    {
+      "conceptId": "compressor_controller",
+      "r1Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "guard": "Must not become canonical merely because both manuals expose drive electronics."
+    },
+    {
+      "conceptId": "defrost_sensor",
+      "r1Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "guard": "Do not canonicalize defrost_sensor from equivalent hardware exposure."
+    },
+    {
+      "conceptId": "water_inlet_valve",
+      "r1Status": "platform_implementation",
+      "candidateDisposition": "platform_implementation",
+      "guard": "Do not canonicalize inlet valve from Samsung AutoFill overflow path alone."
+    }
+  ],
+  "dispositionDeltas": [
+    {
+      "conceptId": "control_board",
+      "r1Status": "canonical_functional",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "user_interface",
+      "r1Status": "canonical_functional",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "door_switch",
+      "r1Status": "canonical_functional",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "water_dispenser",
+      "r1Status": "deferred",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "water_level_sensor",
+      "r1Status": "deferred",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "ice_maker",
+      "r1Status": "deferred",
+      "candidateDisposition": "needs_second_manual"
+    },
+    {
+      "conceptId": "humidity_control",
+      "r1Status": "deferred",
+      "candidateDisposition": "needs_second_manual"
+    }
+  ],
+  "candidateDispositionHistogram": {
+    "needs_second_manual": 17,
+    "platform_implementation": 3,
+    "deferred": 4
+  },
+  "crossManufacturerResultHistogram": {
+    "implementation_diverges": 2,
+    "platform_specific_both_manuals": 3,
+    "whirlpool_only_evidence": 1,
+    "functional_role_confirmed_needs_r3": 5,
+    "aggregate_unresolved_both_manuals": 2,
+    "compartment_split_pressure": 1,
+    "aggregate_vs_components": 1,
+    "both_implied_only": 1,
+    "both_deferred": 4,
+    "samsung_only_feature_evidence": 4
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "R2 confirms functional-vs-implementation pressure on compressor path, temperature compartment split, multi-fan topology, and defrost decomposition. Platform candidates (compressor_controller, defrost_sensor, water_inlet_valve) must not auto-promote. Run R3 LG LRMVS triangulation before human freeze gate.",
+    "nextManual": "LG-LRMVS-FRIDGE",
+    "nextStage": "R3_triangulation"
+  },
+  "pipelineDiscipline": {
+    "flow": [
+      "MANUAL_EVIDENCE",
+      "R1_OBSERVATION",
+      "CANDIDATE_GRAPH",
+      "R2_BOUNDARY_TEST",
+      "R3_TRIANGULATION",
+      "HUMAN_FREEZE_GATE",
+      "CANONICAL_REV1"
+    ],
+    "r2Constraints": [
+      "SAMSUNG-RF23BB-FRIDGE only",
+      "no candidate skeleton mutation",
+      "no canonical/ mutation",
+      "no gate",
+      "no publish",
+      "no freeze"
+    ]
+  }
+}

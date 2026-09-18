@@ -1,0 +1,78 @@
+{
+  "id": "ne58h-power",
+  "version": "1.0.0",
+  "title": "\u00a74-3: No power / terminal block",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "supply",
+    "main_control"
+  ],
+  "tags": [
+    "no_power"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-3",
+    "oemTestTitle": "Power troubleshooting",
+    "pages": [
+      57
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_breaker"
+    },
+    {
+      "id": "check_breaker",
+      "order": 2,
+      "type": "instruction",
+      "title": "Breaker and terminal block",
+      "body": "Verify 220\u2013240 VAC at terminal block.",
+      "sourceExcerpt": "Verify 220\u2013240 VAC at terminal block.",
+      "requiresInput": false,
+      "defaultNextStepId": "smps_check"
+    },
+    {
+      "id": "smps_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Main PCB SMPS",
+      "body": "Check SMPS 5 V / 12 V on main PCB.",
+      "sourceExcerpt": "Check SMPS 5 V / 12 V on main PCB.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_ok"
+    },
+    {
+      "id": "replace_pcb",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when supply verified but SMPS failed.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and SMPS verified.",
+      "requiresInput": false
+    }
+  ]
+}

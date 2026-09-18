@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_target_compounding",
+  "workstream": "CG-MICROWAVE-COMPOUNDING",
+  "sequence": 2,
+  "targetId": "samsung_me11_otr",
+  "status": "closed",
+  "verdict": "GREEN / SAMSUNG_COMPOUNDING_AUDIT_PASSED",
+  "humanApprovedAt": "2026-09-17T13:00:00+00:00",
+  "compoundedAt": "2026-09-17T12:50:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_COMPOUNDING_v1.json",
+  "normalizationSource": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "priorSequenceClosed": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+  "evidenceIndependence": {
+    "samsungManualOnly": true,
+    "noBorrowFromLgOverlay": true
+  },
+  "gateSequence": [
+    "LG compounding audit green",
+    "Samsung normalization approved",
+    "Samsung compounding from ME11 evidence only",
+    "overlay integrity/provenance audit",
+    "regression",
+    "STOP — family closure blocked"
+  ],
+  "deliverables": {
+    "overlayFile": "canonical/manufacturer_overlays/samsung_microwave_otr.json",
+    "gateTable": "SAMSUNG_ME11_MICROWAVE_overlay_mapping_table_v1.json",
+    "compoundingEvidence": "SAMSUNG_ME11_MICROWAVE_CG_MICROWAVE_COMPOUNDING_EVIDENCE_v1.json",
+    "compoundingObservation": "SAMSUNG_ME11_MICROWAVE_cg_microwave_compounding_observation_v1.json",
+    "auditArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json"
+  },
+  "rollup": {
+    "proceduresBound": 14,
+    "measurementsBound": 13,
+    "decisionBranchesExecutable": 14,
+    "functionalRealizations": 14,
+    "canonicalExpansion": 0,
+    "microwaveRev1HashUnchanged": true,
+    "staleMagnetronRealizesNotPropagated": true,
+    "lgEvidenceBorrowing": 0
+  },
+  "exitCriteria": {
+    "overlayPublished": true,
+    "provenanceAuditPendingHumanReview": true,
+    "compoundingRegressionGreen": true,
+    "canonicalGraphUnchanged": true,
+    "closureArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json"
+  },
+  "nextDisciplinedStep": "Human Samsung compounding audit review — family closure still blocked"
+}

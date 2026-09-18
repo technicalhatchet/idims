@@ -1,0 +1,555 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_r4_manufacturer_boundary_observation",
+  "experiment": "CG-10 R4 \u2014 Samsung NE58F9710WS electric manufacturer-boundary validation. Evaluate against post-R3 functional hypothesis \u2014 NOT the untouched R1 candidate. NOT part of R1\u2013R3 discovery corpus.",
+  "workstream": "CG-10",
+  "stage": "R4_manufacturer_boundary_validation",
+  "manualId": "SAMSUNG-NE58-RANGE",
+  "platformId": "samsung_range_ne58",
+  "smokeModel": "NE58F9710WS",
+  "fuelFilter": "electric_range",
+  "ontologyId": "electric_range_oven_candidate",
+  "ontologyFrozen": false,
+  "freezeEligible": false,
+  "generatedAt": "2026-09-16T14:43:23.793248+00:00",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "candidateSkeletonMutable": false,
+  "r4DecisionGate": {
+    "question": "Does the post-R3 electric range functional model survive a genuinely different manufacturer architecture?",
+    "notAsked": "Does Samsung match Whirlpool?",
+    "evaluatedAgainst": "post_r3_triangulation_synthesis",
+    "notEvaluatedAgainst": "electric_range_oven_cg10x_candidate_v1_unmodified_r1_skeleton",
+    "corpusAccounting": "R4 is manufacturer-boundary validation \u2014 outside R1\u2013R3 discovery corpus"
+  },
+  "discoveryCorpusNote": {
+    "r1_r3_role": "produced_provisional_outcome_A",
+    "r4_role": "manufacturer_boundary_validation_before_freeze",
+    "excludedFromDiscoveryCorpus": true
+  },
+  "r1Reference": {
+    "observationArtifact": "W11746350_er_cg10x_observation_v1.json",
+    "manualId": "W11746350"
+  },
+  "r2Reference": {
+    "observationArtifact": "LG_LRE_RANGE_er_cg10x_observation_v1.json",
+    "manualId": "LG-LRE-RANGE"
+  },
+  "r3Reference": {
+    "observationArtifact": "W11174426_er_cg10x_observation_v1.json",
+    "manualId": "W11174426"
+  },
+  "postR3Hypothesis": {
+    "stableCanonicalCandidates": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor"
+    ],
+    "instanceScopedHeatGeneration": [
+      "bake_heating_element",
+      "broil_heating_element"
+    ],
+    "rejectedMonolithicAggregates": [
+      "oven_heating_system"
+    ],
+    "platformImplementationOnly": [
+      "surface_control"
+    ],
+    "allThreeDeferred": [
+      "oven_cavity"
+    ],
+    "heatGenerationArchitecture": "Functional domain: oven heat generation with bake/broil/convection as instance-scoped diagnostic functions \u2014 NOT three canonical component types.",
+    "surfaceArchitecture": "Functional domain: surface_heating_system with control\u2192heat invariant; infinite_switch / relay / per-zone elements remain platform."
+  },
+  "graphArtifacts": {
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\SAMSUNG_NE58_RANGE_EXTRACTION.md",
+    "sourcePdf": "backend\\docs\\manuals\\SamsunNE58F electric range.pdf",
+    "extractedText": "backend\\docs\\manuals\\samsung ne58f9710ws-extracted.txt",
+    "extractedMeta": "backend\\docs\\manuals\\samsung ne58f9710ws-extracted-meta.json",
+    "extractionMethod": "extract_pdf.py"
+  },
+  "pipelineCounts": {
+    "procedures": 12,
+    "mappingCandidates": 24,
+    "overlayCandidates": 0,
+    "conflicts": 0
+  },
+  "r4ConceptEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "verdict": "canonical_functional",
+      "rationale": "\u00a74-2 terminal block 240 VAC and SMPS prerequisite \u2014 Samsung independently tests mains supply.",
+      "componentTests": [
+        "power"
+      ],
+      "procedureIds": [
+        "samsungne58-power"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "240v",
+        "terminal block",
+        "circuit breaker"
+      ],
+      "hypothesisAlignment": "confirms_post_r3_stable_canonical"
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "verdict": "canonical_functional",
+      "rationale": "Main PCB + Sub PCB relay orchestration (DLB/bake/broil/convection) \u2014 functional control role. Sub PCB and relay names are platform vocabulary \u2014 NOT separate canonical nodes.",
+      "componentTests": [
+        "power",
+        "heater_relays"
+      ],
+      "procedureIds": [
+        "samsungne58-power",
+        "samsungne58-heater-relays"
+      ],
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_control_commands_heat_generation"
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "verdict": "canonical_functional",
+      "rationale": "Touch PCB / keypad \u2014SE- and -tE- codes route through UI path distinct from heater relays.",
+      "componentTests": [
+        "hmi"
+      ],
+      "procedureIds": [
+        "samsungne58-hmi-touch"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_post_r3_stable_canonical"
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "verdict": "canonical_functional",
+      "rationale": "Dedicated oven sensor procedure ~1080 \u03a9 with E-21/E-22 \u2014 fourth manual family confirms cavity temperature feedback as independent testable function.",
+      "componentTests": [
+        "oven_sensor"
+      ],
+      "procedureIds": [
+        "samsungne58-oven-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "manualPhraseHits": [
+        "oven sensor",
+        "e-21",
+        "e-22"
+      ],
+      "hypothesisAlignment": "confirms_post_r3_stable_canonical"
+    },
+    "oven_heating_system": {
+      "conceptId": "oven_heating_system",
+      "verdict": "reject_monolithic_aggregate",
+      "rationale": "\u00a74-2 p.44 lists separate bake, broil, and convection heater tests with distinct keypad commands \u2014 Samsung rejects monolithic oven heat aggregate (aligns with R2/R3).",
+      "componentTests": [
+        "bake",
+        "broil",
+        "convection_element"
+      ],
+      "procedureIds": [
+        "samsungne58-bake-element",
+        "samsungne58-broil-element",
+        "samsungne58-convection-element"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_reject_monolithic_aggregate"
+    },
+    "bake_heating_element": {
+      "conceptId": "bake_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated bake harness \u03a9 + 240 VAC bake keypad test \u2014 instance-scoped oven heat function.",
+      "componentTests": [
+        "bake"
+      ],
+      "procedureIds": [
+        "samsungne58-bake-element"
+      ],
+      "seedComponentIds": [
+        "bake_element"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_instance_scoped_heat"
+    },
+    "broil_heating_element": {
+      "conceptId": "broil_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated broil harness \u03a9 + 240 VAC broil keypad test \u2014 separate from bake and convection.",
+      "componentTests": [
+        "broil"
+      ],
+      "procedureIds": [
+        "samsungne58-broil-element"
+      ],
+      "seedComponentIds": [
+        "broil_element"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_instance_scoped_heat"
+    },
+    "convection_heating_element": {
+      "conceptId": "convection_heating_element",
+      "verdict": "instance_functional_role",
+      "rationale": "Dedicated convection element harness test with convection bake keypad \u2014 strengthens tri-manual electric convection element evidence (R2 LG + R4 Samsung; R3 LCX deferred).",
+      "componentTests": [
+        "convection_element"
+      ],
+      "procedureIds": [
+        "samsungne58-convection-element"
+      ],
+      "seedComponentIds": [
+        "convection_element"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_instance_scoped_heat"
+    },
+    "surface_heating_system": {
+      "conceptId": "surface_heating_system",
+      "verdict": "canonical_functional",
+      "rationale": "Radiant ceramic cooktop heat generation is a functional domain (\u00a73-5). Samsung uses knob/infinite-switch implementation \u2014 switching stays platform; surface heat domain survives.",
+      "componentTests": [
+        "surface_radiant"
+      ],
+      "procedureIds": [
+        "samsungne58-surface-radiant"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "surface elements",
+        "ceramic glass cooktop"
+      ],
+      "hypothesisAlignment": "confirms_surface_heating_invariant"
+    },
+    "surface_heating_element": {
+      "conceptId": "surface_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "Physical radiant elements under ceramic glass \u2014 platform instances, not canonical types.",
+      "componentTests": [
+        "surface_radiant"
+      ],
+      "procedureIds": [
+        "samsungne58-surface-radiant"
+      ],
+      "seedComponentIds": [
+        "surface_element"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "platform_instance_scope"
+    },
+    "surface_control": {
+      "conceptId": "surface_control",
+      "verdict": "platform_implementation",
+      "rationale": "Knob infinite-switch surface control on NE58 \u2014 same posture as R3 LCX infinite_switch. Functional invariant: control_board \u2192 surface_heating_system. Do NOT promote infinite_switch.",
+      "componentTests": [
+        "surface_radiant"
+      ],
+      "procedureIds": [
+        "samsungne58-surface-radiant"
+      ],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "knob"
+      ],
+      "hypothesisAlignment": "confirms_platform_switching_not_canonical"
+    },
+    "oven_cavity": {
+      "conceptId": "oven_cavity",
+      "verdict": "deferred",
+      "rationale": "Cavity referenced in safety text only \u2014 no standalone cavity diagnostic on Samsung R4.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "oven cavity",
+        "interior surfaces"
+      ],
+      "hypothesisAlignment": "neutral"
+    },
+    "convection_fan": {
+      "conceptId": "convection_fan",
+      "verdict": "canonical_functional",
+      "rationale": "Dedicated convection fan motor \u03a9 + Ry08 relay symptom path (p.41/45) \u2014 independently testable from convection element on Samsung R4.",
+      "componentTests": [
+        "convection_fan"
+      ],
+      "procedureIds": [
+        "samsungne58-convection-fan"
+      ],
+      "seedComponentIds": [
+        "convection_fan"
+      ],
+      "manualPhraseHits": [
+        "convection fan",
+        "ry08"
+      ],
+      "hypothesisAlignment": "strengthens_convection_fan_role"
+    },
+    "oven_door_switch": {
+      "conceptId": "oven_door_switch",
+      "verdict": "canonical_functional",
+      "rationale": "Dedicated door plunger switch procedure (p.46) separate from lock motor \u2014 door authorization function survives independently of latch actuator implementation.",
+      "componentTests": [
+        "door_switch"
+      ],
+      "procedureIds": [
+        "samsungne58-door-switch"
+      ],
+      "seedComponentIds": [
+        "door_switch"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "confirms_door_state_function"
+    },
+    "door_latch_motor": {
+      "conceptId": "door_latch_motor",
+      "verdict": "platform_implementation",
+      "rationale": "Lock motor + micro switch COM-NO (p.45) \u2014 self-clean actuator implementation; E-0E path.",
+      "componentTests": [
+        "door_lock"
+      ],
+      "procedureIds": [
+        "samsungne58-door-lock"
+      ],
+      "seedComponentIds": [
+        "door_lock"
+      ],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "platform_latch_implementation"
+    },
+    "thermal_protection": {
+      "conceptId": "thermal_protection",
+      "verdict": "implementation_specific",
+      "rationale": "Thermostat 0 \u03a9 continuity test (p.39) + E-08 over-temp via sensor \u2014 dedicated thermal-fuse proc exists on Samsung but R1 Copernicus also has fuse proc while R2/R3 sensor-route. Remains conditional/platform \u2014 not canonical component.",
+      "componentTests": [
+        "thermal_cutoff",
+        "oven_sensor"
+      ],
+      "procedureIds": [
+        "samsungne58-thermal-cutoff",
+        "samsungne58-oven-sensor"
+      ],
+      "seedComponentIds": [
+        "thermal_fuse"
+      ],
+      "manualPhraseHits": [
+        "thermostat",
+        "thermal fuse",
+        "e-08"
+      ],
+      "hypothesisAlignment": "confirms_conditional_thermal_protection"
+    },
+    "cooling_fan": {
+      "conceptId": "cooling_fan",
+      "verdict": "deferred",
+      "rationale": "No electronics cooling fan procedure on NE58 \u2014 convection fan only. cooling_fan remains deferred.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [],
+      "hypothesisAlignment": "neutral"
+    },
+    "oven_lamp": {
+      "conceptId": "oven_lamp",
+      "verdict": "platform_implementation",
+      "rationale": "Lamp voltage test embedded in p.45 component table \u2014 accessory with platform test, not canonical.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "lamp socket",
+        "oven light"
+      ],
+      "hypothesisAlignment": "platform_accessory"
+    },
+    "warming_drawer": {
+      "conceptId": "warming_drawer",
+      "verdict": "deferred",
+      "rationale": "Warming drawer disassembly documented (\u00a73-12) but no dedicated diagnostic procedure in R4 seeds.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhraseHits": [
+        "warming drawer"
+      ],
+      "hypothesisAlignment": "neutral"
+    }
+  },
+  "r4VerdictHistogram": {
+    "canonical_functional": 7,
+    "reject_monolithic_aggregate": 1,
+    "instance_functional_role": 3,
+    "platform_implementation": 4,
+    "deferred": 3,
+    "implementation_specific": 1
+  },
+  "manufacturerBoundaryProbes": [
+    {
+      "probeId": "oven_heat",
+      "question": "Does Samsung independently expose bake/broil/convection as testable functions?",
+      "finding": "Yes \u2014 \u00a74-2 p.44 provides three separate heater harness/voltage tests keyed by bake, broil, and convection bake. Confirms post-R3 instance-scoped heat generation \u2014 NOT monolithic oven_heating_system.",
+      "hypothesisConfirmed": true,
+      "samsungHardwareCanonicalGuard": true,
+      "rejectedCanonicalPromotion": [
+        "sub_pcb_heater_block",
+        "dlb_relay_as_canonical"
+      ],
+      "r4Posture": {
+        "bake_heating_element": "instance_functional_role",
+        "broil_heating_element": "instance_functional_role",
+        "convection_heating_element": "instance_functional_role",
+        "oven_heating_system": "reject_monolithic_aggregate"
+      },
+      "postR3Expectation": [
+        "bake_heating_element",
+        "broil_heating_element"
+      ]
+    },
+    {
+      "probeId": "surface_heat",
+      "question": "Does surface_heating_system remain invariant despite Samsung switching architecture?",
+      "finding": "Yes \u2014 radiant cooktop heat generation is a functional domain. Samsung knob/infinite-switch and sub-PCB relay paths are platform implementation (analogous to Whirlpool LCX infinite switch and LG relay PCB). Do NOT promote infinite_switch or sub_pcb to canonical.",
+      "hypothesisConfirmed": true,
+      "samsungHardwareCanonicalGuard": true,
+      "rejectedCanonicalPromotion": [
+        "infinite_switch",
+        "sub_pcb",
+        "radiant_element_switch"
+      ],
+      "functionalInvariant": "control_board commands surface_heating_system",
+      "r4Posture": {
+        "surface_heating_system": "canonical_functional",
+        "surface_control": "platform_implementation"
+      },
+      "postR3Expectation": "Functional domain: surface_heating_system with control\u2192heat invariant; infinite_switch / relay / per-zone elements remain platform."
+    },
+    {
+      "probeId": "temperature",
+      "question": "Does temperature_sensor retain the same diagnostic role?",
+      "finding": "Yes \u2014 dedicated oven RTD procedure with E-21/E-22 and ~1080 \u03a9 chart confirms fourth-manufacturer temperature feedback functional role.",
+      "hypothesisConfirmed": true,
+      "r4Posture": "canonical_functional",
+      "postR3Expectation": [
+        "power_supply",
+        "control_board",
+        "user_interface",
+        "temperature_sensor"
+      ]
+    },
+    {
+      "probeId": "convection",
+      "question": "Does the fan remain an independently testable function?",
+      "finding": "Yes \u2014 convection fan motor resistance + Ry08 relay symptom path is separate from convection element procedure. Strengthens convection_fan canonical/conditional role.",
+      "hypothesisConfirmed": true,
+      "r4Posture": "canonical_functional"
+    },
+    {
+      "probeId": "thermal_protection",
+      "question": "Is protection a functional invariant or implementation-specific?",
+      "finding": "Implementation-specific / conditional \u2014 Samsung has thermostat continuity test AND sensor-routed E-08 over-temp. Aligns with R3 posture: thermal_protection is platform vocabulary, not canonical node.",
+      "hypothesisConfirmed": true,
+      "r4Posture": "implementation_specific"
+    },
+    {
+      "probeId": "door",
+      "question": "Does the door-state function survive independently of Samsung latch implementation?",
+      "finding": "Yes \u2014 door plunger switch (p.46) is tested separately from lock motor/micro switch (p.45). Door authorization function is independent of latch actuator platform implementation.",
+      "hypothesisConfirmed": true,
+      "r4Posture": {
+        "oven_door_switch": "canonical_functional",
+        "door_latch_motor": "platform_implementation"
+      }
+    },
+    {
+      "probeId": "control",
+      "question": "Does control_board \u2192 heat generation remain the functional relationship?",
+      "finding": "Yes \u2014 Main PCB + Sub PCB relays command bake/broil/convection/surface heat. Samsung hardware (DLB relay, Ry08, TE400) evidences the command path \u2014 NOT new canonical concepts. Analogous to compressor_controller on refrigerators.",
+      "hypothesisConfirmed": true,
+      "samsungHardwareCanonicalGuard": true,
+      "rejectedCanonicalPromotion": [
+        "sub_pcb",
+        "main_pcb",
+        "touch_pcb",
+        "te201",
+        "ry08_convection_relay",
+        "te400",
+        "dlb_relay",
+        "cn201",
+        "infinite_switch",
+        "radiant_element_switch"
+      ],
+      "functionalInvariant": "control_board commands oven and surface heat generation",
+      "r4Posture": "canonical_functional"
+    }
+  ],
+  "hypothesisValidation": {
+    "evaluatedAgainst": "post_r3_triangulation_synthesis_not_r1_candidate",
+    "postR3ReferenceArtifact": "W11174426_er_cg10x_observation_v1.json",
+    "probesTotal": 7,
+    "probesConfirmed": 7,
+    "probesFalsified": [],
+    "manufacturerBoundaryPassed": true,
+    "samsungHardwarePromotedToCanonical": [],
+    "samsungHardwareCanonicalGuard": true,
+    "reinforcedPostR3Claims": [
+      "reject_monolithic_oven_heating_system",
+      "instance_scoped_bake_broil_convection",
+      "surface_heating_system_invariant",
+      "surface_control_platform_only",
+      "temperature_sensor_canonical",
+      "thermal_protection_conditional",
+      "control_commands_heat_not_hardware_names"
+    ]
+  },
+  "samsungCanonicalPromotionGuard": {
+    "policy": "Samsung OEM hardware names do not earn canonical nodes merely because Samsung documents them",
+    "rejectedVocabulary": [
+      "cn201",
+      "dlb_relay",
+      "infinite_switch",
+      "main_pcb",
+      "radiant_element_switch",
+      "ry08_convection_relay",
+      "sub_pcb",
+      "te201",
+      "te400",
+      "touch_pcb"
+    ],
+    "functionalInvariants": [
+      "control_board commands oven heat generation (bake/broil/convection instance scopes)",
+      "control_board commands surface_heating_system",
+      "temperature_sensor cavity feedback"
+    ]
+  },
+  "freezeOutcomeRecommendation": {
+    "outcome": "A",
+    "label": "candidate_survives_with_refinement",
+    "rationale": "R4 Samsung NE58 confirms post-R3 functional hypothesis across four manufacturer/platform families (Whirlpool Copernicus, LG LRE, Whirlpool LCX, Samsung NE58). Samsung hardware names remain platform vocabulary. Human freeze gate must earn every node \u2014 draft freeze recommendation next.",
+    "allowedOutcomes": {
+      "A": "candidate_survives_with_refinement",
+      "B": "candidate_needs_structural_revision",
+      "C": "electric_range_not_one_canonical_functional_model"
+    },
+    "automaticFreeze": false,
+    "humanFreezeGateRequired": true,
+    "nextArtifact": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json"
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "R4 Samsung NE58 confirms post-R3 functional hypothesis across four manufacturer/platform families (Whirlpool Copernicus, LG LRE, Whirlpool LCX, Samsung NE58). Samsung hardware names remain platform vocabulary. Human freeze gate must earn every node \u2014 draft freeze recommendation next.",
+    "provisionalOutcome": "A",
+    "nextStage": "human_freeze_gate",
+    "nextArtifact": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json"
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_contract",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "status": "active",
+  "activatedAt": "2026-09-17T21:00:00+00:00",
+  "authorizedBy": "CG_PRODUCTION_INGESTION_GOVERNANCE_LOCK_v1.json",
+  "priorPhaseClosed": "CG_PRODUCTION_INGESTION_GOVERNANCE_LOCK_v1.json",
+  "priorPhaseVerdict": "CLOSED / PRODUCTION_INGESTION_GOVERNANCE_LOCKED",
+  "phaseIntent": "Pipeline proving gate — prove production ingestion behaves correctly when manuals are useful, redundant, ambiguous, and unfamiliar. NOT a manual usefulness or coverage gate.",
+  "notAuthorizingYet": [
+    "70-manual production normalization batch",
+    "corpus-wide compounding at scale",
+    "diagnostic UI against production data contract",
+    "canonical graph expansion without architecture gate"
+  ],
+  "authorizingOnPilotGreen": [
+    "CG-PRODUCTION-NORMALIZATION-BATCH (70-manual cohort — separate contract)"
+  ],
+  "pilotSuccessDefinition": {
+    "summary": "Pilot success ≠ everything mapped. Success = pipeline lifecycle honored with no silent promotion, guessing, or continuation past architecture exception.",
+    "legitimateOutcomes": [
+      "normalized → canonical_mapping (continue)",
+      "normalized → implementation_specific (overlay candidate)",
+      "normalized → unresolved (BLOCK promotion)",
+      "normalized → architecture_exception → STOP batch for manual"
+    ],
+    "failureModes": [
+      "silent canonical promotion",
+      "silent guessing of unresolved terms",
+      "continuing batch after architecture_exception without gate closure",
+      "mutating frozen canonical hashes without authorized freeze",
+      "writing canonical/*.json from normalization or compounding"
+    ]
+  },
+  "pipelineLifecycle": {
+    "stages": [
+      "RAW_MANUAL",
+      "EXTRACT",
+      "NORMALIZE",
+      "CANONICAL_MAP"
+    ],
+    "canonicalMapBranches": [
+      {
+        "id": "known",
+        "label": "known → continue",
+        "pipelineDisposition": "continue",
+        "promotionAllowed": "after_human_gate"
+      },
+      {
+        "id": "implementation_specific",
+        "label": "implementation-specific → overlay candidate",
+        "pipelineDisposition": "continue_to_overlay_candidate",
+        "promotionAllowed": "overlay_only_after_human_gate"
+      },
+      {
+        "id": "unresolved",
+        "label": "unresolved → BLOCK",
+        "pipelineDisposition": "block_promotion",
+        "promotionAllowed": false
+      },
+      {
+        "id": "architecture_conflict",
+        "label": "architecture conflict → ARCHITECTURE EXCEPTION → STOP",
+        "pipelineDisposition": "stop_batch_for_manual",
+        "promotionAllowed": false,
+        "nextRoute": "fit → discovery → freeze (architecture gate only)"
+      }
+    ]
+  },
+  "cohortArtifact": "CG_PRODUCTION_NORMALIZATION_PILOT_COHORT_v1.json",
+  "cohortSize": 8,
+  "cohortSelectionRationale": "Deliberately stress different pipeline surfaces — known family, cross-manufacturer mapping, frozen range_oven, implementation terminology, microwave functional richness, heat-pump composition/reference, and architecture-exception STOP — not eight easy manuals.",
+  "pilotSequence": [
+    "verify_prerequisites",
+    "extract (if needed)",
+    "normalize",
+    "canonical_map",
+    "classify_per_manual_outcome",
+    "compounding_review (pilot scope only)",
+    "overlay_candidate_validation",
+    "regression (validate_canonical_graph + pilot test suite)",
+    "GATE"
+  ],
+  "batchStopRules": {
+    "architecture_exception": {
+      "behavior": "STOP batch for affected manual; persist architecture_exception.json; do not process subsequent cohort manuals until human triage",
+      "artifactPath": "frontend/components/diagnostics/knowledge/normalization/candidates/{manualId}/architecture_exception.json",
+      "orchestrator": "backend/scripts/run_pilot_batch.py",
+      "note": "Generic handler is a pilot target — contract + orchestrator prove STOP behavior; full module may harden post-pilot"
+    },
+    "unresolved": {
+      "behavior": "BLOCK promotion for manual; pilot may continue other manuals unless contract slot marks unresolved as batch-halting",
+      "doesNotAuthorizeCanonicalExpansion": true
+    },
+    "frozen_canonical_immutability": {
+      "behavior": "Any frozen hash mutation without authorized freeze → pilot FAIL",
+      "registry": "frozen_canonical_hashes_v1.json"
+    }
+  },
+  "deferredPilotTargets": [
+    {
+      "id": "generic_architecture_exception_batch_stop",
+      "description": "Production-grade generic architecture_exception batch STOP orchestrator",
+      "pilotApproach": "Prove via pilot_batch.py + slot P08; harden after GATE green"
+    },
+    {
+      "id": "file_level_canonical_write_interceptor",
+      "description": "File-level canonical write interceptor",
+      "pilotApproach": "Prove via hash gate + pipeline write-target tests; interceptor may follow batch authorization"
+    }
+  ],
+  "immutableRules": [
+    "Frozen canonical graphs immutable during pilot",
+    "Normalization writes candidates/ only",
+    "Compounding publishes overlays only",
+    "UNRESOLVED_TERM blocks promotion",
+    "architecture_exception stops batch for manual",
+    "Pilot does not lower CG-5.3 bar"
+  ],
+  "codePathRegistry": {
+    "pilotOrchestrator": "backend/scripts/run_pilot_batch.py",
+    "normalizationPipeline": "backend/scripts/normalization/pipeline.py",
+    "canonicalValidator": "backend/scripts/validate_canonical_graph.py",
+    "frozenHashRegistry": "frozen_canonical_hashes_v1.json",
+    "regressionSuite": "cg-production-normalization-pilot.test.ts"
+  },
+  "gateCriteria": {
+    "required": [
+      "All 8 cohort slots executed or explicitly blocked with documented prerequisite (no silent skip)",
+      "At least one slot demonstrates canonical_mapping continue path",
+      "At least one slot demonstrates implementation_specific overlay path",
+      "At least one slot demonstrates unresolved BLOCK",
+      "At least one slot demonstrates architecture_exception STOP (slot P08)",
+      "Zero silent canonical promotions",
+      "frozen_canonical_hashes_v1.json unchanged",
+      "validate_canonical_graph.py OK",
+      "cg-production-normalization-pilot.test.ts PASS"
+    ],
+    "notRequired": [
+      "100% term mapping coverage",
+      "overlay publication to production",
+      "procedure usefulness validation"
+    ]
+  },
+  "stopCondition": "Pilot GATE green authorizes 70-manual batch contract. Pilot GATE red blocks batch — fix pipeline behavior, not canonical architecture."
+}

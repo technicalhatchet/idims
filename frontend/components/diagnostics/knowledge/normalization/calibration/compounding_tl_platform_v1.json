@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "tl_platform_compounding",
+  "version": "v1",
+  "generatedAt": "2026-09-13T13:57:59.660882+00:00",
+  "hypothesis": "TL replication: #1 establish \u2192 #2 reproduce \u2192 #3 replicate. Expect high inheritedPlatformFamilyKnowledge and low newPlatformKnowledge.",
+  "manuals": {
+    "W10864849": {
+      "manualId": "W10864849",
+      "label": "TL #1",
+      "platformId": null,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "inheritedCorpusKnowledge": 39,
+      "newPlatformKnowledge": 14,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledge": 0,
+      "newHumanDecisionCount": 14,
+      "newHumanDecisionRate": 0.264,
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_tl"
+    },
+    "W11697231": {
+      "manualId": "W11697231",
+      "label": "TL #2",
+      "platformId": null,
+      "inheritedPlatformFamilyKnowledge": 51,
+      "inheritedCorpusKnowledge": 0,
+      "newPlatformKnowledge": 0,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledge": 0,
+      "newHumanDecisionCount": 0,
+      "newHumanDecisionRate": 0.0,
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_tl2"
+    },
+    "W11416787": {
+      "manualId": "W11416787",
+      "label": "TL #3",
+      "platformId": "whirlpool_tl_dd_5100",
+      "inheritedPlatformFamilyKnowledge": 19,
+      "inheritedCorpusKnowledge": 0,
+      "newPlatformKnowledge": 0,
+      "newModelSpecificKnowledge": 2,
+      "newCanonicalKnowledge": 0,
+      "newHumanDecisionCount": 2,
+      "newHumanDecisionRate": 0.061,
+      "equivalence": "PASS",
+      "metricsSource": "frozen_baseline_v1_whirlpool_tl3"
+    }
+  },
+  "reusableTlConceptsFromTl1": [
+    "mode_shifter",
+    "pressure_sensor",
+    "lid_lock",
+    "drive_motor",
+    "drive pre-test orchestration",
+    "TL procedure/measurement bindings"
+  ],
+  "notes": [
+    "pressure_sensor remains TL-platform scoped \u2014 not universal canonical.",
+    "FL and TL frozen baselines are immutable."
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "dishwasher",
+  "description": "Reference platform overlays for dishwasher canonical graph. W11633848 (whirlpool_dishwasher_acu) is the first compounding target.",
+  "platforms": [
+    {
+      "platformId": "whirlpool_dishwasher_acu",
+      "manualId": "W11633848",
+      "smokeModel": "WDT750SAKZ",
+      "label": "Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher",
+      "manufacturerOverlay": "whirlpool_dishwasher.json",
+      "platformFamilyId": "whirlpool_dishwasher_acu",
+      "componentAliases": {
+        "supply": "power_supply",
+        "heater": "heat_source",
+        "door_gasket": "door_switch"
+      },
+      "implementationNotes": [
+        "ACU platform owns diverter_motor, ssm_wash_motor, diverter_position_sensor, owi_sensor, dc_fan_motor, f500_triac_fuse.",
+        "OWI dual-role (water_level_sensor + temperature_sensor) taught in platform overlay — no canonical alias.",
+        "§3-10 compound title rejected — heater and dc-fan procedures bind separately to heat_source and drying_system.",
+        "door_gasket on door-switch seed is model/installation scope — reference alias for seed validation only; not manufacturer oemTermAlias."
+      ],
+      "procedures": [
+        { "procedureId": "w11633848-acu-power", "canonicalComponents": ["control_board", "power_supply"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "w11633848-triac-fuse", "canonicalComponents": ["thermal_protection"], "implementationComponent": "f500_triac_fuse", "failureDomains": ["heating_failure"] },
+        { "procedureId": "w11633848-door-switch", "canonicalComponents": ["door_switch"], "failureDomains": ["door_authorization_failure"] },
+        { "procedureId": "w11633848-fill-valve", "canonicalComponents": ["inlet_valve"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "w11633848-dispenser", "canonicalComponents": ["detergent_dispenser"], "failureDomains": ["dispensing_failure"] },
+        { "procedureId": "w11633848-heater", "canonicalComponents": ["heat_source"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "w11633848-owi-sensor", "canonicalComponents": ["water_level_sensor"], "implementationComponent": "owi_sensor", "failureDomains": ["fill_failure", "temperature_sensing_failure"] },
+        { "procedureId": "w11633848-overfill-switch", "canonicalComponents": ["water_level_sensor"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "w11633848-diverter-motor", "canonicalComponents": ["circulation_pump"], "implementationComponent": "diverter_motor", "failureDomains": ["circulation_failure"] },
+        { "procedureId": "w11633848-diverter-sensor", "canonicalComponents": ["circulation_pump"], "implementationComponent": "diverter_position_sensor", "failureDomains": ["circulation_failure"] },
+        { "procedureId": "w11633848-wash-motor", "canonicalComponents": ["circulation_pump"], "implementationComponent": "ssm_wash_motor", "failureDomains": ["circulation_failure"] },
+        { "procedureId": "w11633848-drain-motor", "canonicalComponents": ["drain_pump"], "failureDomains": ["drain_failure"] },
+        { "procedureId": "w11633848-dc-fan", "canonicalComponents": ["drying_system"], "implementationComponent": "dc_fan_motor", "failureDomains": ["drying_failure"] }
+      ],
+      "gaps": [
+        {
+          "canonicalComponent": "diverter_valve",
+          "confidence": "deferred",
+          "source": "W11633848 gate",
+          "note": "Diverter position sensor is platform-only — do not promote diverter_valve canonical."
+        },
+        {
+          "canonicalComponent": "door_gasket",
+          "confidence": "model",
+          "source": "W11633848 gate",
+          "note": "Installation/leak surface — model scope, not manufacturer vocabulary."
+        }
+      ]
+    }
+  ]
+}

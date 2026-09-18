@@ -1,0 +1,46 @@
+{
+  "promotionId": "promo-W10680150-20260914050829",
+  "manualId": "W10680150",
+  "platformId": "whirlpool_ccu_dryer",
+  "overlayFile": "whirlpool_vented_dryer.json",
+  "platformFamilyId": "whirlpool_ccu_dryer",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W10680150-acu-control_board",
+    "map-W10680150-compound-drum_light",
+    "map-w10680150-unresolved-w10881701-gas-valve-igniter",
+    "map-W10680150-compound-service-leds",
+    "map-w10680150-unresolved-w10881701-supply-connections-supply",
+    "map-W10680150-compound-steam_valve"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "TEST #10: Service LEDs": "hmi_control"
+      },
+      "skip": {
+        "acu": "control_board",
+        "drum_light": "hmi_control",
+        "igniter": "heat_source",
+        "supply": "power_supply",
+        "steam_valve": "heat_source"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-14T05:08:29.122119+00:00",
+  "publishedAt": "2026-09-14T05:08:29.235120+00:00"
+}

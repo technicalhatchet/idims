@@ -1,0 +1,71 @@
+{
+  "id": "samsungdv22n-refrigerant-thermistors",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Refrigerant thermistors (tC, tC5, tC7, tC8, tCA)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "thermistor",
+    "heat_pump"
+  ],
+  "tags": [
+    "tC",
+    "tC5",
+    "tC7",
+    "tC8",
+    "tCA",
+    "no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Refrigerant circuit NTC",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermistor_check"
+    },
+    {
+      "id": "thermistor_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Thermistor resistance",
+      "body": "Measure thermistor 1\u20135 per \u00a74-1 fault table.",
+      "sourceExcerpt": "Measure thermistor 1\u20135 per \u00a74-1 fault table.",
+      "requiresInput": false,
+      "defaultNextStepId": "ntc_ok"
+    },
+    {
+      "id": "replace_thermistor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace thermistor",
+      "oemOutcome": "Replace open/short refrigerant thermistor.",
+      "requiresInput": false
+    },
+    {
+      "id": "ntc_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Thermistors OK",
+      "oemOutcome": "Refrigerant sensing verified.",
+      "requiresInput": false
+    }
+  ]
+}

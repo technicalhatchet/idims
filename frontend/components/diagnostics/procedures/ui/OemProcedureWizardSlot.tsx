@@ -105,12 +105,14 @@ function ActiveProcedureRunner({
   onRunStateChange,
   autoStart = false,
   variant,
+  highlightPrimaryAction = false,
 }: {
   procedureId: string;
   savedRunState: ProcedureRunState | null;
   onRunStateChange: (procedureId: string, runState: ProcedureRunState) => void;
   autoStart?: boolean;
   variant: 'mobile' | 'desktop';
+  highlightPrimaryAction?: boolean;
 }) {
   const procedure = getServiceProcedure(procedureId);
   const isMobile = variant === 'mobile';
@@ -130,7 +132,6 @@ function ActiveProcedureRunner({
     measurementDraft,
     setMeasurementDraft,
     stepIndex,
-    stepTotal,
     isRunning,
     continueStep,
     submitCheckpoint,
@@ -176,7 +177,12 @@ function ActiveProcedureRunner({
           <button
             type="button"
             onClick={start}
-            className="mt-3 w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white"
+            className={`mt-3 w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white ${
+              highlightPrimaryAction
+                ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent animate-pulse shadow-lg shadow-amber-500/25'
+                : ''
+            }`}
+            data-oem-procedure-primary-action
           >
             {savedRunState ? 'Resume OEM test' : 'Start OEM test'}
           </button>
@@ -198,16 +204,17 @@ function ActiveProcedureRunner({
         <p className={`text-sm font-medium ${isMobile ? 'text-cyan-50' : 'text-cyan-950 dark:text-cyan-50'}`}>
           {procedure.title}
         </p>
-        <p className="mt-1 text-[11px] text-[var(--solomon-text-secondary)]">
-          Step {stepIndex} of {stepTotal}
-        </p>
+        {stepIndex > 0 ? (
+          <p className="mt-1 text-[11px] text-[var(--solomon-text-secondary)]">
+            Step {stepIndex}
+          </p>
+        ) : null}
       </div>
 
       <div className="px-3 py-3">
         <ProcedureStepView
           step={currentStep}
           stepIndex={stepIndex}
-          stepTotal={stepTotal}
           measurementDraft={measurementDraft}
           onMeasurementDraftChange={setMeasurementDraft}
           onCheckpoint={submitCheckpoint}
@@ -215,6 +222,7 @@ function ActiveProcedureRunner({
           onContinue={continueStep}
           lastEvaluation={lastResult?.evaluation}
           matchedBranch={lastResult?.matchedBranch}
+          highlightPrimaryAction={highlightPrimaryAction}
         />
       </div>
     </div>
@@ -228,6 +236,7 @@ interface OemProcedureWizardSlotProps {
   onRunStateChange: (procedureId: string, runState: ProcedureRunState) => void;
   onDismissActiveProcedure: () => void;
   variant?: 'mobile' | 'desktop';
+  highlightPrimaryAction?: boolean;
 }
 
 /** Floating OEM runner above the wizard — launched from the OEM wizard step. */
@@ -237,6 +246,7 @@ export default function OemProcedureWizardSlot({
   autoStartProcedureId,
   onRunStateChange,
   variant = 'desktop',
+  highlightPrimaryAction = false,
 }: OemProcedureWizardSlotProps) {
   const completedIds = useMemo(
     () => Object.entries(procedureRuns)
@@ -271,6 +281,7 @@ export default function OemProcedureWizardSlot({
           onRunStateChange={onRunStateChange}
           autoStart={autoStartProcedureId === activeProcedureId}
           variant={variant}
+          highlightPrimaryAction={highlightPrimaryAction}
         />
       ) : null}
     </div>

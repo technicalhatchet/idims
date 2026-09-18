@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg66_whirlpool_top_load_washer_family_lock",
+  "status": "closed_certified",
+  "lockedAt": "2026-09-15T20:15:27.839572+00:00",
+  "phase": "CG-6.6",
+  "verdict": "CLOSED / CERTIFIED",
+  "certificationStatement": "Previously published Whirlpool TL overlay knowledge was retroactively certified against the frozen top_load_washer rev1 canonical contract.",
+  "notACompoundingClaim": "This closure certifies existing published overlay knowledge against rev1. It is not a claim that three Whirlpool manuals compounded into rev1.",
+  "canonicalOntology": {
+    "id": "top_load_washer",
+    "frozenRevision": "rev1",
+    "hash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "file": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json"
+  },
+  "manufacturer": {
+    "name": "Whirlpool",
+    "overlayFile": "whirlpool_top_load_washer.json",
+    "platformFamilies": [
+      "whirlpool_tl_dd_direct_drive",
+      "whirlpool_tl_dd_5100_direct_drive"
+    ],
+    "certifiedManuals": [
+      {
+        "manualId": "W10864849",
+        "historicalNewDecisions": 14
+      },
+      {
+        "manualId": "W11697231",
+        "historicalNewDecisions": 0
+      },
+      {
+        "manualId": "W11416787",
+        "historicalNewDecisions": 2
+      }
+    ],
+    "cg66TeachingCost": 0
+  },
+  "demonstratedProperties": [
+    "canonical_stability \u2014 top_load_washer rev1 frozen; zero expansion through certification",
+    "retroactive_certification \u2014 existing overlay certified without reopening historical compounding",
+    "metadata_only_publish \u2014 overlay semantic content unchanged; certification provenance attached",
+    "authorization_semantics \u2014 lid_switch conditional via procedure-role evidence; lid_lock spin-safety path",
+    "cross_family_isolation \u2014 zero FL/Samsung TL leakage into Whirlpool TL overlay"
+  ],
+  "evidenceArtifacts": [
+    "WHIRLPOOL_TOP_LOAD_WASHER_CG66_CERTIFICATION_EVIDENCE_v1.json",
+    "WHIRLPOOL_TOP_LOAD_WASHER_CG66_REGRESSION_PROOF_v1.json",
+    "publication_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "publication_plan_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "promotion_dry_run_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+    "WHIRLPOOL_TOP_LOAD_WASHER_CG66_overlay_mapping_table_v1.json",
+    "WHIRLPOOL_TOP_LOAD_WASHER_CG66_gate_decision_ledger_v1.json"
+  ],
+  "regressionProof": {
+    "artifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_REGRESSION_PROOF_v1.json",
+    "allQuestionsPass": true
+  },
+  "nextWork": {
+    "family": "Samsung top-load washer",
+    "approach": "independent_manufacturer_boundary_test",
+    "note": "Samsung TL must not inherit Whirlpool TL merely because appliance category matches. Begin as independent manufacturer-boundary test."
+  }
+}

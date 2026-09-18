@@ -1,0 +1,5715 @@
+{
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "procedures": [
+    {
+      "procedureId": "samsungwd53-auto-open-door",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-2: Auto-open door (DC5)",
+      "purpose": "Auto-Open Door DC5",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "DC5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "door_clearance",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door clearance",
+          "body": "Ensure enough space for auto-open door. Wait for function to complete.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "clearance_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dc5_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_obstruction",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_obstruction_out",
+              "terminal": true,
+              "oemOutcome": "Clear obstruction blocking door swing."
+            }
+          ],
+          "sourceExcerpt": "Ensure enough space for auto-open door. Wait for function to complete."
+        },
+        {
+          "id": "clear_obstruction_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Clear obstruction",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dc5_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Auto-open OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "clearance_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc5_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_clearance"
+        },
+        {
+          "id": "clear_obstruction",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_obstruction_out",
+          "terminal": true,
+          "oemOutcome": "Clear obstruction blocking door swing.",
+          "stepId": "door_clearance"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Auto-Open Door DC5",
+        "pages": [
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-auto-open-door",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-auto-open-door",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: PBA communication (AC, AC3\u2013AC6)",
+      "purpose": "Communication Error AC",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control",
+        "inverter"
+      ],
+      "tags": [
+        "AC",
+        "AC3",
+        "AC4",
+        "AC5",
+        "AC6",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "comm_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect sub/main harness",
+          "body": "AC: verify wire connections between sub and main PBAs. Check for moisture on sub PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "AC: verify wire connections between sub and main PBAs. Check for moisture on sub PBA."
+        },
+        {
+          "id": "comm_modules",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Module-specific comm fault",
+          "body": "AC3 DR module, AC4 Wi-Fi, AC5 LCD, or AC6 inverter? Inspect that module harness.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_power_cycle",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair harness or replace affected module/PBA."
+            }
+          ],
+          "sourceExcerpt": "AC3 DR module, AC4 Wi-Fi, AC5 LCD, or AC6 inverter? Inspect that module harness."
+        },
+        {
+          "id": "comm_power_cycle",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Comm restored after power cycle?",
+          "body": "After reconnecting harnesses and power cycle, does combo run without AC codes?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main or inverter PBA per fault code."
+            }
+          ],
+          "sourceExcerpt": "After reconnecting harnesses and power cycle, does combo run without AC codes?"
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair harness/module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_power_cycle",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_modules"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair harness or replace affected module/PBA.",
+          "stepId": "comm_modules"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_power_cycle"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main or inverter PBA per fault code.",
+          "stepId": "comm_power_cycle"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Communication Error AC",
+        "pages": [
+          47,
+          55
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-communication",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-communication",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-compressor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-2: BLDC compressor (3CA, HC)",
+      "purpose": "Compressor / Inverter 3CA",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "inverter"
+      ],
+      "tags": [
+        "3CA",
+        "3CA1",
+        "3CA2",
+        "3CA3",
+        "3CA4",
+        "3CA5",
+        "3CA6",
+        "3CA7",
+        "3CA8",
+        "HC",
+        "compressor",
+        "heat_pump_dry"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "comp_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Compressor harness",
+          "body": "Check wire terminals between PBA connector and compressor. Look for short circuit on PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check wire terminals between PBA connector and compressor. Look for short circuit on PBA."
+        },
+        {
+          "id": "comp_fan_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Compressor / inverter fan",
+          "body": "Apply DC 12 V to compressor fan (Red\u2013Black) and inverter frame fan per \u00a74-5 #8\u20139. Fans run?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fans_run",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comp_overload_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_fan",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan_out",
+              "terminal": true,
+              "oemOutcome": "Replace fan motor or harness."
+            }
+          ],
+          "sourceExcerpt": "Apply DC 12 V to compressor fan (Red\u2013Black) and inverter frame fan per \u00a74-5 #8\u20139. Fans run?"
+        },
+        {
+          "id": "comp_overload_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Rule out overload (3CA1)",
+          "body": "3CA1 can display from too much laundry in dry \u2014 reduce load and retest.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "suspect_inverter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reduce_load",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reduce_load_out",
+              "terminal": true,
+              "oemOutcome": "Reduce dry load and retest."
+            }
+          ],
+          "sourceExcerpt": "3CA1 can display from too much laundry in dry \u2014 reduce load and retest."
+        },
+        {
+          "id": "suspect_inverter",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Inverter PBA / compressor",
+          "body": "If harness and fans OK but 3CA/HC persists, replace inverter PBA or compressor per \u00a74-2.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cleared",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "compressor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_inverter",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inverter_out",
+              "terminal": true,
+              "oemOutcome": "Replace inverter PBA or BLDC compressor."
+            }
+          ],
+          "sourceExcerpt": "If harness and fans OK but 3CA/HC persists, replace inverter PBA or compressor per \u00a74-2."
+        },
+        {
+          "id": "replace_fan_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "reduce_load_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Reduce load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inverter_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace inverter/compressor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "compressor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Compressor path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fans_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_overload_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_fan_check"
+        },
+        {
+          "id": "replace_fan",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan_out",
+          "terminal": true,
+          "oemOutcome": "Replace fan motor or harness.",
+          "stepId": "comp_fan_check"
+        },
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "suspect_inverter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_overload_check"
+        },
+        {
+          "id": "reduce_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reduce_load_out",
+          "terminal": true,
+          "oemOutcome": "Reduce dry load and retest.",
+          "stepId": "comp_overload_check"
+        },
+        {
+          "id": "cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "compressor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "suspect_inverter"
+        },
+        {
+          "id": "replace_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA or BLDC compressor.",
+          "stepId": "suspect_inverter"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Compressor / Inverter 3CA",
+        "pages": [
+          50,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-compressor",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-compressor",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Door lock and switch (DC, DC1, dC1)",
+      "purpose": "Door Error DC / DC1",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "DC",
+        "DC1",
+        "dC1",
+        "dC2",
+        "dC",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "dc_boil_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "DC during Boil cycle?",
+          "body": "If DC occurs during Boil cycle, verify door fully closed and not caught.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_closed",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_type_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "close_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "close_door_out",
+              "terminal": true,
+              "oemOutcome": "Close door securely and retest."
+            }
+          ],
+          "sourceExcerpt": "If DC occurs during Boil cycle, verify door fully closed and not caught."
+        },
+        {
+          "id": "door_type_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door switch type",
+          "body": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2/3 lock switch (pins 2\u20133 with slider pushed)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "type1",
+              "label": "TYPE 1 door switch",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "type23",
+              "label": "TYPE 2/3 lock switch",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "door_lock_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "TYPE 1 door switch (pins 1\u20133 ~175 \u03a9) or TYPE 2/3 lock switch (pins 2\u20133 with slider pushed)?"
+        },
+        {
+          "id": "door_switch_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "TYPE 1 door switch (pins 1\u20133)",
+          "body": "Approximately 175 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboDoorSwitchOhms",
+              "testPoint": {
+                "connector": "Door switch",
+                "pins": "1 & 3",
+                "label": "TYPE 1 door switch (pins 1\u20133)"
+              },
+              "title": "TYPE 1 door switch (pins 1\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ds_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ds_pass",
+              "label": "~175 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Approximately 175 \u03a9."
+        },
+        {
+          "id": "door_lock_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "TYPE 2/3 lock switch (pins 2\u20133)",
+          "body": "Push slider \u2014 TYPE 2: 60\u201390 \u03a9; TYPE 3: 65\u201375 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboDoorLockOhms",
+              "testPoint": {
+                "connector": "Door lock",
+                "pins": "2 & 3",
+                "label": "TYPE 2/3 lock switch (pins 2\u20133)"
+              },
+              "title": "TYPE 2/3 lock switch (pins 2\u20133)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dl_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_door_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dl_pass",
+              "label": "60\u201390 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_cam_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Push slider \u2014 TYPE 2: 60\u201390 \u03a9; TYPE 3: 65\u201375 \u03a9."
+        },
+        {
+          "id": "door_cam_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "CAM and lever door",
+          "body": "Check CAM status, lever door, and door sagging per \u00a74-2 dC1.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cam_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_lock_switch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_lock_switch_out",
+              "terminal": true,
+              "oemOutcome": "Replace door lock switch when CAM/lever OK but dC1 persists."
+            }
+          ],
+          "sourceExcerpt": "Check CAM status, lever door, and door sagging per \u00a74-2 dC1."
+        },
+        {
+          "id": "close_door_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Close door",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_lock",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace door lock",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lock_switch_out",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace lock switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3."
+        },
+        {
+          "id": "door_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Door circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboDoorSwitchOhms",
+          "testPoint": {
+            "connector": "Door switch",
+            "pins": "1 & 3",
+            "label": "TYPE 1 door switch (pins 1\u20133)"
+          },
+          "title": "TYPE 1 door switch (pins 1\u20133)"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboDoorLockOhms",
+          "testPoint": {
+            "connector": "Door lock",
+            "pins": "2 & 3",
+            "label": "TYPE 2/3 lock switch (pins 2\u20133)"
+          },
+          "title": "TYPE 2/3 lock switch (pins 2\u20133)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "door_closed",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_type_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_boil_check"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door securely and retest.",
+          "stepId": "dc_boil_check"
+        },
+        {
+          "id": "type1",
+          "label": "TYPE 1 door switch",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_type_check"
+        },
+        {
+          "id": "type23",
+          "label": "TYPE 2/3 lock switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_lock_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_type_check"
+        },
+        {
+          "id": "ds_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "ds_pass",
+          "label": "~175 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "dl_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_door_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "dl_pass",
+          "label": "60\u201390 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_cam_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_lock_ohms"
+        },
+        {
+          "id": "cam_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_cam_check"
+        },
+        {
+          "id": "replace_lock_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lock_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door lock switch when CAM/lever OK but dC1 persists.",
+          "stepId": "door_cam_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Door Error DC / DC1",
+        "pages": [
+          50,
+          56
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-door-lock",
+        "pages": [
+          50,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-door-lock",
+            "pages": [
+              50,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-drain-pump",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Drain pump (5C) / \u00a74-5 pump motor",
+      "purpose": "Drain Error 5C",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "5C",
+        "drain_issue",
+        "condensate"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "pump_debris",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Pump and bellows",
+          "body": "Check drain bellows for foreign material. Verify pump wiring connections. Rule out winter freeze.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_pump",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_pump_out",
+              "terminal": true,
+              "oemOutcome": "Remove debris from pump housing and bellows."
+            }
+          ],
+          "sourceExcerpt": "Check drain bellows for foreign material. Verify pump wiring connections. Rule out winter freeze."
+        },
+        {
+          "id": "pump_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Drain pump resistance",
+          "body": "Measure pump motor \u2014 330 \u03a9 per \u00a74-5 #7.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboDrainPumpOhms",
+              "testPoint": {
+                "connector": "Drain pump",
+                "pins": "Motor terminals",
+                "label": "Drain pump resistance"
+              },
+              "title": "Drain pump resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pump_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_pass",
+              "label": "~330 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pump_run_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure pump motor \u2014 330 \u03a9 per \u00a74-5 #7."
+        },
+        {
+          "id": "pump_run_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pump runs",
+          "body": "Natural drain or Smart Install step 7 \u2014 pump operates?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pump_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump motor."
+            }
+          ],
+          "sourceExcerpt": "Natural drain or Smart Install step 7 \u2014 pump operates?"
+        },
+        {
+          "id": "clear_pump_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Clear pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pump_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3."
+        },
+        {
+          "id": "drain_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Drain OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "Motor terminals",
+            "label": "Drain pump resistance"
+          },
+          "title": "Drain pump resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pump_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "clear_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_out",
+          "terminal": true,
+          "oemOutcome": "Remove debris from pump housing and bellows.",
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "pump_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_pass",
+          "label": "~330 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_run_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_run_check"
+        },
+        {
+          "id": "replace_pump_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump motor.",
+          "stepId": "pump_run_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Drain Error 5C",
+        "pages": [
+          55,
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-drain-pump",
+        "pages": [
+          55,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-drain-pump",
+            "pages": [
+              55,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-dry-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-5: Dry heater element (#5)",
+      "purpose": "Dry Heater Resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element"
+      ],
+      "tags": [
+        "no_heat",
+        "heat_pump_dry",
+        "dryer_no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "dry_heater_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access dry heater",
+          "body": "Disconnect power. Access heat pump dry heater at 3P connector pins 1\u20133.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access heat pump dry heater at 3P connector pins 1\u20133."
+        },
+        {
+          "id": "dry_heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Dry heater resistance",
+          "body": "Expected 35.6\u201339.4 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboDryHeaterOhms",
+              "testPoint": {
+                "connector": "Dry heater",
+                "pins": "3P 1\u20133",
+                "label": "Dry heater resistance"
+              },
+              "title": "Dry heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dh_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_dry_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dh_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_dry_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dh_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_dry_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "dh_pass",
+              "label": "35.6\u201339.4 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "dry_heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected 35.6\u201339.4 \u03a9."
+        },
+        {
+          "id": "replace_dry_heater",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace dry heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dry_heater_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Dry heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboDryHeaterOhms",
+          "testPoint": {
+            "connector": "Dry heater",
+            "pins": "3P 1\u20133",
+            "label": "Dry heater resistance"
+          },
+          "title": "Dry heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "dh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dry_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dry_heater_ohms"
+        },
+        {
+          "id": "dh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dry_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dry_heater_ohms"
+        },
+        {
+          "id": "dh_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dry_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "dry_heater_ohms"
+        },
+        {
+          "id": "dh_pass",
+          "label": "35.6\u201339.4 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dry_heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dry_heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-5",
+        "oemTestTitle": "Dry Heater Resistance",
+        "pages": [
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-dry-heater",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-dry-heater",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-filter-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-2: Filter and cover magnets (NC, NC2, NC3)",
+      "purpose": "Filter / Cover NC",
+      "prerequisites": [],
+      "componentIds": [
+        "lint_filter"
+      ],
+      "tags": [
+        "NC",
+        "NC2",
+        "NC3"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "filter_inserted",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Dryer filter inserted",
+          "body": "NC: insert dryer filter. Verify magnet inside filter module.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "filter_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cover_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "insert_filter",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "insert_filter_out",
+              "terminal": true,
+              "oemOutcome": "Insert filter and press Start."
+            }
+          ],
+          "sourceExcerpt": "NC: insert dryer filter. Verify magnet inside filter module."
+        },
+        {
+          "id": "cover_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Heat exchanger cover / dehumidifying kit",
+          "body": "NC2: heat exchanger protective cover. NC3: dehumidifying kit. Verify magnets present.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "covers_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "filter_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "install_covers",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "install_covers_out",
+              "terminal": true,
+              "oemOutcome": "Install missing cover or kit with magnet."
+            }
+          ],
+          "sourceExcerpt": "NC2: heat exchanger protective cover. NC3: dehumidifying kit. Verify magnets present."
+        },
+        {
+          "id": "insert_filter_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Insert filter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "install_covers_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Install covers",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "filter_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Covers OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "filter_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cover_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "filter_inserted"
+        },
+        {
+          "id": "insert_filter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "insert_filter_out",
+          "terminal": true,
+          "oemOutcome": "Insert filter and press Start.",
+          "stepId": "filter_inserted"
+        },
+        {
+          "id": "covers_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "filter_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cover_check"
+        },
+        {
+          "id": "install_covers",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "install_covers_out",
+          "terminal": true,
+          "oemOutcome": "Install missing cover or kit with magnet.",
+          "stepId": "cover_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Filter / Cover NC",
+        "pages": [
+          51,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-filter-check",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-filter-check",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-foam-detection",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-2: Foam detection (ULC)",
+      "purpose": "Foam ULC",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "ULC"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "foam_clear",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Remove foam",
+          "body": "Remove foam inside dryer. Run dehumidification course.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "foam_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "touch_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_foam",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_foam_out",
+              "terminal": true,
+              "oemOutcome": "Remove foam and retest."
+            }
+          ],
+          "sourceExcerpt": "Remove foam inside dryer. Run dehumidification course."
+        },
+        {
+          "id": "touch_sensor",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Touch sensor clean",
+          "body": "Check touch sensor inside dryer for water or magnetic substance.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sensor_clean",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ulc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace PBA if ULC persists after cleaning."
+            }
+          ],
+          "sourceExcerpt": "Check touch sensor inside dryer for water or magnetic substance."
+        },
+        {
+          "id": "clear_foam_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear foam",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ulc_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "ULC resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "foam_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "touch_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "foam_clear"
+        },
+        {
+          "id": "clear_foam",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_foam_out",
+          "terminal": true,
+          "oemOutcome": "Remove foam and retest.",
+          "stepId": "foam_clear"
+        },
+        {
+          "id": "sensor_clean",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ulc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "touch_sensor"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace PBA if ULC persists after cleaning.",
+          "stepId": "touch_sensor"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Foam ULC",
+        "pages": [
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-foam-detection",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-foam-detection",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-heat-pump-thermistors",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-5: Heat pump thermistors (tC, TC5\u2013TCB)",
+      "purpose": "Heat Pump Thermistor Tests",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "condenser"
+      ],
+      "tags": [
+        "tC",
+        "TC5",
+        "TC7",
+        "TC8",
+        "TCA",
+        "TCB",
+        "TCH",
+        "heat_pump_dry"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "clean_filter",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clean condenser filter",
+          "body": "Clean case filter first when tC displays per \u00a74-2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clean case filter first when tC displays per \u00a74-2."
+        },
+        {
+          "id": "duct_thermistor",
+          "order": 3,
+          "type": "measurement",
+          "title": "Duct / discharge thermistor",
+          "body": "50 k\u03a9 \u00b1 7% @ 25\u00b0C (2P pins 1\u20132).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboDuctThermistorOhms",
+              "testPoint": {
+                "connector": "Duct thermistor",
+                "pins": "2P 1\u20132",
+                "label": "Duct / discharge thermistor"
+              },
+              "title": "Duct / discharge thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "duct_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_duct_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_duct_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_duct_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "duct_pass",
+              "label": "50 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "eva_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "50 k\u03a9 \u00b1 7% @ 25\u00b0C (2P pins 1\u20132)."
+        },
+        {
+          "id": "eva_thermistor",
+          "order": 4,
+          "type": "measurement",
+          "title": "EVA IN / EVA OUT thermistor",
+          "body": "10 k\u03a9 \u00b1 3% @ 25\u00b0C (4P pins 1\u20132 / 3\u20134).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboEvaThermistorOhms",
+              "testPoint": {
+                "connector": "EVA thermistors",
+                "pins": "1\u20132 / 3\u20134",
+                "label": "EVA IN / EVA OUT thermistor"
+              },
+              "title": "EVA IN / EVA OUT thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "eva_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_eva_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "eva_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_eva_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "eva_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_eva_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "eva_pass",
+              "label": "10 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_top_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "10 k\u03a9 \u00b1 3% @ 25\u00b0C (4P pins 1\u20132 / 3\u20134)."
+        },
+        {
+          "id": "comp_top_thermistor",
+          "order": 5,
+          "type": "measurement",
+          "title": "Compressor top thermistor",
+          "body": "200 k\u03a9 \u00b1 3% @ 25\u00b0C (2P pins 1\u20132).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboCompTopThermistorOhms",
+              "testPoint": {
+                "connector": "Comp top NTC",
+                "pins": "2P 1\u20132",
+                "label": "Compressor top thermistor"
+              },
+              "title": "Compressor top thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cta_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_comp_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cta_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_comp_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cta_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_comp_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cta_pass",
+              "label": "200 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "200 k\u03a9 \u00b1 3% @ 25\u00b0C (2P pins 1\u20132)."
+        },
+        {
+          "id": "heater_thermistor",
+          "order": 6,
+          "type": "measurement",
+          "title": "Dry heater thermistor",
+          "body": "238.23 k\u03a9 \u00b1 7.5% @ 25\u00b0C (4P pins 1\u20134).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboHeaterThermistorOhms",
+              "testPoint": {
+                "connector": "Heater NTC",
+                "pins": "4P 1\u20134",
+                "label": "Dry heater thermistor"
+              },
+              "title": "Dry heater thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "htb_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "htb_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "htb_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "htb_pass",
+              "label": "238 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "hp_ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "238.23 k\u03a9 \u00b1 7.5% @ 25\u00b0C (4P pins 1\u20134)."
+        },
+        {
+          "id": "replace_duct_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace duct/discharge NTC",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_eva_ntc",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace EVA NTC",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_comp_ntc",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace comp top NTC",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_heater_ntc",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace heater NTC",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hp_ntc_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Heat pump NTCs OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboDuctThermistorOhms",
+          "testPoint": {
+            "connector": "Duct thermistor",
+            "pins": "2P 1\u20132",
+            "label": "Duct / discharge thermistor"
+          },
+          "title": "Duct / discharge thermistor"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboEvaThermistorOhms",
+          "testPoint": {
+            "connector": "EVA thermistors",
+            "pins": "1\u20132 / 3\u20134",
+            "label": "EVA IN / EVA OUT thermistor"
+          },
+          "title": "EVA IN / EVA OUT thermistor"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboCompTopThermistorOhms",
+          "testPoint": {
+            "connector": "Comp top NTC",
+            "pins": "2P 1\u20132",
+            "label": "Compressor top thermistor"
+          },
+          "title": "Compressor top thermistor"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboHeaterThermistorOhms",
+          "testPoint": {
+            "connector": "Heater NTC",
+            "pins": "4P 1\u20134",
+            "label": "Dry heater thermistor"
+          },
+          "title": "Dry heater thermistor"
+        }
+      ],
+      "branches": [
+        {
+          "id": "duct_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_thermistor"
+        },
+        {
+          "id": "duct_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_thermistor"
+        },
+        {
+          "id": "duct_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_duct_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "duct_thermistor"
+        },
+        {
+          "id": "duct_pass",
+          "label": "50 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "eva_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "duct_thermistor"
+        },
+        {
+          "id": "eva_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "eva_thermistor"
+        },
+        {
+          "id": "eva_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "eva_thermistor"
+        },
+        {
+          "id": "eva_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_eva_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "eva_thermistor"
+        },
+        {
+          "id": "eva_pass",
+          "label": "10 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_top_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "eva_thermistor"
+        },
+        {
+          "id": "cta_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_top_thermistor"
+        },
+        {
+          "id": "cta_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_top_thermistor"
+        },
+        {
+          "id": "cta_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_top_thermistor"
+        },
+        {
+          "id": "cta_pass",
+          "label": "200 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_top_thermistor"
+        },
+        {
+          "id": "htb_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_thermistor"
+        },
+        {
+          "id": "htb_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_thermistor"
+        },
+        {
+          "id": "htb_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_thermistor"
+        },
+        {
+          "id": "htb_pass",
+          "label": "238 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "hp_ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_thermistor"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-5",
+        "oemTestTitle": "Heat Pump Thermistor Tests",
+        "pages": [
+          50,
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-heat-pump-thermistors",
+        "pages": [
+          50,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-heat-pump-thermistors",
+            "pages": [
+              50,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-hmi-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Switch error (BC2, bC2)",
+      "purpose": "Switch Error BC2",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "BC2",
+        "bC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "stuck_button",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Stuck button / panel moisture",
+          "body": "Verify no button pressed >30 s. Check water on window panel and rear PCB connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "buttons_free",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bc2_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_panel",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_panel_out",
+              "terminal": true,
+              "oemOutcome": "Dry panel, relieve deformation, or replace sub PBA."
+            }
+          ],
+          "sourceExcerpt": "Verify no button pressed >30 s. Check water on window panel and rear PCB connector."
+        },
+        {
+          "id": "repair_panel_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Repair panel/PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bc2_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Switch path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "buttons_free",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bc2_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "stuck_button"
+        },
+        {
+          "id": "repair_panel",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_panel_out",
+          "terminal": true,
+          "oemOutcome": "Dry panel, relieve deformation, or replace sub PBA.",
+          "stepId": "stuck_button"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Switch Error BC2",
+        "pages": [
+          50,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-hmi-check",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-hmi-check",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-inlet-valves",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Inlet valves (4C, Co/Ho manual check)",
+      "purpose": "Water Supply Error 4C",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "4C",
+        "4C2",
+        "fill_issue",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "hose_routing",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Hose routing",
+          "body": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer pressure hose not folded or torn.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hoses_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "smart_install_valves",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hoses",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hoses_out",
+              "terminal": true,
+              "oemOutcome": "Correct hose engagement and drawer hose routing."
+            }
+          ],
+          "sourceExcerpt": "Verify cold/hot hoses not reversed (4C2). Check detergent drawer pressure hose not folded or torn."
+        },
+        {
+          "id": "smart_install_valves",
+          "order": 3,
+          "type": "instruction",
+          "title": "Smart Install valve tests",
+          "body": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Smart Install manual check. Steps Co (cold) and Ho (hot) exercise inlet valves. Drum must be empty."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 4,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3."
+        },
+        {
+          "id": "valve_visual",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Valves operate in manual check",
+          "body": "Do cold and hot valves open when commanded?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valves_run",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inlet_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "check_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_supply_out",
+              "terminal": true,
+              "oemOutcome": "Verify taps open, screens clean; replace valve assembly."
+            }
+          ],
+          "sourceExcerpt": "Do cold and hot valves open when commanded?"
+        },
+        {
+          "id": "fix_hoses_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fix hose routing",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "check_supply_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Check water supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inlet_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Inlet valves OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hoses_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "smart_install_valves",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hose_routing"
+        },
+        {
+          "id": "fix_hoses",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hoses_out",
+          "terminal": true,
+          "oemOutcome": "Correct hose engagement and drawer hose routing.",
+          "stepId": "hose_routing"
+        },
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_visual"
+        },
+        {
+          "id": "check_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_supply_out",
+          "terminal": true,
+          "oemOutcome": "Verify taps open, screens clean; replace valve assembly.",
+          "stepId": "valve_visual"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Water Supply Error 4C",
+        "pages": [
+          47,
+          55
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-inlet-valves",
+        "pages": [
+          47,
+          55
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-inlet-valves",
+            "pages": [
+              47,
+              55
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-leak-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Water leakage (LC)",
+      "purpose": "Water Leakage LC",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "LC",
+        "leak_check",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "bellows_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Drain bellows",
+          "body": "Check draining bellows for underwear, wires, coins. Remove foreign material.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bellows_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "leak_inspection",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_bellows",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_bellows_out",
+              "terminal": true,
+              "oemOutcome": "Clear bellows obstruction."
+            }
+          ],
+          "sourceExcerpt": "Check draining bellows for underwear, wires, coins. Remove foreign material."
+        },
+        {
+          "id": "leak_inspection",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Leak source",
+          "body": "Inspect base, hoses, valves, tub, diaphragm, and drain motor for leaks.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_leak",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "leak_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_leak",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_leak_out",
+              "terminal": true,
+              "oemOutcome": "Repair leak path or replace drain motor."
+            }
+          ],
+          "sourceExcerpt": "Inspect base, hoses, valves, tub, diaphragm, and drain motor for leaks."
+        },
+        {
+          "id": "clear_bellows_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear bellows",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_leak_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair leak",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "leak_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Leak path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "bellows_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_inspection",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bellows_check"
+        },
+        {
+          "id": "clear_bellows",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_bellows_out",
+          "terminal": true,
+          "oemOutcome": "Clear bellows obstruction.",
+          "stepId": "bellows_check"
+        },
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_inspection"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak path or replace drain motor.",
+          "stepId": "leak_inspection"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Water Leakage LC",
+        "pages": [
+          49,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-leak-check",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-leak-check",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-mems-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: MEMS sensor (8C, 8C1, 8C2)",
+      "purpose": "Mems Error 8C",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "8C",
+        "8C1",
+        "8C2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "mems_vibration",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Excessive vibration",
+          "body": "Check unit for excessive vibration per \u00a74-4 8C1.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vibration_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "mems_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "level_unit",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "level_unit_out",
+              "terminal": true,
+              "oemOutcome": "Level machine and reduce vibration source."
+            }
+          ],
+          "sourceExcerpt": "Check unit for excessive vibration per \u00a74-4 8C1."
+        },
+        {
+          "id": "mems_wiring",
+          "order": 3,
+          "type": "visual_check",
+          "title": "MEMS harness",
+          "body": "Check wire connections to main PBA. Rule out disconnection.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wiring_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "mems_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PBA when 8C persists."
+            }
+          ],
+          "sourceExcerpt": "Check wire connections to main PBA. Rule out disconnection."
+        },
+        {
+          "id": "level_unit_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Level unit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mems_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "MEMS path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "vibration_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mems_vibration"
+        },
+        {
+          "id": "level_unit",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "level_unit_out",
+          "terminal": true,
+          "oemOutcome": "Level machine and reduce vibration source.",
+          "stepId": "mems_vibration"
+        },
+        {
+          "id": "wiring_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mems_wiring"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA when 8C persists.",
+          "stepId": "mems_wiring"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Mems Error 8C",
+        "pages": [
+          49,
+          58
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-mems-sensor",
+        "pages": [
+          49,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-mems-sensor",
+            "pages": [
+              49,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Washing motor (3C)",
+      "purpose": "Washing Motor Error 3C",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "3C",
+        "3C1",
+        "3C2",
+        "3C3",
+        "3C4",
+        "3E",
+        "motor_check",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "motor_overload",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Rule out overload (3C1)",
+          "body": "3C1 displays when overloading due to too much laundry \u2014 redistribute load before motor diagnosis.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "redistribute_load",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "redistribute_load_out",
+              "terminal": true,
+              "oemOutcome": "Redistribute load and retest."
+            }
+          ],
+          "sourceExcerpt": "3C1 displays when overloading due to too much laundry \u2014 redistribute load before motor diagnosis."
+        },
+        {
+          "id": "disconnect_motor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Inspect motor connector",
+          "body": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Motor winding resistance",
+          "body": "Disconnect connector. Measure any two of three motor terminals \u2014 6.0 \u03a9 @ 25\u00b0C per \u00a74-4 3C.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboMotorOhms",
+              "testPoint": {
+                "connector": "Motor",
+                "pins": "Any two of three",
+                "label": "Motor winding resistance"
+              },
+              "title": "Motor winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_pass",
+              "label": "~6.0 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Measure any two of three motor terminals \u2014 6.0 \u03a9 @ 25\u00b0C per \u00a74-4 3C."
+        },
+        {
+          "id": "reconnect_motor",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect motor",
+          "body": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify spin.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify spin."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3."
+        },
+        {
+          "id": "live_motor_check",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Motor runs in manual check",
+          "body": "Does drum spin in Smart Install dehydration test?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "suspect_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "suspect_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main/inverter PBA after confirming motor and harness."
+            }
+          ],
+          "sourceExcerpt": "Does drum spin in Smart Install dehydration test?"
+        },
+        {
+          "id": "redistribute_load_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Redistribute load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "suspect_pba_out",
+          "order": 11,
+          "type": "outcome",
+          "title": "Suspect PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboMotorOhms",
+          "testPoint": {
+            "connector": "Motor",
+            "pins": "Any two of three",
+            "label": "Motor winding resistance"
+          },
+          "title": "Motor winding resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_overload"
+        },
+        {
+          "id": "redistribute_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_load_out",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and retest.",
+          "stepId": "motor_overload"
+        },
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_pass",
+          "label": "~6.0 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_motor_check"
+        },
+        {
+          "id": "suspect_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main/inverter PBA after confirming motor and harness.",
+          "stepId": "live_motor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Washing Motor Error 3C",
+        "pages": [
+          55,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-motor-circuit",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-motor-circuit",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Overflow (OC)",
+      "purpose": "Overflow Error OC",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "tags": [
+        "OC",
+        "overflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "oc_valve",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Continuous fill check",
+          "body": "Check for stuck inlet valve or frozen supply causing continuous water.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "oc_hose",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "service_valve",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_valve_out",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve or clear obstruction."
+            }
+          ],
+          "sourceExcerpt": "Check for stuck inlet valve or frozen supply causing continuous water."
+        },
+        {
+          "id": "oc_hose",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Level sensor hose",
+          "body": "Inspect hose \u2014 torn, hole, or frozen. Defrost if winter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_intact",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "oc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_hose_out",
+              "terminal": true,
+              "oemOutcome": "Repair hose or replace level sensor."
+            }
+          ],
+          "sourceExcerpt": "Inspect hose \u2014 torn, hole, or frozen. Defrost if winter."
+        },
+        {
+          "id": "service_valve_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Service inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_hose_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair hose",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "oc_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Overflow resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_hose",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "oc_valve"
+        },
+        {
+          "id": "service_valve",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve or clear obstruction.",
+          "stepId": "oc_valve"
+        },
+        {
+          "id": "hose_intact",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "oc_hose"
+        },
+        {
+          "id": "repair_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair hose or replace level sensor.",
+          "stepId": "oc_hose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Overflow Error OC",
+        "pages": [
+          49,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-overflow",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-overflow",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Power (9C1, 9C2, 9C5)",
+      "purpose": "Power Error 9C",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "9C1",
+        "9C2",
+        "9C5",
+        "9C9",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "supply_voltage",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply voltage",
+          "body": "Verify operating voltage during Sanitize/Boil. Check extension cord drop and shared outlet.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ac_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct dedicated circuit; no undersized extension."
+            }
+          ],
+          "sourceExcerpt": "Verify operating voltage during Sanitize/Boil. Check extension cord drop and shared outlet."
+        },
+        {
+          "id": "ac_connector",
+          "order": 3,
+          "type": "visual_check",
+          "title": "AC connector / motor short",
+          "body": "Inspect AC connector for short. Check motor connector for short to ground (9C5).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_short",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pba_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_motor_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace motor and main PBA if motor shorted."
+            }
+          ],
+          "sourceExcerpt": "Inspect AC connector for short. Check motor connector for short to ground (9C5)."
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor_pba_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace motor and/or PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pba_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ac_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct dedicated circuit; no undersized extension.",
+          "stepId": "supply_voltage"
+        },
+        {
+          "id": "no_short",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pba_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ac_connector"
+        },
+        {
+          "id": "replace_motor_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor and main PBA if motor shorted.",
+          "stepId": "ac_connector"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Power Error 9C",
+        "pages": [
+          48,
+          58
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-power-supply",
+        "pages": [
+          48,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-power-supply",
+            "pages": [
+              48,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-system-fault",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: System error (SF)",
+      "purpose": "System Error SF",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "SF"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "sf_power_cycle",
+          "order": 2,
+          "type": "instruction",
+          "title": "Power cycle",
+          "body": "Unplug 1 minute. SF = microcontroller operation fail per \u00a74-4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug 1 minute. SF = microcontroller operation fail per \u00a74-4."
+        },
+        {
+          "id": "sf_retest",
+          "order": 3,
+          "type": "visual_check",
+          "title": "SF cleared?",
+          "body": "After power cycle, does combo run without SF?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sf_cleared",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sf_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pcb",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb_out",
+              "terminal": true,
+              "oemOutcome": "Replace Assy PCB per manual."
+            }
+          ],
+          "sourceExcerpt": "After power cycle, does combo run without SF?"
+        },
+        {
+          "id": "replace_pcb_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace Assy PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sf_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "System OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "sf_cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sf_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sf_retest"
+        },
+        {
+          "id": "replace_pcb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_out",
+          "terminal": true,
+          "oemOutcome": "Replace Assy PCB per manual.",
+          "stepId": "sf_retest"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "System Error SF",
+        "pages": [
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-system-fault",
+        "pages": [
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-system-fault",
+            "pages": [
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-unbalance",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Unbalance (UB, UB1)",
+      "purpose": "Unbalance Error UB",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "UB",
+        "UB1",
+        "unbalance",
+        "vibration"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "load_type",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Load type and size",
+          "body": "Check laundry mix \u2014 single heavy item or tarpaulin cover (UB1) can trigger unbalance.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_balanced",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "unbalance_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rebalance_load",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "rebalance_out",
+              "terminal": true,
+              "oemOutcome": "Pause, redistribute or remove items, press Start."
+            }
+          ],
+          "sourceExcerpt": "Check laundry mix \u2014 single heavy item or tarpaulin cover (UB1) can trigger unbalance."
+        },
+        {
+          "id": "rebalance_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Rebalance load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "unbalance_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Unbalance resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "load_balanced",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "unbalance_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "load_type"
+        },
+        {
+          "id": "rebalance_load",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rebalance_out",
+          "terminal": true,
+          "oemOutcome": "Pause, redistribute or remove items, press Start.",
+          "stepId": "load_type"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Unbalance Error UB",
+        "pages": [
+          49,
+          58
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-unbalance",
+        "pages": [
+          49,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-unbalance",
+            "pages": [
+              49,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-wash-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Wash heater (HC, HC1)",
+      "purpose": "Heater Error HC",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_heater",
+        "wash_ntc"
+      ],
+      "tags": [
+        "HC",
+        "HC1",
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "heater_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access heater terminals",
+          "body": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-4 TYPE 1).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access wash heater at tub front (terminals A and B per \u00a74-4 TYPE 1)."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Start Manual mode advances steps per \u00a74-3."
+        },
+        {
+          "id": "heater_in_circuit",
+          "order": 4,
+          "type": "measurement",
+          "title": "Heater A\u2013B resistance (TYPE 1)",
+          "body": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboWashHeaterInCircuitOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "A & B",
+                "label": "Heater A\u2013B resistance (TYPE 1)"
+              },
+              "title": "Heater A\u2013B resistance (TYPE 1)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hc_ab_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_ab_pass",
+              "label": "~16 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok_in_circuit",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure between A and B. Expected 16.05 \u00b1 0.65 \u03a9."
+        },
+        {
+          "id": "bench_heater",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench heater element",
+          "body": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove heater per \u00a73. Measure element: 27.1 \u03a9 (1900 W) or 26.2 \u03a9 (2000 W)."
+        },
+        {
+          "id": "heater_bench",
+          "order": 6,
+          "type": "measurement",
+          "title": "Heater bench ohms",
+          "body": "Measure heater element resistance.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboWashHeaterOhms",
+              "testPoint": {
+                "connector": "Heater element",
+                "pins": "Terminals",
+                "label": "Heater bench ohms"
+              },
+              "title": "Heater bench ohms"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hc_bench_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hc_bench_pass",
+              "label": "27.1/26.2 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "check_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure heater element resistance."
+        },
+        {
+          "id": "check_thermistor",
+          "order": 7,
+          "type": "instruction",
+          "title": "TYPE 2 \u2014 wash thermistor",
+          "body": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-4 TYPE 2).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If heater ohms OK, check wash thermistor at back of tub (\u00a74-4 TYPE 2)."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Wash thermistor @ room",
+          "body": "Expected ~12 k\u03a9 at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "Connector",
+                "label": "Wash thermistor @ room"
+              },
+              "title": "Wash thermistor @ room"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~12 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~12 k\u03a9 at room temperature."
+        },
+        {
+          "id": "heater_ok_in_circuit",
+          "order": 9,
+          "type": "outcome",
+          "title": "Heater in-circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_heater",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_path_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Heater path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboWashHeaterInCircuitOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "A & B",
+            "label": "Heater A\u2013B resistance (TYPE 1)"
+          },
+          "title": "Heater A\u2013B resistance (TYPE 1)"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboWashHeaterOhms",
+          "testPoint": {
+            "connector": "Heater element",
+            "pins": "Terminals",
+            "label": "Heater bench ohms"
+          },
+          "title": "Heater bench ohms"
+        },
+        {
+          "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "Connector",
+            "label": "Wash thermistor @ room"
+          },
+          "title": "Wash thermistor @ room"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hc_ab_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_ab_pass",
+          "label": "~16 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok_in_circuit",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_in_circuit"
+        },
+        {
+          "id": "hc_bench_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "hc_bench_pass",
+          "label": "27.1/26.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_bench"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Heater Error HC",
+        "pages": [
+          45,
+          56
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-heater",
+        "pages": [
+          45,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-heater",
+            "pages": [
+              45,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-wash-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Wash temperature sensor (TC1)",
+      "purpose": "Temperature Sensor Error TC1",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "TC1",
+        "thermistor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "tc1_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Check thermistor connector",
+          "body": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify washing heater temperature sensor connector seated. Rule out frozen hose in winter."
+        },
+        {
+          "id": "tc1_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Wash thermistor resistance",
+          "body": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "Connector",
+                "label": "Wash thermistor resistance"
+              },
+              "title": "Wash thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "tc1_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_tc1_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "tc1_pass",
+              "label": "~12 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "tc1_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at thermistor connector \u2014 ~12 k\u03a9 at room temp."
+        },
+        {
+          "id": "replace_tc1_ntc",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tc1_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboWashThermistorOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "Connector",
+            "label": "Wash thermistor resistance"
+          },
+          "title": "Wash thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "tc1_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_tc1_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        },
+        {
+          "id": "tc1_pass",
+          "label": "~12 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tc1_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tc1_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Temperature Sensor Error TC1",
+        "pages": [
+          49,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-wash-thermistor",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-wash-thermistor",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungwd53-water-level-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "title": "\u00a74-4: Water level sensor (1C)",
+      "purpose": "Water Level Sensor 1C",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "1C",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the combo or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "wls_hose",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Level sensor hose and terminals",
+          "body": "Check hose not punctured, folded, or clogged. Verify correct material-code sensor installed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wls_frequency",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hose_out",
+              "terminal": true,
+              "oemOutcome": "Repair hose routing or replace incorrect sensor part."
+            }
+          ],
+          "sourceExcerpt": "Check hose not punctured, folded, or clogged. Verify correct material-code sensor installed."
+        },
+        {
+          "id": "wls_frequency",
+          "order": 3,
+          "type": "measurement",
+          "title": "Level sensor frequency",
+          "body": "Connect sensor and connector. Measure frequency Pink\u2013Orange \u2014 approx. 25.5 kHz with no load.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungLaundryComboWaterLevelFrequency",
+              "testPoint": {
+                "connector": "Level sensor",
+                "pins": "Pink & Orange",
+                "label": "Level sensor frequency"
+              },
+              "title": "Level sensor frequency"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wls_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_wls",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "wls_pass",
+              "label": "~25.5 kHz",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wls_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Connect sensor and connector. Measure frequency Pink\u2013Orange \u2014 approx. 25.5 kHz with no load."
+        },
+        {
+          "id": "fix_hose_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix hose/sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_wls",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace level sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wls_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Level sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungLaundryComboWaterLevelFrequency",
+          "testPoint": {
+            "connector": "Level sensor",
+            "pins": "Pink & Orange",
+            "label": "Level sensor frequency"
+          },
+          "title": "Level sensor frequency"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair hose routing or replace incorrect sensor part.",
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "wls_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_wls",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        },
+        {
+          "id": "wls_pass",
+          "label": "~25.5 kHz",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wls_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_frequency"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "manualTitle": "Samsung All-in-One Laundry Combo WD53/WD80 (WD53DBA900HZA1)",
+        "oemTestNumber": "4-4",
+        "oemTestTitle": "Water Level Sensor 1C",
+        "pages": [
+          55,
+          57
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-water-level-sensor",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-water-level-sensor",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

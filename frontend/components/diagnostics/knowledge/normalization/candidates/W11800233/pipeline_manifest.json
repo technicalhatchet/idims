@@ -1,0 +1,85 @@
+{
+  "manualId": "W11800233",
+  "platformId": "whirlpool_tl_dd_4100",
+  "templateId": "washer",
+  "label": "Whirlpool/Maytag 4.0\u20134.3 cu ft ACU belt-drive top-load washer (WTW4100)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T00:50:22.183359+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 9,
+    "mappingCandidates": 17,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 10,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-01-acu-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-02-valves",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "pre-test",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-03a-shifter",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-03b-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-04-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-05-water-level",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-06-drain-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11800233-test-07-lid-lock",
+        "source": "title_token"
+      }
+    ]
+  }
+}

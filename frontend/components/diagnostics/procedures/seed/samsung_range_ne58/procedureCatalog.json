@@ -1,0 +1,137 @@
+{
+  "manualId": "SAMSUNG-NE58-RANGE",
+  "platformId": "samsung_range_ne58",
+  "templateId": "electric_range",
+  "label": "Samsung NE58 Flex Duo electric range",
+  "notes": "CG-10 R4 manufacturer boundary \u2014 electric only. Not NX60 gas platform.",
+  "plannedProcedures": [
+    {
+      "id": "samsungne58-power",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: No power / main \u2194 sub PCB",
+      "status": "generated",
+      "knowledgeIds": [
+        "supplyVoltage120"
+      ],
+      "relatedCodes": [
+        "E-83"
+      ]
+    },
+    {
+      "id": "samsungne58-hmi-touch",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Touch keypad / SE / tE",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": [
+        "SE",
+        "tE"
+      ]
+    },
+    {
+      "id": "samsungne58-oven-sensor",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Oven temperature sensor",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungNx60OvenSensorOhms"
+      ],
+      "relatedCodes": [
+        "E-21",
+        "E-22"
+      ]
+    },
+    {
+      "id": "samsungne58-bake-element",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Bake element",
+      "status": "generated",
+      "knowledgeIds": [
+        "bakeElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungne58-broil-element",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Broil element",
+      "status": "generated",
+      "knowledgeIds": [
+        "broilElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungne58-convection-element",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Convection element",
+      "status": "generated",
+      "knowledgeIds": [
+        "bakeElementOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungne58-convection-fan",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Convection fan motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungNx60ConvectionFanOhms"
+      ],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungne58-heater-relays",
+      "oemSection": "4-1",
+      "title": "\u00a74-1: Heater relays E-24",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungNx60HeaterRelayContactsOhms"
+      ],
+      "relatedCodes": [
+        "E-24"
+      ]
+    },
+    {
+      "id": "samsungne58-door-lock",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Door lock motor",
+      "status": "generated",
+      "knowledgeIds": [
+        "samsungNx60DoorLockMotorOhms"
+      ],
+      "relatedCodes": [
+        "E-0E"
+      ]
+    },
+    {
+      "id": "samsungne58-door-switch",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Door plunger switch",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    },
+    {
+      "id": "samsungne58-thermal-cutoff",
+      "oemSection": "4-2",
+      "title": "\u00a74-2: Thermostat / thermal fuse",
+      "status": "generated",
+      "knowledgeIds": [
+        "bakeElementOhms"
+      ],
+      "relatedCodes": [
+        "E-08"
+      ]
+    },
+    {
+      "id": "samsungne58-surface-radiant",
+      "oemSection": "3-5",
+      "title": "\u00a73-5: Surface radiant elements",
+      "status": "generated",
+      "knowledgeIds": [],
+      "relatedCodes": []
+    }
+  ]
+}

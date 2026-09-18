@@ -1,0 +1,1277 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "top_load_washer",
+    "name": "Top-Load Washer",
+    "templateId": "washer",
+    "variant": "top_load",
+    "description": "Canonical functional diagnostic ontology for top-load washing machines. Models functional relationships and diagnostic dependencies; manufacturer, platform, and model-specific implementation belongs in overlays.",
+    "frozen": true,
+    "frozenAt": "2026-09-15T19:45:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-6.x canonical graph \u2014 three-manual Whirlpool TL corpus (W10864849, W11697231, W11416787). drive_system removed; transmission_or_shifter kept; lid_switch conditional."
+  },
+  "designPrinciples": [
+    "Model functional behavior rather than physical wiring or platform-specific drive topology.",
+    "Keep power, authorization, fill, level, drain, drive, mode selection, and output (agitate/spin) diagnostically distinct.",
+    "lid_switch (cycle-start authorization) and lid_lock (spin-safety authorization) are separate canonical concepts when evidence supports the split.",
+    "transmission_or_shifter is the canonical functional mode-selection concept \u2014 splutch, clutch, gearcase, and actuator implementations belong in overlays.",
+    "drive_system was candidate-only: three manuals independently collapsed drive diagnostics to control_board -> drive_motor -> motor_output_test with zero canonical drive_system hits.",
+    "agitator_or_impeller is intentionally functional \u2014 do not split agitator vs impeller at canonical layer.",
+    "temperature_sensor is included conservatively; not a required dependency for ordinary wash operation.",
+    "Manufacturer-specific implementations extend via overlays \u2014 they do not replace canonical function.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "Do not condemn a downstream component until required upstream conditions are established.",
+    "Unknown information must remain unknown \u2014 never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "communicates_with",
+    "senses",
+    "provides_feedback_to",
+    "mechanically_drives",
+    "mechanically_connected_to",
+    "routed_through",
+    "depends_on",
+    "enables",
+    "inhibits",
+    "monitors"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": [
+      "verified_good",
+      "verified_failed",
+      "not_applicable"
+    ],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification. verified_good and verified_failed require explicit diagnostic evidence."
+  },
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "categoryId": "electrical_supply",
+      "purpose": "Electrical power delivery."
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "categoryId": "control_board",
+      "purpose": "Command, sequencing, monitoring, and decision logic."
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "categoryId": "control_hmi",
+      "purpose": "User input, display, status, and cycle selection."
+    },
+    {
+      "id": "lid_authorization",
+      "name": "Lid Authorization",
+      "categoryId": "lid_lock",
+      "purpose": "Lid-closed and spin-safety authorization."
+    },
+    {
+      "id": "water_inlet",
+      "name": "Water Inlet",
+      "categoryId": "fill_supply",
+      "purpose": "Incoming water delivery and fill control."
+    },
+    {
+      "id": "water_level",
+      "name": "Water Level",
+      "categoryId": "water_level",
+      "purpose": "Water-level sensing and fill termination."
+    },
+    {
+      "id": "drain",
+      "name": "Drain",
+      "categoryId": "drain_pump",
+      "purpose": "Water removal via drain pump and path."
+    },
+    {
+      "id": "drive",
+      "name": "Drive",
+      "categoryId": "drive_motor",
+      "purpose": "Motor output, mode selection, and wash/spin mechanical outputs."
+    },
+    {
+      "id": "mechanical",
+      "name": "Mechanical",
+      "categoryId": "mechanical",
+      "purpose": "Tub, basket, and suspension structure."
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature",
+      "categoryId": "wash_heating",
+      "purpose": "Wash water temperature sensing."
+    }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power Supply",
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "control_board",
+      "name": "Control Board",
+      "aliases": [
+        "ACU",
+        "Main Control",
+        "main_control"
+      ],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller"
+    },
+    {
+      "id": "hmi_control",
+      "name": "HMI Control",
+      "aliases": [
+        "UI",
+        "Console",
+        "user_interface"
+      ],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface"
+    },
+    {
+      "id": "lid_switch",
+      "name": "Lid Switch",
+      "aliases": [
+        "lid closed switch"
+      ],
+      "systemId": "lid_authorization",
+      "categoryId": "lid_lock",
+      "type": "sensor",
+      "note": "Lid-closed cycle-start authorization \u2014 distinct from lid_lock spin-safety interlock.",
+      "pendingEvidenceGraph": true,
+      "canonicalStatus": "conditional",
+      "evidenceQualification": {
+        "rev1Status": "conditional",
+        "matcherDiscoveryManuals": 0,
+        "procedureRoleEvidenceManuals": [
+          "W10864849",
+          "W11697231",
+          "W11416787"
+        ],
+        "precedent": "Earned through repeated cross-manual procedure role evidence, not CG-3 matcher convergence. Do not manufacture matcher aliases to simulate discovery."
+      }
+    },
+    {
+      "id": "lid_lock",
+      "name": "Lid Lock",
+      "aliases": [
+        "door_lock",
+        "lid interlock"
+      ],
+      "systemId": "lid_authorization",
+      "categoryId": "lid_lock",
+      "type": "actuator",
+      "pendingEvidenceGraph": true,
+      "note": "Locked/spin-safety authorization \u2014 distinct from lid_switch cycle-start sensing."
+    },
+    {
+      "id": "inlet_valve",
+      "name": "Inlet Valve",
+      "systemId": "water_inlet",
+      "categoryId": "fill_supply",
+      "type": "actuator"
+    },
+    {
+      "id": "water_level_sensor",
+      "name": "Water Level Sensor",
+      "systemId": "water_level",
+      "categoryId": "water_level",
+      "type": "sensor"
+    },
+    {
+      "id": "drain_pump",
+      "name": "Drain Pump",
+      "systemId": "drain",
+      "categoryId": "drain_pump",
+      "type": "actuator"
+    },
+    {
+      "id": "drain_path",
+      "name": "Drain Path",
+      "systemId": "drain",
+      "categoryId": "drain_pump",
+      "type": "passive",
+      "note": "Hose, filter, and sump path \u2014 functional drain completion concept.",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "drive_motor",
+      "name": "Drive Motor",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator"
+    },
+    {
+      "id": "agitator_or_impeller",
+      "name": "Agitator / Impeller",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "spin_system",
+      "name": "Spin System",
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "functional_aggregate",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "transmission_or_shifter",
+      "name": "Transmission / Shifter",
+      "aliases": [
+        "mode shifter",
+        "shifter",
+        "transmission"
+      ],
+      "systemId": "drive",
+      "categoryId": "mode_shifter",
+      "type": "actuator",
+      "note": "Functional wash\u2194spin mode selection \u2014 splutch, clutch, gearcase, and actuator implementations remain overlay-only.",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "tub",
+      "name": "Tub",
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "basket",
+      "name": "Basket",
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "suspension_system",
+      "name": "Suspension System",
+      "aliases": [
+        "suspension",
+        "shocks",
+        "dampers"
+      ],
+      "systemId": "mechanical",
+      "categoryId": "mechanical",
+      "type": "mechanical",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "temperature_sensor",
+      "name": "Temperature Sensor",
+      "aliases": [
+        "thermistor",
+        "NTC",
+        "wash_ntc"
+      ],
+      "systemId": "temperature",
+      "categoryId": "wash_heating",
+      "type": "sensor",
+      "optional": true,
+      "pendingEvidenceGraph": true
+    }
+  ],
+  "relationships": [
+    {
+      "from": "power_supply",
+      "type": "supplies",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "hmi_control",
+      "type": "communicates_with",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "hmi_control",
+      "type": "commands",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "lid_switch",
+      "type": "provides_feedback_to",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "medium",
+      "note": "Cycle-start authorization \u2014 conditional rev1 concept; procedure evidence only."
+    },
+    {
+      "from": "lid_lock",
+      "type": "provides_feedback_to",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "lid_lock",
+      "type": "enables",
+      "to": "drive_motor",
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Spin-safety authorization \u2014 distinct from lid_switch cycle-start sensing."
+    },
+    {
+      "from": "control_board",
+      "type": "controls",
+      "to": "inlet_valve",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "inlet_valve",
+      "type": "supplies",
+      "to": "tub",
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Functional fill delivery \u2014 hose routing belongs in overlay."
+    },
+    {
+      "from": "water_level_sensor",
+      "type": "provides_feedback_to",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "control_board",
+      "type": "controls",
+      "to": "drain_pump",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "drain_pump",
+      "type": "routed_through",
+      "to": "drain_path",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "control_board",
+      "type": "controls",
+      "to": "drive_motor",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "control_board",
+      "type": "controls",
+      "to": "transmission_or_shifter",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "drive_motor",
+      "type": "mechanically_drives",
+      "to": "transmission_or_shifter",
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Motor output feeds mode-selection path \u2014 OEM shifter/splutch implementations are overlay."
+    },
+    {
+      "from": "transmission_or_shifter",
+      "type": "mechanically_drives",
+      "to": "agitator_or_impeller",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "transmission_or_shifter",
+      "type": "mechanically_drives",
+      "to": "spin_system",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "basket",
+      "type": "mechanically_connected_to",
+      "to": "tub",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "suspension_system",
+      "type": "mechanically_connected_to",
+      "to": "tub",
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "from": "temperature_sensor",
+      "type": "provides_feedback_to",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "medium"
+    },
+    {
+      "from": "drive_motor",
+      "type": "provides_feedback_to",
+      "to": "control_board",
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "description": "Cycle start requires power, control readiness, UI, and lid-closed authorization.",
+      "requires": [
+        "power_supply",
+        "control_board",
+        "hmi_control",
+        "lid_switch"
+      ],
+      "enables": [
+        "fill_operation",
+        "drive_operation"
+      ],
+      "source": "canonical",
+      "confidence": "medium",
+      "note": "lid_switch is conditional rev1 \u2014 present in graph via procedure evidence, not matcher discovery."
+    },
+    {
+      "id": "fill_operation",
+      "description": "Fill requires authorization, inlet valve operation, and level feedback.",
+      "requires": [
+        "control_board",
+        "inlet_valve"
+      ],
+      "feedback": [
+        "water_level_sensor"
+      ],
+      "enables": [
+        "water_level_authorization"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "water_level_authorization",
+      "description": "Drive and spin require established water level.",
+      "requires": [
+        "control_board",
+        "water_level_sensor"
+      ],
+      "enables": [
+        "drive_operation",
+        "spin_authorization"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drain_operation",
+      "description": "Drain requires pump and drain path function with control recognition.",
+      "requires": [
+        "control_board",
+        "drain_pump",
+        "drain_path"
+      ],
+      "feedback": [
+        "water_level_sensor"
+      ],
+      "enables": [
+        "drain_completion"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drain_completion",
+      "description": "Drain completion requires pump/path function and acceptable resulting level state.",
+      "requires": [
+        "control_board",
+        "drain_pump",
+        "drain_path"
+      ],
+      "feedback": [
+        "water_level_sensor"
+      ],
+      "enables": [
+        "spin_authorization"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drive_operation",
+      "description": "Motor operation requires cycle authorization, spin-safety lock state, motor command path, and functional mode selection.",
+      "requires": [
+        "control_board",
+        "lid_lock",
+        "drive_motor",
+        "transmission_or_shifter"
+      ],
+      "conditional": [
+        "water_level_sensor",
+        "drain_pump",
+        "drain_path",
+        "suspension_system",
+        "agitator_or_impeller",
+        "spin_system"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "agitation_operation",
+      "description": "Agitation requires motor output routed through mode selection to agitate output.",
+      "requires": [
+        "drive_motor",
+        "transmission_or_shifter",
+        "agitator_or_impeller"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "spin_authorization",
+      "description": "High-speed spin requires locked lid, drained tub, and acceptable level state.",
+      "requires": [
+        "lid_lock",
+        "drain_pump",
+        "drain_path",
+        "water_level_sensor"
+      ],
+      "conditional": [
+        "suspension_system",
+        "drive_motor",
+        "transmission_or_shifter",
+        "spin_system"
+      ],
+      "enables": [
+        "spin_operation"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "spin_operation",
+      "description": "Spin requires motor output routed through mode selection to spin output.",
+      "requires": [
+        "drive_motor",
+        "transmission_or_shifter",
+        "spin_system"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "establishedFactSources": [
+    {
+      "factId": "lid_closed_authorized",
+      "label": "Lid closed for cycle start",
+      "fromComponents": [
+        "lid_switch"
+      ],
+      "source": "canonical",
+      "confidence": "medium",
+      "note": "Conditional rev1 concept \u2014 procedure role evidence only; no matcher alias manufactured."
+    },
+    {
+      "factId": "lid_lock_authorized",
+      "label": "Lid lock authorized for spin / drive safety",
+      "fromComponents": [
+        "lid_lock"
+      ],
+      "fromBranches": [
+        "lid_lock_verified_good",
+        "lock_energizes_yes"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "fill_command_present",
+      "label": "Fill command present",
+      "fromComponents": [
+        "control_board",
+        "inlet_valve"
+      ],
+      "source": "session",
+      "confidence": "high"
+    },
+    {
+      "factId": "water_level_reached",
+      "label": "Water level reached / acceptable",
+      "fromComponents": [
+        "water_level_sensor"
+      ],
+      "source": "session",
+      "confidence": "high"
+    },
+    {
+      "factId": "drain_command_present",
+      "label": "Drain command present",
+      "fromComponents": [
+        "control_board",
+        "drain_pump"
+      ],
+      "source": "session",
+      "confidence": "high"
+    },
+    {
+      "factId": "drain_completion",
+      "label": "Tub drain completed / water level acceptable for spin",
+      "fromComponents": [
+        "drain_pump",
+        "drain_path"
+      ],
+      "fromBranches": [
+        "drain_verified_good"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_command_present",
+      "label": "Motor run command present at control output",
+      "fromComponents": [
+        "control_board",
+        "drive_motor"
+      ],
+      "fromBranches": [
+        "motor_command_present"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_output_present",
+      "label": "Motor output present",
+      "fromComponents": [
+        "drive_motor"
+      ],
+      "source": "session",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_output_abnormal",
+      "label": "Motor load output abnormal vs specification",
+      "fromComponents": [
+        "drive_motor"
+      ],
+      "fromBranches": [
+        "motor_voltage_abnormal"
+      ],
+      "source": "service_manual",
+      "confidence": "high"
+    },
+    {
+      "factId": "agitation_present",
+      "label": "Agitation output observed",
+      "fromComponents": [
+        "agitator_or_impeller"
+      ],
+      "source": "session",
+      "confidence": "medium"
+    },
+    {
+      "factId": "spin_present",
+      "label": "Spin output observed",
+      "fromComponents": [
+        "spin_system"
+      ],
+      "source": "session",
+      "confidence": "medium"
+    }
+  ],
+  "testTargets": [
+    {
+      "id": "lid_lock_test",
+      "label": "Lid lock / spin-safety verification",
+      "role": "prerequisite",
+      "testAliasId": "lid_lock_test",
+      "establishesFacts": [
+        "lid_lock_authorized"
+      ],
+      "forGoals": [
+        "spin_authorization",
+        "drive_operation",
+        "cycle_start_authorization"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drain_test",
+      "label": "Drain path verification",
+      "role": "prerequisite",
+      "testAliasId": "drain_test",
+      "establishesFacts": [
+        "drain_completion"
+      ],
+      "forGoals": [
+        "spin_authorization",
+        "drive_operation",
+        "drain_completion"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_command_test",
+      "label": "Motor command / control authorization",
+      "role": "discriminator",
+      "testAliasId": "motor_command_test",
+      "establishesFacts": [
+        "motor_command_present"
+      ],
+      "requires": {
+        "facts": [
+          "lid_lock_authorized",
+          "drain_completion"
+        ]
+      },
+      "forGoals": [
+        "drive_operation"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_output_test",
+      "label": "Motor output / drive path",
+      "role": "discriminator",
+      "testAliasId": "motor_output_test",
+      "requires": {
+        "facts": [
+          "lid_lock_authorized",
+          "drain_completion",
+          "motor_command_present"
+        ]
+      },
+      "forGoals": [
+        "drive_operation"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_winding_test",
+      "label": "Motor winding / load measurement",
+      "role": "discriminator",
+      "testAliasId": "motor_winding_test",
+      "requires": {
+        "facts": [
+          "lid_lock_authorized",
+          "drain_completion",
+          "motor_command_present"
+        ]
+      },
+      "forGoals": [
+        "drive_operation"
+      ],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "shifter_test",
+      "label": "Mode shifter / wash-spin transition verification",
+      "role": "discriminator",
+      "testAliasId": "shifter_test",
+      "requires": {
+        "facts": [
+          "lid_lock_authorized",
+          "drain_completion",
+          "motor_command_present"
+        ]
+      },
+      "forGoals": [
+        "drive_operation",
+        "agitation_operation",
+        "spin_operation"
+      ],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Canonical target is transmission_or_shifter; OEM shifter/splutch implementations remain overlay."
+    }
+  ],
+  "failureDomains": [
+    {
+      "id": "power_failure",
+      "label": "Power / supply",
+      "components": [
+        "power_supply",
+        "control_board"
+      ]
+    },
+    {
+      "id": "control_failure",
+      "label": "Control",
+      "components": [
+        "control_board"
+      ]
+    },
+    {
+      "id": "user_interface_failure",
+      "label": "User interface",
+      "components": [
+        "hmi_control"
+      ]
+    },
+    {
+      "id": "lid_authorization_failure",
+      "label": "Lid authorization",
+      "components": [
+        "lid_switch",
+        "lid_lock"
+      ]
+    },
+    {
+      "id": "fill_failure",
+      "label": "Water inlet / fill",
+      "components": [
+        "inlet_valve",
+        "power_supply"
+      ]
+    },
+    {
+      "id": "water_level_failure",
+      "label": "Water level sensing",
+      "components": [
+        "water_level_sensor"
+      ]
+    },
+    {
+      "id": "drain_failure",
+      "label": "Drain",
+      "components": [
+        "drain_pump",
+        "drain_path"
+      ]
+    },
+    {
+      "id": "drive_failure",
+      "label": "Drive / motor / mode selection",
+      "components": [
+        "drive_motor",
+        "transmission_or_shifter"
+      ]
+    },
+    {
+      "id": "agitation_failure",
+      "label": "Agitation output",
+      "components": [
+        "agitator_or_impeller",
+        "transmission_or_shifter",
+        "drive_motor"
+      ]
+    },
+    {
+      "id": "spin_failure",
+      "label": "Spin output",
+      "components": [
+        "spin_system",
+        "transmission_or_shifter",
+        "drive_motor",
+        "lid_lock"
+      ]
+    },
+    {
+      "id": "mechanical_mode_selection_failure",
+      "label": "Mechanical mode selection",
+      "components": [
+        "transmission_or_shifter"
+      ]
+    },
+    {
+      "id": "suspension_failure",
+      "label": "Suspension / tub support",
+      "components": [
+        "suspension_system",
+        "tub",
+        "basket"
+      ]
+    },
+    {
+      "id": "temperature_sensing_failure",
+      "label": "Temperature sensing",
+      "components": [
+        "temperature_sensor"
+      ],
+      "optional": true
+    },
+    {
+      "id": "installation_external",
+      "label": "Installation / external",
+      "components": [
+        "power_supply"
+      ],
+      "crossCutting": true
+    },
+    {
+      "id": "wiring_connection",
+      "label": "Wiring / connection",
+      "crossCutting": true
+    }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      {
+        "id": "upstream_before_downstream",
+        "rule": "Establish required upstream conditions before condemning a downstream component."
+      },
+      {
+        "id": "authorization_before_drive",
+        "rule": "Establish lid authorization and drain/level prerequisites before condemning motor or mode-selection paths."
+      },
+      {
+        "id": "lid_switch_vs_lid_lock",
+        "rule": "Lid-closed cycle-start authorization (lid_switch) and locked spin-safety authorization (lid_lock) are distinct roles \u2014 do not collapse because a single OEM assembly contains both switches."
+      },
+      {
+        "id": "mode_selection_before_motor_condemn",
+        "rule": "On shifter platforms, verify wash\u2194spin mode selection before condemning motor when one direction fails."
+      },
+      {
+        "id": "normal_is_not_proof",
+        "rule": "A normal measurement reduces failure likelihood without declaring the entire component verified_good."
+      },
+      {
+        "id": "preserve_uncertainty",
+        "rule": "Unknown, inaccessible, and unverified states must remain distinct from verified_good."
+      }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "wont_start",
+      "symptoms": [
+        "won't start",
+        "pressing start does nothing",
+        "cycle will not begin"
+      ],
+      "initialDomains": [
+        "user_interface_failure",
+        "control_failure",
+        "lid_authorization_failure",
+        "power_failure"
+      ],
+      "activeGoals": [
+        "cycle_start_authorization"
+      ]
+    },
+    {
+      "id": "wont_fill",
+      "symptoms": [
+        "won't fill",
+        "no water",
+        "slow fill",
+        "LF",
+        "F20",
+        "F8E1",
+        "4C"
+      ],
+      "initialDomains": [
+        "fill_failure",
+        "lid_authorization_failure",
+        "water_level_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "fill_operation"
+      ]
+    },
+    {
+      "id": "overfills",
+      "symptoms": [
+        "overfills",
+        "too much water",
+        "does not stop filling",
+        "OC",
+        "F8E6"
+      ],
+      "initialDomains": [
+        "water_level_failure",
+        "fill_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "fill_operation",
+        "water_level_authorization"
+      ]
+    },
+    {
+      "id": "wont_drain",
+      "symptoms": [
+        "won't drain",
+        "water remains",
+        "slow drain",
+        "F21",
+        "F9E1",
+        "5C",
+        "LC"
+      ],
+      "initialDomains": [
+        "drain_failure",
+        "water_level_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "drain_operation",
+        "drain_completion"
+      ]
+    },
+    {
+      "id": "wont_agitate",
+      "symptoms": [
+        "won't agitate",
+        "no agitation",
+        "basket does not move",
+        "F7E3",
+        "F7E4"
+      ],
+      "initialDomains": [
+        "drive_failure",
+        "agitation_failure",
+        "lid_authorization_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "drive_operation",
+        "agitation_operation"
+      ]
+    },
+    {
+      "id": "wont_spin",
+      "symptoms": [
+        "won't spin",
+        "does not spin",
+        "no high-speed spin",
+        "F7E5",
+        "F7E7",
+        "3C"
+      ],
+      "initialDomains": [
+        "spin_failure",
+        "drain_failure",
+        "water_level_failure",
+        "lid_authorization_failure",
+        "suspension_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "spin_authorization",
+        "spin_operation",
+        "drive_operation"
+      ]
+    },
+    {
+      "id": "stops_mid_cycle",
+      "symptoms": [
+        "stops mid cycle",
+        "pauses unexpectedly",
+        "cycle aborts"
+      ],
+      "initialDomains": [
+        "control_failure",
+        "lid_authorization_failure",
+        "water_level_failure",
+        "drive_failure"
+      ]
+    },
+    {
+      "id": "no_motor_operation",
+      "symptoms": [
+        "no motor",
+        "motor does not run",
+        "no movement"
+      ],
+      "initialDomains": [
+        "drive_failure",
+        "lid_authorization_failure",
+        "control_failure"
+      ],
+      "activeGoals": [
+        "drive_operation"
+      ]
+    },
+    {
+      "id": "agitates_but_wont_spin",
+      "symptoms": [
+        "agitates but won't spin",
+        "washes but no spin"
+      ],
+      "initialDomains": [
+        "mechanical_mode_selection_failure",
+        "spin_failure",
+        "lid_authorization_failure"
+      ],
+      "activeGoals": [
+        "spin_authorization",
+        "spin_operation",
+        "drive_operation"
+      ]
+    },
+    {
+      "id": "spins_but_wont_agitate",
+      "symptoms": [
+        "spins but won't agitate",
+        "spin only"
+      ],
+      "initialDomains": [
+        "mechanical_mode_selection_failure",
+        "agitation_failure",
+        "drive_failure"
+      ],
+      "activeGoals": [
+        "agitation_operation",
+        "drive_operation"
+      ]
+    },
+    {
+      "id": "loud_or_unbalanced",
+      "symptoms": [
+        "loud noise",
+        "vibration",
+        "walking",
+        "unbalance",
+        "UV",
+        "UB",
+        "Sd",
+        "F7E9"
+      ],
+      "initialDomains": [
+        "suspension_failure",
+        "drive_failure",
+        "installation_external"
+      ]
+    },
+    {
+      "id": "water_level_incorrect",
+      "symptoms": [
+        "water level incorrect",
+        "too little water",
+        "too much water"
+      ],
+      "initialDomains": [
+        "water_level_failure",
+        "fill_failure",
+        "drain_failure"
+      ],
+      "activeGoals": [
+        "water_level_authorization",
+        "fill_operation"
+      ]
+    },
+    {
+      "id": "lid_lock_issue",
+      "symptoms": [
+        "lid won't lock",
+        "lid lock error",
+        "F5E1",
+        "F5E2",
+        "F5E3",
+        "F5E4",
+        "dL",
+        "lid open"
+      ],
+      "initialDomains": [
+        "lid_authorization_failure",
+        "control_failure",
+        "wiring_connection"
+      ],
+      "activeGoals": [
+        "spin_authorization",
+        "cycle_start_authorization"
+      ]
+    }
+  ],
+  "freezeDerivation": {
+    "sourceCandidate": "top_load_washer_cg6x_candidate_v1.json",
+    "freezeRecommendation": "TOP_LOAD_WASHER_CG6X_FREEZE_RECOMMENDATION_v1.json",
+    "evidenceManuals": [
+      "W10864849",
+      "W11697231",
+      "W11416787"
+    ],
+    "keep": [
+      "lid_lock",
+      "inlet_valve",
+      "water_level_sensor",
+      "drain_pump",
+      "drain_path",
+      "drive_motor",
+      "transmission_or_shifter",
+      "agitator_or_impeller",
+      "spin_system",
+      "suspension_system",
+      "power_supply",
+      "control_board",
+      "hmi_control",
+      "temperature_sensor",
+      "tub",
+      "basket"
+    ],
+    "conditional": [
+      "lid_switch"
+    ],
+    "remove": [
+      "drive_system"
+    ],
+    "overlayOnly": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "mode_shifter",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "bulk_level_switch",
+      "motor_controller",
+      "drum_bearing"
+    ],
+    "relationshipRederivation": {
+      "removedNode": "drive_system",
+      "replacements": [
+        "control_board -> controls -> drive_motor",
+        "drive_motor -> mechanically_drives -> transmission_or_shifter",
+        "transmission_or_shifter -> mechanically_drives -> agitator_or_impeller | spin_system",
+        "lid_lock -> enables -> drive_motor"
+      ]
+    }
+  }
+}

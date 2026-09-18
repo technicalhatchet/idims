@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-display-comm",
+  "version": "1.0.0",
+  "title": "\u00a78: DISPLAY PWB \u2194 MAIN PWB",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "hmi_control",
+    "control_board"
+  ],
+  "tags": [
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "Display board communication",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_harness"
+    },
+    {
+      "id": "display_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "DISPLAY PWB harness",
+      "body": "Verify DISPLAY PWB 10-pin harness to MAIN PWB.",
+      "sourceExcerpt": "Verify DISPLAY PWB 10-pin harness to MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_ok"
+    },
+    {
+      "id": "replace_display_pwb",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace DISPLAY PWB",
+      "oemOutcome": "Replace DISPLAY PWB or MAIN PWB per comm fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "display_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Display comm OK",
+      "oemOutcome": "DISPLAY PWB \u2194 MAIN PWB communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

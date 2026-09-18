@@ -1,0 +1,54 @@
+{
+  "manualId": "W11296289",
+  "platformId": "whirlpool_sxs_w11296289",
+  "gateArtifact": "W11296289_SXS_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "W11296289_SXS_gate_decision_ledger_v1.json",
+  "publishMode": "gate_table_authoritative_sxs_production_compounding",
+  "gateKind": "sxs_production_compounding_whirlpool",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "accounting": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 6,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 10,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  },
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "boundaryProbeArtifact": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+  "dryRunChecks": {
+    "canonicalHashStable": true,
+    "canonicalExpansionZero": true,
+    "discoveryCorpusInheritanceZero": true,
+    "canonicalInheritancesSix": true,
+    "conditionalBindingsSix": true,
+    "overlayLearningTen": true,
+    "intentionalAbstentionsFour": true,
+    "jazzOverlayByteStable": true,
+    "rf23bbOverlayByteStable": true,
+    "lgOverlayByteStable": true,
+    "samsungSxsOverlayByteStable": true,
+    "noPriorOverlayLeak": true,
+    "noDiscoveryCorpusLeak": true,
+    "overlayStatusDraft": true,
+    "platformIdAuthoritative": true,
+    "condenserFanConditionalBound": true,
+    "doorSwitchInProcedureBindings": true,
+    "noSamsungSxsProcedureBindings": true,
+    "noJazzProcedureBindings": true,
+    "platformComponentsOnlyInAdd": true
+  },
+  "priorOverlayHashes": {
+    "whirlpool_jazz": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+    "samsung_rf23bb": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+    "lg_lrmvs": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b",
+    "samsung_sxs": "4461b920a2d346ffb5b673d556229d277e11d3d10dbcf4dd835a6a38a47b4cf7"
+  }
+}

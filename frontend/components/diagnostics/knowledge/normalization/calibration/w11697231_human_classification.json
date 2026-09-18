@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11697231",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "ontologyId": "top_load_washer",
+  "architectureBoundary": "TL_platform_family_prior → TL_ontology",
+  "platformFamilyPriorManualIds": ["W10864849"],
+  "promotionId": "promo-W11697231-20260913133238",
+  "promotionGateMetrics": {
+    "newHumanDecisionCount": 0,
+    "inheritedResolvedAutomatically": 53,
+    "inheritedPlatformFamilyKnowledge": 51,
+    "inheritedCorpusKnowledge": 0,
+    "newHumanDecisionRate": 0.0,
+    "note": "TL #2 compounding preview — zero new gate decisions. OEM TEST compounds inherited from W10864849 overlay vocabulary."
+  },
+  "summary": {
+    "promotionGateDecisions": 0,
+    "inheritedTlPlatformFamily": 51,
+    "inheritedFlCorpusConcepts": 0,
+    "newPlatformKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "reusableTlPlatformConcept": 0,
+    "knownConceptNewTlImplementation": 0,
+    "newTlAlias": 0,
+    "oneOffOemTerminology": 0,
+    "newTlProcedureBinding": 0
+  },
+  "classifications": [],
+  "inheritedConcepts": [
+    "mode_shifter",
+    "pressure_sensor",
+    "lid_lock",
+    "drive_motor",
+    "drive pre-test orchestration",
+    "inlet_valve",
+    "wash_ntc",
+    "hmi_control",
+    "drain_pump",
+    "control_board"
+  ],
+  "notes": [
+    "pressure_sensor remains TL-platform scoped — reuse here is evidence for whirlpool_tl_dd vocabulary, not universal canonical.",
+    "PSC-specific TEST #4: Console and Indicators inherited via W10864849 overlay alias to hmi_control.",
+    "Frozen FL and TL v1 baselines unchanged."
+  ]
+}

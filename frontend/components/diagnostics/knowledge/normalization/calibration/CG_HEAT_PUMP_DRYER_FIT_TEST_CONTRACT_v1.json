@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_test_contract",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T14:50:00+00:00",
+  "queueContext": {
+    "reorderedFrom": "CG-AIO-LAUNDRY-COMBO discovery dependency",
+    "aioWorkstreamStatus": "CG_AIO_LAUNDRY_COMBO_WORKSTREAM_STATUS_v1.json",
+    "aioPaused": true,
+    "rationale": "Resolve heat-pump drying architecture before returning to AIO integration/orchestration"
+  },
+  "priorArchitecturalEvidence": {
+    "aioSamsungWd53DryPath": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json — reference only, NOT an HP dryer witness",
+    "rule": "Do not use Samsung AIO WD53 as heat-pump-dryer witness"
+  },
+  "fitTestMode": "fit_falsification_against_vented_dryer",
+  "applianceScope": "standalone_heat_pump_ventless_dryer",
+  "notCreating": [
+    "heat_pump_dryer.json",
+    "mutations to vented_dryer.json",
+    "mutations to front_load_washer.json",
+    "mutations to top_load_washer.json",
+    "mutations to aio_laundry_combo.json",
+    "mutations to any other frozen canonical graph",
+    "aio overlay or freeze",
+    "corpus-wide normalization or compounding"
+  ],
+  "hardGateRule": {
+    "description": "Do not assume heat-pump dryers require a new graph; do not assume they are vented_dryer variants without functional proof.",
+    "tree": [
+      "Compare functional responsibilities against vented_dryer rev2",
+      "FITS without mutation → proven_variant",
+      "DOES NOT FIT → document divergence → triangulate → authorize discovery separately"
+    ],
+    "heatPumpVentlessGuard": "Refrigerant-cycle heat transfer and condensation moisture rejection are not optional omissions of exhaust_path — evaluate whether vented_dryer functional relationships model them."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "vented_dryer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/vented_dryer.json",
+      "frozenRevision": "rev2",
+      "immutable": true,
+      "hash": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "primaryFitTarget": true
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "vented_dryer",
+      "implementation_specific",
+      "shared_function",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ]
+  },
+  "functionalDomainsUnderTest": [
+    "heat_generation",
+    "airflow",
+    "moisture_removal",
+    "condensation",
+    "refrigeration_heat_pump_cycle",
+    "sealed_vs_exhaust_airflow",
+    "thermal_sensing_protection",
+    "drying_control",
+    "lint_moisture_management",
+    "condensate_drain_management"
+  ],
+  "implementationVocabularyGuard": [
+    "compressor",
+    "evaporator",
+    "condenser",
+    "expansion_valve",
+    "capillary_tube",
+    "refrigerant_thermistor",
+    "eva_in",
+    "eva_out"
+  ],
+  "discoveryCorpus": {
+    "W1": {
+      "manufacturer": "Samsung",
+      "model": "DV22N6850HX/A2",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+      "extractedText": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+      "dryingArchitecture": "heat_pump_ventless_condenser",
+      "observationArtifact": "CG_HPD_DV22N8650_FIT_OBSERVATION_v1.json"
+    },
+    "W2": {
+      "manufacturer": "LG",
+      "model": "DLHC1455V/W",
+      "manualId": "LG-DLHC1455-HP-DRYER",
+      "sourcePdf": "backend/docs/manuals/lg dlhc1455 heat pump dryer manual.pdf",
+      "extractedText": "backend/docs/manuals/lg dlhc1455 heat pump dryer manual-extracted.txt",
+      "dryingArchitecture": "heat_pump_condensation",
+      "observationArtifact": "CG_HPD_DLHC1455_FIT_OBSERVATION_v1.json"
+    },
+    "W3_triangulation": {
+      "manufacturer": "Whirlpool",
+      "model": "HybridCare heat pump dryer",
+      "manualId": "W10764068",
+      "sourcePdf": "backend/docs/manuals/jobaid-w10764068-reva-l-88wplheatpumpdryer.pdf",
+      "extractedText": "backend/docs/manuals/jobaid-w10764068-reva-l-88wplheatpumpdryer-extracted.txt",
+      "role": "cross_manufacturer_triangulation_only",
+      "note": "Explicit ventless heat pump architecture statement; TEST #4B heat pump, #9 drain system"
+    }
+  },
+  "immutableRules": [
+    "vented_dryer.json hash must remain db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "No AIO WD53 as HP dryer witness",
+    "AIO discovery artifacts preserved unchanged",
+    "Component novelty ≠ functional novelty — but functional contract mismatch still valid"
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_stacked_laundry_center_fit_test_contract",
+  "workstream": "CG-STACKED-LAUNDRY-CENTER-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T17:15:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseClosed": "CG_AIO_LAUNDRY_COMBO_FREEZE_CLOSURE_v1.json",
+  "priorPhaseVerdict": "GREEN / AIO_LAUNDRY_COMBO_FAMILY_FROZEN",
+  "fitTestMode": "fit_falsification_decomposition_against_frozen_laundry_contracts",
+  "applianceScope": "unitized_stacked_laundry_center",
+  "notCreating": [
+    "stacked_laundry_center.json",
+    "stacked_laundry.json",
+    "mutations to front_load_washer.json",
+    "mutations to top_load_washer.json",
+    "mutations to vented_dryer.json",
+    "mutations to heat_pump_dryer.json",
+    "mutations to aio_laundry_combo.json",
+    "mutations to any other frozen canonical graph",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "normalization compounding of broader corpus",
+    "discovery contract execution",
+    "freeze execution"
+  ],
+  "hardGateRule": {
+    "description": "Physical stacking (washer over dryer in one cabinet) is not sufficient for a new canonical graph. Evaluate decomposability first.",
+    "tree": [
+      "Can washer section map to an existing washer contract without mutation?",
+      "Can dryer section map to vented_dryer without mutation?",
+      "Is there integrated wash→dry orchestration requiring AIO-style ontology? → if NO, composition suffices",
+      "Both sections fit → proven_variant / composition closure — no new graph",
+      "Genuine cross-section functional coupling beyond shared power → document before authorizing discovery"
+    ],
+    "aioDistinctionGuard": "Do not conflate stacked laundry center with aio_laundry_combo. Stacked centers use separate washer and dryer sections with manual load transfer — not single-drum integrated orchestration.",
+    "mechanicalTimerGuard": "Mechanical timer control is platform implementation vocabulary realizing vented_dryer control domains — not evidence for a new canonical family."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "vented_dryer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/vented_dryer.json",
+      "frozenRevision": "rev2",
+      "immutable": true,
+      "primaryFitTarget": true,
+      "hash": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "note": "Dryer section primary fit target — vented exhaust, element/gas heat, drum drive"
+    },
+    {
+      "id": "front_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "immutable": true,
+      "primaryContaminationProbe": false,
+      "hash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "note": "Evaluate only if washer section has electronic FL architecture — do not force"
+    },
+    {
+      "id": "top_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryContaminationProbe": false,
+      "hash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+      "note": "Unitized washer sections are often vertical-axis mechanical — evaluate if evidence supports"
+    },
+    {
+      "id": "aio_laundry_combo",
+      "file": "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "explicitlyNotHost": true,
+      "hash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+      "note": "AIO is integrated single-drum orchestration — stacked center is NOT AIO"
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "vented_dryer",
+      "front_load_washer",
+      "top_load_washer",
+      "shared_function",
+      "implementation_specific",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ],
+    "rule": "Fit-test vocabulary only — do not auto-promote to canonical concepts"
+  },
+  "functionalDomainsUnderTest": {
+    "dryerSection": [
+      "drum_mechanical_drive",
+      "airflow_exhaust",
+      "heat_generation_electric_gas",
+      "thermal_sensing_protection",
+      "drying_control_timer_or_electronic",
+      "lint_moisture_management",
+      "door_authorization"
+    ],
+    "washerSection": [
+      "water_supply_fill",
+      "drain",
+      "agitation_spin_drive",
+      "water_level_sensing",
+      "mechanical_timer_control"
+    ],
+    "cabinetIntegration": [
+      "shared_power_feed",
+      "separate_functional_sections",
+      "manual_load_transfer",
+      "no_unified_wash_dry_orchestration"
+    ]
+  },
+  "centerpieceQuestions": [
+    {
+      "id": "dry_vs_vented_dryer",
+      "question": "Can the stacked dryer section be represented by vented_dryer without canonical mutation?",
+      "framing": "Functional responsibilities (vented heat, tumble, exhaust restriction, thermal protection) — mechanical timer is implementation overlay on control domains."
+    },
+    {
+      "id": "washer_host_family",
+      "question": "Does the washer section require a new washer ontology or map to an existing washer contract?",
+      "framing": "GUD27 washer is mechanical with no ingested electronic service procedures — evaluate decomposability vs insufficient_evidence for washer section only."
+    },
+    {
+      "id": "vs_aio_laundry_combo",
+      "question": "Does stacked center require aio_laundry_combo integrated orchestration?",
+      "framing": "Separate drums/sections and manual load transfer — must NOT inherit AIO architecture."
+    },
+    {
+      "id": "cross_section_coupling",
+      "question": "Is there functional coupling beyond shared cabinet power that blocks decomposition?",
+      "framing": "If only shared power/vent routing, composition closure is sufficient — no stacked_laundry_center.json."
+    }
+  ],
+  "discoveryCorpus": {
+    "W1": {
+      "manufacturer": "GE",
+      "model": "GUD27ESSMWW (electric dryer section)",
+      "platformId": "ge_gud27_stacked",
+      "manualId": "GE-GUD27-STACKED",
+      "templateId": "stacked_laundry",
+      "sourcePdf": "backend/docs/manuals/gud27essmww.pdf",
+      "extractedText": "backend/docs/manuals/gud27essmww-extracted.txt",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/GE_GUD27_UNITIZED_EXTRACTION.md",
+      "dryerArchitecture": "vented_mechanical_timer",
+      "washerArchitecture": "mechanical_no_electronic_service_layer",
+      "procedureCount": 6,
+      "observationArtifact": "CG_GUD27_FIT_OBSERVATION_v1.json",
+      "note": "Procedure seeds cover dryer section only — washer mechanical per extraction doc"
+    }
+  },
+  "corpusLimitations": {
+    "witnessCount": 1,
+    "crossManufacturerTriangulation": false,
+    "secondWitnessCandidates": [
+      "Whirlpool/Maytag unitized stacked laundry — not ingested",
+      "Frigidaire FFLG — not ingested"
+    ],
+    "rule": "Single witness sufficient for proven_variant decomposition if functional fit is clear and no cross-section coupling requires new ontology"
+  },
+  "successCriteria": {
+    "canonicalExpansion": 0,
+    "stackedLaundryCenterJsonCreated": false,
+    "frozenGraphMutations": 0,
+    "exactlyOneHardOutcome": true,
+    "normalizationExecuted": false
+  },
+  "stopCondition": "FIT gate only — discovery/freeze authorized only on architectural_divergence outcome with human gate"
+}

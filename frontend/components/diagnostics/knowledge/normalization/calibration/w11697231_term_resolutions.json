@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11697231",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "ontologyId": "top_load_washer",
+  "description": "CG-5.5 TL #2 — inherit W10864849 platform vocabulary. Zero new canonical ontology concepts.",
+  "resolutions": [
+    {
+      "candidateId": "map-W11697231-compound-main-control-(acu)",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "classification": "inherited_platform_family",
+      "rationale": "Inherited from W10864849 TL platform overlay."
+    },
+    {
+      "candidateId": "map-w11697231-unresolved-w10864849-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_platform_family",
+      "rationale": "Shared TL family valve TEST — inherited from W10864849."
+    },
+    {
+      "candidateId": "map-w11697231-unresolved-w11697231-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_platform_family",
+      "rationale": "W11697231 valve TEST — same canonical mapping as TL #1."
+    },
+    {
+      "candidateId": "map-W11697231-compound-drive-system-(pre-test)",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_platform_family",
+      "rationale": "TL drive orchestration parent TEST — inherited platform concept."
+    },
+    {
+      "candidateId": "map-W11697231-compound-drive-system-\u2014-shifter",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": "mode_shifter",
+      "classification": "inherited_platform_family",
+      "rationale": "mode_shifter established on TL #1 — platform family reuse."
+    },
+    {
+      "candidateId": "map-W11697231-compound-drive-system-\u2014-motor",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_platform_family",
+      "rationale": "PSC motor TEST maps to drive_motor (implementation differs from BPM DD)."
+    },
+    {
+      "candidateId": "map-W11697231-compound-keys-and-encoders",
+      "oemTerm": "TEST #4: Keys and Encoders",
+      "canonicalId": "hmi_control",
+      "classification": "inherited_platform_family",
+      "rationale": "Shared catalog procedure alias — inherited HMI mapping."
+    },
+    {
+      "candidateId": "map-W11697231-compound-console-and-indicators",
+      "oemTerm": "TEST #4: Console and Indicators",
+      "canonicalId": "hmi_control",
+      "classification": "inherited_platform_family",
+      "rationale": "WTW4950 PSC console TEST — same hmi_control mapping as TL #1 console variant."
+    },
+    {
+      "candidateId": "map-W11697231-compound-temperature-thermistor",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": "wash_ntc",
+      "classification": "inherited_platform_family",
+      "rationale": "Inherited wash NTC TEST alias."
+    },
+    {
+      "candidateId": "map-W11697231-compound-water-level",
+      "oemTerm": "TEST #6: Water Level",
+      "canonicalId": "pressure_sensor",
+      "classification": "inherited_platform_family",
+      "rationale": "pressure_sensor remains TL-platform scoped — inherited from W10864849 human review."
+    },
+    {
+      "candidateId": "map-W11697231-compound-drain-&-recirculation-pump",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_platform_family",
+      "rationale": "Shared catalog drain TEST alias — W11697231 primary path is drain pump."
+    },
+    {
+      "candidateId": "map-W11697231-compound-lid-lock",
+      "oemTerm": "TEST #8: Lid Lock",
+      "canonicalId": "lid_lock",
+      "classification": "inherited_platform_family",
+      "rationale": "lid_lock on top_load_washer ontology — inherited TL platform concept."
+    },
+    {
+      "candidateId": "map-W11697231-compound-heater-element",
+      "oemTerm": "TEST #9: Heater Element",
+      "canonicalId": "wash_heater",
+      "classification": "inherited_platform_family",
+      "rationale": "Catalog spillover from shared seed — same mapping as TL #1 when present."
+    },
+    {
+      "candidateId": "map-W11697231-compound-service-leds",
+      "oemTerm": "TEST #10: Service LEDs",
+      "canonicalId": "hmi_control",
+      "classification": "inherited_platform_family",
+      "rationale": "Service LED path inherited from TL #1 platform overlay."
+    },
+    {
+      "candidateId": "map-W11697231-compound-basket-light",
+      "oemTerm": "TEST #11: Basket Light",
+      "canonicalId": "supply",
+      "classification": "inherited_platform_family",
+      "rationale": "Catalog spillover — inherited supply-path mapping from TL #1."
+    },
+    {
+      "candidateId": "map-W11697231-compound-bulk-dispense-pump-and-rex-board",
+      "oemTerm": "TEST #12: Bulk Dispense Pump and REX Board",
+      "canonicalId": "bulk_level_switch",
+      "classification": "inherited_platform_family",
+      "rationale": "Catalog spillover — inherited bulk dispense mapping from TL #1."
+    }
+  ]
+}

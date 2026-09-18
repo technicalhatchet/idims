@@ -1,0 +1,252 @@
+{
+  "manualId": "LG-FL-WASHER",
+  "candidates": [
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-display-comm-motor_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-display-comm",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78: DISPLAY PWB \u2194 MAIN PWB",
+      "componentIds": [
+        "hmi_control",
+        "control_board"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-display-comm",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-display-comm",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-door-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-door-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78: Door lock",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-door-lock",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-door-lock",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78: Drain pump",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-drain-pump",
+        "pages": [
+          33,
+          48,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-drain-pump",
+            "pages": [
+              33,
+              48,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78: Direct-drive motor",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-motor-circuit",
+        "pages": [
+          4,
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-motor-circuit",
+            "pages": [
+              4,
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-power-motor_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-power",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74: Power / MAIN PWB supply",
+      "componentIds": [
+        "supply",
+        "control_board"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-power",
+        "pages": [
+          8,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-power",
+            "pages": [
+              8,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-FL-WASHER-lgwm4000-pressure-sensor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgwm4000-pressure-sensor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78: Pressure sensor",
+      "componentIds": [
+        "water_level_sensor",
+        "pressure_hose"
+      ],
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-pressure-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-pressure-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

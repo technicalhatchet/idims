@@ -1,0 +1,215 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_samsung_dishwasher_cg3_observation",
+  "experiment": "Manufacturer isolation \u2014 first Samsung dishwasher manual at CG-3",
+  "manualId": "SAMSUNG-DISHWASHER",
+  "platformId": "samsung_dishwasher",
+  "ontologyId": "dishwasher",
+  "ontologyFrozen": true,
+  "ontologyFrozenRevision": "rev1",
+  "generatedAt": "2026-09-15T12:36:55.870582+00:00",
+  "publishBlocked": true,
+  "pipelineCounts": {
+    "procedures": 14,
+    "mappingCandidates": 29,
+    "overlayCandidates": 8,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "hierarchyShape": {
+    "canonical": "dishwasher rev1 (frozen)",
+    "targetManufacturerOverlay": "samsung_dishwasher.json (not yet published)",
+    "whirlpoolOverlayPublished": true,
+    "samsungOverlayPublished": false,
+    "isolationGoal": "Samsung learns functional concepts from its own manual without inheriting Whirlpool implementation vocabulary or topology."
+  },
+  "manufacturerIsolation": {
+    "whirlpoolLeakCount": 0,
+    "whirlpoolLeaks": [],
+    "crossTemplateLeakCount": 1,
+    "crossTemplateLeaks": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-main_control-control_board",
+        "layer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "patterns": [
+          "samsung_fl_washer",
+          "washer_wf"
+        ]
+      }
+    ],
+    "whirlpoolMeasurementBindingLeaks": [],
+    "verdict": "clean"
+  },
+  "canonicalOntologyWatch": {
+    "watchlistHits": [],
+    "newCanonicalCandidates": [],
+    "watchlistVerdict": "contained"
+  },
+  "matcherLayers": {
+    "compound:unresolved": 11,
+    "compound:canonical_alias_suffix": 7,
+    "canonical_ontology_alias": 5,
+    "compound:template_hint": 2,
+    "canonical_component_id": 2,
+    "unresolved": 2,
+    "platform_overlay:samsung_fl_washer_wf6000r": 1
+  },
+  "canonicalTargets": {
+    "circulation_pump": 3,
+    "detergent_dispenser": 2,
+    "drain_pump": 2,
+    "drying_system": 2,
+    "inlet_valve": 2,
+    "test:circulation_test": 2,
+    "test:heater_command_test": 2,
+    "test:fill_test": 2,
+    "control_board": 1,
+    "door_switch": 1,
+    "heat_source": 1,
+    "hmi_control": 1,
+    "water_level_sensor": 1,
+    "temperature_sensor": 1,
+    "test:door_switch_test": 1,
+    "test:drain_test": 1
+  },
+  "measurementKnowledgeIds": [
+    "samsungDishwasherCirculationMotorOhms"
+  ],
+  "unresolvedCandidates": [
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-pba-communication-(ac-/-ac6)",
+      "sourceTerm": "\u00a74-1: PBA Communication (AC / AC6)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-distributor-motor-(pc)",
+      "sourceTerm": "\u00a74-1: Distributor Motor (PC)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-door-sensing-switch",
+      "sourceTerm": "\u00a74-1: Door Sensing Switch",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-fan_motor",
+      "sourceTerm": "fan_motor",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)",
+      "sourceTerm": "\u00a74-1: Heater Operation (HC / HC1)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-touch-panel-&-sub-pba-(bc2-/-bc3)",
+      "sourceTerm": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-leak_sensor",
+      "sourceTerm": "leak_sensor",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-leak-sensor-(lc)",
+      "sourceTerm": "\u00a74-1: Leak Sensor (LC)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-overflow-sensor-(oc)",
+      "sourceTerm": "\u00a74-1: Overflow Sensor (OC)",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-samsung-dishwasher-unresolved-samsungdw-power-supply-supply",
+      "sourceTerm": "supply",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-main-pba-power-&-dc-supplies",
+      "sourceTerm": "\u00a74-1: Main PBA Power & DC Supplies",
+      "status": "UNRESOLVED_TERM"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)",
+      "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
+      "status": "UNRESOLVED_TERM"
+    }
+  ],
+  "unresolvedCount": 12,
+  "samsungSpecificSeedTerms": [
+    "dispenser",
+    "diverter_motor",
+    "door_latch",
+    "drain_pump",
+    "fan_motor",
+    "float_switch",
+    "heater",
+    "inlet_valve",
+    "leak_sensor",
+    "main_control",
+    "supply",
+    "thermistor",
+    "user_interface",
+    "vent",
+    "wash_motor"
+  ],
+  "focusAreaReview": {
+    "circulation_architecture": {
+      "procedure": "samsungdw-circulation-motor",
+      "canonical": "circulation_pump",
+      "measurement": "samsungDishwasherCirculationMotorOhms",
+      "note": "Samsung circulation motor + nozzle \u2014 platform knowledge candidate, not Whirlpool SSM/VSM."
+    },
+    "distributor_vs_diverter": {
+      "procedure": "samsungdw-distributor",
+      "resolvedCanonical": "circulation_pump",
+      "unresolvedTitle": "\u00a74-1: Distributor Motor (PC)",
+      "note": "Samsung distributor motor \u2014 gate must decide platform implementation without diverter_valve canonical."
+    },
+    "dry_system": {
+      "procedure": "samsungdw-dry-system",
+      "canonical": "drying_system",
+      "note": "Samsung vent fan / dry path \u2014 distinct from Whirlpool ProDry DC fan."
+    },
+    "leak_overflow": {
+      "procedures": [
+        "samsungdw-leak-sensor",
+        "samsungdw-overflow"
+      ],
+      "note": "Samsung-specific sensing surfaces \u2014 likely platform/model, not canonical expansion."
+    },
+    "matcher_cross_template": {
+      "observed": [
+        {
+          "id": "map-SAMSUNG-DISHWASHER-main_control-control_board",
+          "layer": "platform_overlay:samsung_fl_washer_wf6000r",
+          "patterns": [
+            "samsung_fl_washer",
+            "washer_wf"
+          ]
+        }
+      ],
+      "note": "Samsung FL washer overlay layer on main_control \u2014 cross-template within Samsung, not Whirlpool."
+    }
+  },
+  "conflicts": [],
+  "hardGates": {
+    "dishwasherJsonUnchanged": true,
+    "whirlpoolDishwasherJsonUnchanged": true,
+    "noWhirlpoolPlatformLeakage": true,
+    "noWhirlpoolMeasurementReuse": true,
+    "autoPublish": false,
+    "autoApprove": false
+  },
+  "artifacts": {
+    "candidatesDir": "normalization/candidates/SAMSUNG-DISHWASHER/"
+  },
+  "nextDecisionPoint": [
+    "Human gate Samsung dishwasher vocabulary under samsung_dishwasher.json",
+    "Resolve distributor motor platform implementation vs frozen canonical",
+    "Do not import Whirlpool SSM/VSM/platform components",
+    "Watch cross-template matcher layers (Samsung washer overlay on dishwasher)"
+  ]
+}

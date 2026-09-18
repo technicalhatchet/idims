@@ -1,0 +1,49 @@
+{
+  "manualId": "W10674984",
+  "platformId": "whirlpool_wrt311_adc",
+  "templateId": "refrigerator",
+  "label": "Whirlpool WRT311 ADC 2000 wiring sheet (W10674984)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:06.089877+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 5,
+    "mappingCandidates": 12,
+    "overlayCandidates": 4,
+    "conflicts": 0,
+    "extractionFiltered": 4
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 4,
+    "invalidExtraction": 0,
+    "totalFiltered": 4,
+    "samples": [
+      {
+        "rawTerm": "P6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "source": "title_token"
+      }
+    ]
+  }
+}

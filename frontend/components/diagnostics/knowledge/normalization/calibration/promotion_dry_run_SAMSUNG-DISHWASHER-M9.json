@@ -1,0 +1,116 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "priorManualId": "SAMSUNG-DISHWASHER",
+  "gateKind": "manufacturer_compounding_second_manual",
+  "promotionId": "promo-SAMSUNG-DISHWASHER-M9-gate-table-dry-run",
+  "publish": false,
+  "publishMode": "gate_table_compounding",
+  "priorManualSemanticsPreserved": true,
+  "topologyAdditiveOnly": true,
+  "equivalenceChecks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": false
+  },
+  "teachingCostAccounting": {
+    "priorManualHumanDecisions": 15,
+    "genuineNewHumanSemanticDecisions": 2,
+    "carryForwardMatcherDefectThemes": 2,
+    "rawProjectedTeachingUnits": 6,
+    "note": "Genuine new knowledge excludes carry-forward matcher defects and mechanical inherited registrations."
+  },
+  "carryForwardMatcherDefects": [
+    {
+      "theme": "power_supply_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedures": [
+        "samsungdwm9-power-supply",
+        "samsungdwm9-voltage-abnormal"
+      ],
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "power_supply diagnostic family \u2014 not fill_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-voltage-abnormal-fill_test"
+      ]
+    },
+    {
+      "theme": "communication_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedure": "samsungdwm9-communication",
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "control_board communication diagnostic \u2014 not heater_command_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-communication-heater_command_test"
+      ]
+    }
+  ],
+  "carryForwardMatcherDefectThemes": 2,
+  "genuineNewHumanSemanticDecisions": 2,
+  "compoundingInheritance": {
+    "inheritedExact": 10,
+    "inheritedSemantic": 10,
+    "mechanicalProcedureRegistrations": 11,
+    "mechanicalMeasurementRegistrations": 10
+  },
+  "publicationPlan": {
+    "gateIntentTotal": 34,
+    "publisherAppliedTotal": 22,
+    "representationFailures": 0,
+    "appliedCounts": {
+      "mappingsInherited": 12,
+      "procedureBindings": 11,
+      "measurementBindings": 10,
+      "platformComponents": 1,
+      "newAliasesAdded": 0
+    },
+    "expectedCounts": {
+      "m9ProcedureBindingsAdded": 11,
+      "m9MeasurementBindingsAdded": 10,
+      "newAliasesAdded": 0,
+      "platformComponentsAdded": 1,
+      "priorManualBindingsPreserved": 10
+    }
+  },
+  "checks": {
+    "dishwasherFrozenRev1": true,
+    "dishwasherSemanticallyUnchanged": true,
+    "priorManualSemanticsPreserved": true,
+    "topologyAdditiveOnly": true,
+    "gateTableFullyApplied": true,
+    "whirlpoolUnchanged": true,
+    "priorManualBindingsPreserved": true,
+    "elevenM9ProcedureBindings": true,
+    "tenM9MeasurementBindings": true,
+    "vaneMotorPlatformComponent": true,
+    "circulationRoutesCirculationTest": true,
+    "distributorImplementsCirculation": true,
+    "vaneImplementsCirculation": true,
+    "noDriveMotorPath": true,
+    "communicationNotBound": true,
+    "powerSupplyNotBound": true,
+    "voltageAbnormalNotBound": true,
+    "leakSensorNotBound": true,
+    "noDiverterMotorAlias": true,
+    "noNewAliases": true,
+    "drySystemDryingTest": true
+  },
+  "whirlpoolPreservation": {
+    "whirlpool_overlay_byte_stable": true
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+  },
+  "notes": [
+    "Gate table is authoritative; ledger records audit trail only.",
+    "Dry-run writes overlay_after to promotion folder \u2014 on-disk overlay restored after tests.",
+    "Teaching cost: 2 genuine decisions (leak_sensor defer, vane_motor platform); 2 carry-forward matcher defects (power, communication)."
+  ]
+}

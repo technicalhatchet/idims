@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "gateKind": "whirlpool_jazz_first_manual_compounding",
+  "gateArtifact": "WHIRLPOOL_JAZZ_FD_overlay_mapping_table_v1.json",
+  "generatedAt": "2026-09-16T06:15:09.031787+00:00",
+  "reviewer": "human_gate_cg8_wp1",
+  "compoundingPhase": "CG-8",
+  "entries": [
+    {
+      "artifactId": "jazz-control-board-vocabulary",
+      "gateQuestion": "What does Jazz teach about frozen control_board?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "control_board",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-programming-mode",
+        "w10322959-service-test-entry"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "rationale": "P-E programming, S-E orchestration, and service-test entry are independent control-domain diagnostics on Jazz \u2014 maps to frozen control_board."
+    },
+    {
+      "artifactId": "jazz-door-switch-service-entry",
+      "gateQuestion": "What does Jazz teach about frozen door_switch?",
+      "gateAction": "approve_procedure_role_evidence",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "door_switch",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-forced-defrost-entry"
+      ],
+      "seedComponentIds": [],
+      "rationale": "No standalone door-switch component test \u2014 door authorization role evidenced in S-E / F-d / P-E entry steps. Maps to frozen door_switch; distinct from lock/latch."
+    },
+    {
+      "artifactId": "jazz-user-interface-keypad",
+      "gateQuestion": "What does Jazz teach about frozen user_interface?",
+      "gateAction": "approve_procedure_role_evidence",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "user_interface",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-service-test-entry",
+        "w10322959-programming-mode"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Jazz HMI is door keypad + segment display codes (S-E, F-d, P-E) \u2014 no separate display-panel comm procedure. Functional user_interface via entry/test interaction."
+    },
+    {
+      "artifactId": "jazz-defrost-heater-test1",
+      "gateQuestion": "What does Jazz teach about frozen defrost_heater?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "defrost_heater",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "rationale": "Service test 1 heater path with cu-ft \u03a9 specs \u2014 direct frozen defrost_heater inheritance."
+    },
+    {
+      "artifactId": "jazz-defrost-bimetal-platform",
+      "gateQuestion": "What does Jazz teach about defrost termination sensing?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "rationale": "Jazz bimetal/defrost_thermostat seed is platform termination vocabulary \u2014 maps to PLATFORM_ONLY defrost_sensor, not canonical expansion."
+    },
+    {
+      "artifactId": "jazz-compressor-relay-conditional",
+      "gateQuestion": "What does Jazz teach about frozen conditional compressor?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "compressor",
+      "instanceScope": "relay_drive_em2y60",
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "rationale": "Service test 2 exercises compressor actuator via relay-drive EM2Y60 path \u2014 conditionalConcept binding with Jazz relay/cap implementation overlay. Does NOT promote compressor to components[]."
+    },
+    {
+      "artifactId": "jazz-compressor-relay-platform",
+      "gateQuestion": "What does Jazz teach about compressor drive electronics?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Relay/cap/start-winding diagnostics on won't-run complaints \u2014 Jazz implementation of drive path. PLATFORM_ONLY compressor_controller \u2014 not canonical compressor."
+    },
+    {
+      "artifactId": "jazz-condenser-fan-conditional",
+      "gateQuestion": "What does Jazz teach about conditional condenser_fan?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "condenser_fan",
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "condenser_fan"
+      ],
+      "rationale": "Bundled with compressor test 2 \u2014 conditionalConcept condenser_fan binding. 2/3 triangulation posture preserved; not unconditional canonical."
+    },
+    {
+      "artifactId": "jazz-evaporator-fan-test3",
+      "gateQuestion": "What does Jazz teach about frozen evaporator_fan?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "evaporator_fan",
+      "conditionalConcept": null,
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-03-evap-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "rationale": "Service test 3 freezer/evaporator fan actuator \u2014 frozen evaporator_fan with freezer instance scope (multi-fan overlay later)."
+    },
+    {
+      "artifactId": "jazz-ff-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FF)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-04-ff-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": "FF thermistor service test 4 \u2014 compartment-scoped conditionalConcept binding. Generic undifferentiated temperature_sensor not created in canonical graph."
+    },
+    {
+      "artifactId": "jazz-fz-thermistor-conditional",
+      "gateQuestion": "What does Jazz teach about conditional temperature_sensor (FZ)?",
+      "gateAction": "approve_conditional_binding",
+      "decisionKind": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-05-fz-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "rationale": "FZ thermistor service test 5 \u2014 separate instance scope under same conditionalConcept."
+    },
+    {
+      "artifactId": "jazz-air-damper-test6",
+      "gateQuestion": "What does Jazz teach about frozen air_damper?",
+      "gateAction": "approve_human",
+      "decisionKind": "inherited_canonical",
+      "outcome": "canonical_inheritance",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": "air_damper",
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "rationale": "Service test 6 damper open/close toggle \u2014 functional air_damper. damper_motor seed is Jazz implementation surface in overlay."
+    },
+    {
+      "artifactId": "jazz-damper-motor-platform",
+      "gateQuestion": "What does Jazz teach about damper implementation?",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "seedComponentIds": [],
+      "rationale": "damper_motor seed implements frozen air_damper on Jazz \u2014 platform vocabulary."
+    },
+    {
+      "artifactId": "jazz-ff-performance-calibration",
+      "gateQuestion": "What does test 7 teach about the frozen contract?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-07-ff-performance"
+      ],
+      "seedComponentIds": [],
+      "rationale": "FF performance offset is control-board calibration parameter \u2014 not a new canonical or conditional component. Valid unresolved outcome."
+    },
+    {
+      "artifactId": "jazz-fz-performance-calibration",
+      "gateQuestion": "What does test 8 teach about the frozen contract?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-08-fz-performance"
+      ],
+      "seedComponentIds": [],
+      "rationale": "FZ performance offset \u2014 board calibration, not ontology expansion."
+    },
+    {
+      "artifactId": "jazz-defrost-interval-scheduling",
+      "gateQuestion": "What does test 9 teach about the frozen contract?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [
+        "w10322959-test-09-defrost-interval"
+      ],
+      "seedComponentIds": [],
+      "rationale": "Adaptive vs fixed defrost interval is control-board scheduling knowledge \u2014 does NOT resurrect removed defrost_system aggregate."
+    },
+    {
+      "artifactId": "jazz-sealed-system-complaint-routing",
+      "gateQuestion": "Does Jazz warm-both routing teach sealed_system canonical?",
+      "gateAction": "reject_canonical_promotion",
+      "decisionKind": "overlay_vocabulary",
+      "outcome": "overlay_knowledge",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": "sealed_system",
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Complaint routing mentions sealed system on warm-both \u2014 PLATFORM_ONLY vocabulary per CG-7 freeze. No procedure aggregate test; do not promote."
+    },
+    {
+      "artifactId": "jazz-water-dispenser-gap",
+      "gateQuestion": "Does optional water path teach conditional water_dispenser?",
+      "gateAction": "defer_human_review",
+      "decisionKind": "intentional_abstention",
+      "outcome": "intentional_abstention",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "canonicalTarget": null,
+      "conditionalConcept": null,
+      "instanceScope": null,
+      "platformTarget": null,
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "rationale": "Extraction notes dual valve on equipped models only \u2014 insufficient Jazz procedure evidence to bind conditional water_dispenser. Unresolved is valid."
+    }
+  ],
+  "summary": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 4,
+    "overlayLearningEvents": 4,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 4,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "accounting": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 4,
+    "overlayLearningEvents": 4,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 4,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  }
+}

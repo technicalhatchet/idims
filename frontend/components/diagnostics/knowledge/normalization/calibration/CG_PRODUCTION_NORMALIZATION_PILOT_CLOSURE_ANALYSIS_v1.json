@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_closure_analysis",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT-CLOSURE",
+  "status": "analysis_complete",
+  "generatedAt": "2026-09-17T23:00:00+00:00",
+  "gateVerdict": "GREEN",
+  "pilotClosureRecommended": true,
+  "authorizesProductionBatch": false,
+  "authorizesBatchContract": true,
+  "executiveSummary": "The 8/8 production normalization pilot proves the governance pipeline lifecycle: continue (candidate mappings), implementation-specific overlays, unresolved BLOCK, and architecture_exception STOP. P05 routing defect was isolated and repaired without collateral regression. P08 correctly STOPped the batch; architecture is now frozen at integration-boundary contract — production FlexWash normalization remains intentionally deferred. Remaining slot limitations (P04/P06 unresolved surfaces, classifier semantics) are legitimate normalization boundaries, not pilot failures.",
+  "evidenceBase": [
+    "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json (2026-09-17T20:07:40Z post-P05-fix)",
+    "CG_PILOT_FRESH_8OF8_RERUN_REPORT_v1.json",
+    "CG_PILOT_P05_FIX_REPORT_v1.json",
+    "CG_P08_FLEXWASH_FREEZE_CLOSURE_v1.json",
+    "CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json",
+    "flexwash_integration_boundary_functional_contract_frozen_v1.json"
+  ],
+  "slotDispositionMatrix": [
+    {
+      "slotId": "P01",
+      "manualId": "W11169652",
+      "stressDimension": "known_canonical_family",
+      "disposition": "implementation_specific",
+      "executionStatus": "classified",
+      "lifecycleBranch": "continue + overlay",
+      "candidateMappings": 24,
+      "unresolvedTerms": 9,
+      "overlayCandidates": 13,
+      "pilotVerdict": "PASS — known FL family maps with overlay candidates, no canonical mutation"
+    },
+    {
+      "slotId": "P02",
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "stressDimension": "cross_manufacturer_mapping",
+      "disposition": "implementation_specific",
+      "executionStatus": "classified",
+      "lifecycleBranch": "continue + overlay",
+      "candidateMappings": 10,
+      "unresolvedTerms": 6,
+      "overlayCandidates": 9,
+      "pilotVerdict": "PASS — cross-manufacturer FL onto frozen ontology"
+    },
+    {
+      "slotId": "P03",
+      "manualId": "LG-FL-WASHER",
+      "stressDimension": "third_manufacturer_mapping",
+      "disposition": "implementation_specific",
+      "executionStatus": "classified",
+      "lifecycleBranch": "continue + overlay",
+      "candidateMappings": 14,
+      "unresolvedTerms": 9,
+      "overlayCandidates": 6,
+      "pilotVerdict": "PASS — third-manufacturer FL mapping after prerequisite ingestion"
+    },
+    {
+      "slotId": "P04",
+      "manualId": "W11746350",
+      "stressDimension": "frozen_range_oven",
+      "disposition": "unresolved_block",
+      "executionStatus": "blocked",
+      "lifecycleBranch": "unresolved BLOCK",
+      "candidateMappings": 0,
+      "unresolvedTerms": 30,
+      "overlayCandidates": 0,
+      "pilotVerdict": "PASS — legitimate unresolved surface; promotion blocked as designed"
+    },
+    {
+      "slotId": "P05",
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "stressDimension": "implementation_terminology_stress",
+      "disposition": "implementation_specific",
+      "executionStatus": "classified",
+      "lifecycleBranch": "continue + overlay",
+      "candidateMappings": 9,
+      "unresolvedTerms": 8,
+      "overlayCandidates": 11,
+      "pilotVerdict": "PASS — isolated routing fix recovered range_oven + CG-12 overlay bindings",
+      "fixReference": "CG_PILOT_P05_FIX_REPORT_v1.json"
+    },
+    {
+      "slotId": "P06",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "stressDimension": "recently_frozen_rich_functional_mapping",
+      "disposition": "unresolved_block",
+      "executionStatus": "blocked",
+      "lifecycleBranch": "unresolved BLOCK",
+      "candidateMappings": 0,
+      "unresolvedTerms": 21,
+      "overlayCandidates": 2,
+      "pilotVerdict": "PASS — normalization limitation, not pipeline failure; BLOCK honored"
+    },
+    {
+      "slotId": "P07",
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "stressDimension": "composition_reference_architecture",
+      "disposition": "implementation_specific",
+      "executionStatus": "classified",
+      "lifecycleBranch": "continue + overlay",
+      "candidateMappings": 5,
+      "unresolvedTerms": 17,
+      "overlayCandidates": 1,
+      "pilotVerdict": "PASS — HP composition/reference on frozen heat_pump_dryer"
+    },
+    {
+      "slotId": "P08",
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "stressDimension": "architecture_exception_stop",
+      "disposition": "architecture_exception_stop",
+      "executionStatus": "stopped",
+      "lifecycleBranch": "architecture_exception STOP",
+      "candidateMappings": 11,
+      "unresolvedTerms": 15,
+      "overlayCandidates": 13,
+      "batchStop": true,
+      "pilotVerdict": "PASS — correct STOP; architecture now frozen separately",
+      "architectureGateReference": "CG_P08_FLEXWASH_FREEZE_CLOSURE_v1.json",
+      "productionNormalizationStatus": "DEFERRED — freeze does not authorize immediate FlexWash normalization"
+    }
+  ],
+  "lifecycleProofAssessment": {
+    "canonical_mapping_continue": {
+      "contractRequired": true,
+      "observed": true,
+      "evidence": "P01–P03, P05, P07 have candidate mappings; P08 has 11 candidates before STOP",
+      "verdict": "SATISFIED"
+    },
+    "implementation_specific_overlay": {
+      "contractRequired": true,
+      "observed": true,
+      "evidenceManualIds": ["W11169652", "SAMSUNG-FL-BB8700-WASHER", "LG-FL-WASHER", "SAMSUNG-NE58H-INDUCTION-RANGE", "SAMSUNG-HP-DRYER-DV22N"],
+      "verdict": "SATISFIED"
+    },
+    "unresolved_block": {
+      "contractRequired": true,
+      "observed": true,
+      "evidenceManualIds": ["W11746350", "LG-LMHM2237-MICROWAVE"],
+      "verdict": "SATISFIED — promotion blocked without guessing"
+    },
+    "architecture_exception_stop": {
+      "contractRequired": true,
+      "observed": true,
+      "evidenceManualIds": ["SAMSUNG-FLEXWASH-WASHER"],
+      "batchStoppedAt": "P08",
+      "verdict": "SATISFIED"
+    },
+    "allEightSlotsExecuted": {
+      "contractRequired": true,
+      "observed": true,
+      "silentSkips": 0,
+      "verdict": "SATISFIED"
+    },
+    "prerequisite_block_no_silent_skip": {
+      "orchestratorFlag": false,
+      "interpretation": "Orchestrator sets this true only when a slot has pipelineDisposition prerequisite_block. After P03/P05/P07 prerequisite ingestion resolved, all slots executed — flag false is expected and does not indicate silent skip.",
+      "documentedPrerequisiteResolution": ["CG_PILOT_P03_INGESTION_COMPLETE_v1.json", "CG_PILOT_P05_INGESTION_COMPLETE_v1.json", "CG_PILOT_P07_INGESTION_COMPLETE_v1.json"],
+      "verdict": "SATISFIED_BY_DOCUMENTATION — not a pilot blocker"
+    }
+  },
+  "failureModeAssessment": {
+    "silent_canonical_promotion": { "observed": false, "verdict": "PASS" },
+    "silent_unresolved_guessing": { "observed": false, "verdict": "PASS" },
+    "continued_past_architecture_exception": { "observed": false, "verdict": "PASS" },
+    "frozen_hash_mutation": { "observed": false, "verdict": "PASS" },
+    "canonical_json_write_from_normalization": { "observed": false, "verdict": "PASS" }
+  },
+  "p08ArchitectureResolution": {
+    "pipelineBehavior": "architecture_exception_stop — unchanged and correct",
+    "architectureExceptionPreserved": true,
+    "integrationBoundaryFrozen": true,
+    "freezeArtifact": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "auditableLifecycle": "production ingestion → architecture_exception → discovery → fit → W2 corroboration → human freeze → pilot closure",
+    "doesNotRequireFlexWashNormalizationNow": true,
+    "rationale": "Pilot proves STOP governance. P08 freeze authorizes architecture contract only — not production normalization, overlays, or UI integration."
+  },
+  "deferredItemsNotPilotBlockers": [
+    {
+      "item": "FlexWash production normalization",
+      "reason": "Explicitly outside pilot closure gate"
+    },
+    {
+      "item": "FlexWash overlays",
+      "reason": "Requires separate authorization after architecture freeze"
+    },
+    {
+      "item": "WV60 procedure ingestion",
+      "reason": "Platform metadata only at freeze"
+    },
+    {
+      "item": "Disposition classifier cleanup",
+      "reason": "Known semantics — P05 implementation_specific with residual UNRESOLVED_TERM; deferred per CG_PILOT_CLASSIFIER_INSPECTION"
+    },
+    {
+      "item": "P04/P06 mapping expansion",
+      "reason": "Legitimate normalization limitations — pilot is not a coverage gate"
+    },
+    {
+      "item": "Generic architecture_exception orchestrator hardening",
+      "reason": "Deferred pilot target — partially proven via pilot_batch.py"
+    },
+    {
+      "item": "File-level canonical write interceptor",
+      "reason": "Deferred pilot target — hash gate sufficient for pilot proof"
+    },
+    {
+      "item": "70-manual production batch",
+      "reason": "Requires separate CG-PRODUCTION-NORMALIZATION-BATCH contract"
+    },
+    {
+      "item": "Production UI",
+      "reason": "WAIT — not pilot scope"
+    },
+    {
+      "item": "Pilot closure of production ingestion governance",
+      "reason": "Governance lock remains separate and already GREEN"
+    }
+  ],
+  "regressionStatus": {
+    "validateCanonicalGraph": "OK — frozen_hashes=10 verified",
+    "cgProductionNormalizationPilotTest": "11/11 (pre-closure artifact update)",
+    "cgPilotP05RangeRoutingTest": "4/4",
+    "cgP08FlexwashFreezeTest": "8/8",
+    "cgP08FlexwashW2FitTest": "5/5",
+    "frozenCanonicalHashes": "10/10 unchanged"
+  },
+  "gateCriteriaChecklist": {
+    "source": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json#gateCriteria.required",
+    "items": [
+      { "criterion": "All 8 cohort slots executed or explicitly blocked", "met": true },
+      { "criterion": "At least one canonical_mapping continue path", "met": true },
+      { "criterion": "At least one implementation_specific overlay path", "met": true },
+      { "criterion": "At least one unresolved BLOCK", "met": true },
+      { "criterion": "At least one architecture_exception STOP (P08)", "met": true },
+      { "criterion": "Zero silent canonical promotions", "met": true },
+      { "criterion": "frozen_canonical_hashes_v1.json unchanged", "met": true },
+      { "criterion": "validate_canonical_graph.py OK", "met": true },
+      { "criterion": "cg-production-normalization-pilot.test.ts PASS", "met": true }
+    ],
+    "allRequiredMet": true
+  },
+  "humanDecisionRequired": false,
+  "closureRecommendation": {
+    "verdict": "GREEN / PILOT_GATE_CLOSED",
+    "closePilotGate": true,
+    "authorizeProductionBatch": false,
+    "authorizeBatchContractWorkstream": true,
+    "nextDisciplinedStep": "Authorize CG-PRODUCTION-NORMALIZATION-BATCH contract (70-manual cohort) as separate gate — do not conflate with FlexWash normalization or pilot closure."
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_compounding_workstream",
+  "workstream": "CG-MICROWAVE-COMPOUNDING",
+  "status": "closed",
+  "verdict": "GREEN / MICROWAVE_COMPOUNDING_COMPLETE",
+  "closedAt": "2026-09-17T13:00:00+00:00",
+  "openedAt": "2026-09-17T11:30:00+00:00",
+  "priorPhasesClosed": [
+    "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+    "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json"
+  ],
+  "normalizationAuditVerdict": "APPROVED WITH GOVERNANCE HOLD — resolved via Branch A",
+  "metadataGovernanceVerdict": "GREEN / BRANCH_A_APPROVED",
+  "targetCanonicalIdentity": {
+    "ontologyId": "microwave",
+    "frozenRevision": "rev1",
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json"
+  },
+  "coreConstraint": "Compounding binds normalized LG + Samsung microwave evidence into usable diagnostic overlays under the frozen microwave rev1 contract. It does not redesign the ontology, mutate microwave.json, or reopen fit/discovery.",
+  "coreDistinction": {
+    "fitDiscoveryFreeze": "Microwave functional architecture — CLOSED / LOCKED rev1",
+    "normalization": "Service-manual vocabulary → frozen function realizations — APPROVED",
+    "metadataGovernance": "magnetron.realizes stale metadata exception — CLOSED Branch A",
+    "compounding": "Normalized evidence → manufacturer/platform overlays + compounded diagnostic knowledge"
+  },
+  "immutableRules": [
+    "Load microwave.json rev1 as immutable canonical truth — hash 3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d must remain byte-stable.",
+    "Normalized implementation vocabulary (magnetron, HV cascade hardware, TCOs, waveguide, turntable) binds to platform overlays — not canonical components[].",
+    "Do not promote magnetron, hv_transformer, hv_capacitor, hv_diode, hv_fuse, or individual TCOs to canonical nodes.",
+    "Do not mutate range_oven or route microwave HV vocabulary into range contract.",
+    "Compounding is not another opportunity to redesign microwave functional architecture.",
+    "Must not propagate overlayOnlyConcepts.magnetron.realizes=hv_generation into compounded knowledge — see implementationRealizationPrecedence.",
+    "Samsung ME11 sequence 2 must compound from Samsung normalization/manual evidence only — LG compounding success does not prove Samsung realizations; apply precedence guard without cross-manufacturer evidence borrowing."
+  ],
+  "implementationRealizationPrecedence": {
+    "governanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "authoritativeMapping": {
+      "magnetron": "rf_cavity",
+      "hv_transformer": "hv_generation",
+      "hv_capacitor": "hv_generation",
+      "hv_diode": "hv_generation",
+      "hv_fuse": "hv_generation",
+      "waveguide": "rf_cavity",
+      "waveguide_cover": "rf_cavity",
+      "turntable_motor": "rf_cavity"
+    },
+    "authoritativeSources": [
+      "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json implementationRealizationPolicy",
+      "platform_overlays/microwave.reference.json",
+      "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"
+    ],
+    "staleMetadataException": {
+      "field": "microwave.json overlayOnlyConcepts[id=magnetron].realizes",
+      "frozenStaleValue": "hv_generation",
+      "nonAuthoritative": true,
+      "mustNotPropagateToCompoundedKnowledge": true,
+      "validatorGuard": "Compounding binders and future validators must resolve magnetron → rf_cavity from authoritative sources above — never from overlayOnlyConcepts.realizes"
+    }
+  },
+  "compoundingSequence": [
+    {
+      "sequence": 1,
+      "targetId": "lg_lmhm2237_otr",
+      "status": "closed",
+      "verdict": "GREEN / LG_COMPOUNDING_AUDIT_PASSED",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "smokeModel": "LMHM2237BD",
+      "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "lg_microwave_otr.json"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_me11_otr",
+      "status": "closed",
+      "verdict": "GREEN / SAMSUNG_COMPOUNDING_AUDIT_PASSED",
+      "authorizedAfter": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_microwave_otr",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "smokeModel": "ME11A7510DSAA",
+      "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json",
+      "overlayFile": "samsung_microwave_otr.json"
+    }
+  ],
+  "normalizedEvidenceInputs": [
+    {
+      "sequence": 1,
+      "targetId": "lg_lmhm2237_otr",
+      "status": "compounded_audited_green",
+      "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+      "manufacturer": "LG",
+      "platformId": "lg_microwave_otr",
+      "implementationTemplateId": "microwave",
+      "smokeModel": "LMHM2237BD",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "role": "fit_witness_normalization"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_me11_otr",
+      "status": "compounded_audited_green",
+      "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+      "compoundingArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_v1.json",
+      "auditArtifact": "CG_MICROWAVE_SAMSUNG_ME11_COMPOUNDING_AUDIT_v1.json",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_microwave_otr",
+      "implementationTemplateId": "microwave",
+      "smokeModel": "ME11A7510DSAA",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "role": "fit_witness_normalization"
+    }
+  ],
+  "allowedCanonicalTargets": {
+    "core": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditionalBindingOnly": ["control_and_sensing", "ventilation_otr"],
+    "platformOnly": [
+      "magnetron",
+      "hv_transformer",
+      "hv_capacitor",
+      "hv_diode",
+      "hv_fuse",
+      "waveguide",
+      "waveguide_cover",
+      "turntable_motor",
+      "magnetron_tco",
+      "cavity_tco",
+      "hood_tco",
+      "bottom_tco",
+      "pcb_thermistor",
+      "humidity_sensor"
+    ]
+  },
+  "compoundingDeliverables": {
+    "referenceOverlay": "platform_overlays/microwave.reference.json",
+    "manufacturerOverlays": ["lg_microwave_otr.json", "samsung_microwave_otr.json"],
+    "procedureSeeds": [
+      "procedures/seed/lg_microwave_otr",
+      "procedures/seed/samsung_microwave_otr"
+    ]
+  },
+  "exitCriteria": {
+    "bothTargetsCompounded": true,
+    "lgCompoundingComplete": true,
+    "lgCompoundingAuditGreen": true,
+    "samsungCompoundingComplete": true,
+    "samsungCompoundingAuditGreen": true,
+    "compoundingAuditsGreen": true,
+    "crossManufacturerRegressionProven": true,
+    "familyClosureBlocked": true,
+    "familyClosurePlanningAuthorized": true,
+    "microwaveRev1HashUnchanged": true,
+    "rangeOvenUnchanged": true,
+    "canonicalExpansion": 0,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "nextDisciplinedStep": "CG-MICROWAVE-FAMILY-CLOSURE-PLANNING — prove combined package terminal under governance model; family closure not yet executed",
+  "regressionProof": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json",
+  "familyClosurePlan": "CG_MICROWAVE_FAMILY_CLOSURE_PLAN_v1.json"
+}

@@ -1,0 +1,895 @@
+{
+  "manualId": "W11416395",
+  "candidates": [
+    {
+      "id": "map-W11416395-supply-supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "supply",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-compound-main-control-(acu)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "control acu",
+        "actuator": null
+      },
+      "matchedPhrase": "main control",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "main control",
+            "decomposition": {
+              "domain": "main",
+              "component": "control acu",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Main Control (ACU)"
+    },
+    {
+      "id": "map-W11416395-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-01-acu-power",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-01-acu-power",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-02-valves",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11416395-unresolved-w11416395-test-02-valves-test-#2:-valves",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #2: Valves",
+      "extractedTerm": "Valves",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-02-valves",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-02-valves",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #2: Valves",
+            "extractedTerm": "Valves",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-compound-drive-system-(pre-test)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03-drive-system",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03-drive-system",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System (pre-test)"
+    },
+    {
+      "id": "map-W11416395-compound-drive-system-\u2014-shifter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03a-shifter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03a-shifter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System \u2014 Shifter"
+    },
+    {
+      "id": "map-W11416395-compound-drive-system-\u2014-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "drive system",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-03b-motor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-03b-motor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "drive system",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System \u2014 Motor"
+    },
+    {
+      "id": "map-W11416395-hmi_control-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "hmi_control",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-04-hmi",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11416395-unresolved-w11416395-test-04-hmi-test-#4:-hmi",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #4: HMI",
+      "extractedTerm": "HMI",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-04-hmi",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-04-hmi",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4: HMI",
+            "extractedTerm": "HMI",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-wash_ntc-wash_ntc",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-05-temp-thermistor",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-compound-temperature-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "temperature",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-05-temp-thermistor",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "temperature",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Temperature Thermistor"
+    },
+    {
+      "id": "map-W11416395-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-06-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-compound-water-level",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #6: Water Level",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-06-water-level",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-06-water-level",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water Level"
+    },
+    {
+      "id": "map-W11416395-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-drain-pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #7: Drain Pump",
+      "extractedTerm": "Drain Pump",
+      "canonicalId": "drain_pump",
+      "confidence": 0.92,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "pages": [
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "pages": [
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #7: Drain Pump",
+            "extractedTerm": "Drain Pump",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-door_lock-door_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "door_lock",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416395-compound-lid-lock",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #8: Lid Lock",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "lid",
+        "component": null,
+        "actuator": "lock"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416395",
+            "platformId": "whirlpool_mvw6200"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "lid",
+              "component": null,
+              "actuator": "lock"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Lid Lock"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "id": "ne58h-c20-oven-sensor",
+  "version": "1.0.0",
+  "title": "C-20: Oven temperature sensor",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "C-20",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Oven sensor open/short",
+    "pages": [
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_access"
+    },
+    {
+      "id": "sensor_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Oven sensor harness",
+      "body": "Disconnect sensor at main PCB CN320 path.",
+      "sourceExcerpt": "Disconnect sensor at main PCB CN320 path.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ok"
+    },
+    {
+      "id": "replace_sensor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace oven sensor",
+      "oemOutcome": "Replace oven sensor or main PCB per C-20 flow.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Oven sensor OK",
+      "oemOutcome": "Oven sensor verified.",
+      "requiresInput": false
+    }
+  ]
+}

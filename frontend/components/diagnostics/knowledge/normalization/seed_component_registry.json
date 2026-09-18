@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "1.0.0",
+  "description": "Explicit seed componentId → canonical mapping candidates. Never silently rewrite procedure seeds — each match is a reviewable candidate with provenance.",
+  "entries": {
+    "heater": {
+      "canonicalId": "wash_heater",
+      "confidence": 0.97,
+      "scope": "washer",
+      "reviewLevel": "normal",
+      "notes": "Generic seed id 'heater' on washer manuals — OEM text often says 'heater' not wash_heater"
+    },
+    "door_switch": {
+      "canonicalId": "door_lock",
+      "confidence": 0.82,
+      "scope": "washer",
+      "reviewLevel": "careful",
+      "notes": "Door switch vs lock assembly — not always interchangeable; verify manual context"
+    },
+    "user_interface": {
+      "canonicalId": "hmi_control",
+      "confidence": 0.92,
+      "scope": "washer",
+      "reviewLevel": "normal",
+      "notes": "Seed id for UI/console procedures"
+    },
+    "supply": {
+      "canonicalId": "control_board",
+      "confidence": 0.78,
+      "scope": "washer",
+      "reviewLevel": "careful",
+      "notes": "Power supply / AC input path — context-dependent"
+    },
+    "motor": {
+      "canonicalId": "drive_motor",
+      "confidence": 0.8,
+      "scope": "washer",
+      "reviewLevel": "careful",
+      "notes": "Bare seed id 'motor' — ambiguous without procedure context"
+    },
+    "inlet_valves": {
+      "canonicalId": "inlet_valve",
+      "confidence": 0.96,
+      "scope": "washer",
+      "reviewLevel": "normal",
+      "notes": "Plural seed id used in some Whirlpool seeds"
+    },
+    "wash_ntc": {
+      "canonicalId": "wash_ntc",
+      "confidence": 1.0,
+      "scope": "washer",
+      "reviewLevel": "easy",
+      "notes": "Already canonical id — registry documents explicit pass-through"
+    },
+    "main_control": {
+      "canonicalId": "control_board",
+      "confidence": 0.95,
+      "scope": "washer",
+      "reviewLevel": "easy",
+      "notes": "Also in component_aliases.json — seed registry makes provenance explicit"
+    },
+    "inverter": {
+      "canonicalId": "motor_controller",
+      "confidence": 0.95,
+      "scope": "washer",
+      "reviewLevel": "easy",
+      "notes": "Also in component_aliases.json"
+    }
+  }
+}

@@ -1,0 +1,329 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-circulation_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-circulation-motor",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Circulation Motor & Nozzle",
+      "componentIds": [
+        "wash_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-meas-samsungDishwasherCirculationMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungdw-circulation-motor",
+      "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+            "stepTitle": "Circulation motor coil"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-communication-heater_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-communication",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: PBA Communication (AC / AC6)",
+      "componentIds": [
+        "main_control"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-communication",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-door-switch-door_switch_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-door-switch",
+      "canonicalTestTarget": "door_switch_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Door Sensing Switch",
+      "componentIds": [
+        "door_latch"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-door-switch",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Drain Pump (5C)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-drain-pump",
+            "pages": [
+              35,
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-fill-valve-fill_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-fill-valve",
+      "canonicalTestTarget": "fill_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-fill-valve",
+            "pages": [
+              35,
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-heater-heater_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-heater",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Heater Operation (HC / HC1)",
+      "componentIds": [
+        "heater"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-heater",
+            "pages": [
+              37,
+              38,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdw-power-supply",
+      "canonicalTestTarget": "fill_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-1: Main PBA Power & DC Supplies",
+      "componentIds": [
+        "supply"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-power-supply",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

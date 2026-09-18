@@ -1,0 +1,157 @@
+{
+  "id": "lgsxs-defrost-heater",
+  "version": "1.0.0",
+  "title": "\u00a72-17: Defrost heater (Test Mode 2)",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "defrost_heater"
+  ],
+  "tags": [
+    "defrost_heater",
+    "frost_buildup",
+    "no_defrost"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-17-defrost",
+    "oemTestTitle": "Forced defrost heater",
+    "pages": [
+      21,
+      22
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "enter_test2"
+    },
+    {
+      "id": "enter_test2",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Test Mode 2",
+      "body": "Press test button once (Test 1), then once more \u2014 forced defrost: heater ON, compressor/fans OFF, damper closed.",
+      "sourceExcerpt": "Press test button once (Test 1), then once more \u2014 forced defrost: heater ON, compressor/fans OFF, damper closed.",
+      "requiresInput": false,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "heater_voltage"
+    },
+    {
+      "id": "heater_voltage",
+      "order": 4,
+      "type": "measurement",
+      "title": "Defrost heater voltage",
+      "body": "Measure CON2 pin 1 \u2194 7 \u2014 112\u2013116 VAC when heater energized in Test Mode 2. Should read 0 V in Test Mode 1.",
+      "sourceExcerpt": "Measure CON2 pin 1 \u2194 7 \u2014 112\u2013116 VAC when heater energized in Test Mode 2. Should read 0 V in Test Mode 1.",
+      "measurementKnowledgeId": "lgDefrostHeaterVoltage",
+      "testPoint": {
+        "connector": "CON2",
+        "pins": "1 \u2194 7",
+        "label": "Defrost heater voltage"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "defrost_v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "defrost_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "defrost_v_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_pcb",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "defrost_heater",
+              "evidenceId": "ref_ms_lg_defrost_heater_v"
+            }
+          ]
+        },
+        {
+          "id": "defrost_v_pass",
+          "label": "112\u2013116 V",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok"
+        }
+      ]
+    },
+    {
+      "id": "replace_heater_pcb",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace heater or PCB",
+      "oemOutcome": "Replace defrost heater or relay RY7 / main PCB when voltage missing with good heater.",
+      "requiresInput": false
+    },
+    {
+      "id": "heater_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Defrost heater OK",
+      "oemOutcome": "Defrost heater and PCB output verified in Test Mode 2.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgsxs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

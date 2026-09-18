@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_analysis",
+  "workstream": "CG-WALL-OVEN-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:15:00+00:00",
+  "contract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "composition",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "composition", "architectural_divergence", "insufficient_evidence"],
+    "selected": "composition",
+    "exactlyOne": true
+  },
+  "evidenceChain": {
+    "contract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+    "observations": ["CG_W11174422_FIT_OBSERVATION_v1.json", "CG_SAMSUNG_NV51_FIT_OBSERVATION_v1.json"],
+    "triangulation": "CG_WALL_OVEN_FIT_TRIANGULATION_v1.json"
+  },
+  "corpusFinding": {
+    "wallOvenWitnessCount": 2,
+    "diagnosticPathClassificationsPerformed": 17,
+    "conclusion": "Dedicated wall-oven service manuals present in corpus — initial zero-witness survey was filename-index error",
+    "freestandingRangeSubstitutionRejected": true
+  },
+  "fitAgainstRangeOven": {
+    "verdict": "fits_via_oven_only_composition",
+    "fitsWithoutMutation": true,
+    "hostFamily": "range_oven",
+    "rationale": "Built-in wall ovens implement the oven-compartment subset of frozen range_oven. Bake/broil/convection thermal paths, cavity temperature sensing, control board, user interface, and door/latch authorization map to existing canonical nodes and documented conditionals. Absence of cooktop is product scope — surface_heating_system simply not instantiated, analogous to standalone freezer omitting fresh-food compartments.",
+    "functionalMappings": [
+      { "wallOvenDomain": "bake/broil/convection heat", "hostBinding": "oven_heat_generation + instanceScopes bake/broil/convection" },
+      { "wallOvenDomain": "cavity temperature RTD/thermistor", "hostBinding": "temperature_sensor (+ upper/lower instance on double)" },
+      { "wallOvenDomain": "ACU / main PCB orchestration", "hostBinding": "control_board" },
+      { "wallOvenDomain": "touch/keypad HMI", "hostBinding": "user_interface" },
+      { "wallOvenDomain": "door latch / switch", "hostBinding": "conditionalConcept.oven_door_switch + door_latch_motor overlay" },
+      { "wallOvenDomain": "convection fan motor", "hostBinding": "conditionalConcept.convection_fan" },
+      { "wallOvenDomain": "double oven upper/lower", "hostBinding": "dual oven-instance composition on same range_oven domains — not new family" },
+      { "wallOvenDomain": "cavity cooling fan", "hostBinding": "deferredConcept.cooling_fan platform overlay — distinct from convection_fan, not canonical expansion" }
+    ],
+    "rangeSpecificDomainsNotInstantiated": [
+      "surface_heating_system",
+      "surface_control / infinite-switch cooktop paths",
+      "cooktop spark/gas valve vocabulary"
+    ],
+    "notRequiredForFit": "surface_heating_system is a functional domain on range_oven — wall oven omits cooktop without canonical mutation"
+  },
+  "evaluationAxesResolved": [
+    {
+      "axis": "single_vs_double_wall_oven",
+      "finding": "Double wall oven (W11174422 WOD) uses per-cavity Copernicus ACU, sensors, latches — composition of two oven instance scopes",
+      "divergence": false
+    },
+    {
+      "axis": "electric_vs_gas_wall_oven",
+      "finding": "Electric proven on W1+W2; W11174422 nomenclature includes gas but no gas wall-oven diagnostic witness in corpus",
+      "divergence": false,
+      "limitation": "Gas wall-oven fit deferred to future witness — expected proven_variant of existing range_oven gas instance scopes"
+    },
+    {
+      "axis": "shared_vs_independent_control",
+      "finding": "Shared HMI with per-cavity ACU on double — range_oven control_board + user_interface represent without mutation",
+      "divergence": false
+    },
+    {
+      "axis": "cooling_ventilation",
+      "finding": "Cavity cooling fan (F8E/C-A2) is implementation/platform vocabulary under deferred cooling_fan — not architectural divergence from convection_fan conditional",
+      "divergence": false
+    },
+    {
+      "axis": "cooktop_absence",
+      "finding": "Removing surface_heating_system is uninstantiated domain omission — not functional divergence",
+      "divergence": false
+    },
+    {
+      "axis": "double_oven_composition",
+      "finding": "Does not require new canonical family — upper/lower instance binding on existing oven domains",
+      "divergence": false
+    }
+  ],
+  "rejectedDivergenceHypotheses": [
+    {
+      "hypothesis": "Wall oven needs wall_oven.json because product configuration differs",
+      "rejection": "Product configuration is not ontology evidence — oven functional responsibilities subset existing range_oven host"
+    },
+    {
+      "hypothesis": "Missing cooktop creates new architecture",
+      "rejection": "surface_heating_system optional/unused on built-in oven — same pattern as standalone freezer omitting refrigerator compartments"
+    },
+    {
+      "hypothesis": "Cooling fan requires new canonical domain",
+      "rejection": "range_oven rev1 explicitly defers cooling_fan; wall-oven evidence confirms platform overlay, not graph expansion"
+    },
+    {
+      "hypothesis": "Double wall oven requires new orchestration family",
+      "rejection": "Per-cavity ACU/sensor/latch is instance-scope composition — W11174422 F3/F5 upper/lower paths"
+    },
+    {
+      "hypothesis": "Use freestanding range manuals as wall-oven witnesses",
+      "rejection": "Explicit substitution guard — W11174426 et al. excluded"
+    }
+  ],
+  "genuineDivergencesFound": [],
+  "witnessLimitation": {
+    "wallOvenWitnessCount": 2,
+    "missingCandidates": ["LG built-in wall oven", "Dedicated gas wall oven service manual"],
+    "impact": "Would require gas witness before claiming gas wall-oven proven_variant — not blocking electric composition conclusion"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "wallOvenJsonCreated": false,
+    "discoveryAuthorized": false,
+    "witnessCount": 2,
+    "diagnosticPathClassifications": 17,
+    "rangeOvenClassifications": 11,
+    "implementationSpecificClassifications": 5,
+    "unresolvedClassifications": 0,
+    "genuineDivergenceCount": 0
+  },
+  "architecturalDisposition": {
+    "categoryId": "wall_oven",
+    "disposition": "composition_of_range_oven",
+    "hostCanonicalOntologyId": "range_oven",
+    "compartmentScope": "oven_only",
+    "newCanonicalGraphRequired": false
+  },
+  "stopCondition": "FIT closure — no discovery/freeze for wall_oven.json. Normalization/compounding deferred until architecture-complete STOP."
+}

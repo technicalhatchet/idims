@@ -1,0 +1,79 @@
+{
+  "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+  "candidates": [
+    {
+      "id": "overlay-WHIRLPOOL-2225623-ICE-MAKER-w2225623-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w2225623-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "Ejector motor (L\u2013M) \u2014 8800 \u03a9",
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-motor-circuit",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-motor-circuit",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-WHIRLPOOL-2225623-ICE-MAKER-w2225623-motor-circuit-meas-whirlpoolModularIceMakerMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w2225623-motor-circuit",
+      "measurementKnowledgeId": "whirlpoolModularIceMakerMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-motor-circuit",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-motor-circuit",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolModularIceMakerMotorOhms",
+            "stepTitle": "Motor winding resistance (L\u2013M)"
+          }
+        ]
+      }
+    }
+  ]
+}

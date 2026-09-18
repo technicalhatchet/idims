@@ -1,0 +1,147 @@
+{
+  "id": "lgsxs-display-communication",
+  "version": "1.0.0",
+  "title": "\u00a71-11: Main \u2194 display MICOM communication",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "display_panel",
+    "main_control"
+  ],
+  "tags": [
+    "hmi_check",
+    "display_dead",
+    "comm_fault"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "1-11",
+    "oemTestTitle": "Display MICOM communication",
+    "pages": [
+      33,
+      34
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "display_partial"
+    },
+    {
+      "id": "display_partial",
+      "order": 2,
+      "type": "visual_check",
+      "title": "Display fault or partial segments?",
+      "body": "Poor main\u2194display MICOM exchange >2 min causes display faults \u2014 check 4-wire L/Wire FD/H harness at door hinge.",
+      "sourceExcerpt": "Poor main\u2194display MICOM exchange >2 min causes display faults \u2014 check 4-wire L/Wire FD/H harness at door hinge.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comm_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_harness"
+        },
+        {
+          "id": "comm_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "Display communication appears normal.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_lg_kw_co_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_harness",
+      "order": 3,
+      "type": "instruction",
+      "title": "Inspect display harness",
+      "body": "Verify 4-wire harness between main PCB and display PCB \u2014 12 V and 5 V supplies plus TX/RX per \u00a71-11.",
+      "sourceExcerpt": "Verify 4-wire harness between main PCB and display PCB \u2014 12 V and 5 V supplies plus TX/RX per \u00a71-11.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_restored"
+    },
+    {
+      "id": "comm_restored",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Display restored?",
+      "body": "After harness repair and power cycle, is display fully functional?",
+      "sourceExcerpt": "After harness repair and power cycle, is display fully functional?",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "restored_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok"
+        },
+        {
+          "id": "replace_pcbs",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcbs_out",
+          "terminal": true,
+          "oemOutcome": "Replace main and/or display PCB.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "display_panel",
+              "evidenceId": "ref_lg_kw_co_display"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "comm_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "No comm fault",
+      "oemOutcome": "Display communication normal.",
+      "requiresInput": false
+    },
+    {
+      "id": "replace_pcbs_out",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace PCB(s)",
+      "oemOutcome": "Replace main PCB and/or display PCB when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_path_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "Display MICOM communication restored.",
+      "requiresInput": false
+    }
+  ]
+}

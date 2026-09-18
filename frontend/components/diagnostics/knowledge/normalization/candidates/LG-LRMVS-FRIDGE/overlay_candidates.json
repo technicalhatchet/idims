@@ -1,0 +1,45 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "candidates": [
+    {
+      "id": "overlay-LG-LRMVS-FRIDGE-lglrmvs-wifi-modem-motor_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lglrmvs-wifi-modem",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a78-20: Wi-Fi modem communication (E Od)",
+      "componentIds": [
+        "control_board"
+      ],
+      "provenance": {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "platformId": "lg_lrmvs",
+        "procedureId": "lglrmvs-wifi-modem",
+        "pages": [
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "platformId": "lg_lrmvs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lglrmvs-wifi-modem",
+            "pages": [
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "electric_range_dual_fuel_fit_hypothesis",
+  "workstream": "CG-13",
+  "status": "closed_outcome_a",
+  "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+  "generatedAt": "2026-09-16T19:32:00+00:00",
+  "contract": "CG13_DUAL_FUEL_FIT_TEST_CONTRACT_v1.json",
+  "frozenContract": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "centerpieceHypothesis": {
+    "question": "Can frozen electric_range rev1 represent dual-fuel — gas surface + electric oven — without canonical divergence?",
+    "nullHypothesis": "Combining gas surface and electric oven creates a functional dependency the frozen contract cannot represent",
+    "alternateHypothesis": "surface_heating_system (gas) and oven instance scopes (electric) remain independently addressable under shared control_board — gas hardware stays platform vocabulary"
+  },
+  "criticalDualFuelHypothesis": {
+    "question": "Does combining gas surface heating and electric oven heating create a functional dependency the frozen contract cannot represent?",
+    "notBecauseNewHardware": "Unseen gas components are expected — they are platform vocabulary, not ontology expansion",
+    "functionalArchitecture": "control_board → surface_heating_system (gas) AND bake/broil/convection instance scopes (electric oven)",
+    "passIf": "Both domains remain independently diagnosable without new canonical nodes"
+  },
+  "frozenLayersUnderTest": {
+    "surfaceDomain": {
+      "canonicalComponents": [
+        {
+          "id": "surface_heating_system",
+          "dualFuelFitPrior": "uncertain_primary_probe",
+          "rationale": "Gas surface on dual-fuel — CG-11 showed gas maps to surface_heating_system; test coexists with electric oven under same control",
+          "platformVocabulary": ["gas_valve", "safety_valve", "igniter", "hsi", "spark_module", "flame_sensor", "gas_regulator", "surface_burner"]
+        }
+      ]
+    },
+    "ovenDomain": {
+      "instanceScopes": [
+        {
+          "id": "bake_heating_element",
+          "dualFuelFitPrior": "likely_fits",
+          "rationale": "Electric bake element on dual-fuel oven — same instance scope as CG-10/CG-12"
+        },
+        {
+          "id": "broil_heating_element",
+          "dualFuelFitPrior": "likely_fits",
+          "rationale": "Electric broil element — independently addressable from gas surface"
+        }
+      ],
+      "conditionalInstanceScopes": [
+        {
+          "id": "convection_heating_element",
+          "dualFuelFitPrior": "evidence_or_no_evidence",
+          "rationale": "Apply CG-11/CG-12 conditional semantics on electric oven subsection"
+        }
+      ],
+      "conditionalConcepts": [
+        { "id": "convection_fan", "dualFuelFitPrior": "likely_fits_conditional" },
+        { "id": "temperature_sensor", "dualFuelFitPrior": "likely_fits", "layer": "components[]" }
+      ]
+    },
+    "sharedDomain": {
+      "canonicalComponents": [
+        { "id": "power_supply", "dualFuelFitPrior": "likely_fits", "rationale": "Gas line + electric branch prerequisite" },
+        { "id": "control_board", "dualFuelFitPrior": "uncertain_primary_probe", "rationale": "Orchestrates both energy domains — falsification target" },
+        { "id": "user_interface", "dualFuelFitPrior": "likely_fits" }
+      ],
+      "conditionalConcepts": [
+        { "id": "thermal_protection", "dualFuelFitPrior": "likely_fits_conditional" },
+        { "id": "oven_door_switch", "dualFuelFitPrior": "uncertain" }
+      ]
+    }
+  },
+  "rejectedAutoPromotions": {
+    "note": "Gas surface hardware must NOT become canonical from dual-fuel single-manual evidence (CG-5.3)",
+    "candidates": [
+      "gas_valve",
+      "safety_valve",
+      "igniter",
+      "hsi",
+      "spark_module",
+      "gas_regulator",
+      "flame_sensor",
+      "surface_burner"
+    ]
+  },
+  "crossManufacturerWitnessPlan": {
+    "dimensions": ["implementation_fit", "cross_manufacturer_consistency"],
+    "witnesses": [
+      {
+        "rank": "R1",
+        "manufacturer": "Samsung",
+        "smokeModel": "NY63T8751SS/AA",
+        "plannedManualId": "SAMSUNG-NY63-DUAL-FUEL",
+        "status": "acquire_for_fit_test"
+      },
+      {
+        "rank": "R2",
+        "manufacturer": "LG",
+        "smokeModel": "LSDL6336F",
+        "plannedManualId": "LG-LSDL6336-DUAL-FUEL",
+        "status": "planned_optional"
+      },
+      {
+        "rank": "R3",
+        "manufacturer": "Whirlpool",
+        "smokeModel": null,
+        "plannedManualId": null,
+        "status": "pending_verified_service_manual"
+      }
+    ],
+    "openingRule": "One strong R1 manual sufficient — R2/R3 optional for matrix"
+  },
+  "r1ObservationPlan": {
+    "minimumWitness": "Samsung NY63T8751SS/AA or first available strong dual-fuel service manual",
+    "fuelFilter": "dual_fuel_range",
+    "outputArtifactPattern": "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json",
+    "probeOrder": [
+      "power_supply_dual_fuel",
+      "control_board_dual_fuel",
+      "user_interface_dual_fuel",
+      "surface_heating_system_dual_fuel",
+      "temperature_sensor_dual_fuel",
+      "bake_instance_scope_dual_fuel",
+      "broil_instance_scope_dual_fuel",
+      "convection_heating_element_dual_fuel",
+      "convection_fan_dual_fuel",
+      "thermal_protection_dual_fuel",
+      "oven_door_switch_dual_fuel"
+    ]
+  },
+  "cumulativeFitContext": {
+    "cg10": "electric discovery — frozen contract origin",
+    "cg11": "gas fits — surface/oven gas paths",
+    "cg12": "induction fits — radical surface implementation",
+    "cg13": "dual-fuel — combines gas surface + electric oven in one appliance",
+    "experiment": "If CG-13 R1 DIVERGES=0, frozen contract tested across four implementation families without canonical mutation"
+  },
+  "fitTestNotDiscovery": {
+    "rule": "CG-13 does not re-run CG-10 discovery — evaluates dual-fuel evidence against immutable frozen layers",
+    "priorClosures": ["CG11_GAS_RANGE_FIT_CLOSURE_v1.json", "CG12_INDUCTION_FIT_CLOSURE_v1.json"]
+  }
+}

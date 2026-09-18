@@ -1,0 +1,962 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "samsung_tl_a50_cg67_gate_decision_ledger",
+  "gateKind": "samsung_tl_first_manual_compounding",
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "platformId": "samsung_tl_washer_a50",
+  "canonicalOntologyId": "top_load_washer",
+  "canonicalContract": {
+    "graph": "top_load_washer",
+    "revision": "rev1",
+    "frozen": true,
+    "ontologyHash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "allowedCanonicalIds": [
+      "agitator_or_impeller",
+      "basket",
+      "control_board",
+      "drain_path",
+      "drain_pump",
+      "drive_motor",
+      "hmi_control",
+      "inlet_valve",
+      "lid_lock",
+      "lid_switch",
+      "power_supply",
+      "spin_system",
+      "suspension_system",
+      "temperature_sensor",
+      "transmission_or_shifter",
+      "tub",
+      "water_level_sensor"
+    ],
+    "conditionalCanonicalIds": [
+      "lid_switch"
+    ],
+    "forbiddenCanonicalIds": [
+      "drive_system"
+    ],
+    "contractRule": "Samsung TL overlay may consume frozen rev1 functional ontology; it cannot mutate canonical rev1 or import Whirlpool TL vocabulary."
+  },
+  "proposedOverlayFile": "samsung_top_load_washer.json",
+  "gateTableArtifact": "SAMSUNG_TL_A50_WASHER_overlay_mapping_table_v1.json",
+  "observationArtifact": "SAMSUNG_TL_A50_WASHER_cg67_observation_v1.json",
+  "gatedAt": "2026-09-15T22:01:57.419579+00:00",
+  "reviewer": "human_gate_cg67",
+  "purpose": "CG-6.7 WP3 \u2014 first human semantic gate for Samsung TL washer against frozen top_load_washer rev1. Creates overlay vocabulary decisions; does not certify a pre-existing Samsung TL overlay.",
+  "infrastructureCorrection": {
+    "workPackage": "WP1.1_boundary_cleanup_reobservation",
+    "classification": "matcher_routing_hygiene_not_learning",
+    "newSemanticDecisions": 0,
+    "canonicalExpansion": 0,
+    "before": {
+      "canonicalInheritance": 17,
+      "samsungKnowledgeCreation": 1,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 10,
+      "pipelineFlOntologyPollution": 6,
+      "pipelineFlTestTargetPollution": 4,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "after": {
+      "canonicalInheritance": 23,
+      "samsungKnowledgeCreation": 2,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 14,
+      "pipelineFlOntologyPollution": 0,
+      "pipelineFlTestTargetPollution": 0,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "deltas": {
+      "canonicalExpansionCandidates": 0,
+      "canonicalInheritance": 6,
+      "forbiddenWhirlpoolDependent": 0,
+      "pipelineFlOntologyPollution": -6,
+      "pipelineFlTestTargetPollution": -4,
+      "samsungKnowledgeCreation": 1,
+      "unresolvedProceduralNoise": 4
+    },
+    "attribution": "Six additional canonical inheritance hits (17\u219223) are correct ontology routing under top_load_washer rev1 \u2014 not newly learned Samsung concepts. Previously classified FL pollution: door_lock, supply, wash_ntc functional remaps plus compound title resolutions.",
+    "successCriteria": {
+      "canonicalInheritancePreserved": true,
+      "flOntologyPollutionZero": true,
+      "flTestTargetPollutionZero": true,
+      "whirlpoolDependencyZero": true,
+      "samsungFlDependencyZero": true
+    },
+    "semanticLearningFromRouting": 0,
+    "note": "WP1 observation: 17 canonical hits. WP1.1 routing correction: +6 hits. Semantic learning from routing: 0. WP3 overlay vocabulary decisions are separate from infrastructure correction."
+  },
+  "accounting": {
+    "infrastructureCorrectionHits": 6,
+    "observationCanonicalInheritance": 17,
+    "postRoutingCanonicalInheritance": 23,
+    "newOverlaySemanticDecisions": 6,
+    "canonicalExpansion": 0,
+    "forbiddenFamilyLeaks": {
+      "whirlpoolTl": 0,
+      "whirlpoolFl": 0,
+      "samsungFl": 0
+    },
+    "candidateLedgerApproved": 24,
+    "candidateLedgerDeferred": 14,
+    "note": "newOverlaySemanticDecisions counts approved Samsung overlay vocabulary in bucket B only. Bucket A inheritance is rev1 reuse, not new learning."
+  },
+  "wp3HumanGateGuidance": {
+    "gateKind": "samsung_tl_first_manual_compounding",
+    "notCertification": "samsung_top_load_washer.json does not exist yet \u2014 first human semantic gate, not retroactive certification.",
+    "contentiousRows": {
+      "door_lock": {
+        "verdict": "approve_platform_vocabulary_role_split",
+        "allowed": "door_lock seed \u2192 lid_lock (spin-safety) via top_load_functional_alias only",
+        "forbidden": "door_lock \u2192 lid_switch matcher alias",
+        "lid_switchSource": "procedure evidence (reed switch steps) \u2014 bucket C"
+      },
+      "supply": {
+        "verdict": "approve_platform_implementation",
+        "condition": "samsungtla50-power-supply procedure establishes electrical supply function \u2014 not generic word supply alone"
+      },
+      "wash_heater": {
+        "verdict": "defer_human_review",
+        "reason": "No rev1 heat_source; single Samsung term must not reopen canonical graph"
+      },
+      "main_control": {
+        "verdict": "approve_manufacturer_vocabulary",
+        "scope": "Samsung-specific provenance \u2014 not cross-manufacturer alias"
+      },
+      "user_interface": {
+        "verdict": "approve_manufacturer_vocabulary",
+        "scope": "Samsung-specific provenance \u2014 not cross-manufacturer alias"
+      }
+    },
+    "infrastructureAccounting": {
+      "wp1ObservationCanonicalHits": 17,
+      "wp11RoutingCorrectionHits": 6,
+      "wp11SemanticLearning": 0,
+      "note": "WP1\u2192WP1.1 +6 is matcher/ontology correction, not compounding."
+    }
+  },
+  "summary": {
+    "totalArtifacts": 50,
+    "byDecisionKind": {
+      "inherited_canonical": 22,
+      "overlay_vocabulary": 6,
+      "deferred_overlay": 5,
+      "procedure_role_evidence": 2,
+      "observation_evidence": 1,
+      "deferred_procedural_title": 14
+    },
+    "newOverlaySemanticDecisions": 6,
+    "canonicalExpansion": 0,
+    "inheritedCanonical": 22,
+    "overlayVocabulary": 6,
+    "deferredOverlay": 5,
+    "procedureRoleEvidence": 2,
+    "deferredProceduralTitles": 14
+  },
+  "entries": [
+    {
+      "artifactId": "inheritance:0:main_control",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-main_control-control_board"
+      ],
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "matcher_derived",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:1:door_lock",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-door_lock-lid_lock"
+      ],
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "top_load_functional_alias",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:2:drain_pump",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
+        "map-SAMSUNG-TL-A50-WASHER-compound-drain-pump-(5c)"
+      ],
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "canonical_functional",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:3:user_interface",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control"
+      ],
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "canonical_functional",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:4:inlet_valve",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve"
+      ],
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "canonical_functional",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:5:drive_motor",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor"
+      ],
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "canonical_functional",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:6:water_level_sensor",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-water_level_sensor-water_level_sensor",
+        "map-SAMSUNG-TL-A50-WASHER-compound-water-level-sensor-(1c)"
+      ],
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "canonical_functional",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:7:supply",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-supply-power_supply"
+      ],
+      "canonicalComponents": [
+        "power_supply"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "top_load_functional_alias",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:8:wash_ntc",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-wash_ntc-temperature_sensor"
+      ],
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "canonicalTestTarget": null,
+      "layer": "top_load_functional_alias",
+      "rationale": "WP1.1 clean observation \u2014 legitimate rev1 functional inheritance."
+    },
+    {
+      "artifactId": "inheritance:9:samsungtla50-door-lock",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-lid_lock_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:10:samsungTlA50WasherDoorReedOhms",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorReedOhms"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "layer": "measurement_test_binding",
+      "rationale": "Measurement binding under rev1 test target family."
+    },
+    {
+      "artifactId": "inheritance:11:samsungTlA50WasherDoorLockMotorOhms",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockMotorOhms"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "layer": "measurement_test_binding",
+      "rationale": "Measurement binding under rev1 test target family."
+    },
+    {
+      "artifactId": "inheritance:12:samsungTlA50WasherDoorLockContactOhms",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockContactOhms"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "layer": "measurement_test_binding",
+      "rationale": "Measurement binding under rev1 test target family."
+    },
+    {
+      "artifactId": "inheritance:13:samsungtla50-drain-pump",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-drain-pump-drain_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "drain_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:14:samsungTlA50WasherDrainPumpOhms",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-drain-pump-meas-samsungTlA50WasherDrainPumpOhms"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "drain_test",
+      "layer": "measurement_test_binding",
+      "rationale": "Measurement binding under rev1 test target family."
+    },
+    {
+      "artifactId": "inheritance:15:samsungtla50-leak-check",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-leak-check-drain_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "drain_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:16:samsungtla50-motor-circuit",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-motor-circuit-motor_output_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "motor_output_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:17:samsungTlA50WasherMotorOhms",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-motor-circuit-meas-samsungTlA50WasherMotorOhms"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "motor_output_test",
+      "layer": "measurement_test_binding",
+      "rationale": "Measurement binding under rev1 test target family."
+    },
+    {
+      "artifactId": "inheritance:18:samsungtla50-overflow",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-overflow-drain_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "drain_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:19:samsungtla50-power-supply",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-power-supply-motor_command_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "motor_command_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:20:samsungtla50-unbalance",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-unbalance-motor_output_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "motor_output_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "inheritance:21:samsungtla50-water-level-sensor",
+      "bucket": "A_canonical_inheritance",
+      "gateAction": "approve_inherited_canonical",
+      "decisionKind": "inherited_canonical",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-water-level-sensor-drain_test"
+      ],
+      "canonicalComponents": null,
+      "canonicalTestTarget": "drain_test",
+      "layer": "procedure_test_binding",
+      "rationale": "Procedure binding inherits frozen rev1 test target vocabulary."
+    },
+    {
+      "artifactId": "seed:clutch",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "clutch",
+      "implementationComponent": "clutch",
+      "canonicalFunctionalRole": [
+        "transmission_or_shifter"
+      ],
+      "disposition": "samsung_tl_platform_implementation",
+      "procedureIds": [
+        "samsungtla50-clutch"
+      ],
+      "rationale": "Samsung clutch/hall implements transmission_or_shifter \u2014 platform vocabulary, not canonical expansion. drive_system = 0.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "seed:door_lock",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_platform_vocabulary_role_split",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "door_lock",
+      "implementationComponent": "door_lock",
+      "canonicalFunctionalRole": [
+        "lid_switch",
+        "lid_lock"
+      ],
+      "disposition": "evidence_derived_role_split",
+      "procedureIds": [
+        "samsungtla50-door-lock"
+      ],
+      "rationale": "Seed id door_lock is Samsung OEM vocabulary. door_lock\u2192lid_lock approved for lock/spin-safety only (bucket A functional alias). lid_switch certified from reed procedure evidence (bucket C). Forbidden: door_lock\u2192lid_switch matcher.",
+      "humanGateNotes": "Evidence-driven split \u2014 not matcher convenience."
+    },
+    {
+      "artifactId": "seed:main_control",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_manufacturer_vocabulary",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "main_control",
+      "implementationComponent": "main_control",
+      "canonicalFunctionalRole": [
+        "control_board"
+      ],
+      "disposition": "samsung_manufacturer_vocabulary",
+      "procedureIds": [
+        "samsungtla50-communication",
+        "samsungtla50-mems-sensor",
+        "samsungtla50-power-supply"
+      ],
+      "rationale": "Samsung PCB/PBA seed id maps to control_board functionally \u2014 not Samsung FL overlay routing.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "seed:supply",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "supply",
+      "implementationComponent": "supply",
+      "canonicalFunctionalRole": [
+        "power_supply"
+      ],
+      "disposition": "samsung_tl_platform_implementation",
+      "procedureIds": [
+        "samsungtla50-power-supply"
+      ],
+      "rationale": "Samsung seed id for mains/LVS path \u2014 functional normalization, not Whirlpool inheritance.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "seed:user_interface",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_manufacturer_vocabulary",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "user_interface",
+      "implementationComponent": "user_interface",
+      "canonicalFunctionalRole": [
+        "hmi_control"
+      ],
+      "disposition": "samsung_manufacturer_vocabulary",
+      "procedureIds": [
+        "samsungtla50-hmi-check"
+      ],
+      "rationale": "Samsung UI/console seed id \u2014 functional target hmi_control inherited separately in bucket A.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "seed:wash_heater",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "defer_human_review",
+      "decisionKind": "deferred_overlay",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "wash_heater",
+      "implementationComponent": "wash_heater",
+      "canonicalFunctionalRole": [],
+      "disposition": "defer_platform_implementation",
+      "procedureIds": [
+        "samsungtla50-wash-heater"
+      ],
+      "rationale": "No rev1 wash_heater canonical id. Gate must decide temperature-domain binding vs platform-only implementation before promotion.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "seed:wash_ntc",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "approve_platform_implementation",
+      "decisionKind": "overlay_vocabulary",
+      "newSemanticDecision": true,
+      "newCanonicalExpansion": false,
+      "seedComponentId": "wash_ntc",
+      "implementationComponent": "wash_ntc",
+      "canonicalFunctionalRole": [
+        "temperature_sensor"
+      ],
+      "disposition": "samsung_tl_platform_implementation",
+      "procedureIds": [
+        "samsungtla50-wash-heater",
+        "samsungtla50-wash-thermistor"
+      ],
+      "rationale": "Samsung NTC seed id \u2014 functional normalization to rev1 temperature_sensor.",
+      "humanGateNotes": null
+    },
+    {
+      "artifactId": "surface:samsungtla50-mems-sensor",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "defer_platform_implementation",
+      "decisionKind": "deferred_overlay",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-mems-sensor",
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rationale": "MEMS vibration/tilt on main PCB \u2014 Samsung platform surface; no rev1 canonical expansion."
+    },
+    {
+      "artifactId": "surface:samsungtla50-leak-check",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "defer_platform_implementation",
+      "decisionKind": "deferred_overlay",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-leak-check",
+      "seedComponentIds": [
+        "drain_pump"
+      ],
+      "rationale": "Leak detection path \u2014 Samsung-specific; functional drain domain only via inherited drain_pump."
+    },
+    {
+      "artifactId": "surface:samsungtla50-overflow",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "defer_platform_implementation",
+      "decisionKind": "deferred_overlay",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-overflow",
+      "seedComponentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "rationale": "Overflow sensor family \u2014 platform vocabulary TBD; rev1 water_level/inlet inherited."
+    },
+    {
+      "artifactId": "surface:samsungtla50-unbalance",
+      "bucket": "B_samsung_knowledge",
+      "gateAction": "defer_platform_implementation",
+      "decisionKind": "deferred_overlay",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-unbalance",
+      "seedComponentIds": [
+        "drive_motor"
+      ],
+      "rationale": "UB unbalance detection \u2014 Samsung platform diagnostic; drive_motor inherited functionally."
+    },
+    {
+      "artifactId": "role:samsungtla50-door-lock:lid_switch_authorization",
+      "bucket": "C_evidence_derived_roles",
+      "gateAction": "approve_procedure_role_evidence",
+      "decisionKind": "procedure_role_evidence",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-door-lock",
+      "roleId": "lid_switch_authorization",
+      "canonicalComponents": [
+        "lid_switch"
+      ],
+      "measurementKnowledgeIds": [
+        "samsungTlA50WasherDoorReedOhms"
+      ],
+      "forbiddenMatcherAlias": "door_lock \u2192 lid_switch",
+      "seedFunctionalAlias": null
+    },
+    {
+      "artifactId": "role:samsungtla50-door-lock:lid_lock_spin_safety",
+      "bucket": "C_evidence_derived_roles",
+      "gateAction": "approve_procedure_role_evidence",
+      "decisionKind": "procedure_role_evidence",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-door-lock",
+      "roleId": "lid_lock_spin_safety",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "measurementKnowledgeIds": [
+        "samsungTlA50WasherDoorLockMotorOhms",
+        "samsungTlA50WasherDoorLockContactOhms"
+      ],
+      "forbiddenMatcherAlias": null,
+      "seedFunctionalAlias": "door_lock \u2192 lid_lock (top_load_functional_alias only)"
+    },
+    {
+      "artifactId": "clutch:samsungtla50-clutch",
+      "bucket": "C_evidence_derived_roles",
+      "gateAction": "preserve_observation_evidence",
+      "decisionKind": "observation_evidence",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "procedureId": "samsungtla50-clutch",
+      "seedComponent": "clutch",
+      "functionalCanonical": "transmission_or_shifter",
+      "observationVerdict": "Clutch/hall is Samsung platform implementation \u2014 not canonical expansion.",
+      "driveSystemHits": 0
+    },
+    {
+      "artifactId": "defer_title:0",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-clutch-position-(pc,-pc1)"
+      ],
+      "manualConcept": "\u00a75-2: Clutch position (PC, PC1)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:1",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-pba-communication-(ac)"
+      ],
+      "manualConcept": "\u00a75-3: PBA communication (AC)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:2",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-door-lock-(dc,-dc1,-dc2)"
+      ],
+      "manualConcept": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:3",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-control-panel-(bc2)"
+      ],
+      "manualConcept": "\u00a75-3: Control panel (BC2)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:4",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-water-supply-(4c)"
+      ],
+      "manualConcept": "\u00a75-3: Water supply (4C)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:5",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-water-leakage-(lc,-lc1)"
+      ],
+      "manualConcept": "\u00a75-3: Water leakage (LC, LC1)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:6",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-mems-sensor-(8c)"
+      ],
+      "manualConcept": "\u00a75-3: MEMS sensor (8C)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:7",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-washing-motor-(3c)"
+      ],
+      "manualConcept": "\u00a75-3: Washing motor (3C)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:8",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-overflow-(oc)"
+      ],
+      "manualConcept": "\u00a75-3: Overflow (OC)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:9",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-power-(uc,-9c1,-9c2)"
+      ],
+      "manualConcept": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:10",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-unbalance-(ub)"
+      ],
+      "manualConcept": "\u00a75-2: Unbalance (UB)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:11",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-wash_heater"
+      ],
+      "manualConcept": "wash_heater",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:12",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-wash-heater-(hc,-hc1)"
+      ],
+      "manualConcept": "\u00a75-3: Wash heater (HC, HC1)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    },
+    {
+      "artifactId": "defer_title:13",
+      "bucket": "deferred_procedural_noise",
+      "gateAction": "defer_procedural_title",
+      "decisionKind": "deferred_procedural_title",
+      "newSemanticDecision": false,
+      "newCanonicalExpansion": false,
+      "candidateIds": [
+        "map-SAMSUNG-TL-A50-WASHER-compound-temperature-sensors-(tc1\u2013tc4)"
+      ],
+      "manualConcept": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "rationale": "OEM \u00a75-2/\u00a75-3 procedure title \u2014 bind by procedureId only; not oemTermAlias promotion."
+    }
+  ],
+  "reviewPackageSummary": {
+    "total": 39,
+    "byStatus": {
+      "needs_review": 1,
+      "deferred": 14,
+      "approved": 24
+    },
+    "byApprovalLevel": {
+      "blocked": 15,
+      "easy": 8,
+      "careful": 2,
+      "normal": 14
+    },
+    "byType": {
+      "canonicalMapping": 26,
+      "procedureTestBinding": 8,
+      "measurementBinding": 5
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 8,
+      "medium_0.80_0.94": 16,
+      "low_lt_0.80": 0,
+      "unresolved": 15
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1
+    }
+  },
+  "publishBlocked": true,
+  "publishPrerequisites": [
+    "WP4 promotion dry-run",
+    "canonical top_load_washer.json hash unchanged",
+    "samsung_top_load_washer.json scaffold from gated overlay vocabulary"
+  ]
+}

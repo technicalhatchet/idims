@@ -1,4 +1,4 @@
-import type { MeasurementEvaluation } from '../knowledge/types';
+import type { MeasurementEvaluation, MeasurementStatus } from '../knowledge/types';
 
 export type ProcedureStepType =
   | 'safety'
@@ -45,6 +45,20 @@ export interface BranchCondition {
   kind: BranchConditionKind;
 }
 
+export type BranchNextTestCandidateRef =
+  | string
+  | {
+      testId: string;
+      priorityAdjustment?: number;
+    };
+
+export type BranchDeprioritizeRef =
+  | string
+  | {
+      target: string;
+      amount?: number;
+    };
+
 export interface DecisionBranch {
   id: string;
   label: string;
@@ -54,6 +68,10 @@ export interface DecisionBranch {
   diagnosticEffects?: DiagnosticEffect[];
   /** When true, the run completes after this branch (no further steps). */
   terminal?: boolean;
+  /** decision_branch_extension — boosts next-test candidates (re-derived at rank time). */
+  nextTestCandidates?: BranchNextTestCandidateRef[];
+  deprioritize?: BranchDeprioritizeRef[];
+  deprioritizeDomains?: string[];
 }
 
 export type WireColorConfidence = 'verified' | 'inferred';
@@ -164,6 +182,35 @@ export type ProcedureStepInputKind = 'measurement' | 'checkpoint';
 export interface ProcedureStepInput {
   kind: ProcedureStepInputKind;
   value: string;
+  /** Optional test context captured at submit — do not fabricate if unavailable. */
+  context?: Record<string, unknown>;
+}
+
+/** Evaluation frozen at measurement submit — protects against later knowledge changes. */
+export interface ProcedureStepEvaluationExpectedRange {
+  min?: number;
+  max?: number;
+  below?: number;
+  above?: number;
+  unit: string;
+  label?: string;
+}
+
+export interface ProcedureStepEvaluationSnapshot {
+  knowledgeId: string;
+  rawInput: string;
+  parsedValue: number | null;
+  unit: string;
+  evaluation: {
+    status: MeasurementStatus;
+    message: string;
+    diagnosisLabel?: string;
+    severityLabel?: string;
+    expectedRangeLabel?: string;
+    expected?: ProcedureStepEvaluationExpectedRange;
+  };
+  context?: Record<string, unknown>;
+  evaluatedAt: string;
 }
 
 export type ProcedureRunStatus = 'in_progress' | 'completed' | 'aborted';
@@ -175,6 +222,13 @@ export interface AppliedDiagnosticEffectEntry {
   at: string;
 }
 
+/** Fact: a procedure step resolved a decision branch (recomputable input for ranking). */
+export interface ResolvedProcedureBranchEvent {
+  stepId: string;
+  branchId: string;
+  at: string;
+}
+
 export interface ProcedureRunState {
   procedureId: string;
   version: string;
@@ -182,8 +236,12 @@ export interface ProcedureRunState {
   currentStepId: string;
   completedStepIds: string[];
   stepInputs: Record<string, ProcedureStepInput>;
+  /** Frozen measurement interpretations keyed by step id. */
+  stepEvaluations?: Record<string, ProcedureStepEvaluationSnapshot>;
   /** Cumulative OEM diagnostic effects applied as steps complete. */
   appliedDiagnosticEffects?: AppliedDiagnosticEffectEntry[];
+  /** Resolved branches — used to re-derive candidate boosts/penalties at rank time. */
+  resolvedBranchEvents?: ResolvedProcedureBranchEvent[];
   oemOutcome?: string;
   status: ProcedureRunStatus;
 }

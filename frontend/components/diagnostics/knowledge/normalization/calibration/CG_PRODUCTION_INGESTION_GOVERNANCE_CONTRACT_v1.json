@@ -1,0 +1,195 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_ingestion_governance_contract",
+  "workstream": "CG-PRODUCTION-INGESTION-GOVERNANCE",
+  "status": "active",
+  "activatedAt": "2026-09-17T20:00:00+00:00",
+  "priorPhaseClosed": "CG_CANONICAL_ARCHITECTURE_COMPLETE_CLOSURE_v1.json",
+  "priorPhaseVerdict": "GREEN / CANONICAL_ARCHITECTURE_COMPLETE",
+  "phaseIntent": "Lock production ingestion pipeline governance in executable repo artifacts BEFORE normalization batch or diagnostic UI build.",
+  "notAuthorizingYet": [
+    "70-manual production normalization batch",
+    "corpus-wide compounding",
+    "manufacturer overlay publication at scale",
+    "diagnostic UI against production data contract"
+  ],
+  "authorizingNext": [
+    "CG-PRODUCTION-NORMALIZATION-PILOT (5–10 manual representative cohort — separate contract after governance lock)"
+  ],
+  "pipelineModel": {
+    "stages": [
+      {
+        "id": "ingestion",
+        "label": "Ingestion",
+        "scope": "PDF extract, OCR, extraction docs, procedure seed generation",
+        "writeTargets": [
+          "backend/docs/manuals/*-extracted.txt",
+          "frontend/components/diagnostics/procedures/seed/{platformId}/",
+          "frontend/components/diagnostics/knowledge/pattern-catalog/*_EXTRACTION.md"
+        ],
+        "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"]
+      },
+      {
+        "id": "normalization",
+        "label": "Normalization",
+        "scope": "Procedure/measurement/decision-branch candidate extraction",
+        "writeTargets": [
+          "frontend/components/diagnostics/knowledge/normalization/candidates/{manualId}/"
+        ],
+        "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"]
+      },
+      {
+        "id": "canonical_mapping",
+        "label": "Canonical Mapping",
+        "scope": "Map OEM terms to frozen canonical vocabulary — candidates only",
+        "writeTargets": [
+          "normalization/candidates/{manualId}/canonical_mapping_candidates.json"
+        ],
+        "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"]
+      },
+      {
+        "id": "compounding",
+        "label": "Compounding",
+        "scope": "Semantic inheritance, human gate, promotion planning",
+        "writeTargets": [
+          "normalization/review/",
+          "normalization/promotions/",
+          "normalization/calibration/"
+        ],
+        "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/*.json"],
+        "mustNotPromoteToCanonical": true
+      },
+      {
+        "id": "manufacturer_overlay",
+        "label": "Manufacturer Overlay",
+        "scope": "Published platform vocabulary — oemTermAliases, bindings",
+        "writeTargets": [
+          "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/*.json"
+        ],
+        "mustNotWrite": ["frontend/components/diagnostics/knowledge/canonical/{ontologyId}.json"],
+        "overlayKindRequired": "manufacturer"
+      }
+    ]
+  },
+  "architectureEscapeHatch": {
+    "description": "When new evidence cannot map to frozen vocabulary without semantic distortion, production pipeline STOPS — does not silently expand canonical graphs.",
+    "decisionTree": [
+      "NEW_EVIDENCE encountered during normalization/compounding",
+      "Does frozen canonical vocabulary represent it correctly?",
+      "YES → continue NORMALIZE path (candidate → review → overlay publish)",
+      "NO → create ARCHITECTURE_EXCEPTION record → STOP production batch for that manual",
+      "ARCHITECTURE_GATE: fit → discovery → freeze (human authorized only)",
+      "On freeze approval → update frozen_canonical_hashes_v1.json + regression suites",
+      "Then normalization may resume"
+    ],
+    "forbiddenShortcut": "Encounter useful OEM term → add to canonical/foo.json → continue batch",
+    "requiredBehavior": "UNRESOLVED_TERM or architecture_exception → persisted evidence → promotion blocked → architecture gate decides",
+    "exceptionArtifactPath": "frontend/components/diagnostics/knowledge/normalization/candidates/{manualId}/architecture_exception.json",
+    "authorizedArchitectureGateWorkstreams": [
+      "CG-*-FIT-TEST",
+      "CG-*-DISCOVERY",
+      "CG-*-FREEZE",
+      "CG-CANONICAL-FAMILY-INVENTORY (classification only)"
+    ]
+  },
+  "immutableRules": [
+    {
+      "id": "frozen_canonical_immutability",
+      "rule": "Frozen canonical graphs are immutable by the production ingestion pipeline.",
+      "enforcement": [
+        "frozen_canonical_hashes_v1.json",
+        "validate_canonical_graph.py hash gate",
+        "cg-production-ingestion-governance.test.ts"
+      ]
+    },
+    {
+      "id": "no_canonical_from_single_manual",
+      "rule": "CG-5.3 — one unknown term or single manual does not justify canonical expansion.",
+      "enforcement": [
+        "backend/scripts/normalization/gap_analyzer.py",
+        "test_corpus_gap_analyzer.py"
+      ]
+    },
+    {
+      "id": "overlay_not_canonical",
+      "rule": "overlay.add.components ≠ canonical.components; compounding may not promote ontology.",
+      "enforcement": [
+        "backend/scripts/normalization/promotion/publish.py",
+        "validate_canonical_graph.py validate_manufacturer_overlay"
+      ]
+    },
+    {
+      "id": "unresolved_stops_promotion",
+      "rule": "UNRESOLVED_TERM and architecture conflicts block promotion until human gate.",
+      "enforcement": [
+        "backend/scripts/normalization/canonical_matcher.py",
+        "backend/scripts/normalization/promotion/planner.py",
+        "backend/scripts/normalization/conflict_detector.py"
+      ]
+    },
+    {
+      "id": "provenance_required",
+      "rule": "manualId, platformId, procedureId, pages preserved on all candidates.",
+      "enforcement": ["backend/scripts/normalization/provenance.py"]
+    },
+    {
+      "id": "batch_stop_on_unresolved_architecture",
+      "rule": "Production batch must not continue past unresolved architecture_exception without gate closure.",
+      "enforcement": ["contract + pilot gate (to be encoded in pilot contract)"]
+    }
+  ],
+  "codePathRegistry": {
+    "manualExtract": "backend/docs/manuals/extract_pdf.py",
+    "procedureSeedGenerators": "backend/scripts/generate_*_procedure_seeds.py",
+    "procedurePipelineOrchestrator": "backend/scripts/run_procedure_manual_pipeline.py",
+    "normalizationPipeline": "backend/scripts/normalization/pipeline.py",
+    "canonicalMatcher": "backend/scripts/normalization/canonical_matcher.py",
+    "overlayPublish": "backend/scripts/normalization/promotion/publish.py",
+    "canonicalValidator": "backend/scripts/validate_canonical_graph.py",
+    "frozenHashRegistry": "frontend/components/diagnostics/knowledge/normalization/calibration/frozen_canonical_hashes_v1.json",
+    "hierarchyContract": "frontend/components/diagnostics/knowledge/normalization/calibration/knowledge_hierarchy_contract_v1.json"
+  },
+  "authorizedCanonicalWriters": {
+    "description": "Only explicit architecture-gate freeze derivations may write canonical/*.json — never normalization or compounding.",
+    "allowedScripts": [
+      "backend/scripts/derive_top_load_washer_rev1.py",
+      "architecture_gate_freeze_scripts_only"
+    ],
+    "forbiddenWriters": [
+      "backend/scripts/normalization/**",
+      "backend/scripts/generate_*_procedure_seeds.py",
+      "backend/scripts/normalization/promotion/publish.py"
+    ]
+  },
+  "pilotGate": {
+    "id": "CG-PRODUCTION-NORMALIZATION-PILOT",
+    "status": "authorized_active",
+    "lockArtifact": "CG_PRODUCTION_NORMALIZATION_PILOT_LOCK_v1.json",
+    "contractArtifact": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+    "cohortSize": "5-10 manuals",
+    "cohortCriteria": [
+      "Whirlpool + Samsung + LG representation",
+      "multiple appliance families",
+      "platform variation within family",
+      "at least one manual with implementation terminology that must NOT become canonical"
+    ],
+    "pilotSequence": [
+      "normalization",
+      "canonical_mapping",
+      "compounding",
+      "overlay",
+      "regression",
+      "GATE"
+    ],
+    "batchAuthorizedOnlyAfter": "pilot GATE green"
+  },
+  "successCriteria": {
+    "governanceArtifactsCreated": true,
+    "auditDocumented": true,
+    "frozenHashesCentralized": true,
+    "validateCanonicalGraphEnforcesHashes": true,
+    "executableRegressionSuite": true,
+    "normalizationBatchAuthorized": false
+  },
+  "stopCondition": "Governance lock only — do not start production normalization batch until pilot contract authorized."
+}

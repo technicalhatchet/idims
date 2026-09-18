@@ -1,0 +1,154 @@
+{
+  "id": "samsungne58-convection-element",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Convection element",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "convection_element"
+  ],
+  "tags": [
+    "convection_issue",
+    "heating_element_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Convection heater harness and voltage",
+    "pages": [
+      44
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "conv_off"
+    },
+    {
+      "id": "conv_off",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect convection harness",
+      "body": "Power off. Access convection element harness.",
+      "sourceExcerpt": "Power off. Access convection element harness.",
+      "requiresInput": false,
+      "defaultNextStepId": "conv_ohms"
+    },
+    {
+      "id": "conv_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Convection element resistance",
+      "body": "Measure convection element harness resistance at room temperature.",
+      "sourceExcerpt": "Measure convection element harness resistance at room temperature.",
+      "measurementKnowledgeId": "bakeElementOhms",
+      "testPoint": {
+        "connector": "Convection heater",
+        "pins": "terminals",
+        "label": "Convection element resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "conv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "conv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "conv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "conv_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "conv_voltage",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_ol_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conv_voltage",
+      "order": 4,
+      "type": "instruction",
+      "title": "Convection terminal voltage",
+      "body": "Press convection bake keypad. Measure convection heater \u2014 AC 240 V (>1 min cycling).",
+      "sourceExcerpt": "Press convection bake keypad. Measure convection heater \u2014 AC 240 V (>1 min cycling).",
+      "requiresInput": false,
+      "defaultNextStepId": "conv_ok"
+    },
+    {
+      "id": "replace_conv",
+      "order": 5,
+      "type": "outcome",
+      "title": "Replace convection element or sub PCB",
+      "oemOutcome": "Replace convection element, harness, or sub PCB relay.",
+      "requiresInput": false
+    },
+    {
+      "id": "conv_ok",
+      "order": 6,
+      "type": "outcome",
+      "title": "Convection heat OK",
+      "oemOutcome": "Convection element path verified.",
+      "requiresInput": false
+    }
+  ]
+}

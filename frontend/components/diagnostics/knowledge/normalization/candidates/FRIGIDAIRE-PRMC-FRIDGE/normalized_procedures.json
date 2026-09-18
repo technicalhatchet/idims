@@ -1,0 +1,2734 @@
+{
+  "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+  "procedures": [
+    {
+      "procedureId": "frigidaireprmc-ff-defrost-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t4: Fresh-food evaporator defrost sensor",
+      "purpose": "Service mode test 31: FF evaporator defrost sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t4",
+        "Er t4",
+        "thermistor",
+        "sensor_check",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check fresh-food evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check fresh-food evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 31 readout",
+          "body": "In System Diagnostic Mode, navigate to test 31 (FF evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 31 (FF evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FF evaporator defrost sensor resistance",
+          "body": "Power off. Measure FF evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "FF evaporator defrost sensor",
+                "label": "FF evaporator defrost sensor resistance"
+              },
+              "title": "FF evaporator defrost sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure FF evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "FF evaporator defrost sensor",
+            "label": "FF evaporator defrost sensor resistance"
+          },
+          "title": "FF evaporator defrost sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "31",
+        "oemTestTitle": "Service mode test 31: FF evaporator defrost sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ff-defrost-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ff-defrost-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-ff-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t3: Fresh-food cabinet temperature sensor",
+      "purpose": "Service mode test 29: FF temp sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t3",
+        "Er t3",
+        "thermistor",
+        "sensor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check fresh-food cabinet temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check fresh-food cabinet temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 29 readout",
+          "body": "In System Diagnostic Mode, navigate to test 29 (FF temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 29 (FF temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FF temp sensor resistance",
+          "body": "Power off. Measure FF temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "FF temp sensor",
+                "label": "FF temp sensor resistance"
+              },
+              "title": "FF temp sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure FF temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "FF temp sensor",
+            "label": "FF temp sensor resistance"
+          },
+          "title": "FF temp sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "29",
+        "oemTestTitle": "Service mode test 29: FF temp sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ff-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ff-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-ffim-self-test",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "FFIM twist-tray self-test (TEST button)",
+      "purpose": "Ice maker test cycling",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "Er_t6",
+        "Er t6"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "im_power_on",
+          "order": 2,
+          "type": "instruction",
+          "title": "Turn ice maker ON",
+          "body": "Press and hold POWER on the FFIM for \u00bd second until POWER illuminates solid green.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press and hold POWER on the FFIM for \u00bd second until POWER illuminates solid green."
+        },
+        {
+          "id": "run_self_test",
+          "order": 3,
+          "type": "instruction",
+          "title": "Run TEST self-diagnostic",
+          "body": "Press and release TEST/SERVICE. Tray performs two rotations: hold bail arm up during the first rotation (simulate full bin); release for second rotation (empty bin). POWER returns solid green if pass; rapid blink = internal IM failure.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press and release TEST/SERVICE. Tray performs two rotations: hold bail arm up during the first rotation (simulate full bin); release for second rotation (empty bin). POWER returns solid green if pass; rapid blink = internal IM failure."
+        },
+        {
+          "id": "self_test_result",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Self-test passed?",
+          "body": "After second rotation home, is POWER solid green (no rapid blink)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "test_pass",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "test_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": "Replace FFIM assembly \u2014 internal failure detected."
+            }
+          ],
+          "sourceExcerpt": "After second rotation home, is POWER solid green (no rapid blink)?"
+        },
+        {
+          "id": "im_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_im",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "test_pass",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "self_test_result"
+        },
+        {
+          "id": "test_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": "Replace FFIM assembly \u2014 internal failure detected.",
+          "stepId": "self_test_result"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "FFIM-TEST",
+        "oemTestTitle": "Ice maker test cycling",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ffim-self-test",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ffim-self-test",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-ffim-tray-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t6: FFIM tray temperature sensor",
+      "purpose": "Service mode test 45: FFIM tray temp sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t6",
+        "Er t6",
+        "thermistor",
+        "sensor_check",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check fresh-food ice maker tray temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check fresh-food ice maker tray temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 45 readout",
+          "body": "In System Diagnostic Mode, navigate to test 45 (FFIM tray temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 45 (FFIM tray temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FFIM tray temp sensor resistance",
+          "body": "Power off. Measure FFIM tray temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "FFIM tray temp sensor",
+                "label": "FFIM tray temp sensor resistance"
+              },
+              "title": "FFIM tray temp sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure FFIM tray temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "FFIM tray temp sensor",
+            "label": "FFIM tray temp sensor resistance"
+          },
+          "title": "FFIM tray temp sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "45",
+        "oemTestTitle": "Service mode test 45: FFIM tray temp sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ffim-tray-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ffim-tray-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-fz-defrost-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t2: Freezer evaporator defrost sensor",
+      "purpose": "Service mode test 39: FRZ evaporator defrost sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t2",
+        "Er t2",
+        "thermistor",
+        "sensor_check",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check freezer evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check freezer evaporator defrost sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 39 readout",
+          "body": "In System Diagnostic Mode, navigate to test 39 (FRZ evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 39 (FRZ evaporator defrost sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FRZ evaporator defrost sensor resistance",
+          "body": "Power off. Measure FRZ evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "FRZ evaporator defrost sensor",
+                "label": "FRZ evaporator defrost sensor resistance"
+              },
+              "title": "FRZ evaporator defrost sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure FRZ evaporator defrost sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "FRZ evaporator defrost sensor",
+            "label": "FRZ evaporator defrost sensor resistance"
+          },
+          "title": "FRZ evaporator defrost sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "39",
+        "oemTestTitle": "Service mode test 39: FRZ evaporator defrost sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-fz-defrost-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-fz-defrost-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-fz-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t1: Freezer cabinet temperature sensor",
+      "purpose": "Service mode test 30: FRZ temp sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t1",
+        "Er t1",
+        "thermistor",
+        "sensor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check freezer cabinet temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check freezer cabinet temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 30 readout",
+          "body": "In System Diagnostic Mode, navigate to test 30 (FRZ temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 30 (FRZ temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FRZ temp sensor resistance",
+          "body": "Power off. Measure FRZ temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "FRZ temp sensor",
+                "label": "FRZ temp sensor resistance"
+              },
+              "title": "FRZ temp sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure FRZ temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "FRZ temp sensor",
+            "label": "FRZ temp sensor resistance"
+          },
+          "title": "FRZ temp sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "30",
+        "oemTestTitle": "Service mode test 30: FRZ temp sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-fz-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-fz-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-manual-defrost",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Manual defrost mode (dF)",
+      "purpose": "Manual Defrost",
+      "prerequisites": [],
+      "componentIds": [
+        "heater",
+        "main_control"
+      ],
+      "tags": [
+        "manual_defrost",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "enter_df",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter manual defrost (dF)",
+          "body": "On main UI: hold + and Air Filter buttons for 10 seconds. Display shows dF while manual defrost is active.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "On main UI: hold + and Air Filter buttons for 10 seconds. Display shows dF while manual defrost is active."
+        },
+        {
+          "id": "defrost_complete",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Defrost cycle effective?",
+          "body": "Allow manual defrost to run. Verify evaporator frost clears and compartment temperatures recover after dF completes and unit returns to normal operation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "defrost_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "defrost_resolved",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "defrost_failed",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "continue_diagnostics",
+              "terminal": true,
+              "oemOutcome": "Manual defrost did not clear frost \u2014 continue component diagnostics."
+            }
+          ],
+          "sourceExcerpt": "Allow manual defrost to run. Verify evaporator frost clears and compartment temperatures recover after dF completes and unit returns to normal operation."
+        },
+        {
+          "id": "defrost_resolved",
+          "order": 4,
+          "type": "outcome",
+          "title": "Manual defrost OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "continue_diagnostics",
+          "order": 5,
+          "type": "outcome",
+          "title": "Continue diagnostics",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "defrost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "defrost_resolved",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "defrost_complete"
+        },
+        {
+          "id": "defrost_failed",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "continue_diagnostics",
+          "terminal": true,
+          "oemOutcome": "Manual defrost did not clear frost \u2014 continue component diagnostics.",
+          "stepId": "defrost_complete"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "dF",
+        "oemTestTitle": "Manual Defrost",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-manual-defrost",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-manual-defrost",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-ui-communication",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er CE: Dispenser UI \u2194 main board communication",
+      "purpose": "Communication Error UI to Main Board",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "Er_CE",
+        "Er CE",
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "ce_active",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Er CE on display?",
+          "body": "Er CE indicates communication failure between dispenser UI and main control board. Check pin backouts and pinched wires on dispenser UI harness first.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ce_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_dispenser_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ce_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": true,
+              "oemOutcome": "Communication error not present."
+            }
+          ],
+          "sourceExcerpt": "Er CE indicates communication failure between dispenser UI and main control board. Check pin backouts and pinched wires on dispenser UI harness first."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "check_dispenser_harness",
+          "order": 4,
+          "type": "instruction",
+          "title": "Inspect dispenser UI harness",
+          "body": "Verify external 4-button dispenser UI harness is fully seated at main board and dispenser. In service mode, note dispenser UI firmware version scroll (tests after hardware tests).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify external 4-button dispenser UI harness is fully seated at main board and dispenser. In service mode, note dispenser UI firmware version scroll (tests after hardware tests)."
+        },
+        {
+          "id": "comm_restored",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Er CE cleared?",
+          "body": "After harness repair and power cycle, is Er CE cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace dispenser UI and/or main control board when harness verified."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is Er CE cleared?"
+        },
+        {
+          "id": "comm_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "No comm fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ce_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_dispenser_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ce_active"
+        },
+        {
+          "id": "ce_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": true,
+          "oemOutcome": "Communication error not present.",
+          "stepId": "ce_active"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_restored"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace dispenser UI and/or main control board when harness verified.",
+          "stepId": "comm_restored"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "CE",
+        "oemTestTitle": "Communication Error UI to Main Board",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ui-communication",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ui-communication",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "frigidaireprmc-vcz-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "title": "Er t5: VCZ (variable zone) temperature sensor",
+      "purpose": "Service mode test 32: VCZ temp sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "Er_t5",
+        "Er t5",
+        "thermistor",
+        "sensor_check",
+        "convert_drawer",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. R-600a is flammable \u2014 follow sealed-system precautions when applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power cord before servicing this appliance."
+        },
+        {
+          "id": "check_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Harness and pin backouts",
+          "body": "Check variable-chill zone (VCZ) temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "service_mode_readout",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_harness",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness_out",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness when damaged or loose."
+            }
+          ],
+          "sourceExcerpt": "Check variable-chill zone (VCZ) temperature sensor harness for pin backouts, pinched or damaged wires before replacing parts. Reseat connector at main control board."
+        },
+        {
+          "id": "repair_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair harness",
+          "body": "Repair wiring or reseat connector, then retest in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair wiring or reseat connector, then retest in service mode."
+        },
+        {
+          "id": "repair_harness_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "System Diagnostic Mode entered. Navigate to the sensor test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service mode entry, proceed with OEM sensor readout and resistance checks."
+        },
+        {
+          "id": "service_mode_readout",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Service mode test 32 readout",
+          "body": "In System Diagnostic Mode, navigate to test 32 (VCZ temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "readout_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "readout_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": true,
+              "oemOutcome": "OP/SH indicates open or shorted sensor circuit."
+            }
+          ],
+          "sourceExcerpt": "In System Diagnostic Mode, navigate to test 32 (VCZ temp sensor). Display should show compartment temperature \u2014 not OP (open) or SH (short)."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "VCZ temp sensor resistance",
+          "body": "Power off. Measure VCZ temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "cabinetThermistorOhms",
+              "testPoint": {
+                "connector": "main control harness",
+                "pins": "VCZ temp sensor",
+                "label": "VCZ temp sensor resistance"
+              },
+              "title": "VCZ temp sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "5\u201316 k\u03a9 @ room temp",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure VCZ temp sensor NTC at harness \u2014 typical 5\u201316 k\u03a9 at room temperature. Contact TID before main board replacement per service data sheet."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "cabinetThermistorOhms",
+          "testPoint": {
+            "connector": "main control harness",
+            "pins": "VCZ temp sensor",
+            "label": "VCZ temp sensor resistance"
+          },
+          "title": "VCZ temp sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "service_mode_readout",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_harness"
+        },
+        {
+          "id": "repair_harness",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness_out",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness when damaged or loose.",
+          "stepId": "check_harness"
+        },
+        {
+          "id": "readout_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "readout_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": true,
+          "oemOutcome": "OP/SH indicates open or shorted sensor circuit.",
+          "stepId": "service_mode_readout"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "5\u201316 k\u03a9 @ room temp",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "manualTitle": "Frigidaire Professional PRMC2285AF French-Door Refrigerator",
+        "oemTestNumber": "32",
+        "oemTestTitle": "Service mode test 32: VCZ temp sensor",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/ServiceDataSheet-PRMC2285AF-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-vcz-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-vcz-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "manualId": "W11794121",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "label": "JennAir 24\" Filtration dishwasher (W11794121)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.128876+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 29,
+    "mappingCandidates": 43,
+    "overlayCandidates": 13,
+    "conflicts": 0,
+    "extractionFiltered": 4
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 4,
+    "invalidExtraction": 0,
+    "totalFiltered": 4,
+    "samples": [
+      {
+        "rawTerm": "P6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-diverter-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P12",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-door-switch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P11",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-overfill-switch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "WDT750",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "source": "title_token"
+      }
+    ]
+  }
+}

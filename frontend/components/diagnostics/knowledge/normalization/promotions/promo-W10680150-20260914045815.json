@@ -1,0 +1,64 @@
+{
+  "promotionId": "promo-W10680150-20260914045815",
+  "manualId": "W10680150",
+  "platformId": "whirlpool_ccu_dryer",
+  "overlayFile": "whirlpool_vented_dryer.json",
+  "platformFamilyId": "whirlpool_ccu_dryer",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W10680150-compound-user_interface",
+    "map-W10680150-ccu-control_board",
+    "map-W10680150-door_switch-door_switch",
+    "map-W10680150-moisture_sensor-moisture_sensor",
+    "map-W10680150-compound-gas_valve",
+    "map-w10680150-unresolved-w10680150-gas-valve-igniter",
+    "map-W10680150-heating_element-heat_source",
+    "map-W10680150-thermal_fuse-thermal_fuse",
+    "map-W10680150-moisture-sensor-moisture_sensor",
+    "map-W10680150-motor-drive_motor",
+    "map-w10680150-unresolved-w10680150-supply-connections-supply",
+    "map-W10680150-thermal_cutoff-thermal_cutoff",
+    "map-W10680150-thermal-fuse-thermal_fuse",
+    "map-W10680150-compound-exhaust_thermistor",
+    "map-W10680150-compound-inlet_thermistor"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "TEST #5: Moisture Sensor": "moisture_sensor",
+        "TEST #4b: Thermal Fuse": "thermal_fuse"
+      },
+      "skip": {
+        "user_interface": "hmi_control",
+        "ccu": "control_board",
+        "door_switch": "door_switch",
+        "moisture_sensor": "moisture_sensor",
+        "gas_valve": "heat_source",
+        "igniter": "heat_source",
+        "heating_element": "heat_source",
+        "thermal_fuse": "thermal_fuse",
+        "motor": "drive_motor",
+        "supply": "power_supply",
+        "thermal_cutoff": "thermal_cutoff",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-14T04:58:15.542098+00:00",
+  "publishedAt": "2026-09-14T04:58:15.641598+00:00"
+}

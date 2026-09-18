@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "electric_range_gas_fit_hypothesis",
+  "workstream": "CG-11",
+  "status": "r1_observation_complete",
+  "generatedAt": "2026-09-16T15:34:00+00:00",
+  "contract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+  "frozenContract": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "centerpieceHypothesis": {
+    "question": "Is electric_range rev1 actually a range/oven functional contract, or an electric-only ontology?",
+    "nullHypothesis": "electric_range is electric-only — gas will expose genuine functional divergence",
+    "alternateHypothesis": "electric_range is fuel-agnostic at functional layer — gas maps to same components[] and instanceScopes[] with platform gas vocabulary"
+  },
+  "frozenLayersUnderTest": {
+    "canonicalComponents": {
+      "layer": "components[]",
+      "count": 5,
+      "nodes": [
+        {
+          "id": "power_supply",
+          "gasFitPrior": "likely_fits",
+          "rationale": "Mains prerequisite recurs on gas manuals — NX60 §4-2 supply test"
+        },
+        {
+          "id": "control_board",
+          "gasFitPrior": "likely_fits_with_platform_vocabulary",
+          "rationale": "Relay/sub-PCB orchestration on Samsung gas — same CG-10 posture as electric sub PCB",
+          "platformVocabulary": ["sub_pcb", "heater_relays", "dlb_relay"]
+        },
+        {
+          "id": "user_interface",
+          "gasFitPrior": "likely_fits",
+          "rationale": "Touch/HMI diagnostic domain distinct from control PCB — C-F2 comm path"
+        },
+        {
+          "id": "temperature_sensor",
+          "gasFitPrior": "likely_fits",
+          "rationale": "Oven RTD procedure on NX60 — C-20/C-21 sensor route"
+        },
+        {
+          "id": "surface_heating_system",
+          "gasFitPrior": "uncertain_primary_probe",
+          "rationale": "Cooktop functional domain may survive with gas burners — spark module is platform vocabulary, not canonical node",
+          "platformVocabulary": ["spark_module", "surface_burner"]
+        }
+      ]
+    },
+    "instanceScopes": {
+      "layer": "instanceScopes[]",
+      "count": 2,
+      "nodes": [
+        {
+          "id": "bake_heating_element",
+          "gasFitPrior": "uncertain_primary_probe",
+          "rationale": "Electric element instance scope vs gas bake HSI + safety valve path — centerpiece instance-scope boundary question",
+          "platformVocabulary": ["bake_ignitor", "hsi", "safety_valve"],
+          "possibleClassifications": [
+            "functional_equivalent_instance_scope",
+            "instance_scope_needs_gas_specific_binding",
+            "contract_boundary"
+          ]
+        },
+        {
+          "id": "broil_heating_element",
+          "gasFitPrior": "uncertain",
+          "rationale": "Broil HSI separate proc on NX60 — test whether broil instance scope generalizes beyond electric element",
+          "platformVocabulary": ["broil_ignitor", "hsi"]
+        }
+      ]
+    },
+    "conditionalInstanceScopes": {
+      "layer": "conditionalInstanceScopes[]",
+      "nodes": [
+        {
+          "id": "convection_heating_element",
+          "gasFitPrior": "likely_not_applicable",
+          "rationale": "CG-10 flagged absent_gas_only_platforms — gas convection may be fan-only without separate heating element instance"
+        }
+      ]
+    },
+    "conditionalConcepts": {
+      "layer": "conditionalConcepts[]",
+      "nodes": [
+        {
+          "id": "convection_fan",
+          "gasFitPrior": "likely_fits_conditional",
+          "rationale": "NX60 dedicated convection fan proc — same conditional posture as electric"
+        },
+        {
+          "id": "thermal_protection",
+          "gasFitPrior": "likely_fits_conditional",
+          "rationale": "Cooling fan C-A2 and vent C-24 — platform divergence, conditional concept holds"
+        },
+        {
+          "id": "oven_door_switch",
+          "gasFitPrior": "uncertain",
+          "rationale": "Door lock motor proc C-d1 — latch actuator vs door authorization function packaging"
+        }
+      ]
+    }
+  },
+  "rejectedAutoPromotions": {
+    "note": "These OEM concepts must NOT become canonical without fit-test classification",
+    "candidates": [
+      "gas_burner",
+      "igniter",
+      "hot_surface_ignitor",
+      "flame_sensor",
+      "gas_valve",
+      "safety_valve",
+      "spark_module",
+      "dsi_board"
+    ]
+  },
+  "r1ObservationPlan": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "platformId": "samsung_range_nx60",
+    "fuelFilter": "gas_range",
+    "outputArtifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+    "probeOrder": [
+      "power_supply_gas",
+      "control_board_gas",
+      "user_interface_gas",
+      "temperature_sensor_gas",
+      "surface_heating_system_gas",
+      "bake_instance_scope_gas",
+      "broil_instance_scope_gas",
+      "thermal_protection_gas",
+      "oven_door_switch_gas",
+      "convection_fan_gas",
+      "convection_heating_element_gas"
+    ]
+  },
+  "fitTestNotDiscovery": {
+    "rule": "CG-11 does not re-run CG-10 discovery — it evaluates gas evidence against immutable frozen layers",
+    "cg10CandidateSkeleton": "electric_range_oven_cg10x_candidate_v1.json remains unmodified calibration artifact"
+  }
+}

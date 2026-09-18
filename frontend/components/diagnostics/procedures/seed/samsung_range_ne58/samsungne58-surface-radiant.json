@@ -1,0 +1,74 @@
+{
+  "id": "samsungne58-surface-radiant",
+  "version": "1.0.0",
+  "title": "\u00a73-5: Surface radiant elements",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "surface_element"
+  ],
+  "tags": [
+    "surface_burner",
+    "cooktop_no_heat"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "3-5",
+    "oemTestTitle": "Ceramic cooktop radiant elements \u2014 knob control",
+    "pages": [
+      13
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "surface_access"
+    },
+    {
+      "id": "surface_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Access surface harness",
+      "body": "Disconnect power. Remove ceramic glass cooktop per \u00a73-5. Inspect radiant element harness connectors.",
+      "sourceExcerpt": "Disconnect power. Remove ceramic glass cooktop per \u00a73-5. Inspect radiant element harness connectors.",
+      "requiresInput": false,
+      "defaultNextStepId": "surface_check"
+    },
+    {
+      "id": "surface_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "Radiant element / infinite switch",
+      "body": "Verify knob-controlled infinite switch sends power to radiant element. Measure element continuity at terminals.",
+      "sourceExcerpt": "Verify knob-controlled infinite switch sends power to radiant element. Measure element continuity at terminals.",
+      "requiresInput": false,
+      "defaultNextStepId": "surface_ok"
+    },
+    {
+      "id": "replace_surface",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace surface element or switch",
+      "oemOutcome": "Replace radiant element or infinite switch \u2014 platform implementation.",
+      "requiresInput": false
+    },
+    {
+      "id": "surface_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Surface heat path OK",
+      "oemOutcome": "Surface heating path verified at platform level.",
+      "requiresInput": false
+    }
+  ]
+}

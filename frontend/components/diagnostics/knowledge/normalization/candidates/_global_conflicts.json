@@ -1,0 +1,48 @@
+{
+  "generatedAt": "2026-09-13T00:50:22.387360+00:00",
+  "conflicts": [
+    {
+      "id": "conflict-topology-washer-family-mix",
+      "status": "CONFLICT_REQUIRES_REVIEW",
+      "conflictType": "RELATIONSHIP_CONFLICT",
+      "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+      "assertions": [
+        {
+          "topologySignature": "direct_drive_motor",
+          "manualIds": [
+            "W11169652",
+            "SAMSUNG-FL-BB8700-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "ccu_mcu_motor",
+          "manualIds": [
+            "W8178558",
+            "SAMSUNG-FL-WF6000R-WASHER",
+            "SAMSUNG-FLEXWASH-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "motor_present_unknown_path",
+          "manualIds": [
+            "W10864849",
+            "W11416787",
+            "W11800233",
+            "W11697231",
+            "W11455152",
+            "W11416395",
+            "W11428632",
+            "SAMSUNG-TL-A50-WASHER",
+            "SAMSUNG-TL-CG71-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "unknown",
+          "manualIds": [
+            "W10785366A"
+          ]
+        }
+      ]
+    }
+  ]
+}

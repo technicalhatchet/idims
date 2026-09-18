@@ -1,0 +1,1119 @@
+{
+  "manualId": "SAMSUNG-HP-DRYER-DV22N",
+  "candidates": [
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-compressor-inverter-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-compressor-inverter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-compressor-inverter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-heat_pump",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heat_pump",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "heat",
+        "actuator": "pump"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-compressor-inverter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-compressor-inverter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "heat",
+              "actuator": "pump"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-compressor-inverter-(3ca,-hc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Compressor inverter (3CA, HC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-compressor-inverter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-compressor-inverter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Compressor inverter (3CA, HC)"
+    },
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-condensate-overflow-condensate",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "condensate",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-condensate-overflow",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-condensate-overflow",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-condensate-overflow-drain",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-condensate-overflow",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-condensate-overflow",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-condensate-overflow-(5c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Condensate overflow (5C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-condensate-overflow",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-condensate-overflow",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Condensate overflow (5C)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-door_switch-door_switch",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_switch",
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-door-switch",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-door-switch",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-door-open-(dc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Door open (dC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "open dc",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-door-switch",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-door-switch",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "open dc",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door open (dC)"
+    },
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-drain-pump-float-drain",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drain-pump-float",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drain-pump-float",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-drain-pump-float-condensate",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "condensate",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drain-pump-float",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drain-pump-float",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-float-switch-and-pump-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-5: Float switch and pump motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "float switch and pump",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drain-pump-float",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drain-pump-float",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "float switch and pump",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Float switch and pump motor"
+    },
+    {
+      "id": "map-samsung-hp-dryer-dv22n-unresolved-samsungdv22n-drum-motor-drive",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drum-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drum-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-bldc-drum-motor-(3c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: BLDC drum motor (3C)",
+      "canonicalId": "drive_motor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "bldc drum",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "drum motor",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drum-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drum-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drum motor",
+            "decomposition": {
+              "domain": null,
+              "component": "bldc drum",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "BLDC drum motor (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-display_panel",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "display_panel",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-hmi-button",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-hmi-button",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-button-stuck-(bc2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Button stuck (bC2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-hmi-button",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-hmi-button",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Button stuck (bC2)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-lint_filter-lint_filter",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "lint_filter",
+      "extractedTerm": null,
+      "canonicalId": "lint_filter",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-lint-filter",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-lint-filter",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-case-filter-restriction-(tc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Case filter restriction (tC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-lint-filter",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-lint-filter",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Case filter restriction (tC)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.95,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-pba-communication",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-pba-communication",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "component_aliases"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-pba-communication-(ac,-ac6)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: PBA communication (AC, AC6)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-pba-communication",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-pba-communication",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA communication (AC, AC6)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-power-supply",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-power-supply",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-supply-voltage-(9c1,-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Supply voltage (9C1, 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-power-supply",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-power-supply",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Supply voltage (9C1, 9C2)"
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-thermistor-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-refrigerant-thermistors",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-HP-DRYER-DV22N-compound-refrigerant-thermistors-(tc,-tc5,-tc7,-tc8,-tca)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Refrigerant thermistors (tC, tC5, tC7, tC8, tCA)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-refrigerant-thermistors",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Refrigerant thermistors (tC, tC5, tC7, tC8, tCA)"
+    }
+  ]
+}

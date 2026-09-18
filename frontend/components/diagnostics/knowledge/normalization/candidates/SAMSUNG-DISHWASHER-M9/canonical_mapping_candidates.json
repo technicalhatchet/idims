@@ -1,0 +1,1623 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-wash_motor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_motor",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "wash",
+        "component": null,
+        "actuator": "motor"
+      },
+      "matchedPhrase": "wash motor",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-circulation-motor",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-circulation-pump-(3c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Circulation Pump (3C)",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "circulation",
+        "actuator": "pump"
+      },
+      "matchedPhrase": "circulation pump",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-circulation-motor",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "circulation pump",
+            "decomposition": {
+              "domain": null,
+              "component": "circulation",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Circulation Pump (3C)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-communication",
+        "pages": [
+          36,
+          37,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-communication",
+            "pages": [
+              36,
+              37,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-pba-communication-(ac-/-ac6)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: PBA Communication (AC / AC6)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-communication",
+        "pages": [
+          36,
+          37,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-communication",
+            "pages": [
+              36,
+              37,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PBA Communication (AC / AC6)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-dispenser-detergent_dispenser",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "dispenser",
+      "extractedTerm": null,
+      "canonicalId": "detergent_dispenser",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dispenser",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dispenser",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-detergent-dispenser-detergent_dispenser",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Detergent Dispenser",
+      "extractedTerm": "Detergent Dispenser",
+      "canonicalId": "detergent_dispenser",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dispenser",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dispenser",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-3: Detergent Dispenser",
+            "extractedTerm": "Detergent Dispenser",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-diverter_motor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "diverter_motor",
+      "canonicalId": "circulation_pump",
+      "confidence": 0.81,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "diverter",
+        "actuator": "motor"
+      },
+      "matchedPhrase": "diverter motor",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-distributor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-distributor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "diverter motor",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-distributor-motor-(pc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Distributor Motor (PC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "distributor",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-distributor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-distributor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "distributor",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Distributor Motor (PC)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-door_latch",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_latch",
+      "canonicalId": "door_switch",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "latch"
+      },
+      "matchedPhrase": "door latch",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-door-switch",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-door-switch",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door latch",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "latch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-door-sensing-switch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Door Sensing Switch",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "sensing",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-door-switch",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-door-switch",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "sensing",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door Sensing Switch"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-drain-pump",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-drain-pump",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-drain-pump-(5c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Drain Pump (5C)",
+      "canonicalId": "drain_pump",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": null,
+        "actuator": "pump"
+      },
+      "matchedPhrase": "drain pump",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-drain-pump",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-drain-pump",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain Pump (5C)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-fan_motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "fan_motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "fan",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dry-system",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dry-system",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-vent-drying_system",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "vent",
+      "extractedTerm": null,
+      "canonicalId": "drying_system",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dry-system",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dry-system",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-dry-fan,-actuator-&-auto-door-(fc-/-dc3)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)",
+      "canonicalId": "drying_system",
+      "confidence": 0.81,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "dry fan",
+        "actuator": "actuator"
+      },
+      "matchedPhrase": "dry fan",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dry-system",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dry-system",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "dry fan",
+            "decomposition": {
+              "domain": null,
+              "component": "dry fan",
+              "actuator": "actuator"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Dry Fan, Actuator & Auto Door (FC / dC3)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-fill-valve",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-fill-valve",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-fill-valve-&-flow-meter-(4c)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+      "canonicalId": "inlet_valve",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "fill",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": "fill valve",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-fill-valve",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-fill-valve",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "fill valve",
+            "decomposition": {
+              "domain": "fill",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Fill Valve & Flow Meter (4C)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-heater-heat_source",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-heater-operation-(hc-/-hc1)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Heater Operation (HC / HC1)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Heater Operation (HC / HC1)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-user_interface",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "canonicalId": "hmi_control",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": "user interface",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-hmi-check",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-hmi-check",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "user interface",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-touch-panel-&-sub-pba-(bc2-/-bc3)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-hmi-check",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-hmi-check",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Touch Panel & Sub PBA (bC2 / bC3)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-leak_sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "leak_sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "leak",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-leak-sensor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "leak",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-leak-sensor-(lc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Leak Sensor (LC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "leak",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-leak-sensor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "leak",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Leak Sensor (LC)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-float_switch",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "float_switch",
+      "canonicalId": "water_level_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "float",
+        "actuator": "switch"
+      },
+      "matchedPhrase": "float switch",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-overflow",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-overflow",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "float switch",
+            "decomposition": {
+              "domain": null,
+              "component": "float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-overflow-sensor-(oc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Overflow Sensor (OC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "overflow",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-overflow",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-overflow",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "overflow",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Overflow Sensor (OC)"
+    },
+    {
+      "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-power-supply-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-power-supply",
+        "pages": [
+          52,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-power-supply",
+            "pages": [
+              52,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-no-power-&-power-relay-check",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "No Power & Power Relay Check",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "no power power",
+        "actuator": "relay"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-power-supply",
+        "pages": [
+          52,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-power-supply",
+            "pages": [
+              52,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "no power power",
+              "actuator": "relay"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-thermistor-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-thermistor",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-thermistor",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-water-thermistor-(tc)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": null,
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-thermistor",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-thermistor",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water Thermistor (tC)"
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-lower-vane-motor-(7c)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Lower Vane Motor (7C)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "lower vane",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-vane-motor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-vane-motor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "lower vane",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Lower Vane Motor (7C)"
+    },
+    {
+      "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-voltage-abnormal-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "pages": [
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-voltage-abnormal",
+            "pages": [
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-DISHWASHER-M9-compound-abnormal-supply-voltage-(9c1-/-9c2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "pages": [
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-voltage-abnormal",
+            "pages": [
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Abnormal Supply Voltage (9C1 / 9C2)"
+    }
+  ]
+}

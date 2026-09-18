@@ -1,6 +1,11 @@
 import type { DiagnosticIntelligenceResult, ComponentEvidenceScore } from '../intelligence/evidenceTypes';
 import type { MeasurementContext } from '../knowledge/types';
-import { resolvePlatformIdFromModel } from '../knowledge/platformRegistry';
+import {
+  resolveCanonicalRouting,
+  scoreCanonicalDomainBoost,
+} from '../knowledge/canonical/resolveCanonicalRouting';
+import { getPlatformRule, resolvePlatformIdFromModel } from '../knowledge/platformRegistry';
+import { resolveProcedureComponentForEvidence } from './procedureComponentAliases';
 import { getServiceModeBundle, getServiceProceduresForPlatform } from './procedureRegistry';
 import { isProcedureAllowedForTemplate } from './procedurePlatformAccess';
 import { procedureMatchesErrorCode } from './parseProcedureErrorCodes';
@@ -13,6 +18,9 @@ export interface ProcedureRecommendation {
   reason: string;
   priority: number;
   matchedErrorCodes?: string[];
+  /** Canonical failure domains matched for this procedure (washer FL ontology). */
+  canonicalDomainMatches?: string[];
+  canonicalBoost?: number;
 }
 
 export interface RecommendServiceProceduresInput {
@@ -102,14 +110,24 @@ function buildReason(
   components: ComponentEvidenceScore[],
   complaintChipIds: string[],
   matchedErrorCodes: string[],
+  canonicalDomainMatches: string[] = [],
+  domainLabels: Record<string, string> = {},
 ): string {
   if (matchedErrorCodes.length) {
     const codeLabel = matchedErrorCodes.join(', ');
     return `Fault code ${codeLabel} maps to ${procedure.title} on this platform.`;
   }
 
+  const aliasContext = {
+    platformId: procedure.platformId,
+    templateId: getPlatformRule(procedure.platformId)?.templateId,
+    procedureId: procedure.id,
+  };
   const matchedComponents = procedure.componentIds
-    .map((id) => components.find((item) => item.id === id))
+    .map((id) => {
+      const evidenceId = resolveProcedureComponentForEvidence(id, aliasContext);
+      return components.find((item) => item.id === evidenceId);
+    })
     .filter(Boolean) as ComponentEvidenceScore[];
 
   const confirmed = matchedComponents.find((item) => item.state === 'confirmed');
@@ -120,6 +138,13 @@ function buildReason(
   const suspected = matchedComponents.find((item) => item.evidence > 0);
   if (suspected) {
     return `${suspected.label} is under investigation — run the matching OEM procedure.`;
+  }
+
+  if (canonicalDomainMatches.length) {
+    const domainText = canonicalDomainMatches
+      .map((id) => domainLabels[id] || id)
+      .join(', ');
+    return `Canonical routing — ${domainText} domain maps to ${procedure.title}.`;
   }
 
   const chipLabels = complaintChipIds.filter((chip) => COMPLAINT_CHIP_PROCEDURE_TAGS[chip]);
@@ -136,6 +161,7 @@ function scoreProcedure(
   complaintChipIds: string[],
   errorCodes: string[],
   procedureRuns: Record<string, ProcedureRunState>,
+  canonicalDomainBoost = 0,
 ): number {
   const saved = procedureRuns[procedure.id];
   if (saved?.status === 'in_progress') return 100;
@@ -146,8 +172,14 @@ function scoreProcedure(
   const matchedErrorCodes = procedureMatchesErrorCode(procedure.tags, errorCodes);
   score += matchedErrorCodes.length * 35;
 
+  const aliasContext = {
+    platformId: procedure.platformId,
+    templateId: getPlatformRule(procedure.platformId)?.templateId,
+    procedureId: procedure.id,
+  };
   for (const componentId of procedure.componentIds) {
-    const component = components.find((item) => item.id === componentId);
+    const evidenceId = resolveProcedureComponentForEvidence(componentId, aliasContext);
+    const component = components.find((item) => item.id === evidenceId);
     if (!component) continue;
     if (component.state === 'confirmed') score += 40;
     else if (component.evidence > 0) score += 25;
@@ -163,6 +195,8 @@ function scoreProcedure(
   for (const tag of procedure.tags || []) {
     if (complaintChipIds.includes(tag)) score += 15;
   }
+
+  score += canonicalDomainBoost;
 
   return score;
 }
@@ -228,23 +262,44 @@ export function recommendServiceProcedures({
   const components = collectComponents(intelligence);
   const minScore = 20;
 
+  const canonicalRouting = resolveCanonicalRouting({
+    templateId,
+    platformId,
+    complaintChipIds,
+    errorCodes,
+  });
+
   return getServiceProceduresForPlatform(platformId)
     .filter((procedure) => isProcedureAllowedForTemplate(procedure, templateId))
     .map((procedure) => {
       const matchedErrorCodes = procedureMatchesErrorCode(procedure.tags, errorCodes);
+      const { boost: canonicalBoost, matches: canonicalDomainMatches } = scoreCanonicalDomainBoost(
+        procedure,
+        canonicalRouting?.activeDomains || [],
+      );
       const priority = scoreProcedure(
         procedure,
         components,
         complaintChipIds,
         errorCodes,
         procedureRuns,
+        canonicalBoost,
       );
       return {
         procedureId: procedure.id,
         procedure,
-        reason: buildReason(procedure, components, complaintChipIds, matchedErrorCodes),
+        reason: buildReason(
+          procedure,
+          components,
+          complaintChipIds,
+          matchedErrorCodes,
+          canonicalDomainMatches,
+          canonicalRouting?.domainLabels || {},
+        ),
         priority,
         matchedErrorCodes: matchedErrorCodes.length ? matchedErrorCodes : undefined,
+        canonicalDomainMatches: canonicalDomainMatches.length ? canonicalDomainMatches : undefined,
+        canonicalBoost: canonicalBoost || undefined,
       };
     })
     .filter(

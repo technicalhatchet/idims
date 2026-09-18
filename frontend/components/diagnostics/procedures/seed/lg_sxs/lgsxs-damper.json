@@ -1,0 +1,166 @@
+{
+  "id": "lgsxs-damper",
+  "version": "1.0.0",
+  "title": "\u00a72-17: Stepping damper + OptiChill (Test 1/2)",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "damper_motor"
+  ],
+  "tags": [
+    "damper",
+    "airflow",
+    "weak_cooling_ff"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-17-damper",
+    "oemTestTitle": "Stepping motor damper",
+    "pages": [
+      21,
+      22
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "test1_damper"
+    },
+    {
+      "id": "test1_damper",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test Mode 1 \u2014 damper open",
+      "body": "Press main PCB test button once \u2014 main stepping damper fully OPEN (baffle open); OptiChill damper CLOSED.",
+      "sourceExcerpt": "Press main PCB test button once \u2014 main stepping damper fully OPEN (baffle open); OptiChill damper CLOSED.",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_open_ok"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "damper_open_ok"
+    },
+    {
+      "id": "damper_open_ok",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Main damper open?",
+      "body": "Verify fresh-food airflow increases when main damper opens in Test Mode 1.",
+      "sourceExcerpt": "Verify fresh-food airflow increases when main damper opens in Test Mode 1.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "open_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "test2_damper"
+        },
+        {
+          "id": "open_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper_out",
+          "terminal": true,
+          "oemOutcome": "Replace stepping damper motor or main PCB driver.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "damper_motor",
+              "evidenceId": "ref_ms_damper_bad_weak_ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "test2_damper",
+      "order": 5,
+      "type": "instruction",
+      "title": "Test Mode 2 \u2014 damper closed",
+      "body": "From Test 1, press test button once \u2014 compressor and fans OFF, defrost heater ON, main damper CLOSED.",
+      "sourceExcerpt": "From Test 1, press test button once \u2014 compressor and fans OFF, defrost heater ON, main damper CLOSED.",
+      "requiresInput": false,
+      "defaultNextStepId": "damper_closed_ok"
+    },
+    {
+      "id": "damper_closed_ok",
+      "order": 6,
+      "type": "visual_check",
+      "title": "Main damper closed?",
+      "body": "Verify damper closes in Test Mode 2 (forced defrost).",
+      "sourceExcerpt": "Verify damper closes in Test Mode 2 (forced defrost).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "closed_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_ok"
+        },
+        {
+          "id": "closed_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper_out",
+          "terminal": true,
+          "oemOutcome": "Replace stepping damper motor when stuck open/closed.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "damper_motor",
+              "evidenceId": "ref_ms_damper_bad_weak_ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_damper_out",
+      "order": 7,
+      "type": "outcome",
+      "title": "Replace damper",
+      "oemOutcome": "Replace stepping damper motor or main PCB driver output.",
+      "requiresInput": false
+    },
+    {
+      "id": "damper_ok",
+      "order": 8,
+      "type": "outcome",
+      "title": "Damper verified",
+      "oemOutcome": "Main and OptiChill damper motion verified via Test 1/2.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgsxs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

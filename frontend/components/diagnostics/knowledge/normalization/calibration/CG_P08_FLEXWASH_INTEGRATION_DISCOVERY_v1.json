@@ -1,0 +1,477 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_integration_discovery",
+  "workstream": "CG-P08-FLEXWASH-INTEGRATION-DISCOVERY",
+  "status": "discovery_complete",
+  "generatedAt": "2026-09-17T21:20:00+00:00",
+  "gateStatus": {
+    "humanArchitectureDecision": "Path B — integration abstraction discovery authorized; freeze NOT authorized",
+    "p08ArchitectureException": "VALID — STOP preserved",
+    "pilotClosure": "HOLD",
+    "canonicalPromotion": "NOT AUTHORIZED",
+    "freeze": "NOT AUTHORIZED"
+  },
+  "referenceArtifacts": [
+    "CG_P08_FLEXWASH_ARCHITECTURE_DECISION_PACKAGE_v1.json",
+    "CG_PILOT_FRESH_8OF8_RERUN_REPORT_v1.json",
+    "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json"
+  ],
+  "witness": {
+    "id": "W1",
+    "manufacturer": "Samsung",
+    "model": "WV55M9600",
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "platformId": "samsung_flexwash",
+    "witnessDiscipline": "single_witness_candidate_only — establishes discovery, not freeze truth"
+  },
+  "discoverySummary": "FlexWash integration-level behaviors cluster into three distinguishable functional responsibilities: (1) inter-subsystem communication between upper and lower control domains (AC7), (2) system-level supervisory fault surfacing (SF), and (3) dual-compartment cycle coordination including independent compartment operation and cross-compartment dependencies. Multi-instance front_load_washer composition (FL_LOWER + FL_UPPER) plus shared power/HMI can represent compartment-local wash functions without distorting the frozen FL graph, but cannot represent inter-instance communication, system supervisory faults, or cross-compartment coordination using only existing front_load_washer relationships on a single instance. Existing relationship types (communicates_with, depends_on, commands, enables, inhibits) are sufficient at the type level, but require a composition host and at least one integration functional domain to anchor cross-instance edges — analogous to AIO integrated_laundry_orchestration, without copying its wash/dry semantics. Dual-column fault attribution is primarily multi-instance scoping (metadata), not a separate canonical function, though it depends on instance identity being explicit in the composition model. Discovery leans toward ONE minimal integration abstraction with multiple responsibilities rather than several unrelated blobs, but corroboration is required before freeze. No abstraction name is authorized for promotion.",
+  "integrationBehaviors": [
+    {
+      "id": "IB-AC7",
+      "label": "Upper↔lower PBA communication (AC7)",
+      "oemCodes": ["AC7"],
+      "procedureId": "samsungflexwash-interload-communication",
+      "manualPages": [31, 33],
+      "functionClass": "communication",
+      "integrationLevel": true
+    },
+    {
+      "id": "IB-SF",
+      "label": "System fault — microcontroller operation fail (SF)",
+      "oemCodes": ["SF"],
+      "procedureId": "samsungflexwash-system-fault",
+      "manualPages": [33, 35],
+      "functionClass": "system_supervision",
+      "integrationLevel": true
+    },
+    {
+      "id": "IB-PARTITION",
+      "label": "Dual-column compartment fault attribution/routing",
+      "oemEvidence": "Manual fault table Upper/Lower columns; flex_compartment wizard field",
+      "functionClass": "fault_attribution",
+      "integrationLevel": "partial — mostly instance scoping"
+    },
+    {
+      "id": "IB-ORCH",
+      "label": "Independent compartment wash operation and cross-compartment coordination",
+      "oemEvidence": "Complaint routing (upper won't run / lower won't spin); AC7 dependency; dual-load architecture",
+      "functionClass": "orchestration",
+      "integrationLevel": true
+    }
+  ],
+  "ac7Analysis": {
+    "functionalBehavior": "Diagnostic detection and remediation of failed bidirectional signaling between the upper washer sub PBA and the lower main PBA over the CN803 interconnect harness (TX_OWM/RX_OWM plus power lines). OEM states signals between upper and lower main PBAs are not sensed due to communication error.",
+    "participants": [
+      { "entity": "upper_sub_pba", "role": "upper control domain endpoint" },
+      { "entity": "lower_main_pba", "role": "lower control domain endpoint" },
+      { "entity": "cn803_interconnect_harness", "role": "physical/diagnostic communication path" }
+    ],
+    "functionCategory": "communication",
+    "physicalVsFunctional": {
+      "physical": "CN803 harness, connector integrity, TX_OWM/RX_OWM lines",
+      "functional": "Inter-subsystem control-domain communication required for coordinated dual-load operation; AC7 is a functional communication failure code, not a wire-only test"
+    },
+    "existingRelationshipSufficiency": {
+      "communicates_withAlone": false,
+      "rationale": "front_load_washer.communicates_with links components within one washer graph (e.g. hmi_control↔control_board, motor_controller↔control_board). AC7 is between two distinct control domains belonging to different composed instances. Without a composition layer and qualified endpoints, communicates_with has no valid from/to anchors."
+    },
+    "missingCapability": "Inter-instance control-domain communication link with diagnostic test target spanning both composed subsystems",
+    "oneOrMultipleAbstractions": "Part of integration domain — not a standalone canonical component separate from dual-load integration",
+    "smallestAbstraction": "Integration functional domain edge: composed_upper.control_board communicates_with composed_lower.control_board (qualified), with AC7 as integration-level diagnostic evidence",
+    "supportingEvidence": [
+      "Procedure samsungflexwash-interload-communication steps CN803 harness verification",
+      "Manual p.33: signals between upper and lower main PBA not sensed",
+      "architecture_exception trigger: interload"
+    ],
+    "missingEvidence": [
+      "Protocol-level signal semantics beyond harness reseat",
+      "Whether AC7 blocks only cross-compartment features or entire appliance",
+      "Second witness inter-PBA comm pattern"
+    ],
+    "falsificationTests": [
+      "Second dual-load witness uses wholly separate comm architecture with no cross-PBA link → would split comm from orchestration",
+      "AC7 reducible to lower control_board self-test without upper endpoint → would collapse to FL_LOWER only"
+    ],
+    "confidence": "high"
+  },
+  "sfAnalysis": {
+    "functionalBehavior": "System-wide microcontroller operation failure surfaced as SF after power cycle; persistent SF requires main PCB (Assy PCB) replacement. OEM classifies as 'System Error' — not compartment-local component fault.",
+    "participants": [
+      { "entity": "lower_main_pba", "role": "primary replacement target per procedure" },
+      { "entity": "upper_sub_pba", "role": "participates in system; SF appears in both fault-table columns" },
+      { "entity": "unit_supervisor", "role": "hypothesized — system-level control supervision" }
+    ],
+    "functionCategory": "system_supervision",
+    "characterizationOptions": {
+      "faultAggregation": "SF aggregates irrecoverable controller operation failure at appliance level",
+      "orchestrationFailure": "Possible but not proven — SF may be primary MCU fail rather than coordination logic fail",
+      "sharedControllerFailure": "Procedure targets main PCB; lower main may be supervisory root",
+      "verdict": "system_supervision — spans composed subsystems; not reducible to single FL component test without integration context"
+    },
+    "existingRelationshipSufficiency": {
+      "control_boardDependsOnAlone": false,
+      "rationale": "Mapping SF only to FL_LOWER.control_board loses system scope signaled in dual-column table and 'System Error' classification. Mapping to both instances' control_board duplicates a single supervisory fault."
+    },
+    "missingCapability": "System-level supervisory fault domain that can fail independently of compartment-local component tests",
+    "oneOrMultipleAbstractions": "Likely same integration domain as AC7/orchestration — supervisory surface, not separate ontology",
+    "smallestAbstraction": "Integration functional domain owns system_supervision diagnostic entry; references composed control domains without duplicating them",
+    "supportingEvidence": [
+      "Manual: Micro Controller Operation Fail — Replace Assy PCB",
+      "SF in both Upper and Lower columns of fault table",
+      "Procedure samsungflexwash-system-fault"
+    ],
+    "missingEvidence": [
+      "Whether SF originates only on lower main or either PBA",
+      "SF interaction with AC7 (cascade vs independent)",
+      "Second witness system-fault semantics"
+    ],
+    "falsificationTests": [
+      "SF always traces to lower main PCB only with no upper involvement → may scope supervision to FL_LOWER.control_board with system alias",
+      "Second witness uses independent non-communicating controllers with no SF equivalent → SF may be Samsung-specific overlay only"
+    ],
+    "confidence": "medium-high"
+  },
+  "faultPartitionAnalysis": {
+    "functionalBehavior": "OEM fault table presents Upper and Lower columns; many codes appear in both columns (1C/1C, 3C/3C, 5C/5C) while some are asymmetric (HC lower vs HC1 upper, 4C2 upper-only in column layout). Diagnostic routing uses compartment context (flexwash_upper chip, flex_compartment field).",
+    "participants": [
+      { "entity": "FL_LOWER", "role": "lower compartment instance" },
+      { "entity": "FL_UPPER", "role": "upper compartment instance" },
+      { "entity": "diagnostic_ui_partition", "role": "OEM presentation layer" }
+    ],
+    "functionCategory": "fault_attribution",
+    "isMultiInstanceScopingOnly": {
+      "verdict": "mostly_yes",
+      "rationale": "Dual-column attribution is compartment instance identity applied to the same fault families (3C motor, 1C level, etc.). Distinct causes per column in manual are often identical text — partition is which subsystem is being diagnosed, not a new physical function.",
+      "exception": "Asymmetric codes (HC vs HC1, 4C2) confirm separate instance-bound heater/inlet paths — still composable multi-instance, not integration"
+    },
+    "requiresNewFunctionalCapability": false,
+    "requiresCompositionMetadata": true,
+    "compositionMetadataNeeded": [
+      "instanceId: lower | upper",
+      "faultColumn attribution in normalization provenance",
+      "flex_compartment routing already in wizard layer"
+    ],
+    "distinction": {
+      "diagnosticPartitioning": "Which compartment's 3C/DC/HC is active — instance scope",
+      "physicalTopology": "Two tubs, two motors, two doors — composable instances",
+      "integrationBoundary": "Not required for column attribution alone — required when fault depends on cross-instance state (AC7, SF)"
+    },
+    "supportingEvidence": [
+      "SAMSUNG_WV55M9600_WASHER_EXTRACTION.md §2 dual-column table",
+      "Wizard flex_compartment + flexwash_upper chips",
+      "Compound mappings decompose 'lower door' vs upper procedures"
+    ],
+    "missingEvidence": [
+      "Full compartment-attributed mapping for 1C, UB, OC on each load",
+      "Whether UI can show simultaneous upper+lower codes"
+    ],
+    "falsificationTests": [
+      "If second witness uses single fault list without compartment columns → partition is presentation-only",
+      "If codes always imply cross-compartment state → partition is integration function"
+    ],
+    "confidence": "high"
+  },
+  "simultaneousOrchestrationAnalysis": {
+    "functionalBehavior": "FlexWash product architecture supports two independent wash compartments with shared infrastructure (drain, power, HMI) and cross-PBA coordination. Complaint routing treats upper and lower failures independently. AC7 implies upper operation depends on inter-PBA link health.",
+    "participants": [
+      { "entity": "FL_LOWER", "role": "lower wash cycle domain" },
+      { "entity": "FL_UPPER", "role": "upper wash cycle domain" },
+      { "entity": "shared_drain", "role": "shared infrastructure" },
+      { "entity": "shared_hmi", "role": "shared user interface" },
+      { "entity": "inter_pba_link", "role": "AC7 communication dependency" }
+    ],
+    "functionCategory": "orchestration",
+    "whatCoordinationOccurs": [
+      "Upper compartment may be inhibited when AC7 communication fails",
+      "Independent cycle start/stop per compartment (complaint routing evidence)",
+      "Shared drain path may couple timing (extraction: won't drain either → 5C)",
+      "System fault SF may disable entire appliance"
+    ],
+    "simultaneousOperationEvidence": {
+      "marketingClaim": "FlexWash dual-load simultaneous wash — product positioning",
+      "manualEvidence": "Limited — Smart Install test mode sequence appears single-drum oriented; explicit simultaneous cycle documentation not extracted",
+      "verdict": "independent_compartment_operation_proven; full_simultaneous_cycle_documentation_partial"
+    },
+    "existingRelationshipSufficiency": {
+      "commandsControlsPlusMultiInstance": false,
+      "rationale": "FL commands/controls relationships are intra-instance. Cross-compartment enable/inhibit (e.g. upper blocked by AC7) requires integration domain that relates both instances."
+    },
+    "missingCapability": "Dual-compartment cycle coordination — enable/inhibit/authorize across composed wash instances",
+    "oneOrMultipleAbstractions": "Same integration domain as AC7 and SF — coordination is not a separate third ontology if responsibilities are facets of one integration contract",
+    "smallestAbstraction": "Single integration functional domain with responsibilities: inter_instance_communication, system_supervision, cross_compartment_coordination",
+    "supportingEvidence": [
+      "Extraction complaint routing: upper won't run vs lower won't spin",
+      "AC7 procedure: upper-lower interconnect required",
+      "Dual-load architecture diagram in manual"
+    ],
+    "missingEvidence": [
+      "Explicit OEM statement of simultaneous active wash on both drums",
+      "Interlock rules (can lower run while upper door open?)",
+      "Second witness coordination model"
+    ],
+    "falsificationTests": [
+      "If compartments are fully independent except shared drain → orchestration shrinks to comm link only",
+      "If second witness is master-slave not peer PBAs → coordination model changes"
+    ],
+    "confidence": "medium"
+  },
+  "multiInstanceCompositionTest": {
+    "model": {
+      "FL_LOWER": "front_load_washer composition instance — lower compartment",
+      "FL_UPPER": "front_load_washer composition instance — upper compartment",
+      "SHARED": "supply, hmi_control, shared drain path, primary control_board anchor"
+    },
+    "rules": [
+      "Use only frozen front_load_washer component vocabulary per instance",
+      "Do not duplicate FL components into a new product ontology file",
+      "Do not add relationships merely to force fit",
+      "Integration edges only where verified cross-instance behavior exists"
+    ],
+    "representableWithInstancesOnly": [
+      { "behavior": "Lower drain pump 5C", "FL_LOWER": "drain_pump", "distortionRisk": "none" },
+      { "behavior": "Lower door lock DC/DC1", "FL_LOWER": "door_lock", "distortionRisk": "none" },
+      { "behavior": "Lower DD motor 3C + inverter AC6", "FL_LOWER": "drive_motor, motor_controller", "distortionRisk": "none" },
+      { "behavior": "Upper motor 3C", "FL_UPPER": "drive_motor", "distortionRisk": "none if instance-scoped" },
+      { "behavior": "Upper door DC4", "FL_UPPER": "door_lock", "distortionRisk": "none if instance-scoped" },
+      { "behavior": "Heater HC vs HC1", "FL_LOWER/FL_UPPER": "wash_heater, wash_ntc per column", "distortionRisk": "low with instance scope" },
+      { "behavior": "Power/HMI BC2/9C", "SHARED": "supply, hmi_control", "distortionRisk": "low" },
+      { "behavior": "Dual-column 3C/1C/5C routing", "metadata": "instanceId on fault", "distortionRisk": "none — not integration" }
+    ],
+    "unrepresentableAfterComposition": [
+      {
+        "behavior": "AC7 inter-subsystem communication",
+        "reason": "No cross-instance communicates_with host; no integration domain",
+        "requires": "integration functional domain or composition-layer inter-instance edge"
+      },
+      {
+        "behavior": "SF system supervisory fault",
+        "reason": "Spans instances; not compartment-local",
+        "requires": "integration system_supervision surface"
+      },
+      {
+        "behavior": "Cross-compartment enable/inhibit (AC7 blocks upper)",
+        "reason": "commands/inhibits across instances",
+        "requires": "integration coordination responsibility"
+      }
+    ],
+    "distortionIfSkippedIntegration": [
+      "Bind AC7 to FL_LOWER.control_board only",
+      "Bind SF to single control_board without system scope",
+      "Collapse upper/lower motors and doors to one instance"
+    ]
+  },
+  "existingRelationshipSufficiency": {
+    "relationshipTypesAvailable": {
+      "front_load_washer": ["supplies", "controls", "commands", "provides_feedback_to", "communicates_with", "senses", "mechanically_drives", "mechanically_connected_to", "hydraulically_connects_to", "depends_on", "enables", "inhibits", "reports_level_through"],
+      "aio_laundry_combo": ["enables", "commands", "inhibits", "depends_on"]
+    },
+    "typeLevelSufficient": true,
+    "instanceLevelSufficientWithoutIntegrationDomain": false,
+    "rationale": "communicates_with, depends_on, enables, and inhibits are the right types for cross-instance links, but FL graph has no qualified multi-instance endpoints. A composition ontology host is required. Whether that host needs a named functional_domain component (AIO pattern) or only composition metadata is the discovery finding: functional_domain component required for AC7/SF/coordination diagnostics — metadata alone insufficient.",
+    "aioPrecedent": "AIO used integrated_laundry_orchestration functional_domain — not merely edges — to own cross-mode diagnostic entry points and failure domains"
+  },
+  "candidateFunctionalAbstractions": [
+    {
+      "id": "CANDIDATE-DUAL-COMPARTMENT-INTEGRATION",
+      "status": "DISCOVERY_ONLY",
+      "workingLabel": "Dual-compartment wash integration (name not authorized)",
+      "description": "Minimal integration functional domain owning cross-instance responsibilities: inter-subsystem communication (AC7), system supervision (SF), and cross-compartment coordination. Composes 2× front_load_washer by reference. Does not subsume compartment-local wash functions.",
+      "responsibilities": [
+        "inter_instance_control_communication",
+        "system_supervisory_fault_surface",
+        "cross_compartment_cycle_coordination"
+      ],
+      "notResponsibleFor": [
+        "Compartment-local motor, door, heater, level, drain tests",
+        "Samsung MEMS vocabulary",
+        "WiFi module (likely shared HMI overlay)"
+      ],
+      "relationshipsToComposedInstances": [
+        "communicates_with FL_UPPER.control_board and FL_LOWER.control_board (qualified)",
+        "depends_on both composed instances for coordination readiness",
+        "enables/inhibits compartment cycles per cross-instance rules (to be fit-tested)"
+      ],
+      "evidenceStrength": "medium-high from W1",
+      "abstractionCountVerdict": "one_minimal_domain_preferred_over_three",
+      "promotionStatus": "NOT AUTHORIZED"
+    }
+  ],
+  "rejectedAbstractions": [
+    {
+      "id": "REJECT-dual_load_integrated_orchestration",
+      "reason": "Name assumed before fit/discovery — not authorized at discovery stage",
+      "status": "DISCOVERY_ONLY_REJECTION"
+    },
+    {
+      "id": "REJECT-composition_only_no_integration_node",
+      "reason": "AC7, SF, and cross-compartment coordination remain unrepresentable",
+      "status": "REJECTED_BY_EVIDENCE"
+    },
+    {
+      "id": "REJECT-ac7_as_control_board_self_test",
+      "reason": "Distorts inter-PBA communication as intra-instance control_board diagnostic",
+      "status": "REJECTED_BY_EVIDENCE"
+    },
+    {
+      "id": "REJECT-flexwash_product_blob",
+      "reason": "Would subsume ordinary wash functions — violates AIO orchestration_not_dump principle",
+      "status": "REJECTED_BY_PRINCIPLE"
+    },
+    {
+      "id": "REJECT-copy_integrated_laundry_orchestration",
+      "reason": "Wash/dry mode transition semantics do not transfer to dual-wash-drum",
+      "status": "REJECTED_BY_PRINCIPLE"
+    },
+    {
+      "id": "REJECT-separate_canonical_per_oem_code",
+      "reason": "AC7, SF, coordination share one integration boundary — splitting creates unnecessary ontology proliferation",
+      "status": "REJECTED_BY_DISCOVERY_LEAN"
+    },
+    {
+      "id": "REJECT-fault_partition_as_canonical_node",
+      "reason": "Dual-column attribution is instance scoping metadata, not a functional domain",
+      "status": "REJECTED_BY_ANALYSIS"
+    }
+  ],
+  "evidenceGaps": [
+    {
+      "id": "GAP-W2",
+      "gap": "No second dual-load wash witness",
+      "impact": "Cannot confirm manufacturer-neutral integration contract",
+      "blocksFreeze": true
+    },
+    {
+      "id": "GAP-SIMULTANEOUS",
+      "gap": "Limited manual evidence for simultaneous active wash on both drums",
+      "impact": "Orchestration scope may be over-stated",
+      "blocksFreeze": false
+    },
+    {
+      "id": "GAP-SF-SCOPE",
+      "gap": "SF root cause PCB attribution (lower only vs either)",
+      "impact": "System supervision characterization",
+      "blocksFreeze": false
+    },
+    {
+      "id": "GAP-MEMS",
+      "gap": "MEMS 8C family not in FL canonical components",
+      "impact": "Platform overlay vs composed gap — not integration",
+      "blocksFreeze": false
+    },
+    {
+      "id": "GAP-UPPER-DOOR-OHMS",
+      "gap": "Upper door lock 175 Ω deferred in extraction",
+      "impact": "Upper instance evidence completeness",
+      "blocksFreeze": false
+    }
+  ],
+  "secondWitnessRequirements": {
+    "requiredForFreeze": true,
+    "requiredForDiscovery": false,
+    "idealWitnessProfile": [
+      "Dual-compartment or dual-drum wash topology (any manufacturer)",
+      "Independent compartment fault codes or diagnostic partition",
+      "Inter-compartment communication or coordination evidence",
+      "Preferably non-Samsung to avoid single-vendor bias"
+    ],
+    "acceptablePartialWitness": "Second Samsung FlexWash variant if it confirms AC7/SF/coordination pattern",
+    "whatW2WouldEstablish": [
+      "Manufacturer-neutral integration contract candidacy",
+      "Whether one integration domain suffices",
+      "Platform-specific vs canonical responsibilities"
+    ],
+    "whatW2CouldFalsify": [
+      "Unified single-controller dual-drum without inter-PBA comm → AC7 not generalizable",
+      "No system-level fault equivalent → SF Samsung-specific",
+      "Fully independent compartments with no coordination → orchestration scope shrinks"
+    ]
+  },
+  "falsificationTests": [
+    {
+      "test": "Map AC7 to FL_LOWER.control_board communicates_with hmi_control only",
+      "expectedIfFalse": "Integration domain required",
+      "result": "FAILS — loses upper endpoint"
+    },
+    {
+      "test": "Represent SF as compartment-local motor or door fault",
+      "expectedIfFalse": "System supervision required",
+      "result": "FAILS — OEM System Error class"
+    },
+    {
+      "test": "Represent FlexWash as single FL instance with aliases",
+      "expectedIfFalse": "Multi-instance required",
+      "result": "FAILS — upper motor/door collision"
+    },
+    {
+      "test": "Use only instance metadata with no integration node for AC7 diagnostic routing",
+      "expectedIfFalse": "Integration domain required",
+      "result": "FAILS — no cross-instance diagnostic target"
+    }
+  ],
+  "freezePrerequisites": [
+    "CG-P08-FLEXWASH-FIT-TEST against hypothetical composition model",
+    "Functional contract candidate artifact (single_witness_candidate labeled)",
+    "Second witness corroboration OR explicit single-witness freeze waiver with documented risk",
+    "Discovery closure review — confirm one vs multiple integration abstractions",
+    "Human freeze gate (AIO-pattern: CG_*_FREEZE_CONTRACT → corroboration → freeze lock)",
+    "architecture_exception remains until freeze + normalization routing authorized"
+  ],
+  "aioComparison": {
+    "reusablePrinciples": [
+      "composition-by-reference to front_load_washer",
+      "explicit integration functional_domain — not dumping wash functions into orchestration node",
+      "fit → discovery → freeze discipline",
+      "single witness opens discovery; corroboration before freeze",
+      "implementation vocabulary in overlays"
+    ],
+    "notReusable": [
+      "integrated_laundry_orchestration name or semantics",
+      "heat_pump_dryer / moisture rejection references",
+      "wash-dry mode transition model",
+      "condenser_resistive_dry_heat sibling pattern"
+    ],
+    "aioSupportsDiscoveryNotFreeze": true
+  },
+  "recommendedNextGate": {
+    "gateId": "CG-P08-FLEXWASH-FIT-TEST",
+    "description": "Fit-test the hypothetical composition model (FL_LOWER + FL_UPPER + CANDIDATE-DUAL-COMPARTMENT-INTEGRATION) against W1 procedures. Produce fit observation, triangulation placeholder, and fit analysis with outcomes: proven_variant | architectural_divergence | insufficient_evidence.",
+    "notAuthorizedYet": [
+      "Freeze",
+      "Canonical file creation",
+      "architecture_exception resolution",
+      "Pilot closure",
+      "Production normalization routing"
+    ]
+  },
+  "architectureExceptionIntegrity": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "modified": false,
+    "generatedAt": "2026-09-17T18:12:51.589261+00:00",
+    "batchDisposition": "STOP",
+    "governingArtifact": true
+  },
+  "canonicalMutationCheck": {
+    "canonicalJsonModified": false,
+    "filesVerifiedUnchanged": [
+      "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json"
+    ]
+  },
+  "validationExecuted": {
+    "jsonSchemaValid": true,
+    "validateCanonicalGraph": "OK — frozen_hashes=10 verified",
+    "frozenHashesVerified": 10,
+    "cgProductionNormalizationPilotTest": "11/11 PASS",
+    "noImplementation": true
+  },
+  "explicitlyNotDone": [
+    "Create or promote canonical nodes",
+    "Create dual_load_integrated_orchestration",
+    "Modify front_load_washer or AIO",
+    "Resolve architecture_exception.json",
+    "Remove P08 STOP",
+    "Pilot closure",
+    "Ingest second manual",
+    "Disposition classifier cleanup"
+  ]
+}

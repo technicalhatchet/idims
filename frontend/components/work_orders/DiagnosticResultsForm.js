@@ -60,20 +60,30 @@ import SolomonReasoningSheet from '../solomon/SolomonReasoningSheet';
 import SolomonProfessionalSessionChrome from '../solomon/SolomonProfessionalSessionChrome';
 import SolomonFaultRanking from '../solomon/SolomonFaultRanking';
 import OemProcedureWizardSlot from '../diagnostics/procedures/ui/OemProcedureWizardSlot';
+import { buildOemProcedureNavigationGate } from '../diagnostics/procedures/oemProcedureNavGate';
 import SolomonProcedurePanel, { SolomonOemCatalogAccordion } from '../solomon/SolomonProcedurePanel';
 import {
   listServiceProcedureCatalog,
   recommendServiceProcedures,
 } from '../diagnostics/procedures/recommendServiceProcedures';
+import { resolveCanonicalRouting } from '../diagnostics/knowledge/canonical/resolveCanonicalRouting';
 import {
   hasComplaintDiagnosticContext,
   isOemPlatformReady,
 } from '../diagnostics/procedures/oemDiagnosticGating';
 import { injectOemWizardStep } from '../diagnostics/procedures/injectOemWizardStep';
 import {
-  mergeOemProcedureWizardSteps,
+  buildUnifiedWizardRecommendedStepKeys,
   shouldInsertOemWizardStep,
 } from '../diagnostics/procedures/procedureWizardLead';
+import {
+  extractUnifiedTopProcedureId,
+  extractUnifiedWizardStepKeys,
+  getNextDiagnosticActions,
+  hydrateDiagnosticSession,
+  resolveUnifiedOemLeadRecommendation,
+  resolveUnifiedTopWizardStepKey,
+} from '../diagnostics/session';
 import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
 import { syncProcedureMeasurementsToWizardFields } from '../diagnostics/procedures/syncProcedureMeasurementsToWizardFields';
 import {
@@ -299,6 +309,19 @@ export default function DiagnosticResultsForm({
     );
   }, [payload?.templateId, wizardDefinition]);
 
+  useEffect(() => {
+    if (!Array.isArray(payload?.visitedStepKeys)) return;
+    const sameLength = payload.visitedStepKeys.length === visitedStepKeys.length;
+    const sameKeys = sameLength
+      && payload.visitedStepKeys.every((key, index) => key === visitedStepKeys[index]);
+    if (!sameKeys) {
+      setVisitedStepKeys(payload.visitedStepKeys);
+    }
+    if (payload?.currentStepKey) {
+      prevStepKeyForTimelineRef.current = payload.currentStepKey;
+    }
+  }, [payload?.visitedStepKeys, payload?.currentStepKey, visitedStepKeys]);
+
   const baseSteps = useMemo(
     () => resolveWizardSteps(wizardDefinition, template),
     [wizardDefinition, template],
@@ -446,16 +469,36 @@ export default function DiagnosticResultsForm({
     [payload?.fields, complaintChipIds, errorCodes, visitedStepKeys],
   );
 
+  const canonicalRouting = useMemo(
+    () => resolveCanonicalRouting({
+      templateId: payload?.templateId,
+      platformId: resolvedPlatformId,
+      complaintChipIds,
+      errorCodes,
+      complaintText: payload?.fields?.['customer_complaint.complaint'] || '',
+    }),
+    [
+      payload?.templateId,
+      payload?.fields,
+      resolvedPlatformId,
+      complaintChipIds,
+      errorCodes,
+    ],
+  );
+
   const procedurePlatformBanner = useMemo(() => {
     if (!resolvedPlatformId || !oemPlatformReady) return null;
     const equipmentMake = measurementContext.equipmentMake || workOrder?.equipment_make || null;
     const equipmentModel = measurementContext.equipmentModel || workOrder?.equipment_model || null;
     if (!equipmentMake && !equipmentModel && !procedureCatalog.length) return null;
+    const canonicalDomainLabels = (canonicalRouting?.activeDomains || [])
+      .map((domainId) => canonicalRouting?.domainLabels?.[domainId] || domainId);
     return {
       platformId: resolvedPlatformId,
       platformLabel: getPlatformLabel(resolvedPlatformId) || resolvedPlatformId,
       equipmentMake,
       equipmentModel,
+      canonicalDomainLabels,
     };
   }, [
     resolvedPlatformId,
@@ -465,6 +508,7 @@ export default function DiagnosticResultsForm({
     measurementContext.equipmentModel,
     workOrder?.equipment_make,
     workOrder?.equipment_model,
+    canonicalRouting,
   ]);
 
   useEffect(() => {
@@ -630,23 +674,96 @@ export default function DiagnosticResultsForm({
     && procedureCatalog.length > 0
     && complaintContextReady;
 
+  const diagnosticSession = useMemo(
+    () => hydrateDiagnosticSession({
+      payload: {
+        ...payload,
+        visitedStepKeys,
+        currentStepKey: payload?.currentStepKey || visitedStepKeys.at(-1) || null,
+      },
+      workOrder,
+      derived: {
+        intelligence: intelligenceResult,
+        elimination: eliminationResult,
+      },
+    }),
+    [
+      payload,
+      visitedStepKeys,
+      workOrder,
+      intelligenceResult,
+      eliminationResult,
+    ],
+  );
+
+  const unifiedDiagnosticActions = useMemo(
+    () => getNextDiagnosticActions({
+      session: diagnosticSession,
+      wizardContext: {
+        intelligence: intelligenceResult,
+        routing: routingResult,
+        wizardDefinition,
+        defaultStepOrder,
+        reviewStepId: wizardDefinition?.reviewStep?.id || 'diagnostic_review',
+      },
+      procedureContext: {
+        templateId: payload?.templateId,
+        measurementContext,
+        intelligence: intelligenceResult,
+        complaintChipIds,
+        errorCodes,
+        procedureRuns: payload?.procedureRuns || {},
+      },
+    }),
+    [
+      diagnosticSession,
+      intelligenceResult,
+      routingResult,
+      wizardDefinition,
+      defaultStepOrder,
+      payload?.templateId,
+      payload?.procedureRuns,
+      measurementContext,
+      complaintChipIds,
+      errorCodes,
+    ],
+  );
+
+  const unifiedTopProcedureId = useMemo(
+    () => extractUnifiedTopProcedureId(unifiedDiagnosticActions.candidates),
+    [unifiedDiagnosticActions.candidates],
+  );
+
+  const unifiedTopWizardStepKey = useMemo(
+    () => resolveUnifiedTopWizardStepKey(unifiedDiagnosticActions),
+    [unifiedDiagnosticActions],
+  );
+
   const topProcedureRecommendation = useMemo(
-    () => (showProcedureRunner && procedureRecommendations.length
-      ? procedureRecommendations[0]
-      : null),
-    [showProcedureRunner, procedureRecommendations],
+    () => {
+      if (!showProcedureRunner || !procedureRecommendations.length) return null;
+      return resolveUnifiedOemLeadRecommendation(
+        procedureRecommendations,
+        unifiedTopProcedureId,
+      );
+    },
+    [showProcedureRunner, procedureRecommendations, unifiedTopProcedureId],
   );
 
   const insertOemWizardStepFlag = useMemo(
     () => shouldInsertOemWizardStep(
       complaintChipIds,
       topProcedureRecommendation,
-      payload?.skippedOemWizardStep,
+      {
+        skippedOemWizardStep: payload?.skippedOemWizardStep,
+        errorCodes,
+      },
     ),
     [
       complaintChipIds,
       topProcedureRecommendation,
       payload?.skippedOemWizardStep,
+      errorCodes,
     ],
   );
 
@@ -654,12 +771,14 @@ export default function DiagnosticResultsForm({
     () => injectOemWizardStep(baseSteps, topProcedureRecommendation, {
       complaintChipIds,
       skippedOemWizardStep: payload?.skippedOemWizardStep,
+      errorCodes,
     }),
     [
       baseSteps,
       topProcedureRecommendation,
       complaintChipIds,
       payload?.skippedOemWizardStep,
+      errorCodes,
     ],
   );
 
@@ -692,22 +811,29 @@ export default function DiagnosticResultsForm({
       if (oemRepairDecisionPending) {
         return [];
       }
-      const base = intelligenceResult?.recommendedStepKeys || [];
-      if (!complaintContextReady) return base;
-      return mergeOemProcedureWizardSteps(
-        base,
+      const unifiedWizardKeys = extractUnifiedWizardStepKeys(unifiedDiagnosticActions.candidates);
+      const fallback = intelligenceResult?.recommendedStepKeys || [];
+      if (!complaintContextReady) {
+        return unifiedWizardKeys.length ? unifiedWizardKeys : fallback;
+      }
+      return buildUnifiedWizardRecommendedStepKeys(
+        unifiedWizardKeys,
+        fallback,
         topProcedureRecommendation,
         visitedStepKeys,
         insertOemWizardStepFlag,
+        payload?.procedureRuns || {},
       );
     },
     [
       oemRepairDecisionPending,
+      unifiedDiagnosticActions.candidates,
       intelligenceResult?.recommendedStepKeys,
       complaintContextReady,
       topProcedureRecommendation,
       visitedStepKeys,
       insertOemWizardStepFlag,
+      payload?.procedureRuns,
     ],
   );
 
@@ -770,7 +896,11 @@ export default function DiagnosticResultsForm({
     <SolomonOemCatalogAccordion
       {...procedurePanelProps}
       catalog={procedureCatalog}
-      recommendations={procedureRecommendations.slice(0, 3)}
+      recommendations={topProcedureRecommendation
+        ? [topProcedureRecommendation, ...procedureRecommendations.filter(
+          (item) => item.procedureId !== topProcedureRecommendation.procedureId,
+        )].slice(0, 3)
+        : procedureRecommendations.slice(0, 3)}
       showCatalog
     />
   ) : null;
@@ -1000,28 +1130,19 @@ export default function DiagnosticResultsForm({
       const step = steps.find((s) => s.meta?.stepKey === stepKey);
       if (!step) return;
 
-      const nextVisited = visitedStepKeys.includes(stepKey)
-        ? visitedStepKeys
-        : [...visitedStepKeys, stepKey];
-
-      if (!visitedStepKeys.includes(stepKey)) {
-        setVisitedStepKeys(nextVisited);
-      }
-
       prevStepIdRef.current = step.id;
       prevStepKeyForTimelineRef.current = stepKey;
 
       const nextPayload = {
         ...payloadRef.current,
         currentStepKey: stepKey,
-        visitedStepKeys: nextVisited,
       };
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
       setWizardJumpNonce((value) => value + 1);
       scheduleProgressSave({ immediate: true });
     },
-    [steps, readOnly, emitChange, visitedStepKeys, scheduleProgressSave],
+    [steps, readOnly, emitChange, scheduleProgressSave],
   );
 
   handleJumpToStepKeyRef.current = handleJumpToStepKey;
@@ -1088,6 +1209,34 @@ export default function DiagnosticResultsForm({
     }
   }, [steps, emitChange, handleJumpToStepKey]);
 
+  const [oemProcedureActionPulse, setOemProcedureActionPulse] = useState(false);
+
+  const handleOemProcedureNavBlocked = useCallback(() => {
+    setOemProcedureActionPulse(true);
+    if (typeof window !== 'undefined') {
+      window.requestAnimationFrame(() => {
+        document.querySelector('[data-oem-procedure-inline]')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        document.querySelector('[data-oem-procedure-primary-action]')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+    window.setTimeout(() => setOemProcedureActionPulse(false), 2800);
+  }, []);
+
+  const navigationGate = useMemo(
+    () => buildOemProcedureNavigationGate(
+      payload?.activeProcedureId,
+      payload?.procedureRuns || {},
+      handleOemProcedureNavBlocked,
+    ),
+    [payload?.activeProcedureId, payload?.procedureRuns, handleOemProcedureNavBlocked],
+  );
+
+  useEffect(() => {
+    if (!navigationGate) setOemProcedureActionPulse(false);
+  }, [navigationGate]);
+
   const wizardContext = useMemo(
     () => ({
       payload,
@@ -1125,6 +1274,10 @@ export default function DiagnosticResultsForm({
       onRefreshAutoNote: readOnly ? null : handleRefreshAutoNote,
       onGenerateServiceNotes: readOnly ? null : handleGenerateServiceNotes,
       oemRepairDecisionPending,
+      unifiedTopWizardStepKey,
+      unifiedCandidates: process.env.NODE_ENV === 'development'
+        ? unifiedDiagnosticActions.candidates
+        : undefined,
       oemProcedure: insertOemWizardStepFlag && topProcedureRecommendation ? {
         recommendation: topProcedureRecommendation,
         onStartProcedure: handleStartOemProcedure,
@@ -1136,6 +1289,7 @@ export default function DiagnosticResultsForm({
         procedureRuns: payload?.procedureRuns || {},
         wizardStepLabels: stepKeyLabels,
       } : null,
+      navigationGate,
     }),
     [
       handleFieldChange,
@@ -1171,6 +1325,9 @@ export default function DiagnosticResultsForm({
       handleContinueAfterOemRepair,
       handleSaveAndViewResultsAfterOemRepair,
       oemRepairDecisionPending,
+      unifiedTopWizardStepKey,
+      unifiedDiagnosticActions.candidates,
+      navigationGate,
     ],
   );
 
@@ -1285,6 +1442,9 @@ export default function DiagnosticResultsForm({
     const parts = [];
     if (equipment) parts.push(equipment);
     if (procedurePlatformBanner.platformLabel) parts.push(procedurePlatformBanner.platformLabel);
+    if (procedurePlatformBanner.canonicalDomainLabels?.length) {
+      parts.push(procedurePlatformBanner.canonicalDomainLabels.join(' · '));
+    }
     return parts.length ? parts.join(' · ') : null;
   }, [procedurePlatformBanner]);
 
@@ -1296,6 +1456,7 @@ export default function DiagnosticResultsForm({
       onRunStateChange={handleProcedureRunChange}
       onDismissActiveProcedure={handleDismissActiveOemProcedure}
       variant={variant}
+      highlightPrimaryAction={oemProcedureActionPulse}
     />
   ) : null;
 

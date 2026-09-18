@@ -1,0 +1,121 @@
+{
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "platformId": "samsung_flexwash",
+  "templateId": "washer",
+  "label": "Samsung FlexWash WV55M9600 dual-load washer",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T00:50:22.376860+00:00",
+  "topologySignature": "ccu_mcu_motor",
+  "counts": {
+    "procedures": 21,
+    "mappingCandidates": 32,
+    "overlayCandidates": 13,
+    "conflicts": 0,
+    "extractionFiltered": 16
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 16,
+    "invalidExtraction": 0,
+    "totalFiltered": 16,
+    "samples": [
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "BC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-hmi-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-inlet-valves",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC7",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-interload-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-inverter-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-inverter-thermal",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "LC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-leak-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-upper-door",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-upper-door",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-wash-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungflexwash-wifi-communication",
+        "source": "title_token"
+      }
+    ]
+  }
+}

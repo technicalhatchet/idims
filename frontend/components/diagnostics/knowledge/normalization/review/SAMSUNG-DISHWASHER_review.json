@@ -1,0 +1,3605 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "platformId": "samsung_dishwasher",
+  "templateId": "dishwasher",
+  "ontologyId": "dishwasher",
+  "materializedAt": "2026-09-15T13:58:11.552572+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-wash_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "wash_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: wash_motor \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "wash_motor": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.138567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.875095+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.925262+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.158098+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.261572+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-circulation-motor-&-nozzle",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a74-1: Circulation Motor & Nozzle",
+      "extractedTerm": "Circulation Motor & Nozzle",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "circulation motor",
+        "decomposition": {
+          "domain": null,
+          "component": "circulation",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a74-1: Circulation Motor & Nozzle \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Circulation Motor & Nozzle": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "circulation motor",
+            "decomposition": {
+              "domain": null,
+              "component": "circulation",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-communication",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.217567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.953594+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:03.003761+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.243596+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.348071+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-pba-communication-(ac-/-ac6)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: PBA Communication (AC / AC6)",
+      "extractedTerm": "PBA Communication (AC / AC6)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: PBA Communication (AC / AC6) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: PBA Communication (AC / AC6)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-communication",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-dispenser-detergent_dispenser",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "dispenser",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "detergent_dispenser",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: dispenser \u2192 detergent_dispenser"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dispenser",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "dispenser": "detergent_dispenser"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dispenser",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-dispenser",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.156067+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.891595+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.940762+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.173598+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.280571+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-detergent-dispenser-detergent_dispenser",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "\u00a74-1: Detergent Dispenser",
+      "extractedTerm": "Detergent Dispenser",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "detergent_dispenser",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: \u00a74-1: Detergent Dispenser \u2192 detergent_dispenser"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dispenser",
+        "pages": [
+          49,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Detergent Dispenser": "detergent_dispenser"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dispenser",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-dispenser",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-1: Detergent Dispenser",
+            "extractedTerm": "Detergent Dispenser",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-diverter_motor",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.81,
+      "what": "diverter_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.81,
+        "matcherLayer": "compound:template_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "diverter motor",
+        "decomposition": {
+          "domain": null,
+          "component": "diverter",
+          "actuator": "motor"
+        },
+        "summary": "alias: diverter_motor \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-distributor",
+        "pages": [
+          35,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "diverter_motor": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-distributor",
+        "pages": [
+          35,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-distributor",
+            "pages": [
+              35,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "diverter motor",
+            "decomposition": {
+              "domain": null,
+              "component": "diverter",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.262068+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:39:43.003594+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:03.050762+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:55.294094+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:58:11.397573+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-distributor-motor-(pc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Distributor Motor (PC)",
+      "extractedTerm": "Distributor Motor (PC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "distributor",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a74-1: Distributor Motor (PC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-distributor",
+        "pages": [
+          35,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Distributor Motor (PC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-distributor",
+        "pages": [
+          35,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-distributor",
+            "pages": [
+              35,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "distributor",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-door_latch",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "door_latch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "door latch",
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "latch"
+        },
+        "summary": "alias: door_latch \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_latch": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-door-switch",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "door latch",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "latch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.095068+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.825094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.878261+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.109095+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.212572+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-door-sensing-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Door Sensing Switch",
+      "extractedTerm": "Door Sensing Switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": "sensing",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-1: Door Sensing Switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Door Sensing Switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-door-switch",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "sensing",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-drain_pump-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-drain-pump",
+            "pages": [
+              35,
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.170567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.907093+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.956762+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.189597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.298573+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-drain-pump-(5c)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a74-1: Drain Pump (5C)",
+      "extractedTerm": "Drain Pump (5C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: \u00a74-1: Drain Pump (5C) \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Drain Pump (5C)": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-drain-pump",
+            "pages": [
+              35,
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-fan_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "fan_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "fan",
+          "actuator": "motor"
+        },
+        "summary": "alias: fan_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "fan_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-dry-system",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-vent-drying_system",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "vent",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drying_system",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: vent \u2192 drying_system"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "vent": "drying_system"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-dry-system",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.247067+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.988594+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:03.034262+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.278594+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.381571+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-dry-fan-&-thermal-actuator-(fc-/-dc3)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.81,
+      "what": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+      "extractedTerm": "Dry Fan & Thermal Actuator (FC / dC3)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drying_system",
+      "why": {
+        "confidence": 0.81,
+        "matcherLayer": "compound:template_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "dry fan",
+        "decomposition": {
+          "domain": null,
+          "component": "dry fan thermal",
+          "actuator": "actuator"
+        },
+        "summary": "alias: \u00a74-1: Dry Fan & Thermal Actuator (FC / dC3) \u2192 drying_system"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)": "drying_system"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-dry-system",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-dry-system",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:template_hint",
+            "matchedPhrase": "dry fan",
+            "decomposition": {
+              "domain": null,
+              "component": "dry fan thermal",
+              "actuator": "actuator"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-inlet_valve-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-fill-valve",
+            "pages": [
+              35,
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.201568+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.937094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.988261+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.225096+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.332075+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-fill-valve-&-flow-meter-(4c)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+      "extractedTerm": "Fill Valve & Flow Meter (4C)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "fill valve",
+        "decomposition": {
+          "domain": "fill",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a74-1: Fill Valve & Flow Meter (4C) \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Fill Valve & Flow Meter (4C)": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-fill-valve",
+            "pages": [
+              35,
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "fill valve",
+            "decomposition": {
+              "domain": "fill",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-heater-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-heater",
+            "pages": [
+              37,
+              38,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.186068+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.921593+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.971763+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.208597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.316071+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Heater Operation (HC / HC1)",
+      "extractedTerm": "Heater Operation (HC / HC1)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-1: Heater Operation (HC / HC1) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Heater Operation (HC / HC1)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-heater",
+            "pages": [
+              37,
+              38,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "user interface",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-hmi-check",
+        "pages": [
+          51,
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-hmi-check",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-hmi-check",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "user interface",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.124568+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.858094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.908262+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.142096+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.246072+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-touch-panel-&-sub-pba-(bc2-/-bc3)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+      "extractedTerm": "Touch Panel & Sub PBA (bC2 / bC3)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Touch Panel & Sub PBA (bC2 / bC3) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-hmi-check",
+        "pages": [
+          51,
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-hmi-check",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-hmi-check",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-leak_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "leak_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "leak",
+          "actuator": "sensor"
+        },
+        "summary": "alias: leak_sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "leak_sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-leak-sensor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "leak",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-leak-sensor-(lc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Leak Sensor (LC)",
+      "extractedTerm": "Leak Sensor (LC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "leak",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1: Leak Sensor (LC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Leak Sensor (LC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-leak-sensor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "leak",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-float_switch",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "float_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "water_level_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "float switch",
+        "decomposition": {
+          "domain": null,
+          "component": "float",
+          "actuator": "switch"
+        },
+        "summary": "alias: float_switch \u2192 water_level_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-overflow",
+        "pages": [
+          35,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "float_switch": "water_level_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-overflow",
+        "pages": [
+          35,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-overflow",
+            "pages": [
+              35,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "float switch",
+            "decomposition": {
+              "domain": null,
+              "component": "float",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.109568+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.842094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:02.893761+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.125096+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.229073+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (samsung_manufacturer_vocabulary)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-overflow-sensor-(oc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Overflow Sensor (OC)",
+      "extractedTerm": "Overflow Sensor (OC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "overflow",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-1: Overflow Sensor (OC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-overflow",
+        "pages": [
+          35,
+          37
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Overflow Sensor (OC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-overflow",
+        "pages": [
+          35,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-overflow",
+            "pages": [
+              35,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "overflow",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-samsung-dishwasher-unresolved-samsungdw-power-supply-supply",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-power-supply",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-main-pba-power-&-dc-supplies",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Main PBA Power & DC Supplies",
+      "extractedTerm": "Main PBA Power & DC Supplies",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "main",
+          "component": "pba power dc supplies",
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Main PBA Power & DC Supplies \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Main PBA Power & DC Supplies": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-power-supply",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "pba power dc supplies",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-thermistor-temperature_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-thermistor",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-thermistor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-thermistor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.232067+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:39:42.973094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:03.018762+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:40:55.261094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        },
+        {
+          "at": "2026-09-15T13:58:11.365574+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1 (canonical_reuse)"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Water Thermistor (tC)",
+      "extractedTerm": "Water Thermistor (tC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: \u00a74-1: Water Thermistor (tC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-thermistor",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Water Thermistor (tC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-thermistor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-thermistor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-circulation-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-circulation-motor \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-circulation-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a74-1: Circulation Motor & Nozzle",
+          "componentIds": [
+            "wash_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.310567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.051094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.096763+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.353596+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.445571+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-meas-samsungDishwasherCirculationMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungdw-circulation-motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungDishwasherCirculationMotorOhms \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-circulation-motor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-circulation-motor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+            "stepTitle": "Circulation motor coil"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.389068+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.145096+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.176263+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.435595+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.533573+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-communication-heater_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "rejected",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-communication",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heater_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-communication \u2192 heater_command_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-communication",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a74-1: PBA Communication (AC / AC6)",
+          "componentIds": [
+            "main_control"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-communication",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-communication",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.279068+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:39:43.020594+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:03.065761+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:55.310593+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:58:11.413071+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-door-switch-door_switch_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-door-switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-door-switch \u2192 door_switch_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a74-1: Door Sensing Switch",
+          "componentIds": [
+            "door_latch"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-door-switch",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-door-switch",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.325567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.067093+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.114261+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.369095+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.461071+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-drain-pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-1: Drain Pump (5C)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-drain-pump",
+        "pages": [
+          35,
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-drain-pump",
+            "pages": [
+              35,
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.342067+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.089094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.129261+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.385599+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.477072+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-fill-valve-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-fill-valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "fill_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-fill-valve \u2192 fill_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-fill-valve",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+          "componentIds": [
+            "inlet_valve"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-fill-valve",
+        "pages": [
+          35,
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-fill-valve",
+            "pages": [
+              35,
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.357567+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.109094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.144262+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.403601+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.494572+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-heater-heater_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-heater",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heater_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-heater \u2192 heater_command_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a74-1: Heater Operation (HC / HC1)",
+          "componentIds": [
+            "heater"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-heater",
+        "pages": [
+          37,
+          38,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-heater",
+            "pages": [
+              37,
+              38,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.372568+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:39:43.125594+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:03.158763+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:40:55.419094+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        },
+        {
+          "at": "2026-09-15T13:58:11.513073+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-DISHWASHER-samsungdw-power-supply-fill_test",
+      "candidateType": "procedureTestBinding",
+      "status": "rejected",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungdw-power-supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "fill_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungdw-power-supply \u2192 fill_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungdw-power-supply",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a74-1: Main PBA Power & DC Supplies",
+          "componentIds": [
+            "supply"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "platformId": "samsung_dishwasher",
+        "procedureId": "samsungdw-power-supply",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "platformId": "samsung_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdw-power-supply",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T13:05:38.295568+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:39:43.036094+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:03.081262+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:40:55.331097+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        },
+        {
+          "at": "2026-09-15T13:58:11.429574+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-DISHWASHER gate \u2014 wrong matcher mapping or overlay binding"
+        }
+      ],
+      "reviewer": "human_gate"
+    }
+  ],
+  "summary": {
+    "total": 37,
+    "byStatus": {
+      "approved": 17,
+      "COMPOUND_TERM_CANDIDATE": 4,
+      "needs_review": 12,
+      "candidate": 1,
+      "rejected": 3
+    },
+    "byApprovalLevel": {
+      "careful": 9,
+      "easy": 3,
+      "blocked": 12,
+      "normal": 13
+    },
+    "byType": {
+      "canonicalMapping": 29,
+      "procedureTestBinding": 7,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 3,
+      "medium_0.80_0.94": 22,
+      "low_lt_0.80": 0,
+      "unresolved": 12
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

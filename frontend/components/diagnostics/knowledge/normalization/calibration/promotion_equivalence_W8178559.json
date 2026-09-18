@@ -1,0 +1,46 @@
+{
+  "manualId": "W8178559",
+  "equivalent": true,
+  "checks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "aliasComparison": {
+    "equivalent": true,
+    "referenceCount": 19,
+    "generatedCount": 23,
+    "mismatches": [],
+    "extraGenerated": [
+      "test #3 (gas): ignitor",
+      "test #3a: exhaust thermistor",
+      "test #3b: thermal fuse",
+      "test #4: moisture sensor"
+    ]
+  },
+  "procedureBindingComparison": {
+    "label": "procedureBindings",
+    "equivalent": true,
+    "referenceCount": 13,
+    "generatedCount": 13,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "measurementBindingComparison": {
+    "label": "measurementBindings",
+    "equivalent": true,
+    "referenceCount": 5,
+    "generatedCount": 5,
+    "mismatches": [],
+    "extraGenerated": []
+  },
+  "provenance": "generated",
+  "notes": [
+    "Semantic equivalence: reference CG-2 mappings must be preserved.",
+    "Extra generated aliases/bindings are allowed.",
+    "Topology overrides remain hand-authored and must not drift."
+  ],
+  "promotionId": "promo-W8178559-20260914043705",
+  "approvedCandidateCount": 0
+}

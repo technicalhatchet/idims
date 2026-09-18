@@ -1,0 +1,773 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_overlay_mapping_gate_table",
+  "manualId": "W11296289",
+  "platformId": "whirlpool_sxs_w11296289",
+  "platformFamilyId": "whirlpool_sxs_w11296289",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "proposedOverlayFile": "whirlpool_sxs_w11296289.json",
+  "priorPublishedManualIds": [],
+  "status": "published",
+  "compoundingContract": "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json",
+  "workPackage": "WP2",
+  "generatedAt": "2026-09-16T13:25:11.409291+00:00",
+  "gateFraming": {
+    "question": "What does this SxS manual teach us about the frozen refrigerator contract?",
+    "manufacturerBoundary": "independent \u2014 W11296289 evidence not inherited from Jazz, Samsung SxS, or CG-9 R2",
+    "configurationNote": "side_by_side \u2014 compounding target is frozen french_door_refrigerator rev1",
+    "freezeReopenBlocked": true,
+    "cg9BoundaryProbe": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "cg9AutoApprovalBlocked": true
+  },
+  "manufacturerIsolation": {
+    "priorOverlaysBlocked": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_sxs.json"
+    ],
+    "rule": "Do not import Jazz french-door or Samsung SxS aliases, bindings, or topology.",
+    "crossOverlayDependentCount": 0,
+    "cg8FrenchDoorOverlaysByteStableRequired": [
+      "whirlpool_jazz_french_door.json",
+      "samsung_fridge_bespoke.json",
+      "lg_lrmvs.json"
+    ],
+    "cg95Wp1OverlayByteStableRequired": "samsung_sxs.json"
+  },
+  "pipelineCounts": {
+    "procedures": 13,
+    "mappingCandidates": 28,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "W11296289",
+    "generatedAt": null
+  },
+  "gatePolicy": {
+    "gateKind": "sxs_production_compounding_whirlpool",
+    "compoundingPhase": "CG-9.5",
+    "canonicalGraph": "french_door_refrigerator.json rev1 FROZEN",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "french_door_refrigerator",
+    "revision": "rev1",
+    "allowedCanonicalIds": [
+      "air_damper",
+      "control_board",
+      "defrost_heater",
+      "door_switch",
+      "evaporator_fan",
+      "user_interface"
+    ],
+    "forbiddenCanonicalIds": [
+      "airflow_path",
+      "cooling_system",
+      "defrost_system"
+    ],
+    "conditionalBindingIds": [
+      "temperature_sensor",
+      "compressor",
+      "condenser_fan",
+      "ice_maker",
+      "water_dispenser"
+    ]
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "whirlpool-sxs-control-board",
+      "gateQuestion": "Does W11296289 SxS independently teach frozen control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "procedureIds": [
+        "w11296289-theseus-service-entry",
+        "w11296289-athena-service-entry",
+        "w11296289-athena-fail-display"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "THESEUS CUDA / ATHENA service-mode orchestration and fail-LED decode \u2014 Whirlpool SxS-native control. Not inherited from Jazz french-door or Samsung SxS.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-user-interface",
+      "gateQuestion": "Does W11296289 SxS independently teach frozen user_interface?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "user_interface",
+      "procedureIds": [
+        "w11296289-theseus-service-entry",
+        "w11296289-athena-fail-display"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "CUDA dispenser LED step UI and ATHENA TEMP-button / fail-display decode \u2014 functional HMI on SxS without separate display-panel comm procedure.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-door-switch",
+      "gateQuestion": "Does W11296289 SxS independently teach frozen door_switch?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "door_switch",
+      "procedureIds": [
+        "w11296289-test-21-rc-door-switch",
+        "w11296289-test-23-fc-door-switch"
+      ],
+      "seedComponentIds": [
+        "door_switch"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Dedicated service steps 21/23 RC and FC door switches \u2014 independent procedure evidence (contrast Samsung SxS flowchart-only abstention).",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-evaporator-fan",
+      "gateQuestion": "Does W11296289 SxS teach frozen evaporator_fan?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "evaporator_fan",
+      "procedureIds": [
+        "w11296289-test-15-evap-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Single-evaporator SxS architecture \u2014 step 15 evap fan. Instance topology differs from multi-fan french-door but same canonical function.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-air-damper",
+      "gateQuestion": "Does W11296289 SxS independently teach frozen air_damper?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "air_damper",
+      "procedureIds": [
+        "w11296289-test-09-damper-open",
+        "w11296289-test-11-damper-heater"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "12 VDC stepper damper open (step 9) + damper heater (step 11) \u2014 Whirlpool SxS air_damper implementation distinct from Samsung heater-only path.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-defrost-heater",
+      "gateQuestion": "Does W11296289 SxS teach frozen defrost_heater?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "defrost_heater",
+      "procedureIds": [
+        "w11296289-test-13-defrost-heater"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "gateAction": "approve_human",
+      "independentEvidence": true,
+      "rationale": "Service step 13 defrost heater 550\u2013650 \u03a9 \u2014 direct canonical inheritance.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-compressor-relay-conditional",
+      "gateQuestion": "What does W11296289 teach about conditional compressor?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "compressor",
+      "instanceScope": "relay_drive_em3y60",
+      "procedureIds": [
+        "w11296289-test-07-compressor-cond-fan"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Step 7 compressor run windings via EM3Y60/EGX60 relay-drive path \u2014 conditionalConcept only. Relay implementation stays platform layer.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-condenser-fan-conditional",
+      "gateQuestion": "Does W11296289 teach conditional condenser_fan?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "condenser_fan",
+      "procedureIds": [
+        "w11296289-test-07-compressor-cond-fan"
+      ],
+      "seedComponentIds": [
+        "condenser_fan"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "independentEvidence": true,
+      "rationale": "Step 7 explicitly exercises condenser fan with compressor \u2014 independent Whirlpool procedure evidence. Conditional binding only; NOT canonical promotion. CG-9 R2 triangulation informative; gate evidence is step 7 procedure.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-temp-freezer-conditional",
+      "gateQuestion": "W11296289 FC cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "freezer",
+      "procedureIds": [
+        "w11296289-test-01-fc-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-temp-fresh-food-conditional",
+      "gateQuestion": "W11296289 RC cabinet NTC scope?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "temperature_sensor",
+      "instanceScope": "fresh_food",
+      "procedureIds": [
+        "w11296289-test-03-rc-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-ice-maker-conditional",
+      "gateQuestion": "W11296289 optional ice_maker conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "ice_maker",
+      "procedureIds": [
+        "w11296289-test-33-im-tray-thermistor"
+      ],
+      "seedComponentIds": [
+        "ice_maker_module"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "IDI twist-tray step 33 \u2014 optional feature domain, conditionalConcept only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-water-dispenser-conditional",
+      "gateQuestion": "W11296289 water_dispenser conditional binding?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalConcept": "water_dispenser",
+      "procedureIds": [
+        "w11296289-test-19-water-valve"
+      ],
+      "seedComponentIds": [
+        "water_valve"
+      ],
+      "gateAction": "approve_conditional_binding",
+      "rationale": "Step 19 water valve \u2014 optional conditional feature, not canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-defrost-thermistor-platform",
+      "gateQuestion": "Defrost NTC vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "platformTarget": "defrost_sensor",
+      "procedureIds": [
+        "w11296289-test-05-defrost-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Step 5 defrost thermistor \u2014 platform defrost_sensor vocabulary, not cabinet temperature_sensor conditional.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-theseus-athena-acu-platform",
+      "gateQuestion": "THESEUS vs ATHENA ACU board variants?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "platformTarget": "control_board_implementation",
+      "procedureIds": [
+        "w11296289-theseus-service-entry",
+        "w11296289-athena-service-entry"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Board variant routing (THESEUS/CUDA vs ATHENA) \u2014 implementation overlay, not canonical control_board expansion.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-minotaur-cuda-hmi-platform",
+      "gateQuestion": "MINOTAUR HMI / CUDA dispenser UI implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "canonicalFunctionalRole": [
+        "user_interface"
+      ],
+      "procedureIds": [
+        "w11296289-theseus-service-entry"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "MINOTAUR J1 12.7 VDC + CUDA LED step codes \u2014 platform HMI path detail.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-compressor-relay-platform",
+      "gateQuestion": "EM3Y60/EGX60 relay-drive implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "platformTarget": "compressor_controller",
+      "procedureIds": [
+        "w11296289-test-07-compressor-cond-fan"
+      ],
+      "implementationComponents": [
+        "compressor_relay",
+        "em3y60_compressor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "Relay-drive compressor path \u2014 platform compressor_controller. Distinct from Jazz EM2Y60 french-door and Samsung inverter PBA.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-damper-stepper-platform",
+      "gateQuestion": "12 VDC stepper damper implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "canonicalFunctionalRole": [
+        "air_damper"
+      ],
+      "implementationComponent": "damper_motor",
+      "procedureIds": [
+        "w11296289-test-09-damper-open",
+        "w11296289-test-11-damper-heater"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-idi-ice-platform",
+      "gateQuestion": "IDI twist-tray ice maker platform vocabulary?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "implementationComponent": "ice_maker_module",
+      "procedureIds": [
+        "w11296289-test-33-im-tray-thermistor"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-water-valve-platform",
+      "gateQuestion": "Water inlet valve implementation?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_platform_implementation",
+      "implementationComponent": "water_valve",
+      "procedureIds": [
+        "w11296289-test-19-water-valve"
+      ],
+      "gateAction": "approve_platform_implementation",
+      "rationale": "P3 water valve \u2014 implements conditional water_dispenser.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-sealed-system-routing",
+      "gateQuestion": "Sealed-system complaint routing?",
+      "outcome": "overlay_knowledge",
+      "layer": "whirlpool_sxs_complaint_routing",
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "Sealed-system / not-cooling complaint vocabulary routes to compressor + condenser_fan conditionals \u2014 not a canonical aggregate node.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-aggregate-resurrection-blocked",
+      "gateQuestion": "Do W11296289 terms resurrect removed aggregates?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_aggregate_resurrection",
+      "removedConcepts": [
+        "airflow_path",
+        "cooling_system",
+        "defrost_system"
+      ],
+      "gateAction": "reject_canonical_promotion",
+      "rationale": "THESEUS service steps decompose into members \u2014 defrost_system, cooling_system, airflow_path remain dead per CG-7 freeze.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-cg9-r2-evidence-isolation",
+      "gateQuestion": "Does CG-9 R2 boundary observation auto-approve overlay rows?",
+      "outcome": "overlay_knowledge",
+      "layer": "reject_cg9_calibration_inheritance",
+      "gateAction": "reject_canonical_promotion",
+      "boundaryProbeArtifact": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+      "rationale": "CG-9 R2 falsification probe closed family boundary \u2014 calibration only. Each teaching row requires independent W11296289 procedure evidence in this gate.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-idi-partial-abstention",
+      "gateQuestion": "Full IDI steps 29\u201335 coverage?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_partial_procedure_coverage",
+      "procedureIds": [
+        "w11296289-test-33-im-tray-thermistor"
+      ],
+      "gateAction": "defer_human_review",
+      "rationale": "Only step 33 tray thermistor seeded \u2014 harvest/fill steps 29\u201332/34\u201335 deferred until procedure seeds exist. ice_maker conditional bound on step 33 only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-dispenser-light-abstention",
+      "gateQuestion": "Dispenser light step 17?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_procedure_seed",
+      "gateAction": "defer_human_review",
+      "rationale": "Step 17 dispenser light \u2014 no procedure seed; lighting adjunct not canonical.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-paddle-feedback-abstention",
+      "gateQuestion": "Paddle feedback steps 25/27?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_no_procedure_seed",
+      "gateAction": "defer_human_review",
+      "rationale": "Steps 25/27 ice/water paddle feedback \u2014 HMI path only, no standalone procedure seeds. water_dispenser bound via step 19 valve only.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    },
+    {
+      "teachingId": "whirlpool-sxs-humidity-abstention",
+      "gateQuestion": "humidity_control on W11296289?",
+      "outcome": "intentional_abstention",
+      "layer": "defer_not_on_manual",
+      "gateAction": "defer_human_review",
+      "rationale": "No humidity sensor on W11296289 SxS \u2014 CG-7 deferred humidity_control.",
+      "humanGateApproved": true,
+      "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+      "humanGateReviewer": "human_gate_cg95_wp2"
+    }
+  ],
+  "mappingCandidateDispositions": [
+    {
+      "candidateId": "map-W11296289-compound-control_board",
+      "sourceTerm": "control_board",
+      "procedureId": "w11296289-athena-fail-display",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-athena-fail-display-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w11296289-athena-fail-display",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-athena-service-mode:-display-fail-message-decode",
+      "sourceTerm": "Athena service mode: Display fail message decode",
+      "procedureId": "w11296289-athena-fail-display",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-01-fc-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w11296289-test-01-fc-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-1:-freezer-(fc)-thermistor",
+      "sourceTerm": "Service step 1: Freezer (FC) thermistor",
+      "procedureId": "w11296289-test-01-fc-thermistor",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-03-rc-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w11296289-test-03-rc-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-3:-refrigerator-(rc)-thermistor",
+      "sourceTerm": "Service step 3: Refrigerator (RC) thermistor",
+      "procedureId": "w11296289-test-03-rc-thermistor",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-05-defrost-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w11296289-test-05-defrost-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-5:-defrost-thermistor",
+      "sourceTerm": "Service step 5: Defrost thermistor",
+      "procedureId": "w11296289-test-05-defrost-thermistor",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-07-compressor-cond-fan-compressor",
+      "sourceTerm": "compressor",
+      "procedureId": "w11296289-test-07-compressor-cond-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-condenser_fan",
+      "sourceTerm": "condenser_fan",
+      "procedureId": "w11296289-test-07-compressor-cond-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-7:-compressor-&-condenser-fan",
+      "sourceTerm": "Service step 7: Compressor & condenser fan",
+      "procedureId": "w11296289-test-07-compressor-cond-fan",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-damper_motor",
+      "sourceTerm": "damper_motor",
+      "procedureId": "w11296289-test-09-damper-open",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-9:-damper-open",
+      "sourceTerm": "Service step 9: Damper open",
+      "procedureId": "w11296289-test-09-damper-open",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-11-damper-heater-heater",
+      "sourceTerm": "heater",
+      "procedureId": "w11296289-test-11-damper-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-11:-damper-heater",
+      "sourceTerm": "Service step 11: Damper heater",
+      "procedureId": "w11296289-test-11-damper-heater",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-defrost_heater",
+      "sourceTerm": "defrost_heater",
+      "procedureId": "w11296289-test-13-defrost-heater",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-13:-defrost-heater",
+      "sourceTerm": "Service step 13: Defrost heater",
+      "procedureId": "w11296289-test-13-defrost-heater",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-evap_fan",
+      "sourceTerm": "evap_fan",
+      "procedureId": "w11296289-test-15-evap-fan",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-15:-evaporator-fan",
+      "sourceTerm": "Service step 15: Evaporator fan",
+      "procedureId": "w11296289-test-15-evap-fan",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-water_valve",
+      "sourceTerm": "water_valve",
+      "procedureId": "w11296289-test-19-water-valve",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-19:-water-dispenser-valve",
+      "sourceTerm": "Service step 19: Water dispenser valve",
+      "procedureId": "w11296289-test-19-water-valve",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-door_switch",
+      "sourceTerm": "door_switch",
+      "procedureId": "w11296289-test-21-rc-door-switch",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-21:-rc-door-switch",
+      "sourceTerm": "Service step 21: RC door switch",
+      "procedureId": "w11296289-test-21-rc-door-switch",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-23:-fc-door-switch",
+      "sourceTerm": "Service step 23: FC door switch",
+      "procedureId": "w11296289-test-23-fc-door-switch",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-33-im-tray-thermistor-thermistor",
+      "sourceTerm": "thermistor",
+      "procedureId": "w11296289-test-33-im-tray-thermistor",
+      "disposition": "conditional_concept_binding",
+      "outcome": "conditional_binding",
+      "conditionalConcept": "temperature_sensor",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-ice_maker_module",
+      "sourceTerm": "ice_maker_module",
+      "procedureId": "w11296289-test-33-im-tray-thermistor",
+      "disposition": "see_teaching_row",
+      "gateAction": "see_contract_teaching_row"
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-33:-idi-ice-tray-thermistor-(sankyo)",
+      "sourceTerm": "Service step 33: IDI ice tray thermistor (SANKYO)",
+      "procedureId": "w11296289-test-33-im-tray-thermistor",
+      "disposition": "unresolved",
+      "outcome": "intentional_abstention",
+      "gateAction": "defer_human_review"
+    }
+  ],
+  "auditBoundaries": {
+    "relayDriveCompressor": [
+      "whirlpool-sxs-compressor-relay-conditional",
+      "whirlpool-sxs-compressor-relay-platform"
+    ],
+    "condenserFanExplicitBinding": [
+      "whirlpool-sxs-condenser-fan-conditional"
+    ],
+    "dedicatedDoorSwitch": [
+      "whirlpool-sxs-door-switch"
+    ],
+    "compartmentThermistors": [
+      "whirlpool-sxs-temp-fresh-food-conditional",
+      "whirlpool-sxs-temp-freezer-conditional"
+    ],
+    "cg9R2EvidenceIsolation": [
+      "whirlpool-sxs-cg9-r2-evidence-isolation"
+    ],
+    "aggregateResurrectionBlocked": [
+      "whirlpool-sxs-aggregate-resurrection-blocked"
+    ]
+  },
+  "accounting": {
+    "canonicalInheritance": 6,
+    "conditionalBinding": 6,
+    "overlayLearning": 10,
+    "intentionalAbstention": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "mappingCandidatesTotal": 28,
+    "intentionalAbstentions": 4,
+    "overlayLearningEvents": 10
+  },
+  "outcomeHistogram": {
+    "canonical_inheritance": 6,
+    "conditional_binding": 6,
+    "overlay_knowledge": 10,
+    "intentional_abstention": 4
+  },
+  "humanGateApprovedAt": "2026-09-16T13:25:11.489789+00:00",
+  "humanGateReviewer": "human_gate_cg95_wp2",
+  "publishedAt": "2026-09-16T13:25:11.694881+00:00",
+  "promotionId": "promo-W11296289-SXS-CG95-20260916132511"
+}

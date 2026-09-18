@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_fit_test_contract",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T13:40:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseClosed": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / MICROWAVE_FAMILY_ARCHITECTURE_COMPLETE",
+  "fitTestMode": "fit_falsification_against_existing_frozen_laundry_contracts",
+  "applianceScope": "all_in_one_washer_dryer_combo",
+  "notCreating": [
+    "aio_laundry_combo.json",
+    "mutations to front_load_washer.json",
+    "mutations to top_load_washer.json",
+    "mutations to vented_dryer.json",
+    "mutations to any other frozen canonical graph",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "normalization compounding of broader corpus",
+    "family lock",
+    "discovery contract execution",
+    "freeze execution"
+  ],
+  "hardGateRule": {
+    "description": "Physical packaging (washer + dryer in one cabinet) is not sufficient for new canonical graph.",
+    "tree": [
+      "Existing frozen family? → compare functional contract",
+      "Can it satisfy existing functional contract? → YES → prove variant → no canonical mutation",
+      "NO → document functional divergence → triangulate → only then authorize discovery"
+    ],
+    "disallowedShortcut": "Creating aio_laundry_combo.json because the appliance performs wash and dry without fit/falsification closure",
+    "heatPumpVentlessGuard": "Do not inherit AIO drying architecture from vented_dryer merely because both perform drying. Evaluate whether vented_dryer models moisture rejection, heat generation, and airflow functional relationships — not only the word dryer."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "front_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+      "immutable": true,
+      "primaryContaminationProbe": true,
+      "hash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "note": "Evaluate whether AIO wash path maps without mutating FL washer contract"
+    },
+    {
+      "id": "vented_dryer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/vented_dryer.json",
+      "frozenRevision": "rev2",
+      "immutable": true,
+      "primaryContaminationProbe": true,
+      "hash": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "note": "Evaluate dry path — especially heat-pump / condenser / ventless architectures vs heated_airflow_path + exhaust_path"
+    },
+    {
+      "id": "top_load_washer",
+      "file": "frontend/components/diagnostics/knowledge/canonical/top_load_washer.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryContaminationProbe": false,
+      "hash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+      "note": "Evaluate only where relevant — do not force AIO onto TL family because it is laundry"
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "front_load_washer",
+      "top_load_washer",
+      "vented_dryer",
+      "shared_function",
+      "implementation_specific",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ],
+    "rule": "Fit-test vocabulary only — do not auto-promote to canonical concepts"
+  },
+  "functionalDomainsUnderTest": {
+    "washing": [
+      "water_supply_fill",
+      "drain",
+      "wash_agitation_tumble",
+      "motor_mechanical_drive",
+      "water_level_load_sensing",
+      "temperature_heating",
+      "user_interface",
+      "control_logic",
+      "safety_interlock",
+      "power_supply"
+    ],
+    "drying": [
+      "drum_mechanical_drive",
+      "airflow",
+      "heat_generation",
+      "moisture_removal_condensation_heat_pump",
+      "temperature_sensing_protection",
+      "drying_control",
+      "lint_moisture_management"
+    ],
+    "sharedIntegration": [
+      "shared_control_architecture",
+      "shared_motor_drive",
+      "shared_sensors",
+      "shared_heating_thermal_protection",
+      "shared_power_conversion",
+      "shared_user_interface",
+      "shared_safety_systems",
+      "separate_modes_one_functional_controller"
+    ]
+  },
+  "centerpieceQuestions": [
+    {
+      "id": "wash_vs_front_load_washer",
+      "question": "Can the AIO washing portion be represented by front_load_washer without canonical mutation?",
+      "framing": "Functional responsibilities (fill, drain, tumble, door lock, level sense, wash heat) — not cabinet shape alone."
+    },
+    {
+      "id": "dry_vs_vented_dryer",
+      "question": "Can the AIO drying portion be represented by vented_dryer without canonical mutation?",
+      "framing": "Critical: heat-pump / condenser / ventless moisture rejection vs vented_dryer heated_airflow_path requiring exhaust_path."
+    },
+    {
+      "id": "composed_vs_new",
+      "question": "Is AIO a composed implementation of existing frozen domains, or does integration introduce functional relationships neither family represents?",
+      "framing": "If wash fits FL and dry fits vented, document composed variant — do not invent AIO ontology. If dry does not fit vented, composed hypothesis fails."
+    },
+    {
+      "id": "implementation_vs_functional",
+      "question": "Are compressor, condenser loop, dehumidifying kit, auto-open door, and foam-in-dehumidification merely implementation detail — or functional divergence?",
+      "framing": "Component novelty ≠ functional novelty; but different moisture-rejection and heat-generation contracts may still diverge."
+    }
+  ],
+  "discoveryCorpus": {
+    "W1": {
+      "manufacturer": "Samsung",
+      "model": "WD53DBA900HZA1",
+      "platformId": "samsung_laundry_combo",
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "sourcePdf": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+      "extractedText": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+      "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md",
+      "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_laundry_combo",
+      "dryingArchitecture": "heat_pump_ventless_condenser",
+      "observationArtifact": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+      "procedureCount": 21
+    },
+    "W2": {
+      "status": "not_available_in_corpus",
+      "note": "No second independent AIO laundry-combo manufacturer manual ingested. GE GUD27 is stacked laundry center (decomposed washer+dryer), not AIO. Samsung FlexWash is dual-load washer only. Inventory suggests LG WM6998 / Bespoke combo — not ingested.",
+      "triangulationLimitation": "Cross-manufacturer AIO triangulation deferred — single-witness limitation documented in triangulation artifact"
+    }
+  },
+  "requiredArtifacts": [
+    "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+    "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_FIT_TRIANGULATION_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json OR CG_AIO_LAUNDRY_COMBO_FIT_CLOSURE_v1.json"
+  ],
+  "immutableRules": [
+    "CG-AIO-LAUNDRY-COMBO-FIT-TEST is fit/falsification only — no aio_laundry_combo.json.",
+    "No writes to any frozen canonical ontology file during this workstream.",
+    "vented_dryer.json hash must remain db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714.",
+    "front_load_washer.json hash must remain 9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05.",
+    "top_load_washer.json hash must remain dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5.",
+    "Procedure seeds inform observations — they do not auto-promote AIO hardware to canonical.",
+    "Do not begin corpus-wide normalization/compounding during architecture-establishment phase."
+  ],
+  "successCriteria": {
+    "minimum": "Fit contract + single witness observation + analysis with exactly one hard outcome",
+    "canonicalMutation": 0,
+    "canonicalExpansion": 0,
+    "humanAuthorizationRequiredForDiscovery": true
+  }
+}

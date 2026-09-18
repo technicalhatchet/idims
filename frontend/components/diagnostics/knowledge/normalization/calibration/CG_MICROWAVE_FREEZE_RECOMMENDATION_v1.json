@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_freeze_recommendation",
+  "workstream": "CG-MICROWAVE-FREEZE",
+  "status": "freeze_approved",
+  "generatedAt": "2026-09-17T09:30:00+00:00",
+  "humanFreezeApprovedAt": "2026-09-17T09:35:00+00:00",
+  "humanFreezeVerdict": "GREEN — FREEZE APPROVED",
+  "ontologyId": "microwave",
+  "canonicalOntologyFile": "microwave.json",
+  "canonicalOntologyRevision": "rev1",
+  "canonicalOntologyFrozen": true,
+  "freezeLockArtifact": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+  "freezeClosureArtifact": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+  "humanFreezeApprovalRequired": true,
+  "humanFreezeReviewQuestion": "Does microwave.json rev1 accurately transcribe the already-approved discovery contract (7 core + 2 conditional) without redesign?",
+  "discoveryInput": {
+    "soleArchitecturalInput": "microwave_functional_contract_candidate_v1.json",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "fitDiscoveryArtifactsImmutable": true
+  },
+  "canonicalOntology": {
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "preFreezeHash": "5a5e77a73b4d587432bbfd98af0cfcc448f6372469fab479ffb45ea19f1b69ad",
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-17T09:35:00+00:00",
+    "registryRegistered": true
+  },
+  "governanceChecks": {
+    "coreFunctionCount": 7,
+    "conditionalFunctionCount": 2,
+    "componentPromotionCount": 0,
+    "hvRfSplitPreserved": true,
+    "thermalProtectionSingleFunction": true,
+    "conditionalStatusPreserved": ["control_and_sensing", "ventilation_otr"],
+    "rangeOvenHashUnchanged": true,
+    "rangeOvenHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "canonicalExpansion": 0,
+    "validateCanonicalGraphPass": true
+  },
+  "approvedArchitecture": {
+    "core": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditional": ["control_and_sensing", "ventilation_otr"],
+    "rejectedAsCanonicalNodes": [
+      "magnetron",
+      "hv_transformer",
+      "hv_capacitor",
+      "hv_diode",
+      "hv_fuse",
+      "waveguide",
+      "waveguide_cover",
+      "turntable_motor",
+      "humidity_sensor",
+      "individual_tcos"
+    ]
+  },
+  "semanticBoundaries": {
+    "hv_generation": "Generation/conditioning of electrical energy for microwave generation — not individual HV components.",
+    "rf_cavity": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure.",
+    "causalChain": ["control_board", "hv_generation", "rf_cavity"]
+  },
+  "evidenceChain": {
+    "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "freezeContract": "CG_MICROWAVE_FREEZE_CONTRACT_v1.json",
+    "referenceOverlay": "microwave.reference.json",
+    "platforms": ["lg_microwave_otr", "samsung_microwave_otr"]
+  },
+  "freezeGateProgression": [
+    "microwave.json rev1 authored from approved discovery contract",
+    "validate_canonical_graph pass",
+    "Human freeze review — confirm transcription fidelity, not redesign",
+    "frozen:true + CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "canonicalRegistry registration",
+    "Regression proof + family LOCKED"
+  ],
+  "nextDisciplinedStep": "Human freeze gate review — approve microwave.json rev1 transcription before frozen:true and registry registration"
+}

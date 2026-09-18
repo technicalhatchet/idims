@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1_tl3",
+  "frozen": true,
+  "frozenAt": "2026-09-13T14:00:00+00:00",
+  "description": "FROZEN — W11416787 TL #3 post-publish baseline. Gate-preview metrics only (term-resolution approvals are not new gate decisions). TL #1 and TL #2 baselines remain immutable.",
+  "platformFamilyPriorManualIds": ["W10864849", "W11697231"],
+  "promotionGatePreview": {
+    "note": "Metrics captured before W11416787 term-resolution apply — replication proof point across whirlpool_tl_dd → whirlpool_tl_dd_5100 seed boundary",
+    "manualId": "W11416787",
+    "platformId": "whirlpool_tl_dd_5100",
+    "reviewRecords": 33,
+    "inheritedPlatformFamilyKnowledge": 19,
+    "inheritedCorpusKnowledge": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 2,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 2,
+    "newHumanDecisionRate": 0.061,
+    "killerMetricReport": "compounding_tl_platform_v1.json",
+    "replicationPreview": "compounding_tl3_replication_preview_W11416787.json"
+  },
+  "postPublish": {
+    "manualId": "W11416787",
+    "platformId": "whirlpool_tl_dd_5100",
+    "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+    "ontologyId": "top_load_washer",
+    "published": true,
+    "promotionId": "promo-W11416787-20260913135602",
+    "reviewRecords": 33,
+    "approved": 32,
+    "termResolutions": {
+      "applied": 10,
+      "classifications": {
+        "inherited_platform_family": 8,
+        "new_model_specific": 2
+      }
+    },
+    "procedureBindingsApproved": 12,
+    "tlTestTargetRemapped": 2,
+    "equivalence": "PASS",
+    "canonicalGraphValidation": "PASS",
+    "humanClassification": "w11416787_human_classification.json",
+    "newCanonicalKnowledge": 0,
+    "architectureNote": "Third-order TL replication — zero new platform gate decisions across seed boundary; 2 model-line surface decisions (HMI title variant, Load & Go)."
+  },
+  "nextExperiment": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "hypothesis": "Cross-manufacturer stress test: canonical reuse, platform isolation, Samsung platform establishment, model specificity without Whirlpool topology leakage."
+  }
+}

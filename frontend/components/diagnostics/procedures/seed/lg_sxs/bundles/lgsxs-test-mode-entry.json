@@ -1,0 +1,49 @@
+{
+  "id": "lgsxs-test-mode-entry",
+  "version": "1.0.0",
+  "platformId": "lg_sxs",
+  "manualId": "LG-LSC27926-SXS",
+  "title": "LG LSC27926 SxS \u2014 Main PCB test modes",
+  "modeKind": "service_diagnostic_entry",
+  "uiVariants": [
+    "any"
+  ],
+  "description": "Main PCB test button: \u00d71 all loads (Test 1), \u00d72 forced defrost (Test 2).",
+  "tags": [
+    "service_diagnostic",
+    "defrost",
+    "load_test",
+    "damper",
+    "control_board"
+  ],
+  "entryStepId": "tm_1",
+  "source": {
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "pages": [
+      21
+    ]
+  },
+  "steps": [
+    {
+      "id": "tm_1",
+      "order": 1,
+      "type": "instruction",
+      "title": "Test Mode 1 \u2014 strong cold",
+      "body": "Push main PCB test button once: compressor, F-FAN, C-FAN run; defrost heater OFF; main damper OPEN; all display segments ON.",
+      "sourceExcerpt": "Push main PCB test button once: compressor, F-FAN, C-FAN run; defrost heater OFF; main damper OPEN; all display segments ON.",
+      "requiresInput": false,
+      "defaultNextStepId": "tm_2"
+    },
+    {
+      "id": "tm_2",
+      "order": 2,
+      "type": "instruction",
+      "title": "Test Mode 2 \u2014 forced defrost",
+      "body": "From Test 1, push test button once: compressor/fans OFF; defrost heater ON; damper CLOSED; display segments OFF.",
+      "sourceExcerpt": "From Test 1, push test button once: compressor/fans OFF; defrost heater ON; damper CLOSED; display segments OFF.",
+      "requiresInput": false,
+      "defaultNextStepId": "@continue"
+    }
+  ]
+}

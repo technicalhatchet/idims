@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_target_compounding",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "sequence": 4,
+  "targetId": "whirlpool_w11174814_corpus",
+  "role": "corroboration",
+  "notRetroactiveFitEvidence": true,
+  "status": "closed",
+  "verdict": "GREEN / W11174814_CORROBORATION_COMPOUNDING_COMPLETE",
+  "compoundedAt": "2026-09-17T06:30:00+00:00",
+  "parentWorkstream": "CG_RANGE_COMPOUNDING_v1.json",
+  "priorSequenceClosed": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json",
+  "normalizationSource": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+  "gateSequence": [
+    "W11174814 normalization (corroboration role)",
+    "W11174814 corroboration compounding",
+    "overlay integrity/provenance audit",
+    "regression",
+    "STOP",
+    "CG-RANGE-FAMILY-CLOSURE unlocks separately"
+  ],
+  "deliverables": {
+    "overlayFile": "canonical/manufacturer_overlays/whirlpool_freestanding_range_w11174814.json",
+    "gateTable": "WHIRLPOOL_W11174814_RANGE_overlay_mapping_table_v1.json",
+    "compoundingEvidence": "WHIRLPOOL_W11174814_RANGE_CG_RANGE_COMPOUNDING_EVIDENCE_v1.json",
+    "compoundingObservation": "WHIRLPOOL_W11174814_RANGE_cg_range_compounding_observation_v1.json",
+    "auditArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json"
+  },
+  "rollup": {
+    "proceduresBound": 26,
+    "measurementsBound": 17,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 15,
+    "platformOnlyProcedures": 3,
+    "canonicalExpansion": 0,
+    "fitArtifactsReopened": 0,
+    "electricRangeRev1HashUnchanged": true,
+    "rangeOvenOntologyUnchanged": true,
+    "samsungOverlaysUnmodified": true
+  },
+  "exitCriteria": {
+    "overlayPublished": true,
+    "provenanceAuditGreen": true,
+    "compoundingRegressionGreen": true,
+    "canonicalGraphUnchanged": true,
+    "notRetroactiveFitEvidencePreserved": true,
+    "closureArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json"
+  },
+  "nextDisciplinedStep": "STOP — all four compounding sequences complete; CG-RANGE-FAMILY-CLOSURE unlocks separately"
+}

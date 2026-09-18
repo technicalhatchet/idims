@@ -1,0 +1,3232 @@
+{
+  "manualId": "W11819775",
+  "procedures": [
+    {
+      "procedureId": "w11819775-test-01-rc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 01: RC compartment thermistor",
+      "purpose": "RC compartment Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff",
+        "F3E1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_01",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 01",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 01. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 01 \u2014 RC compartment thermistor"
+        },
+        {
+          "id": "read_temp",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC compartment thermistor reading",
+          "body": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "temp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "temp_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": true,
+              "oemOutcome": "RC compartment thermistor Er or out of range \u2014 bench test harness."
+            }
+          ],
+          "sourceExcerpt": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?"
+        },
+        {
+          "id": "bench_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench RC compartment thermistor ohms",
+          "body": "Disconnect power. Measure at CN6 CN6-1 \u2194 CN6-2 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure at CN6 CN6-1 \u2194 CN6-2 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "RC compartment thermistor resistance",
+          "body": "Measure at harness with power off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+              "testPoint": {
+                "connector": "CN6",
+                "pins": "CN6-1 \u2194 CN6-2",
+                "label": "RC compartment thermistor resistance"
+              },
+              "title": "RC compartment thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2k \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off."
+        },
+        {
+          "id": "replace_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace RC compartment thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ntc_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "RC compartment thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+          "testPoint": {
+            "connector": "CN6",
+            "pins": "CN6-1 \u2194 CN6-2",
+            "label": "RC compartment thermistor resistance"
+          },
+          "title": "RC compartment thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "temp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_temp"
+        },
+        {
+          "id": "temp_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": true,
+          "oemOutcome": "RC compartment thermistor Er or out of range \u2014 bench test harness.",
+          "stepId": "read_temp"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "01",
+        "oemTestTitle": "RC compartment Thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-01-rc-thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-01-rc-thermistor",
+            "pages": [
+              57,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-03-fc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 03: FC compartment thermistor",
+      "purpose": "FC compartment Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling",
+        "F3E2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_03",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 03",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 03. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 03 \u2014 FC compartment thermistor"
+        },
+        {
+          "id": "read_temp",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC compartment thermistor reading",
+          "body": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "temp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "temp_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": true,
+              "oemOutcome": "FC compartment thermistor Er or out of range \u2014 bench test harness."
+            }
+          ],
+          "sourceExcerpt": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?"
+        },
+        {
+          "id": "bench_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench FC compartment thermistor ohms",
+          "body": "Disconnect power. Measure at CN6 CN6-7 \u2194 CN6-8 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure at CN6 CN6-7 \u2194 CN6-8 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "FC compartment thermistor resistance",
+          "body": "Measure at harness with power off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+              "testPoint": {
+                "connector": "CN6",
+                "pins": "CN6-7 \u2194 CN6-8",
+                "label": "FC compartment thermistor resistance"
+              },
+              "title": "FC compartment thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2k \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off."
+        },
+        {
+          "id": "replace_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace FC compartment thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ntc_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "FC compartment thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+          "testPoint": {
+            "connector": "CN6",
+            "pins": "CN6-7 \u2194 CN6-8",
+            "label": "FC compartment thermistor resistance"
+          },
+          "title": "FC compartment thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "temp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_temp"
+        },
+        {
+          "id": "temp_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": true,
+          "oemOutcome": "FC compartment thermistor Er or out of range \u2014 bench test harness.",
+          "stepId": "read_temp"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "03",
+        "oemTestTitle": "FC compartment Thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-03-fc-thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-03-fc-thermistor",
+            "pages": [
+              57,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-05-fc-evap-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 05: FC evaporator thermistor",
+      "purpose": "FC evaporator Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "frost_buildup",
+        "F3E4"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_05",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 05",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 05. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 05 \u2014 FC evaporator thermistor"
+        },
+        {
+          "id": "read_temp",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC evaporator thermistor reading",
+          "body": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "temp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "temp_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": true,
+              "oemOutcome": "FC evaporator thermistor Er or out of range \u2014 bench test harness."
+            }
+          ],
+          "sourceExcerpt": "Service test reads thermistor temperature in \u00b0C. Does display show a valid temperature (not Er)?"
+        },
+        {
+          "id": "bench_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench FC evaporator thermistor ohms",
+          "body": "Disconnect power. Measure at CN6 CN6-9 \u2194 CN6-10 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure at CN6 CN6-9 \u2194 CN6-10 \u2014 2k \u03a9 @ 77\u00b0F (1929\u20132083 \u03a9); 17.3k @ 0\u00b0F."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "FC evaporator thermistor resistance",
+          "body": "Measure at harness with power off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+              "testPoint": {
+                "connector": "CN6",
+                "pins": "CN6-9 \u2194 CN6-10",
+                "label": "FC evaporator thermistor resistance"
+              },
+              "title": "FC evaporator thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "2k \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ntc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off."
+        },
+        {
+          "id": "replace_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace FC evaporator thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ntc_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "FC evaporator thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterThermistorOhms",
+          "testPoint": {
+            "connector": "CN6",
+            "pins": "CN6-9 \u2194 CN6-10",
+            "label": "FC evaporator thermistor resistance"
+          },
+          "title": "FC evaporator thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "temp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_temp"
+        },
+        {
+          "id": "temp_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": true,
+          "oemOutcome": "FC evaporator thermistor Er or out of range \u2014 bench test harness.",
+          "stepId": "read_temp"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "2k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ntc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "05",
+        "oemTestTitle": "FC evaporator Thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-05-fc-evap-thermistor",
+        "pages": [
+          57,
+          97
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-05-fc-evap-thermistor",
+            "pages": [
+              57,
+              97
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-07-im-tray-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 7: FC ice maker tray thermistor",
+      "purpose": "FC Ice Maker Tray Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "ice_maker"
+      ],
+      "tags": [
+        "thermistor_check",
+        "no_ice",
+        "FBEB"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_07",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 07",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 07. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 07 \u2014 IM tray thermistor"
+        },
+        {
+          "id": "read_im_temp",
+          "order": 4,
+          "type": "visual_check",
+          "title": "IM tray thermistor reading",
+          "body": "Service test 07 reads tray temperature \u00b0C. Valid reading or Er?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "im_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_im",
+              "terminal": true,
+              "oemOutcome": "Tray thermistor Er \u2014 part of ice maker assembly."
+            }
+          ],
+          "sourceExcerpt": "Service test 07 reads tray temperature \u00b0C. Valid reading or Er?"
+        },
+        {
+          "id": "bench_im",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench IM tray thermistor",
+          "body": "Disconnect power. CN13-3 V-R to CN13-4 GND \u2014 5k \u03a9 @ 77\u00b0F (4950\u20135050 \u03a9).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. CN13-3 V-R to CN13-4 GND \u2014 5k \u03a9 @ 77\u00b0F (4950\u20135050 \u03a9)."
+        },
+        {
+          "id": "im_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "IM tray thermistor",
+          "body": "5k NTC chart \u2014 replace IM assembly if failed.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterImTrayThermistorOhms",
+              "testPoint": {
+                "connector": "CN13",
+                "pins": "CN13-3 \u2194 CN13-4",
+                "label": "IM tray thermistor"
+              },
+              "title": "IM tray thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "im_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_im",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_pass",
+              "label": "5k \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "im_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "5k NTC chart \u2014 replace IM assembly if failed."
+        },
+        {
+          "id": "replace_im",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "IM tray thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterImTrayThermistorOhms",
+          "testPoint": {
+            "connector": "CN13",
+            "pins": "CN13-3 \u2194 CN13-4",
+            "label": "IM tray thermistor"
+          },
+          "title": "IM tray thermistor"
+        }
+      ],
+      "branches": [
+        {
+          "id": "im_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_temp"
+        },
+        {
+          "id": "im_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im",
+          "terminal": true,
+          "oemOutcome": "Tray thermistor Er \u2014 part of ice maker assembly.",
+          "stepId": "read_im_temp"
+        },
+        {
+          "id": "im_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_ohms"
+        },
+        {
+          "id": "im_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_ohms"
+        },
+        {
+          "id": "im_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_ohms"
+        },
+        {
+          "id": "im_pass",
+          "label": "5k \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "07",
+        "oemTestTitle": "FC Ice Maker Tray Thermistor",
+        "pages": [
+          57,
+          98
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-07-im-tray-thermistor",
+        "pages": [
+          57,
+          98
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-07-im-tray-thermistor",
+            "pages": [
+              57,
+              98
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-10-rh-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 10: Ambient humidity sensor",
+      "purpose": "Ambient Humidity Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "humidity_sensor"
+      ],
+      "tags": [
+        "sensor_fault",
+        "moisture",
+        "F3E8"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_10",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 10",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 10. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 10 \u2014 RH sensor"
+        },
+        {
+          "id": "read_rh",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Relative humidity reading",
+          "body": "Displays RH percentage. Er indicates sensor fault.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "rh_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "rh_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rh_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_rh_voltage",
+              "terminal": true,
+              "oemOutcome": "RH sensor Er \u2014 check CN13-8 +5V and CN13-7 RT signal."
+            }
+          ],
+          "sourceExcerpt": "Displays RH percentage. Er indicates sensor fault."
+        },
+        {
+          "id": "check_rh_voltage",
+          "order": 5,
+          "type": "instruction",
+          "title": "Check RH sensor voltage",
+          "body": "CN13-8 +5V to CN13-6 GND = 5 VDC. Sensor pin 1 white to pin 2 black = 5 VDC.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "CN13-8 +5V to CN13-6 GND = 5 VDC. Sensor pin 1 white to pin 2 black = 5 VDC."
+        },
+        {
+          "id": "rh_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "RH sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "rh_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rh_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_rh"
+        },
+        {
+          "id": "rh_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_rh_voltage",
+          "terminal": true,
+          "oemOutcome": "RH sensor Er \u2014 check CN13-8 +5V and CN13-7 RT signal.",
+          "stepId": "read_rh"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "10",
+        "oemTestTitle": "Ambient Humidity Sensor",
+        "pages": [
+          57,
+          99
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-10-rh-sensor",
+        "pages": [
+          57,
+          99
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-10-rh-sensor",
+            "pages": [
+              57,
+              99
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-13-fc-ice-maker",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "FC ice maker test mode & FBEC/FBEB faults",
+      "purpose": "FC Ice Maker",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "ice_maker",
+        "FBEC",
+        "FBEB"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "enter_im_test",
+          "order": 3,
+          "type": "instruction",
+          "title": "Enter FC ice maker test mode",
+          "body": "Empty ice tray. Lock button 3 sec. Both RC and FC doors open \u2014 hold Freezer + Mode 3 sec. Freezer Ice Off light blinks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Empty ice tray. Lock button 3 sec. Both RC and FC doors open \u2014 hold Freezer + Mode 3 sec. Freezer Ice Off light blinks."
+        },
+        {
+          "id": "run_im_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run IM test cycle",
+          "body": "IM initializes, harvests, then fills with water. Listen for fill \u2014 no error code if fill fails.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "IM initializes, harvests, then fills with water. Listen for fill \u2014 no error code if fill fails."
+        },
+        {
+          "id": "im_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Ice maker test result",
+          "body": "Did test complete without FBEC/FBEB error on display?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "im_pass",
+              "label": "Completed OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_voltage_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "imbec",
+              "label": "FBEC \u2014 IM malfunction",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "im_fbec_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "imbeb",
+              "label": "FBEB \u2014 tray thermistor",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "im_tray_proc",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Did test complete without FBEC/FBEB error on display?"
+        },
+        {
+          "id": "im_voltage_ok",
+          "order": 6,
+          "type": "instruction",
+          "title": "Verify IM voltages during harvest",
+          "body": "CN2-1 A+ to CN2-2 A- = 12.7 VDC motor; CN2-6 CE/SW to CN2-7 GND = 5 VDC switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "CN2-1 A+ to CN2-2 A- = 12.7 VDC motor; CN2-6 CE/SW to CN2-7 GND = 5 VDC switch."
+        },
+        {
+          "id": "im_fbec_outcome",
+          "order": 7,
+          "type": "outcome",
+          "title": "FBEC \u2014 replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_tray_proc",
+          "order": 8,
+          "type": "instruction",
+          "title": "Check tray thermistor",
+          "body": "Run service test 07 for tray thermistor. FBEB = tray thermistor fault.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run service test 07 for tray thermistor. FBEB = tray thermistor fault."
+        },
+        {
+          "id": "im_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "FC ice maker verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "im_pass",
+          "label": "Completed OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_voltage_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_result"
+        },
+        {
+          "id": "imbec",
+          "label": "FBEC \u2014 IM malfunction",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "im_fbec_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_result"
+        },
+        {
+          "id": "imbeb",
+          "label": "FBEB \u2014 tray thermistor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "im_tray_proc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_result"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "13",
+        "oemTestTitle": "FC Ice Maker",
+        "pages": [
+          62,
+          104
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-13-fc-ice-maker",
+        "pages": [
+          62,
+          104
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-13-fc-ice-maker",
+            "pages": [
+              62,
+              104
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-14-water-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test / Test 14: Isolation water valve",
+      "purpose": "Water Valve",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve"
+      ],
+      "tags": [
+        "no_ice",
+        "water_valve_check",
+        "no_water"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "run_im_for_fill",
+          "order": 3,
+          "type": "instruction",
+          "title": "Activate valve via IM test",
+          "body": "Run FC IM test mode \u2014 water valve energizes at end of cycle. Or verify household supply and pressure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run FC IM test mode \u2014 water valve energizes at end of cycle. Or verify household supply and pressure."
+        },
+        {
+          "id": "valve_voltage",
+          "order": 4,
+          "type": "instruction",
+          "title": "Check valve voltage",
+          "body": "CN15-1 V-L to CN15-3 ACN = 115 VAC at ACU. At valve: blue to red = 115 VAC.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "CN15-1 V-L to CN15-3 ACN = 115 VAC at ACU. At valve: blue to red = 115 VAC."
+        },
+        {
+          "id": "water_flows",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Water enters system",
+          "body": "Water flows when valve energized?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": "No water \u2014 valve, supply, or frozen line."
+            }
+          ],
+          "sourceExcerpt": "Water flows when valve energized?"
+        },
+        {
+          "id": "replace_valve",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace isolation water valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Water valve verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "water_flows"
+        },
+        {
+          "id": "valve_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "No water \u2014 valve, supply, or frozen line.",
+          "stepId": "water_flows"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "14",
+        "oemTestTitle": "Water Valve",
+        "pages": [
+          105
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-14-water-valve",
+        "pages": [
+          105
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-14-water-valve",
+            "pages": [
+              105
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-23-compressor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 23: Inverter compressor speed",
+      "purpose": "Compressor Speed Change With Ramping",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_23",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 23",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 23. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 23 \u2014 Compressor speed ramp"
+        },
+        {
+          "id": "set_speed",
+          "order": 4,
+          "type": "instruction",
+          "title": "Ramp compressor speed",
+          "body": "Use \u25b2 to select speed 00\u201309 (0\u20134500 rpm). Press Freezer to activate \u2014 compressor and condenser fan run until exit. 5 min protection delay between state changes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use \u25b2 to select speed 00\u201309 (0\u20134500 rpm). Press Freezer to activate \u2014 compressor and condenser fan run until exit. 5 min protection delay between state changes."
+        },
+        {
+          "id": "comp_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Compressor runs",
+          "body": "At selected speed, does compressor run? Check CN18 U/V/W to CN20-3 ACN \u2248 150 VAC each.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comp_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_comp",
+              "terminal": true,
+              "oemOutcome": "No 150 VAC at CN18 \u2014 ACU inverter fault (check LED below CN10)."
+            }
+          ],
+          "sourceExcerpt": "At selected speed, does compressor run? Check CN18 U/V/W to CN20-3 ACN \u2248 150 VAC each."
+        },
+        {
+          "id": "bench_comp",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench compressor windings",
+          "body": "Disconnect power. Ohm compressor windings = 11.7 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Ohm compressor windings = 11.7 \u03a9."
+        },
+        {
+          "id": "comp_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Compressor windings",
+          "body": "11.7 \u03a9 between windings.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterCompressorOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "windings",
+                "label": "Compressor windings"
+              },
+              "title": "Compressor windings"
+            }
+          ],
+          "branches": [
+            {
+              "id": "comp_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_pass",
+              "label": "11.7 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "11.7 \u03a9 between windings."
+        },
+        {
+          "id": "replace_comp",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace compressor or ACU",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Compressor path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterCompressorOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "windings",
+            "label": "Compressor windings"
+          },
+          "title": "Compressor windings"
+        }
+      ],
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_comp",
+          "terminal": true,
+          "oemOutcome": "No 150 VAC at CN18 \u2014 ACU inverter fault (check LED below CN10).",
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "comp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "comp_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "comp_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "comp_pass",
+          "label": "11.7 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "23",
+        "oemTestTitle": "Compressor Speed Change With Ramping",
+        "pages": [
+          58,
+          93
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-23-compressor",
+        "pages": [
+          58,
+          93
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-23-compressor",
+            "pages": [
+              58,
+              93
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-25-damper",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 25: Refrigerator damper",
+      "purpose": "Refrigerator Damper State",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_check",
+        "weak_cooling_ff",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_25",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 25",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 25. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 25 \u2014 RC damper"
+        },
+        {
+          "id": "damper_cycle",
+          "order": 4,
+          "type": "instruction",
+          "title": "Cycle damper",
+          "body": "Select on/oF \u2014 damper cycles open/closed while fan runs. Modes 00=closed, 01=open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Select on/oF \u2014 damper cycles open/closed while fan runs. Modes 00=closed, 01=open."
+        },
+        {
+          "id": "damper_moves",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Damper opens and closes",
+          "body": "CN7 stepper pins = 6.3 VDC while moving. Does damper cycle?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "damper_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "damper_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_damper",
+              "terminal": true,
+              "oemOutcome": "Damper motor or feedback failed."
+            }
+          ],
+          "sourceExcerpt": "CN7 stepper pins = 6.3 VDC while moving. Does damper cycle?"
+        },
+        {
+          "id": "replace_damper",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace RC damper",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "damper_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_moves"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_damper",
+          "terminal": true,
+          "oemOutcome": "Damper motor or feedback failed.",
+          "stepId": "damper_moves"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "25",
+        "oemTestTitle": "Refrigerator Damper State",
+        "pages": [
+          59,
+          102
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-25-damper",
+        "pages": [
+          59,
+          102
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-25-damper",
+            "pages": [
+              59,
+              102
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-27-fc-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 27: FC evaporator fan",
+      "purpose": "FC Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "frost_buildup",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_27",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 27",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 27. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 27 \u2014 FC evap fan"
+        },
+        {
+          "id": "fan_on",
+          "order": 4,
+          "type": "instruction",
+          "title": "Enable FC fan",
+          "body": "Select on/oF with \u25b2; confirm with Freezer. Fan runs 100% PWM when on.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Select on/oF with \u25b2; confirm with Freezer. Fan runs 100% PWM when on."
+        },
+        {
+          "id": "fan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "FC evap fan operation",
+          "body": "CN4-1 +12V to CN4-3 F FAN = 12.7 VDC; CN4-5 F/PWM to CN4-3 = 3\u20136 VDC. Fan runs?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": "FC evap fan does not run with voltage present."
+            }
+          ],
+          "sourceExcerpt": "CN4-1 +12V to CN4-3 F FAN = 12.7 VDC; CN4-5 F/PWM to CN4-3 = 3\u20136 VDC. Fan runs?"
+        },
+        {
+          "id": "replace_fan",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace FC evap fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "FC evap fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_runs"
+        },
+        {
+          "id": "fan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": "FC evap fan does not run with voltage present.",
+          "stepId": "fan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "27",
+        "oemTestTitle": "FC Fan Test",
+        "pages": [
+          59,
+          95
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-27-fc-fan",
+        "pages": [
+          59,
+          95
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-27-fc-fan",
+            "pages": [
+              59,
+              95
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-28-condenser-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 28: Condenser fan",
+      "purpose": "Condenser Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "condenser_fan"
+      ],
+      "tags": [
+        "condenser_fan",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_28",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 28",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 28. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 28 \u2014 Condenser fan"
+        },
+        {
+          "id": "cfan_on",
+          "order": 4,
+          "type": "instruction",
+          "title": "Enable condenser fan",
+          "body": "Select on/oF with \u25b2; confirm with Freezer. Speed modes 01\u201306 all run fan.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Select on/oF with \u25b2; confirm with Freezer. Speed modes 01\u201306 all run fan."
+        },
+        {
+          "id": "cfan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Condenser fan operation",
+          "body": "CN4-2 +12V to CN4-4 C-FAN = 12.7 VDC; CN4-6 C/PWM to CN4-4 = 3\u20136 VDC. Fan runs?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cfan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cfan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cfan_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cfan",
+              "terminal": true,
+              "oemOutcome": "Condenser fan does not run with voltage present."
+            }
+          ],
+          "sourceExcerpt": "CN4-2 +12V to CN4-4 C-FAN = 12.7 VDC; CN4-6 C/PWM to CN4-4 = 3\u20136 VDC. Fan runs?"
+        },
+        {
+          "id": "replace_cfan",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace condenser fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cfan_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Condenser fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cfan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cfan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cfan_runs"
+        },
+        {
+          "id": "cfan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cfan",
+          "terminal": true,
+          "oemOutcome": "Condenser fan does not run with voltage present.",
+          "stepId": "cfan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "28",
+        "oemTestTitle": "Condenser Fan Test",
+        "pages": [
+          59,
+          94
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-28-condenser-fan",
+        "pages": [
+          59,
+          94
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-28-condenser-fan",
+            "pages": [
+              59,
+              94
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-38-defrost",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 38: Defrost heater",
+      "purpose": "Run Defrost Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "F4E1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_38",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 38",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 38. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 38 \u2014 Defrost heater"
+        },
+        {
+          "id": "heater_on",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run defrost heater",
+          "body": "Select on \u2014 heater runs 5 min or until evap >60\u00b0F. CN12-2 F-H to CN12-4 ACN = 115 VAC.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Select on \u2014 heater runs 5 min or until evap >60\u00b0F. CN12-2 F-H to CN12-4 ACN = 115 VAC."
+        },
+        {
+          "id": "heater_heat",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost heater energizes",
+          "body": "Heater warms and voltage present at CN12?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heat_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heat_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_heater",
+              "terminal": true,
+              "oemOutcome": "No heat \u2014 check wiring or heater."
+            }
+          ],
+          "sourceExcerpt": "Heater warms and voltage present at CN12?"
+        },
+        {
+          "id": "bench_heater",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench defrost heater ohms",
+          "body": "Disconnect power. Heater = 58 \u03a9 (non-resettable thermofuse at 72\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Heater = 58 \u03a9 (non-resettable thermofuse at 72\u00b0C)."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "58 \u03a9 spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "CN12",
+                "pins": "heater terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "58 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "defrost_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "58 \u03a9 spec."
+        },
+        {
+          "id": "replace_heater",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "defrost_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Defrost circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "CN12",
+            "pins": "heater terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_heat"
+        },
+        {
+          "id": "heat_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_heater",
+          "terminal": true,
+          "oemOutcome": "No heat \u2014 check wiring or heater.",
+          "stepId": "heater_heat"
+        },
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "58 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "38",
+        "oemTestTitle": "Run Defrost Heater",
+        "pages": [
+          60,
+          96
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-38-defrost",
+        "pages": [
+          60,
+          96
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-38-defrost",
+            "pages": [
+              60,
+              96
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11819775-test-40-mullion-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "title": "Service Test 40: Vertical mullion heater",
+      "purpose": "Vertical Mullion Heater Activation Mode",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "heater_check",
+        "moisture"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics active. Use \u25b2/\u25bc to reach the test number for this procedure; Freezer to enter.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate with temperature up/down arrows."
+        },
+        {
+          "id": "select_test_40",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 40",
+          "body": "In Service Diagnostic Mode use \u25b2/\u25bc to reach step 40. Press Freezer button to enter test. Amber step number; result on display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 40 \u2014 Mullion heater"
+        },
+        {
+          "id": "mullion_on",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate mullion heater",
+          "body": "Select on/oF. CN7-5 VR/H to CN7-11 +12V = 12.7 VDC at heater (two orange wires).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Select on/oF. CN7-5 VR/H to CN7-11 +12V = 12.7 VDC at heater (two orange wires)."
+        },
+        {
+          "id": "mullion_heat",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Mullion heater warms",
+          "body": "Heater energizes with 12.7 VDC?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "mh_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_mh",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mh_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_mh",
+              "terminal": true,
+              "oemOutcome": "Mullion heater failed to heat."
+            }
+          ],
+          "sourceExcerpt": "Heater energizes with 12.7 VDC?"
+        },
+        {
+          "id": "bench_mh",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench mullion heater ohms",
+          "body": "Disconnect power. Vertical mullion heater = 11.4 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Vertical mullion heater = 11.4 \u03a9."
+        },
+        {
+          "id": "mh_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Mullion heater resistance",
+          "body": "11.4 \u03a9 spec.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolAcuFdInverterMullionHeaterOhms",
+              "testPoint": {
+                "connector": "mullion",
+                "pins": "heater terminals",
+                "label": "Mullion heater resistance"
+              },
+              "title": "Mullion heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "mh_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_mh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "mh_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_mh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "mh_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_mh",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "mh_pass",
+              "label": "11.4 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "mh_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "11.4 \u03a9 spec."
+        },
+        {
+          "id": "replace_mh",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace mullion heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mh_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Mullion heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolAcuFdInverterMullionHeaterOhms",
+          "testPoint": {
+            "connector": "mullion",
+            "pins": "heater terminals",
+            "label": "Mullion heater resistance"
+          },
+          "title": "Mullion heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "mh_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_mh",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mullion_heat"
+        },
+        {
+          "id": "mh_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_mh",
+          "terminal": true,
+          "oemOutcome": "Mullion heater failed to heat.",
+          "stepId": "mullion_heat"
+        },
+        {
+          "id": "mh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "mh_ohms"
+        },
+        {
+          "id": "mh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "mh_ohms"
+        },
+        {
+          "id": "mh_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_mh",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "mh_ohms"
+        },
+        {
+          "id": "mh_pass",
+          "label": "11.4 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "mh_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mh_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11819775",
+        "manualTitle": "Whirlpool 36 in 31 cu ft French Door Refrigerator (W11819775B)",
+        "oemTestNumber": "40",
+        "oemTestTitle": "Vertical Mullion Heater Activation Mode",
+        "pages": [
+          60,
+          103
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11819775-revb 2026 frenchdoor-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11819775",
+        "platformId": "whirlpool_acu_fd_inverter",
+        "procedureId": "w11819775-test-40-mullion-heater",
+        "pages": [
+          60,
+          103
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11819775",
+            "platformId": "whirlpool_acu_fd_inverter"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11819775-test-40-mullion-heater",
+            "pages": [
+              60,
+              103
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_evidence_freeze",
+  "version": "v1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T14:00:00+00:00",
+  "verdict": "CG-5.5 provisionally validated through TL #3 — Whirlpool compounding evidence frozen; Samsung FL is next experiment.",
+  "hierarchy": {
+    "canonical": "top_load_washer / front_load_washer",
+    "manufacturer": "Whirlpool FL | Whirlpool TL",
+    "platform": "whirlpool_duet_sport | whirlpool_fl_dd | whirlpool_tl_dd | whirlpool_tl_dd_5100",
+    "experimentCurve": "establish (TL #1) → reproduce (TL #2) → replicate (TL #3)"
+  },
+  "frozenBaselines": {
+    "fl": "compounding_baseline_v1_whirlpool_fl.json",
+    "tl1": "compounding_baseline_v1_whirlpool_tl.json",
+    "tl2": "compounding_baseline_v1_whirlpool_tl2.json",
+    "tl3": "compounding_baseline_v1_whirlpool_tl3.json",
+    "killerTable": "compounding_tl_platform_v1.json"
+  },
+  "flBatch": {
+    "W8178558": { "newHumanDecisionCount": 10, "newHumanDecisionRate": 0.2439, "equivalence": "PASS" },
+    "W11169652": { "newHumanDecisionCount": 9, "newHumanDecisionRate": 0.1837, "equivalence": "PASS" },
+    "newCanonicalKnowledge": 0
+  },
+  "tlReplication": {
+    "columns": ["TL #1 W10864849", "TL #2 W11697231", "TL #3 W11416787"],
+    "tlPlatformInherited": [0, 51, 19],
+    "flCorpusInherited": [39, 0, 0],
+    "newPlatformKnowledge": [14, 0, 0],
+    "newModelSpecificKnowledge": [0, 0, 2],
+    "newCanonicalKnowledge": [0, 0, 0],
+    "newDecisions": [14, 0, 2],
+    "newDecisionRate": [0.264, 0.0, 0.061],
+    "equivalence": ["PASS", "PASS", "PASS"]
+  },
+  "keyFindings": [
+    "Zero canonical ontology additions across FL→TL architecture boundary and three TL replication passes.",
+    "TL #3 crossed whirlpool_tl_dd → whirlpool_tl_dd_5100 with newPlatformKnowledge = 0 at gate.",
+    "pressure_sensor remains TL-platform scoped — not universal canonical from Whirlpool evidence alone.",
+    "Load & Go (bulk_level_switch) is model-line surface area, not platform vocabulary failure."
+  ],
+  "hardRules": [
+    "Do not retroactively change frozen baseline metrics or matching methodology.",
+    "Gate-preview metrics only — post-publish term-resolution counts are not new gate decisions.",
+    "Do not add more Whirlpool manuals to drive metrics toward zero.",
+    "Samsung FL measures cross-manufacturer generalization — not Whirlpool optimization."
+  ],
+  "nextExperiment": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "platformId": "samsung_fl_washer_bb8700",
+    "measurements": [
+      "inheritedCorpusKnowledge",
+      "inheritedPlatformFamilyKnowledge",
+      "newPlatformKnowledge",
+      "newModelSpecificKnowledge",
+      "newCanonicalKnowledge",
+      "platform isolation (zero Whirlpool topology leakage)"
+    ]
+  }
+}

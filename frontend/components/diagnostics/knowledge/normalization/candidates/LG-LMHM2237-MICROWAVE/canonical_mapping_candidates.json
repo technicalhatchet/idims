@@ -1,0 +1,1188 @@
+{
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "candidates": [
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-door_interlock",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_interlock",
+      "canonicalId": "door_lock",
+      "confidence": 0.88,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "interlock",
+        "actuator": null
+      },
+      "matchedPhrase": "door interlock",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-door-interlock",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-door-interlock",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "door interlock",
+            "decomposition": {
+              "domain": "door",
+              "component": "interlock",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-door-interlock-switches",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a79-2: Door Interlock Switches",
+      "canonicalId": "door_lock",
+      "confidence": 0.88,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": "interlock switches",
+        "actuator": null
+      },
+      "matchedPhrase": "door interlock",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-door-interlock",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-door-interlock",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "door interlock",
+            "decomposition": {
+              "domain": "door",
+              "component": "interlock switches",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door Interlock Switches"
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-humidity-sensor-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-humidity-sensor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-humidity-sensor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-humidity-sensor-(f-4)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-3: Humidity Sensor (F-4)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "humidity",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-humidity-sensor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-humidity-sensor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Humidity Sensor (F-4)"
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-hv_capacitor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "hv_capacitor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-capacitor",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-capacitor",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-high-voltage-capacitor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: High-Voltage Capacitor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-capacitor",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-capacitor",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-hv-diode-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "magnetron",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-diode",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-diode",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-high-voltage-diode",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: High-Voltage Diode",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-diode",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-diode",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-line_fuse",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "line_fuse",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "line",
+        "actuator": "fuse"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-fuse",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-fuse",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "line",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-high-voltage-fuse",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: High-Voltage Fuse",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "10 high voltage",
+        "actuator": "fuse"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-fuse",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-fuse",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "10 high voltage",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-hv-transformer-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "magnetron",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-transformer",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-transformer",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-high-voltage-transformer",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: High-Voltage Transformer",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-hv-transformer",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-hv-transformer",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-keypad-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-keypad",
+        "pages": [
+          16,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-keypad",
+            "pages": [
+              16,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-keypad-failure",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-4: Keypad Failure",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-keypad",
+        "pages": [
+          16,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-keypad",
+            "pages": [
+              16,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Keypad Failure"
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-no-display-/-dead-unit",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-4: No Display / Dead Unit",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-line-power",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-line-power",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "No Display / Dead Unit"
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-magnetron-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "magnetron",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-magnetron",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-magnetron",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: Magnetron",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-magnetron",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-magnetron",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-no-heat-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "magnetron",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-no-heat",
+        "pages": [
+          18,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-no-heat",
+            "pages": [
+              18,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-no-heat-/-no-cook",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-4: No Heat / No Cook",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-no-heat",
+        "pages": [
+          18,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-no-heat",
+            "pages": [
+              18,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "No Heat / No Cook"
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-thermal_cutout",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermal_cutout",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-pcb-thermistor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-pcb-thermistor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-pcb-thermistor-(f-1-/-f-2)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76-3: PCB Thermistor (F-1 / F-2)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "pcb",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-pcb-thermistor",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-pcb-thermistor",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "pcb",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "PCB Thermistor (F-1 / F-2)"
+    },
+    {
+      "id": "map-lg-lmhm2237-microwave-unresolved-lgotrmw-turntable-magnetron",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "magnetron",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-turntable",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-turntable",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-LG-LMHM2237-MICROWAVE-compound-\u00a710:-turntable-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710: Turntable Motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "10 turntable",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-turntable",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-turntable",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "10 turntable",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

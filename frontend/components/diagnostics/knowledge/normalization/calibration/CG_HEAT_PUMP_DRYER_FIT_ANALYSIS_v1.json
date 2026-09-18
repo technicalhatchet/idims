@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_analysis",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:55:00+00:00",
+  "contract": "CG_HEAT_PUMP_DRYER_FIT_TEST_CONTRACT_v1.json",
+  "hardOutcome": "architectural_divergence",
+  "hardOutcomeGate": {
+    "permittedOutcomes": ["proven_variant", "architectural_divergence", "insufficient_evidence"],
+    "selected": "architectural_divergence",
+    "exactlyOne": true
+  },
+  "fitAgainstVentedDryer": {
+    "verdict": "does_not_fit",
+    "provenVariantRejected": true,
+    "rationale": "Three independent manufacturers (Samsung DV22N, LG DLHC1455, Whirlpool HybridCare W10764068) document standalone heat-pump ventless dryers whose functional architecture cannot be represented by vented_dryer rev2 without canonical mutation. vented_dryer requires heated_airflow_path terminating at exhaust_path with heat_source on the air stream. Heat-pump dryers use refrigerant-cycle heat transfer, sealed/ventless process airflow, condensation-based moisture rejection (tank/drain/sump), and compressor/refrigerant thermal protection — not optional omissions of exhaust_path.",
+    "superficialOverlapsPreserved": [
+      "door_switch / door authorization",
+      "drum drive / tumble",
+      "moisture sensing (implementation varies)",
+      "lint filter restriction (without exhaust terminal pairing)",
+      "control_board / user_interface",
+      "power_supply"
+    ],
+    "rejectedMappings": [
+      {
+        "hpDomain": "compressor inverter 3CA / inverter compressor",
+        "ventedDryerNode": "heat_source",
+        "rejection": "Different heat-generation functional contract"
+      },
+      {
+        "hpDomain": "condensate tank/drain/sump",
+        "ventedDryerNode": "exhaust_path",
+        "rejection": "Different moisture-rejection terminal"
+      },
+      {
+        "hpDomain": "refrigerant thermistor network",
+        "ventedDryerNode": "temperature_sensor on exhaust_path",
+        "rejection": "Different sensed medium and safety contract"
+      },
+      {
+        "hpDomain": "sealed condenser loop",
+        "ventedDryerNode": "heated_airflow_path",
+        "rejection": "Breaking exhaust_path dependency mutates vented_dryer"
+      }
+    ],
+    "extendVentedDryerHypothesisRejected": {
+      "reason": "Optional exhaust_path omission would break airflow_operation and heated_airflow_path functional dependencies — that is mutation, not variant fit"
+    }
+  },
+  "aioArchitecturalImplication": {
+    "note": "HP dryer divergence supports AIO discovery finding that Samsung WD53 dry path does not fit vented_dryer — now independently established on standalone HP dryer corpus",
+    "aioWorkstream": "PAUSED pending HP dryer human gate; orchestration layer still requires separate AIO evaluation",
+    "aioReferenceArtifact": "CG_AIO_LAUNDRY_COMBO_WORKSTREAM_STATUS_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "heatPumpDryerJsonCreated": false,
+    "witnessCount": 2,
+    "triangulationSupport": 3,
+    "manufacturers": ["Samsung", "LG", "Whirlpool"]
+  },
+  "authorizedNextGate": {
+    "requiresHumanAuthorization": true,
+    "workstream": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+    "blockedUntil": "Human architectural gate after fit-test divergence review"
+  },
+  "divergencePackage": "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json"
+}

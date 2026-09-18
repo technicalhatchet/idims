@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+  "platformId": "samsung_range_ny63",
+  "platformFamilyId": "samsung_range_ny63",
+  "canonicalOntologyId": "range_oven",
+  "proposedOverlayFile": "samsung_range_ny63.json",
+  "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_RANGE_COMPOUNDING_v1.json",
+  "compoundingSequence": 3,
+  "priorSequenceClosed": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json",
+  "status": "published",
+  "generatedAt": "2026-09-17T06:00:00+00:00",
+  "gateFraming": {
+    "question": "How does normalized NY63 dual-fuel evidence realize frozen range_oven without creating dual_fuel canonical ontology?",
+    "not": "What dual-fuel hardware should become new canonical components?",
+    "validOutcomes": [
+      "canonical_inheritance",
+      "instance_scope_binding",
+      "conditional_instance_scope_binding",
+      "conditional_binding",
+      "overlay_implementation",
+      "platform_only"
+    ]
+  },
+  "gatePolicy": {
+    "gateKind": "samsung_ny63_dual_fuel_range_compounding",
+    "compoundingPhase": "CG-RANGE-COMPOUNDING",
+    "canonicalGraph": "range_oven.json rev1 FROZEN",
+    "freezeReopenBlocked": true,
+    "publishBlocked": false,
+    "isolatedFromPriorSequences": true,
+    "priorOverlays": ["samsung_range_nx60.json", "samsung_range_ne58.json"]
+  },
+  "canonicalContract": {
+    "graph": "range_oven",
+    "revision": "rev1",
+    "frozen": true,
+    "electricRangeRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "allowedCanonicalIds": ["power_supply", "control_board", "user_interface", "temperature_sensor", "surface_heating_system"],
+    "instanceScopeIds": ["bake_heating_element", "broil_heating_element"],
+    "conditionalInstanceScopeIds": ["convection_heating_element"],
+    "conditionalBindingIds": ["convection_fan", "thermal_protection", "oven_door_switch"],
+    "contractRule": "Gas cooktop spark/valve/orifice vocabulary binds under surface_heating_system; electric oven elements bind to instance scopes — no dual_fuel_range.json."
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalInstanceScopeBinding": 1,
+    "conditionalBinding": 3,
+    "overlayImplementation": 12,
+    "proceduresBound": 23,
+    "measurementsBound": 20,
+    "decisionBranchesExecutable": 13,
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "ny63-surface-gas-realization",
+      "gateQuestion": "How does NY63 gas cooktop express surface_heating_system?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "surface_heating_system",
+      "implementationTerms": ["spark_module", "valve_cooktop", "switch_ignition", "electrode", "gas_pressure_regulator", "gas_orifice_nozzle"],
+      "procedureIds": ["ny63-cooktop-spark-all-burners", "ny63-cooktop-gas-supply"],
+      "gateAction": "approve_compounded",
+      "rationale": "CG-13 witness — gas surface + electric oven independently addressable under control_board without dual_fuel canonical node."
+    },
+    {
+      "teachingId": "ny63-electric-oven-instance-scopes",
+      "gateQuestion": "Where do electric bake/broil/convection elements live?",
+      "outcome": "instance_scope_binding",
+      "layer": "instance_scope",
+      "canonicalTarget": "bake_heating_element",
+      "implementationTerm": "heater_bake",
+      "diagnosticSpec": "19 Ω @ room — electric oven domain separate from gas cooktop",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "ny63-dual-domain-control-board",
+      "gateQuestion": "How does control_board orchestrate dual energy domains?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "implementationTerms": ["main_pcb", "bake_relay_ry203", "broil_relay_ry202", "spark_module"],
+      "gateAction": "approve_compounded",
+      "rationale": "Shared control_board relays serve electric oven; spark module serves gas surface — implementation topology only."
+    }
+  ]
+}

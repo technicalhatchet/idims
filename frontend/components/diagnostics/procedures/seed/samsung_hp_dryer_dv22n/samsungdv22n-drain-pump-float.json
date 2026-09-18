@@ -1,0 +1,76 @@
+{
+  "id": "samsungdv22n-drain-pump-float",
+  "version": "1.0.0",
+  "title": "\u00a74-5: Float switch and pump motor",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "drain",
+    "condensate"
+  ],
+  "tags": [
+    "5C",
+    "drain_issue"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-5",
+    "oemTestTitle": "Component test float/pump",
+    "pages": [
+      35
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "float_test"
+    },
+    {
+      "id": "float_test",
+      "order": 2,
+      "type": "instruction",
+      "title": "Float switch",
+      "body": "Float up 0\u2013200 m\u03a9; float down OL.",
+      "sourceExcerpt": "Float up 0\u2013200 m\u03a9; float down OL.",
+      "requiresInput": false,
+      "defaultNextStepId": "pump_test"
+    },
+    {
+      "id": "pump_test",
+      "order": 3,
+      "type": "instruction",
+      "title": "Pump motor 770 \u03a9",
+      "body": "Measure pump motor resistance 770 \u03a9.",
+      "sourceExcerpt": "Measure pump motor resistance 770 \u03a9.",
+      "requiresInput": false,
+      "defaultNextStepId": "drain_ok"
+    },
+    {
+      "id": "replace_float_pump",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace float or pump",
+      "oemOutcome": "Replace float switch or pump motor.",
+      "requiresInput": false
+    },
+    {
+      "id": "drain_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Drain path OK",
+      "oemOutcome": "Condensate removal verified.",
+      "requiresInput": false
+    }
+  ]
+}

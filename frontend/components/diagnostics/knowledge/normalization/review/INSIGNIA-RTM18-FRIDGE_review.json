@@ -1,0 +1,1801 @@
+{
+  "manualId": "INSIGNIA-RTM18-FRIDGE",
+  "platformId": "midea_rss",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.725877+00:00",
+  "records": [
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ambient-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e7:-ambient-temperature-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E7: Ambient temperature sensor",
+      "extractedTerm": "E7: Ambient temperature sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e7 ambient temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 E7: Ambient temperature sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E7: Ambient temperature sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ambient-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e7 ambient temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-display_panel",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "display_panel",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: display_panel \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "display_panel": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e6:-display-\u2194-main-communication",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E6: Display \u2194 main communication",
+      "extractedTerm": "E6: Display \u2194 main communication",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a710.8 E6: Display \u2194 main communication \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E6: Display \u2194 main communication": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-insignia-rtm18-fridge-unresolved-midearss-fz-defrost-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-/-\u00a78.6:-freezer-defrost-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+      "extractedTerm": "/ \u00a78.6: Freezer defrost heater",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "8 6 freezer defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a76.3 / \u00a78.6: Freezer defrost heater \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a76.3 / \u00a78.6: Freezer defrost heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 6 freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-defrost_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_thermostat",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: defrost_thermostat \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_thermostat": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E5: Freezing chamber defrost sensor",
+      "extractedTerm": "E5: Freezing chamber defrost sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e5 freezing chamber defrost",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 E5: Freezing chamber defrost sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E5: Freezing chamber defrost sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e5 freezing chamber defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E2: Freezing chamber temperature sensor",
+      "extractedTerm": "E2: Freezing chamber temperature sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e2 freezing chamber temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 E2: Freezing chamber temperature sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E2: Freezing chamber temperature sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e2 freezing chamber temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: door_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-insignia-rtm18-fridge-unresolved-midearss-high-temp-alarm-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e9:-freezer-high-temperature-alarm",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E9: Freezer high-temperature alarm",
+      "extractedTerm": "E9: Freezer high-temperature alarm",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a710.8 E9: Freezer high-temperature alarm \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E9: Freezer high-temperature alarm": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-ice_maker_module",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker_module",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice maker",
+          "actuator": "module"
+        },
+        "summary": "alias: ice_maker_module \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker_module": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-ee:-ice-maker-sensor-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 EE: Ice maker sensor circuit",
+      "extractedTerm": "EE: Ice maker sensor circuit",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ee ice maker",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 EE: Ice maker sensor circuit \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 EE: Ice maker sensor circuit": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ee ice maker",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e0:-ice-maker-fault",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E0: Ice maker fault",
+      "extractedTerm": "E0: Ice maker fault",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a710.8 E0: Ice maker fault \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker",
+        "pages": [
+          48,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E0: Ice maker fault": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker",
+        "pages": [
+          48,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker",
+            "pages": [
+              48,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e4:-refrigerating-chamber-defrost-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E4: Refrigerating chamber defrost sensor",
+      "extractedTerm": "E4: Refrigerating chamber defrost sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e4 refrigerating chamber defrost",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 E4: Refrigerating chamber defrost sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E4: Refrigerating chamber defrost sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e4 refrigerating chamber defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-e1:-refrigerating-chamber-temperature-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+      "extractedTerm": "E1: Refrigerating chamber temperature sensor",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "e1 refrigerating chamber temperature",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a710.8 E1: Refrigerating chamber temperature sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a710.8 E1: Refrigerating chamber temperature sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e1 refrigerating chamber temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-insignia-rtm18-fridge-unresolved-midearss-vfd-inverter-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-inverter_board",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.88,
+      "what": "inverter_board",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_controller",
+      "why": {
+        "confidence": 0.88,
+        "matcherLayer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inverter board",
+        "decomposition": {
+          "domain": null,
+          "component": "inverter",
+          "actuator": "board"
+        },
+        "summary": "alias: inverter_board \u2192 motor_controller"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inverter_board": "motor_controller"
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "inverter board",
+            "decomposition": {
+              "domain": null,
+              "component": "inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-INSIGNIA-RTM18-FRIDGE-compound-vfd-inverter-board-fault-led",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.88,
+      "what": "\u00a711.2: VFD inverter board fault LED",
+      "extractedTerm": "VFD inverter board fault LED",
+      "blockedReason": null,
+      "mapsTo": "motor_controller",
+      "why": {
+        "confidence": 0.88,
+        "matcherLayer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inverter board",
+        "decomposition": {
+          "domain": null,
+          "component": "vfd inverter",
+          "actuator": "board"
+        },
+        "summary": "alias: \u00a711.2: VFD inverter board fault LED \u2192 motor_controller"
+      },
+      "source": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a711.2: VFD inverter board fault LED": "motor_controller"
+        }
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-RTM18-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-RTM18-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+            "matchedPhrase": "inverter board",
+            "decomposition": {
+              "domain": null,
+              "component": "vfd inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 22,
+    "byStatus": {
+      "candidate": 2,
+      "needs_review": 18,
+      "COMPOUND_TERM_CANDIDATE": 2
+    },
+    "byApprovalLevel": {
+      "normal": 1,
+      "blocked": 18,
+      "easy": 1,
+      "careful": 2
+    },
+    "byType": {
+      "canonicalMapping": 22
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 3,
+      "low_lt_0.80": 0,
+      "unresolved": 18
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 1,
+      "UNRESOLVED_COMPONENT": 2
+    }
+  }
+}

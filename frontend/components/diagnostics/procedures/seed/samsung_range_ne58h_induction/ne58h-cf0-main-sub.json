@@ -1,0 +1,69 @@
+{
+  "id": "ne58h-cf0-main-sub",
+  "version": "1.0.0",
+  "title": "C-F0: Main \u2194 sub PCB communication",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "main_control"
+  ],
+  "tags": [
+    "C-F0",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Failure display C-F0",
+    "pages": [
+      36,
+      37
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_connectors"
+    },
+    {
+      "id": "check_connectors",
+      "order": 2,
+      "type": "instruction",
+      "title": "Main and sub connectors",
+      "body": "Verify main and sub PCB connectors seated.",
+      "sourceExcerpt": "Verify main and sub PCB connectors seated.",
+      "requiresInput": false,
+      "defaultNextStepId": "comm_ok"
+    },
+    {
+      "id": "replace_main",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace main PCB",
+      "oemOutcome": "Replace main PCB when connectors verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "comm_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Communication OK",
+      "oemOutcome": "Main \u2194 sub communication verified.",
+      "requiresInput": false
+    }
+  ]
+}

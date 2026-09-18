@@ -1,0 +1,79 @@
+{
+  "manualId": "SAMSUNG-NE58-RANGE",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-NE58-RANGE-samsungne58-door-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungne58-door-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-2: Door lock motor",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-door-lock",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-door-lock",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-NE58-RANGE-samsungne58-door-lock-meas-samsungNx60DoorLockMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungne58-door-lock",
+      "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-door-lock",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-door-lock",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+            "stepTitle": "Lock motor resistance"
+          }
+        ]
+      }
+    }
+  ]
+}

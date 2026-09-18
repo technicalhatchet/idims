@@ -1,0 +1,1200 @@
+{
+  "schemaVersion": "1.0.0",
+  "baselineVersion": "v1",
+  "matcherVersion": "cg5-v1",
+  "templateFilter": "washer",
+  "generatedAt": "2026-09-12T21:38:01.683876+00:00",
+  "metrics": {
+    "manuals": 15,
+    "candidates": 764,
+    "byType": {
+      "canonicalMapping": 575,
+      "procedureTestBinding": 99,
+      "measurementBinding": 90
+    },
+    "byStatus": {
+      "candidate": 368,
+      "needs_review": 370,
+      "COMPOUND_TERM_CANDIDATE": 11,
+      "approved": 15
+    },
+    "byApprovalLevel": {
+      "normal": 237,
+      "blocked": 370,
+      "easy": 146,
+      "careful": 11
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 150,
+      "medium_0.80_0.94": 244,
+      "low_lt_0.80": 0,
+      "unresolved": 370
+    },
+    "byOverlayState": {
+      "promotion_ready": 736,
+      "not_promotion_ready": 11,
+      "already_published": 17
+    },
+    "byMappingType": {
+      "alias": 453,
+      "compound_alias": 122
+    },
+    "conflictRefs": 764,
+    "globalConflicts": {
+      "total": 1,
+      "byType": {
+        "RELATIONSHIP_CONFLICT": 1
+      }
+    },
+    "procedureBindingConfidence": [
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.99,
+      0.99,
+      0.99,
+      0.99,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92,
+      0.92
+    ],
+    "measurementBindingConfidence": [
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94,
+      0.94
+    ],
+    "unresolvedTerms": {
+      "ACU Power Check": 1,
+      "TEST": 115,
+      "HMI": 7,
+      "Human-Machine Interface": 1,
+      "Motor Circuit": 1,
+      "Drum Light": 1,
+      "Water Inlet Valves": 1,
+      "Single Dose Dispenser": 1,
+      "Optimal Dosing Pump": 1,
+      "Drawer Bulk Dispenser": 1,
+      "Bulk Dispenser Level Sensing": 1,
+      "DL3": 1,
+      "Interlock Switch": 1,
+      "NC ground": 1,
+      "F20": 1,
+      "Ht models": 1,
+      "Wash NTC": 1,
+      "Valves": 9,
+      "Drive System": 7,
+      "pre-test": 7,
+      "Shifter": 9,
+      "Motor": 9,
+      "Keys and Encoders": 2,
+      "Temperature Thermistor": 4,
+      "Water Level": 7,
+      "Drain": 3,
+      "Lid Lock": 7,
+      "Heater Element": 2,
+      "Service LEDs": 2,
+      "Basket Light": 2,
+      "Bulk Dispense Pump and REX Board": 2,
+      "Console and Indicators": 2,
+      "Go Detergent": 1,
+      "Load": 1,
+      "AC": 5,
+      "AC3": 1,
+      "AC6": 3,
+      "PBA communication": 4,
+      "DC": 5,
+      "DC1": 6,
+      "Drain / leakage": 2,
+      "LC": 5,
+      "BC2": 4,
+      "Switch error": 1,
+      "Co/Ho manual check": 1,
+      "Inlet valves": 2,
+      "C1": 6,
+      "C2": 7,
+      "MEMS PBA": 1,
+      "Washing motor": 4,
+      "OC": 5,
+      "Overflow": 5,
+      "Power / voltage": 1,
+      "UB": 4,
+      "UV": 1,
+      "Unbalance": 4,
+      "HC": 5,
+      "HC1": 5,
+      "TC1": 5,
+      "LC1": 4,
+      "Co / Ho manual check": 1,
+      "C5": 1,
+      "Power / current sense": 1,
+      "Clutch position": 2,
+      "PC": 2,
+      "PC1": 2,
+      "clutch": 2,
+      "DC2": 2,
+      "user_interface": 3,
+      "Water supply": 3,
+      "Water leakage": 3,
+      "MEMS sensor": 3,
+      "Power": 3,
+      "UC": 2,
+      "TC4": 3,
+      "Temperature sensors": 2,
+      "Detergent drawer": 1,
+      "SDC": 1,
+      "dispenser": 1,
+      "Console connectivity indicators": 1,
+      "wifi_module": 1,
+      "Clean-connect dishwasher WiFi": 1,
+      "Smart refrigerator WiFi service tests": 1,
+      "WiFi communication": 1,
+      "CT": 1,
+      "Power Management board": 1,
+      "current_transformer": 1,
+      "power_management": 1,
+      "WiFi module diagnostics": 1,
+      "Sub/main PBA communication": 1,
+      "AC7": 1,
+      "Upper-lower PBA communication": 1,
+      "Inverter PBA communication": 1,
+      "Inverter over-temperature": 1,
+      "Lower DD motor": 1,
+      "SF": 1,
+      "System fault": 1,
+      "DC4": 1,
+      "Upper compartment door": 1,
+      "Upper washer motor": 1,
+      "AC4": 1,
+      "WiFi module communication": 1
+    },
+    "compoundCandidates": 11,
+    "duplicateCandidateGroups": 112,
+    "promotionReady": 736,
+    "alreadyPublished": 17,
+    "perManual": {
+      "W11169652": {
+        "manualId": "W11169652",
+        "platformId": "whirlpool_fl_dd",
+        "templateId": "washer",
+        "total": 69,
+        "byType": {
+          "canonicalMapping": 56,
+          "procedureTestBinding": 4,
+          "measurementBinding": 9
+        },
+        "byApprovalLevel": {
+          "normal": 21,
+          "blocked": 29,
+          "easy": 16,
+          "careful": 3
+        },
+        "blocked": 29
+      },
+      "W8178558": {
+        "manualId": "W8178558",
+        "platformId": "whirlpool_duet_sport",
+        "templateId": "washer",
+        "total": 38,
+        "byType": {
+          "canonicalMapping": 28,
+          "procedureTestBinding": 5,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "easy": 15,
+          "careful": 5,
+          "blocked": 6,
+          "normal": 12
+        },
+        "blocked": 6
+      },
+      "W10864849": {
+        "manualId": "W10864849",
+        "platformId": "whirlpool_tl_dd",
+        "templateId": "washer",
+        "total": 80,
+        "byType": {
+          "canonicalMapping": 56,
+          "procedureTestBinding": 12,
+          "measurementBinding": 12
+        },
+        "byApprovalLevel": {
+          "normal": 27,
+          "easy": 11,
+          "blocked": 42
+        },
+        "blocked": 42
+      },
+      "W11416787": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "templateId": "washer",
+        "total": 47,
+        "byType": {
+          "canonicalMapping": 35,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 14,
+          "easy": 10,
+          "blocked": 23
+        },
+        "blocked": 23
+      },
+      "W11800233": {
+        "manualId": "W11800233",
+        "platformId": "whirlpool_tl_dd_4100",
+        "templateId": "washer",
+        "total": 39,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 14,
+          "easy": 8,
+          "blocked": 17
+        },
+        "blocked": 17
+      },
+      "W11697231": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "templateId": "washer",
+        "total": 80,
+        "byType": {
+          "canonicalMapping": 56,
+          "procedureTestBinding": 12,
+          "measurementBinding": 12
+        },
+        "byApprovalLevel": {
+          "normal": 27,
+          "easy": 11,
+          "blocked": 42
+        },
+        "blocked": 42
+      },
+      "W11455152": {
+        "manualId": "W11455152",
+        "platformId": "whirlpool_tl_dd_6157",
+        "templateId": "washer",
+        "total": 39,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 14,
+          "easy": 8,
+          "blocked": 17
+        },
+        "blocked": 17
+      },
+      "W11416395": {
+        "manualId": "W11416395",
+        "platformId": "whirlpool_mvw6200",
+        "templateId": "washer",
+        "total": 42,
+        "byType": {
+          "canonicalMapping": 30,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 14,
+          "easy": 9,
+          "blocked": 19
+        },
+        "blocked": 19
+      },
+      "W11428632": {
+        "manualId": "W11428632",
+        "platformId": "whirlpool_tl_psc_washer",
+        "templateId": "washer",
+        "total": 39,
+        "byType": {
+          "canonicalMapping": 27,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "normal": 14,
+          "easy": 8,
+          "blocked": 17
+        },
+        "blocked": 17
+      },
+      "SAMSUNG-FL-WF6000R-WASHER": {
+        "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+        "platformId": "samsung_fl_washer_wf6000r",
+        "templateId": "washer",
+        "total": 54,
+        "byType": {
+          "canonicalMapping": 42,
+          "procedureTestBinding": 6,
+          "measurementBinding": 6
+        },
+        "byApprovalLevel": {
+          "blocked": 27,
+          "easy": 11,
+          "careful": 1,
+          "normal": 15
+        },
+        "blocked": 27
+      },
+      "SAMSUNG-FL-BB8700-WASHER": {
+        "manualId": "SAMSUNG-FL-BB8700-WASHER",
+        "platformId": "samsung_fl_washer_bb8700",
+        "templateId": "washer",
+        "total": 41,
+        "byType": {
+          "canonicalMapping": 32,
+          "procedureTestBinding": 5,
+          "measurementBinding": 4
+        },
+        "byApprovalLevel": {
+          "blocked": 18,
+          "easy": 10,
+          "careful": 1,
+          "normal": 12
+        },
+        "blocked": 18
+      },
+      "SAMSUNG-TL-A50-WASHER": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "templateId": "washer",
+        "total": 56,
+        "byType": {
+          "canonicalMapping": 44,
+          "procedureTestBinding": 7,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "blocked": 30,
+          "easy": 9,
+          "normal": 17
+        },
+        "blocked": 30
+      },
+      "SAMSUNG-TL-CG71-WASHER": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "templateId": "washer",
+        "total": 59,
+        "byType": {
+          "canonicalMapping": 47,
+          "procedureTestBinding": 7,
+          "measurementBinding": 5
+        },
+        "byApprovalLevel": {
+          "blocked": 33,
+          "easy": 9,
+          "normal": 17
+        },
+        "blocked": 33
+      },
+      "W10785366A": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "templateId": "washer",
+        "total": 13,
+        "byType": {
+          "canonicalMapping": 13
+        },
+        "byApprovalLevel": {
+          "blocked": 11,
+          "easy": 1,
+          "normal": 1
+        },
+        "blocked": 11
+      },
+      "SAMSUNG-FLEXWASH-WASHER": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "templateId": "washer",
+        "total": 68,
+        "byType": {
+          "canonicalMapping": 55,
+          "procedureTestBinding": 11,
+          "measurementBinding": 2
+        },
+        "byApprovalLevel": {
+          "blocked": 39,
+          "easy": 10,
+          "careful": 1,
+          "normal": 18
+        },
+        "blocked": 39
+      }
+    },
+    "duplicateExamples": [
+      {
+        "key": "canonicalMapping::acu::control_board",
+        "candidateIds": [
+          "map-W11169652-acu-control_board",
+          "map-W10864849-acu-control_board",
+          "map-W11416787-acu-control_board",
+          "map-W11800233-acu-control_board",
+          "map-W11697231-acu-control_board",
+          "map-W11455152-acu-control_board",
+          "map-W11416395-acu-control_board",
+          "map-W11428632-acu-control_board",
+          "map-W10785366A-acu-control_board"
+        ],
+        "count": 9
+      },
+      {
+        "key": "canonicalMapping::test::",
+        "candidateIds": [
+          "map-w11169652-unresolved-w11169652-test-01-acu-power-test",
+          "map-w11169652-unresolved-w11169652-test-02-hmi-test",
+          "map-w11169652-unresolved-w11169652-test-03-motor-circuit-test",
+          "map-w11169652-unresolved-w11169652-test-04-door-lock-test",
+          "map-w11169652-unresolved-w11169652-test-05-drum-light-test",
+          "map-w11169652-unresolved-w11169652-test-06-inlet-valves-test",
+          "map-w11169652-unresolved-w11169652-test-07-water-level-sensor-test",
+          "map-w11169652-unresolved-w11169652-test-08-drain-pump-test",
+          "map-w11169652-unresolved-w11169652-test-09-wash-heater-test",
+          "map-w11169652-unresolved-w11169652-test-10-wash-temp-sensor-test",
+          "map-w11169652-unresolved-w11169652-test-11a-single-dose-dispenser-test",
+          "map-w11169652-unresolved-w11169652-test-11b-dosing-pump-test",
+          "map-w11169652-unresolved-w11169652-test-12a-bulk-dispenser-test",
+          "map-w11169652-unresolved-w11169652-test-12b-bulk-level-sensing-test",
+          "map-w11169652-unresolved-w11169652-test-13-vent-fan-test",
+          "map-w11169652-unresolved-w11169652-test-14-vent-baffle-test",
+          "map-w11169652-unresolved-w11169652-test-15-dry-heater-test",
+          "map-w11169652-unresolved-w11169652-test-16-dry-temp-sensor-test",
+          "map-w11169652-unresolved-w11169652-test-17-dry-blower-test",
+          "map-w10864849-unresolved-w10864849-test-01-acu-power-test",
+          "map-w10864849-unresolved-w10864849-test-02-valves-test",
+          "map-w10864849-unresolved-w10864849-test-03-drive-system-test",
+          "map-w10864849-unresolved-w10864849-test-03a-shifter-test",
+          "map-w10864849-unresolved-w10864849-test-03b-motor-test",
+          "map-w10864849-unresolved-w10864849-test-04-keys-encoders-test",
+          "map-w10864849-unresolved-w10864849-test-05-temp-thermistor-test",
+          "map-w10864849-unresolved-w10864849-test-06-water-level-test",
+          "map-w10864849-unresolved-w10864849-test-07-drain-recirc-pump-test",
+          "map-w10864849-unresolved-w10864849-test-08-lid-lock-test",
+          "map-w10864849-unresolved-w10864849-test-09-heater-test",
+          "map-w10864849-unresolved-w10864849-test-10-service-leds-test",
+          "map-w10864849-unresolved-w10864849-test-11-basket-light-test",
+          "map-w10864849-unresolved-w10864849-test-12-bulk-dispense-test",
+          "map-w10864849-unresolved-w11697231-test-01-acu-power-test",
+          "map-w10864849-unresolved-w11697231-test-02-valves-test",
+          "map-w10864849-unresolved-w11697231-test-03-drive-system-test",
+          "map-w10864849-unresolved-w11697231-test-03a-shifter-test",
+          "map-w10864849-unresolved-w11697231-test-03b-motor-test",
+          "map-w10864849-unresolved-w11697231-test-04-console-indicators-test",
+          "map-w10864849-unresolved-w11697231-test-05-temp-thermistor-test",
+          "map-w10864849-unresolved-w11697231-test-06-water-level-test",
+          "map-w10864849-unresolved-w11697231-test-07-drain-pump-test",
+          "map-w10864849-unresolved-w11697231-test-08-lid-lock-test",
+          "map-w11416787-unresolved-w11416787-test-01-acu-power-test",
+          "map-w11416787-unresolved-w11416787-test-02-valves-test",
+          "map-w11416787-unresolved-w11416787-test-03-drive-system-test",
+          "map-w11416787-unresolved-w11416787-test-03a-shifter-test",
+          "map-w11416787-unresolved-w11416787-test-03b-motor-test",
+          "map-w11416787-unresolved-w11416787-test-04-hmi-test",
+          "map-w11416787-unresolved-w11416787-test-05-temp-thermistor-test",
+          "map-w11416787-unresolved-w11416787-test-06-water-level-test",
+          "map-w11416787-unresolved-w11416787-test-07-drain-recirc-pump-test",
+          "map-w11416787-unresolved-w11416787-test-08-lid-lock-test",
+          "map-w11416787-unresolved-w11416787-test-09-load-and-go-test",
+          "map-w11800233-unresolved-w11800233-test-01-acu-power-test",
+          "map-w11800233-unresolved-w11800233-test-02-valves-test",
+          "map-w11800233-unresolved-w11800233-test-03-drive-system-test",
+          "map-w11800233-unresolved-w11800233-test-03a-shifter-test",
+          "map-w11800233-unresolved-w11800233-test-03b-motor-test",
+          "map-w11800233-unresolved-w11800233-test-04-hmi-test",
+          "map-w11800233-unresolved-w11800233-test-05-water-level-test",
+          "map-w11800233-unresolved-w11800233-test-06-drain-pump-test",
+          "map-w11800233-unresolved-w11800233-test-07-lid-lock-test",
+          "map-w11697231-unresolved-w10864849-test-01-acu-power-test",
+          "map-w11697231-unresolved-w10864849-test-02-valves-test",
+          "map-w11697231-unresolved-w10864849-test-03-drive-system-test",
+          "map-w11697231-unresolved-w10864849-test-03a-shifter-test",
+          "map-w11697231-unresolved-w10864849-test-03b-motor-test",
+          "map-w11697231-unresolved-w10864849-test-04-keys-encoders-test",
+          "map-w11697231-unresolved-w10864849-test-05-temp-thermistor-test",
+          "map-w11697231-unresolved-w10864849-test-06-water-level-test",
+          "map-w11697231-unresolved-w10864849-test-07-drain-recirc-pump-test",
+          "map-w11697231-unresolved-w10864849-test-08-lid-lock-test",
+          "map-w11697231-unresolved-w10864849-test-09-heater-test",
+          "map-w11697231-unresolved-w10864849-test-10-service-leds-test",
+          "map-w11697231-unresolved-w10864849-test-11-basket-light-test",
+          "map-w11697231-unresolved-w10864849-test-12-bulk-dispense-test",
+          "map-w11697231-unresolved-w11697231-test-01-acu-power-test",
+          "map-w11697231-unresolved-w11697231-test-02-valves-test",
+          "map-w11697231-unresolved-w11697231-test-03-drive-system-test",
+          "map-w11697231-unresolved-w11697231-test-03a-shifter-test",
+          "map-w11697231-unresolved-w11697231-test-03b-motor-test",
+          "map-w11697231-unresolved-w11697231-test-04-console-indicators-test",
+          "map-w11697231-unresolved-w11697231-test-05-temp-thermistor-test",
+          "map-w11697231-unresolved-w11697231-test-06-water-level-test",
+          "map-w11697231-unresolved-w11697231-test-07-drain-pump-test",
+          "map-w11697231-unresolved-w11697231-test-08-lid-lock-test",
+          "map-w11455152-unresolved-w11455152-test-01-acu-power-test",
+          "map-w11455152-unresolved-w11455152-test-02-valves-test",
+          "map-w11455152-unresolved-w11455152-test-03-drive-system-test",
+          "map-w11455152-unresolved-w11455152-test-03a-shifter-test",
+          "map-w11455152-unresolved-w11455152-test-03b-motor-test",
+          "map-w11455152-unresolved-w11455152-test-04-hmi-test",
+          "map-w11455152-unresolved-w11455152-test-05-water-level-test",
+          "map-w11455152-unresolved-w11455152-test-06-drain-pump-test",
+          "map-w11455152-unresolved-w11455152-test-07-lid-lock-test",
+          "map-w11416395-unresolved-w11416395-test-01-acu-power-test",
+          "map-w11416395-unresolved-w11416395-test-02-valves-test",
+          "map-w11416395-unresolved-w11416395-test-03-drive-system-test",
+          "map-w11416395-unresolved-w11416395-test-03a-shifter-test",
+          "map-w11416395-unresolved-w11416395-test-03b-motor-test",
+          "map-w11416395-unresolved-w11416395-test-04-hmi-test",
+          "map-w11416395-unresolved-w11416395-test-05-temp-thermistor-test",
+          "map-w11416395-unresolved-w11416395-test-06-water-level-test",
+          "map-w11416395-unresolved-w11416395-test-07-drain-pump-test",
+          "map-w11416395-unresolved-w11416395-test-08-lid-lock-test",
+          "map-w11428632-unresolved-w11428632-test-01-acu-power-test",
+          "map-w11428632-unresolved-w11428632-test-02-valves-test",
+          "map-w11428632-unresolved-w11428632-test-03-drive-system-test",
+          "map-w11428632-unresolved-w11428632-test-03a-shifter-test",
+          "map-w11428632-unresolved-w11428632-test-03b-motor-test",
+          "map-w11428632-unresolved-w11428632-test-04-hmi-test",
+          "map-w11428632-unresolved-w11428632-test-05-water-level-test",
+          "map-w11428632-unresolved-w11428632-test-06-drain-pump-test",
+          "map-w11428632-unresolved-w11428632-test-07-lid-lock-test"
+        ],
+        "count": 115
+      },
+      {
+        "key": "canonicalMapping::supply::supply",
+        "candidateIds": [
+          "map-W11169652-supply-supply",
+          "map-W8178558-supply-supply",
+          "map-W10864849-supply-supply",
+          "map-W11416787-supply-supply",
+          "map-W11800233-supply-supply",
+          "map-W11697231-supply-supply",
+          "map-W11455152-supply-supply",
+          "map-W11416395-supply-supply",
+          "map-W11428632-supply-supply",
+          "map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+          "map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+          "map-SAMSUNG-TL-A50-WASHER-supply-supply",
+          "map-SAMSUNG-TL-CG71-WASHER-supply-supply",
+          "map-SAMSUNG-FLEXWASH-WASHER-supply-supply"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::hmi::",
+        "candidateIds": [
+          "map-w11169652-unresolved-w11169652-test-02-hmi-hmi",
+          "map-w11416787-unresolved-w11416787-test-04-hmi-hmi",
+          "map-w11800233-unresolved-w11800233-test-04-hmi-hmi",
+          "map-w11455152-unresolved-w11455152-test-04-hmi-hmi",
+          "map-w11416395-unresolved-w11416395-test-04-hmi-hmi",
+          "map-w11428632-unresolved-w11428632-test-04-hmi-hmi",
+          "map-w10785366a-unresolved-w10785366a-hmi-wifi-comm-hmi"
+        ],
+        "count": 7
+      },
+      {
+        "key": "canonicalMapping::hmi_control::hmi_control",
+        "candidateIds": [
+          "map-W11169652-hmi_control-hmi_control",
+          "map-W10864849-hmi_control-hmi_control",
+          "map-W11416787-hmi_control-hmi_control",
+          "map-W11800233-hmi_control-hmi_control",
+          "map-W11697231-hmi_control-hmi_control",
+          "map-W11455152-hmi_control-hmi_control",
+          "map-W11416395-hmi_control-hmi_control",
+          "map-W11428632-hmi_control-hmi_control",
+          "map-W10785366A-hmi_control-hmi_control"
+        ],
+        "count": 9
+      },
+      {
+        "key": "canonicalMapping::drive_motor::drive_motor",
+        "candidateIds": [
+          "map-W11169652-drive_motor-drive_motor",
+          "map-W8178558-drive_motor-drive_motor",
+          "map-W10864849-drive_motor-drive_motor",
+          "map-W11416787-drive_motor-drive_motor",
+          "map-W11800233-drive_motor-drive_motor",
+          "map-W11697231-drive_motor-drive_motor",
+          "map-W11455152-drive_motor-drive_motor",
+          "map-W11416395-drive_motor-drive_motor",
+          "map-W11428632-drive_motor-drive_motor",
+          "map-SAMSUNG-FL-WF6000R-WASHER-drive_motor-drive_motor",
+          "map-SAMSUNG-FL-BB8700-WASHER-drive_motor-drive_motor",
+          "map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor",
+          "map-SAMSUNG-TL-CG71-WASHER-drive_motor-drive_motor",
+          "map-SAMSUNG-FLEXWASH-WASHER-drive_motor-drive_motor"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::door_lock::door_lock",
+        "candidateIds": [
+          "map-W11169652-door_lock-door_lock",
+          "map-W8178558-door_lock-door_lock",
+          "map-W10864849-door_lock-door_lock",
+          "map-W11416787-door_lock-door_lock",
+          "map-W11800233-door_lock-door_lock",
+          "map-W11697231-door_lock-door_lock",
+          "map-W11455152-door_lock-door_lock",
+          "map-W11416395-door_lock-door_lock",
+          "map-W11428632-door_lock-door_lock",
+          "map-SAMSUNG-FL-WF6000R-WASHER-door_lock-door_lock",
+          "map-SAMSUNG-FL-BB8700-WASHER-door_lock-door_lock",
+          "map-SAMSUNG-TL-A50-WASHER-door_lock-door_lock",
+          "map-SAMSUNG-TL-CG71-WASHER-door_lock-door_lock",
+          "map-SAMSUNG-FLEXWASH-WASHER-door_lock-door_lock"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::inlet_valve::inlet_valve",
+        "candidateIds": [
+          "map-W11169652-inlet_valve-inlet_valve",
+          "map-W8178558-inlet_valve-inlet_valve",
+          "map-W10864849-inlet_valve-inlet_valve",
+          "map-W11416787-inlet_valve-inlet_valve",
+          "map-W11800233-inlet_valve-inlet_valve",
+          "map-W11697231-inlet_valve-inlet_valve",
+          "map-W11455152-inlet_valve-inlet_valve",
+          "map-W11416395-inlet_valve-inlet_valve",
+          "map-W11428632-inlet_valve-inlet_valve",
+          "map-SAMSUNG-FL-WF6000R-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-FL-BB8700-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+          "map-SAMSUNG-FLEXWASH-WASHER-inlet_valve-inlet_valve"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::water level sensor::water_level_sensor",
+        "candidateIds": [
+          "map-W11169652-water-level-sensor-water_level_sensor",
+          "map-SAMSUNG-FL-WF6000R-WASHER-water-level-sensor-water_level_sensor",
+          "map-SAMSUNG-FL-BB8700-WASHER-water-level-sensor-water_level_sensor",
+          "map-SAMSUNG-TL-A50-WASHER-water-level-sensor-water_level_sensor",
+          "map-SAMSUNG-TL-CG71-WASHER-water-level-sensor-water_level_sensor",
+          "map-SAMSUNG-FLEXWASH-WASHER-water-level-sensor-water_level_sensor"
+        ],
+        "count": 6
+      },
+      {
+        "key": "canonicalMapping::water_level_sensor::water_level_sensor",
+        "candidateIds": [
+          "map-W11169652-water_level_sensor-water_level_sensor",
+          "map-W8178558-water_level_sensor-water_level_sensor",
+          "map-W10864849-water_level_sensor-water_level_sensor",
+          "map-W11416787-water_level_sensor-water_level_sensor",
+          "map-W11800233-water_level_sensor-water_level_sensor",
+          "map-W11697231-water_level_sensor-water_level_sensor",
+          "map-W11455152-water_level_sensor-water_level_sensor",
+          "map-W11416395-water_level_sensor-water_level_sensor",
+          "map-W11428632-water_level_sensor-water_level_sensor",
+          "map-SAMSUNG-FL-WF6000R-WASHER-water_level_sensor-water_level_sensor",
+          "map-SAMSUNG-FL-BB8700-WASHER-water_level_sensor-water_level_sensor",
+          "map-SAMSUNG-TL-A50-WASHER-water_level_sensor-water_level_sensor",
+          "map-SAMSUNG-TL-CG71-WASHER-water_level_sensor-water_level_sensor",
+          "map-SAMSUNG-FLEXWASH-WASHER-water_level_sensor-water_level_sensor"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::drain_pump::drain_pump",
+        "candidateIds": [
+          "map-W11169652-drain_pump-drain_pump",
+          "map-W8178558-drain_pump-drain_pump",
+          "map-W10864849-drain_pump-drain_pump",
+          "map-W11416787-drain_pump-drain_pump",
+          "map-W11800233-drain_pump-drain_pump",
+          "map-W11697231-drain_pump-drain_pump",
+          "map-W11455152-drain_pump-drain_pump",
+          "map-W11416395-drain_pump-drain_pump",
+          "map-W11428632-drain_pump-drain_pump",
+          "map-SAMSUNG-FL-WF6000R-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-FL-BB8700-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-TL-CG71-WASHER-drain_pump-drain_pump",
+          "map-SAMSUNG-FLEXWASH-WASHER-drain_pump-drain_pump"
+        ],
+        "count": 14
+      },
+      {
+        "key": "canonicalMapping::wash_heater::wash_heater",
+        "candidateIds": [
+          "map-W11169652-wash_heater-wash_heater",
+          "map-W8178558-wash_heater-wash_heater",
+          "map-W10864849-wash_heater-wash_heater",
+          "map-W11697231-wash_heater-wash_heater",
+          "map-SAMSUNG-FL-WF6000R-WASHER-wash_heater-wash_heater",
+          "map-SAMSUNG-FL-BB8700-WASHER-wash_heater-wash_heater",
+          "map-SAMSUNG-TL-A50-WASHER-wash_heater-wash_heater",
+          "map-SAMSUNG-TL-CG71-WASHER-wash_heater-wash_heater",
+          "map-SAMSUNG-FLEXWASH-WASHER-wash_heater-wash_heater"
+        ],
+        "count": 9
+      },
+      {
+        "key": "canonicalMapping::wash temperature sensor::wash_ntc",
+        "candidateIds": [
+          "map-W11169652-wash-temperature-sensor-wash_ntc",
+          "map-SAMSUNG-FL-WF6000R-WASHER-wash-temperature-sensor-wash_ntc",
+          "map-SAMSUNG-FL-BB8700-WASHER-wash-temperature-sensor-wash_ntc",
+          "map-SAMSUNG-FLEXWASH-WASHER-wash-temperature-sensor-wash_ntc"
+        ],
+        "count": 4
+      },
+      {
+        "key": "canonicalMapping::wash_ntc::wash_ntc",
+        "candidateIds": [
+          "map-W11169652-wash_ntc-wash_ntc",
+          "map-W8178558-wash_ntc-wash_ntc",
+          "map-W10864849-wash_ntc-wash_ntc",
+          "map-W11416787-wash_ntc-wash_ntc",
+          "map-W11697231-wash_ntc-wash_ntc",
+          "map-W11416395-wash_ntc-wash_ntc",
+          "map-SAMSUNG-FL-WF6000R-WASHER-wash_ntc-wash_ntc",
+          "map-SAMSUNG-FL-BB8700-WASHER-wash_ntc-wash_ntc",
+          "map-SAMSUNG-TL-A50-WASHER-wash_ntc-wash_ntc",
+          "map-SAMSUNG-TL-CG71-WASHER-wash_ntc-wash_ntc",
+          "map-SAMSUNG-FLEXWASH-WASHER-wash_ntc-wash_ntc"
+        ],
+        "count": 11
+      },
+      {
+        "key": "canonicalMapping::dosing_pump::dosing_pump",
+        "candidateIds": [
+          "map-W11169652-dosing_pump-dosing_pump",
+          "map-W8178558-dosing_pump-dosing_pump"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::bulk_level_switch::bulk_level_switch",
+        "candidateIds": [
+          "map-W11169652-bulk_level_switch-bulk_level_switch",
+          "map-W10864849-bulk_level_switch-bulk_level_switch",
+          "map-W11416787-bulk_level_switch-bulk_level_switch",
+          "map-W11697231-bulk_level_switch-bulk_level_switch"
+        ],
+        "count": 4
+      },
+      {
+        "key": "measurementBinding::w11169652-test-03-motor-circuit::motor_output_test",
+        "candidateIds": [
+          "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms",
+          "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms",
+          "overlay-W11169652-w11169652-test-03-motor-circuit-meas-whirlpoolFlWasherMotorOhms"
+        ],
+        "count": 3
+      },
+      {
+        "key": "measurementBinding::w11169652-test-04-door-lock::door_lock_test",
+        "candidateIds": [
+          "overlay-W11169652-w11169652-test-04-door-lock-meas-whirlpoolFlWasherDoorLockSwitchLockedOhms",
+          "overlay-W11169652-w11169652-test-04-door-lock-meas-whirlpoolFlWasherDoorLockSolenoidOhms"
+        ],
+        "count": 2
+      },
+      {
+        "key": "measurementBinding::w11169652-test-08-drain-pump::drain_test",
+        "candidateIds": [
+          "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherDrainPumpOhms",
+          "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherRecircPumpOhms",
+          "overlay-W11169652-w11169652-test-08-drain-pump-meas-whirlpoolFlWasherDrainPumpOhms"
+        ],
+        "count": 3
+      },
+      {
+        "key": "canonicalMapping::wash heater::wash_heater",
+        "candidateIds": [
+          "map-W8178558-wash-heater-wash_heater",
+          "map-SAMSUNG-FL-WF6000R-WASHER-wash-heater-wash_heater",
+          "map-SAMSUNG-FL-BB8700-WASHER-wash-heater-wash_heater",
+          "map-SAMSUNG-TL-A50-WASHER-wash-heater-wash_heater",
+          "map-SAMSUNG-TL-CG71-WASHER-wash-heater-wash_heater",
+          "map-SAMSUNG-FLEXWASH-WASHER-wash-heater-wash_heater"
+        ],
+        "count": 6
+      },
+      {
+        "key": "measurementBinding::w8178558-door-lock::door_lock_test",
+        "candidateIds": [
+          "overlay-W8178558-w8178558-door-lock-meas-whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "overlay-W8178558-w8178558-door-lock-meas-whirlpoolDuetSportWasherDoorLockSolenoidOhms"
+        ],
+        "count": 2
+      },
+      {
+        "key": "measurementBinding::w8178558-drain-pump::drain_test",
+        "candidateIds": [
+          "overlay-W8178558-w8178558-drain-pump-meas-whirlpoolDuetSportWasherDrainPumpOhms",
+          "overlay-W8178558-w8178558-drain-pump-meas-whirlpoolDuetSportWasherDrainPumpOhms"
+        ],
+        "count": 2
+      },
+      {
+        "key": "canonicalMapping::main control::control_board",
+        "candidateIds": [
+          "map-W10864849-main-control-control_board",
+          "map-W11416787-main-control-control_board",
+          "map-W11800233-main-control-control_board",
+          "map-W11697231-main-control-control_board",
+          "map-W11455152-main-control-control_board",
+          "map-W11416395-main-control-control_board",
+          "map-W11428632-main-control-control_board"
+        ],
+        "count": 7
+      },
+      {
+        "key": "canonicalMapping::valves::",
+        "candidateIds": [
+          "map-w10864849-unresolved-w10864849-test-02-valves-valves",
+          "map-w10864849-unresolved-w11697231-test-02-valves-valves",
+          "map-w11416787-unresolved-w11416787-test-02-valves-valves",
+          "map-w11800233-unresolved-w11800233-test-02-valves-valves",
+          "map-w11697231-unresolved-w10864849-test-02-valves-valves",
+          "map-w11697231-unresolved-w11697231-test-02-valves-valves",
+          "map-w11455152-unresolved-w11455152-test-02-valves-valves",
+          "map-w11416395-unresolved-w11416395-test-02-valves-valves",
+          "map-w11428632-unresolved-w11428632-test-02-valves-valves"
+        ],
+        "count": 9
+      },
+      {
+        "key": "canonicalMapping::drive system::",
+        "candidateIds": [
+          "map-W10864849-compound-drive-system",
+          "map-W11416787-compound-drive-system",
+          "map-W11800233-compound-drive-system",
+          "map-W11697231-compound-drive-system",
+          "map-W11455152-compound-drive-system",
+          "map-W11416395-compound-drive-system",
+          "map-W11428632-compound-drive-system"
+        ],
+        "count": 7
+      }
+    ],
+    "unresolvedTermsTop": [
+      [
+        "TEST",
+        115
+      ],
+      [
+        "Valves",
+        9
+      ],
+      [
+        "Shifter",
+        9
+      ],
+      [
+        "Motor",
+        9
+      ],
+      [
+        "HMI",
+        7
+      ],
+      [
+        "Drive System",
+        7
+      ],
+      [
+        "pre-test",
+        7
+      ],
+      [
+        "Water Level",
+        7
+      ],
+      [
+        "Lid Lock",
+        7
+      ],
+      [
+        "C2",
+        7
+      ],
+      [
+        "DC1",
+        6
+      ],
+      [
+        "C1",
+        6
+      ],
+      [
+        "AC",
+        5
+      ],
+      [
+        "DC",
+        5
+      ],
+      [
+        "LC",
+        5
+      ],
+      [
+        "OC",
+        5
+      ],
+      [
+        "Overflow",
+        5
+      ],
+      [
+        "HC",
+        5
+      ],
+      [
+        "HC1",
+        5
+      ],
+      [
+        "TC1",
+        5
+      ],
+      [
+        "Temperature Thermistor",
+        4
+      ],
+      [
+        "PBA communication",
+        4
+      ],
+      [
+        "BC2",
+        4
+      ],
+      [
+        "Washing motor",
+        4
+      ],
+      [
+        "UB",
+        4
+      ],
+      [
+        "Unbalance",
+        4
+      ],
+      [
+        "LC1",
+        4
+      ],
+      [
+        "Drain",
+        3
+      ],
+      [
+        "AC6",
+        3
+      ],
+      [
+        "user_interface",
+        3
+      ]
+    ],
+    "avgProcedureBindingConfidence": 0.923,
+    "avgMeasurementBindingConfidence": 0.94,
+    "qualityIndicators": {
+      "blockedRate": 0.4843,
+      "unresolvedRate": 0.4843,
+      "easyApprovalShare": 0.1911,
+      "carefulReviewShare": 0.0144,
+      "conflictRate": 0.0667,
+      "promotionReadyRate": 0.9634,
+      "alreadyPublishedRate": 0.0223,
+      "compoundCandidateShare": 0.0144
+    },
+    "manifestManualCount": 67,
+    "normalizedManualCount": 15
+  }
+}

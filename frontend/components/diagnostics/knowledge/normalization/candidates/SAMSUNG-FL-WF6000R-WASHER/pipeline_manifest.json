@@ -1,0 +1,85 @@
+{
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "templateId": "washer",
+  "label": "Samsung FL washer WF6000R (WF45T/WF45R/WF22R)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T19:42:11.582856+00:00",
+  "topologySignature": "ccu_mcu_motor",
+  "counts": {
+    "procedures": 13,
+    "mappingCandidates": 24,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 10,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "AC3",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "AC6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-communication",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "BC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-hmi-switch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-mems-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungwf6000r-wash-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

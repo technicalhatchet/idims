@@ -1,0 +1,1462 @@
+{
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "candidates": [
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-ambient-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ambient-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e7:-ambient-temperature-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E7: Ambient temperature sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "e7 ambient temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ambient-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e7 ambient temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E7: Ambient temperature sensor"
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-display_panel",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "display_panel",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-main_control",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "control",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "control",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e6:-display-\u2194-main-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E6: Display \u2194 main communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E6: Display \u2194 main communication"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-fz-defrost-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-defrost_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "defrost_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-/-\u00a78.6:-freezer-defrost-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "8 6 freezer defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "8 6 freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "/ \u00a78.6: Freezer defrost heater"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-fz-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-defrost_thermostat",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "defrost_thermostat",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E5: Freezing chamber defrost sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "e5 freezing chamber defrost",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e5 freezing chamber defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E5: Freezing chamber defrost sensor"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-fz-temp-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E2: Freezing chamber temperature sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "e2 freezing chamber temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e2 freezing chamber temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E2: Freezing chamber temperature sensor"
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-door_switch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_switch",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-high-temp-alarm-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-high-temp-alarm-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e9:-freezer-high-temperature-alarm",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E9: Freezer high-temperature alarm",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E9: Freezer high-temperature alarm"
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-ice_maker_module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_maker_module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-ice-maker-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-ee:-ice-maker-sensor-circuit",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 EE: Ice maker sensor circuit",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ee ice maker",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ee ice maker",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "EE: Ice maker sensor circuit"
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e0:-ice-maker-fault",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E0: Ice maker fault",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker",
+        "pages": [
+          48,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker",
+            "pages": [
+              48,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E0: Ice maker fault"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-rc-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e4:-refrigerating-chamber-defrost-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E4: Refrigerating chamber defrost sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "e4 refrigerating chamber defrost",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e4 refrigerating chamber defrost",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E4: Refrigerating chamber defrost sensor"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-rc-temp-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-e1:-refrigerating-chamber-temperature-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "e1 refrigerating chamber temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "e1 refrigerating chamber temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "E1: Refrigerating chamber temperature sensor"
+    },
+    {
+      "id": "map-midea-rss-fridge-unresolved-midearss-vfd-inverter-compressor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-inverter_board",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter_board",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "inverter",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-MIDEA-RSS-FRIDGE-compound-vfd-inverter-board-fault-led",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a711.2: VFD inverter board fault LED",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "vfd inverter",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "vfd inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "VFD inverter board fault LED"
+    }
+  ]
+}

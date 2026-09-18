@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_observation",
+  "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+  "platformId": "samsung_range_ne58",
+  "compoundingPhase": "CG-RANGE-COMPOUNDING",
+  "compoundingSequence": 2,
+  "observedAt": "2026-09-17T05:00:00+00:00",
+  "normalizationArtifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+  "verdict": {
+    "canonicalInheritances": 5,
+    "instanceScopeBindings": 2,
+    "conditionalInstanceScopeBindings": 1,
+    "conditionalBindings": 3,
+    "overlayImplementationComponents": 13,
+    "proceduresBound": 24,
+    "measurementsBound": 25,
+    "decisionBranchesExecutable": 11,
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "flatFactDumpAvoided": true,
+    "nx60OverlayUntouched": true
+  },
+  "hierarchyObservation": "Induction cooktop faults decompose as surface_heating_system → top_sensor / igbt_sensor / inverter_pcb / pan_detection realizations; electric oven paths bind to instance scopes (bake 17–19 Ω, broil 12–14 Ω, convection 41–46 Ω) — not hardware inventory.",
+  "inductionHardwareRemainsOverlay": [
+    "inverter_pcb",
+    "igbt",
+    "igbt_sensor",
+    "top_sensor",
+    "induction_coil",
+    "filter_pcb_fuse",
+    "pan_detection"
+  ]
+}

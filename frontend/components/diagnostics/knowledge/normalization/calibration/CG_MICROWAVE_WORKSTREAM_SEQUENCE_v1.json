@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_workstream_sequence",
+  "status": "closed",
+  "verdict": "GREEN / MICROWAVE_FAMILY_WORKSTREAM_COMPLETE",
+  "frozenContract": {
+    "ontologyId": "microwave",
+    "revision": "rev1",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json"
+  },
+  "coreDistinction": {
+    "fitDiscoveryFreeze": "Distinct canonical family + functional architecture — immutable",
+    "normalization": "Witness + platform extensions — APPROVED",
+    "compounding": "LG + Samsung overlays — GREEN / COMPLETE",
+    "familyClosure": "Terminally closed — CG_MICROWAVE_FAMILY_CLOSURE_v1.json"
+  },
+  "disciplinedSequence": [
+    {
+      "phase": "CG-MICROWAVE-FIT",
+      "label": "Fit test",
+      "status": "closed",
+      "closureArtifact": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+      "verdict": "Outcome B — genuine functional divergence"
+    },
+    {
+      "phase": "CG-MICROWAVE-DISCOVERY",
+      "label": "Functional contract discovery",
+      "status": "closed",
+      "closureArtifact": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+      "verdict": "7 core + 2 conditional approved"
+    },
+    {
+      "phase": "CG-MICROWAVE-FREEZE",
+      "label": "Canonical freeze",
+      "status": "closed",
+      "closureArtifact": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+      "verdict": "microwave rev1 locked"
+    },
+    {
+      "phase": "CG-MICROWAVE-NORMALIZATION",
+      "label": "Implementation normalization",
+      "status": "closed",
+      "contract": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+      "audit": "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+      "verdict": "APPROVED — witness + ME21/LMVM platform extensions"
+    },
+    {
+      "phase": "CG-MICROWAVE-FROZEN-METADATA-GOVERNANCE",
+      "label": "Frozen metadata consistency (magnetron.realizes)",
+      "status": "closed",
+      "contract": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CONTRACT_v1.json",
+      "closure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+      "verdict": "GREEN / BRANCH_A_APPROVED"
+    },
+    {
+      "phase": "CG-MICROWAVE-COMPOUNDING",
+      "label": "Diagnostic compounding",
+      "status": "closed",
+      "contract": "CG_MICROWAVE_COMPOUNDING_v1.json",
+      "regressionProof": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json",
+      "verdict": "GREEN / LG + Samsung compounding audits passed"
+    },
+    {
+      "phase": "CG-MICROWAVE-FAMILY-CLOSURE-PLANNING",
+      "label": "Family closure planning",
+      "status": "closed",
+      "planArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_PLAN_v1.json",
+      "proofArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_PROOF_v1.json",
+      "auditArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+      "verdict": "GREEN / AUDIT_PASSED"
+    },
+    {
+      "phase": "CG-MICROWAVE-FAMILY-CLOSURE",
+      "label": "Family closure",
+      "status": "closed",
+      "closureArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+      "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+      "verdict": "GREEN / MICROWAVE_FAMILY_CLOSURE_COMPLETE"
+    }
+  ],
+  "currentPosition": "STOP — microwave family architecture terminally closed",
+  "stopGate": {
+    "compoundingBlocked": false,
+    "canonicalMutationBlocked": true,
+    "familyClosureBlocked": false,
+    "familyClosureComplete": true,
+    "workstreamComplete": true,
+    "reason": "Microwave family terminally closed; microwave.json frozen; additional manuals are coverage work only"
+  }
+}
+

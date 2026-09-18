@@ -1,0 +1,2331 @@
+{
+  "manualId": "SAMSUNG-NE58-RANGE",
+  "procedures": [
+    {
+      "procedureId": "samsungne58-bake-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Bake element",
+      "purpose": "Bake heater harness and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "no_bake_heat_issue",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "bake_off",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect bake harness",
+          "body": "Power off. Access bake element harness terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access bake element harness terminals."
+        },
+        {
+          "id": "bake_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Bake element resistance",
+          "body": "Measure bake element harness resistance at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "bakeElementOhms",
+              "testPoint": {
+                "connector": "Bake heater",
+                "pins": "terminals",
+                "label": "Bake element resistance"
+              },
+              "title": "Bake element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure bake element harness resistance at room temperature."
+        },
+        {
+          "id": "bake_voltage",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bake terminal voltage",
+          "body": "Press bake keypad. Measure bake heater terminals \u2014 AC 240 V (allow >1 min on-off cycling).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press bake keypad. Measure bake heater terminals \u2014 AC 240 V (allow >1 min on-off cycling)."
+        },
+        {
+          "id": "replace_bake",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace bake element or sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Bake path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "bakeElementOhms",
+          "testPoint": {
+            "connector": "Bake heater",
+            "pins": "terminals",
+            "label": "Bake element resistance"
+          },
+          "title": "Bake element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Bake heater harness and voltage",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-bake-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-bake-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-broil-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Broil element",
+      "purpose": "Broil heater harness and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "broil_element"
+      ],
+      "tags": [
+        "no_broil_heat_issue",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "broil_off",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect broil harness",
+          "body": "Power off. Access broil element harness terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access broil element harness terminals."
+        },
+        {
+          "id": "broil_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Broil element resistance",
+          "body": "Measure broil element harness resistance at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "broilElementOhms",
+              "testPoint": {
+                "connector": "Broil heater",
+                "pins": "terminals",
+                "label": "Broil element resistance"
+              },
+              "title": "Broil element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure broil element harness resistance at room temperature."
+        },
+        {
+          "id": "broil_voltage",
+          "order": 4,
+          "type": "instruction",
+          "title": "Broil terminal voltage",
+          "body": "Press broil keypad. Measure broil heater terminals \u2014 AC 240 V.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press broil keypad. Measure broil heater terminals \u2014 AC 240 V."
+        },
+        {
+          "id": "replace_broil",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace broil element or sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "broil_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Broil path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "broilElementOhms",
+          "testPoint": {
+            "connector": "Broil heater",
+            "pins": "terminals",
+            "label": "Broil element resistance"
+          },
+          "title": "Broil element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "broil_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Broil heater harness and voltage",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-broil-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-broil-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-convection-element",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Convection element",
+      "purpose": "Convection heater harness and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_element"
+      ],
+      "tags": [
+        "convection_issue",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "conv_off",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect convection harness",
+          "body": "Power off. Access convection element harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access convection element harness."
+        },
+        {
+          "id": "conv_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Convection element resistance",
+          "body": "Measure convection element harness resistance at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "bakeElementOhms",
+              "testPoint": {
+                "connector": "Convection heater",
+                "pins": "terminals",
+                "label": "Convection element resistance"
+              },
+              "title": "Convection element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "conv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_conv",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_conv",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_conv",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "conv_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "conv_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure convection element harness resistance at room temperature."
+        },
+        {
+          "id": "conv_voltage",
+          "order": 4,
+          "type": "instruction",
+          "title": "Convection terminal voltage",
+          "body": "Press convection bake keypad. Measure convection heater \u2014 AC 240 V (>1 min cycling).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press convection bake keypad. Measure convection heater \u2014 AC 240 V (>1 min cycling)."
+        },
+        {
+          "id": "replace_conv",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace convection element or sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "conv_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Convection heat OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "bakeElementOhms",
+          "testPoint": {
+            "connector": "Convection heater",
+            "pins": "terminals",
+            "label": "Convection element resistance"
+          },
+          "title": "Convection element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "conv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_ohms"
+        },
+        {
+          "id": "conv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_ohms"
+        },
+        {
+          "id": "conv_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_conv",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "conv_ohms"
+        },
+        {
+          "id": "conv_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "conv_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "conv_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Convection heater harness and voltage",
+        "pages": [
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-convection-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-convection-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-convection-fan",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Convection fan motor",
+      "purpose": "Convection fan relay and motor",
+      "prerequisites": [],
+      "componentIds": [
+        "convection_fan"
+      ],
+      "tags": [
+        "convection_issue",
+        "fan_motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "fan_disconnect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect fan motor harness",
+          "body": "Power off. Access convection fan motor terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access convection fan motor terminals."
+        },
+        {
+          "id": "fan_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Convection fan motor resistance",
+          "body": "Measure motor terminal resistance with harness disconnected.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+              "testPoint": {
+                "connector": "Fan motor",
+                "pins": "terminals",
+                "label": "Convection fan motor resistance"
+              },
+              "title": "Convection fan motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_relay",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure motor terminal resistance with harness disconnected."
+        },
+        {
+          "id": "fan_relay",
+          "order": 4,
+          "type": "instruction",
+          "title": "Ry08 relay and CN01",
+          "body": "Verify convection fan relay Ry08 on sub PCB and connector CN01. Harness CN04/CN05 sub \u2194 main.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify convection fan relay Ry08 on sub PCB and connector CN01. Harness CN04/CN05 sub \u2194 main."
+        },
+        {
+          "id": "replace_fan",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace fan motor or relay",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Convection fan OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60ConvectionFanOhms",
+          "testPoint": {
+            "connector": "Fan motor",
+            "pins": "terminals",
+            "label": "Convection fan motor resistance"
+          },
+          "title": "Convection fan motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_relay",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Convection fan relay and motor",
+        "pages": [
+          41,
+          45
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-convection-fan",
+        "pages": [
+          41,
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-convection-fan",
+            "pages": [
+              41,
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Door lock motor",
+      "purpose": "Lock motor and micro switch \u2014 E-0E",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "E-0E",
+        "door_latch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "lock_motor",
+          "order": 2,
+          "type": "measurement",
+          "title": "Lock motor resistance",
+          "body": "Measure lock motor coil at room temperature with harness disconnected.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+              "testPoint": {
+                "connector": "Lock motor",
+                "pins": "coil",
+                "label": "Lock motor resistance"
+              },
+              "title": "Lock motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lock_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lock",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lock_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure lock motor coil at room temperature with harness disconnected."
+        },
+        {
+          "id": "lock_switch",
+          "order": 3,
+          "type": "instruction",
+          "title": "Micro switch COM-NO",
+          "body": "Verify micro switch state. Command lock (cooking time + delay start 3 s) \u2014 120 V at lock motor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify micro switch state. Command lock (cooking time + delay start 3 s) \u2014 120 V at lock motor."
+        },
+        {
+          "id": "replace_lock",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace lock motor or switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lock_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Door lock OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+          "testPoint": {
+            "connector": "Lock motor",
+            "pins": "coil",
+            "label": "Lock motor resistance"
+          },
+          "title": "Lock motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lock_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor"
+        },
+        {
+          "id": "lock_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor"
+        },
+        {
+          "id": "lock_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor"
+        },
+        {
+          "id": "lock_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lock_motor"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Lock motor and micro switch \u2014 E-0E",
+        "pages": [
+          45
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-door-lock",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-door-lock",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-door-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Door plunger switch",
+      "purpose": "Door plunger switch continuity",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "plunger_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door plunger switch",
+          "body": "Check plunger switch normal-close state. Inspect wire, housing, and terminals for damage.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check plunger switch normal-close state. Inspect wire, housing, and terminals for damage."
+        },
+        {
+          "id": "replace_plunger",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_sw_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Door plunger switch continuity",
+        "pages": [
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-door-switch",
+        "pages": [
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-door-switch",
+            "pages": [
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-heater-relays",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-1: Heater relays E-24",
+      "purpose": "DLB / bake / broil / convection relays",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "E-24",
+        "relay_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "relay_contacts",
+          "order": 2,
+          "type": "measurement",
+          "title": "Sub PCB relay contacts",
+          "body": "Power off. Measure DLB, bake, broil, convection relay contacts \u2014 open (\u221e \u03a9) at rest.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+              "testPoint": {
+                "connector": "Sub PCB relays",
+                "pins": "contacts",
+                "label": "Sub PCB relay contacts"
+              },
+              "title": "Sub PCB relay contacts"
+            }
+          ],
+          "branches": [
+            {
+              "id": "relay_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sub_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_pass",
+              "label": "Open at rest",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "relay_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure DLB, bake, broil, convection relay contacts \u2014 open (\u221e \u03a9) at rest."
+        },
+        {
+          "id": "replace_sub_pcb",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace sub PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "relay_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Heater relays OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms",
+          "testPoint": {
+            "connector": "Sub PCB relays",
+            "pins": "contacts",
+            "label": "Sub PCB relay contacts"
+          },
+          "title": "Sub PCB relay contacts"
+        }
+      ],
+      "branches": [
+        {
+          "id": "relay_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "relay_contacts"
+        },
+        {
+          "id": "relay_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "relay_contacts"
+        },
+        {
+          "id": "relay_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sub_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "relay_contacts"
+        },
+        {
+          "id": "relay_pass",
+          "label": "Open at rest",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "relay_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_contacts"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "DLB / bake / broil / convection relays",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-heater-relays",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-heater-relays",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-hmi-touch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-1: Touch keypad / SE / tE",
+      "purpose": "Failure display \u2014 touch communication",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "hmi_check",
+        "SE",
+        "tE"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "keypad_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Keypad cable TE201",
+          "body": "Disconnect power. Inspect keypad cable at sub PCB TE201 \u2014 -SE- key short path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Inspect keypad cable at sub PCB TE201 \u2014 -SE- key short path."
+        },
+        {
+          "id": "touch_comm",
+          "order": 3,
+          "type": "instruction",
+          "title": "Touch glass \u2194 sub PCB",
+          "body": "Verify touch glass connector and TE201 on sub PCB \u2014 -tE- communication error path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify touch glass connector and TE201 on sub PCB \u2014 -tE- communication error path."
+        },
+        {
+          "id": "replace_touch",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace touch control PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "HMI path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Failure display \u2014 touch communication",
+        "pages": [
+          28,
+          33,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-hmi-touch",
+        "pages": [
+          28,
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-hmi-touch",
+            "pages": [
+              28,
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-oven-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Oven temperature sensor",
+      "purpose": "Oven sensor resistance \u2014 E-21/E-22",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E-21",
+        "E-22",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "disconnect_sensor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect sensor harness",
+          "body": "Power off. Access oven sensor at CN201/CN02 path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access oven sensor at CN201/CN02 path."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Oven sensor resistance",
+          "body": "Measure oven sensor at room temperature \u2014 ~1080 \u03a9 nominal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungNx60OvenSensorOhms",
+              "testPoint": {
+                "connector": "Oven sensor",
+                "pins": "terminals",
+                "label": "Oven sensor resistance"
+              },
+              "title": "Oven sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rtd_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_pass",
+              "label": "~1080 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure oven sensor at room temperature \u2014 ~1080 \u03a9 nominal."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace oven sensor or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Oven sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungNx60OvenSensorOhms",
+          "testPoint": {
+            "connector": "Oven sensor",
+            "pins": "terminals",
+            "label": "Oven sensor resistance"
+          },
+          "title": "Oven sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "rtd_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_pass",
+          "label": "~1080 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Oven sensor resistance \u2014 E-21/E-22",
+        "pages": [
+          28,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-oven-sensor",
+        "pages": [
+          28,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-oven-sensor",
+            "pages": [
+              28,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-power",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: No power / main \u2194 sub PCB",
+      "purpose": "Electrical malfunction \u2014 power",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "no_power",
+        "display_dead",
+        "E-83"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "restore_pwr",
+          "order": 2,
+          "type": "instruction",
+          "title": "Check breaker and terminal block",
+          "body": "Verify 240 VAC 60 Hz at terminal block.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 240 VAC 60 Hz at terminal block."
+        },
+        {
+          "id": "smps_check",
+          "order": 3,
+          "type": "measurement",
+          "title": "Main PCB SMPS",
+          "body": "CN08/CN09 on main PCB \u2014 120 VAC L\u2013N. SMPS input 120 V, output 12 V / 5 V.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "supplyVoltage120",
+              "testPoint": {
+                "connector": "CN08/CN09",
+                "pins": "L1 \u2194 N",
+                "label": "Main PCB SMPS"
+              },
+              "title": "Main PCB SMPS"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pwr_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pcb",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pwr_pass",
+              "label": "120 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comm_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN08/CN09 on main PCB \u2014 120 VAC L\u2013N. SMPS input 120 V, output 12 V / 5 V."
+        },
+        {
+          "id": "comm_check",
+          "order": 4,
+          "type": "instruction",
+          "title": "Main \u2194 sub harness",
+          "body": "Verify TE400/CN201 harness between main PCB and sub PCB seated \u2014 E-83 path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify TE400/CN201 harness between main PCB and sub PCB seated \u2014 E-83 path."
+        },
+        {
+          "id": "replace_pcb",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace PCB or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "CN08/CN09",
+            "pins": "L1 \u2194 N",
+            "label": "Main PCB SMPS"
+          },
+          "title": "Main PCB SMPS"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pwr_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "smps_check"
+        },
+        {
+          "id": "pwr_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "smps_check"
+        },
+        {
+          "id": "pwr_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pcb",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "smps_check"
+        },
+        {
+          "id": "pwr_pass",
+          "label": "120 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comm_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "smps_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Electrical malfunction \u2014 power",
+        "pages": [
+          39,
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-power",
+        "pages": [
+          39,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-power",
+            "pages": [
+              39,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-surface-radiant",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a73-5: Surface radiant elements",
+      "purpose": "Ceramic cooktop radiant elements \u2014 knob control",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_element"
+      ],
+      "tags": [
+        "surface_burner",
+        "cooktop_no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "surface_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access surface harness",
+          "body": "Disconnect power. Remove ceramic glass cooktop per \u00a73-5. Inspect radiant element harness connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Remove ceramic glass cooktop per \u00a73-5. Inspect radiant element harness connectors."
+        },
+        {
+          "id": "surface_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Radiant element / infinite switch",
+          "body": "Verify knob-controlled infinite switch sends power to radiant element. Measure element continuity at terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify knob-controlled infinite switch sends power to radiant element. Measure element continuity at terminals."
+        },
+        {
+          "id": "replace_surface",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace surface element or switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "surface_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Surface heat path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "3-5",
+        "oemTestTitle": "Ceramic cooktop radiant elements \u2014 knob control",
+        "pages": [
+          13
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-surface-radiant",
+        "pages": [
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-surface-radiant",
+            "pages": [
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungne58-thermal-cutoff",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "title": "\u00a74-2: Thermostat / thermal fuse",
+      "purpose": "Thermostat continuity \u2014 E-08 over-temp",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse"
+      ],
+      "tags": [
+        "overheat",
+        "E-08"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range."
+        },
+        {
+          "id": "thermostat_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Thermostat resistance",
+          "body": "Measure both ends of thermostat terminals \u2014 normal 0 \u03a9. Thermal fuse out if open.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "bakeElementOhms",
+              "testPoint": {
+                "connector": "Thermostat",
+                "pins": "both terminals",
+                "label": "Thermostat resistance"
+              },
+              "title": "Thermostat resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "therm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_therm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_therm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_therm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_pass",
+              "label": "0 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "therm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure both ends of thermostat terminals \u2014 normal 0 \u03a9. Thermal fuse out if open."
+        },
+        {
+          "id": "replace_therm",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace thermostat",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "therm_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Thermal protection OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "bakeElementOhms",
+          "testPoint": {
+            "connector": "Thermostat",
+            "pins": "both terminals",
+            "label": "Thermostat resistance"
+          },
+          "title": "Thermostat resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "therm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermostat_ohms"
+        },
+        {
+          "id": "therm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermostat_ohms"
+        },
+        {
+          "id": "therm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "thermostat_ohms"
+        },
+        {
+          "id": "therm_pass",
+          "label": "0 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "therm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermostat_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+        "oemTestNumber": "4-2",
+        "oemTestTitle": "Thermostat continuity \u2014 E-08 over-temp",
+        "pages": [
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "samsungne58-thermal-cutoff",
+        "pages": [
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungne58-thermal-cutoff",
+            "pages": [
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

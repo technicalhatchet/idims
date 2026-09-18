@@ -1,0 +1,422 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "microwave",
+    "name": "Microwave",
+    "templateId": "microwave",
+    "variant": "countertop_and_otr",
+    "description": "Canonical functional diagnostic ontology for microwave ovens (countertop and over-the-range). Models functional relationships and diagnostic dependencies; magnetron, HV cascade hardware, waveguide parts, turntable motors, and per-TCO devices belong in platform overlays.",
+    "frozen": true,
+    "frozenAt": "2026-09-17T09:35:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-MICROWAVE-FREEZE rev1 — LG + Samsung fit/discovery witness. 7 core components + 2 conditional concepts. Zero component promotion. Locked by CG_MICROWAVE_FREEZE_LOCK_v1.json."
+  },
+  "designPrinciples": [
+    "Model functional microwave generation, safety authorization, RF delivery, and thermal protection — not individual HV components or physical cavity hardware.",
+    "hv_generation describes generation/conditioning of electrical energy required for microwave generation — not magnetron, transformer, capacitor, diode, or fuse as canonical nodes.",
+    "rf_cavity is a functional energy-delivery/containment domain — not a synonym for the physical cavity enclosure.",
+    "Keep hv_generation and rf_cavity as separate canonical functions — causal chain control_board → hv_generation → rf_cavity captures diagnostic dependency without merging domains.",
+    "door_interlock_chain is an independent HV safety contract — distinct from generic door switches on other appliance families.",
+    "thermal_protection is one canonical protective network function — LG/Samsung TCO and thermistor topologies are platform overlay realizations.",
+    "CONDITIONAL concepts (control_and_sensing, ventilation_otr) require platform procedure evidence before graph participation.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "Do not condemn downstream RF or HV paths until required upstream authorization and excitation conditions are established.",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "ontologyContract": {
+    "canonicalComponentRule": "components[] lists only discovery-approved core functions — 7 nodes from CG-MICROWAVE-DISCOVERY closure.",
+    "conditionalConceptRule": "Evidence-backed functional roles not universally instantiated — encoded in conditionalConcepts[], not components[].",
+    "implementationNotOntology": "Magnetron, HV transformer/capacitor/diode/fuse, waveguide, turntable motor, humidity sensor, and individual TCOs are platform vocabulary — never canonical nodes.",
+    "semanticBoundaries": {
+      "hv_generation": "Generation/conditioning of electrical energy for microwave generation — not individual HV components.",
+      "rf_cavity": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure.",
+      "hvRfSplit": "Causal relationship does not authorize merge — failures can localize to either domain independently."
+    },
+    "discoveryInput": "microwave_functional_contract_candidate_v1.json",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json"
+  },
+  "conditionalConcepts": [
+    {
+      "id": "control_and_sensing",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "implementationVocabulary": ["humidity_sensor", "temp_sensor", "gas_sensor", "pcb_thermistor"],
+      "freezeRationale": "Humidity/cabinet/environmental sensing recurs on LG and Samsung sensor-cook paths but is not asserted universal to all microwave configurations.",
+      "triangulationResult": "PARTIAL_RECURRENCE",
+      "discoveryManuals": ["LG-LMHM2237-MICROWAVE", "SAMSUNG-ME11-MICROWAVE"]
+    },
+    {
+      "id": "ventilation_otr",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "conditionalOn": "otr_configuration",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "implementationVocabulary": ["vent_blower_motor", "run_capacitor", "vent_fan", "damper"],
+      "freezeRationale": "OTR ventilation is configuration-specific — must not become canonical requirement for countertop/built-in microwave.",
+      "mustNotMergeInto": "range_oven.surface_heating_system",
+      "triangulationResult": "OTR_CONDITIONAL_LAYER",
+      "discoveryManuals": ["LG-LMHM2237-MICROWAVE", "SAMSUNG-ME11-MICROWAVE"]
+    }
+  ],
+  "overlayOnlyConcepts": [
+    { "id": "magnetron", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "hv_generation" },
+    { "id": "hv_transformer", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "hv_generation" },
+    { "id": "hv_capacitor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "hv_generation" },
+    { "id": "hv_diode", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "hv_generation" },
+    { "id": "hv_fuse", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "hv_generation" },
+    { "id": "waveguide", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "rf_cavity" },
+    { "id": "waveguide_cover", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "rf_cavity" },
+    { "id": "turntable_motor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "rf_cavity" },
+    { "id": "humidity_sensor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "control_and_sensing" },
+    { "id": "magnetron_tco", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "thermal_protection" },
+    { "id": "cavity_tco", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "thermal_protection" },
+    { "id": "hood_tco", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "thermal_protection" },
+    { "id": "pcb_thermistor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "thermal_protection" }
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "communicates_with",
+    "senses",
+    "monitors",
+    "provides_feedback_to",
+    "protected_by",
+    "protects",
+    "depends_on",
+    "enables",
+    "inhibits"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": ["verified_good", "verified_failed", "not_applicable"],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification."
+  },
+  "systems": [
+    { "id": "power", "name": "Power", "categoryId": "power_supply", "purpose": "Mains supply prerequisite for control and HV loads." },
+    { "id": "control", "name": "Control", "categoryId": "control_board", "purpose": "Microwave sequencing, HV relay enable, and safety logic." },
+    { "id": "user_interface", "name": "User Interface", "categoryId": "control_hmi", "purpose": "Touch/keypad input, display, and service-mode entry." },
+    { "id": "safety", "name": "HV Safety", "categoryId": "door_safety", "purpose": "Door interlock monitor chain gating HV enable." },
+    { "id": "hv_excitation", "name": "HV Excitation", "categoryId": "hv_circuit", "purpose": "High-voltage generation and conditioning functional domain." },
+    { "id": "rf_delivery", "name": "RF Delivery", "categoryId": "hv_circuit", "purpose": "Functional RF energy delivery and cavity field path." },
+    { "id": "thermal", "name": "Thermal Protection", "categoryId": "power_supply", "purpose": "Protective thermal network gating heat and HV paths." }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power supply / line voltage",
+      "aliases": ["supply", "line voltage", "mains", "line fuse"],
+      "systemId": "power",
+      "categoryId": "power_supply",
+      "type": "external_input",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "control_board",
+      "name": "Control board",
+      "aliases": ["main pcb", "main control", "relay board", "sub pcb"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller",
+      "pendingEvidenceGraph": true,
+      "note": "Orchestration node — HV relay enable and self-test paths; relay hardware names are platform overlay vocabulary."
+    },
+    {
+      "id": "user_interface",
+      "name": "User interface",
+      "aliases": ["display_panel", "hmi", "touch panel", "keypad", "membrane"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "door_interlock_chain",
+      "name": "Door interlock safety chain",
+      "aliases": ["door interlock", "monitor switch chain", "primary switch", "secondary switch"],
+      "systemId": "safety",
+      "categoryId": "door_safety",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Multi-switch HV safety contract — primary/secondary/monitor/door-sensing are platform vocabulary under this function."
+    },
+    {
+      "id": "hv_generation",
+      "name": "High-voltage generation path",
+      "aliases": ["hv cascade", "high voltage path", "magnetron circuit"],
+      "systemId": "hv_excitation",
+      "categoryId": "hv_circuit",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Generation/conditioning of electrical energy for microwave generation — not individual HV components."
+    },
+    {
+      "id": "rf_cavity",
+      "name": "RF energy delivery / containment",
+      "aliases": ["rf cavity", "field path", "waveguide path"],
+      "systemId": "rf_delivery",
+      "categoryId": "hv_circuit",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Functional energy-delivery/containment domain — not synonym for physical cavity enclosure."
+    },
+    {
+      "id": "thermal_protection",
+      "name": "Thermal protection network",
+      "aliases": ["thermal cutout network", "tco network", "cabinet thermistor route"],
+      "systemId": "thermal",
+      "categoryId": "power_supply",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Single protective thermal function — per-TCO devices and thermistors are platform overlay realizations."
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "user_interface", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "user_interface", "type": "commands", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_interlock_chain", "type": "enables", "to": "hv_generation", "source": "canonical", "confidence": "high", "note": "HV enable gated by interlock monitor chain — distinct safety contract." },
+    { "from": "control_board", "type": "controls", "to": "hv_generation", "source": "canonical", "confidence": "high", "note": "Relay-gated HV enable — implementation relays are platform vocabulary." },
+    { "from": "control_board", "type": "monitors", "to": "thermal_protection", "source": "canonical", "confidence": "high" },
+    { "from": "thermal_protection", "type": "inhibits", "to": "hv_generation", "source": "canonical", "confidence": "high", "note": "Thermal network can gate HV excitation — multi-node TCO topology is overlay scope." },
+    { "from": "hv_generation", "type": "enables", "to": "rf_cavity", "source": "canonical", "confidence": "high", "note": "Causal excitation path — domains remain independently diagnosable." }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "power_prerequisite",
+      "description": "Control and HV loads require verified mains supply.",
+      "requires": ["power_supply"],
+      "enables": ["control_ready"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "control_ready",
+      "description": "Control board responsive and able to command loads and read safety inputs.",
+      "requires": ["power_supply", "control_board"],
+      "enables": ["interlock_authorization", "hv_excitation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "interlock_authorization",
+      "description": "HV paths require verified door interlock monitor chain.",
+      "requires": ["door_interlock_chain", "control_board"],
+      "enables": ["hv_excitation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "hv_excitation",
+      "description": "High-voltage generation path must be authorized and thermally permitted before RF delivery diagnosis.",
+      "requires": ["control_board", "door_interlock_chain", "hv_generation", "thermal_protection"],
+      "enables": ["rf_delivery"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "hv_generation is the canonical function — per-node HV component tests bind in platform overlay."
+    },
+    {
+      "id": "rf_delivery",
+      "description": "RF energy delivery requires excitation from hv_generation; failures can localize to RF/cavity path while HV behaves correctly.",
+      "requires": ["hv_generation", "rf_cavity"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "rf_cavity is distinct from hv_generation — waveguide/turntable/arcing diagnostics bind here in overlay."
+    }
+  ],
+  "establishedFactSources": [
+    { "factId": "supply_verified", "label": "Line voltage / supply verified", "fromComponents": ["power_supply"], "source": "canonical", "confidence": "high" },
+    { "factId": "control_ready", "label": "Control board responsive", "source": "session", "confidence": "high" },
+    { "factId": "display_responsive", "label": "User interface responsive", "source": "session", "confidence": "high" },
+    { "factId": "interlock_chain_verified", "label": "Door interlock chain verified", "fromComponents": ["door_interlock_chain"], "source": "canonical", "confidence": "high" },
+    { "factId": "hv_path_verified", "label": "HV generation path verified", "fromComponents": ["hv_generation"], "source": "canonical", "confidence": "high" },
+    { "factId": "rf_delivery_verified", "label": "RF delivery path verified", "fromComponents": ["rf_cavity"], "source": "canonical", "confidence": "high" },
+    { "factId": "thermal_network_clear", "label": "Thermal protection network clear", "fromComponents": ["thermal_protection"], "source": "canonical", "confidence": "high" }
+  ],
+  "testTargets": [
+    {
+      "id": "supply_test",
+      "label": "Line voltage / supply",
+      "role": "prerequisite",
+      "testAliasId": "supply_test",
+      "establishesFacts": ["supply_verified"],
+      "forGoals": ["power_prerequisite"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "display_communication_test",
+      "label": "User interface / display communication",
+      "role": "prerequisite",
+      "testAliasId": "display_communication_test",
+      "establishesFacts": ["display_responsive"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["control_ready"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "interlock_chain_test",
+      "label": "Door interlock safety chain",
+      "role": "prerequisite",
+      "testAliasId": "interlock_chain_test",
+      "establishesFacts": ["interlock_chain_verified"],
+      "requires": { "facts": ["control_ready"], "dependencies": ["interlock_authorization"] },
+      "forGoals": ["interlock_authorization"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "hv_generation_test",
+      "label": "High-voltage generation path",
+      "role": "discriminator",
+      "testAliasId": "hv_generation_test",
+      "establishesFacts": ["hv_path_verified"],
+      "requires": { "facts": ["interlock_chain_verified"], "dependencies": ["hv_excitation"] },
+      "forGoals": ["hv_excitation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "rf_cavity_test",
+      "label": "RF energy delivery path",
+      "role": "discriminator",
+      "testAliasId": "rf_cavity_test",
+      "establishesFacts": ["rf_delivery_verified"],
+      "requires": { "facts": ["hv_path_verified"], "dependencies": ["rf_delivery"] },
+      "forGoals": ["rf_delivery"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "thermal_protection_test",
+      "label": "Thermal protection network",
+      "role": "prerequisite",
+      "testAliasId": "thermal_protection_test",
+      "establishesFacts": ["thermal_network_clear"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["hv_excitation"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "failureDomains": [
+    { "id": "power_failure", "label": "Power / supply", "components": ["power_supply"] },
+    { "id": "control_failure", "label": "Control", "components": ["control_board"] },
+    { "id": "user_interface_failure", "label": "User interface", "components": ["user_interface"] },
+    { "id": "interlock_failure", "label": "Door interlock chain", "components": ["door_interlock_chain"] },
+    { "id": "hv_generation_failure", "label": "HV generation", "components": ["hv_generation"] },
+    { "id": "rf_cavity_failure", "label": "RF delivery / cavity", "components": ["rf_cavity"] },
+    { "id": "thermal_protection_failure", "label": "Thermal protection", "components": ["thermal_protection"] },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "supply_before_control", "rule": "Establish mains supply before condemning control or HV paths." },
+      { "id": "interlock_before_hv", "rule": "Establish door interlock chain before condemning HV generation." },
+      { "id": "hv_before_rf", "rule": "Establish hv_generation path before condemning rf_cavity delivery — but recognize domains are independently diagnosable." },
+      { "id": "hv_rf_not_merged", "rule": "Do not merge hv_generation and rf_cavity — causal chain is not a merge authorization." },
+      { "id": "implementation_not_ontology", "rule": "Magnetron, HV components, waveguide hardware, and individual TCOs are platform knowledge — never canonical nodes." },
+      { "id": "conditional_requires_overlay", "rule": "Do not instantiate control_and_sensing or ventilation_otr without platform overlay scope." },
+      { "id": "preserve_uncertainty", "rule": "Negative or incomplete evidence should reduce candidate support without manufacturing verification." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "no_power",
+      "symptoms": ["no power", "dead", "no display", "won't turn on"],
+      "initialDomains": ["power_failure", "control_failure", "user_interface_failure", "thermal_protection_failure"],
+      "activeGoals": ["power_prerequisite", "control_ready"]
+    },
+    {
+      "id": "no_heat",
+      "symptoms": ["no heat", "won't heat", "runs but no heat", "no oscillation", "timer runs no heat"],
+      "initialDomains": ["interlock_failure", "hv_generation_failure", "rf_cavity_failure", "thermal_protection_failure"],
+      "activeGoals": ["interlock_authorization", "hv_excitation", "rf_delivery"],
+      "note": "Route HV component procedures to hv_generation overlay; waveguide/arcing/turntable to rf_cavity overlay."
+    },
+    {
+      "id": "door_issue",
+      "symptoms": ["door switch", "won't start", "interlock", "door error", "C-F0", "F26"],
+      "initialDomains": ["interlock_failure", "control_failure"],
+      "activeGoals": ["interlock_authorization"]
+    },
+    {
+      "id": "hmi_issue",
+      "symptoms": ["display error", "touch not working", "keypad", "hmi", "F2E1"],
+      "initialDomains": ["user_interface_failure", "control_failure"],
+      "activeGoals": ["control_ready"]
+    },
+    {
+      "id": "arcing_sparking",
+      "symptoms": ["arcing", "sparking", "burn mark", "waveguide burn"],
+      "initialDomains": ["rf_cavity_failure"],
+      "activeGoals": ["rf_delivery"],
+      "note": "Arcing/waveguide cover diagnostics bind to rf_cavity — not hv_generation merge."
+    }
+  ],
+  "freezeProvenance": {
+    "workstream": "CG-MICROWAVE-FREEZE",
+    "sourceCandidate": "microwave_functional_contract_candidate_v1.json",
+    "discoveryClosure": "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+    "freezeRecommendation": "CG_MICROWAVE_FREEZE_RECOMMENDATION_v1.json",
+    "fitClosure": "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+    "evidenceManuals": ["LG-LMHM2237-MICROWAVE", "SAMSUNG-ME11-MICROWAVE"],
+    "core": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditional": ["control_and_sensing", "ventilation_otr"],
+    "platformOnly": [
+      "magnetron",
+      "hv_transformer",
+      "hv_capacitor",
+      "hv_diode",
+      "hv_fuse",
+      "waveguide",
+      "waveguide_cover",
+      "turntable_motor",
+      "humidity_sensor",
+      "magnetron_tco",
+      "cavity_tco",
+      "hood_tco",
+      "pcb_thermistor"
+    ],
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "hvRfSplitPreserved": true,
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "canonicalFrozenAt": "2026-09-17T09:35:00+00:00",
+    "preFreezeHash": "5a5e77a73b4d587432bbfd98af0cfcc448f6372469fab479ffb45ea19f1b69ad",
+    "humanFreezeReview": {
+      "status": "approved",
+      "approvedAt": "2026-09-17T09:35:00+00:00",
+      "verdict": "GREEN — transcription fidelity confirmed",
+      "approvalIsNotCanonicalFreeze": true,
+      "canonicalFrozenAt": "2026-09-17T09:35:00+00:00"
+    }
+  }
+}

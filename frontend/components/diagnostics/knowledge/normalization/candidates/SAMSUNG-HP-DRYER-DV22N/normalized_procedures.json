@@ -1,0 +1,1031 @@
+{
+  "manualId": "SAMSUNG-HP-DRYER-DV22N",
+  "procedures": [
+    {
+      "procedureId": "samsungdv22n-compressor-inverter",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Compressor inverter (3CA, HC)",
+      "purpose": "Heat pump compressor path",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "heat_pump"
+      ],
+      "tags": [
+        "3CA",
+        "HC",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "compressor_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Compressor inverter PBA",
+          "body": "Verify compressor connector, belt, and inverter PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify compressor connector, belt, and inverter PBA."
+        },
+        {
+          "id": "replace_compressor_pba",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace compressor inverter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hp_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Compressor path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Heat pump compressor path",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-compressor-inverter",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-compressor-inverter",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-condensate-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Condensate overflow (5C)",
+      "purpose": "Water tank / drain path",
+      "prerequisites": [],
+      "componentIds": [
+        "condensate",
+        "drain"
+      ],
+      "tags": [
+        "5C",
+        "long_dry"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "tank_drain",
+          "order": 2,
+          "type": "instruction",
+          "title": "Tank and drain pump",
+          "body": "Empty water tank; verify drain pump and float sensor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Empty water tank; verify drain pump and float sensor."
+        },
+        {
+          "id": "replace_pump",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "moisture_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Moisture rejection OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Water tank / drain path",
+        "pages": [
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-condensate-overflow",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-condensate-overflow",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-door-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Door open (dC)",
+      "purpose": "Door sensor circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "dC",
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "close_door",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door and harness",
+          "body": "Close door; verify door sensor harness terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Close door; verify door sensor harness terminals."
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Door sensor circuit",
+        "pages": [
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-door-switch",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-door-switch",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-drain-pump-float",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-5: Float switch and pump motor",
+      "purpose": "Component test float/pump",
+      "prerequisites": [],
+      "componentIds": [
+        "drain",
+        "condensate"
+      ],
+      "tags": [
+        "5C",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "float_test",
+          "order": 2,
+          "type": "instruction",
+          "title": "Float switch",
+          "body": "Float up 0\u2013200 m\u03a9; float down OL.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Float up 0\u2013200 m\u03a9; float down OL."
+        },
+        {
+          "id": "pump_test",
+          "order": 3,
+          "type": "instruction",
+          "title": "Pump motor 770 \u03a9",
+          "body": "Measure pump motor resistance 770 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Measure pump motor resistance 770 \u03a9."
+        },
+        {
+          "id": "replace_float_pump",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace float or pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "drain_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Drain path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-5",
+        "oemTestTitle": "Component test float/pump",
+        "pages": [
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drain-pump-float",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drain-pump-float",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-drum-motor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: BLDC drum motor (3C)",
+      "purpose": "Drum inverter faults",
+      "prerequisites": [],
+      "componentIds": [
+        "drive"
+      ],
+      "tags": [
+        "3C",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "motor_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Drum motor connector",
+          "body": "Verify drum motor connector and belt.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify drum motor connector and belt."
+        },
+        {
+          "id": "replace_inverter",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace drum inverter PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Drum motor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Drum inverter faults",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-drum-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-drum-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-hmi-button",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Button stuck (bC2)",
+      "purpose": "Display PCB key circuit",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel"
+      ],
+      "tags": [
+        "bC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "keypad_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Display PCB keys",
+          "body": "Check display PCB key circuit for short.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check display PCB key circuit for short."
+        },
+        {
+          "id": "replace_display",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace display PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Display PCB key circuit",
+        "pages": [
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-hmi-button",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-hmi-button",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-lint-filter",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Case filter restriction (tC)",
+      "purpose": "Lint filter / airflow",
+      "prerequisites": [],
+      "componentIds": [
+        "lint_filter"
+      ],
+      "tags": [
+        "tC",
+        "long_dry"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "clean_filter",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clean case filter",
+          "body": "Clean case filter per tC error guidance.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clean case filter per tC error guidance."
+        },
+        {
+          "id": "filter_ok",
+          "order": 3,
+          "type": "outcome",
+          "title": "Filter path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Lint filter / airflow",
+        "pages": [
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-lint-filter",
+        "pages": [
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-lint-filter",
+            "pages": [
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-pba-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: PBA communication (AC, AC6)",
+      "purpose": "Main \u2194 inverter communication",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC",
+        "AC6",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Main \u2194 inverter harness",
+          "body": "Verify wire connections between main and inverter PBAs.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify wire connections between main and inverter PBAs."
+        },
+        {
+          "id": "replace_pba",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Main \u2194 inverter communication",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-pba-communication",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-pba-communication",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Supply voltage (9C1, 9C2)",
+      "purpose": "Power condition fault",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "9C1",
+        "9C2",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "voltage_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Operating voltage",
+          "body": "Verify supply voltage during heat/dry operation.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify supply voltage during heat/dry operation."
+        },
+        {
+          "id": "replace_main_pba",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "supply_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Supply OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Power condition fault",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-power-supply",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-power-supply",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdv22n-refrigerant-thermistors",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Refrigerant thermistors (tC, tC5, tC7, tC8, tCA)",
+      "purpose": "Refrigerant circuit NTC",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "heat_pump"
+      ],
+      "tags": [
+        "tC",
+        "tC5",
+        "tC7",
+        "tC8",
+        "tCA",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "thermistor_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Thermistor resistance",
+          "body": "Measure thermistor 1\u20135 per \u00a74-1 fault table.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Measure thermistor 1\u20135 per \u00a74-1 fault table."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ntc_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Thermistors OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Refrigerant circuit NTC",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "platformId": "samsung_hp_dryer_dv22n",
+        "procedureId": "samsungdv22n-refrigerant-thermistors",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "platformId": "samsung_hp_dryer_dv22n"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv22n-refrigerant-thermistors",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

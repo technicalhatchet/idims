@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "top_load_washer",
+  "description": "Reference platform overlays for Whirlpool TL DD validation (CG-5.5 / CG-6.x rev1).",
+  "platforms": [
+    {
+      "platformId": "whirlpool_tl_dd",
+      "manualId": "W10864849",
+      "smokeModel": "WTW9500",
+      "label": "Whirlpool/Maytag 6.2 cu ft direct-drive top-load washer",
+      "componentAliases": {
+        "door_lock": "lid_lock",
+        "recirc_pump": "drain_pump",
+        "supply": "power_supply",
+        "wash_ntc": "temperature_sensor"
+      },
+      "implementationNotes": [
+        "Direct-drive BPM motor with clutch-coil mode shifter (overlay mode_shifter implements canonical transmission_or_shifter).",
+        "Capacitive glass UI; lid lock (not door lock) for spin-safety authorization.",
+        "Optional heater, recirc, bulk dispense, basket light on some variants — overlay-only."
+      ],
+      "procedures": [
+        { "procedureId": "w10864849-test-01-acu-power", "canonicalComponents": ["power_supply"], "failureDomains": ["power_failure"] },
+        { "procedureId": "w10864849-test-02-valves", "canonicalComponents": ["inlet_valve"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "w10864849-test-03-drive-system", "canonicalComponents": ["drive_motor", "transmission_or_shifter"], "failureDomains": ["drive_failure"] },
+        { "procedureId": "w10864849-test-03a-shifter", "canonicalComponents": ["transmission_or_shifter"], "failureDomains": ["mechanical_mode_selection_failure"] },
+        { "procedureId": "w10864849-test-03b-motor", "canonicalComponents": ["drive_motor"], "failureDomains": ["drive_failure"] },
+        { "procedureId": "w10864849-test-04-keys-encoders", "canonicalComponents": ["hmi_control"], "failureDomains": ["user_interface_failure"] },
+        { "procedureId": "w10864849-test-05-temp-thermistor", "canonicalComponents": ["temperature_sensor"], "failureDomains": ["temperature_sensing_failure"] },
+        { "procedureId": "w10864849-test-06-water-level", "canonicalComponents": ["water_level_sensor"], "failureDomains": ["water_level_failure"] },
+        { "procedureId": "w10864849-test-07-drain-recirc-pump", "canonicalComponents": ["drain_pump"], "failureDomains": ["drain_failure"] },
+        { "procedureId": "w10864849-test-08-lid-lock", "canonicalComponents": ["lid_lock"], "failureDomains": ["lid_authorization_failure"], "seedComponentIds": ["door_lock"] }
+      ],
+      "gaps": [
+        {
+          "canonicalComponent": "lid_switch",
+          "confidence": "medium",
+          "source": "procedure",
+          "note": "TEST #8 procedure text distinguishes lid switch vs lock switch; conditional rev1 canonical concept."
+        },
+        {
+          "canonicalComponent": "motor_controller",
+          "confidence": "unknown",
+          "source": "platform",
+          "note": "BPM integrated in motor path on W10864849 — separate MCU not exposed in v1 seeds."
+        }
+      ]
+    }
+  ]
+}

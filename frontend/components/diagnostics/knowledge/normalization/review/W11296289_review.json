@@ -1,0 +1,2029 @@
+{
+  "manualId": "W11296289",
+  "platformId": "whirlpool_sxs_w11296289",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.999878+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11296289-compound-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "control_board",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "control",
+          "actuator": "board"
+        },
+        "summary": "alias: control_board \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "control_board": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-athena-fail-display",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "control",
+              "actuator": "board"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-athena-fail-display",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-athena-service-mode:-display-fail-message-decode",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Athena service mode: Display fail message decode",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Athena service mode: Display fail message decode \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Athena service mode: Display fail message decode": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-athena-fail-display",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-1:-freezer-(fc)-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 1: Freezer (FC) thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 1 freezer fc",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service step 1: Freezer (FC) thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-01-fc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 1: Freezer (FC) thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-01-fc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-01-fc-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 1 freezer fc",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-3:-refrigerator-(rc)-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 3: Refrigerator (RC) thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 3 refrigerator rc",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service step 3: Refrigerator (RC) thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-03-rc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 3: Refrigerator (RC) thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-03-rc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-03-rc-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 3 refrigerator rc",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-5:-defrost-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 5: Defrost thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 5 defrost",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service step 5: Defrost thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-05-defrost-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 5: Defrost thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-05-defrost-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-05-defrost-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 5 defrost",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-07-compressor-cond-fan-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-07-compressor-cond-fan",
+            "pages": [
+              22,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-condenser_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "condenser_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: condenser_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "condenser_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-07-compressor-cond-fan",
+            "pages": [
+              22,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-7:-compressor-&-condenser-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 7: Compressor & condenser fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service step 7: Compressor & condenser fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 7: Compressor & condenser fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-07-compressor-cond-fan",
+            "pages": [
+              22,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-damper_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "damper_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "damper",
+          "actuator": "motor"
+        },
+        "summary": "alias: damper_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-09-damper-open",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "damper_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-09-damper-open",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-09-damper-open",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-9:-damper-open",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 9: Damper open",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service step 9: Damper open \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-09-damper-open",
+        "pages": [
+          24,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 9: Damper open": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-09-damper-open",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-09-damper-open",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11296289-unresolved-w11296289-test-11-damper-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-11-damper-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-11-damper-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-11-damper-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-11:-damper-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 11: Damper heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 11 damper",
+          "actuator": "heater"
+        },
+        "summary": "alias: Service step 11: Damper heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-11-damper-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 11: Damper heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-11-damper-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-11-damper-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 11 damper",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-13-defrost-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-13-defrost-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-13-defrost-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-13:-defrost-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 13: Defrost heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 13 defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: Service step 13: Defrost heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-13-defrost-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 13: Defrost heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-13-defrost-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-13-defrost-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 13 defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-15-evap-fan",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-15-evap-fan",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-15-evap-fan",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-15:-evaporator-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 15: Evaporator fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service step 15: Evaporator fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-15-evap-fan",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 15: Evaporator fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-15-evap-fan",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-15-evap-fan",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-water_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "water_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: water_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-19-water-valve",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-19-water-valve",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-19-water-valve",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-19:-water-dispenser-valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 19: Water dispenser valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 19 water dispenser",
+          "actuator": "valve"
+        },
+        "summary": "alias: Service step 19: Water dispenser valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-19-water-valve",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 19: Water dispenser valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-19-water-valve",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-19-water-valve",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 19 water dispenser",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: door_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-21-rc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-21-rc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-21-rc-door-switch",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-21:-rc-door-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 21: RC door switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 21 rc door",
+          "actuator": "switch"
+        },
+        "summary": "alias: Service step 21: RC door switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-21-rc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 21: RC door switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-21-rc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-21-rc-door-switch",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 21 rc door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-23:-fc-door-switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 23: FC door switch",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 23 fc door",
+          "actuator": "switch"
+        },
+        "summary": "alias: Service step 23: FC door switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-23-fc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 23: FC door switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-23-fc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-23-fc-door-switch",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 23 fc door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-ice_maker_module",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker_module",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "ice maker",
+          "actuator": "module"
+        },
+        "summary": "alias: ice_maker_module \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-33-im-tray-thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker_module": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-33-im-tray-thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-33-im-tray-thermistor",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11296289-compound-service-step-33:-idi-ice-tray-thermistor-(sankyo)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service step 33: IDI ice tray thermistor (SANKYO)",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service step 33 idi ice tray",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service step 33: IDI ice tray thermistor (SANKYO) \u2192 None"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-33-im-tray-thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service step 33: IDI ice tray thermistor (SANKYO)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-33-im-tray-thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-33-im-tray-thermistor",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service step 33 idi ice tray",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11296289-w11296289-athena-fail-display-motor_command_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11296289-athena-fail-display",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "motor_command_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11296289-athena-fail-display \u2192 motor_command_test"
+      },
+      "source": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11296289-athena-fail-display",
+          "testTargetId": "motor_command_test",
+          "displayTitle": "Athena service mode: Display fail message decode",
+          "componentIds": [
+            "control_board",
+            "thermistor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-athena-fail-display",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 25,
+    "byStatus": {
+      "needs_review": 23,
+      "candidate": 2
+    },
+    "byApprovalLevel": {
+      "blocked": 23,
+      "normal": 2
+    },
+    "byType": {
+      "canonicalMapping": 24,
+      "procedureTestBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 0,
+      "unresolved": 23
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1,
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_regression_proof",
+  "status": "locked",
+  "generatedAt": "2026-09-17T07:00:00+00:00",
+  "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+  "canonicalOntology": {
+    "primaryId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "revision": "rev1",
+    "electricRangeRev1File": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "electricRangeRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "rangeOvenFile": "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+    "rangeOvenHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5"
+  },
+  "regressionQuestions": [
+    {
+      "id": "range_oven_finalized_identity",
+      "question": "Is range_oven the finalized canonical family identity with electric_range as immutable legacy alias?",
+      "expected": true,
+      "evidence": "CG_RANGE_CANONICAL_ONTOLOGY_ALIAS_REGISTRY_v1.json + CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json"
+    },
+    {
+      "id": "four_templates_routed",
+      "question": "Are electric_range, gas_range, induction_range, and dual_fuel_range routed to range_oven?",
+      "expected": true,
+      "evidence": "RANGE_IMPLEMENTATION_TEMPLATE_IDS in canonicalOntologyAliases.ts; cg-range-implementation-gate.test.ts"
+    },
+    {
+      "id": "legacy_artifacts_accounted",
+      "question": "Are legacy aliases and CG-10–13 historical artifacts byte-stable?",
+      "expected": true,
+      "evidence": "CG_RANGE_FAMILY_LOCK_v1.json byteStabilityProof.historicalArtifactHashesAtClosure"
+    },
+    {
+      "id": "overlays_resolver_discoverable",
+      "question": "Are all four compounding overlays registered and published on range_oven?",
+      "expected": true,
+      "evidence": "resolveDiagnosticGraph.ts MANUFACTURER_OVERLAYS_BY_ONTOLOGY.range_oven length=4"
+    },
+    {
+      "id": "provenance_chain_complete",
+      "question": "Is provenance complete from discovery → fit → normalization → compounding?",
+      "expected": true,
+      "evidence": "CG_RANGE_FAMILY_LOCK_v1.json provenanceChain.all phases closed"
+    },
+    {
+      "id": "deferred_accessories_platform_only",
+      "question": "Are warming drawer / oven light deferred items platform-only without canonical scope impact?",
+      "expected": true,
+      "evidence": "W11174814 normalization accessoryOnly procedures; CG_RANGE_FAMILY_LOCK_v1.json deferredOrganizational"
+    },
+    {
+      "id": "immutability_locks_sufficient",
+      "question": "Are regression and immutability locks sufficient to declare family closed?",
+      "expected": true,
+      "evidence": "32 normalization + 27 compounding + family closure tests; pinned canonical and overlay hashes"
+    },
+    {
+      "id": "canonical_expansion_zero",
+      "question": "Is cumulative canonicalExpansion zero across all range compounding sequences?",
+      "expected": true,
+      "evidence": "S1–S4 compounding audits all report canonicalExpansion: 0"
+    },
+    {
+      "id": "no_fuel_specific_canonical_graphs",
+      "question": "Were gas_range.json / induction_range.json / dual_fuel_range.json created?",
+      "expected": false,
+      "evidence": "CG_RANGE_NORMALIZATION_AUDIT_v1.json canonicalIntegrity.absentCanonicalFiles"
+    },
+    {
+      "id": "w11174814_not_retroactive_fit",
+      "question": "Did W11174814 corroboration preserve notRetroactiveFitEvidence?",
+      "expected": true,
+      "evidence": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json fitArtifactsReopened: 0"
+    }
+  ],
+  "overlayHashesAtClosure": {
+    "samsung_range_nx60.json": "38cda79c1d4489ace53d516f2303e4cfc6a8e340dddb306929096ae1236f8c2e",
+    "samsung_range_ne58.json": "df60968cf551ea69bea5fe83cd802f21ed69eeed0696e9ae299fd315fcd92616",
+    "samsung_range_ny63.json": "736c8ce9ad8a855050048d501aedf643549b5f9b1e58dd2c3361a1571caaf9ab",
+    "whirlpool_freestanding_range_w11174814.json": "d81f2db24d8e1e6fbc0dd0aaf1a9e63c8b9bc3ac03480255536b5ca354285db0"
+  },
+  "regressionSuites": {
+    "normalization": { "tests": 32, "suites": ["cg-range-normalization.test.ts", "cg-range-*-normalization.test.ts", "cg-range-normalization-audit.test.ts"] },
+    "compounding": { "tests": 27, "suites": ["cg-range-compounding.test.ts", "cg-range-*-compounding.test.ts"] },
+    "implementationGate": { "suite": "cg-range-implementation-gate.test.ts" },
+    "familyClosure": { "suite": "cg-range-family-closure.test.ts" }
+  },
+  "closureTests": [
+    "components/diagnostics/session/__tests__/scenarios/cg-range-family-closure.test.ts"
+  ]
+}

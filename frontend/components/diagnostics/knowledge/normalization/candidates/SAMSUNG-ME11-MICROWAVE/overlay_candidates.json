@@ -1,0 +1,123 @@
+{
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-turntable-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungotrmw-turntable",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-7: Turntable Drive Motor",
+      "componentIds": [
+        "magnetron"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-turntable",
+        "pages": [
+          18,
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-turntable",
+            "pages": [
+              18,
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-vent-motor-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungotrmw-vent-motor",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-7: Vent Exhaust Blower Motor",
+      "componentIds": [
+        "supply"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-ME11-MICROWAVE-samsungotrmw-vent-motor-meas-samsungMe11VentBlowerOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungotrmw-vent-motor",
+      "measurementKnowledgeId": "samsungMe11VentBlowerOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-ME11-MICROWAVE",
+        "platformId": "samsung_microwave_otr",
+        "procedureId": "samsungotrmw-vent-motor",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "platformId": "samsung_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungotrmw-vent-motor",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungMe11VentBlowerOhms",
+            "stepTitle": "Blower winding resistance (via cap leads)"
+          }
+        ]
+      }
+    }
+  ]
+}

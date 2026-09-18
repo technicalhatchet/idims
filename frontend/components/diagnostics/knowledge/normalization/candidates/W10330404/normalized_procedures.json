@@ -1,0 +1,1708 @@
+{
+  "manualId": "W10330404",
+  "procedures": [
+    {
+      "procedureId": "w10330404-compressor-windings",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a75-6: Compressor winding identification",
+      "purpose": "Identifying Compressor Windings",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_wont_start",
+        "OL"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "disconnect_comp",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect compressor terminals",
+          "body": "Disconnect power. Remove start module and disconnect compressor wires.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Remove start module and disconnect compressor wires."
+        },
+        {
+          "id": "find_common",
+          "order": 3,
+          "type": "instruction",
+          "title": "Identify common terminal",
+          "body": "Ohm all three terminal pairs. Highest reading = start + run in series; remaining terminal is common (C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Ohm all three terminal pairs. Highest reading = start + run in series; remaining terminal is common (C)."
+        },
+        {
+          "id": "identify_run_start",
+          "order": 4,
+          "type": "instruction",
+          "title": "Identify run and start windings",
+          "body": "Meter on common: lower of the two remaining readings = run (R); other = start (S).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Meter on common: lower of the two remaining readings = run (R); other = start (S)."
+        },
+        {
+          "id": "ground_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Winding-to-ground check",
+          "body": "Each terminal to ground/chassis must read infinity \u2014 any low reading indicates internal short.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ground_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "windings_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ground_short",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": "Replace compressor \u2014 winding shorted to ground."
+            }
+          ],
+          "sourceExcerpt": "Each terminal to ground/chassis must read infinity \u2014 any low reading indicates internal short."
+        },
+        {
+          "id": "replace_compressor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace compressor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "windings_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Windings isolated",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ground_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "windings_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ground_check"
+        },
+        {
+          "id": "ground_short",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": "Replace compressor \u2014 winding shorted to ground.",
+          "stepId": "ground_check"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "5-6",
+        "oemTestTitle": "Identifying Compressor Windings",
+        "pages": [
+          60,
+          61
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-compressor-windings",
+        "pages": [
+          60,
+          61
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-compressor-windings",
+            "pages": [
+              60,
+              61
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-condenser-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a75-3: Condenser fan motor (shaded pole)",
+      "purpose": "Condenser Fan Motor Resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "condenser_fan"
+      ],
+      "tags": [
+        "running_often",
+        "not_cooling",
+        "condenser_fan",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "access_cond_fan",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access condenser fan",
+          "body": "Remove machine compartment cover. Disconnect condenser fan motor wires. Static condenser models have no fan \u2014 skip if not equipped.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove machine compartment cover. Disconnect condenser fan motor wires. Static condenser models have no fan \u2014 skip if not equipped."
+        },
+        {
+          "id": "motor_type",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Motor type check",
+          "body": "Shaded-pole motors can be ohm-tested (~700 \u03a9). Stepper motors cannot \u2014 use 120 VAC functional test only.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "shaded",
+              "label": "Shaded pole \u2014 proceed with ohms",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cond_fan_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "stepper",
+              "label": "Stepper \u2014 functional test only",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "stepper_functional",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Shaded-pole motors can be ohm-tested (~700 \u03a9). Stepper motors cannot \u2014 use 120 VAC functional test only."
+        },
+        {
+          "id": "cond_fan_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Condenser fan winding resistance",
+          "body": "Measure across motor leads \u2014 shaded pole example ~700 \u03a9. OL indicates open winding.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtCondenserFanOhms",
+              "testPoint": {
+                "connector": "condenser fan motor",
+                "pins": "motor leads",
+                "label": "Condenser fan winding resistance"
+              },
+              "title": "Condenser fan winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cond_fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_fan_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_fan_pass",
+              "label": "~600\u2013800 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "cond_fan_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure across motor leads \u2014 shaded pole example ~700 \u03a9. OL indicates open winding."
+        },
+        {
+          "id": "stepper_functional",
+          "order": 5,
+          "type": "outcome",
+          "title": "Stepper motor \u2014 functional test",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_cond_fan",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace condenser fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cond_fan_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Condenser fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtCondenserFanOhms",
+          "testPoint": {
+            "connector": "condenser fan motor",
+            "pins": "motor leads",
+            "label": "Condenser fan winding resistance"
+          },
+          "title": "Condenser fan winding resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "shaded",
+          "label": "Shaded pole \u2014 proceed with ohms",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cond_fan_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_type"
+        },
+        {
+          "id": "stepper",
+          "label": "Stepper \u2014 functional test only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "stepper_functional",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_type"
+        },
+        {
+          "id": "cond_fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_fan_pass",
+          "label": "~600\u2013800 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cond_fan_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Condenser Fan Motor Resistance",
+        "pages": [
+          58,
+          59
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-condenser-fan",
+        "pages": [
+          58,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-condenser-fan",
+            "pages": [
+              58,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-defrost-bimetal",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a74-8: Defrost bimetal / terminator",
+      "purpose": "Checking Defrost Bimetal",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "DF",
+        "frost_buildup",
+        "defrost_thermostat",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "access_bimetal",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access defrost bimetal",
+          "body": "Remove evaporator cover. Disconnect bimetal harness. Test at harness terminals with power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove evaporator cover. Disconnect bimetal harness. Test at harness terminals with power off."
+        },
+        {
+          "id": "bimetal_state",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Evaporator frost state",
+          "body": "Is the evaporator frosted and the bimetal cold (below ~40\u00b0F)? Warm bimetal should read open (infinity).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "frosty",
+              "label": "Frosted / cold bimetal",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bimetal_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "warm_open",
+              "label": "Warm / post-defrost (open expected)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bimetal_open_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Is the evaporator frosted and the bimetal cold (below ~40\u00b0F)? Warm bimetal should read open (infinity)."
+        },
+        {
+          "id": "bimetal_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Defrost bimetal resistance (cold)",
+          "body": "Frosted evaporator and cold bimetal: expect <1 \u03a9 closed. Open when warm after defrost is normal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtDefrostBimetalOhms",
+              "testPoint": {
+                "connector": "defrost bimetal",
+                "pins": "bimetal terminals",
+                "label": "Defrost bimetal resistance (cold)"
+              },
+              "title": "Defrost bimetal resistance (cold)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bimetal_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_pass",
+              "label": "<1 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bimetal_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Frosted evaporator and cold bimetal: expect <1 \u03a9 closed. Open when warm after defrost is normal."
+        },
+        {
+          "id": "bimetal_open_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Open when warm \u2014 normal",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bimetal",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace defrost bimetal",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bimetal_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Bimetal verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtDefrostBimetalOhms",
+          "testPoint": {
+            "connector": "defrost bimetal",
+            "pins": "bimetal terminals",
+            "label": "Defrost bimetal resistance (cold)"
+          },
+          "title": "Defrost bimetal resistance (cold)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "frosty",
+          "label": "Frosted / cold bimetal",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bimetal_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_state"
+        },
+        {
+          "id": "warm_open",
+          "label": "Warm / post-defrost (open expected)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bimetal_open_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_state"
+        },
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "<1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "4-8",
+        "oemTestTitle": "Checking Defrost Bimetal",
+        "pages": [
+          50,
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-bimetal",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-bimetal",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-defrost-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a74-5: Defrost heater resistance",
+      "purpose": "Checking Defrost Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater",
+        "heater"
+      ],
+      "tags": [
+        "RD",
+        "DF",
+        "frost_buildup",
+        "defrost_heater",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "access_heater",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access defrost heater",
+          "body": "Remove evaporator cover. Disconnect defrost heater wiring harness at the heater.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove evaporator cover. Disconnect defrost heater wiring harness at the heater."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "Measure across heater terminals. Example: ~30 \u03a9 installed, ~33 \u03a9 uninstalled (verify tech sheet).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost heater",
+                "pins": "heater terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "~28\u201335 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sheath_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure across heater terminals. Example: ~30 \u03a9 installed, ~33 \u03a9 uninstalled (verify tech sheet)."
+        },
+        {
+          "id": "sheath_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Heater sheath isolation",
+          "body": "One lead on heater wire, other on heater sheath \u2014 must read infinity (no short to ground).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sheath_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sheath_short",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace defrost heater \u2014 element shorted to sheath."
+            }
+          ],
+          "sourceExcerpt": "One lead on heater wire, other on heater sheath \u2014 must read infinity (no short to ground)."
+        },
+        {
+          "id": "replace_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost heater",
+            "pins": "heater terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "~28\u201335 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sheath_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "sheath_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sheath_check"
+        },
+        {
+          "id": "sheath_short",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace defrost heater \u2014 element shorted to sheath.",
+          "stepId": "sheath_check"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "4-5",
+        "oemTestTitle": "Checking Defrost Heater",
+        "pages": [
+          47,
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-defrost-timer",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a73-12: Mechanical defrost timer contacts",
+      "purpose": "Checking Defrost Timer",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_timer",
+        "control_board"
+      ],
+      "tags": [
+        "DF",
+        "TIMER",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "access_timer",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access defrost timer",
+          "body": "Locate mechanical defrost timer (typically refrigerator compartment). Disconnect power before contact checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Locate mechanical defrost timer (typically refrigerator compartment). Disconnect power before contact checks."
+        },
+        {
+          "id": "timer_cool_contacts",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Timer in cooling position \u2014 contacts 1\u20132 and 1\u20134",
+          "body": "With timer in cooling: pins 1\u20132 = 0 \u03a9; pins 1\u20134 = OL. Rotate timer shaft until it snaps into defrost and recheck.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cool_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "timer_defrost_contacts",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cool_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_timer",
+              "terminal": true,
+              "oemOutcome": "Replace defrost timer \u2014 cooling contacts failed."
+            }
+          ],
+          "sourceExcerpt": "With timer in cooling: pins 1\u20132 = 0 \u03a9; pins 1\u20134 = OL. Rotate timer shaft until it snaps into defrost and recheck."
+        },
+        {
+          "id": "timer_defrost_contacts",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Timer in defrost position \u2014 contacts 1\u20132 and 1\u20134",
+          "body": "With timer in defrost: pins 1\u20132 = OL; pins 1\u20134 = 0 \u03a9. ~8 hr run / ~20 min defrost typical.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "defrost_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "timer_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "defrost_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_timer",
+              "terminal": true,
+              "oemOutcome": "Replace defrost timer \u2014 defrost contacts failed."
+            }
+          ],
+          "sourceExcerpt": "With timer in defrost: pins 1\u20132 = OL; pins 1\u20134 = 0 \u03a9. ~8 hr run / ~20 min defrost typical."
+        },
+        {
+          "id": "replace_timer",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost timer",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "timer_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Timer contacts verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cool_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "timer_defrost_contacts",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "timer_cool_contacts"
+        },
+        {
+          "id": "cool_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace defrost timer \u2014 cooling contacts failed.",
+          "stepId": "timer_cool_contacts"
+        },
+        {
+          "id": "defrost_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "timer_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "timer_defrost_contacts"
+        },
+        {
+          "id": "defrost_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace defrost timer \u2014 defrost contacts failed.",
+          "stepId": "timer_defrost_contacts"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "3-12",
+        "oemTestTitle": "Checking Defrost Timer",
+        "pages": [
+          38,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-defrost-timer",
+        "pages": [
+          38,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-defrost-timer",
+            "pages": [
+              38,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-ice-maker-fuse",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a76-2: Ice maker harness thermal fuse",
+      "purpose": "Ice Maker Thermal Fuse",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "IMFUSE",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "remove_im",
+          "order": 2,
+          "type": "instruction",
+          "title": "Remove ice maker",
+          "body": "Remove ice maker from freezer. Unplug ice maker from refrigerator harness. Depress locking tab to remove wire harness from housing.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove ice maker from freezer. Unplug ice maker from refrigerator harness. Depress locking tab to remove wire harness from housing."
+        },
+        {
+          "id": "fuse_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Harness thermal fuse resistance",
+          "body": "Ohm across thermal fuse in harness (normally black wire) \u2014 0 \u03a9 closed. OL = open fuse.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtIceMakerThermalFuseOhms",
+              "testPoint": {
+                "connector": "ice maker harness",
+                "pins": "thermal fuse",
+                "label": "Harness thermal fuse resistance"
+              },
+              "title": "Harness thermal fuse resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "im_fuse_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_fuse_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_fuse_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_fuse_pass",
+              "label": "0 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fuse_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Ohm across thermal fuse in harness (normally black wire) \u2014 0 \u03a9 closed. OL = open fuse."
+        },
+        {
+          "id": "replace_harness",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ice maker harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fuse_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermal fuse verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtIceMakerThermalFuseOhms",
+          "testPoint": {
+            "connector": "ice maker harness",
+            "pins": "thermal fuse",
+            "label": "Harness thermal fuse resistance"
+          },
+          "title": "Harness thermal fuse resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "im_fuse_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "im_fuse_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "im_fuse_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "im_fuse_pass",
+          "label": "0 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fuse_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "6-2",
+        "oemTestTitle": "Ice Maker Thermal Fuse",
+        "pages": [
+          75,
+          76
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ice-maker-fuse",
+        "pages": [
+          75,
+          76
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ice-maker-fuse",
+            "pages": [
+              75,
+              76
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10330404-ptc-start",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "title": "\u00a75-9: PTC start device (cold)",
+      "purpose": "PTC Thermistor Start Device",
+      "prerequisites": [],
+      "componentIds": [
+        "start_device",
+        "compressor"
+      ],
+      "tags": [
+        "PTCOPEN",
+        "OL",
+        "compressor_wont_start",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "cooldown",
+          "order": 2,
+          "type": "instruction",
+          "title": "Allow PTC cool-down",
+          "body": "Disconnect power. Allow PTC to cool ~10 minutes if compressor was recently run \u2014 hot PTC reads open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Allow PTC to cool ~10 minutes if compressor was recently run \u2014 hot PTC reads open."
+        },
+        {
+          "id": "disconnect_ptc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect start device",
+          "body": "Remove machine compartment cover. Unplug start module from compressor. Do not rapid-cycle during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove machine compartment cover. Unplug start module from compressor. Do not rapid-cycle during service."
+        },
+        {
+          "id": "ptc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "PTC cold resistance",
+          "body": "Measure PTC at room temperature \u2014 ~5 \u03a9 cold; rises to 100k\u03a9+ within 1\u20133 s when energized.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+              "testPoint": {
+                "connector": "PTC start module",
+                "pins": "PTC terminals",
+                "label": "PTC cold resistance"
+              },
+              "title": "PTC cold resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ptc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ptc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ptc_pass",
+              "label": "~3\u20138 \u03a9 cold",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ptc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure PTC at room temperature \u2014 ~5 \u03a9 cold; rises to 100k\u03a9+ within 1\u20133 s when energized."
+        },
+        {
+          "id": "replace_ptc",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace start module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ptc_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "PTC verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWrtPtcStartOhms",
+          "testPoint": {
+            "connector": "PTC start module",
+            "pins": "PTC terminals",
+            "label": "PTC cold resistance"
+          },
+          "title": "PTC cold resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ptc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ptc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        },
+        {
+          "id": "ptc_pass",
+          "label": "~3\u20138 \u03a9 cold",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ptc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ptc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10330404",
+        "manualTitle": "Whirlpool Top-Mount Refrigerator Job Aid (W10330404 R-111)",
+        "oemTestNumber": "5-9",
+        "oemTestTitle": "PTC Thermistor Start Device",
+        "pages": [
+          63,
+          64
+        ],
+        "extractedTextFile": "backend/docs/manuals/w10330404-r-111-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10330404",
+        "platformId": "whirlpool_wrt_top_mount",
+        "procedureId": "w10330404-ptc-start",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10330404",
+            "platformId": "whirlpool_wrt_top_mount"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10330404-ptc-start",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

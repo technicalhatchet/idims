@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "dishwasher",
+  "manufacturer": "Samsung",
+  "label": "Samsung dishwasher family overlays",
+  "status": "skeleton",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_dishwasher",
+      "platformId": "samsung_dishwasher",
+      "manualId": "SAMSUNG-DISHWASHER",
+      "label": "Samsung DW80/DW82 dishwasher (DW80R5060, DW80R5061, DW80T5040)",
+      "appliesTo": {
+        "templateId": "dishwasher",
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DW80R506*",
+          "DW80R507*",
+          "DW80T504*",
+          "DW82*"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ]
+      },
+      "oemTermAliases": {},
+      "displayTerms": {},
+      "deferredConcepts": {
+        "platform": [
+          "leak_sensor",
+          "main_pba_power"
+        ],
+        "rejectedProceduralTitles": []
+      },
+      "add": {
+        "components": []
+      },
+      "procedureBindings": [],
+      "measurementBindings": []
+    }
+  ]
+}

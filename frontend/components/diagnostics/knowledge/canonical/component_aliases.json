@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "1.0.0",
+  "description": "Procedure seed componentIds stay manufacturer-facing; aliases resolve to evidence graph ids at runtime.",
+  "displayLabels": {
+    "main_control": "Main control board",
+    "inverter": "Inverter board"
+  },
+  "templateAliases": {
+    "washer": {
+      "main_control": "control_board",
+      "inverter": "motor_controller"
+    },
+    "refrigerator": {
+      "main_control": "control_board",
+      "display_panel": "user_interface",
+      "inverter": "inverter_board"
+    }
+  },
+  "platformAliases": {},
+  "procedureAliases": {
+    "samsungwd53-compressor": {
+      "inverter": "compressor"
+    }
+  }
+}

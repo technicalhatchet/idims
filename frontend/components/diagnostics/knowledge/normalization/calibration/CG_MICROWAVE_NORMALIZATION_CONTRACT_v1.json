@@ -1,0 +1,220 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_normalization_workstream",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "status": "active",
+  "openedAt": "2026-09-17T10:00:00+00:00",
+  "priorPhaseClosed": "CG_MICROWAVE_FREEZE_CLOSURE_v1.json",
+  "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+  "targetCanonicalIdentity": {
+    "ontologyId": "microwave",
+    "frozenRevision": "rev1",
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "immutable": true
+  },
+  "coreConstraint": "Normalization maps service-manual implementation vocabulary onto the frozen microwave functional contract. It does not reopen fit/discovery, mutate microwave.json, or promote OEM components to canonical nodes.",
+  "coreDistinction": {
+    "fitDiscoveryFreeze": "Answered whether microwave is a distinct canonical family and what its functional architecture is — CLOSED / LOCKED",
+    "normalization": "Maps LG + Samsung service information onto frozen microwave functions as structured implementation knowledge",
+    "compounding": "Binds normalized evidence into usable diagnostic overlays — separate phase, not opened until normalization audit green"
+  },
+  "frozenArchitecturalEvidence": {
+    "immutable": true,
+    "doNotRewrite": [
+      "microwave.json",
+      "CG_MICROWAVE_FIT_CLOSURE_v1.json",
+      "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+      "CG_MICROWAVE_DISCOVERY_CLOSURE_v1.json",
+      "microwave_functional_contract_candidate_v1.json",
+      "CG_MICROWAVE_FREEZE_LOCK_v1.json"
+    ],
+    "consumesAsInput": [
+      "fit R1/R2 observations as architectural witness",
+      "discovery-approved 7 core + 2 conditional functions",
+      "procedure seeds and extraction docs as service-manual evidence"
+    ],
+    "doesNotReopen": [
+      "fit Outcome B verdict",
+      "discovery function budget",
+      "HV/RF split or semantic boundaries"
+    ]
+  },
+  "normalizationRules": [
+    {
+      "id": "microwave_target_identity",
+      "rule": "microwave rev1 is the sole canonical target — all mappings realize frozen functions",
+      "doesNotMutate": ["microwave.json"],
+      "doesNotCreate": ["microwave_rev2.json", "otr_microwave.json"]
+    },
+    {
+      "id": "implementation_realization_not_canonical_promotion",
+      "rule": "Magnetron, HV cascade hardware, waveguide parts, turntable motors, humidity sensors, and individual TCOs remain platform implementation vocabulary realizing frozen functions",
+      "forbiddenCanonicalNodes": [
+        "magnetron",
+        "hv_transformer",
+        "hv_capacitor",
+        "hv_diode",
+        "hv_fuse",
+        "waveguide",
+        "waveguide_cover",
+        "turntable_motor",
+        "humidity_sensor",
+        "primary_switch",
+        "monitor_switch"
+      ]
+    },
+    {
+      "id": "conditional_binding_requires_evidence",
+      "rule": "control_and_sensing and ventilation_otr bind only when platform manual evidences dedicated diagnostic paths",
+      "conditionalConcepts": ["control_and_sensing", "ventilation_otr"]
+    },
+    {
+      "id": "procedures_independent_from_ontology_promotion",
+      "rule": "Normalize procedures, measurements, and decision branches without promoting every procedure noun to a canonical component",
+      "example": "lgotrmw-magnetron Ω test → rf_cavity implementation realization (RF generation downstream of HV cascade) — not new canonical node magnetron"
+    },
+    {
+      "id": "provenance_on_everything",
+      "rule": "Each normalized mapping retains full provenance and canonicalOntologyId microwave",
+      "requiredFields": [
+        "manufacturer",
+        "platformId",
+        "modelOrFamily",
+        "sourceManual",
+        "pageOrSection",
+        "sourceType",
+        "canonicalOntologyId",
+        "canonicalFunction"
+      ]
+    },
+    {
+      "id": "range_oven_untouched",
+      "rule": "Normalization must not mutate range_oven or route microwave HV vocabulary into range contract",
+      "rangeOvenHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5"
+    }
+  ],
+  "provenanceContract": {
+    "canonicalOntologyId": "microwave",
+    "implementationTemplateId": "microwave",
+    "sourceTypes": [
+      "service_manual",
+      "extraction_doc",
+      "procedure_seed",
+      "measurement_spec",
+      "fit_observation_reference"
+    ],
+    "minimumFields": {
+      "manufacturer": "string — OEM brand",
+      "platformId": "string — platformRegistry id",
+      "modelOrFamily": "string — smoke model or documented family pattern",
+      "sourceManual": "string — manualId",
+      "pageOrSection": "string | number[] — OEM page or section reference",
+      "sourceType": "one of sourceTypes",
+      "canonicalOntologyId": "microwave",
+      "canonicalFunction": "frozen function id from microwave.json components[] or conditionalConcepts[]",
+      "fitObservationRef": "optional — links to R1/R2 observation when architectural witness"
+    },
+    "outputStaging": "frontend/components/diagnostics/knowledge/normalization/calibration/CG_MICROWAVE_{TARGET}_NORMALIZATION_v1.json"
+  },
+  "normalizationOrder": [
+    {
+      "sequence": 1,
+      "targetId": "lg_lmhm2237_otr",
+      "label": "LG LMHM2237 OTR microwave",
+      "manufacturer": "LG",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_me11_otr",
+      "label": "Samsung ME11 OTR microwave",
+      "manufacturer": "Samsung",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr"
+    }
+  ],
+  "targets": [
+    {
+      "targetId": "lg_lmhm2237_otr",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr",
+      "smokeModel": "LMHM2237BD",
+      "status": "approved",
+      "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "fitWitness": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json"
+    },
+    {
+      "targetId": "samsung_me11_otr",
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr",
+      "smokeModel": "ME11A7510DSAA",
+      "status": "approved",
+      "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+      "fitWitness": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json"
+    }
+  ],
+  "platformExtensions": [
+    {
+      "targetId": "samsung_me21_otr_extension",
+      "platformId": "samsung_microwave_otr",
+      "smokeModel": "ME21A706BQN",
+      "witnessTargetId": "samsung_me11_otr",
+      "status": "approved",
+      "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json",
+      "deltaFunctionalMappings": 0,
+      "requiresSeparateCompounding": false
+    },
+    {
+      "targetId": "lg_lmvm_otr_extension",
+      "platformId": "lg_microwave_otr",
+      "smokeModel": "LMVM2031ST",
+      "witnessTargetId": "lg_lmhm2237_otr",
+      "status": "approved",
+      "normalizationArtifact": "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json",
+      "deltaFunctionalMappings": 0,
+      "requiresSeparateCompounding": false
+    }
+  ],
+  "implementationRealizationPolicy": {
+    "causalChain": ["control_board", "hv_generation", "magnetron_rf_generation", "rf_cavity"],
+    "mappingTable": [
+      { "implementationEvidence": "hv_transformer", "frozenFunction": "hv_generation" },
+      { "implementationEvidence": "hv_capacitor", "frozenFunction": "hv_generation" },
+      { "implementationEvidence": "hv_diode", "frozenFunction": "hv_generation" },
+      { "implementationEvidence": "hv_fuse", "frozenFunction": "hv_generation" },
+      { "implementationEvidence": "magnetron", "frozenFunction": "rf_cavity", "note": "RF-generation device downstream of HV supply — platform vocabulary only" },
+      { "implementationEvidence": "waveguide", "frozenFunction": "rf_cavity" },
+      { "implementationEvidence": "cavity_rf_energy_path", "frozenFunction": "rf_cavity" }
+    ],
+    "correctionRev1_1": "Magnetron moved from hv_generation to rf_cavity in normalization drafts — aligns with frozen HV/RF split"
+  },
+  "successCriteria": {
+    "normalizationContractAuthored": true,
+    "targetArtifactsAuthored": 2,
+    "platformExtensionArtifactsAuthored": 2,
+    "humanNormalizationReviewRequired": false,
+    "humanNormalizationApproved": true,
+    "canonicalMutation": 0,
+    "compoundingAuthorized": false,
+    "normalizationAuditArtifact": "CG_MICROWAVE_NORMALIZATION_AUDIT_v1.json",
+    "normalizationAuditStatus": "approved",
+    "metadataGovernanceClosed": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "compoundingWorkstream": "CG_MICROWAVE_COMPOUNDING_v1.json"
+  },
+  "notCreating": [
+    "microwave.json mutations",
+    "manufacturer overlay compounding",
+    "canonical component promotion",
+    "range_oven changes",
+    "automatic compounding without normalization audit"
+  ],
+  "progression": [
+    "CG-MICROWAVE-FREEZE closed — microwave rev1 locked",
+    "Author per-target normalization artifacts (LG, Samsung)",
+    "Human normalization review gate",
+    "CG-MICROWAVE-NORMALIZATION-AUDIT",
+    "If green → authorize CG-MICROWAVE-COMPOUNDING (separate open)"
+  ],
+  "nextDisciplinedStep": "Normalization complete — witness + platform extensions closed; compounding and family-closure planning authorized"
+}

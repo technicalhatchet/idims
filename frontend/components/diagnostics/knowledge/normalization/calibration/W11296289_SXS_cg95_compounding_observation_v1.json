@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_observation",
+  "workstream": "CG-9.5",
+  "workPackage": "WP2",
+  "manualId": "W11296289",
+  "platformId": "whirlpool_sxs_w11296289",
+  "compoundingSequence": 2,
+  "verdict": {
+    "canonicalInheritances": 6,
+    "conditionalBindings": 6,
+    "overlayLearningEvents": 10,
+    "intentionalAbstentions": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0
+  },
+  "verdictNote": "Second SxS production compounding \u2014 full KEEP inheritance including dedicated door_switch procedures and explicit condenser_fan conditional on step 7. Relay-drive EM3Y60 compressor, stepper damper, THESEUS/ATHENA variants as platform. Jazz french-door and Samsung SxS overlays not imported. Five refrigerator overlays now on frozen contract.",
+  "gateArtifact": "W11296289_SXS_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "W11296289_SXS_gate_decision_ledger_v1.json",
+  "generatedAt": "2026-09-16T13:25:11.489789+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  }
+}

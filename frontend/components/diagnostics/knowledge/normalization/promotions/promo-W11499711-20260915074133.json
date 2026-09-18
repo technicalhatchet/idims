@@ -1,0 +1,51 @@
+{
+  "promotionId": "promo-W11499711-20260915074133",
+  "manualId": "W11499711",
+  "platformId": "whirlpool_dishwasher_acu",
+  "overlayFile": "whirlpool_dishwasher.json",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+    "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": "no new manufacturer aliases"
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "ssm_wash_motor",
+          "platformNote": "Mechanical registration \u2014 semantic anchor w11633848-wash-motor."
+        }
+      ]
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "ssm_wash_motor"
+        }
+      ]
+    },
+    "platformComponentsAdded": []
+  },
+  "plannedAt": "2026-09-15T12:34:12.313092+00:00",
+  "publishedAt": "2026-09-15T12:34:22.540089+00:00",
+  "publishMode": "mechanical_gate_bindings_only"
+}

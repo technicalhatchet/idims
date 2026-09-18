@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_family_closure_workstream",
+  "workstream": "CG-MICROWAVE-FAMILY-CLOSURE",
+  "status": "closed",
+  "verdict": "GREEN / MICROWAVE_FAMILY_CLOSURE_COMPLETE",
+  "openedAt": "2026-09-17T13:30:00+00:00",
+  "closedAt": "2026-09-17T13:30:00+00:00",
+  "humanAuthorizedAt": "2026-09-17T13:30:00+00:00",
+  "priorWorkstreamClosed": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+  "priorWorkstreamVerdict": "GREEN / MICROWAVE_FAMILY_CLOSURE_AUDIT_PASSED",
+  "coreConstraint": "Terminal family closure gate only — no ontology redesign, no microwave.json mutation, no reopening fit/discovery/freeze/normalization architecture.",
+  "closureDeliverables": {
+    "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+    "closureProof": "CG_MICROWAVE_FAMILY_CLOSURE_PROOF_v1.json",
+    "closureAudit": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+    "crossManufacturerRegression": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json"
+  },
+  "closureQuestions": [
+    "Is the frozen microwave canonical + LG + Samsung overlay package internally coherent?",
+    "Does authoritative magnetron realization remain rf_cavity with Branch A stale-metadata guard?",
+    "Are ME21/LMVM correctly classified as zero-delta platform extensions?",
+    "Are LG and Samsung overlays independently evidenced with zero cross-manufacturer borrowing?",
+    "Is cumulative canonicalExpansion zero?",
+    "Are both overlays resolver-discoverable against frozen microwave rev1?",
+    "Are regression/immutability locks sufficient to declare the family terminally closed?"
+  ],
+  "explicitNonGoals": [
+    "Mutate microwave.json rev1",
+    "Reopen FIT, DISCOVERY, FREEZE, or normalization architecture",
+    "Promote OEM components to canonical nodes",
+    "Begin broader canonical graph queue or corpus-wide normalization",
+    "Additional compounding sequences without explicit gate"
+  ],
+  "exitCriteria": {
+    "familyLockPublished": true,
+    "closureAuditGreen": true,
+    "closureProofLocked": true,
+    "microwaveRev1HashPinned": true,
+    "overlayHashesPinned": true,
+    "historicalArtifactHashesPinned": true,
+    "resolverOverlayCount": 2,
+    "canonicalExpansionCumulative": 0,
+    "provenanceChainComplete": true,
+    "branchAMetadataGovernancePreserved": true,
+    "rangeOvenUnchanged": true
+  },
+  "nextDisciplinedStep": "STOP — microwave family architecture terminally closed; additional microwave manuals are coverage work only"
+}

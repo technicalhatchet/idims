@@ -1,0 +1,2469 @@
+{
+  "manualId": "SAMSUNG-TL-DV50-DRYER",
+  "platformId": "samsung_tl_dryer_dv50",
+  "templateId": "electric_dryer",
+  "ontologyId": "vented_dryer",
+  "materializedAt": "2026-09-14T17:06:44.757608+00:00",
+  "records": [
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-belt_switch",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "belt_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt",
+          "actuator": "switch"
+        },
+        "summary": "alias: belt_switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "belt_switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-belt-cut-off-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Belt cut-off switch",
+      "extractedTerm": "Belt cut-off switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "belt cut off",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-4: Belt cut-off switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Belt cut-off switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "belt cut off",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.592610+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-door_switch-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_switch \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-door-switch",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.402111+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-/-\u00a74-4:-door-switch-(dc,-df)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-4: Door switch (dC, dF)",
+      "extractedTerm": "/ \u00a74-4: Door switch (dC, dF)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "4 4 door",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-4: Door switch (dC, dF) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-4: Door switch (dC, dF)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-door-switch",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-door-switch",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "4 4 door",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.561110+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-flame_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "flame_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: flame_sensor \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "flame_sensor": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-flame-sensor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.250110+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-radiant-flame-sensor-(10rs)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Radiant flame sensor (10RS)",
+      "extractedTerm": "Radiant flame sensor (10RS)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "radiant flame",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a74-4: Radiant flame sensor (10RS) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Radiant flame sensor (10RS)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-flame-sensor",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-flame-sensor",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "radiant flame",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.705608+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-gas-ignitor-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "igniter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-ignitor",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.522610+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-gas-igniter-(101d)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Gas igniter (101D)",
+      "extractedTerm": "Gas igniter (101D)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "igniter"
+        },
+        "summary": "alias: \u00a74-4: Gas igniter (101D) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Gas igniter (101D)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-ignitor",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-ignitor",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "igniter"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.645611+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-gas_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "gas_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: gas_valve \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-valve",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "gas_valve": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-valve",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-valve",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.267113+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-gas-valve-coils-(25m01a)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Gas valve coils (25M01A)",
+      "extractedTerm": "Gas valve coils (25M01A)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a74-4: Gas valve coils (25M01A) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-valve",
+        "pages": [
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Gas valve coils (25M01A)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-gas-valve",
+        "pages": [
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-gas-valve",
+            "pages": [
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.659610+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-heating_element-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heating_element \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-heater-electric",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.452111+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-electric-heater",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Electric heater",
+      "extractedTerm": "Electric heater",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "electric",
+          "component": null,
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a74-4: Electric heater \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Electric heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-heater-electric",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-heater-electric",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "electric",
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.631611+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-hmi",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-hmi",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-hmi",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.369110+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-display-/-buttons-(bc2)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Display / buttons (bC2)",
+      "extractedTerm": "Display / buttons (bC2)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Display / buttons (bC2) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-hmi",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Display / buttons (bC2)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-hmi",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-hmi",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.611615+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-drive_motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "drive_motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: drive_motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drive_motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.427609+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-motor-windings-and-centrifugal-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-4: Motor windings and centrifugal switch",
+      "extractedTerm": "Motor windings and centrifugal switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "motor windings and centrifugal",
+          "actuator": "switch"
+        },
+        "summary": "alias: \u00a74-4: Motor windings and centrifugal switch \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Motor windings and centrifugal switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "motor windings and centrifugal",
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.675112+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-power-supply",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": "power_supply",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 power_supply"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "power_supply"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.541610+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-main_control-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.96,
+      "what": "main_control",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.96,
+        "matcherLayer": "platform_overlay:samsung_fl_washer_wf6000r",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: main_control \u2192 control_board"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "main_control": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.483611+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-power-and-communication-(9c1,-fc,-ac)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "extractedTerm": "Power and communication (9C1, FC, AC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1: Power and communication (9C1, FC, AC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1: Power and communication (9C1, FC, AC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-power",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-power",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.689608+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-thermal_fuse-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_fuse",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermal_fuse \u2192 thermal_fuse"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": "thermal_fuse"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.503609+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-high_limit_thermostat",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "high_limit_thermostat",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: high_limit_thermostat \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "high_limit_thermostat": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.303109+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-thermal-cutoff-and-hi-limit",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.85,
+      "what": "\u00a74-4: Thermal cutoff and hi-limit",
+      "extractedTerm": "Thermal cutoff and hi-limit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "thermal cutoff",
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-4: Thermal cutoff and hi-limit \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-4: Thermal cutoff and hi-limit": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermal-cutoff",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermal-cutoff",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "thermal cutoff",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.718609+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "exhaust thermistor",
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.232612+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet thermistor",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.342110+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "SAMSUNG-TL-DV50-DRYER overlay mapping table v1"
+        }
+      ],
+      "reviewer": "human_gate",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-SAMSUNG-TL-DV50-DRYER-compound-/-\u00a74-4:-thermistors-(tc,-tc5,-hc)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)",
+      "extractedTerm": "/ \u00a74-4: Thermistors (tC, tC5, HC)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC) \u2192 None"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)": null
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-thermistor",
+        "pages": [
+          19,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-thermistor",
+            "pages": [
+              19,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T15:38:34.575111+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "\u00a74-1 / \u00a74-4 procedure title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-belt-cutoff-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtldv50-belt-cutoff",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtldv50-belt-cutoff \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtldv50-belt-cutoff",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-4: Belt cut-off switch",
+          "componentIds": [
+            "belt_switch"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-belt-cutoff",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-belt-cutoff",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "samsungtldv50-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: samsungtldv50-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtldv50-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "\u00a74-4: Motor windings and centrifugal switch",
+          "componentIds": [
+            "drive_motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-meas-samsungTlDv50DryerMotorWinding34Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtldv50-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlDv50DryerMotorWinding34Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtldv50-motor-circuit",
+          "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-SAMSUNG-TL-DV50-DRYER-samsungtldv50-motor-circuit-meas-samsungTlDv50DryerMotorWinding45Ohms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "samsungtldv50-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: samsungTlDv50DryerMotorWinding45Ohms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "samsungtldv50-motor-circuit",
+          "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "platformId": "samsung_tl_dryer_dv50",
+        "procedureId": "samsungtldv50-motor-circuit",
+        "pages": [
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "platformId": "samsung_tl_dryer_dv50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtldv50-motor-circuit",
+            "pages": [
+              26
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlDv50DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 29,
+    "byStatus": {
+      "needs_review": 1,
+      "rejected": 11,
+      "approved": 13,
+      "candidate": 4
+    },
+    "byApprovalLevel": {
+      "blocked": 17,
+      "easy": 4,
+      "normal": 5,
+      "careful": 3
+    },
+    "byType": {
+      "canonicalMapping": 25,
+      "procedureTestBinding": 2,
+      "measurementBinding": 2
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 4,
+      "medium_0.80_0.94": 8,
+      "low_lt_0.80": 0,
+      "unresolved": 17
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1,
+      "AMBIGUOUS_COMPONENT": 1
+    }
+  }
+}

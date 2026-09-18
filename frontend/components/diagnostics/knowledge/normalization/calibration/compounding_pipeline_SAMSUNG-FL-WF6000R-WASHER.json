@@ -1,0 +1,252 @@
+{
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformFamilyId": "samsung_fl_wf6000r_direct_drive",
+  "overlayFile": "samsung_front_load_washer.json",
+  "gapSummary": {
+    "canonical_alias": 14,
+    "canonical_ontology_candidate": 0,
+    "platform_overlay": 20,
+    "human_review": 1,
+    "unresolved": 50
+  },
+  "gapReportPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\canonical_gap_report_compounding_SAMSUNG-FL-WF6000R-WASHER.json",
+  "reviewSummary": {
+    "total": 36,
+    "byStatus": {
+      "approved": 9,
+      "needs_review": 9,
+      "COMPOUND_TERM_CANDIDATE": 4,
+      "candidate": 14
+    },
+    "byApprovalLevel": {
+      "easy": 11,
+      "blocked": 9,
+      "careful": 4,
+      "normal": 12
+    },
+    "byType": {
+      "canonicalMapping": 24,
+      "procedureTestBinding": 6,
+      "measurementBinding": 6
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 11,
+      "medium_0.80_0.94": 16,
+      "low_lt_0.80": 0,
+      "unresolved": 9
+    },
+    "byBlockedReason": {}
+  },
+  "metrics": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "platformId": "samsung_fl_washer_wf6000r",
+    "priorManualIds": [
+      "W8178558",
+      "W11169652",
+      "SAMSUNG-FL-BB8700-WASHER"
+    ],
+    "totalReviewRecords": 36,
+    "byApprovalLevel": {
+      "easy": 11,
+      "blocked": 9,
+      "careful": 4,
+      "normal": 12
+    },
+    "byStatus": {
+      "approved": 9,
+      "needs_review": 9,
+      "COMPOUND_TERM_CANDIDATE": 4,
+      "candidate": 14
+    },
+    "byType": {
+      "canonicalMapping": 24,
+      "procedureTestBinding": 6,
+      "measurementBinding": 6
+    },
+    "approved": 9,
+    "rejected": 0,
+    "needsReview": 9,
+    "promoted": 0,
+    "autoApprovals": 9,
+    "humanApprovals": 0,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 9,
+    "humanDecisionCount": 9,
+    "newHumanDecisionCount": 7,
+    "inheritedResolvedAutomatically": 29,
+    "newManualResolutions": 7,
+    "inheritedManualResolutions": 2,
+    "newHumanDecisionRate": 0.1944,
+    "inheritedResolutionRate": 0.8056,
+    "corpusKnowledgeSize": {
+      "canonicalMappings": 83,
+      "procedureBindings": 14,
+      "measurementBindings": 13
+    },
+    "platformFamilyPriorManualIds": [
+      "SAMSUNG-FL-BB8700-WASHER"
+    ],
+    "flPriorManualIds": [
+      "W8178558",
+      "W11169652"
+    ],
+    "inheritedCorpusKnowledge": 0,
+    "inheritedPlatformFamilyKnowledge": 16,
+    "newPlatformKnowledgeCount": 0,
+    "newModelSpecificKnowledge": 7,
+    "newCanonicalKnowledgeCount": 0,
+    "knowledgeClassification": {
+      "inheritedKnowledge": 29,
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 16,
+      "newPlatformKnowledge": 0,
+      "newModelSpecificKnowledge": 7,
+      "newCanonicalKnowledge": 0
+    }
+  },
+  "compoundingComparison": {
+    "schemaVersion": "1.0.0",
+    "reportType": "compounding_comparison",
+    "generatedAt": "2026-09-13T19:08:52.600382+00:00",
+    "baselineManualId": "W8178558",
+    "targetManualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "priorManualIds": [
+      "W8178558",
+      "W11169652",
+      "SAMSUNG-FL-BB8700-WASHER"
+    ],
+    "baseline": {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "priorManualIds": [],
+      "totalReviewRecords": 41,
+      "byApprovalLevel": {
+        "easy": 14,
+        "careful": 7,
+        "blocked": 10,
+        "normal": 10
+      },
+      "byStatus": {
+        "promoted": 31,
+        "needs_review": 10
+      },
+      "byType": {
+        "canonicalMapping": 31,
+        "procedureTestBinding": 5,
+        "measurementBinding": 5
+      },
+      "approved": 31,
+      "rejected": 0,
+      "needsReview": 10,
+      "promoted": 31,
+      "autoApprovals": 31,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 10,
+      "humanDecisionCount": 10,
+      "newHumanDecisionCount": 10,
+      "inheritedResolvedAutomatically": 20,
+      "newManualResolutions": 10,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2439,
+      "inheritedResolutionRate": 0.6667,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 46,
+        "procedureBindings": 0,
+        "measurementBindings": 0
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 10,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 20,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 10,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "target": {
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652",
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "totalReviewRecords": 36,
+      "byApprovalLevel": {
+        "easy": 11,
+        "blocked": 9,
+        "careful": 4,
+        "normal": 12
+      },
+      "byStatus": {
+        "approved": 9,
+        "needs_review": 9,
+        "COMPOUND_TERM_CANDIDATE": 4,
+        "candidate": 14
+      },
+      "byType": {
+        "canonicalMapping": 24,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 9,
+      "rejected": 0,
+      "needsReview": 9,
+      "promoted": 0,
+      "autoApprovals": 9,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 9,
+      "humanDecisionCount": 9,
+      "newHumanDecisionCount": 7,
+      "inheritedResolvedAutomatically": 29,
+      "newManualResolutions": 7,
+      "inheritedManualResolutions": 2,
+      "newHumanDecisionRate": 0.1944,
+      "inheritedResolutionRate": 0.8056,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 83,
+        "procedureBindings": 14,
+        "measurementBindings": 13
+      },
+      "platformFamilyPriorManualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 16,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 7,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 29,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 16,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 7,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    "delta": {
+      "reviewRecords": -5,
+      "humanDecisionCount": -1,
+      "newHumanDecisionCount": -3,
+      "manualResolutionsRequired": -1,
+      "inheritedResolvedAutomatically": 9
+    }
+  },
+  "tlPlatformCompounding": null,
+  "promotion": null,
+  "published": false
+}

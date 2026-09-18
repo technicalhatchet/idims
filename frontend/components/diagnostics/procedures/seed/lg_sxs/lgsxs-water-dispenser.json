@@ -1,0 +1,102 @@
+{
+  "id": "lgsxs-water-dispenser",
+  "version": "1.0.0",
+  "title": "\u00a72-18: Water / ice dispenser valves",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "water_valve"
+  ],
+  "tags": [
+    "water_dispenser",
+    "no_water",
+    "dispenser"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-18",
+    "oemTestTitle": "Dispenser water and ice solenoids",
+    "pages": [
+      22,
+      23
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "no_water"
+    },
+    {
+      "id": "no_water",
+      "order": 2,
+      "type": "visual_check",
+      "title": "No water or ice dispense?",
+      "body": "Select water/cube/crushed at dispenser \u2014 pressing rubber button opens solenoids. Stops when freezer door open.",
+      "sourceExcerpt": "Select water/cube/crushed at dispenser \u2014 pressing rubber button opens solenoids. Stops when freezer door open.",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "disp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_valve"
+        },
+        {
+          "id": "disp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "disp_ok",
+          "terminal": true,
+          "oemOutcome": "Dispenser functions normally.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "water_valve",
+              "evidenceId": "ref_kw_water_valve"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_valve",
+      "order": 3,
+      "type": "instruction",
+      "title": "Water valve and relays",
+      "body": "Verify water solenoid on back plate and relay RY7 (water), RY4/RY5/RY12 (ice) per \u00a72-18 and troubleshooting.",
+      "sourceExcerpt": "Verify water solenoid on back plate and relay RY7 (water), RY4/RY5/RY12 (ice) per \u00a72-18 and troubleshooting.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_valve"
+    },
+    {
+      "id": "replace_valve",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace valve or relay",
+      "oemOutcome": "Replace water inlet valve, duct door solenoid, or dispenser relays.",
+      "requiresInput": false
+    },
+    {
+      "id": "disp_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Dispenser OK",
+      "oemOutcome": "Water/ice dispenser path verified.",
+      "requiresInput": false
+    }
+  ]
+}

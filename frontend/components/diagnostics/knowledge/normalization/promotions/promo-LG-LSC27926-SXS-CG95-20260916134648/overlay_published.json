@@ -1,0 +1,479 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "LG",
+  "label": "LG LSC27926 side-by-side refrigerator",
+  "gateArtifact": "LG_LSC27926_SXS_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "lg_sxs",
+      "platformId": "lg_sxs",
+      "manualId": "LG-LSC27926-SXS",
+      "label": "LG LSC27926 SxS (conventional relay, BLDC fans, OptiChill)",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "LG"
+        ],
+        "modelPatterns": [
+          "LSC27926*"
+        ],
+        "platformIds": [
+          "lg_sxs"
+        ]
+      },
+      "oemTermAliases": {
+        "micom": "control_board",
+        "main pcb": "control_board",
+        "test mode": "control_board",
+        "test button": "control_board",
+        "display micom": "user_interface",
+        "lcd check": "user_interface",
+        "door switch": "door_switch",
+        "door switches": "door_switch",
+        "f-fan": "evaporator_fan",
+        "evap_fan": "evaporator_fan",
+        "evaporator fan": "evaporator_fan",
+        "damper_motor": "damper_motor",
+        "stepping damper": "damper_motor",
+        "optichill": "optichill_damper",
+        "defrost heater": "defrost_heater",
+        "defrost_sensor": "defrost_sensor",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "condenser_fan": "condenser_fan",
+        "c-fan": "condenser_fan",
+        "condenser fan": "condenser_fan",
+        "water valve": "water_valve",
+        "ice maker": "ice_maker",
+        "sealed system": "sealed_system"
+      },
+      "displayTerms": {
+        "control_board": "Main PCB MICOM (Test 1/2 orchestration)",
+        "user_interface": "LCD check + display MICOM communication",
+        "door_switch": "Door switches A/B/C/D (Test 1 fan stop)",
+        "evaporator_fan": "F-FAN BLDC freezer fan (Test 1)",
+        "air_damper": "Stepping baffle + OptiChill damper (Test 1/2)",
+        "defrost_heater": "Defrost heater (Test 2 forced ON)",
+        "temperature_sensor": "CON7/CON8/ambient NTCs \u2014 conditional compartment scopes",
+        "compressor": "RY2 conventional relay drive (conditional)",
+        "condenser_fan": "C-FAN BLDC with compressor (Test 1 \u2014 conditional)",
+        "defrost_sensor": "Defrost NTC \u2014 platform defrost_sensor",
+        "ice_maker": "In-door ice maker (conditional, \u00a73)",
+        "water_dispenser": "Water/ice dispenser valves (\u00a72-18 \u2014 conditional)",
+        "sealed_system": "Sealed-system complaint routing \u2014 not canonical"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "relay_drive_conventional",
+          "procedureIds": [
+            "lgsxs-compressor"
+          ]
+        },
+        {
+          "conditionalConceptId": "condenser_fan",
+          "procedureIds": [
+            "lgsxs-condenser-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "lgsxs-freezer-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "lgsxs-fresh-food-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "ambient",
+          "procedureIds": [
+            "lgsxs-ambient-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "lgsxs-ice-maker"
+          ]
+        },
+        {
+          "conditionalConceptId": "water_dispenser",
+          "procedureIds": [
+            "lgsxs-water-dispenser"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "defrost_sensor",
+            "name": "Defrost sensor NTC",
+            "aliases": [
+              "defrost sensor",
+              "defrost_sensor",
+              "defrost NTC"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "note": "Defrost sensor resistance flow \u2014 platform defrost_sensor, not cabinet temperature_sensor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Stepping motor baffle damper",
+            "aliases": [
+              "damper motor",
+              "damper_motor",
+              "stepping damper"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Test 1 open / Test 2 closed \u2014 LG SxS air_damper implementation."
+          },
+          {
+            "id": "optichill_damper",
+            "name": "OptiChill stepping damper",
+            "aliases": [
+              "optichill damper",
+              "optichill_damper",
+              "OptiChill"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "instanceScope": "optichill",
+            "note": "OptiChill stepping damper \u2014 LG-specific platform instance alongside main baffle."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay RY2",
+            "aliases": [
+              "relay",
+              "compressor relay",
+              "RY2"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Conventional relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "conventional_compressor",
+            "name": "Conventional AC compressor",
+            "aliases": [
+              "conventional compressor",
+              "conventional_compressor"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_conventional",
+            "note": "SxS compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          },
+          {
+            "id": "water_valve",
+            "name": "Water/ice dispenser inlet valve",
+            "aliases": [
+              "water valve",
+              "water_valve"
+            ],
+            "systemId": "water_dispenser",
+            "type": "actuator",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "RY4/RY5/RY7/RY12 dispenser relays \u2014 conditional water_dispenser implementation."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "In-door ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 \u00a73 ice maker electrical."
+          },
+          {
+            "id": "defrost_sensor",
+            "name": "Defrost sensor NTC",
+            "aliases": [
+              "defrost sensor",
+              "defrost_sensor",
+              "defrost NTC"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "note": "Defrost sensor resistance flow \u2014 platform defrost_sensor, not cabinet temperature_sensor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Stepping motor baffle damper",
+            "aliases": [
+              "damper motor",
+              "damper_motor",
+              "stepping damper"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Test 1 open / Test 2 closed \u2014 LG SxS air_damper implementation."
+          },
+          {
+            "id": "optichill_damper",
+            "name": "OptiChill stepping damper",
+            "aliases": [
+              "optichill damper",
+              "optichill_damper",
+              "OptiChill"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "instanceScope": "optichill",
+            "note": "OptiChill stepping damper \u2014 LG-specific platform instance alongside main baffle."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay RY2",
+            "aliases": [
+              "relay",
+              "compressor relay",
+              "RY2"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Conventional relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "conventional_compressor",
+            "name": "Conventional AC compressor",
+            "aliases": [
+              "conventional compressor",
+              "conventional_compressor"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_conventional",
+            "note": "SxS compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          },
+          {
+            "id": "water_valve",
+            "name": "Water/ice dispenser inlet valve",
+            "aliases": [
+              "water valve",
+              "water_valve"
+            ],
+            "systemId": "water_dispenser",
+            "type": "actuator",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "RY4/RY5/RY7/RY12 dispenser relays \u2014 conditional water_dispenser implementation."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "In-door ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 \u00a73 ice maker electrical."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "lgsxs-test-mode-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-lcd-check",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-display-communication",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-door-switch",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-fz-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-damper",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-compressor",
+          "conditionalConcepts": [
+            "compressor"
+          ],
+          "instanceScope": "relay_drive_conventional"
+        },
+        {
+          "procedureId": "lgsxs-condenser-fan",
+          "conditionalConcepts": [
+            "condenser_fan"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-freezer-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "lgsxs-fresh-food-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "lgsxs-ambient-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "ambient"
+        },
+        {
+          "procedureId": "lgsxs-ice-maker",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "lgsxs-water-dispenser",
+          "conditionalConcepts": [
+            "water_dispenser"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "lg-sxs-r2-sensor-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed",
+          "note": "R2/OptiChill sensor faults visible on LCD check \u2014 no standalone procedure seed."
+        },
+        {
+          "teachingId": "lg-sxs-humidity-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_not_on_manual"
+        },
+        {
+          "teachingId": "lg-sxs-water-tank-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed",
+          "note": "Water-tank fault on LCD check \u2014 no procedure seed; dispenser bound via water_valve."
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "lg-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Test-mode steps decompose to members \u2014 aggregate remains dead."
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "lg-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Compressor/condenser vocabulary does not resurrect cooling_system aggregate."
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "lg-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Evap fan + damper stay under canonical members + platform instances."
+        },
+        {
+          "conceptId": "sealed_system",
+          "teachingId": "lg-sxs-sealed-system-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "Complaint routing only \u2014 routes to compressor + condenser_fan conditionals."
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorOverlaysBlocked": [
+          "lg_lrmvs.json",
+          "samsung_sxs.json",
+          "whirlpool_sxs_w11296289.json"
+        ],
+        "lrmvsOverlayImportBlocked": true,
+        "samsungSxsOverlayImportBlocked": true,
+        "whirlpoolSxsOverlayImportBlocked": true,
+        "cg9BoundaryProbe": "LG_LSC27926_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+        "cg9AutoApprovalBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "sxs_production_compounding_lg",
+  "compoundingEvidence": {
+    "phase": "CG-9.5",
+    "workPackage": "WP3",
+    "manualId": "LG-LSC27926-SXS",
+    "platformId": "lg_sxs",
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "LG_LSC27926_SXS_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "LG_LSC27926_SXS_gate_decision_ledger_v1.json",
+    "boundaryProbeArtifact": "LG_LSC27926_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "accounting": {
+      "canonicalInheritances": 6,
+      "conditionalBindings": 7,
+      "overlayLearningEvents": 10,
+      "intentionalAbstentions": 3,
+      "newOverlaySemanticDecisions": 10,
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "publishedAt": "2026-09-16T13:46:48.335283+00:00"
+  }
+}

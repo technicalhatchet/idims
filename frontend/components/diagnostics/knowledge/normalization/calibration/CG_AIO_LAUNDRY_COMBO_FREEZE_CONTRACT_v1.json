@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_freeze_contract",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+  "status": "closed",
+  "closedAt": "2026-09-17T17:00:00+00:00",
+  "closureArtifact": "CG_AIO_LAUNDRY_COMBO_FREEZE_CLOSURE_v1.json",
+  "closureVerdict": "GREEN / AIO_LAUNDRY_COMBO_FAMILY_FROZEN",
+  "freezeLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json",
+  "phase": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+  "activatedAt": "2026-09-17T17:00:00+00:00",
+  "priorPhaseClosed": "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / AIO_RETURN_COMPLETE_CANDIDATE_READY_FOR_FREEZE_REVIEW",
+  "freezeMode": "canonical_ontology_authoring_from_return_approved_composition_contract",
+  "coreConstraint": "Freeze gate authors aio_laundry_combo.json rev1 from return-approved composition contract only. Composition-by-reference to frozen front_load_washer and heat_pump_dryer — no duplication. One new AIO-owned thermal modality (condenser_resistive_dry_heat). sealed_ventless_drying rejected. sealed_heat_pump_drying superseded. No hardware promotion.",
+  "approvedFunctionalContract": {
+    "artifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+    "revision": "return_v1_post_hp_freeze",
+    "status": "approved_for_freeze",
+    "aioOwnedFunctions": 2,
+    "composedFamilyReferences": 2,
+    "ontologyId": "aio_laundry_combo",
+    "templateId": "aio_laundry",
+    "variant": "integrated_wash_dry"
+  },
+  "immutableInputs": {
+    "policy": "Read-only — freeze must not mutate fit, discovery, corroboration, or return closure evidence",
+    "artifacts": [
+      "CG_AIO_LAUNDRY_COMBO_RETURN_CONTRACT_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_RETURN_ANALYSIS_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+      "aio_laundry_combo_functional_contract_candidate_v1.json"
+    ],
+    "frozenGraphs": {
+      "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+      "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+    }
+  },
+  "notCreating": [
+    "manufacturer overlays with platform bindings",
+    "corpus normalization/compounding",
+    "mutations to front_load_washer.json",
+    "mutations to heat_pump_dryer.json",
+    "mutations to vented_dryer.json",
+    "mutations to microwave.json",
+    "sealed_ventless_drying",
+    "sealed_heat_pump_drying",
+    "refrigeration or heater/fan hardware as canonical nodes"
+  ],
+  "targetCanonicalArtifact": {
+    "file": "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json",
+    "ontologyId": "aio_laundry_combo",
+    "revision": "rev1",
+    "frozen": true
+  },
+  "canonicalArtifactAuthored": {
+    "file": "aio_laundry_combo.json",
+    "referenceOverlay": "aio_laundry_combo.reference.json",
+    "frozen": true,
+    "frozenHash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "registryRegistered": true
+  },
+  "compositionArchitecture": {
+    "washByReference": "front_load_washer",
+    "moistureByReference": "heat_pump_dryer.sealed_moisture_rejection_path",
+    "hpThermalByReference": "heat_pump_dryer.heat_pump_thermal_system",
+    "aioOwnedThermalSibling": "condenser_resistive_dry_heat",
+    "aioOwnedIntegration": "integrated_laundry_orchestration",
+    "rejectedParents": ["sealed_ventless_drying"],
+    "supersededFunctions": ["sealed_heat_pump_drying"]
+  },
+  "successCriteria": {
+    "aioLaundryComboJsonAuthored": true,
+    "humanFreezeApprovalRequired": true,
+    "humanFreezeApprovalStatus": "approved",
+    "validateCanonicalGraphPass": true,
+    "freezeLockCreated": true,
+    "registryRegistered": true,
+    "aioOwnedComponentCount": 2,
+    "compositionReferenceCount": 3,
+    "canonicalExpansion": 1,
+    "componentPromotionCount": 0,
+    "frozenSourceGraphHashesUnchanged": true,
+    "normalizationExecuted": false,
+    "compoundingExecuted": false,
+    "aioFamilyLocked": true
+  },
+  "nextDisciplinedStep": "AIO laundry combo family LOCKED — normalization/compounding deferred. Remaining inventory architecture gates → architecture-complete STOP."
+}

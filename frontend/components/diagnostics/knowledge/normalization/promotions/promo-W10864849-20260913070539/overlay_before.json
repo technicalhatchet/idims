@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "top_load_washer",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool top-load washer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+      "platformId": "whirlpool_tl_dd",
+      "manualId": "W10864849",
+      "label": "Whirlpool/Maytag 6.2 cu ft direct-drive top-load washer",
+      "appliesTo": {
+        "templateId": "washer",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WTW95*",
+          "MVWB95*"
+        ],
+        "platformIds": [
+          "whirlpool_tl_dd"
+        ]
+      },
+      "oemTermAliases": {},
+      "displayTerms": {
+        "control_board": "ACU (Appliance Control Unit)",
+        "lid_lock": "Lid Lock Assembly",
+        "drive_motor": "Drive Motor (BPM)",
+        "mode_shifter": "Mode Shifter / Clutch Coil"
+      },
+      "add": {
+        "establishedFactSources": [
+          {
+            "factId": "lid_lock_authorized",
+            "fromBranches": [
+              "ll_ok",
+              "ll_live_ok",
+              "lock_motor_pass",
+              "lid_lock_verified"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "drain_completion",
+            "fromBranches": [
+              "pump_live_ok",
+              "drain_pump_pass",
+              "dp_run"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_command_present",
+            "fromBranches": [
+              "motor_runs"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_output_abnormal",
+            "fromBranches": [
+              "motor_open",
+              "motor_crit",
+              "motor_warn"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": []
+      },
+      "overrides": [
+        {
+          "layer": "functionalDependency",
+          "action": "merge",
+          "match": {
+            "id": "drive_operation"
+          },
+          "value": {
+            "requires": [
+              "control_board",
+              "lid_lock",
+              "drive_motor",
+              "mode_shifter"
+            ]
+          },
+          "reason": "W10864849 TL DD — agitate/spin requires mode shifter in drive path"
+        }
+      ],
+      "procedureBindings": [],
+      "measurementBindings": []
+    }
+  ]
+}

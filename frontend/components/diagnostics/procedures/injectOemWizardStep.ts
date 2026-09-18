@@ -13,12 +13,16 @@ export function injectOemWizardStep(
   options: {
     complaintChipIds: string[];
     skippedOemWizardStep?: boolean;
+    errorCodes?: string[];
   },
 ): ResolvedDiagnosticWizardStep[] {
   if (!shouldInsertOemWizardStep(
     options.complaintChipIds,
     recommendation,
-    options.skippedOemWizardStep,
+    {
+      skippedOemWizardStep: options.skippedOemWizardStep,
+      errorCodes: options.errorCodes,
+    },
   )) {
     return baseSteps;
   }

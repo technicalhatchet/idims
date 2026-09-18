@@ -1,0 +1,3081 @@
+{
+  "manualId": "NS-TDRE75W1",
+  "procedures": [
+    {
+      "procedureId": "nstdre75w1-belt-safety",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Belt safety switch",
+      "purpose": "Belt safety switch",
+      "prerequisites": [],
+      "componentIds": [
+        "motor"
+      ],
+      "tags": [
+        "wont_start",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "belt_switch_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Belt safety switch",
+          "body": "Disconnect power. Belt safety switch on motor/blower path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Belt safety switch on motor/blower path."
+        },
+        {
+          "id": "belt_lever_open",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Lever open \u2014 < 1 \u03a9",
+          "body": "Belt lever in open (normal) position: resistance < 1 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "belt_open_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_lever_push",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "belt_open_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_belt_switch",
+              "terminal": true,
+              "oemOutcome": "Replace belt safety switch."
+            }
+          ],
+          "sourceExcerpt": "Lever open: Resistance value < 1\u03a9."
+        },
+        {
+          "id": "belt_lever_push",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Lever pushed \u2014 open circuit",
+          "body": "Simulate belt-off (lever pushed): resistance \u221e \u03a9?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "belt_push_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "belt_push_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_belt_switch",
+              "terminal": true,
+              "oemOutcome": "Replace belt safety switch."
+            }
+          ],
+          "sourceExcerpt": "Lever push: Resistance value \u221e \u03a9."
+        },
+        {
+          "id": "replace_belt_switch",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace belt switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "belt_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Belt switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "belt_open_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_lever_push",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_lever_open"
+        },
+        {
+          "id": "belt_open_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt safety switch.",
+          "stepId": "belt_lever_open"
+        },
+        {
+          "id": "belt_push_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_lever_push"
+        },
+        {
+          "id": "belt_push_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt safety switch.",
+          "stepId": "belt_lever_push"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "belt-safety",
+        "oemTestTitle": "Belt safety switch",
+        "pages": [
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-belt-safety",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-belt-safety",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-communication",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Display communication \u2014 C9 fault",
+      "purpose": "Communication error",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface",
+        "acu"
+      ],
+      "tags": [
+        "C9",
+        "hmi_check",
+        "no_power",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "c9_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "C9 behavior",
+          "body": "C9 after 110 s comm timeout: heater off, motor off, fault state. Often dead or frozen UI mid-cycle.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "110 sec timeout \u2014 heater off, motor off, go to fault state."
+        },
+        {
+          "id": "inspect_cn9",
+          "order": 3,
+          "type": "visual_check",
+          "title": "CN9 display harness seated",
+          "body": "Access main PCB. Is CN9 (display communication) fully seated with no pin damage?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn9_seated",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cn9_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cn9_loose",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_cn9",
+              "terminal": true,
+              "oemOutcome": "Reseat CN9 harness; verify display ribbon at UI board."
+            }
+          ],
+          "sourceExcerpt": "Access main PCB. Is CN9 (display communication) fully seated with no pin damage?"
+        },
+        {
+          "id": "cn9_continuity",
+          "order": 4,
+          "type": "visual_check",
+          "title": "CN9 harness continuity",
+          "body": "With power off, verify continuity on CN9 harness between main PCB and display PCB (no opens).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn9_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cn9_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_display_or_pcb",
+              "terminal": true,
+              "oemOutcome": "Replace display assembly or main PCB per failed path."
+            }
+          ],
+          "sourceExcerpt": "With power off, verify continuity on CN9 harness between main PCB and display PCB (no opens)."
+        },
+        {
+          "id": "reseat_cn9",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat and retest",
+          "body": "Reseat CN9 and display connectors; restore power and verify UI responds.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat CN9 and display connectors; restore power and verify UI responds."
+        },
+        {
+          "id": "replace_display_or_pcb",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace display or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cn9_seated",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn9_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_cn9"
+        },
+        {
+          "id": "cn9_loose",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cn9",
+          "terminal": true,
+          "oemOutcome": "Reseat CN9 harness; verify display ribbon at UI board.",
+          "stepId": "inspect_cn9"
+        },
+        {
+          "id": "cn9_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn9_continuity"
+        },
+        {
+          "id": "cn9_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_or_pcb",
+          "terminal": true,
+          "oemOutcome": "Replace display assembly or main PCB per failed path.",
+          "stepId": "cn9_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "C9",
+        "oemTestTitle": "Communication error",
+        "pages": [
+          24,
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-communication",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-communication",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-door-switch",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Door switch \u2014 COM to NO",
+      "purpose": "Door switch test",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check",
+        "wont_start"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "door_switch_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door switch at CN1",
+          "body": "Disconnect power. Door switch on CN1. Terminals COM\u2013NO (1\u20132): open door = \u221e \u03a9; door closed/pushed = < 1 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Door switch on CN1. Terminals COM\u2013NO (1\u20132): open door = \u221e \u03a9; door closed/pushed = < 1 \u03a9."
+        },
+        {
+          "id": "door_open_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door open \u2014 switch open",
+          "body": "With door open, COM\u2013NO reads open (\u221e \u03a9)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_open_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_closed_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_open_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": "Replace door switch \u2014 stuck closed."
+            }
+          ],
+          "sourceExcerpt": "With door open, COM\u2013NO reads open (\u221e \u03a9)?"
+        },
+        {
+          "id": "door_closed_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Door closed \u2014 switch closed",
+          "body": "With door closed and latched, COM\u2013NO < 1 \u03a9?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_closed_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_closed_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": "Replace door switch assembly."
+            }
+          ],
+          "sourceExcerpt": "With door closed and latched, COM\u2013NO < 1 \u03a9?"
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_switch_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Door switch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_open_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_closed_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_open_check"
+        },
+        {
+          "id": "door_open_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch \u2014 stuck closed.",
+          "stepId": "door_open_check"
+        },
+        {
+          "id": "door_closed_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed_check"
+        },
+        {
+          "id": "door_closed_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "stepId": "door_closed_check"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "door-switch",
+        "oemTestTitle": "Door switch test",
+        "pages": [
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-door-switch",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-door-switch",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-flame-sensor",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Flame sensor \u2014 continuity",
+      "purpose": "Flame sensor resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "flame_sensor"
+      ],
+      "tags": [
+        "no_heat",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_flame_sensor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access flame sensor",
+          "body": "Disconnect power. Flame sensor on burner assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Flame sensor on burner assembly."
+        },
+        {
+          "id": "flame_sensor_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Flame sensor < 1 \u03a9",
+          "body": "Flame sensor resistance < 1 \u03a9 when clean. Infinity = replace flame sensor.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "flame_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "flame_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "flame_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_flame_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace flame sensor."
+            }
+          ],
+          "sourceExcerpt": "Flame sensor resistance < 1\u03a9."
+        },
+        {
+          "id": "replace_flame_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace flame sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "flame_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Flame sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flame_sensor_continuity"
+        },
+        {
+          "id": "flame_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace flame sensor.",
+          "stepId": "flame_sensor_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "flame-sensor",
+        "oemTestTitle": "Flame sensor resistance",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-flame-sensor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-flame-sensor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-gas-ignitor",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Gas ignitor \u2014 40\u2013400 \u03a9",
+      "purpose": "Igniter resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "no_heat",
+        "igniter_check",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_ignitor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access ignitor",
+          "body": "Disconnect power. Remove burner shield per disassembly \u00a75. Handle ignitor carefully \u2014 fragile.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Take care the ignitor."
+        },
+        {
+          "id": "ignitor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ignitor resistance",
+          "body": "Measure ignitor cold resistance.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+              "testPoint": {
+                "connector": "Ignitor",
+                "pins": "terminals",
+                "label": "Ignitor resistance"
+              },
+              "title": "Ignitor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ignitor_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ignitor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ignitor_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range."
+            },
+            {
+              "id": "ignitor_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range."
+            },
+            {
+              "id": "ignitor_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range."
+            }
+          ],
+          "sourceExcerpt": "Igniter resistance 40~400\u03a9. If infinity, replace igniter."
+        },
+        {
+          "id": "replace_ignitor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ignitor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ignitor_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ignitor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+          "testPoint": {
+            "connector": "Ignitor",
+            "pins": "terminals",
+            "label": "Ignitor resistance"
+          },
+          "title": "Ignitor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ignitor_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace ignitor \u2014 open or out of 40\u2013400 \u03a9 range.",
+          "stepId": "ignitor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "ignitor",
+        "oemTestTitle": "Igniter resistance",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-ignitor",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-ignitor",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-gas-valve",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Gas valve coils",
+      "purpose": "Gas valve coil resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "no_heat",
+        "gas_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_gas_valve",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access gas valve",
+          "body": "Disconnect power. Gas valve coil pairs: Valve1-2 = 1.2 k\u03a9, Valve1-3 = 0.5 k\u03a9, Valve4-5 = 1.2 k\u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Gas valve coil pairs: Valve1-2 = 1.2 k\u03a9, Valve1-3 = 0.5 k\u03a9, Valve4-5 = 1.2 k\u03a9."
+        },
+        {
+          "id": "valve_coil_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Gas valve coil resistance",
+          "body": "Measure each coil pair on gas valve. Infinity on any coil = replace valve.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "gasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "1-2 / 1-3 / 4-5",
+                "label": "Gas valve coil resistance"
+              },
+              "title": "Gas valve coil resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve assembly."
+            },
+            {
+              "id": "valve_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve assembly."
+            },
+            {
+              "id": "valve_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve assembly."
+            }
+          ],
+          "sourceExcerpt": "Valve1-2: 1.2K\u03a9; Valve1-3: 0.5K\u03a9; Valve4-5: 1.2K\u03a9."
+        },
+        {
+          "id": "replace_valve",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace gas valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Gas valve verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "gasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "1-2 / 1-3 / 4-5",
+            "label": "Gas valve coil resistance"
+          },
+          "title": "Gas valve coil resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_coil_ohms"
+        },
+        {
+          "id": "valve_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "stepId": "valve_coil_ohms"
+        },
+        {
+          "id": "valve_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "stepId": "valve_coil_ohms"
+        },
+        {
+          "id": "valve_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve assembly.",
+          "stepId": "valve_coil_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "gas-valve",
+        "oemTestTitle": "Gas valve coil resistance",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-gas-valve",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-gas-valve",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-heater-electric",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Electric heater element \u2014 20 \u03a9",
+      "purpose": "Heater resistance check (electric)",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element",
+        "thermal_cutoff",
+        "thermal_fuse"
+      ],
+      "tags": [
+        "no_heat",
+        "heating_element_check",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_heater_electric",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access heater (electric)",
+          "body": "Remove toe/kick panel. Electric heater at CN7/CN8 (HEATER 1 / HEATER 2). Check thermal cut-off and hi-limit in series first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe/kick panel. Electric heater at CN7/CN8 (HEATER 1 / HEATER 2). Check thermal cut-off and hi-limit in series first."
+        },
+        {
+          "id": "thermal_cutoff_electric",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Thermal cut-off continuity (electric)",
+          "body": "Thermal cut-off in heater path: resistance < 1 \u03a9. Open = replace thermal cut-off.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tcutoff_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hi_limit_electric",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tcutoff_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_thermal_cutoff",
+              "terminal": true,
+              "oemOutcome": "Replace thermostat thermal cut-off (212/176\u00b0F)."
+            }
+          ],
+          "sourceExcerpt": "Thermal cut-off in heater path: resistance < 1 \u03a9. Open = replace thermal cut-off."
+        },
+        {
+          "id": "hi_limit_electric",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Hi-limit thermostat continuity",
+          "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if tripped from overtemperature.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hilimit_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hilimit_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": "Replace hi-limit thermostat."
+            }
+          ],
+          "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if tripped from overtemperature."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Heater element resistance",
+          "body": "Measure heater element at CN7/CN8 \u2014 expect 20 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDryerHeaterOhms",
+              "testPoint": {
+                "connector": "CN7/CN8",
+                "pins": "HEATER",
+                "label": "Heater element resistance"
+              },
+              "title": "Heater element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater assembly \u2014 open element."
+            },
+            {
+              "id": "heater_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater assembly \u2014 open element."
+            },
+            {
+              "id": "heater_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater assembly \u2014 open element."
+            }
+          ],
+          "sourceExcerpt": "Heater resistance 20 \u03a9. If infinity, replace heater."
+        },
+        {
+          "id": "replace_thermal_cutoff",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace thermal cut-off",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_hi_limit",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace hi-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_heater",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Heater path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDryerHeaterOhms",
+          "testPoint": {
+            "connector": "CN7/CN8",
+            "pins": "HEATER",
+            "label": "Heater element resistance"
+          },
+          "title": "Heater element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "tcutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hi_limit_electric",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_cutoff_electric"
+        },
+        {
+          "id": "tcutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermostat thermal cut-off (212/176\u00b0F).",
+          "stepId": "thermal_cutoff_electric"
+        },
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hi_limit_electric"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": "Replace hi-limit thermostat.",
+          "stepId": "hi_limit_electric"
+        },
+        {
+          "id": "heater_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater assembly \u2014 open element.",
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "heater-electric",
+        "oemTestTitle": "Heater resistance check (electric)",
+        "pages": [
+          25,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-electric",
+        "pages": [
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-electric",
+            "pages": [
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-heater-gas",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Gas heat path \u2014 thermal devices",
+      "purpose": "Gas burner thermal path",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve",
+        "thermal_cutoff",
+        "thermal_fuse"
+      ],
+      "tags": [
+        "no_heat",
+        "ignition_issue",
+        "gas_heater_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_gas_heat",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access gas burner area",
+          "body": "Remove toe panel. Gas heat path: flame sensor \u2192 igniter \u2192 gas valve \u2192 hi-limit \u2192 thermal cut-off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Gas heat path: flame sensor \u2192 igniter \u2192 gas valve \u2192 hi-limit \u2192 thermal cut-off."
+        },
+        {
+          "id": "gas_thermal_cutoff",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Gas thermal cut-off continuity",
+          "body": "Thermal cut-off in gas heat path: < 1 \u03a9. Open = replace.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_tcutoff_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_hi_limit",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_tcutoff_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_gas_tcutoff",
+              "terminal": true,
+              "oemOutcome": "Replace gas thermal cut-off."
+            }
+          ],
+          "sourceExcerpt": "Thermal cut-off in gas heat path: < 1 \u03a9. Open = replace."
+        },
+        {
+          "id": "gas_hi_limit",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Gas hi-limit continuity",
+          "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset if overtemperature tripped.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_hilimit_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_heat_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_hilimit_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_gas_hilimit",
+              "terminal": true,
+              "oemOutcome": "Replace gas hi-limit thermostat."
+            }
+          ],
+          "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset if overtemperature tripped."
+        },
+        {
+          "id": "gas_heat_path_ok",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue gas ignition checks",
+          "body": "Thermal path OK. Run gas ignitor, flame sensor, and gas valve coil procedures if no heat.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Thermal path OK. Run gas ignitor, flame sensor, and gas valve coil procedures if no heat."
+        },
+        {
+          "id": "replace_gas_tcutoff",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermal cut-off",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_gas_hilimit",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace hi-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "gas_heat_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Gas thermal path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "gas_tcutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_hi_limit",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_thermal_cutoff"
+        },
+        {
+          "id": "gas_tcutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gas_tcutoff",
+          "terminal": true,
+          "oemOutcome": "Replace gas thermal cut-off.",
+          "stepId": "gas_thermal_cutoff"
+        },
+        {
+          "id": "gas_hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_heat_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_hi_limit"
+        },
+        {
+          "id": "gas_hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gas_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace gas hi-limit thermostat.",
+          "stepId": "gas_hi_limit"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "heater-gas",
+        "oemTestTitle": "Gas burner thermal path",
+        "pages": [
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-heater-gas",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-heater-gas",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-hmi-test",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Service test \u2014 knob & key check",
+      "purpose": "Knob light and key checking (screens 02\u201303)",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "hmi_check",
+        "C9",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "advance_screen_02",
+          "order": 3,
+          "type": "instruction",
+          "title": "Service test screen 02 \u2014 knob lights",
+          "body": "Enter service test mode. Press Time Adjust + to screen 02. Turn cycle knob \u2014 indicator lights around knob should follow each detent.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter service test mode. Press Time Adjust + to screen 02. Turn cycle knob \u2014 indicator lights around knob should follow each detent."
+        },
+        {
+          "id": "knob_light_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Knob indicator lights",
+          "body": "Does each knob position toggle the surrounding light on/off correctly?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "knob_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "advance_screen_03",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "knob_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "inspect_display_harness",
+              "terminal": true,
+              "oemOutcome": "Inspect display/knob harness at CN9."
+            }
+          ],
+          "sourceExcerpt": "Does each knob position toggle the surrounding light on/off correctly?"
+        },
+        {
+          "id": "advance_screen_03",
+          "order": 5,
+          "type": "instruction",
+          "title": "Service test screen 03 \u2014 key check",
+          "body": "Press Time Adjust + to screen 03 (key checking mode). Press each touchpad key.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Time Adjust + to screen 03 (key checking mode). Press each touchpad key."
+        },
+        {
+          "id": "key_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "All keys respond",
+          "body": "Does every control key register in key-check mode?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "keys_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "keys_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ui",
+              "terminal": true,
+              "oemOutcome": "Replace display/control panel or main PCB."
+            }
+          ],
+          "sourceExcerpt": "Does every control key register in key-check mode?"
+        },
+        {
+          "id": "inspect_display_harness",
+          "order": 7,
+          "type": "instruction",
+          "title": "Inspect CN9 harness",
+          "body": "Verify CN9 display communication harness; reseat connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify CN9 display communication harness; reseat connectors."
+        },
+        {
+          "id": "replace_ui",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace UI or PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "HMI verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "knob_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "advance_screen_03",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "knob_light_check"
+        },
+        {
+          "id": "knob_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_display_harness",
+          "terminal": true,
+          "oemOutcome": "Inspect display/knob harness at CN9.",
+          "stepId": "knob_light_check"
+        },
+        {
+          "id": "keys_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "key_check"
+        },
+        {
+          "id": "keys_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Replace display/control panel or main PCB.",
+          "stepId": "key_check"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "02-03",
+        "oemTestTitle": "Knob light and key checking (screens 02\u201303)",
+        "pages": [
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-hmi-test",
+        "pages": [
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-hmi-test",
+            "pages": [
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-humidity-sensor",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Humidity sensor \u2014 E4 timed-dry fallback",
+      "purpose": "Humidity sensor error",
+      "prerequisites": [],
+      "componentIds": [
+        "moisture_sensor"
+      ],
+      "tags": [
+        "E4",
+        "long_dry",
+        "moisture_sensor_check",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "e4_symptom_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "E4 behavior",
+          "body": "E4 logs at end of cycle: control runs timed drying without humidity sensor. Clothes may finish wet until code is reviewed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Control runs whole cycle with timed drying; error logged at end."
+        },
+        {
+          "id": "bench_humidity_cn10",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench humidity sensor CN10",
+          "body": "Disconnect power. Humidity sensor at CN10 pins 1\u20134 (HUM). Check harness for damage at drum moisture bars.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Humidity sensor at CN10 pins 1\u20134 (HUM). Check harness for damage at drum moisture bars."
+        },
+        {
+          "id": "humidity_continuity",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Humidity sensor / harness continuity",
+          "body": "Does CN10 humidity circuit show continuity (not open) and bars are clean with no corrosion?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "humidity_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "humidity_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "humidity_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_humidity_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace humidity sensor assembly or CN10 harness."
+            }
+          ],
+          "sourceExcerpt": "Does CN10 humidity circuit show continuity (not open) and bars are clean with no corrosion?"
+        },
+        {
+          "id": "replace_humidity_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace humidity sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "humidity_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Humidity path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "humidity_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "humidity_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "humidity_continuity"
+        },
+        {
+          "id": "humidity_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_humidity_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace humidity sensor assembly or CN10 harness.",
+          "stepId": "humidity_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "E4",
+        "oemTestTitle": "Humidity sensor error",
+        "pages": [
+          24,
+          25,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-humidity-sensor",
+        "pages": [
+          24,
+          25,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-humidity-sensor",
+            "pages": [
+              24,
+              25,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-motor-circuit",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Motor \u2014 belt switch & centrifugal",
+      "purpose": "Motor centrifugal switch",
+      "prerequisites": [],
+      "componentIds": [
+        "motor"
+      ],
+      "tags": [
+        "motor_check",
+        "wont_start",
+        "C9"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "motor_centrifugal",
+          "order": 3,
+          "type": "instruction",
+          "title": "Centrifugal switch (motor)",
+          "body": "Motor centrifugal contacts (1M\u20136M): start winding closes 1M\u20132M and 3M\u20135M; run winding closes 1M\u20132M, 3M\u20135M, and 5M\u20136M. Verify contacts with motor stopped vs drum spinning.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Centrifugal Switch (Motor) contact table."
+        },
+        {
+          "id": "belt_switch_precheck",
+          "order": 4,
+          "type": "instruction",
+          "title": "Belt safety prerequisite",
+          "body": "Confirm belt safety switch passes (nstdre75w1-belt-safety) before condemning motor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Confirm belt safety switch passes (nstdre75w1-belt-safety) before condemning motor."
+        },
+        {
+          "id": "motor_run_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Motor runs with belt on",
+          "body": "With belt installed and door closed, does motor start and drum turn?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_runs",
+              "label": "Yes / runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_no_run",
+              "label": "No / won't run",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With belt installed and door closed, does motor start and drum turn?"
+        },
+        {
+          "id": "replace_motor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "motor_runs",
+          "label": "Yes / runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_run_check"
+        },
+        {
+          "id": "motor_no_run",
+          "label": "No / won't run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_run_check"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "motor",
+        "oemTestTitle": "Motor centrifugal switch",
+        "pages": [
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-motor-circuit",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-motor-circuit",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-outlet-thermistor",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Outlet NTC \u2014 service test 04 & bench",
+      "purpose": "NTC test (service mode screen 04)",
+      "prerequisites": [],
+      "componentIds": [
+        "exhaust_thermistor"
+      ],
+      "tags": [
+        "E5",
+        "no_heat",
+        "thermistor_check",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "service_test_ntc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Service test \u2014 screen 04 NTC",
+          "body": "Enter service test mode (Time Adjust + and Wrinkle Care within 3s after Power; display shows St). Press Time Adjust + until screen 04. E5 displays on NTC fault; otherwise current outlet temp is shown.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Screen 04, NTC test. If NTC error, error code E5 will show up."
+        },
+        {
+          "id": "bench_outlet_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench outlet NTC at CN3",
+          "body": "Disconnect power. Outlet NTC at CN3 pins 1\u20132 (TEMP_OUT). Spec: ~50 k\u03a9 @ 77\u00b0F (40 k\u03a9 @ 86\u00b0F, 99 k\u03a9 @ 50\u00b0F).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Outlet NTC at CN3 pins 1\u20132 (TEMP_OUT). Spec: ~50 k\u03a9 @ 77\u00b0F (40 k\u03a9 @ 86\u00b0F, 99 k\u03a9 @ 50\u00b0F)."
+        },
+        {
+          "id": "outlet_ntc_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Outlet NTC resistance",
+          "body": "Measure CN3 TEMP_OUT (pins 1\u20132) at room temperature.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDryerOutletThermistorKohm",
+              "testPoint": {
+                "connector": "CN3",
+                "pins": "1-2",
+                "label": "Outlet NTC resistance"
+              },
+              "title": "Outlet NTC resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "outlet_ntc_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "inspect_cn3_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "outlet_ntc_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_outlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000)."
+            },
+            {
+              "id": "outlet_ntc_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_outlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000)."
+            },
+            {
+              "id": "outlet_ntc_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_outlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000)."
+            }
+          ],
+          "sourceExcerpt": "Thermistor resistance 50K\u03a9 @ 77\u00b0F. If infinity, replace thermistor."
+        },
+        {
+          "id": "inspect_cn3_harness",
+          "order": 6,
+          "type": "instruction",
+          "title": "Inspect CN3 harness",
+          "body": "Verify CN3 harness between main PCB and outlet NTC. Repair opens/shorts; retest screen 04 in service mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify CN3 harness between main PCB and outlet NTC. Repair opens/shorts; retest screen 04 in service mode."
+        },
+        {
+          "id": "replace_outlet_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace outlet NTC",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "outlet_ntc_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Outlet NTC verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDryerOutletThermistorKohm",
+          "testPoint": {
+            "connector": "CN3",
+            "pins": "1-2",
+            "label": "Outlet NTC resistance"
+          },
+          "title": "Outlet NTC resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "outlet_ntc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inspect_cn3_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "outlet_ntc_ohms"
+        },
+        {
+          "id": "outlet_ntc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "stepId": "outlet_ntc_ohms"
+        },
+        {
+          "id": "outlet_ntc_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "stepId": "outlet_ntc_ohms"
+        },
+        {
+          "id": "outlet_ntc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_outlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace outlet thermistor \u2014 E5 fault (A/D <10 or >1000).",
+          "stepId": "outlet_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "04",
+        "oemTestTitle": "NTC test (service mode screen 04)",
+        "pages": [
+          23,
+          24,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-outlet-thermistor",
+        "pages": [
+          23,
+          24,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-outlet-thermistor",
+            "pages": [
+              23,
+              24,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-thermal-cutoff",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Thermal cut-off \u2014 continuity",
+      "purpose": "Thermostat thermal cut-off",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_cutoff"
+      ],
+      "tags": [
+        "no_heat",
+        "thermal_fuse_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_thermal_cutoff",
+          "order": 2,
+          "type": "instruction",
+          "title": "Locate thermal cut-off",
+          "body": "Thermal cut-off in exhaust/heat path. Electric: 212/176\u00b0F 25A. Gas: 347\u00b0F 25A. Power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Thermal cut-off in exhaust/heat path. Electric: 212/176\u00b0F 25A. Gas: 347\u00b0F 25A. Power off."
+        },
+        {
+          "id": "tcutoff_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Thermal cut-off < 1 \u03a9",
+          "body": "Ohmmeter across thermal cut-off terminals. Infinity = open fuse \u2014 replace.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tcutoff_pass",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tcutoff_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tcutoff_fail",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_tcutoff",
+              "terminal": true,
+              "oemOutcome": "Replace thermostat thermal cut-off."
+            }
+          ],
+          "sourceExcerpt": "Thermostat Thermal cut-off resistance < 1\u03a9. If infinity, replace."
+        },
+        {
+          "id": "replace_tcutoff",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace thermal cut-off",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tcutoff_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermal cut-off OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "tcutoff_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tcutoff_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tcutoff_continuity"
+        },
+        {
+          "id": "tcutoff_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_tcutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermostat thermal cut-off.",
+          "stepId": "tcutoff_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "thermal-cutoff",
+        "oemTestTitle": "Thermostat thermal cut-off",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-thermal-cutoff",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-thermal-cutoff",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nstdre75w1-thermal-hi-limit",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "title": "Regulating thermostat & hi-limit",
+      "purpose": "Regulating thermostat and hi-limit",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse"
+      ],
+      "tags": [
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before accessing internal components."
+        },
+        {
+          "id": "access_regulating",
+          "order": 2,
+          "type": "instruction",
+          "title": "Locate regulating thermostat",
+          "body": "Regulating thermostat (158/122\u00b0F 25A) and hi-limit in heat path. Power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Regulating thermostat (158/122\u00b0F 25A) and hi-limit in heat path. Power off."
+        },
+        {
+          "id": "regulating_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Regulating thermostat < 1 \u03a9",
+          "body": "Resistance across regulating thermostat: < 1 \u03a9. Infinity = replace.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "reg_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hilimit_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "reg_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_regulating",
+              "terminal": true,
+              "oemOutcome": "Replace regulating thermostat."
+            }
+          ],
+          "sourceExcerpt": "Regulating Thermostat resistance < 1\u03a9."
+        },
+        {
+          "id": "hilimit_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Hi-limit < 1 \u03a9",
+          "body": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if supply was cut from overtemperature.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hilimit_pass",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hilimit_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hilimit_fail",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_hilimit",
+              "terminal": true,
+              "oemOutcome": "Replace hi-limit thermostat."
+            }
+          ],
+          "sourceExcerpt": "Hi-limit thermostat: < 1 \u03a9. Press red reset button if supply was cut from overtemperature."
+        },
+        {
+          "id": "replace_regulating",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace regulating thermostat",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_hilimit",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace hi-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hilimit_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermostats OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "reg_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hilimit_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "regulating_continuity"
+        },
+        {
+          "id": "reg_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_regulating",
+          "terminal": true,
+          "oemOutcome": "Replace regulating thermostat.",
+          "stepId": "regulating_continuity"
+        },
+        {
+          "id": "hilimit_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hilimit_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hilimit_check"
+        },
+        {
+          "id": "hilimit_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace hi-limit thermostat.",
+          "stepId": "hilimit_check"
+        }
+      ],
+      "source": {
+        "manualId": "NS-TDRE75W1",
+        "manualTitle": "Insignia NS-TDRE75W1 / NS-TDRG75W1 Vented Dryer Service Manual",
+        "oemTestNumber": "hi-limit",
+        "oemTestTitle": "Regulating thermostat and hi-limit",
+        "pages": [
+          29,
+          30
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-TDRE75W1 Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-thermal-hi-limit",
+        "pages": [
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-thermal-hi-limit",
+            "pages": [
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

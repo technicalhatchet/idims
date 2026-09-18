@@ -87,7 +87,7 @@ export default function OemProcedureStep({
           >
             {needsRepair
               ? `Finding: ${completionPresentation?.headline || 'Repair action identified'}.`
-              : 'OEM test complete. Use Next to continue with mechanical and control checks.'}
+              : 'OEM test complete — electrical lock path is verified. Use Next for mechanical checks (latch, alignment, striker).'}
           </div>
 
           {awaitingRepairDecision ? (

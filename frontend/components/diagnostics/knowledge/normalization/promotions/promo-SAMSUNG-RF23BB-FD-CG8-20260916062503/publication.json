@@ -1,0 +1,116 @@
+{
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "SAMSUNG_RF23BB_FD_gate_decision_ledger_v1.json",
+  "publishMode": "gate_table_authoritative_second_manual_compounding",
+  "gateKind": "samsung_rf23bb_second_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "priorPublishedManualIds": [
+    "W10322959"
+  ],
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  },
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "promotionId": "promo-SAMSUNG-RF23BB-FD-CG8-20260916062503",
+  "publishedAt": "2026-09-16T06:25:03.888720+00:00",
+  "canonicalHashBefore": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+  "canonicalHashAfter": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+  "overlayFile": "frontend\\components\\diagnostics\\knowledge\\canonical\\manufacturer_overlays\\samsung_fridge_bespoke.json",
+  "applied": {
+    "oemAliases": [
+      "main pcb",
+      "main pba",
+      "engineer mode",
+      "self diagnosis",
+      "display panel",
+      "display_panel",
+      "inverter board",
+      "inverter_board",
+      "evap_fan",
+      "f-fan",
+      "fridge fan",
+      "freezer fan",
+      "c-fan",
+      "damper_motor",
+      "thermistor",
+      "compressor",
+      "ice maker",
+      "autofill"
+    ],
+    "platformComponents": [
+      "inverter_board",
+      "damper_motor",
+      "freezer_defrost_ntc",
+      "fridge_defrost_ntc",
+      "ice_pipe_heater",
+      "ice_maker_module",
+      "ice_room_fan"
+    ],
+    "conditionalBindings": [
+      "compressor",
+      "temperature_sensor",
+      "temperature_sensor",
+      "temperature_sensor",
+      "temperature_sensor",
+      "ice_maker",
+      "water_dispenser"
+    ],
+    "procedureBindings": [
+      "samsungbespoke-engineer-mode-rf23bb-inner",
+      "samsungbespoke-fhub-engineer-entry",
+      "samsungbespoke-self-diagnosis-entry",
+      "samsungbespoke-main-panel-comm",
+      "samsungbespoke-freezer-defrost-heater",
+      "samsungbespoke-freezer-fan",
+      "samsungbespoke-fridge-fan",
+      "samsungbespoke-convertible-fan",
+      "samsungbespoke-damper-heater-135",
+      "samsungbespoke-damper-heater-24",
+      "samsungbespoke-compressor-inverter",
+      "samsungbespoke-fridge-sensor",
+      "samsungbespoke-freezer-sensor",
+      "samsungbespoke-flex-sensor",
+      "samsungbespoke-ambient-sensor",
+      "samsungbespoke-ice-maker-sensor",
+      "samsungbespoke-autofill-overflow"
+    ],
+    "procedureRoleEvidence": [],
+    "routingRejections": [
+      "defrost_system",
+      "cooling_system",
+      "airflow_path"
+    ],
+    "deferredArtifacts": [
+      "samsung-door-switch-abstention",
+      "samsung-condenser-fan-abstention",
+      "samsung-humidity-abstention",
+      "samsung-water-level-abstention"
+    ]
+  },
+  "manufacturerIsolation": {
+    "priorOverlay": "whirlpool_jazz_french_door.json",
+    "jazzLeakTermsChecked": [
+      "compressor_relay",
+      "defrost_thermostat",
+      "em2y60",
+      "jazz-compressor-relay",
+      "jazz-door-switch",
+      "relay_drive_em2y60",
+      "start_capacitor",
+      "whirlpool_jazz_french_door"
+    ]
+  }
+}

@@ -1,0 +1,3289 @@
+{
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "procedures": [
+    {
+      "procedureId": "samsungtla50-clutch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-2: Clutch position (PC, PC1)",
+      "purpose": "Clutch PC",
+      "prerequisites": [],
+      "componentIds": [
+        "clutch"
+      ],
+      "tags": [
+        "PC",
+        "PC1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "clutch_power_cycle",
+          "order": 2,
+          "type": "instruction",
+          "title": "Power cycle",
+          "body": "Unplug 1 minute and retry. PC = clutch position not detected; PC1 = hall signal incorrect after detection.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug 1 minute and retry. PC = clutch position not detected; PC1 = hall signal incorrect after detection."
+        },
+        {
+          "id": "clutch_inspect",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Clutch and harness",
+          "body": "Inspect clutch assembly, hall sensor wiring, and motor module connections.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "clutch_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "clutch_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_clutch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_clutch_out",
+              "terminal": true,
+              "oemOutcome": "Replace clutch/motor module or main PBA."
+            }
+          ],
+          "sourceExcerpt": "Inspect clutch assembly, hall sensor wiring, and motor module connections."
+        },
+        {
+          "id": "replace_clutch_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace clutch module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "clutch_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Clutch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "clutch_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "clutch_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "clutch_inspect"
+        },
+        {
+          "id": "replace_clutch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_clutch_out",
+          "terminal": true,
+          "oemOutcome": "Replace clutch/motor module or main PBA.",
+          "stepId": "clutch_inspect"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-2",
+        "oemTestTitle": "Clutch PC",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-clutch",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-clutch",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: PBA communication (AC)",
+      "purpose": "Communication AC",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC",
+        "AC6",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "comm_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Sub/main harness",
+          "body": "Verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA."
+        },
+        {
+          "id": "comm_verified",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Comm restored?",
+          "body": "After harness repair and power cycle, does AC/AC6 clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PBA communication circuit."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, does AC/AC6 clear?"
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_verified"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA communication circuit.",
+          "stepId": "comm_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Communication AC",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "purpose": "Door Lock DC",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "dC",
+        "DC",
+        "DC1",
+        "DC2",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "door_closed",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door fully closed",
+          "body": "Ensure door closed with no laundry caught. Check door lock tray for debris.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reed_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "close_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "close_door_out",
+              "terminal": true,
+              "oemOutcome": "Close door and clear debris from lock tray."
+            }
+          ],
+          "sourceExcerpt": "Ensure door closed with no laundry caught. Check door lock tray for debris."
+        },
+        {
+          "id": "reed_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Reed switch (White\u2013Green)",
+          "body": "Approx 0.2 \u03a9 at reed switch.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+              "testPoint": {
+                "connector": "Reed SW",
+                "pins": "White-Green",
+                "label": "Reed switch (White\u2013Green)"
+              },
+              "title": "Reed switch (White\u2013Green)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "reed_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_reed",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "reed_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_reed",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "reed_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_reed",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "reed_pass",
+              "label": "~0.2 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lock_motor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Approx 0.2 \u03a9 at reed switch."
+        },
+        {
+          "id": "lock_motor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Lock motor (Black\u2013Brown)",
+          "body": "33\u201346 \u03a9 at lock motor.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+              "testPoint": {
+                "connector": "Lock motor",
+                "pins": "Black-Brown",
+                "label": "Lock motor (Black\u2013Brown)"
+              },
+              "title": "Lock motor (Black\u2013Brown)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lock_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lock_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lock_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_pass",
+              "label": "33\u201346 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "lock_contact_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "33\u201346 \u03a9 at lock motor."
+        },
+        {
+          "id": "lock_contact_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Lock/unlock contacts",
+          "body": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+              "testPoint": {
+                "connector": "Lock contacts",
+                "pins": "White-Red / White-Blue",
+                "label": "Lock/unlock contacts"
+              },
+              "title": "Lock/unlock contacts"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lock_unit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lock_unit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lock_unit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lc_pass",
+              "label": "~0.2 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state."
+        },
+        {
+          "id": "close_door_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Close door",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_reed",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace reed switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lock_motor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace lock motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lock_unit",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace lock switch unit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 10,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1."
+        },
+        {
+          "id": "door_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Door circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+          "testPoint": {
+            "connector": "Reed SW",
+            "pins": "White-Green",
+            "label": "Reed switch (White\u2013Green)"
+          },
+          "title": "Reed switch (White\u2013Green)"
+        },
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+          "testPoint": {
+            "connector": "Lock motor",
+            "pins": "Black-Brown",
+            "label": "Lock motor (Black\u2013Brown)"
+          },
+          "title": "Lock motor (Black\u2013Brown)"
+        },
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+          "testPoint": {
+            "connector": "Lock contacts",
+            "pins": "White-Red / White-Blue",
+            "label": "Lock/unlock contacts"
+          },
+          "title": "Lock/unlock contacts"
+        }
+      ],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reed_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door and clear debris from lock tray.",
+          "stepId": "door_closed"
+        },
+        {
+          "id": "reed_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "reed_ohms"
+        },
+        {
+          "id": "reed_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "reed_ohms"
+        },
+        {
+          "id": "reed_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_reed",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "reed_ohms"
+        },
+        {
+          "id": "reed_pass",
+          "label": "~0.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_motor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "reed_ohms"
+        },
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lm_pass",
+          "label": "33\u201346 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_contact_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lock_motor_ohms"
+        },
+        {
+          "id": "lc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_contact_ohms"
+        },
+        {
+          "id": "lc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_contact_ohms"
+        },
+        {
+          "id": "lc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock_unit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "lock_contact_ohms"
+        },
+        {
+          "id": "lc_pass",
+          "label": "~0.2 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lock_contact_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Door Lock DC",
+        "pages": [
+          31,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-drain-pump",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Drain pump (5C)",
+      "purpose": "Drain Pump 5C",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "5C",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "pump_debris",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Pump housing",
+          "body": "Check drain pump for foreign material. Verify wiring connections.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_pump",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_pump_out",
+              "terminal": true,
+              "oemOutcome": "Remove debris from pump housing."
+            }
+          ],
+          "sourceExcerpt": "Check drain pump for foreign material. Verify wiring connections."
+        },
+        {
+          "id": "pump_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Drain pump resistance",
+          "body": "Measure drain pump motor \u2014 13.5\u201316.5 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+              "testPoint": {
+                "connector": "Drain pump",
+                "pins": "Motor terminals",
+                "label": "Drain pump resistance"
+              },
+              "title": "Drain pump resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pump_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_pass",
+              "label": "13.5\u201316.5 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pump_run_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure drain pump motor \u2014 13.5\u201316.5 \u03a9."
+        },
+        {
+          "id": "pump_run_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pump runs",
+          "body": "Natural drain test \u2014 pump operates?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pump_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump motor."
+            }
+          ],
+          "sourceExcerpt": "Natural drain test \u2014 pump operates?"
+        },
+        {
+          "id": "clear_pump_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Clear pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pump_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1."
+        },
+        {
+          "id": "drain_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Drain OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "Motor terminals",
+            "label": "Drain pump resistance"
+          },
+          "title": "Drain pump resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pump_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "clear_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_out",
+          "terminal": true,
+          "oemOutcome": "Remove debris from pump housing.",
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "pump_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_pass",
+          "label": "13.5\u201316.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_run_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_run_check"
+        },
+        {
+          "id": "replace_pump_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump motor.",
+          "stepId": "pump_run_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Drain Pump 5C",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-hmi-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Control panel (BC2)",
+      "purpose": "Switch Check BC2",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "BC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "button_gap",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Button gap check",
+          "body": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gap_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "loosen_screws",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "loosen_screws_out",
+              "terminal": true,
+              "oemOutcome": "Loosen over-tightened service PBA screws; replace main PBA if IC fault."
+            }
+          ],
+          "sourceExcerpt": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s."
+        },
+        {
+          "id": "loosen_screws_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Adjust panel",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "gap_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "button_gap"
+        },
+        {
+          "id": "loosen_screws",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "loosen_screws_out",
+          "terminal": true,
+          "oemOutcome": "Loosen over-tightened service PBA screws; replace main PBA if IC fault.",
+          "stepId": "button_gap"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Switch Check BC2",
+        "pages": [
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-hmi-check",
+        "pages": [
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-hmi-check",
+            "pages": [
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-inlet-valves",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Water supply (4C)",
+      "purpose": "Water Supply 4C",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "4C",
+        "4C2",
+        "fill_issue",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "supply_precheck",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply and hoses",
+          "body": "Verify taps open, hoses not kinked/frozen, cold on cold tap. Clean mesh filters.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct water supply routing and pressure."
+            }
+          ],
+          "sourceExcerpt": "Verify taps open, hoses not kinked/frozen, cold on cold tap. Clean mesh filters."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Inlet valve resistance",
+          "body": "Measure water supply valve terminals \u2014 0.9\u20131.1 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherInletValveOhms",
+              "testPoint": {
+                "connector": "Inlet valve",
+                "pins": "Coil terminals",
+                "label": "Inlet valve resistance"
+              },
+              "title": "Inlet valve resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_pass",
+              "label": "0.9\u20131.1 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "smart_install_valves",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure water supply valve terminals \u2014 0.9\u20131.1 k\u03a9."
+        },
+        {
+          "id": "smart_install_valves",
+          "order": 4,
+          "type": "instruction",
+          "title": "Smart Install valve test",
+          "body": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1."
+        },
+        {
+          "id": "valve_visual",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Valves operate",
+          "body": "Do cold and hot valves open in manual check?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valves_run",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inlet_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_valve_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": "Replace valve assembly or PBA relay."
+            }
+          ],
+          "sourceExcerpt": "Do cold and hot valves open in manual check?"
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_valve_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inlet_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Inlet OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherInletValveOhms",
+          "testPoint": {
+            "connector": "Inlet valve",
+            "pins": "Coil terminals",
+            "label": "Inlet valve resistance"
+          },
+          "title": "Inlet valve resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_precheck"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct water supply routing and pressure.",
+          "stepId": "supply_precheck"
+        },
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_pass",
+          "label": "0.9\u20131.1 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "smart_install_valves",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_visual"
+        },
+        {
+          "id": "replace_valve_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly or PBA relay.",
+          "stepId": "valve_visual"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Water Supply 4C",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-inlet-valves",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-inlet-valves",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-leak-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Water leakage (LC, LC1)",
+      "purpose": "Water Leakage LC",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "LC",
+        "LC1",
+        "leak_check",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "bellows_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Drain bellows",
+          "body": "Check draining bellows for underwear, wires, coins. Remove alien substance.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bellows_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "leak_inspection",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_bellows",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_bellows_out",
+              "terminal": true,
+              "oemOutcome": "Clear bellows obstruction."
+            }
+          ],
+          "sourceExcerpt": "Check draining bellows for underwear, wires, coins. Remove alien substance."
+        },
+        {
+          "id": "leak_inspection",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Leak source",
+          "body": "Inspect tub connections, internal hoses, and drain motor for leaks.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_leak",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "leak_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_leak",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_leak_out",
+              "terminal": true,
+              "oemOutcome": "Repair leak path or replace drain motor."
+            }
+          ],
+          "sourceExcerpt": "Inspect tub connections, internal hoses, and drain motor for leaks."
+        },
+        {
+          "id": "clear_bellows_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Clear bellows",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_leak_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair leak",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "leak_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Leak path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "bellows_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_inspection",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bellows_check"
+        },
+        {
+          "id": "clear_bellows",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_bellows_out",
+          "terminal": true,
+          "oemOutcome": "Clear bellows obstruction.",
+          "stepId": "bellows_check"
+        },
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_inspection"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak path or replace drain motor.",
+          "stepId": "leak_inspection"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Water Leakage LC",
+        "pages": [
+          33,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-mems-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: MEMS sensor (8C)",
+      "purpose": "MEMS PBA 8C",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "8C",
+        "8C1",
+        "8C2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "mems_wiring",
+          "order": 2,
+          "type": "visual_check",
+          "title": "MEMS harness",
+          "body": "Check wire connections to MEMS PBA. Rule out disconnection.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wiring_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "mems_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_mems",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_mems_out",
+              "terminal": true,
+              "oemOutcome": "Replace MEMS PBA."
+            }
+          ],
+          "sourceExcerpt": "Check wire connections to MEMS PBA. Rule out disconnection."
+        },
+        {
+          "id": "replace_mems_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace MEMS PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mems_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "MEMS OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "wiring_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mems_wiring"
+        },
+        {
+          "id": "replace_mems",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_mems_out",
+          "terminal": true,
+          "oemOutcome": "Replace MEMS PBA.",
+          "stepId": "mems_wiring"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "MEMS PBA 8C",
+        "pages": [
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-mems-sensor",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-mems-sensor",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Washing motor (3C)",
+      "purpose": "Washing Motor 3C",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "3C",
+        "motor_check",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "disconnect_motor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect motor connector",
+          "body": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Motor winding resistance",
+          "body": "Disconnect connector. Measure any two of three motor terminals \u2014 19.3 \u03a9 @ 25\u00b0C.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+              "testPoint": {
+                "connector": "Motor",
+                "pins": "Any two of three",
+                "label": "Motor winding resistance"
+              },
+              "title": "Motor winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_pass",
+              "label": "~19.3 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Measure any two of three motor terminals \u2014 19.3 \u03a9 @ 25\u00b0C."
+        },
+        {
+          "id": "reconnect_motor",
+          "order": 4,
+          "type": "instruction",
+          "title": "Reconnect motor",
+          "body": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify spin.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify spin."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Spin advances steps per \u00a75-1."
+        },
+        {
+          "id": "live_motor_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Motor runs in manual check",
+          "body": "Does drum spin in Smart Install dehydration test?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "suspect_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "suspect_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PBA after confirming motor and harness."
+            }
+          ],
+          "sourceExcerpt": "Does drum spin in Smart Install dehydration test?"
+        },
+        {
+          "id": "replace_motor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "suspect_pba_out",
+          "order": 9,
+          "type": "outcome",
+          "title": "Suspect main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+          "testPoint": {
+            "connector": "Motor",
+            "pins": "Any two of three",
+            "label": "Motor winding resistance"
+          },
+          "title": "Motor winding resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_pass",
+          "label": "~19.3 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_motor_check"
+        },
+        {
+          "id": "suspect_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA after confirming motor and harness.",
+          "stepId": "live_motor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Washing Motor 3C",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Overflow (OC)",
+      "purpose": "Overflow OC",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "tags": [
+        "OC",
+        "overflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "oc_valve",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Continuous fill check",
+          "body": "Check for frozen or obstructed inlet valve causing continuous water supply.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "oc_level_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "service_valve",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_valve_out",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve or clear obstruction."
+            }
+          ],
+          "sourceExcerpt": "Check for frozen or obstructed inlet valve causing continuous water supply."
+        },
+        {
+          "id": "oc_level_sensor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Water level sensor",
+          "body": "If inlet path OK, replace water level sensor per \u00a75-3 OC.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If inlet path OK, replace water level sensor per \u00a75-3 OC."
+        },
+        {
+          "id": "service_valve_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Service inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "oc_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Overflow resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_level_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "oc_valve"
+        },
+        {
+          "id": "service_valve",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve or clear obstruction.",
+          "stepId": "oc_valve"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Overflow OC",
+        "pages": [
+          34,
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "purpose": "Power Check UC",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "UC",
+        "9C1",
+        "9C2",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "voltage_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply voltage",
+          "body": "Verify operating voltage during Boil or Dry. Check for plug receptacle extension causing voltage drop.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct outlet and dedicated circuit."
+            }
+          ],
+          "sourceExcerpt": "Verify operating voltage during Boil or Dry. Check for plug receptacle extension causing voltage drop."
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Power OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "voltage_check"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct outlet and dedicated circuit.",
+          "stepId": "voltage_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Power Check UC",
+        "pages": [
+          34,
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-power-supply",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-power-supply",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-unbalance",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-2: Unbalance (UB)",
+      "purpose": "Unbalance UB",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "UB",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "load_balance",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Load distribution",
+          "body": "Redistribute laundry evenly. Level machine. Single heavy items (robes, jeans) may trigger UB.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ub_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "redistribute",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "redistribute_out",
+              "terminal": true,
+              "oemOutcome": "Redistribute load and verify level."
+            }
+          ],
+          "sourceExcerpt": "Redistribute laundry evenly. Level machine. Single heavy items (robes, jeans) may trigger UB."
+        },
+        {
+          "id": "redistribute_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Redistribute load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ub_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Unbalance resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ub_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "load_balance"
+        },
+        {
+          "id": "redistribute",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_out",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and verify level.",
+          "stepId": "load_balance"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-2",
+        "oemTestTitle": "Unbalance UB",
+        "pages": [
+          30,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-wash-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Wash heater (HC, HC1)",
+      "purpose": "Heater Check HC",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_heater",
+        "wash_ntc"
+      ],
+      "tags": [
+        "HC",
+        "HC1",
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "heater_wiring",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Heater connections",
+          "body": "Verify wire connections to wash heater.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_wired",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_replace",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_wiring",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_wiring_out",
+              "terminal": true,
+              "oemOutcome": "Repair heater wiring."
+            }
+          ],
+          "sourceExcerpt": "Verify wire connections to wash heater."
+        },
+        {
+          "id": "heater_replace",
+          "order": 3,
+          "type": "instruction",
+          "title": "Heater fault path",
+          "body": "If wash heater faulty per TYPE 1, replace heater. If heater OK, replace wash thermistor TYPE 2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If wash heater faulty per TYPE 1, replace heater. If heater OK, replace wash thermistor TYPE 2."
+        },
+        {
+          "id": "repair_wiring_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Repair wiring",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Heater path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "heater_wired",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_replace",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_wiring"
+        },
+        {
+          "id": "repair_wiring",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring_out",
+          "terminal": true,
+          "oemOutcome": "Repair heater wiring.",
+          "stepId": "heater_wiring"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Heater Check HC",
+        "pages": [
+          34,
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-heater",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-heater",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-wash-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "purpose": "Temperature Sensor TC",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "TC1",
+        "TC2",
+        "TC3",
+        "TC4",
+        "thermistor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "tc_connectors",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Thermistor connectors",
+          "body": "Check washing and dry heater temperature sensor connectors. Rule out winter freeze.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_ntc",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ntc_out",
+              "terminal": true,
+              "oemOutcome": "Replace faulty temperature sensor per active TC code."
+            }
+          ],
+          "sourceExcerpt": "Check washing and dry heater temperature sensor connectors. Rule out winter freeze."
+        },
+        {
+          "id": "replace_ntc_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tc_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tc_connectors"
+        },
+        {
+          "id": "replace_ntc",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ntc_out",
+          "terminal": true,
+          "oemOutcome": "Replace faulty temperature sensor per active TC code.",
+          "stepId": "tc_connectors"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Temperature Sensor TC",
+        "pages": [
+          34,
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-wash-thermistor",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-wash-thermistor",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungtla50-water-level-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "title": "\u00a75-3: Water level sensor (1C)",
+      "purpose": "Water Level Sensor 1C",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "1C",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "wls_hose",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Level sensor hose and terminals",
+          "body": "Check hose not broken; sensor terminals connected; correct part code installed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wls_frequency",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hose_out",
+              "terminal": true,
+              "oemOutcome": "Repair hose routing or replace incorrect sensor part."
+            }
+          ],
+          "sourceExcerpt": "Check hose not broken; sensor terminals connected; correct part code installed."
+        },
+        {
+          "id": "wls_frequency",
+          "order": 3,
+          "type": "instruction",
+          "title": "Frequency check",
+          "body": "Connect sensor and connector. Measure frequency Blue\u2013Orange \u2014 approx 26.4 kHz without water (min 25.9 kHz).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Connect sensor and connector. Measure frequency Blue\u2013Orange \u2014 approx 26.4 kHz without water (min 25.9 kHz)."
+        },
+        {
+          "id": "fix_hose_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix hose/sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wls_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Level sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair hose routing or replace incorrect sensor part.",
+          "stepId": "wls_hose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "manualTitle": "Samsung Top-Load Washer A50 Family (WA50R, WA51DG, WF45A)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Water Level Sensor 1C",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung tl washer wa50r5200-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "platformId": "samsung_tl_washer_a50",
+        "procedureId": "samsungtla50-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "platformId": "samsung_tl_washer_a50"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtla50-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

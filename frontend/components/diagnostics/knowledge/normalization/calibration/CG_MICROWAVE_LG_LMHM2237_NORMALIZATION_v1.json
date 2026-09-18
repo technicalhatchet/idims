@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_target_normalization",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "targetId": "lg_lmhm2237_otr",
+  "status": "approved",
+  "humanApprovedAt": "2026-09-17T10:26:00+00:00",
+  "revisionNote": "Rev 1.1 — magnetron implementation realization moved from hv_generation to rf_cavity per frozen HV→RF causal boundary",
+  "normalizedAt": "2026-09-17T10:00:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+  "canonicalOntologyId": "microwave",
+  "implementationTemplateId": "microwave",
+  "coreConstraint": "Maps LG LMHM2237 service-manual evidence onto frozen microwave functions. Fit R1 observation is architectural witness only — not re-derived as ontology evidence.",
+  "evidenceLineageGuardrail": {
+    "serviceManualPath": {
+      "flow": "SERVICE MANUAL → normalized evidence → implementation/platform knowledge → microwave function realization",
+      "sourceType": "service_manual"
+    },
+    "fitEvidencePath": {
+      "flow": "CG-MICROWAVE-FIT R1 → already-approved divergence evidence → historical architectural witness",
+      "sourceType": "fit_test_record",
+      "observationArtifact": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "notNormalizedAsOntologyEvidence": true
+    }
+  },
+  "sourceMetadata": {
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "manufacturer": "LG",
+    "platformId": "lg_microwave_otr",
+    "smokeModel": "LMHM2237BD",
+    "sourcePdf": "backend/docs/manuals/LMHM2237BD.pdf",
+    "extractedText": "backend/docs/manuals/LMHM2237BD-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/lg_microwave_otr",
+    "referenceOverlay": "frontend/components/diagnostics/knowledge/canonical/platform_overlays/microwave.reference.json"
+  },
+  "canonicalFunctionalMappings": [
+    {
+      "canonicalId": "power_supply",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-line-power", "lgotrmw-hv-fuse"],
+        "oemSections": ["5-1", "10"],
+        "platformTerms": ["line_fuse", "supply", "terminal_block"],
+        "manualPhrases": ["120 VAC", "line fuse", "dead unit"]
+      }
+    },
+    {
+      "canonicalId": "control_board",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-line-power", "lgotrmw-no-heat", "lgotrmw-pcb-thermistor"],
+        "oemSections": ["5-1", "6-3", "10"],
+        "platformTerms": ["main_pcb", "sub_pcb", "power_relay", "relay_2"],
+        "errorCodes": ["F-1", "F-2"]
+      }
+    },
+    {
+      "canonicalId": "user_interface",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-keypad"],
+        "oemSections": ["6-3", "9"],
+        "platformTerms": ["touch_panel", "membrane", "keypad"],
+        "serviceModeEntry": "lgotrmw-self-test-entry bundle"
+      }
+    },
+    {
+      "canonicalId": "door_interlock_chain",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-door-interlock", "lgotrmw-no-heat"],
+        "oemSections": ["9-1", "9-2"],
+        "platformTerms": ["primary_switch", "secondary_switch", "monitor_switch"],
+        "measurementKnowledge": ["microwaveDoorInterlockSwitchOhms"],
+        "sequencingNote": "Primary open/closed → secondary open/closed → monitor open/closed before HV condemnation"
+      }
+    },
+    {
+      "canonicalId": "hv_generation",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": [
+          "lgotrmw-hv-transformer",
+          "lgotrmw-hv-capacitor",
+          "lgotrmw-hv-diode",
+          "lgotrmw-hv-fuse",
+          "lgotrmw-no-heat"
+        ],
+        "oemSections": ["10"],
+        "implementationRealizations": [
+          { "term": "hv_transformer", "procedureId": "lgotrmw-hv-transformer" },
+          { "term": "hv_capacitor", "procedureId": "lgotrmw-hv-capacitor" },
+          { "term": "hv_diode", "procedureId": "lgotrmw-hv-diode" },
+          { "term": "hv_fuse", "procedureId": "lgotrmw-hv-fuse" }
+        ],
+        "orchestrationNote": "no-heat path sequences HV cascade before RF delivery — magnetron is downstream under rf_cavity",
+        "notPromotedToCanonical": true
+      }
+    },
+    {
+      "canonicalId": "rf_cavity",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-magnetron", "lgotrmw-turntable", "lgotrmw-no-heat"],
+        "oemSections": ["10", "complaint routing"],
+        "implementationRealizations": [
+          { "term": "magnetron", "procedureId": "lgotrmw-magnetron", "role": "RF generation device downstream of HV supply — platform vocabulary realizing rf_cavity" },
+          { "term": "turntable_motor", "procedureId": "lgotrmw-turntable" },
+          { "term": "waveguide_cover", "complaintRoute": "arcing" },
+          { "term": "waveguide", "note": "Gasket/waveguide at magnetron replacement — cavity field path" },
+          { "term": "cavity_field_path", "note": "RF energy delivery/containment — distinct from HV conditioning cascade" }
+        ],
+        "notPromotedToCanonical": true
+      }
+    },
+    {
+      "canonicalId": "thermal_protection",
+      "microwaveLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-pcb-thermistor", "lgotrmw-no-heat"],
+        "oemSections": ["6-3", "10"],
+        "platformTerms": ["pcb_thermistor", "magnetron_tco", "cavity_tco"],
+        "errorCodes": ["F-1", "F-2"],
+        "note": "Single thermal_protection function — PCB thermistor primary protective role; TCO devices are overlay realizations"
+      }
+    },
+    {
+      "canonicalId": "control_and_sensing",
+      "microwaveLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["lgotrmw-humidity-sensor", "lgotrmw-pcb-thermistor"],
+        "oemSections": ["6-3"],
+        "platformTerms": ["humidity_sensor", "pcb_thermistor"],
+        "errorCodes": ["F-4", "F-1", "F-2"],
+        "conditionalBinding": "LG sensor-cook and cabinet sensing paths — pcb_thermistor also surfaces in service test as control feedback (dual role preserved at implementation level)"
+      }
+    }
+  ],
+  "implementationRealizationTree": {
+    "hv_generation": ["hv_transformer", "hv_capacitor", "hv_diode", "hv_fuse"],
+    "rf_cavity": ["magnetron", "waveguide", "waveguide_cover", "turntable_motor", "cavity_field_uniformity"],
+    "thermal_protection": ["pcb_thermistor", "magnetron_tco", "cavity_tco"],
+    "door_interlock_chain": ["primary_switch", "secondary_switch", "monitor_switch"]
+  },
+  "deferredNormalization": [
+    {
+      "topic": "ventilation_otr",
+      "reason": "LG LMHM2237 vent fan path less prominent in current procedure seed — conditional binding deferred to compounding or supplemental extraction"
+    }
+  ],
+  "canonicalPromotionCount": 0,
+  "humanReviewQuestions": [
+    "Are all 12 LG procedures mapped to the correct frozen function?",
+    "Is pcb_thermistor split between thermal_protection and control_and_sensing correct?",
+    "Should vent-only-on-plug-in door-sensing bind under door_interlock_chain only?"
+  ]
+}

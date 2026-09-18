@@ -1,0 +1,58 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-WASHER",
+  "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+  "published": true,
+  "equivalence": {
+    "manualId": "SAMSUNG-FL-BB8700-WASHER",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 16,
+      "generatedCount": 16,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 5,
+      "mismatches": [],
+      "extraGenerated": [
+        "samsungbb8700-door-lock",
+        "samsungbb8700-drain-pump",
+        "samsungbb8700-motor-circuit",
+        "samsungbb8700-overflow",
+        "samsungbb8700-water-level-sensor"
+      ]
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 0,
+      "generatedCount": 4,
+      "mismatches": [],
+      "extraGenerated": [
+        "samsungbb8700-door-lock:samsungFlBb8700WasherDoorLockMotorOhms",
+        "samsungbb8700-door-lock:samsungFlBb8700WasherDoorLockOhms",
+        "samsungbb8700-door-lock:samsungFlBb8700WasherDoorSwitchOhms",
+        "samsungbb8700-motor-circuit:samsungFlBb8700WasherMotorOhms"
+      ]
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-SAMSUNG-FL-BB8700-WASHER-20260913142749",
+    "approvedCandidateCount": 0
+  },
+  "approvedCandidateIds": []
+}

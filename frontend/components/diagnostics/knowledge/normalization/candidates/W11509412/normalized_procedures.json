@@ -1,0 +1,3603 @@
+{
+  "manualId": "W11509412",
+  "procedures": [
+    {
+      "procedureId": "w11509412-test-01-fc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 1: Freezer compartment thermistor",
+      "purpose": "FC Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_01",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 01",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 01. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 01 \u2014 FC thermistor"
+        },
+        {
+          "id": "fc_ntc_result",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC thermistor service test result",
+          "body": "Board checks FC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fc_pass",
+              "label": "01 Pass",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fc_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_open",
+              "label": "02 Open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_fc_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_short",
+              "label": "03 Short",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_fc_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Board checks FC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?"
+        },
+        {
+          "id": "bench_fc_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench FC thermistor ohms",
+          "body": "Disconnect power. Measure FC thermistor at P5-3/P5-4 \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F; 7964 \u03a9 @ 32\u00b0F; 23,345 \u03a9 @ 0\u00b0F.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure FC thermistor at P5-3/P5-4 \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F; 7964 \u03a9 @ 32\u00b0F; 23,345 \u03a9 @ 0\u00b0F."
+        },
+        {
+          "id": "fc_ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "FC thermistor resistance",
+          "body": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-3 \u2194 P5-4",
+                "label": "FC thermistor resistance"
+              },
+              "title": "FC thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fc_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fc_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F."
+        },
+        {
+          "id": "replace_fc_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace FC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fc_ntc_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "FC thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-3 \u2194 P5-4",
+            "label": "FC thermistor resistance"
+          },
+          "title": "FC thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fc_pass",
+          "label": "01 Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fc_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_result"
+        },
+        {
+          "id": "fc_open",
+          "label": "02 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_fc_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_result"
+        },
+        {
+          "id": "fc_short",
+          "label": "03 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_fc_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_result"
+        },
+        {
+          "id": "fc_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_ohms"
+        },
+        {
+          "id": "fc_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_ohms"
+        },
+        {
+          "id": "fc_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_ohms"
+        },
+        {
+          "id": "fc_ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fc_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fc_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "1",
+        "oemTestTitle": "FC Thermistor",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-01-fc-thermistor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-02-rc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 2: Refrigerator compartment thermistor",
+      "purpose": "RC Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_02",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 02",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 02. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 02 \u2014 RC thermistor"
+        },
+        {
+          "id": "rc_ntc_result",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC thermistor service test result",
+          "body": "Board checks RC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "rc_pass",
+              "label": "01 Pass",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "rc_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_open",
+              "label": "02 Open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_rc_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_short",
+              "label": "03 Short",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_rc_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Board checks RC thermistor resistance. Temp display flashes: 01=pass, 02=open, 03=short. What result displays?"
+        },
+        {
+          "id": "bench_rc_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench RC thermistor ohms",
+          "body": "Disconnect power. Measure RC thermistor at P5-1/P5-2 \u2014 same R/T chart as FC (2700 \u03a9 @ 77\u00b0F).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure RC thermistor at P5-1/P5-2 \u2014 same R/T chart as FC (2700 \u03a9 @ 77\u00b0F)."
+        },
+        {
+          "id": "rc_ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "RC thermistor resistance",
+          "body": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-1 \u2194 P5-2",
+                "label": "RC thermistor resistance"
+              },
+              "title": "RC thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rc_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_rc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_rc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_rc_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "rc_ntc_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off \u2014 2700 \u03a9 \u00b15% @ 77\u00b0F."
+        },
+        {
+          "id": "replace_rc_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace RC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "rc_ntc_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "RC thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-1 \u2194 P5-2",
+            "label": "RC thermistor resistance"
+          },
+          "title": "RC thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "rc_pass",
+          "label": "01 Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rc_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_result"
+        },
+        {
+          "id": "rc_open",
+          "label": "02 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_rc_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_result"
+        },
+        {
+          "id": "rc_short",
+          "label": "03 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_rc_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_result"
+        },
+        {
+          "id": "rc_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_ohms"
+        },
+        {
+          "id": "rc_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_ohms"
+        },
+        {
+          "id": "rc_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_rc_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_ohms"
+        },
+        {
+          "id": "rc_ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "rc_ntc_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rc_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "2",
+        "oemTestTitle": "RC Thermistor",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-02-rc-thermistor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-02-rc-thermistor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-03-evap-fan-damper",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 3: Evaporator fan & air baffle",
+      "purpose": "Evaporator Fan and Air Baffle Motors",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan",
+        "damper_motor"
+      ],
+      "tags": [
+        "evap_fan",
+        "damper_check",
+        "airflow",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_03",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 03",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 03. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 03 \u2014 Evaporator fan and air baffle"
+        },
+        {
+          "id": "evap_fan_on",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run test 3",
+          "body": "Test turns on FC evaporator fan and air baffle motor. Monitor air baffle feedback with SW3.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test turns on FC evaporator fan and air baffle motor. Monitor air baffle feedback with SW3."
+        },
+        {
+          "id": "baffle_open_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Air baffle open",
+          "body": "Press SW3 until display shows 01 (fan on, air baffle open). Does damper open and fan run (2800 RPM spec)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "baffle_open_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "baffle_closed_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "baffle_open_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "baffle_closed_check",
+              "terminal": true,
+              "oemOutcome": "Check evaporator fan motor, damper motor, or harness."
+            }
+          ],
+          "sourceExcerpt": "Press SW3 until display shows 01 (fan on, air baffle open). Does damper open and fan run (2800 RPM spec)?"
+        },
+        {
+          "id": "baffle_closed_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Air baffle closed",
+          "body": "Press SW3 until display shows 02 (fan on, air baffle closed). Does damper close?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "baffle_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "evap_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "baffle_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "evap_verified",
+              "terminal": true,
+              "oemOutcome": "Replace air baffle/damper motor or repair feedback circuit."
+            }
+          ],
+          "sourceExcerpt": "Press SW3 until display shows 02 (fan on, air baffle closed). Does damper close?"
+        },
+        {
+          "id": "baffle_open_fail",
+          "order": 7,
+          "type": "outcome",
+          "title": "Evap fan or damper fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "baffle_fail",
+          "order": 8,
+          "type": "outcome",
+          "title": "Damper fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "evap_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Evap fan and damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "baffle_open_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "baffle_closed_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "baffle_open_check"
+        },
+        {
+          "id": "baffle_open_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "baffle_closed_check",
+          "terminal": true,
+          "oemOutcome": "Check evaporator fan motor, damper motor, or harness.",
+          "stepId": "baffle_open_check"
+        },
+        {
+          "id": "baffle_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "evap_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "baffle_closed_check"
+        },
+        {
+          "id": "baffle_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "evap_verified",
+          "terminal": true,
+          "oemOutcome": "Replace air baffle/damper motor or repair feedback circuit.",
+          "stepId": "baffle_closed_check"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "3",
+        "oemTestTitle": "Evaporator Fan and Air Baffle Motors",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-03-evap-fan-damper",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-04-compressor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 4: Compressor & condenser fan",
+      "purpose": "Compressor/Condenser Fan Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "condenser_fan"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "condenser_fan",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_04",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 04",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 04. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 04 \u2014 Compressor/condenser fan"
+        },
+        {
+          "id": "comp_toggle",
+          "order": 4,
+          "type": "instruction",
+          "title": "Toggle sealed system loads",
+          "body": "Press SW3 to control compressor and condenser fan (01=on, 02=off).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to control compressor and condenser fan (01=on, 02=off)."
+        },
+        {
+          "id": "comp_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Compressor and condenser fan run",
+          "body": "With SW3 set to 01 (on), do compressor (EMD55CLT) and condenser fan (940 RPM) operate normally?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comp_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_compressor",
+              "terminal": true,
+              "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device."
+            }
+          ],
+          "sourceExcerpt": "With SW3 set to 01 (on), do compressor (EMD55CLT) and condenser fan (940 RPM) operate normally?"
+        },
+        {
+          "id": "bench_compressor",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for compressor ohms",
+          "body": "Unplug unit. Access compressor terminals, relay TSD, and 12 \u00b5fd run capacitor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Access compressor terminals, relay TSD, and 12 \u00b5fd run capacitor."
+        },
+        {
+          "id": "run_winding_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Compressor run winding (EMD55CLT)",
+          "body": "Run winding 5.3 \u03a9 \u00b18% between run and common.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdCompressorRunOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "run \u2194 common",
+                "label": "Compressor run winding (EMD55CLT)"
+              },
+              "title": "Compressor run winding (EMD55CLT)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "run_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_pass",
+              "label": "5.3 \u03a9 \u00b18%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "start_winding_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run winding 5.3 \u03a9 \u00b18% between run and common."
+        },
+        {
+          "id": "start_winding_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Compressor start winding",
+          "body": "Start winding 7.7 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdCompressorStartOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "start \u2194 common",
+                "label": "Compressor start winding"
+              },
+              "title": "Compressor start winding"
+            }
+          ],
+          "branches": [
+            {
+              "id": "start_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_pass",
+              "label": "7.7 \u03a9 \u00b18%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "check_relay_cap",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Start winding 7.7 \u03a9 \u00b18% @ 77\u00b0F. Run capacitor 12 \u00b5fd \u00b110%."
+        },
+        {
+          "id": "check_relay_cap",
+          "order": 9,
+          "type": "instruction",
+          "title": "Check relay and run capacitor",
+          "body": "Verify TSD relay and 12 \u00b5fd/180 VAC run capacitor. FLA 2.3 A; LRA 11.3 A per spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify TSD relay and 12 \u00b5fd/180 VAC run capacitor. FLA 2.3 A; LRA 11.3 A per spec."
+        },
+        {
+          "id": "replace_compressor",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace compressor or start device",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Compressor path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdCompressorRunOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "run \u2194 common",
+            "label": "Compressor run winding (EMD55CLT)"
+          },
+          "title": "Compressor run winding (EMD55CLT)"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdCompressorStartOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "start \u2194 common",
+            "label": "Compressor start winding"
+          },
+          "title": "Compressor start winding"
+        }
+      ],
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings and start device.",
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_pass",
+          "label": "5.3 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "start_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        },
+        {
+          "id": "start_pass",
+          "label": "7.7 \u03a9 \u00b18%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "check_relay_cap",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "4",
+        "oemTestTitle": "Compressor/Condenser Fan Motor",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-04-compressor",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-04-compressor",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-06-defrost",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 6: Defrost heater & bimetal",
+      "purpose": "Defrost Heater/Bi-metal",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "frost_buildup",
+        "defrost_heater",
+        "defrost_thermostat",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_06",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 06",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 06. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 06 \u2014 Defrost heater/bimetal"
+        },
+        {
+          "id": "defrost_result",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run test 6",
+          "body": "Heater should energize when bimetal closed. If bimetal open, bypass only for heater verification. Display blank until valid reading.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Heater should energize when bimetal closed. If bimetal open, bypass only for heater verification. Display blank until valid reading."
+        },
+        {
+          "id": "bimetal_display",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost bimetal state",
+          "body": "Result display: 01=bimetal closed, 02=bimetal open. Does display match evaporator temperature state?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bimetal_ok",
+              "label": "01 Closed (expected)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_off_heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_open",
+              "label": "02 Open at frosted evap",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "power_off_heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Result display: 01=bimetal closed, 02=bimetal open. Does display match evaporator temperature state?"
+        },
+        {
+          "id": "power_off_heater_ohms",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for ohms",
+          "body": "Unplug refrigerator for resistance checks on defrost heater and bimetal.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug refrigerator for resistance checks on defrost heater and bimetal."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "Freezer evaporator heater 36.2 \u03a9 \u00b15% (365 W @ 115 VAC).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost heater",
+                "pins": "terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "36.2 \u03a9 \u00b15%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bimetal_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Freezer evaporator heater 36.2 \u03a9 \u00b15% (365 W @ 115 VAC)."
+        },
+        {
+          "id": "bimetal_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Defrost thermostat (bimetal) resistance",
+          "body": "Closed below 12\u00b0F; open above 42\u00b0F. Must be closed (few \u03a9) when evaporator frosted.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdDefrostBimetalOhms",
+              "testPoint": {
+                "connector": "bimetal",
+                "pins": "terminals",
+                "label": "Defrost thermostat (bimetal) resistance"
+              },
+              "title": "Defrost thermostat (bimetal) resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bimetal_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_pass",
+              "label": "Closed (few \u03a9)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "defrost_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Closed below 12\u00b0F; open above 42\u00b0F. Must be closed (few \u03a9) when evaporator frosted."
+        },
+        {
+          "id": "replace_heater",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bimetal",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace defrost thermostat",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "defrost_ok",
+          "order": 11,
+          "type": "outcome",
+          "title": "Defrost circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost heater",
+            "pins": "terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdDefrostBimetalOhms",
+          "testPoint": {
+            "connector": "bimetal",
+            "pins": "terminals",
+            "label": "Defrost thermostat (bimetal) resistance"
+          },
+          "title": "Defrost thermostat (bimetal) resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bimetal_ok",
+          "label": "01 Closed (expected)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_off_heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_display"
+        },
+        {
+          "id": "bimetal_open",
+          "label": "02 Open at frosted evap",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_off_heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_display"
+        },
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "36.2 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "bimetal_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_pass",
+          "label": "Closed (few \u03a9)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "6",
+        "oemTestTitle": "Defrost Heater/Bi-metal",
+        "pages": [
+          2
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-06-defrost",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-06-defrost",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-19-fill-tube-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 19: Fill tube & fascia heater",
+      "purpose": "Ice Maker Fill Tube and Fascia Heater Status",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker",
+        "water_valve"
+      ],
+      "tags": [
+        "no_ice",
+        "E4",
+        "fill_tube_heater",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_19",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 19",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 19. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 19 \u2014 Fill tube and fascia heater"
+        },
+        {
+          "id": "fill_tube_toggle",
+          "order": 4,
+          "type": "instruction",
+          "title": "Toggle fill tube/fascia heater",
+          "body": "Press SW3 to toggle ice maker fill tube heater and fascia heater (01=on, 02=off). P3-1 output energizes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to toggle ice maker fill tube heater and fascia heater (01=on, 02=off). P3-1 output energizes."
+        },
+        {
+          "id": "fill_tube_heat",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Fill tube heater warms",
+          "body": "With heaters on (01), does fill tube area warm within expected time? Check for ice blockage in tube.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tube_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_tube_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tube_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_fill_tube",
+              "terminal": true,
+              "oemOutcome": "Fill tube frozen or heater failed \u2014 common E4 dry-cycle path."
+            }
+          ],
+          "sourceExcerpt": "With heaters on (01), does fill tube area warm within expected time? Check for ice blockage in tube."
+        },
+        {
+          "id": "clear_fill_tube",
+          "order": 6,
+          "type": "outcome",
+          "title": "Clear or replace fill tube heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_tube_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Fill tube heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "tube_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_tube_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_tube_heat"
+        },
+        {
+          "id": "tube_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_fill_tube",
+          "terminal": true,
+          "oemOutcome": "Fill tube frozen or heater failed \u2014 common E4 dry-cycle path.",
+          "stepId": "fill_tube_heat"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "19",
+        "oemTestTitle": "Ice Maker Fill Tube and Fascia Heater Status",
+        "pages": [
+          3
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-19-fill-tube-heater",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-36-ice-box-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 36: Ice box fan",
+      "purpose": "Ice Box Fan",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan",
+        "ice_maker"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "E1",
+        "evap_fan"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_36",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 36",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 36. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 36 \u2014 Ice box fan"
+        },
+        {
+          "id": "ice_fan_toggle",
+          "order": 4,
+          "type": "instruction",
+          "title": "Toggle ice box fan",
+          "body": "Press SW3 to control ice box fan. Temp display: 01=on, 02=off. Verify airflow from ice box fan (3500 RPM spec).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to control ice box fan. Temp display: 01=on, 02=off. Verify airflow from ice box fan (3500 RPM spec)."
+        },
+        {
+          "id": "ice_fan_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Ice box fan operation",
+          "body": "With display 01 (fan on), is airflow present from the ice compartment fan?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ice_fan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ice_fan",
+              "terminal": true,
+              "oemOutcome": "Ice box fan does not run \u2014 check P8-5/P8-4 harness and 12.7 VDC supply."
+            }
+          ],
+          "sourceExcerpt": "With display 01 (fan on), is airflow present from the ice compartment fan?"
+        },
+        {
+          "id": "replace_ice_fan",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice box fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ice_fan_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Ice box fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_fan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_fan_runs"
+        },
+        {
+          "id": "fan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ice_fan",
+          "terminal": true,
+          "oemOutcome": "Ice box fan does not run \u2014 check P8-5/P8-4 harness and 12.7 VDC supply.",
+          "stepId": "ice_fan_runs"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "36",
+        "oemTestTitle": "Ice Box Fan",
+        "pages": [
+          3
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-36-ice-box-fan",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-36-ice-box-fan",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-37-ice-box-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 37: Ice box thermistor",
+      "purpose": "Ice Box Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "ice_maker"
+      ],
+      "tags": [
+        "thermistor_check",
+        "no_ice",
+        "E1",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_37",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 37",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 37. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 37 \u2014 Ice box thermistor"
+        },
+        {
+          "id": "ice_box_ntc_result",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Ice box thermistor service test result",
+          "body": "Board checks ice box thermistor at P8. Temp display: 01=pass, 02=open, 03=short. What displays?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ice_box_pass",
+              "label": "01 Pass",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ice_box_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_box_open",
+              "label": "02 Open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ice_box_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_box_short",
+              "label": "03 Short",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ice_box_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Board checks ice box thermistor at P8. Temp display: 01=pass, 02=open, 03=short. What displays?"
+        },
+        {
+          "id": "bench_ice_box_ntc",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench ice box thermistor ohms",
+          "body": "Disconnect power. Measure ice box thermistor at P8-1/P8-2 \u2014 2700 \u03a9 @ 77\u00b0F (same chart as cabinet NTC).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure ice box thermistor at P8-1/P8-2 \u2014 2700 \u03a9 @ 77\u00b0F (same chart as cabinet NTC)."
+        },
+        {
+          "id": "ice_box_ntc_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Ice box thermistor resistance",
+          "body": "Measure at harness with power off.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+              "testPoint": {
+                "connector": "P8",
+                "pins": "P8-1 \u2194 P8-2",
+                "label": "Ice box thermistor resistance"
+              },
+              "title": "Ice box thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ice_box_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ice_box_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_box_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ice_box_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_box_ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ice_box_ntc",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ice_box_ntc_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ice_box_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure at harness with power off."
+        },
+        {
+          "id": "replace_ice_box_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace ice box thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ice_box_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Ice box thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdThermistorOhms",
+          "testPoint": {
+            "connector": "P8",
+            "pins": "P8-1 \u2194 P8-2",
+            "label": "Ice box thermistor resistance"
+          },
+          "title": "Ice box thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ice_box_pass",
+          "label": "01 Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ice_box_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_result"
+        },
+        {
+          "id": "ice_box_open",
+          "label": "02 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ice_box_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_result"
+        },
+        {
+          "id": "ice_box_short",
+          "label": "03 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ice_box_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_result"
+        },
+        {
+          "id": "ice_box_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_ohms"
+        },
+        {
+          "id": "ice_box_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_ohms"
+        },
+        {
+          "id": "ice_box_ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ice_box_ntc",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_ohms"
+        },
+        {
+          "id": "ice_box_ntc_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ice_box_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ice_box_ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "37",
+        "oemTestTitle": "Ice Box Thermistor",
+        "pages": [
+          3
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-37-ice-box-thermistor",
+        "pages": [
+          3
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-37-ice-box-thermistor",
+            "pages": [
+              3
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-45-ice-water-fill",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 45: Ice maker water fill",
+      "purpose": "Ref. Compartment Ice Maker Water Fill Test",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve",
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E4",
+        "water_valve_check",
+        "ice_maker"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "harvest_first",
+          "order": 3,
+          "type": "instruction",
+          "title": "Harvest ice before fill test",
+          "body": "Before test 45, run Service Test 57 and initiate harvest so mold is empty (per manual NOTE).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Before test 45, run Service Test 57 and initiate harvest so mold is empty (per manual NOTE)."
+        },
+        {
+          "id": "select_test_45",
+          "order": 4,
+          "type": "instruction",
+          "title": "Navigate to Service Test 45",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 45. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 45 \u2014 Ice maker water fill"
+        },
+        {
+          "id": "fill_state",
+          "order": 5,
+          "type": "instruction",
+          "title": "Observe fill state",
+          "body": "After 3-second delay, display shows ice maker water fill state. Press SW3 to start fill; toggles 02=off, 03=on, 04=paused.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After 3-second delay, display shows ice maker water fill state. Press SW3 to start fill; toggles 02=off, 03=on, 04=paused."
+        },
+        {
+          "id": "water_fills",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Water enters mold",
+          "body": "With fill on (03), does water enter the ice maker mold? P3-3 ice maker valve should energize.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fill_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_valve_tube",
+              "terminal": true,
+              "oemOutcome": "No water at mold \u2014 valve, supply, or frozen fill tube (see test 19)."
+            }
+          ],
+          "sourceExcerpt": "With fill on (03), does water enter the ice maker mold? P3-3 ice maker valve should energize."
+        },
+        {
+          "id": "check_valve_tube",
+          "order": 7,
+          "type": "outcome",
+          "title": "Check valve and fill tube",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Ice maker fill verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "water_fills"
+        },
+        {
+          "id": "fill_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_valve_tube",
+          "terminal": true,
+          "oemOutcome": "No water at mold \u2014 valve, supply, or frozen fill tube (see test 19).",
+          "stepId": "water_fills"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "45",
+        "oemTestTitle": "Ref. Compartment Ice Maker Water Fill Test",
+        "pages": [
+          3,
+          4
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-45-ice-water-fill",
+        "pages": [
+          3,
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-45-ice-water-fill",
+            "pages": [
+              3,
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-56-ice-maker-errors",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 56: Ice maker error codes (E0\u2013E5)",
+      "purpose": "Ref. Compartment Ice Maker Error Codes",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "ice_maker",
+        "E0",
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_56",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 56",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 56. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 56 \u2014 Ice maker error codes"
+        },
+        {
+          "id": "read_im_code",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Active ice maker error code",
+          "body": "Display shows active ice maker error. Which code is displayed?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_e0",
+              "label": "E0 \u2014 No errors",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "e0_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_e1",
+              "label": "E1 \u2014 No cooling",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "e1_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_e2",
+              "label": "E2 \u2014 Motor lost position",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "e2_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_e3",
+              "label": "E3 \u2014 Heater time-out",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "e3_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_e4",
+              "label": "E4 \u2014 Dry cycle",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "e4_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_e5",
+              "label": "E5 \u2014 IM thermistor fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "e5_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Display shows active ice maker error. Which code is displayed?"
+        },
+        {
+          "id": "e0_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e1_outcome",
+          "order": 6,
+          "type": "outcome",
+          "title": "E1 \u2014 No cooling in ice compartment",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e2_outcome",
+          "order": 7,
+          "type": "outcome",
+          "title": "E2 \u2014 Motor home not found",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e3_outcome",
+          "order": 8,
+          "type": "outcome",
+          "title": "E3 \u2014 Mold heater time-out",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e4_outcome",
+          "order": 9,
+          "type": "outcome",
+          "title": "E4 \u2014 Dry cycle",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e5_outcome",
+          "order": 10,
+          "type": "outcome",
+          "title": "E5 \u2014 Ice maker thermistor fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_e0",
+          "label": "E0 \u2014 No errors",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "e0_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        },
+        {
+          "id": "code_e1",
+          "label": "E1 \u2014 No cooling",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e1_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        },
+        {
+          "id": "code_e2",
+          "label": "E2 \u2014 Motor lost position",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e2_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        },
+        {
+          "id": "code_e3",
+          "label": "E3 \u2014 Heater time-out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e3_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        },
+        {
+          "id": "code_e4",
+          "label": "E4 \u2014 Dry cycle",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e4_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        },
+        {
+          "id": "code_e5",
+          "label": "E5 \u2014 IM thermistor fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "e5_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_im_code"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "56",
+        "oemTestTitle": "Ref. Compartment Ice Maker Error Codes",
+        "pages": [
+          4
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-56-ice-maker-errors",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-57-ice-harvest",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 57: Ice maker harvest",
+      "purpose": "Ref. Compartment Ice Maker Harvest",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E2",
+        "ice_maker",
+        "harvest_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_57",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 57",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 57. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 57 \u2014 Ice maker harvest"
+        },
+        {
+          "id": "start_harvest",
+          "order": 4,
+          "type": "instruction",
+          "title": "Initiate harvest",
+          "body": "Press SW3 to activate harvest. Doors must be closed. Digit 1=sequence state; digit 2=outcome (0=in progress, 1=completed, 2=not completed / 70 s timeout).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to activate harvest. Doors must be closed. Digit 1=sequence state; digit 2=outcome (0=in progress, 1=completed, 2=not completed / 70 s timeout)."
+        },
+        {
+          "id": "harvest_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Harvest completed",
+          "body": "Did harvest complete (digit 2 = 1)? Sequence cannot be exited once initiated.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harvest_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "harvest_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harvest_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "harvest_fail_out",
+              "terminal": true,
+              "oemOutcome": "Harvest not completed \u2014 obstruction, motor, or heater issue (E2 path)."
+            }
+          ],
+          "sourceExcerpt": "Did harvest complete (digit 2 = 1)? Sequence cannot be exited once initiated."
+        },
+        {
+          "id": "harvest_fail_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Harvest failed",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "harvest_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Harvest verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "harvest_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harvest_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harvest_result"
+        },
+        {
+          "id": "harvest_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harvest_fail_out",
+          "terminal": true,
+          "oemOutcome": "Harvest not completed \u2014 obstruction, motor, or heater issue (E2 path).",
+          "stepId": "harvest_result"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "57",
+        "oemTestTitle": "Ref. Compartment Ice Maker Harvest",
+        "pages": [
+          4
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-57-ice-harvest",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-57-ice-harvest",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-58-ice-heater-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 58: Ice maker heater & thermistor",
+      "purpose": "Ref. Compartment Ice Maker Heater Activation and Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E3",
+        "E5",
+        "ice_maker",
+        "thermistor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_58",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 58",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 58. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 58 \u2014 Ice maker heater and thermistor"
+        },
+        {
+          "id": "heater_toggle",
+          "order": 4,
+          "type": "instruction",
+          "title": "Toggle mold heater",
+          "body": "Press SW3 to activate ice maker heater and toggle on/off. Digit 1: 0=heater off, 1=heater on. Digit 2 thermistor: 0=warmer than harvest, 1=cooler, 2=open, 3=short.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to activate ice maker heater and toggle on/off. Digit 1: 0=heater off, 1=heater on. Digit 2 thermistor: 0=warmer than harvest, 1=cooler, 2=open, 3=short."
+        },
+        {
+          "id": "thermistor_state",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Mold thermistor state",
+          "body": "With heater on, what does digit 2 show for thermistor state?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "thm_ok",
+              "label": "0 or 1 (valid reading)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_im_thm",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "thm_open",
+              "label": "2 Open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_im_thm",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "thm_short",
+              "label": "3 Short",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_im_thm",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With heater on, what does digit 2 show for thermistor state?"
+        },
+        {
+          "id": "bench_im_thm",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench IM thermistor ohms",
+          "body": "Disconnect power. Measure ice maker mold thermistor at P7-1/P7-2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure ice maker mold thermistor at P7-1/P7-2."
+        },
+        {
+          "id": "im_thm_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Ice maker mold thermistor",
+          "body": "2700 \u03a9 \u00b15% @ 77\u00b0F \u2014 same R/T chart as cabinet thermistors.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolKaFdIceMakerThermistorOhms",
+              "testPoint": {
+                "connector": "P7",
+                "pins": "P7-1 \u2194 P7-2",
+                "label": "Ice maker mold thermistor"
+              },
+              "title": "Ice maker mold thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "im_thm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_im_thm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_thm_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_im_thm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_thm_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_im_thm",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_thm_pass",
+              "label": "2700 \u03a9 @ 77\u00b0F",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_thm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2700 \u03a9 \u00b15% @ 77\u00b0F \u2014 same R/T chart as cabinet thermistors."
+        },
+        {
+          "id": "replace_im_thm",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace IM thermistor or module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_thm_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Heater and thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolKaFdIceMakerThermistorOhms",
+          "testPoint": {
+            "connector": "P7",
+            "pins": "P7-1 \u2194 P7-2",
+            "label": "Ice maker mold thermistor"
+          },
+          "title": "Ice maker mold thermistor"
+        }
+      ],
+      "branches": [
+        {
+          "id": "thm_ok",
+          "label": "0 or 1 (valid reading)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_im_thm",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_state"
+        },
+        {
+          "id": "thm_open",
+          "label": "2 Open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im_thm",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_state"
+        },
+        {
+          "id": "thm_short",
+          "label": "3 Short",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_im_thm",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_state"
+        },
+        {
+          "id": "im_thm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_thm_ohms"
+        },
+        {
+          "id": "im_thm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_thm_ohms"
+        },
+        {
+          "id": "im_thm_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_thm",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_thm_ohms"
+        },
+        {
+          "id": "im_thm_pass",
+          "label": "2700 \u03a9 @ 77\u00b0F",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_thm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_thm_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "58",
+        "oemTestTitle": "Ref. Compartment Ice Maker Heater Activation and Thermistor",
+        "pages": [
+          4
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-58-ice-heater-thermistor",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-58-ice-heater-thermistor",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11509412-test-59-ice-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 59: Ice maker motor",
+      "purpose": "Ref. Compartment Ice Maker Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E2",
+        "ice_maker",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating. For live voltage checks, verify controls are off, use proper PPE, and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_sd_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Service Diagnostics",
+          "body": "Service Diagnostics entered at step 01. Press SW5/SW4 to navigate to the test number for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW5 to move to the next step in the sequence. Press SW4 to back up."
+        },
+        {
+          "id": "select_test_59",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to Service Test 59",
+          "body": "In Service Diagnostics Mode, press SW5 to advance until the dispenser display shows 59. Press SW4 to go back. Amber Order Filter = step number; red Replace Filter = step result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 59 \u2014 Ice maker motor"
+        },
+        {
+          "id": "motor_sequence",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run motor sequence",
+          "body": "Press SW3 to step motor sequence. Digit 1: 0=off, 1=CW to home, 2=off, 3=CCW to home. Digit 2: 0=in progress, 1=completed, 2=timeout (70 s).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press SW3 to step motor sequence. Digit 1: 0=off, 1=CW to home, 2=off, 3=CCW to home. Digit 2: 0=in progress, 1=completed, 2=timeout (70 s)."
+        },
+        {
+          "id": "motor_home",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Motor finds home",
+          "body": "Did motor complete home position (digit 2 = 1) without timeout?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "motor_fail_out",
+              "terminal": true,
+              "oemOutcome": "Motor lost position \u2014 E2. Check for ice obstruction or replace ice maker module."
+            }
+          ],
+          "sourceExcerpt": "Did motor complete home position (digit 2 = 1) without timeout?"
+        },
+        {
+          "id": "motor_fail_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Ice maker motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "motor_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_home"
+        },
+        {
+          "id": "motor_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_fail_out",
+          "terminal": true,
+          "oemOutcome": "Motor lost position \u2014 E2. Check for ice obstruction or replace ice maker module.",
+          "stepId": "motor_home"
+        }
+      ],
+      "source": {
+        "manualId": "W11509412",
+        "manualTitle": "Whirlpool/KitchenAid ACU French Door Refrigerator (W11509412A, ~27 cu ft)",
+        "oemTestNumber": "59",
+        "oemTestTitle": "Ref. Compartment Ice Maker Motor",
+        "pages": [
+          4
+        ],
+        "extractedTextFile": "backend/docs/manuals/WPL WRF757SD tech-sheet-w11509412-reva-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11509412",
+        "platformId": "whirlpool_ka_french_door",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "pages": [
+          4
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11509412",
+            "platformId": "whirlpool_ka_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11509412-test-59-ice-motor",
+            "pages": [
+              4
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

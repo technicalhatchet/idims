@@ -1,0 +1,4999 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "procedures": [
+    {
+      "procedureId": "samsungdwm9-circulation-motor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Circulation Pump (3C)",
+      "purpose": "Circulation Pump Check",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_motor"
+      ],
+      "tags": [
+        "3C",
+        "PC",
+        "wash_issue",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "motor_clear",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clear circulation path",
+          "body": "Remove foreign material from circulation hose and pump. Reseat circulation pump connector.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove foreign material from circulation hose and pump. Reseat circulation pump connector."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Circulation pump coil",
+          "body": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9 \u00b110%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9CirculationMotorOhms",
+              "testPoint": {
+                "connector": "CN901",
+                "pins": "U/V/W",
+                "label": "Circulation pump coil"
+              },
+              "title": "Circulation pump coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_pass",
+              "label": "~5.8 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "inverter_led",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Measure coil resistance. Normal: approx. 5.8 \u03a9 \u00b110%."
+        },
+        {
+          "id": "inverter_led",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Main PBA red LED on during C-pump run?",
+          "body": "During Smart Install step 3 or manual step 2, main PBA operating LED should be fully on. Faulty: replace inverter PBA.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "nozzle_spray_yes",
+              "label": "LED on / pump runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "nozzle_spray",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "nozzle_spray_no",
+              "label": "LED off / 3C",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inverter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "During Smart Install step 3 or manual step 2, main PBA operating LED should be fully on. Faulty: replace inverter PBA."
+        },
+        {
+          "id": "nozzle_spray",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Nozzle injects water in Smart Install?",
+          "body": "Step 3: BLDC 2400 RPM alternation nozzles spray at each position for 10 s.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_ok_yes",
+              "label": "Sprays normally",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_ok_no",
+              "label": "No spray",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Step 3: BLDC 2400 RPM alternation nozzles spray at each position for 10 s."
+        },
+        {
+          "id": "replace_inverter",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace inverter PBA",
+          "body": "Replace inverter PBA when coil good but drive fails (3C/AC6).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace circulation pump",
+          "body": "Replace circulation pump when coil open or spray fails after clearing passages.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 8,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "motor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Circulation OK",
+          "body": "Motor and nozzle path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9CirculationMotorOhms",
+          "testPoint": {
+            "connector": "CN901",
+            "pins": "U/V/W",
+            "label": "Circulation pump coil"
+          },
+          "title": "Circulation pump coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "motor_pass",
+          "label": "~5.8 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "inverter_led",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "nozzle_spray_yes",
+          "label": "LED on / pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "nozzle_spray",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inverter_led"
+        },
+        {
+          "id": "nozzle_spray_no",
+          "label": "LED off / 3C",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inverter_led"
+        },
+        {
+          "id": "motor_ok_yes",
+          "label": "Sprays normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "nozzle_spray"
+        },
+        {
+          "id": "motor_ok_no",
+          "label": "No spray",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "nozzle_spray"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Circulation Pump Check",
+        "pages": [
+          46,
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-circulation-motor",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: PBA Communication (AC / AC6)",
+      "purpose": "AC / AC6 communication",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC",
+        "AC6",
+        "communication"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "comm_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect CN802 sub comms",
+          "body": "Check CN802 main-to-sub harness (pins 4\u20135 TX/RX, 1/3/9 5V/12V) and inverter CN903/CN904.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN802 main-to-sub harness (pins 4\u20135 TX/RX, 1/3/9 5V/12V) and inverter CN903/CN904."
+        },
+        {
+          "id": "comm_smart_install",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Comms stable in Service Inspection?",
+          "body": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73 then 2 min relay off.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sub_pba_yes",
+              "label": "Stable",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sub_pba",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sub_pba_no",
+              "label": "AC / AC6",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sub_wire",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "AC: main\u2194sub fails 24 s (6 s in test mode). AC6: no inverter response 3 s \u00d73 then 2 min relay off."
+        },
+        {
+          "id": "replace_sub_wire",
+          "order": 4,
+          "type": "instruction",
+          "title": "Replace sub-wire",
+          "body": "If AC persists after reseating CN802/CN101, replace sub-wire harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If AC persists after reseating CN802/CN101, replace sub-wire harness."
+        },
+        {
+          "id": "sub_pba",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Sub PBA and inverter seated?",
+          "body": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok_yes",
+              "label": "Connectors OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comm_ok_no",
+              "label": "Damaged board/harness",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sub_pba",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Reseat sub PBA and inverter PBA connectors. Check for corrosion or damaged pins."
+        },
+        {
+          "id": "replace_sub_pba",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sub or inverter PBA",
+          "body": "Replace failed sub PBA or inverter PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_comm",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when harness good but comms fail.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": "PBA communication verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "sub_pba_yes",
+          "label": "Stable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sub_pba",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_smart_install"
+        },
+        {
+          "id": "sub_pba_no",
+          "label": "AC / AC6",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_wire",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_smart_install"
+        },
+        {
+          "id": "comm_ok_yes",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sub_pba"
+        },
+        {
+          "id": "comm_ok_no",
+          "label": "Damaged board/harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sub_pba",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sub_pba"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "AC / AC6 communication",
+        "pages": [
+          36,
+          37,
+          50
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-communication",
+        "pages": [
+          36,
+          37,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-communication",
+            "pages": [
+              36,
+              37,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-dispenser",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Detergent Dispenser",
+      "purpose": "Detergent is not dispensed",
+      "prerequisites": [],
+      "componentIds": [
+        "dispenser"
+      ],
+      "tags": [
+        "dispenser_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "detergent_loaded",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Detergent in dispenser?",
+          "body": "Confirm detergent loaded and dispenser not blocked.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "disp_connector_yes",
+              "label": "Loaded",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disp_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_connector_no",
+              "label": "Empty / blocked",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "load_detergent",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Confirm detergent loaded and dispenser not blocked."
+        },
+        {
+          "id": "load_detergent",
+          "order": 3,
+          "type": "instruction",
+          "title": "Load detergent and clear obstruction",
+          "body": "Add detergent; rearrange racks so dispenser can open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Add detergent; rearrange racks so dispenser can open."
+        },
+        {
+          "id": "disp_connector",
+          "order": 4,
+          "type": "instruction",
+          "title": "Inspect CN401 dispenser",
+          "body": "Reconnect dispenser connector CN401 pin 4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect dispenser connector CN401 pin 4."
+        },
+        {
+          "id": "disp_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Dispenser solenoid",
+          "body": "Disconnect connector. Normal: approx. 0.7\u20133 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9DispenserOhms",
+              "testPoint": {
+                "connector": "CN401",
+                "pins": "4",
+                "label": "Dispenser solenoid"
+              },
+              "title": "Dispenser solenoid"
+            }
+          ],
+          "branches": [
+            {
+              "id": "disp_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "disp_operate",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_dispenser",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_dispenser",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_dispenser",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 0.7\u20133 k\u03a9."
+        },
+        {
+          "id": "disp_operate",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Dispenser operates 130 s in Smart Install?",
+          "body": "Auto step 3 runs dispenser actuator 130 seconds.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "disp_ok_yes",
+              "label": "Operates",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "disp_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "disp_ok_no",
+              "label": "No movement",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba_disp",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Auto step 3 runs dispenser actuator 130 seconds."
+        },
+        {
+          "id": "replace_dispenser",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace dispenser",
+          "body": "Replace dispenser when solenoid open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pba_disp",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when 110\u2013120 V missing at CN401/CN101 during operate.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 9,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "disp_ok",
+          "order": 10,
+          "type": "outcome",
+          "title": "Dispenser OK",
+          "body": "Dispenser circuit verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9DispenserOhms",
+          "testPoint": {
+            "connector": "CN401",
+            "pins": "4",
+            "label": "Dispenser solenoid"
+          },
+          "title": "Dispenser solenoid"
+        }
+      ],
+      "branches": [
+        {
+          "id": "disp_connector_yes",
+          "label": "Loaded",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "detergent_loaded"
+        },
+        {
+          "id": "disp_connector_no",
+          "label": "Empty / blocked",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "load_detergent",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "detergent_loaded"
+        },
+        {
+          "id": "disp_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "disp_operate",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_ohms"
+        },
+        {
+          "id": "disp_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dispenser",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_ohms"
+        },
+        {
+          "id": "disp_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dispenser",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_ohms"
+        },
+        {
+          "id": "disp_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dispenser",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_ohms"
+        },
+        {
+          "id": "disp_ok_yes",
+          "label": "Operates",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "disp_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_operate"
+        },
+        {
+          "id": "disp_ok_no",
+          "label": "No movement",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_disp",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "disp_operate"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Detergent is not dispensed",
+        "pages": [
+          51,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dispenser",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dispenser",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-distributor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Distributor Motor (PC)",
+      "purpose": "Half load / PC cam position",
+      "prerequisites": [],
+      "componentIds": [
+        "diverter_motor"
+      ],
+      "tags": [
+        "PC",
+        "diverter_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "dist_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect distributor motor",
+          "body": "Check CN401 pin 3 distributor motor and micro switch connectors on CN501.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN401 pin 3 distributor motor and micro switch connectors on CN501."
+        },
+        {
+          "id": "dist_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Distributor motor coil",
+          "body": "Disconnect connector. Normal: approx. 3.6\u20134.0 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9DistributorMotorOhms",
+              "testPoint": {
+                "connector": "CN401",
+                "pins": "3",
+                "label": "Distributor motor coil"
+              },
+              "title": "Distributor motor coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dist_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "micro_switch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dist_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_distributor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dist_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_distributor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dist_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_distributor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 3.6\u20134.0 k\u03a9."
+        },
+        {
+          "id": "micro_switch",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Micro switch toggles ON/OFF?",
+          "body": "Service test: brown/violet micro switch SHORT when ON, OPEN when OFF. NG if stuck either state 120 s. Do not supply water during test.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dist_smart_install_yes",
+              "label": "Switch toggles",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dist_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dist_smart_install_no",
+              "label": "Stuck ON/OFF",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_micro_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Service test: brown/violet micro switch SHORT when ON, OPEN when OFF. NG if stuck either state 120 s. Do not supply water during test."
+        },
+        {
+          "id": "dist_smart_install",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Half load operates in Smart Install?",
+          "body": "Step 1 moves vane during drain; step 3 alternates nozzle positions. PC if position not detected in 2 min.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dist_ok_yes",
+              "label": "Positions detected",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dist_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dist_ok_no",
+              "label": "PC fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_distributor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Step 1 moves vane during drain; step 3 alternates nozzle positions. PC if position not detected in 2 min."
+        },
+        {
+          "id": "replace_micro_switch",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace micro switch",
+          "body": "Replace position sensing micro switch when stuck.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_distributor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace distributor motor",
+          "body": "Replace distributor motor, cam assy, or valve distributor when PC persists.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 8,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "dist_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Distributor OK",
+          "body": "Distributor and half-load path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9DistributorMotorOhms",
+          "testPoint": {
+            "connector": "CN401",
+            "pins": "3",
+            "label": "Distributor motor coil"
+          },
+          "title": "Distributor motor coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "dist_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "micro_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_ohms"
+        },
+        {
+          "id": "dist_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_distributor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_ohms"
+        },
+        {
+          "id": "dist_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_distributor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_ohms"
+        },
+        {
+          "id": "dist_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_distributor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_ohms"
+        },
+        {
+          "id": "dist_smart_install_yes",
+          "label": "Switch toggles",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dist_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "micro_switch"
+        },
+        {
+          "id": "dist_smart_install_no",
+          "label": "Stuck ON/OFF",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_micro_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "micro_switch"
+        },
+        {
+          "id": "dist_ok_yes",
+          "label": "Positions detected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dist_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_smart_install"
+        },
+        {
+          "id": "dist_ok_no",
+          "label": "PC fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_distributor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dist_smart_install"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Half load / PC cam position",
+        "pages": [
+          48,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-distributor",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-distributor",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-door-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Door Sensing Switch",
+      "purpose": "Cycle does not start",
+      "prerequisites": [],
+      "componentIds": [
+        "door_latch"
+      ],
+      "tags": [
+        "dC",
+        "dC1",
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "door_mechanical",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door closure",
+          "body": "Verify door latched completely, racks not interfering, unit level.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify door latched completely, racks not interfering, unit level."
+        },
+        {
+          "id": "door_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "White wire door voltage correct?",
+          "body": "Measure white wire switch: Normal 10.5\u201313 V when door open; <1 V when door closed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_continuity_yes",
+              "label": "Voltages OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_continuity_no",
+              "label": "Wrong voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reconnect_door",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure white wire switch: Normal 10.5\u201313 V when door open; <1 V when door closed."
+        },
+        {
+          "id": "reconnect_door",
+          "order": 4,
+          "type": "instruction",
+          "title": "Reconnect door switch",
+          "body": "Reconnect door sensing switch connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect door sensing switch connectors."
+        },
+        {
+          "id": "door_continuity",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Blue wire door switch continuity?",
+          "body": "Power off, connector removed: SHORT when door open; OPEN when door closed.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok_yes",
+              "label": "Continuity OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_ok_no",
+              "label": "Failed switch",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off, connector removed: SHORT when door open; OPEN when door closed."
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": "Replace door sensing switch when continuity or voltage fails.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": "Door circuit verified \u2014 if cycle still won't start, check power relay and main PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_continuity_yes",
+          "label": "Voltages OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_voltage"
+        },
+        {
+          "id": "door_continuity_no",
+          "label": "Wrong voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_door",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_voltage"
+        },
+        {
+          "id": "door_ok_yes",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_continuity"
+        },
+        {
+          "id": "door_ok_no",
+          "label": "Failed switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Cycle does not start",
+        "pages": [
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-door-switch",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-door-switch",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-drain-pump",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Drain Pump (5C)",
+      "purpose": "Drain check",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "5C",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "drain_hose",
+          "order": 2,
+          "type": "instruction",
+          "title": "Drain path",
+          "body": "Inspect drain hose, air gap, and filter for obstruction.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect drain hose, air gap, and filter for obstruction."
+        },
+        {
+          "id": "drain_connector",
+          "order": 3,
+          "type": "instruction",
+          "title": "Inspect drain pump connector",
+          "body": "Check CN401 pin 2 AC drain and CN902 BLDC drain connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN401 pin 2 AC drain and CN902 BLDC drain connectors."
+        },
+        {
+          "id": "drain_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Drain pump coil",
+          "body": "Disconnect connector. Normal: approx. 88 \u03a9 \u00b17%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9DrainPumpOhms",
+              "testPoint": {
+                "connector": "Drain pump",
+                "pins": "Coil",
+                "label": "Drain pump coil"
+              },
+              "title": "Drain pump coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "drain_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "drain_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 88 \u03a9 \u00b17%."
+        },
+        {
+          "id": "drain_smart_install",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Drain pump runs in Smart Install?",
+          "body": "Step 1/4/6: drain pump cycles (14 s on / 2 s off pattern). 5C if pump stuck or not draining.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_foreign_yes",
+              "label": "Drains normally",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_foreign",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_foreign_no",
+              "label": "5C / stuck",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Step 1/4/6: drain pump cycles (14 s on / 2 s off pattern). 5C if pump stuck or not draining."
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "pump_foreign",
+          "order": 7,
+          "type": "instruction",
+          "title": "Clear pump obstruction",
+          "body": "Remove foreign object from drain pump impeller. Re-test drain.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove foreign object from drain pump impeller. Re-test drain."
+        },
+        {
+          "id": "replace_drain_pump",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": "Replace drain pump or inverter PBA when pump fails after clearing obstruction.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "drain_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Drain OK",
+          "body": "Drain pump and path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9DrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "Coil",
+            "label": "Drain pump coil"
+          },
+          "title": "Drain pump coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "drain_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_ohms"
+        },
+        {
+          "id": "drain_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_ohms"
+        },
+        {
+          "id": "drain_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_ohms"
+        },
+        {
+          "id": "drain_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_ohms"
+        },
+        {
+          "id": "pump_foreign_yes",
+          "label": "Drains normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_foreign",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_smart_install"
+        },
+        {
+          "id": "pump_foreign_no",
+          "label": "5C / stuck",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_smart_install"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Drain check",
+        "pages": [
+          46,
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-drain-pump",
+        "pages": [
+          46,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-drain-pump",
+            "pages": [
+              46,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-dry-system",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)",
+      "purpose": "Dry is not satisfied",
+      "prerequisites": [],
+      "componentIds": [
+        "fan_motor",
+        "vent"
+      ],
+      "tags": [
+        "FC",
+        "dC3",
+        "dry_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "rinse_aid",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Rinse aid sufficient?",
+          "body": "Rinse refill icon off; dispenser has rinse aid.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_connector_yes",
+              "label": "OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_connector_no",
+              "label": "Refill needed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "refill_rinse",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Rinse refill icon off; dispenser has rinse aid."
+        },
+        {
+          "id": "refill_rinse",
+          "order": 3,
+          "type": "instruction",
+          "title": "Refill rinse aid",
+          "body": "Fill rinse aid dispenser and retest dry performance.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Fill rinse aid dispenser and retest dry performance."
+        },
+        {
+          "id": "fan_connector",
+          "order": 4,
+          "type": "instruction",
+          "title": "Inspect dry fan and actuator",
+          "body": "Reconnect dry fan (CN401 pin 10 / CN301 BLDC) and thermal actuator CN401 pin 5.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect dry fan (CN401 pin 10 / CN301 BLDC) and thermal actuator CN401 pin 5."
+        },
+        {
+          "id": "fan_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Dry fan motor coil",
+          "body": "Disconnect connector. Normal: approx. 150 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9DryFanOhms",
+              "testPoint": {
+                "connector": "CN401",
+                "pins": "10",
+                "label": "Dry fan motor coil"
+              },
+              "title": "Dry fan motor coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_pass",
+              "label": "~150 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "actuator_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 150 \u03a9."
+        },
+        {
+          "id": "actuator_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Thermal actuator",
+          "body": "Disconnect connector. Normal: approx. 1.45 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9ThermalActuatorOhms",
+              "testPoint": {
+                "connector": "CN401",
+                "pins": "5",
+                "label": "Thermal actuator"
+              },
+              "title": "Thermal actuator"
+            }
+          ],
+          "branches": [
+            {
+              "id": "act_pass",
+              "label": "~1.45 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "dry_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "act_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_actuator",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "act_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_actuator",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "act_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_actuator",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 1.45 k\u03a9."
+        },
+        {
+          "id": "dry_smart_install",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Fan and auto door in Smart Install step 5?",
+          "body": "Step 5: auto door actuator runs; fan 30 s. FC if fan <3000 RPM; dC3 if door not sensed open after retry.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dry_ok_yes",
+              "label": "Fan and door OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dry_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dry_ok_no",
+              "label": "FC / dC3",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba_dry",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Step 5: auto door actuator runs; fan 30 s. FC if fan <3000 RPM; dC3 if door not sensed open after retry."
+        },
+        {
+          "id": "replace_fan",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace dry fan",
+          "body": "Replace dry fan motor assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_actuator",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace thermal actuator",
+          "body": "Replace thermal actuator when open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pba_dry",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when 120 V relay drive missing during dry operate.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "dry_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Dry system OK",
+          "body": "Dry fan and auto door path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9DryFanOhms",
+          "testPoint": {
+            "connector": "CN401",
+            "pins": "10",
+            "label": "Dry fan motor coil"
+          },
+          "title": "Dry fan motor coil"
+        },
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9ThermalActuatorOhms",
+          "testPoint": {
+            "connector": "CN401",
+            "pins": "5",
+            "label": "Thermal actuator"
+          },
+          "title": "Thermal actuator"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_connector_yes",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rinse_aid"
+        },
+        {
+          "id": "fan_connector_no",
+          "label": "Refill needed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "refill_rinse",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rinse_aid"
+        },
+        {
+          "id": "fan_pass",
+          "label": "~150 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "actuator_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "act_pass",
+          "label": "~1.45 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dry_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "actuator_ohms"
+        },
+        {
+          "id": "act_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_actuator",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "actuator_ohms"
+        },
+        {
+          "id": "act_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_actuator",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "actuator_ohms"
+        },
+        {
+          "id": "act_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_actuator",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "actuator_ohms"
+        },
+        {
+          "id": "dry_ok_yes",
+          "label": "Fan and door OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dry_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dry_smart_install"
+        },
+        {
+          "id": "dry_ok_no",
+          "label": "FC / dC3",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_dry",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dry_smart_install"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Dry is not satisfied",
+        "pages": [
+          51,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-dry-system",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-dry-system",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-fill-valve",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+      "purpose": "Water supply check",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "4C",
+        "4C5",
+        "4E",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "supply_tap",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Water supply open and pressure OK?",
+          "body": "Faucet open; pressure >0.5 bar (20 psi). Inlet hose and aqua-stop filter clear.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_connector_yes",
+              "label": "Supply OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_connector",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_connector_no",
+              "label": "Low pressure / closed valve",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Faucet open; pressure >0.5 bar (20 psi). Inlet hose and aqua-stop filter clear."
+        },
+        {
+          "id": "fix_supply",
+          "order": 3,
+          "type": "instruction",
+          "title": "Correct water supply",
+          "body": "Open valve, clear inlet filter/aqua-stop, verify adequate pressure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Open valve, clear inlet filter/aqua-stop, verify adequate pressure."
+        },
+        {
+          "id": "valve_connector",
+          "order": 4,
+          "type": "instruction",
+          "title": "Inspect CN401 water valve",
+          "body": "Check CN401 pin 6 water valve connector seated; inspect flow meter at CN503 pin 11.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN401 pin 6 water valve connector seated; inspect flow meter at CN503 pin 11."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Inlet valve coil",
+          "body": "Disconnect connector. Normal: approx. 990 \u03a9 \u00b110% (890\u20131089 \u03a9).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9FillValveOhms",
+              "testPoint": {
+                "connector": "CN401",
+                "pins": "6",
+                "label": "Inlet valve coil"
+              },
+              "title": "Inlet valve coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fill_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Normal: approx. 990 \u03a9 \u00b110% (890\u20131089 \u03a9)."
+        },
+        {
+          "id": "fill_smart_install",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Water fills in Smart Install step 2?",
+          "body": "Auto step 2 supplies 4.5 L. 4C if pulses <10 in 20 s or level not reached in 5 min (inspection) / 60 min (normal).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "flow_meter_yes",
+              "label": "Fills normally",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "flow_meter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "flow_meter_no",
+              "label": "4C / no fill",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Auto step 2 supplies 4.5 L. 4C if pulses <10 in 20 s or level not reached in 5 min (inspection) / 60 min (normal)."
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "flow_meter",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Flow meter pulses during fill?",
+          "body": "CN503 pin 11 flow meter detects pulses during fill. 4C5 if 200 pulses when valve should be off.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fill_ok_yes",
+              "label": "Pulses normal",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_ok_no",
+              "label": "No / false pulses",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_flow_meter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN503 pin 11 flow meter detects pulses during fill. 4C5 if 200 pulses when valve should be off."
+        },
+        {
+          "id": "replace_valve",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace inlet valve",
+          "body": "Replace water valve and assy guide water-sub when coil open or valve stuck.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_flow_meter",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace flow meter / case brake",
+          "body": "Replace case brake or flow meter when pulse detection fails.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_ok",
+          "order": 11,
+          "type": "outcome",
+          "title": "Fill path OK",
+          "body": "Fill and flow meter verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9FillValveOhms",
+          "testPoint": {
+            "connector": "CN401",
+            "pins": "6",
+            "label": "Inlet valve coil"
+          },
+          "title": "Inlet valve coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "valve_connector_yes",
+          "label": "Supply OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_connector",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_tap"
+        },
+        {
+          "id": "valve_connector_no",
+          "label": "Low pressure / closed valve",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_tap"
+        },
+        {
+          "id": "valve_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fill_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "flow_meter_yes",
+          "label": "Fills normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flow_meter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_smart_install"
+        },
+        {
+          "id": "flow_meter_no",
+          "label": "4C / no fill",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_smart_install"
+        },
+        {
+          "id": "fill_ok_yes",
+          "label": "Pulses normal",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flow_meter"
+        },
+        {
+          "id": "fill_ok_no",
+          "label": "No / false pulses",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flow_meter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flow_meter"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water supply check",
+        "pages": [
+          45,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-fill-valve",
+        "pages": [
+          45,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-fill-valve",
+            "pages": [
+              45,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Heater Operation (HC / HC1)",
+      "purpose": "Heater Check",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "HC",
+        "HC1",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "hot_water",
+          "order": 2,
+          "type": "instruction",
+          "title": "Hot water & tub level",
+          "body": "Verify inlet on hot supply, drain hose installed, tub water level OK. Low level blocks heater in safety program.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify inlet on hot supply, drain hose installed, tub water level OK. Low level blocks heater in safety program."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Heater element resistance",
+          "body": "Power off. Measure between heater terminals (or heater relay red to power relay black/yellow). Normal: 12.14\u201314.16 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9HeaterOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "Element",
+                "label": "Heater element resistance"
+              },
+              "title": "Heater element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heat_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_connections",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heat_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heat_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heat_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Measure between heater terminals (or heater relay red to power relay black/yellow). Normal: 12.14\u201314.16 \u03a9."
+        },
+        {
+          "id": "heater_connections",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Heater connectors seated?",
+          "body": "Reconnect heater connectors. Verify heater relay connections on main PBA.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_smart_install_yes",
+              "label": "Connections OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_smart_install_no",
+              "label": "Loose / damaged",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Reconnect heater connectors. Verify heater relay connections on main PBA."
+        },
+        {
+          "id": "heater_smart_install",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Heater heats in Smart Install step 3?",
+          "body": "Manual step 3: C-pump 10 s then heater. Temperature should rise \u22652\u00b0C or reach 73\u00b0C; HC1 if no rise in 10 min.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_voltage_yes",
+              "label": "Temperature rises",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_voltage_no",
+              "label": "No heat / HC1",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Manual step 3: C-pump 10 s then heater. Temperature should rise \u22652\u00b0C or reach 73\u00b0C; HC1 if no rise in 10 min."
+        },
+        {
+          "id": "check_thermistor",
+          "order": 6,
+          "type": "instruction",
+          "title": "Verify thermistor",
+          "body": "Run samsungdwm9-thermistor \u2014 faulty thermistor can cause HC/HC1.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run samsungdwm9-thermistor \u2014 faulty thermistor can cause HC/HC1."
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "heater_voltage",
+          "order": 8,
+          "type": "visual_check",
+          "title": "110\u2013120 V at heater relay while operating?",
+          "body": "Measure heater relay red wire to CN101 white (neutral) during Smart Install heater step.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_ok_yes",
+              "label": "Voltage present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_ok_no",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba_heat",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure heater relay red wire to CN101 white (neutral) during Smart Install heater step."
+        },
+        {
+          "id": "replace_heater",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": "Replace heater assembly when element open.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pba_heat",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when element good but no relay voltage.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 11,
+          "type": "outcome",
+          "title": "Heater path OK",
+          "body": "Heater operational.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9HeaterOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "Element",
+            "label": "Heater element resistance"
+          },
+          "title": "Heater element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heat_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_connections",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heat_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heat_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heat_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_smart_install_yes",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_connections"
+        },
+        {
+          "id": "heater_smart_install_no",
+          "label": "Loose / damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_connections"
+        },
+        {
+          "id": "heater_voltage_yes",
+          "label": "Temperature rises",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_smart_install"
+        },
+        {
+          "id": "heater_voltage_no",
+          "label": "No heat / HC1",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_smart_install"
+        },
+        {
+          "id": "heater_ok_yes",
+          "label": "Voltage present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "heater_ok_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_heat",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Heater Check",
+        "pages": [
+          47,
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-heater",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-heater",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-hmi-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+      "purpose": "Key input check",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "bC2",
+        "bC3",
+        "bE-2",
+        "bE-3",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "hmi_connectors",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect sub PBA connectors",
+          "body": "Reconnect CN103 display control module and CON100 touch module. Check for condensation.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect CN103 display control module and CON100 touch module. Check for condensation."
+        },
+        {
+          "id": "condensation_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "No condensation on PBA?",
+          "body": "CN103 and CON100 must be dry. Remove moisture if present.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "stuck_button_yes",
+              "label": "Dry",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "stuck_button",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "stuck_button_no",
+              "label": "Condensation present",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_panel",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN103 and CON100 must be dry. Remove moisture if present."
+        },
+        {
+          "id": "stuck_button",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Stuck button or object on panel?",
+          "body": "bC2/bE-2 when button held \u226530 s. Remove object; verify touch panel not damaged.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "version_display_yes",
+              "label": "Panel clear",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "version_display",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "version_display_no",
+              "label": "Stuck key",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_panel",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "bC2/bE-2 when button held \u226530 s. Remove object; verify touch panel not damaged."
+        },
+        {
+          "id": "version_display",
+          "order": 5,
+          "type": "instruction",
+          "title": "Version display test (n1)",
+          "body": "In AS: Hi-Temp cycles n1. Normal=Sub PBA version, Heavy=Touch IC SW, Delicate=Model option, Express=Inverter SW, Rinse=WiFi module.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In AS: Hi-Temp cycles n1. Normal=Sub PBA version, Heavy=Touch IC SW, Delicate=Model option, Express=Inverter SW, Rinse=WiFi module."
+        },
+        {
+          "id": "replace_control_panel",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace control panel assy",
+          "body": "Replace display control module, touch module, or sub-wire when bC2/bC3 or condensation fault.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": "Touch panel and sub PBA verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "stuck_button_yes",
+          "label": "Dry",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "stuck_button",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "condensation_check"
+        },
+        {
+          "id": "stuck_button_no",
+          "label": "Condensation present",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "condensation_check"
+        },
+        {
+          "id": "version_display_yes",
+          "label": "Panel clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "version_display",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "stuck_button"
+        },
+        {
+          "id": "version_display_no",
+          "label": "Stuck key",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "stuck_button"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Key input check",
+        "pages": [
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-hmi-check",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-hmi-check",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-leak-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Leak Sensor (LC)",
+      "purpose": "Leakage Check",
+      "prerequisites": [],
+      "componentIds": [
+        "leak_sensor"
+      ],
+      "tags": [
+        "LC",
+        "leak_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "leak_visual",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect for water leakage",
+          "body": "Check shutter and base for water traces. Normal: no leakage trace.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check shutter and base for water traces. Normal: no leakage trace."
+        },
+        {
+          "id": "leak_sensor_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Leak sensor reads >3 V after dry?",
+          "body": "CN503 pin 2 leakage input: LC when \u22643 V for 3 s. After 3 min drain, sensor should read >3 V if dry.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "find_leak_yes",
+              "label": "Sensor dry / >3 V",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "find_leak",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "find_leak_no",
+              "label": "Still \u22643 V wet",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "leak_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN503 pin 2 leakage input: LC when \u22643 V for 3 s. After 3 min drain, sensor should read >3 V if dry."
+        },
+        {
+          "id": "find_leak",
+          "order": 4,
+          "type": "instruction",
+          "title": "Locate and repair leak",
+          "body": "Find leak at hose, door, sump seals, heater, or pump joints. Repair and dry base.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Find leak at hose, door, sump seals, heater, or pump joints. Repair and dry base."
+        },
+        {
+          "id": "leak_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Leak resolved",
+          "body": "No active leak; sensor dry. Replace main PBA only if leak repaired but LC persists.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "find_leak_yes",
+          "label": "Sensor dry / >3 V",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "find_leak",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_sensor_check"
+        },
+        {
+          "id": "find_leak_no",
+          "label": "Still \u22643 V wet",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "leak_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_sensor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Leakage Check",
+        "pages": [
+          47,
+          48
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "pages": [
+          47,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-leak-sensor",
+            "pages": [
+              47,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Overflow Sensor (OC)",
+      "purpose": "OC overflow",
+      "prerequisites": [],
+      "componentIds": [
+        "float_switch"
+      ],
+      "tags": [
+        "OC",
+        "overfill"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "overflow_drain",
+          "order": 2,
+          "type": "instruction",
+          "title": "Drain tub",
+          "body": "Unit performs 3\u00d7 3 min drain on OC. Verify tub not overfilled.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unit performs 3\u00d7 3 min drain on OC. Verify tub not overfilled."
+        },
+        {
+          "id": "overflow_sensor",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Overflow sensor >3 V when tub empty?",
+          "body": "CN503 pin 1 overflow: OC when \u22643 V for 5 s. Should read >3 V when tub empty after drain.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_stuck_yes",
+              "label": ">3 V dry",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_stuck",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_stuck_no",
+              "label": "Still \u22643 V",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "overflow_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CN503 pin 1 overflow: OC when \u22643 V for 5 s. Should read >3 V when tub empty after drain."
+        },
+        {
+          "id": "valve_stuck",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Inlet valve stuck open?",
+          "body": "Check water valve shuts off; case brake/flow meter not falsely indicating fill (4C5).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "replace_overflow_yes",
+              "label": "Valve shuts off",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_overflow",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_overflow_no",
+              "label": "Valve stuck / case brake fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "overflow_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Check water valve shuts off; case brake/flow meter not falsely indicating fill (4C5)."
+        },
+        {
+          "id": "replace_overflow",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace valve or case brake",
+          "body": "Replace inlet valve or case brake/flow meter when OC persists with empty tub.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "overflow_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Overflow cleared",
+          "body": "Overflow condition resolved.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_stuck_yes",
+          "label": ">3 V dry",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_stuck",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overflow_sensor"
+        },
+        {
+          "id": "valve_stuck_no",
+          "label": "Still \u22643 V",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "overflow_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "overflow_sensor"
+        },
+        {
+          "id": "replace_overflow_yes",
+          "label": "Valve shuts off",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_overflow",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_stuck"
+        },
+        {
+          "id": "replace_overflow_no",
+          "label": "Valve stuck / case brake fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "overflow_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_stuck"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "OC overflow",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-overflow",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-overflow",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "No Power & Power Relay Check",
+      "purpose": "No Power / Power Relay",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "supply_issue",
+        "voltage_check",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "outlet_120vac",
+          "order": 2,
+          "type": "visual_check",
+          "title": "120 VAC at outlet?",
+          "body": "Measure voltage at power outlet. Normal: AC 120 V.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn101_voltage_yes",
+              "label": "120 VAC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cn101_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cn101_voltage_no",
+              "label": "No / low voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_outlet",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure voltage at power outlet. Normal: AC 120 V."
+        },
+        {
+          "id": "fix_outlet",
+          "order": 3,
+          "type": "instruction",
+          "title": "Correct customer power",
+          "body": "Connect to proper 120 V source or repair outlet wiring.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Connect to proper 120 V source or repair outlet wiring."
+        },
+        {
+          "id": "cn101_voltage",
+          "order": 4,
+          "type": "visual_check",
+          "title": "120 VAC at CN101?",
+          "body": "Measure between live and neutral at CN101 on main PBA. Normal: AC 120 V.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sub_connectors_yes",
+              "label": "120 V at CN101",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sub_connectors",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sub_connectors_no",
+              "label": "Missing at CN101",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_power_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure between live and neutral at CN101 on main PBA. Normal: AC 120 V."
+        },
+        {
+          "id": "repair_power_harness",
+          "order": 5,
+          "type": "instruction",
+          "title": "Repair power harness",
+          "body": "Check and replace power cable or CN101 connections.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check and replace power cable or CN101 connections."
+        },
+        {
+          "id": "sub_connectors",
+          "order": 6,
+          "type": "instruction",
+          "title": "Inspect Sub / Touch / Main harness",
+          "body": "Reseat Sub PBA, Touch PBA, CN101, and CN802 main-to-sub connectors. Check for condensation on CN103 and CON100.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat Sub PBA, Touch PBA, CN101, and CN802 main-to-sub connectors. Check for condensation on CN103 and CON100."
+        },
+        {
+          "id": "relay_drive",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Power relay drive 10.5\u201313 V with door closed?",
+          "body": "Measure CN402 pin 7 to pin 2 on main PBA. Door open or before cycle: ~1 V. After door closed and cycle started: 10.5\u201313 V.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "relay_output_yes",
+              "label": "Drive voltage OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "relay_output",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_output_no",
+              "label": "No drive signal",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CN402 pin 7 to pin 2 on main PBA. Door open or before cycle: ~1 V. After door closed and cycle started: 10.5\u201313 V."
+        },
+        {
+          "id": "relay_output",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Power relay output 110\u2013120 V?",
+          "body": "With cycle started, measure Power Relay pin 3 to CN101 pin 1 (neutral). Normal: 110\u2013120 VAC while operating.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_for_relay_yes",
+              "label": "Relay output OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_for_relay",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_for_relay_no",
+              "label": "No output",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With cycle started, measure Power Relay pin 3 to CN101 pin 1 (neutral). Normal: 110\u2013120 VAC while operating."
+        },
+        {
+          "id": "door_for_relay",
+          "order": 9,
+          "type": "visual_check",
+          "title": "Door switch enables 12 V relay line?",
+          "body": "White wire door switch: OFF when door open, ON when closed. Faulty door switch blocks Power and Heater relays.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "power_ok_yes",
+              "label": "Door switch OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "power_ok_no",
+              "label": "Door switch fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch_pwr",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "White wire door switch: OFF when door open, ON when closed. Faulty door switch blocks Power and Heater relays."
+        },
+        {
+          "id": "replace_door_switch_pwr",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": "Replace door sensing switch when relay line blocked.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pba",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when harness and door switch good but relay fails.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 12,
+          "type": "outcome",
+          "title": "Power path verified",
+          "body": "Incoming power and relay path verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cn101_voltage_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn101_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "outlet_120vac"
+        },
+        {
+          "id": "cn101_voltage_no",
+          "label": "No / low voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_outlet",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "outlet_120vac"
+        },
+        {
+          "id": "sub_connectors_yes",
+          "label": "120 V at CN101",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sub_connectors",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn101_voltage"
+        },
+        {
+          "id": "sub_connectors_no",
+          "label": "Missing at CN101",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_power_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn101_voltage"
+        },
+        {
+          "id": "relay_output_yes",
+          "label": "Drive voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "relay_output",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_drive"
+        },
+        {
+          "id": "relay_output_no",
+          "label": "No drive signal",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_drive"
+        },
+        {
+          "id": "door_for_relay_yes",
+          "label": "Relay output OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_for_relay",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_output"
+        },
+        {
+          "id": "door_for_relay_no",
+          "label": "No output",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "relay_output"
+        },
+        {
+          "id": "power_ok_yes",
+          "label": "Door switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_for_relay"
+        },
+        {
+          "id": "power_ok_no",
+          "label": "Door switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_pwr",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_for_relay"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "No Power / Power Relay",
+        "pages": [
+          52,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-power-supply",
+        "pages": [
+          52,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-power-supply",
+            "pages": [
+              52,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Water Thermistor (tC)",
+      "purpose": "Thermistor Check",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "tC",
+        "HC",
+        "HC1",
+        "temperature_sensor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "thermistor_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect CN503 thermistor",
+          "body": "Check CN503 pin 4 water thermistor connector seated. Reconnect if loose.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN503 pin 4 water thermistor connector seated. Reconnect if loose."
+        },
+        {
+          "id": "thermistor_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Thermistor voltage 0.05\u20134.95 V?",
+          "body": "With power on, measure voltage across thermistor at CN503 pin 4. Normal: 0.05\u20134.95 V.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "thermistor_ohms_yes",
+              "label": "In range",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermistor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "thermistor_ohms_no",
+              "label": "Out of range",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With power on, measure voltage across thermistor at CN503 pin 4. Normal: 0.05\u20134.95 V."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Thermistor resistance",
+          "body": "Power off. Disconnect connector. Measure resistance \u2014 ~49 k\u03a9 @ 25\u00b0C per OEM table.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9ThermistorOhms",
+              "testPoint": {
+                "connector": "CN503",
+                "pins": "4",
+                "label": "Thermistor resistance"
+              },
+              "title": "Thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "therm_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermistor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Disconnect connector. Measure resistance \u2014 ~49 k\u03a9 @ 25\u00b0C per OEM table."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": "Replace thermistor when out of spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermistor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Thermistor OK",
+          "body": "Thermistor verified \u2014 if tC/HC persists, check heater and main PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9ThermistorOhms",
+          "testPoint": {
+            "connector": "CN503",
+            "pins": "4",
+            "label": "Thermistor resistance"
+          },
+          "title": "Thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "thermistor_ohms_yes",
+          "label": "In range",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermistor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_voltage"
+        },
+        {
+          "id": "thermistor_ohms_no",
+          "label": "Out of range",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_voltage"
+        },
+        {
+          "id": "therm_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "therm_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "therm_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "therm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Thermistor Check",
+        "pages": [
+          50,
+          51
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-thermistor",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-thermistor",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-vane-motor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-3: Lower Vane Motor (7C)",
+      "purpose": "Motor vane check",
+      "prerequisites": [],
+      "componentIds": [
+        "diverter_motor"
+      ],
+      "tags": [
+        "7C",
+        "diverter_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "vane_connector",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect vane motor and sensor",
+          "body": "Check CN401 pins 7\u20138 vane relays and CN501 pin 3 reset sensor connectors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check CN401 pins 7\u20138 vane relays and CN501 pin 3 reset sensor connectors."
+        },
+        {
+          "id": "vane_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Vane motor coil",
+          "body": "Disconnect connector. Red/Black (CCW) and White/Black (CW). Normal: approx. 1.625\u20131.796 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungDishwasherM9VaneMotorOhms",
+              "testPoint": {
+                "connector": "Vane motor",
+                "pins": "Red-Black / White-Black",
+                "label": "Vane motor coil"
+              },
+              "title": "Vane motor coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "vane_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "vane_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vane_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_vane_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vane_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_vane_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vane_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_vane_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Red/Black (CCW) and White/Black (CW). Normal: approx. 1.625\u20131.796 k\u03a9."
+        },
+        {
+          "id": "vane_sensor",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Sensor vane reads 0 V on / 5 V off?",
+          "body": "Service test: brown/black sensor vane 0 V when sensor on, 5 V when off. Vane must move back and forth at bottom alternation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vane_smart_install_yes",
+              "label": "Sensor toggles",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "vane_smart_install",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vane_smart_install_no",
+              "label": "Sensor stuck",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_sensor_vane",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Service test: brown/black sensor vane 0 V when sensor on, 5 V when off. Vane must move back and forth at bottom alternation."
+        },
+        {
+          "id": "vane_smart_install",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Vane resets in Smart Install step 1/3?",
+          "body": "7C if reset not sensed in 10 s (\u00d73), 25 s, or full cycle <21 s. Vane parks before bottom nozzle spray.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vane_ok_yes",
+              "label": "Vane resets OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "vane_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vane_ok_no",
+              "label": "7C fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_vane_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "7C if reset not sensed in 10 s (\u00d73), 25 s, or full cycle <21 s. Vane parks before bottom nozzle spray."
+        },
+        {
+          "id": "replace_sensor_vane",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor vane",
+          "body": "Replace sensor vane for position sensing when stuck.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_vane_motor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace vane motor / motion assy",
+          "body": "Replace motor vane or motion assy when 7C persists.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_component",
+          "order": 8,
+          "type": "instruction",
+          "title": "Continue component check",
+          "body": "Smart Install active. Continue below for component-specific verification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Mode \u2014 component steps per \u00a74-2."
+        },
+        {
+          "id": "vane_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Vane OK",
+          "body": "Lower vane motor and sensor verified.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungDishwasherM9VaneMotorOhms",
+          "testPoint": {
+            "connector": "Vane motor",
+            "pins": "Red-Black / White-Black",
+            "label": "Vane motor coil"
+          },
+          "title": "Vane motor coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "vane_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "vane_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_ohms"
+        },
+        {
+          "id": "vane_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_vane_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_ohms"
+        },
+        {
+          "id": "vane_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_vane_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_ohms"
+        },
+        {
+          "id": "vane_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_vane_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_ohms"
+        },
+        {
+          "id": "vane_smart_install_yes",
+          "label": "Sensor toggles",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vane_smart_install",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_sensor"
+        },
+        {
+          "id": "vane_smart_install_no",
+          "label": "Sensor stuck",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_sensor_vane",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_sensor"
+        },
+        {
+          "id": "vane_ok_yes",
+          "label": "Vane resets OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vane_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_smart_install"
+        },
+        {
+          "id": "vane_ok_no",
+          "label": "7C fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_vane_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vane_smart_install"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Motor vane check",
+        "pages": [
+          49,
+          50
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-vane-motor",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-vane-motor",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungdwm9-voltage-abnormal",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "title": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+      "purpose": "9C1 / 9C2 voltage fault",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "9C1",
+        "9C2",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect circuit breaker or power cable before servicing electrical parts. Reconnect panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the circuit breaker or power cable before servicing."
+        },
+        {
+          "id": "line_voltage",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Line voltage stable 108\u2013132 V?",
+          "body": "9C1/9C2 occur on blackout or high/low DC link voltage. Measure outlet under load.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "customer_supply_yes",
+              "label": "Voltage stable",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "customer_supply",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "customer_supply_no",
+              "label": "High/low/brownout",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_panel",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "9C1/9C2 occur on blackout or high/low DC link voltage. Measure outlet under load."
+        },
+        {
+          "id": "customer_supply",
+          "order": 3,
+          "type": "instruction",
+          "title": "Correct supply",
+          "body": "Verify dedicated 15 A circuit, no shared loads, stable utility power. Retry after power restored.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify dedicated 15 A circuit, no shared loads, stable utility power. Retry after power restored."
+        },
+        {
+          "id": "check_panel",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Control panel powers on normally?",
+          "body": "If supply good but unit pauses with 9C, inspect CN101/CN802 and main PBA after surge event.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "voltage_ok_yes",
+              "label": "Normal power-up",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "voltage_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "voltage_ok_no",
+              "label": "Still pauses",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_pba_9c",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "If supply good but unit pauses with 9C, inspect CN101/CN802 and main PBA after surge event."
+        },
+        {
+          "id": "replace_main_pba_9c",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": "Replace main PBA when supply verified stable but 9C1/9C2 persists.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "voltage_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Supply OK",
+          "body": "Line voltage normal \u2014 if fault recurs, log brownout events.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "customer_supply_yes",
+          "label": "Voltage stable",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "customer_supply",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_voltage"
+        },
+        {
+          "id": "customer_supply_no",
+          "label": "High/low/brownout",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_panel",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_voltage"
+        },
+        {
+          "id": "voltage_ok_yes",
+          "label": "Normal power-up",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "voltage_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_panel"
+        },
+        {
+          "id": "voltage_ok_no",
+          "label": "Still pauses",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_pba_9c",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_panel"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "manualTitle": "Samsung Premium Dishwasher DW80M9 Series",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "9C1 / 9C2 voltage fault",
+        "pages": [
+          36,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung-dishwasher-svc manual diff-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "platformId": "samsung_dishwasher_m9",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "pages": [
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "platformId": "samsung_dishwasher_m9"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdwm9-voltage-abnormal",
+            "pages": [
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

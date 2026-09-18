@@ -1,0 +1,943 @@
+{
+  "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+  "candidates": [
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-bake_element-bake_heating_element",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "bake_element",
+      "extractedTerm": null,
+      "canonicalId": "bake_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-bake-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-bake-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-bake-element-component",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Bake element component test",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-bake-element",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-bake-element",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Bake element component"
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-thermistor-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c20-oven-sensor",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c20-oven-sensor",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-c-20:-oven-temperature-sensor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "C-20: Oven temperature sensor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "c 20 oven temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "oven temperature sensor",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c20-oven-sensor",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c20-oven-sensor",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "oven temperature sensor",
+            "decomposition": {
+              "domain": null,
+              "component": "c 20 oven temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-broil_element-broil_heating_element",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "broil_element",
+      "extractedTerm": null,
+      "canonicalId": "broil_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c21-abnormal-temp",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c21-abnormal-temp",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-c-21:-abnormal-internal-temperature",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "C-21: Abnormal internal temperature",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-c21-abnormal-temp",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-c21-abnormal-temp",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-door_lock-oven_door_switch",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "oven_door_switch",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cd1-door-lock",
+        "pages": [
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cd1-door-lock",
+            "pages": [
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-c-d1:-door-lock-mispositioned",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "C-d1: Door lock mispositioned",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "c d1 door",
+        "actuator": "lock"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cd1-door-lock",
+        "pages": [
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cd1-door-lock",
+            "pages": [
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "c d1 door",
+              "actuator": "lock"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-main_control-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf0-main-sub",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf0-main-sub",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-c-f0:-main-\u2194-sub-pcb-communication",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "C-F0: Main \u2194 sub PCB communication",
+      "canonicalId": "control_board",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": "sub pcb",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf0-main-sub",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf0-main-sub",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "sub pcb",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "display_panel",
+      "extractedTerm": null,
+      "canonicalId": "user_interface",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf2-touch",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf2-touch",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-c-f2:-touch-pcb-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "C-F2: Touch PCB communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-cf2-touch",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-cf2-touch",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-convection_fan-convection_fan",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "convection_fan",
+      "extractedTerm": null,
+      "canonicalId": "convection_fan",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-convection-fan",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-convection-fan",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-convection-fan-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: Convection fan motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "convection fan",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-convection-fan",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-convection-fan",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "convection fan",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Convection fan motor"
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-surface_element-surface_heating_system",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "surface_element",
+      "extractedTerm": null,
+      "canonicalId": "surface_heating_system",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-comm-inverter",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-comm-inverter",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-cooktop:-display-\u2194-inverter-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Cooktop: Display \u2194 inverter communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-comm-inverter",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-comm-inverter",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-cooktop:-igbt-sensor-open/short",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Cooktop: IGBT sensor open/short",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "cooktop igbt",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-igbt-sensor",
+        "pages": [
+          41,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-igbt-sensor",
+            "pages": [
+              41,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "cooktop igbt",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-cooktop:-pan-detection-/-unsuitable-cookware",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Cooktop: Pan detection / unsuitable cookware",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-induction-pan-detection",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-induction-pan-detection",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-power",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-power",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-NE58H-INDUCTION-RANGE-compound-no-power-/-terminal-block",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-3: No power / terminal block",
+      "canonicalId": "power_supply",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": "terminal block",
+      "provenance": {
+        "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "platformId": "samsung_range_ne58",
+        "procedureId": "ne58h-power",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "platformId": "samsung_range_ne58"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ne58h-power",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "terminal block",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "No power / terminal block"
+    }
+  ]
+}

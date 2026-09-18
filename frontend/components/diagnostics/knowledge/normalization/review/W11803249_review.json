@@ -1,0 +1,1936 @@
+{
+  "manualId": "W11803249",
+  "platformId": "whirlpool_theseus_cdfd",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:17.127440+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11803249-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-10-fc-evap-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-10:-fc-evaporator-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 10: FC evaporator thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 10 fc evaporator",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 10: FC evaporator thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 10: FC evaporator thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-10-fc-evap-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-10-fc-evap-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 10 fc evaporator",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "pages": [
+          78,
+          119
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "pages": [
+          78,
+          119
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-111-fc-evap-fan",
+            "pages": [
+              78,
+              119
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-111:-fc-evaporator-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 111: FC evaporator fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 111: FC evaporator fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "pages": [
+          78,
+          119
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 111: FC evaporator fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-111-fc-evap-fan",
+        "pages": [
+          78,
+          119
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-111-fc-evap-fan",
+            "pages": [
+              78,
+              119
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-condenser_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "condenser_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: condenser_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "pages": [
+          78,
+          118
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "condenser_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "pages": [
+          78,
+          118
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-113-condenser-fan",
+            "pages": [
+              78,
+              118
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-113:-condenser-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 113: Condenser fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 113: Condenser fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "pages": [
+          78,
+          118
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 113: Condenser fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-113-condenser-fan",
+        "pages": [
+          78,
+          118
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-113-condenser-fan",
+            "pages": [
+              78,
+              118
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-12:-fc-compartment-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 12: FC compartment thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 12 fc compartment",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 12: FC compartment thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-12-fc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 12: FC compartment thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-12-fc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-12-fc-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 12 fc compartment",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-13:-rc-compartment-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 13: RC compartment thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 13 rc compartment",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 13: RC compartment thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-rc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 13: RC compartment thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-rc-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-rc-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 13 rc compartment",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-water_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "water_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: water_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-water-valve",
+            "pages": [
+              129
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-water-dispenser-/-iso-valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Test 13: Water dispenser / ISO valve",
+      "extractedTerm": "Water dispenser / ISO valve",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": "dispenser iso",
+          "actuator": "valve"
+        },
+        "summary": "alias: Test 13: Water dispenser / ISO valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Test 13: Water dispenser / ISO valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-water-valve",
+            "pages": [
+              129
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "dispenser iso",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-acu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "ACU",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: ACU \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ACU": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-13-water-valve",
+        "pages": [
+          129
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-13-water-valve",
+            "pages": [
+              129
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-131-defrost",
+        "pages": [
+          79,
+          121
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-131-defrost",
+        "pages": [
+          79,
+          121
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-131-defrost",
+            "pages": [
+              79,
+              121
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-131:-fc-defrost-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 131: FC defrost heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 131 fc defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: Service Test 131: FC defrost heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-131-defrost",
+        "pages": [
+          79,
+          121
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 131: FC defrost heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-131-defrost",
+        "pages": [
+          79,
+          121
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-131-defrost",
+            "pages": [
+              79,
+              121
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 131 fc defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11803249-unresolved-w11803249-test-15-heaters-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-15-heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-15-heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-15-heaters",
+            "pages": [
+              79,
+              131
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-134/144:-mullion-&-fill-tube-heaters",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 134/144: Mullion & fill tube heaters",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 134/144: Mullion & fill tube heaters \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-15-heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 134/144: Mullion & fill tube heaters": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-15-heaters",
+        "pages": [
+          79,
+          131
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-15-heaters",
+            "pages": [
+              79,
+              131
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-17:-pantry-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 17: Pantry thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 17 pantry",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 17: Pantry thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-17-pantry-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 17: Pantry thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-17-pantry-thermistor",
+        "pages": [
+          77,
+          122
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-17-pantry-thermistor",
+            "pages": [
+              77,
+              122
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 17 pantry",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-ice_maker",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: ice_maker \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "pages": [
+          79,
+          128
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "pages": [
+          79,
+          128
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-181-fc-ice-maker",
+            "pages": [
+              79,
+              128
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-181:-fc-ice-maker-harvest",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 181: FC ice maker harvest",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 181: FC ice maker harvest \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "pages": [
+          79,
+          128
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 181: FC ice maker harvest": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-181-fc-ice-maker",
+        "pages": [
+          79,
+          128
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-181-fc-ice-maker",
+            "pages": [
+              79,
+              128
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-humidity_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "humidity_sensor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "humidity",
+          "actuator": "sensor"
+        },
+        "summary": "alias: humidity_sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "humidity_sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-29-rh-sensor",
+            "pages": [
+              77,
+              124
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-29:-external-rh-sensor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 29: External RH sensor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 29 external rh",
+          "actuator": "sensor"
+        },
+        "summary": "alias: Service Test 29: External RH sensor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 29: External RH sensor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-29-rh-sensor",
+        "pages": [
+          77,
+          124
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-29-rh-sensor",
+            "pages": [
+              77,
+              124
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 29 external rh",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w11803249-unresolved-w11803249-test-72-compressor-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-72-compressor",
+        "pages": [
+          78,
+          117
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-72-compressor",
+        "pages": [
+          78,
+          117
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-72-compressor",
+            "pages": [
+              78,
+              117
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-72/75:-compressor-&-inverter",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 72/75: Compressor & inverter",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 72/75: Compressor & inverter \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-72-compressor",
+        "pages": [
+          78,
+          117
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 72/75: Compressor & inverter": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-72-compressor",
+        "pages": [
+          78,
+          117
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-72-compressor",
+            "pages": [
+              78,
+              117
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-damper_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "damper_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "damper",
+          "actuator": "motor"
+        },
+        "summary": "alias: damper_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-80-rc-damper",
+        "pages": [
+          78,
+          120
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "damper_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-80-rc-damper",
+        "pages": [
+          78,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-80-rc-damper",
+            "pages": [
+              78,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11803249-compound-service-test-80/81:-rc-&-pantry-dampers",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 80/81: RC & pantry dampers",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 80/81: RC & pantry dampers \u2192 None"
+      },
+      "source": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-80-rc-damper",
+        "pages": [
+          78,
+          120
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 80/81: RC & pantry dampers": null
+        }
+      },
+      "provenance": {
+        "manualId": "W11803249",
+        "platformId": "whirlpool_theseus_cdfd",
+        "procedureId": "w11803249-test-80-rc-damper",
+        "pages": [
+          78,
+          120
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11803249",
+            "platformId": "whirlpool_theseus_cdfd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11803249-test-80-rc-damper",
+            "pages": [
+              78,
+              120
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 24,
+    "byStatus": {
+      "candidate": 2,
+      "needs_review": 22
+    },
+    "byApprovalLevel": {
+      "normal": 2,
+      "blocked": 22
+    },
+    "byType": {
+      "canonicalMapping": 24
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 0,
+      "unresolved": 22
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 1,
+      "UNRESOLVED_COMPONENT": 1
+    }
+  }
+}

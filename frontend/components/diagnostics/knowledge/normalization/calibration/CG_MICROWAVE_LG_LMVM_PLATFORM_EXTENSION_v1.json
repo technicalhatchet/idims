@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_platform_extension_normalization",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "extensionType": "platform_model_coverage",
+  "status": "approved",
+  "normalizedAt": "2026-09-17T13:15:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+  "witnessNormalization": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "canonicalOntologyId": "microwave",
+  "platformId": "lg_microwave_otr",
+  "coreConstraint": "LMVM model-family coverage inherits LMHM2237 witness normalization. No new canonical mappings, no separate compounding sequence, no Samsung evidence borrowing.",
+  "sourceMetadata": {
+    "manualId": "LG-LMVM-MICROWAVE",
+    "manufacturer": "LG",
+    "smokeModel": "LMVM2031ST",
+    "witnessManualId": "LG-LMHM2237-MICROWAVE",
+    "witnessPdf": "backend/docs/manuals/LMHM2237BD.pdf",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md",
+    "witnessNote": "LMVM shares LMHM OTR architecture — F-1/F-2/F-4 error family and HV/interlock topology"
+  },
+  "modelPatterns": ["/LMVM/i"],
+  "inheritancePolicy": {
+    "inheritsAllFunctionalMappings": true,
+    "inheritsCompoundedOverlay": "lg_microwave_otr.json",
+    "requiresSeparateCompounding": false,
+    "canonicalPromotionCount": 0,
+    "deltaFunctionalMappings": 0
+  },
+  "corroborationChecks": [
+    {
+      "id": "same_platform_registry",
+      "result": "pass",
+      "evidence": "platformRegistry.ts LG_MICROWAVE_OTR modelPatterns include LMVM"
+    },
+    {
+      "id": "same_f_error_family",
+      "result": "pass",
+      "evidence": "MICROWAVE_OTR_BATCH_EXTRACTION.md — F-1/F-2/F-4 shared OTR routing"
+    },
+    {
+      "id": "vent_deferral_preserved",
+      "result": "pass",
+      "note": "LMVM inherits LG vent deferral — no manufactured ventilation_otr conditional"
+    },
+    {
+      "id": "no_canonical_divergence",
+      "result": "pass",
+      "note": "Zero new frozen-function bindings — witness normalization authoritative"
+    }
+  ],
+  "deferredItems": [
+    {
+      "item": "Dedicated LMVM procedure seed delta",
+      "reason": "No material TEST divergence from LMHM2237 witness manual",
+      "scope": "platform_only"
+    }
+  ],
+  "nextDisciplinedStep": "None — extension closed under LMHM2237 witness; family closure planning uses combined LG + Samsung overlays"
+}

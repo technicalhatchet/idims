@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_baseline",
+  "version": "v1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T06:33:00+00:00",
+  "description": "FROZEN permanent compounding baseline — Whirlpool FL batch (W8178558 reference, W11169652 second family). Do not retroactively change methodology or metrics.",
+  "generatedAt": "2026-09-13T06:30:00+00:00",
+  "promotionGate": {
+    "note": "Metrics captured before W11169652 term-resolution publish (compounding proof point)",
+    "manuals": {
+      "W8178558": {
+        "reviewRecords": 41,
+        "approved": 31,
+        "newHumanDecisionCount": 10,
+        "inheritedResolvedAutomatically": 20,
+        "manualResolutionsRequired": 10,
+        "humanDecisionCount": 10,
+        "newHumanDecisionRate": 0.2439,
+        "inheritedResolutionRate": 0.6667,
+        "equivalence": "PASS"
+      },
+      "W11169652": {
+        "reviewRecords": 49,
+        "approved": 12,
+        "newHumanDecisionCount": 9,
+        "inheritedResolvedAutomatically": 40,
+        "manualResolutionsRequired": 9,
+        "humanDecisionCount": 9,
+        "newHumanDecisionRate": 0.1837,
+        "inheritedResolutionRate": 0.8163,
+        "equivalence": "PASS"
+      }
+    }
+  },
+  "postPublish": {
+    "W11169652": {
+      "published": true,
+      "promotionId": "promo-W11169652-20260913062949",
+      "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+      "termResolutions": {
+        "applied": 12,
+        "classifications": {
+          "existing_canonical_concept": 10,
+          "existing_platform_concept": 2,
+          "new_platform_specific_concept": 0,
+          "potential_canonical_ontology_candidate": 0
+        }
+      },
+      "equivalence": "PASS",
+      "canonicalGraphValidation": "PASS",
+      "ds7": {
+        "cg2-whirlpool-overlay": "PASS",
+        "canonical-graph-wont-spin": "PASS"
+      },
+      "ontologyCandidatesAdded": 0
+    }
+  },
+  "architecturalNote": "W8178558 (CCU→MCU belt-drive) and W11169652 (ACU direct-drive) both resolve through canonical control_board→drive_motor; family overlay supplies implementation topology."
+}

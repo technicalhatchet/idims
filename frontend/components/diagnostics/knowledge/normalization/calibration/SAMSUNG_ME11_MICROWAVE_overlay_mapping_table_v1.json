@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "platformFamilyId": "samsung_microwave_otr",
+  "canonicalOntologyId": "microwave",
+  "proposedOverlayFile": "samsung_microwave_otr.json",
+  "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_MICROWAVE_COMPOUNDING_v1.json",
+  "compoundingSequence": 2,
+  "priorSequenceAudit": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+  "status": "published",
+  "generatedAt": "2026-09-17T12:50:00+00:00",
+  "evidenceIndependence": {
+    "rule": "Samsung realizations require SAMSUNG-ME11-MICROWAVE provenance — LG overlay is not evidence",
+    "noBorrowFromLgOverlay": true
+  },
+  "gatePolicy": {
+    "gateKind": "samsung_me11_second_microwave_compounding",
+    "compoundingPhase": "CG-MICROWAVE-COMPOUNDING",
+    "canonicalGraph": "microwave.json rev1 FROZEN",
+    "implementationRealizationPrecedence": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "microwave",
+    "revision": "rev1",
+    "frozen": true,
+    "frozenHash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "allowedCanonicalIds": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "door_interlock_chain",
+      "hv_generation",
+      "rf_cavity",
+      "thermal_protection"
+    ],
+    "conditionalBindingIds": ["control_and_sensing", "ventilation_otr"]
+  },
+  "accounting": {
+    "canonicalInheritance": 7,
+    "conditionalBinding": 2,
+    "overlayImplementation": 18,
+    "proceduresBound": 14,
+    "measurementsBound": 13,
+    "decisionBranchesExecutable": 14,
+    "functionalRealizations": 14,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "lgEvidenceBorrowing": 0,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "me11-four-tco-thermal-network",
+      "gateQuestion": "How does Samsung four-TCO network bind?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "thermal_protection",
+      "implementationTerms": ["cavity_tco", "hood_tco", "bottom_tco", "magnetron_tco"],
+      "procedureIds": ["samsungotrmw-thermal-cutout", "samsungotrmw-no-heat", "samsungotrmw-line-power"],
+      "gateAction": "approve_compounded",
+      "rationale": "Single thermal_protection function — individual TCOs remain overlay vocabulary; not LG pcb_thermistor borrowing."
+    },
+    {
+      "teachingId": "me11-magnetron-rf-cavity",
+      "gateQuestion": "Where does Samsung magnetron bind?",
+      "outcome": "overlay_implementation",
+      "canonicalTarget": "rf_cavity",
+      "implementationTerms": ["magnetron"],
+      "procedureIds": ["samsungotrmw-magnetron"],
+      "gateAction": "approve_compounded",
+      "rationale": "§4-2 filament test — rf_cavity per Branch A precedence; Samsung manual evidence only."
+    },
+    {
+      "teachingId": "me11-ventilation-otr-conditional",
+      "gateQuestion": "Is ventilation_otr evidenced on Samsung ME11?",
+      "outcome": "conditional_binding",
+      "conditionalTarget": "ventilation_otr",
+      "implementationTerms": ["vent_blower_motor", "run_capacitor"],
+      "procedureIds": ["samsungotrmw-vent-motor"],
+      "gateAction": "approve_compounded",
+      "rationale": "§4-7 OTR vent blower — Samsung manual supports conditional; LG vent deferral does not block Samsung evidence."
+    },
+    {
+      "teachingId": "me11-reject-lg-pcb-thermistor",
+      "gateQuestion": "May LG pcb_thermistor realization be borrowed?",
+      "outcome": "platform_only",
+      "verdict": "reject_lg_borrowing",
+      "gateAction": "reject",
+      "rationale": "LG-specific protective topology — Samsung uses four-TCO network per ME11 §4-8."
+    }
+  ]
+}

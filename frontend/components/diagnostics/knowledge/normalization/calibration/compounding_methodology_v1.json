@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_methodology",
+  "version": "v1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T14:10:00+00:00",
+  "description": "Authoritative compounding measurement discipline — frozen at CG-5 close. Production contract: knowledge_hierarchy_contract_v1.json. Active phase: CG-6.",
+  "productionContract": "knowledge_hierarchy_contract_v1.json",
+  "calibrationCorpus": "compounding_calibration_corpus_v1.json",
+  "metricRoles": {
+    "gatePreview": {
+      "role": "authoritative_compounding_measurement",
+      "question": "What did the system know before this manual was promoted?",
+      "useInCurves": true,
+      "artifacts": [
+        "promotionGatePreview in compounding_baseline_*.json",
+        "compounding_*_replication_preview_*.json",
+        "human_classification promotionGateMetrics"
+      ]
+    },
+    "postPublish": {
+      "role": "operational_debug_metric",
+      "question": "What does the pipeline report after term resolutions and bindings are applied?",
+      "useInCurves": false,
+      "knownInflation": "Term-resolution approvals count as new human decisions once promoted knowledge becomes available to the matcher.",
+      "artifacts": [
+        "compounding_pipeline_*.json metrics block",
+        "live_compounding_pipeline metricsSource rows"
+      ]
+    }
+  },
+  "classificationHierarchy": [
+    "inheritedCorpusKnowledge",
+    "inheritedPlatformFamilyKnowledge",
+    "newPlatformKnowledge",
+    "newModelSpecificKnowledge",
+    "newCanonicalKnowledge"
+  ],
+  "hardRules": [
+    "Never mix gate-preview and post-publish metrics on the same compounding curve.",
+    "Frozen baselines are immutable — do not retroactively change methodology.",
+    "newCanonicalKnowledge requires repeated cross-manufacturer evidence; one unfamiliar manual is not enough.",
+    "Manufacturer platform vocabulary does not transfer across manufacturers — only canonical ontology and compiler machinery."
+  ],
+  "experiments": {
+    "CG-5.5": {
+      "status": "closed",
+      "scope": "Whirlpool FL + TL intra-manufacturer hierarchy",
+      "evidence": "compounding_baseline_whirlpool_washer_evidence.json"
+    },
+    "CG-5.6": {
+      "status": "closed",
+      "scope": "Samsung FL cross-manufacturer + platform compounding",
+      "frozenBaselines": [
+        "compounding_baseline_v1_samsung_fl1.json",
+        "compounding_baseline_v1_samsung_fl2.json"
+      ],
+      "killerMetric": "Canonical transfer + Samsung platform compound + model isolation + zero Whirlpool leakage + zero canonical",
+      "headline": "Hierarchy validated across manufacturer boundary",
+      "successor": "CG-6-production-compounding.md"
+    },
+    "CG-6": {
+      "status": "active",
+      "scope": "Scale + operationalize compounding pipeline — efficiency, not hierarchy proof",
+      "primaryKpi": "newHumanDecisionCount per manual at gate-preview",
+      "calibrationCorpus": "compounding_calibration_corpus_v1.json",
+      "efficiencyReport": "compounding_efficiency_v1.json",
+      "efficiencyReportScript": "backend/scripts/run_compounding_efficiency_report.py"
+    }
+  }
+}

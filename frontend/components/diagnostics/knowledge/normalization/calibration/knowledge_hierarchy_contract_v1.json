@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "knowledge_hierarchy_contract",
+  "version": "v1",
+  "status": "production",
+  "frozenAt": "2026-09-13T22:05:00+00:00",
+  "description": "Formal production contract for Solomon knowledge layers — frozen at CG-5 close, operationalized in CG-6.",
+  "provenance": {
+    "validatedBy": ["CG-5.5", "CG-5.6"],
+    "evidence": [
+      "compounding_baseline_whirlpool_washer_evidence.json",
+      "compounding_baseline_v1_samsung_fl1.json",
+      "compounding_baseline_v1_samsung_fl2.json"
+    ]
+  },
+  "layers": [
+    {
+      "id": "canonical_ontology",
+      "label": "Canonical Ontology",
+      "scope": "Cross-manufacturer functional appliance concepts",
+      "examples": ["control_board", "drive_motor", "drain_pump", "inlet_valve"],
+      "storage": "frontend/components/diagnostics/knowledge/canonical/{ontologyId}.json",
+      "mutability": "human_promotion_only",
+      "sessionMayModify": false
+    },
+    {
+      "id": "manufacturer_platform_family",
+      "label": "Manufacturer / Platform Family",
+      "scope": "Manufacturer implementation vocabulary, OEM aliases, topology, procedure bindings",
+      "examples": ["inverter_board", "mems_sensor", "pressure_sensor (TL-scoped)"],
+      "storage": "frontend/components/diagnostics/knowledge/canonical/manufacturer_overlays/*.json",
+      "mutability": "promotion_pipeline_with_human_gate",
+      "sessionMayModify": false,
+      "note": "overlay.add.components ≠ canonical.components"
+    },
+    {
+      "id": "model",
+      "label": "Model / Model-Line",
+      "scope": "OEM surface variants that do not justify platform promotion",
+      "examples": ["TEST #4: HMI (5100-line)", "BC2 switch error", "Load & Go detergent"],
+      "storage": "platform family oemTermAliases + procedure seeds scoped to platformId",
+      "mutability": "human_gate_classification_new_model_specific",
+      "sessionMayModify": false
+    },
+    {
+      "id": "diagnostic_session",
+      "label": "Diagnostic Session Evidence",
+      "scope": "Facts, measurements, procedure runs, and derived intelligence for one repair",
+      "examples": ["procedureRuns", "fields", "evidenceSnapshot", "elimination"],
+      "storage": "DiagnosticSession / WO diagnostic payload",
+      "mutability": "runtime_per_session",
+      "sessionMayModify": true,
+      "note": "Session evidence NEVER auto-promotes to ontology, platform, or model layers."
+    }
+  ],
+  "promotionRules": {
+    "canonical": {
+      "bar": "cross_manufacturer_functional_evidence",
+      "requires": [
+        "Same functional concept observed across sufficiently independent manufacturers and/or platforms",
+        "Human gate classification newCanonicalKnowledge with explicit rationale",
+        "Not merely repeated OEM terminology or single-manufacturer platform vocabulary"
+      ],
+      "explicitlyNot": [
+        "Seen this term N times within one manufacturer",
+        "Physically similar part on a different platform without functional equivalence review",
+        "Single unfamiliar manual or repair outcome"
+      ],
+      "frozenControlGroup": {
+        "count": 23,
+        "artifact": "canonical_gap_report_v1_washer.json buckets.canonical_ontology_candidate",
+        "rule": "Remain frozen until extraordinary multi-manufacturer functional evidence"
+      }
+    },
+    "platform": {
+      "bar": "manufacturer_platform_evidence",
+      "requires": [
+        "Human gate classification newPlatformKnowledge OR inherited_platform_family on publish",
+        "Stored in manufacturer overlay add.components / oemTermAliases / bindings",
+        "May inherit across models within same manufacturer platform family"
+      ],
+      "explicitlyNot": [
+        "Automatic promotion to canonical because concept is useful",
+        "Cross-manufacturer platform vocabulary transfer (e.g. Whirlpool → Samsung)"
+      ]
+    },
+    "model": {
+      "bar": "model_line_specific_evidence",
+      "requires": [
+        "Human gate classification new_model_specific",
+        "Maps to existing canonical or platform target without creating duplicate platform concepts"
+      ]
+    },
+    "session": {
+      "bar": "none_for_hierarchy",
+      "rule": "Verified repair outcomes feed review queues; they do not silently rewrite ontology or overlays.",
+      "futureFeedback": "DMA/outcome→KB must classify which layer evidence justifies before promotion"
+    }
+  },
+  "classificationHierarchy": [
+    "inheritedCorpusKnowledge",
+    "inheritedPlatformFamilyKnowledge",
+    "newPlatformKnowledge",
+    "newModelSpecificKnowledge",
+    "newCanonicalKnowledge"
+  ],
+  "architectureInvariants": [
+    "canonical.components ≠ overlay.add.components",
+    "Better matching may increase automatic inheritance; it must NEVER lower the promotion bar",
+    "Gate-preview metrics are authoritative for compounding curves; post-publish metrics are debug-only",
+    "Raw gate preview artifacts must be preserved separately from human-resolved classifications",
+    "Manufacturer platform vocabulary does not transfer across manufacturers — only canonical ontology and compiler machinery",
+    "Explicit platformId is authoritative over model-pattern inference — when platformId is set, only the matching platform family may participate; other families must not fall through to modelPatterns (see cg6-samsung-dryer-routing-boundary.test.ts)"
+  ],
+  "semanticInheritance": {
+    "status": "operational_CG-6.3_COMPLETE",
+    "policyArtifact": "semantic_inheritance_abstention_policy_v1.json",
+    "rulesArtifact": "semantic_inheritance_rules_v1.json",
+    "validatedRules": 4,
+    "abstentionPolicy": "R5 frozen — partial signal without full deterministic evidence → human gate",
+    "matcherMustNot": "Auto-promote to newPlatformKnowledge or newCanonicalKnowledge; cross-manufacturer inherit; topology inference; create concepts on high-risk functional rules"
+  }
+}

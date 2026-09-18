@@ -1,0 +1,362 @@
+{
+  "manualId": "W11499711",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "ontologyId": "dishwasher",
+  "materializedAt": "2026-09-15T12:34:12.300092+00:00",
+  "records": [
+    {
+      "candidateId": "map-W11499711-circulation_pump-circulation_pump",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "circulation_pump",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: circulation_pump \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "circulation_pump": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W11499711-compound-wash-motor-(ssm,-wdt750)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.86,
+      "what": "\u00a73-15: Wash Motor (SSM, WDT750)",
+      "extractedTerm": "Wash Motor (SSM, WDT750)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_pump",
+      "why": {
+        "confidence": 0.86,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": "wash",
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a73-15: Wash Motor (SSM, WDT750) \u2192 circulation_pump"
+      },
+      "source": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a73-15: Wash Motor (SSM, WDT750)": "circulation_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": "wash",
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W11499711-w11499711-wash-motor-ssm-circulation_test",
+      "candidateType": "procedureTestBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w11499711-wash-motor-ssm",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w11499711-wash-motor-ssm \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a73-15: Wash Motor (SSM, WDT750)",
+          "componentIds": [
+            "circulation_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T07:41:33.804587+00:00",
+          "status": "approved",
+          "reviewer": "mechanical_gate",
+          "reason": "W11499711 mechanical overlay registration (published SSM semantics)"
+        },
+        {
+          "at": "2026-09-15T12:34:12.265589+00:00",
+          "status": "approved",
+          "reviewer": "mechanical_gate",
+          "reason": "W11499711 mechanical overlay registration (published SSM semantics)"
+        }
+      ],
+      "reviewer": "mechanical_gate",
+      "resolutionClassification": "mechanical_gate_approved"
+    },
+    {
+      "candidateId": "overlay-W11499711-w11499711-wash-motor-ssm-meas-whirlpoolDishwasherAcuWashMotorOhms",
+      "candidateType": "measurementBinding",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w11499711-wash-motor-ssm",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "circulation_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: whirlpoolDishwasherAcuWashMotorOhms \u2192 circulation_test"
+      },
+      "source": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w11499711-wash-motor-ssm",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W11499711",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11499711-wash-motor-ssm",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11499711",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11499711-wash-motor-ssm",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+            "stepTitle": "Wash motor \u2014 P5 pins 1 & 2"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-15T07:41:33.819088+00:00",
+          "status": "approved",
+          "reviewer": "mechanical_gate",
+          "reason": "W11499711 mechanical overlay registration (published SSM semantics)"
+        },
+        {
+          "at": "2026-09-15T12:34:12.282090+00:00",
+          "status": "approved",
+          "reviewer": "mechanical_gate",
+          "reason": "W11499711 mechanical overlay registration (published SSM semantics)"
+        }
+      ],
+      "reviewer": "mechanical_gate",
+      "resolutionClassification": "mechanical_gate_approved"
+    }
+  ],
+  "summary": {
+    "total": 4,
+    "byStatus": {
+      "candidate": 1,
+      "COMPOUND_TERM_CANDIDATE": 1,
+      "approved": 2
+    },
+    "byApprovalLevel": {
+      "easy": 1,
+      "careful": 1,
+      "normal": 2
+    },
+    "byType": {
+      "canonicalMapping": 2,
+      "procedureTestBinding": 1,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 1,
+      "medium_0.80_0.94": 3,
+      "low_lt_0.80": 0,
+      "unresolved": 0
+    },
+    "byBlockedReason": {}
+  }
+}

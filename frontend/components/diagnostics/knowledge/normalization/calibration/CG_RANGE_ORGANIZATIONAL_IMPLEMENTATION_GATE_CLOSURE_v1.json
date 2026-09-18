@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_organizational_implementation_gate_closure",
+  "workstream": "CG-RANGE-IMPLEMENTATION-GATE",
+  "status": "closed",
+  "verdict": "CLOSED / RANGE_OVEN_ORGANIZATIONAL_MIGRATION_COMPLETE",
+  "closedAt": "2026-09-16T22:30:00+00:00",
+  "gateArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json",
+  "aliasRegistry": "CG_RANGE_CANONICAL_ONTOLOGY_ALIAS_REGISTRY_v1.json",
+  "approvedOrganizationalIdentity": {
+    "primaryCanonicalId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "frozenHistoricalContract": {
+      "file": "electric_range.json",
+      "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "immutable": true
+    }
+  },
+  "implementedArtifacts": [
+    "canonical/range_oven.json",
+    "canonical/platform_overlays/range_oven.reference.json",
+    "canonical/canonicalOntologyAliases.ts",
+    "canonical/canonicalRegistry.ts",
+    "constants/diagnosticTemplates.js",
+    "registry/wizardRegistry.ts",
+    "knowledge/platformRegistry.ts"
+  ],
+  "regressionGates": {
+    "validate_canonical_graph": "green",
+    "cg_range_implementation_gate_tests": "green",
+    "electric_range_hash_pinned": true,
+    "cg10_cg13_historical_artifacts_unmodified": true
+  },
+  "unlocks": {
+    "normalization": "CG-RANGE-NORMALIZATION",
+    "compounding": "CG-RANGE-COMPOUNDING"
+  },
+  "nextDisciplinedStep": "CG-RANGE-NORMALIZATION — normalize Samsung NX60/NE58/NY63 and W11174814 corpus without redoing fit tests"
+}

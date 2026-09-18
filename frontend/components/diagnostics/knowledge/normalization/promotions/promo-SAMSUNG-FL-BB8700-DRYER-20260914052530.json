@@ -1,0 +1,47 @@
+{
+  "promotionId": "promo-SAMSUNG-FL-BB8700-DRYER-20260914052530",
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "overlayFile": "samsung_vented_dryer.json",
+  "platformFamilyId": "samsung_fl_dryer_bb8700",
+  "status": "published",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-flame_sensor",
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-gas_valve",
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
+    "map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board",
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-high_limit_thermostat",
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-exhaust_thermistor",
+    "map-SAMSUNG-FL-BB8700-DRYER-compound-inlet_thermistor"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {
+        "flame_sensor": "heat_source",
+        "gas_valve": "heat_source",
+        "user_interface": "hmi_control",
+        "main_control": "control_board",
+        "high_limit_thermostat": "thermal_cutoff",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-14T05:25:30.607135+00:00",
+  "publishedAt": "2026-09-14T05:25:30.708137+00:00"
+}

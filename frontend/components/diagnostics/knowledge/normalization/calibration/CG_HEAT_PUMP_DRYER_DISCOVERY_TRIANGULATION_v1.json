@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_discovery_triangulation",
+  "workstream": "CG-HEAT-PUMP-DRYER-DISCOVERY",
+  "status": "complete",
+  "generatedAt": "2026-09-17T15:05:00+00:00",
+  "contract": "CG_HEAT_PUMP_DRYER_DISCOVERY_CONTRACT_v1.json",
+  "method": "independent_witness_synthesis_then_cross_classification",
+  "witnesses": [
+    { "id": "W1", "manufacturer": "Samsung", "model": "DV22N6850" },
+    { "id": "W2", "manufacturer": "LG", "model": "DLHC1455" },
+    { "id": "W3", "manufacturer": "Whirlpool", "model": "HybridCare W10764068" }
+  ],
+  "reusedVentedDryerDomains": {
+    "cross_manufacturer_convergent": [
+      {
+        "domain": "door_switch",
+        "w1": "dC door open",
+        "w2": "door switch component test",
+        "w3": "TEST #7 door switch",
+        "classification": "cross_manufacturer_convergent",
+        "reuse": "vented_dryer.door_switch unchanged"
+      },
+      {
+        "domain": "drive_motor_drum",
+        "w1": "3C BLDC drum motor",
+        "w2": "115W motor, 52–53 rpm drum",
+        "w3": "TEST #3 motor circuit",
+        "classification": "cross_manufacturer_convergent",
+        "reuse": "vented_dryer.drive_motor + drum"
+      },
+      {
+        "domain": "moisture_sensing",
+        "w1": "touch sensor drying check",
+        "w2": "humidity electrode sensor",
+        "w3": "TEST #5 moisture sensor",
+        "classification": "cross_manufacturer_convergent",
+        "reuse": "vented_dryer.moisture_sensor — implementation varies"
+      },
+      {
+        "domain": "lint_filter_restriction",
+        "w1": "case filter on tC",
+        "w2": "removable lint filter indicator",
+        "w3": "reed lint switch on evaporator filter",
+        "classification": "partially_convergent",
+        "reuse": "vented_dryer.lint_filter — restriction domain without exhaust_path pairing"
+      },
+      {
+        "domain": "control_ui_power",
+        "w1": "Main PBA, bC2, 9C power",
+        "w2": "Micom control, diagnostic test",
+        "w3": "CCU TEST #1–#2, #6",
+        "classification": "cross_manufacturer_convergent",
+        "reuse": "vented_dryer control_board, hmi_control, power_supply"
+      }
+    ]
+  },
+  "proposedNewFunctionalDomains": [
+    {
+      "candidateId": "heat_pump_thermal_system",
+      "classification": "cross_manufacturer_convergent",
+      "architectureVsImplementation": {
+        "architecture": "Dry heat delivered via sealed refrigerant heat-pump cycle with loop thermal protection",
+        "implementation": {
+          "samsung": "Compressor inverter 3CA; HC overheat; tC/tC5/tC7/tCA thermistor network",
+          "lg": "750W inverter compressor; discharge pipe thermistor; IPM/hidden error",
+          "whirlpool": "R134a sealed system; TEST #4B heat pump; TEST #4a supplemental element; TEST #4c thermistors; capillary tube not a canonical node"
+        },
+        "note": "Different compressor hardware ≠ different heat-pump thermal functional responsibility"
+      },
+      "functionalBoundaryTest": {
+        "diagnosticResponsibility": "Establish and protect heat-pump-based dry heat generation distinct from vented_dryer heat_source on air stream",
+        "cannotBeVentedDryerBecause": "heat_source + thermal_fuse/cutoff on element path does not model refrigerant-cycle overheat and inverter faults",
+        "rejectedJustifications": ["compressor part number", "capillary vs expansion valve packaging"]
+      }
+    },
+    {
+      "candidateId": "sealed_moisture_rejection_path",
+      "classification": "cross_manufacturer_convergent",
+      "architectureVsImplementation": {
+        "architecture": "Ventless recirculating process airflow with condensation-based moisture removal and condensate rejection",
+        "subResponsibilities": [
+          "sealed_recirculating_airflow",
+          "condensation_dehumidification",
+          "condensate_collection_drainage"
+        ],
+        "implementation": {
+          "samsung": "Condenser cover; blower impeller; 5C overflow/drain pump/water tank",
+          "lg": "No external duct; condensate container; sump electrode; Condenser Care",
+          "whirlpool": "Ventless design; evaporator dehumidifies process air; drain pump + float F9E1; reed lint on evaporator filter"
+        },
+        "collapseRationale": "Airflow, condensation, and condensate are diagnostically coupled in all three manuals as one sealed path from drum humidity to rejected water — not three canonical nodes"
+      },
+      "functionalBoundaryTest": {
+        "diagnosticResponsibility": "Move and reject moisture without external exhaust terminal",
+        "cannotBeVentedDryerBecause": "heated_airflow_path requires exhaust_path terminal; HP manuals prohibit or omit external exhaust as primary rejection",
+        "rejectedJustifications": ["separate evaporator node because diagram labels evaporator", "drain pump as canonical component"]
+      }
+    }
+  ],
+  "rejectedCanonicalNodes": [
+    { "node": "compressor", "reason": "implementation_vocabulary_under_heat_pump_thermal_system" },
+    { "node": "evaporator", "reason": "implementation_vocabulary — not independent diagnostic domain from sealed_moisture_rejection_path" },
+    { "node": "condenser", "reason": "implementation_vocabulary" },
+    { "node": "expansion_valve", "reason": "implementation_vocabulary" },
+    { "node": "capillary_tube", "reason": "implementation_vocabulary" },
+    { "node": "refrigerant_thermistor", "reason": "implementation_vocabulary_under_heat_pump_thermal_system" },
+    { "node": "condensate_pump", "reason": "implementation_vocabulary_under_sealed_moisture_rejection_path" },
+    { "node": "ipm_inverter", "reason": "implementation_vocabulary" },
+    { "node": "auxiliary_fan", "reason": "implementation_vocabulary — Whirlpool post-condenser cooling" }
+  ],
+  "manufacturerSpecificNotPromoted": [
+    { "feature": "LG Condenser Care", "classification": "manufacturer_specific", "mapsUnder": "sealed_moisture_rejection_path maintenance" },
+    { "feature": "Samsung Smart Install / HASS", "classification": "manufacturer_specific", "mapsUnder": "procedure_only" },
+    { "feature": "Whirlpool HybridCare three modes", "classification": "manufacturer_specific", "mapsUnder": "control overlay" },
+    { "feature": "Whirlpool REX relay expansion board", "classification": "manufacturer_specific", "mapsUnder": "implementation_vocabulary" }
+  ],
+  "unresolved": [
+    {
+      "item": "Whether supplemental resistive heater merits separate canonical function",
+      "classification": "unresolved",
+      "lean": "implementation_realization_within_heat_pump_thermal_system — Whirlpool TEST #4a, Samsung auxiliary dry heater on AIO only"
+    }
+  ],
+  "aioCompatibilityPreview": {
+    "samsungWd53HpDry": "maps_to_both_proposed_functions",
+    "whirlpoolWfw9620CondenserResistive": "sealed_moisture_rejection_path_partial; heat_pump_thermal_system_does_not_apply — sibling abstraction may be needed at AIO return gate"
+  }
+}

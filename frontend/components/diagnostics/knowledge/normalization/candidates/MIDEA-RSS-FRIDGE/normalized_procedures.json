@@ -1,0 +1,2861 @@
+{
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "procedures": [
+    {
+      "procedureId": "midearss-ambient-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E7: Ambient temperature sensor",
+      "purpose": "Fault code E7 \u2014 ambient temperature sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E7",
+        "thermistor_check",
+        "sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify ambient temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace main harness when connector damaged."
+            }
+          ],
+          "sourceExcerpt": "Verify ambient temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Access upper hinge cover ambient sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access upper hinge cover ambient sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "ambient temperature sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "ambient temperature sensor pair",
+                "label": "ambient temperature sensor resistance"
+              },
+              "title": "ambient temperature sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band."
+        },
+        {
+          "id": "replace_harness",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "ambient temperature sensor pair",
+            "label": "ambient temperature sensor resistance"
+          },
+          "title": "ambient temperature sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Fault code E7 \u2014 ambient temperature sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ambient-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ambient-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-communication",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E6: Display \u2194 main communication",
+      "purpose": "Communication failure (CN9)",
+      "prerequisites": [],
+      "componentIds": [
+        "display_panel",
+        "main_control"
+      ],
+      "tags": [
+        "E6",
+        "hmi_check",
+        "display_dead"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "cn9_seated",
+          "order": 2,
+          "type": "visual_check",
+          "title": "CN9 harness seating",
+          "body": "Verify CN9 between display control board and main PCB is fully seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn9_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "display_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cn9_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cn9_harness",
+              "terminal": true,
+              "oemOutcome": "Reseat or replace CN9 harness."
+            }
+          ],
+          "sourceExcerpt": "Verify CN9 between display control board and main PCB is fully seated with no foreign matter."
+        },
+        {
+          "id": "display_harness",
+          "order": 3,
+          "type": "instruction",
+          "title": "Display terminal contact",
+          "body": "Inspect display control board terminals. Resend fast connectors if contact is bad.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect display control board terminals. Resend fast connectors if contact is bad."
+        },
+        {
+          "id": "comm_cleared",
+          "order": 4,
+          "type": "visual_check",
+          "title": "E6 cleared after service",
+          "body": "After harness repair and power cycle, is E6 communication fault cleared?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_boards",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_boards_out",
+              "terminal": true,
+              "oemOutcome": "Replace main control board and/or display control board."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, is E6 communication fault cleared?"
+        },
+        {
+          "id": "replace_cn9_harness",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace main wire",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_boards_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB(s)",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cn9_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "display_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn9_seated"
+        },
+        {
+          "id": "cn9_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cn9_harness",
+          "terminal": true,
+          "oemOutcome": "Reseat or replace CN9 harness.",
+          "stepId": "cn9_seated"
+        },
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_cleared"
+        },
+        {
+          "id": "replace_boards",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_boards_out",
+          "terminal": true,
+          "oemOutcome": "Replace main control board and/or display control board.",
+          "stepId": "comm_cleared"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Communication failure (CN9)",
+        "pages": [
+          48,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-communication",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-communication",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-fz-defrost-heater",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a76.3 / \u00a78.6: Freezer defrost heater",
+      "purpose": "Freezer defrost heater 115 V 240 W",
+      "prerequisites": [],
+      "componentIds": [
+        "heater",
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "disconnect_heater",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect defrost heater",
+          "body": "Power off. Disconnect defrost heater connector at evaporator bottom (\u00a78.6).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Disconnect defrost heater connector at evaporator bottom (\u00a78.6)."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "FZ defrost heater resistance",
+          "body": "115 V 240 W heater \u2014 calculated R \u2248 55 \u03a9 (50\u201362 \u03a9 normal band).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaRssDefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost heater",
+                "pins": "heater terminals",
+                "label": "FZ defrost heater resistance"
+              },
+              "title": "FZ defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "50\u201362 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "115 V 240 W heater \u2014 calculated R \u2248 55 \u03a9 (50\u201362 \u03a9 normal band)."
+        },
+        {
+          "id": "replace_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Defrost heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaRssDefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost heater",
+            "pins": "heater terminals",
+            "label": "FZ defrost heater resistance"
+          },
+          "title": "FZ defrost heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "50\u201362 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "6.3",
+        "oemTestTitle": "Freezer defrost heater 115 V 240 W",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-heater",
+        "pages": [
+          20,
+          29,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-heater",
+            "pages": [
+              20,
+              29,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-fz-defrost-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E5: Freezing chamber defrost sensor",
+      "purpose": "Fault code E5 \u2014 FZ defrost sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "E5",
+        "thermistor_check",
+        "sensor_check",
+        "defrost",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "harness_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify FZ defrost sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace main harness when connector damaged."
+            }
+          ],
+          "sourceExcerpt": "Verify FZ defrost sensor connector at main control board is fully seated with no foreign matter. Reseat connector."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Access evaporator top defrost sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access evaporator top defrost sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "FZ defrost sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "FZ defrost sensor pair",
+                "label": "FZ defrost sensor resistance"
+              },
+              "title": "FZ defrost sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band."
+        },
+        {
+          "id": "replace_harness",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sensor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "FZ defrost sensor pair",
+            "label": "FZ defrost sensor resistance"
+          },
+          "title": "FZ defrost sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Fault code E5 \u2014 FZ defrost sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-fz-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E2: Freezing chamber temperature sensor",
+      "purpose": "Fault code E2 \u2014 FZ cabinet temperature sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E2",
+        "thermistor_check",
+        "sensor_check",
+        "not_cooling",
+        "E9"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "harness_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify FZ cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace main harness when connector damaged."
+            }
+          ],
+          "sourceExcerpt": "Verify FZ cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Access freezing chamber sensor card slot (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access freezing chamber sensor card slot (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "FZ cabinet temperature sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "FZ cabinet temperature sensor pair",
+                "label": "FZ cabinet temperature sensor resistance"
+              },
+              "title": "FZ cabinet temperature sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band."
+        },
+        {
+          "id": "replace_harness",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sensor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "FZ cabinet temperature sensor pair",
+            "label": "FZ cabinet temperature sensor resistance"
+          },
+          "title": "FZ cabinet temperature sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Fault code E2 \u2014 FZ cabinet temperature sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-fz-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-fz-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-high-temp-alarm",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E9: Freezer high-temperature alarm",
+      "purpose": "High temperature alarm in freezing chamber",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch",
+        "compressor",
+        "thermistor"
+      ],
+      "tags": [
+        "E9",
+        "not_cooling",
+        "high_temp_alarm"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "door_sealed",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Door sealed and power stable",
+          "body": "Verify freezer door is tight shut and unit was not left off for extended period.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "compressor_runs",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_issue",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "door_issue_out",
+              "terminal": true,
+              "oemOutcome": "Correct door seal or restore power before sensor path."
+            }
+          ],
+          "sourceExcerpt": "Verify freezer door is tight shut and unit was not left off for extended period."
+        },
+        {
+          "id": "compressor_runs",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Compressor refrigerating",
+          "body": "Is compressor running and cabinet cooling normally?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "run_e2_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_vfd",
+              "terminal": true,
+              "oemOutcome": "Compressor not running \u2014 check VFD inverter LED fault codes."
+            }
+          ],
+          "sourceExcerpt": "Is compressor running and cabinet cooling normally?"
+        },
+        {
+          "id": "run_e2_path",
+          "order": 5,
+          "type": "instruction",
+          "title": "Follow E2 sensor path",
+          "body": "When door and compressor OK, follow E2 freezer temperature sensor maintenance (harness + B3839 bench ohms).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "When door and compressor OK, follow E2 freezer temperature sensor maintenance (harness + B3839 bench ohms)."
+        },
+        {
+          "id": "check_vfd",
+          "order": 6,
+          "type": "instruction",
+          "title": "Check VFD inverter board",
+          "body": "Inspect variable-frequency driver LED blink pattern per \u00a711.2 (overcurrent, overvoltage, undervoltage, LOCK, overload).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect variable-frequency driver LED blink pattern per \u00a711.2 (overcurrent, overvoltage, undervoltage, LOCK, overload)."
+        },
+        {
+          "id": "door_issue_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Correct door/power",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vfd_outcome",
+          "order": 8,
+          "type": "outcome",
+          "title": "Service VFD/compressor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e9_resolved",
+          "order": 9,
+          "type": "outcome",
+          "title": "E9 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "compressor_runs",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_sealed"
+        },
+        {
+          "id": "door_issue",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "door_issue_out",
+          "terminal": true,
+          "oemOutcome": "Correct door seal or restore power before sensor path.",
+          "stepId": "door_sealed"
+        },
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "run_e2_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "compressor_runs"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_vfd",
+          "terminal": true,
+          "oemOutcome": "Compressor not running \u2014 check VFD inverter LED fault codes.",
+          "stepId": "compressor_runs"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "High temperature alarm in freezing chamber",
+        "pages": [
+          48,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-high-temp-alarm",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-high-temp-alarm",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-ice-maker-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 EE: Ice maker sensor circuit",
+      "purpose": "Ice maker sensor circuit fault",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "thermistor"
+      ],
+      "tags": [
+        "EE",
+        "ice_maker",
+        "thermistor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "ee_harness",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Ice maker sensor harness",
+          "body": "Verify ice maker sensor terminal at main PCB is seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ee_harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_im_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_im_sensor",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im_sensor_out",
+              "terminal": true,
+              "oemOutcome": "Replace ice maker sensor or module."
+            }
+          ],
+          "sourceExcerpt": "Verify ice maker sensor terminal at main PCB is seated with no foreign matter."
+        },
+        {
+          "id": "bench_im_sensor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bench ice maker sensor",
+          "body": "Disconnect power. Measure ice machine sensor at bottom of ice-making box \u2014 B3839 R/T table \u00a79.4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure ice machine sensor at bottom of ice-making box \u2014 B3839 R/T table \u00a79.4."
+        },
+        {
+          "id": "im_sensor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Ice maker sensor resistance",
+          "body": "B3839 NTC at ice maker sensor \u2014 ~2.0 k\u03a9 @ 25\u00b0C.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "ice maker sensor",
+                "pins": "sensor pair",
+                "label": "Ice maker sensor resistance"
+              },
+              "title": "Ice maker sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "im_ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_im_sensor_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_im_sensor_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_im_sensor_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "im_ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "im_sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC at ice maker sensor \u2014 ~2.0 k\u03a9 @ 25\u00b0C."
+        },
+        {
+          "id": "replace_im_sensor_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ice maker sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_sensor_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Ice maker sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "ice maker sensor",
+            "pins": "sensor pair",
+            "label": "Ice maker sensor resistance"
+          },
+          "title": "Ice maker sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ee_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_im_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ee_harness"
+        },
+        {
+          "id": "replace_im_sensor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker sensor or module.",
+          "stepId": "ee_harness"
+        },
+        {
+          "id": "im_ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_sensor_ohms"
+        },
+        {
+          "id": "im_ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_sensor_ohms"
+        },
+        {
+          "id": "im_ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im_sensor_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "im_sensor_ohms"
+        },
+        {
+          "id": "im_ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "im_sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Ice maker sensor circuit fault",
+        "pages": [
+          48,
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker-sensor",
+        "pages": [
+          48,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker-sensor",
+            "pages": [
+              48,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-ice-maker",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E0: Ice maker fault",
+      "purpose": "Ice maker fault",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "E0",
+        "ice_maker",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "im_harness",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Ice maker harness at main PCB",
+          "body": "Verify ice maker terminal at main control board is seated with no foreign matter.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "im_harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "im_function",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_im",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im_out",
+              "terminal": true,
+              "oemOutcome": "Replace ice maker module when harness verified."
+            }
+          ],
+          "sourceExcerpt": "Verify ice maker terminal at main control board is seated with no foreign matter."
+        },
+        {
+          "id": "im_function",
+          "order": 4,
+          "type": "instruction",
+          "title": "Verify ice maker operation",
+          "body": "Confirm harvest and fill cycle after reseating harness. Use EYE test mode if needed (\u00a710.10).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Confirm harvest and fill cycle after reseating harness. Use EYE test mode if needed (\u00a710.10)."
+        },
+        {
+          "id": "replace_im_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "im_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Ice maker OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "im_harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "im_function",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "im_harness"
+        },
+        {
+          "id": "replace_im",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im_out",
+          "terminal": true,
+          "oemOutcome": "Replace ice maker module when harness verified.",
+          "stepId": "im_harness"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Ice maker fault",
+        "pages": [
+          48,
+          50
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-ice-maker",
+        "pages": [
+          48,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-ice-maker",
+            "pages": [
+              48,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-rc-defrost-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E4: Refrigerating chamber defrost sensor",
+      "purpose": "Fault code E4 \u2014 RC defrost sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "E4",
+        "thermistor_check",
+        "sensor_check",
+        "defrost",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify RC defrost sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace main harness when connector damaged."
+            }
+          ],
+          "sourceExcerpt": "Verify RC defrost sensor connector at main control board is fully seated with no foreign matter. Reseat connector."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Access refrigerating chamber defrost sensor (\u00a78.6). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access refrigerating chamber defrost sensor (\u00a78.6). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "RC defrost sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "RC defrost sensor pair",
+                "label": "RC defrost sensor resistance"
+              },
+              "title": "RC defrost sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band."
+        },
+        {
+          "id": "replace_harness",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "RC defrost sensor pair",
+            "label": "RC defrost sensor resistance"
+          },
+          "title": "RC defrost sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Fault code E4 \u2014 RC defrost sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-defrost-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-defrost-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-rc-temp-sensor",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+      "purpose": "Fault code E1 \u2014 RC cabinet temperature sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "E1",
+        "thermistor_check",
+        "sensor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "harness_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Main PCB harness seating",
+          "body": "Verify RC cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace main harness when connector damaged."
+            }
+          ],
+          "sourceExcerpt": "Verify RC cabinet temperature sensor connector at main control board is fully seated with no foreign matter. Reseat connector."
+        },
+        {
+          "id": "bench_ntc",
+          "order": 3,
+          "type": "instruction",
+          "title": "Bench B3839 resistance",
+          "body": "Disconnect power. Access refrigerating chamber air duct sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access refrigerating chamber air duct sensor (\u00a79.2). Measure NTC B3839 per \u00a79.4 R/T table (~2.0 k\u03a9 @ 25\u00b0C)."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "RC cabinet temperature sensor resistance",
+          "body": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+              "testPoint": {
+                "connector": "main PCB harness",
+                "pins": "RC cabinet temperature sensor pair",
+                "label": "RC cabinet temperature sensor resistance"
+              },
+              "title": "RC cabinet temperature sensor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.0 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "B3839 NTC \u2014 do not use generic 5\u201316 k\u03a9 refrigerator band."
+        },
+        {
+          "id": "replace_harness",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_main_pcb",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "mideaB3839ThermistorKohm",
+          "testPoint": {
+            "connector": "main PCB harness",
+            "pins": "RC cabinet temperature sensor pair",
+            "label": "RC cabinet temperature sensor resistance"
+          },
+          "title": "RC cabinet temperature sensor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "harness_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace main harness when connector damaged.",
+          "stepId": "harness_check"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.0 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "10.8",
+        "oemTestTitle": "Fault code E1 \u2014 RC cabinet temperature sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-rc-temp-sensor",
+        "pages": [
+          47,
+          48,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-rc-temp-sensor",
+            "pages": [
+              47,
+              48,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "midearss-vfd-inverter",
+      "manufacturer": "Unknown",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "title": "\u00a711.2: VFD inverter board fault LED",
+      "purpose": "Variable frequency driver board fault analysis",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "inverter_board"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "inverter_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator before resistance checks or harness service. Restore power only for live diagnostics when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing electrical parts."
+        },
+        {
+          "id": "service_mode_after_mandatory_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Mandatory diagnostic mode available (\u00a710.5). Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After mandatory mode entry, proceed with OEM fault-code maintenance steps."
+        },
+        {
+          "id": "locate_vfd_led",
+          "order": 3,
+          "type": "instruction",
+          "title": "Locate VFD status LED",
+          "body": "Access compressor case VFD board (DZ120V1U inverter). Observe LED blink pattern with power applied.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Access compressor case VFD board (DZ120V1U inverter). Observe LED blink pattern with power applied."
+        },
+        {
+          "id": "vfd_pattern",
+          "order": 4,
+          "type": "visual_check",
+          "title": "VFD LED blink pattern",
+          "body": "Match pattern: 1\u00d70.5s/1.5s=standby; 1\u00d70.5s/1.5s interval=overcurrent; 2\u00d7=overvoltage; 4\u00d7=undervoltage; 8\u00d7=LOCK; 16\u00d7=overload. Which fault matches?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vfd_none",
+              "label": "No blink / compressor runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "vfd_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vfd_fault",
+              "label": "Fault blink pattern",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_vfd",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Match pattern: 1\u00d70.5s/1.5s=standby; 1\u00d70.5s/1.5s interval=overcurrent; 2\u00d7=overvoltage; 4\u00d7=undervoltage; 8\u00d7=LOCK; 16\u00d7=overload. Which fault matches?"
+        },
+        {
+          "id": "replace_vfd",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace VFD board",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vfd_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "VFD path clear",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "vfd_none",
+          "label": "No blink / compressor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "vfd_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vfd_pattern"
+        },
+        {
+          "id": "vfd_fault",
+          "label": "Fault blink pattern",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_vfd",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "vfd_pattern"
+        }
+      ],
+      "source": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "manualTitle": "Midea/Insignia NS-RSS26 Side-by-Side Refrigerator (UR-BCD746WE-DT)",
+        "oemTestNumber": "11.2",
+        "oemTestTitle": "Variable frequency driver board fault analysis",
+        "pages": [
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-RSS26SS Service Manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "platformId": "midea_rss",
+        "procedureId": "midearss-vfd-inverter",
+        "pages": [
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "MIDEA-RSS-FRIDGE",
+            "platformId": "midea_rss"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "midearss-vfd-inverter",
+            "pages": [
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

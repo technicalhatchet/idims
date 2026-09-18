@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg65_samsung_dishwasher_within_manufacturer_compounding",
+  "status": "locked",
+  "lockedAt": "2026-09-15T18:32:49.805096+00:00",
+  "experiment": "Samsung dishwasher manual #2 compounds on published samsung_dishwasher.json",
+  "canonicalOntology": {
+    "id": "dishwasher",
+    "frozenRevision": "rev1",
+    "canonicalExpansion": 0
+  },
+  "hierarchy": {
+    "frozen": "dishwasher rev1",
+    "manufacturer": "Samsung",
+    "overlayFile": "samsung_dishwasher.json",
+    "manuals": [
+      {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "role": "first_manual_boundary",
+        "genuineHumanSemanticDecisions": 15,
+        "publishedAt": "2026-09-15T13:58:21.981075+00:00"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "role": "within_manufacturer_compounding",
+        "genuineHumanSemanticDecisions": 2,
+        "inheritedExact": 10,
+        "inheritedSemantic": 10,
+        "mechanicalRegistrations": {
+          "procedureBindings": 11,
+          "measurementBindings": 10,
+          "total": 21
+        },
+        "carryForwardMatcherDefectThemes": 2,
+        "publishedAt": "2026-09-15T18:32:49.805096+00:00"
+      }
+    ]
+  },
+  "teachingCostCurve": {
+    "SAMSUNG-DISHWASHER": 15,
+    "SAMSUNG-DISHWASHER-M9_genuine": 2,
+    "SAMSUNG-DISHWASHER-M9_rawProjected": 6,
+    "genuineReductionVsFirstManual": 0.8667,
+    "genuineReductionPercent": 86.7,
+    "note": "86.7% reduction uses genuine decisions only (2/15), excluding carry-forward matcher defects and mechanical inherited registrations."
+  },
+  "genuineNewKnowledge": [
+    {
+      "theme": "leak_sensor",
+      "gateAction": "defer_platform",
+      "countsAsNewTeaching": true
+    },
+    {
+      "theme": "vane_motor",
+      "gateAction": "approve_platform_delta",
+      "countsAsNewTeaching": true
+    }
+  ],
+  "carryForwardMatcherDefects": [
+    {
+      "theme": "power_supply_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedures": [
+        "samsungdwm9-power-supply",
+        "samsungdwm9-voltage-abnormal"
+      ],
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "power_supply diagnostic family \u2014 not fill_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-voltage-abnormal-fill_test"
+      ]
+    },
+    {
+      "theme": "communication_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedure": "samsungdwm9-communication",
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "control_board communication diagnostic \u2014 not heater_command_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-communication-heater_command_test"
+      ]
+    }
+  ],
+  "manufacturerIsolation": {
+    "whirlpoolImports": 0,
+    "whirlpoolOverlayUnchanged": true,
+    "verdict": "clean"
+  },
+  "strongestSignal": "samsungdwm9-circulation-motor \u2192 circulation_test / circulation_motor",
+  "publication": {
+    "promotionId": "promo-SAMSUNG-DISHWASHER-M9-20260915183234",
+    "publicationArtifact": "publication_SAMSUNG-DISHWASHER-M9.json",
+    "gateArtifact": "SAMSUNG_DISHWASHER_M9_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "SAMSUNG_DISHWASHER_M9_gate_decision_ledger_v1.json",
+    "appliedCounts": {
+      "mappingsInherited": 12,
+      "procedureBindings": 11,
+      "measurementBindings": 10,
+      "platformComponents": 1,
+      "newAliasesAdded": 0
+    }
+  },
+  "regression": {
+    "architectureChecks": {
+      "dishwasherFrozenRev1": true,
+      "dishwasherSemanticallyUnchanged": true,
+      "priorManualSemanticsPreserved": true,
+      "topologyAdditiveOnly": true,
+      "gateTableFullyApplied": true,
+      "whirlpoolUnchanged": true,
+      "priorManualBindingsPreserved": true,
+      "elevenM9ProcedureBindings": true,
+      "tenM9MeasurementBindings": true,
+      "sixPlatformComponents": true,
+      "vaneMotorPlatformComponent": true,
+      "circulationRoutesCirculationTest": true,
+      "noDriveMotorPath": true,
+      "communicationNotBound": true,
+      "powerSupplyNotBound": true,
+      "voltageAbnormalNotBound": true,
+      "leakSensorNotBound": true,
+      "noDiverterMotorAlias": true,
+      "noNewAliases": true,
+      "compoundingManualIds": true
+    },
+    "testResults": {
+      "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+      "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+      "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+    },
+    "tscExitCode": 2
+  },
+  "verdict": "within_samsung_compounding_successful",
+  "compilerSignalsDeferred": [
+    "power_supply_routing \u2014 not fixed at publish (experiment integrity)",
+    "communication_routing \u2014 not fixed at publish (experiment integrity)"
+  ]
+}

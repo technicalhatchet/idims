@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_family_closure_proof",
+  "workstream": "CG-MICROWAVE-FAMILY-CLOSURE-PLANNING",
+  "status": "locked",
+  "generatedAt": "2026-09-17T13:20:00+00:00",
+  "terminalClosureExecutedAt": "2026-09-17T13:30:00+00:00",
+  "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json",
+  "familyClosure": "CG_MICROWAVE_FAMILY_CLOSURE_v1.json",
+  "planArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_PLAN_v1.json",
+  "closureAuditArtifact": "CG_MICROWAVE_FAMILY_CLOSURE_AUDIT_v1.json",
+  "terminalFamilyClosureExecuted": true,
+  "centralQuestion": "Is the frozen microwave canonical + current manufacturer/platform overlay package internally coherent, runtime-safe, provenance-complete, and ready for terminal family closure?",
+  "proofAnswer": "YES — all automated closure-planning checks green; pending terminal human gate only",
+  "canonicalOntology": {
+    "ontologyId": "microwave",
+    "revision": "rev1",
+    "file": "frontend/components/diagnostics/knowledge/canonical/microwave.json",
+    "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "freezeLock": "CG_MICROWAVE_FREEZE_LOCK_v1.json",
+    "coreFunctions": 7,
+    "conditionalConcepts": 2
+  },
+  "packageInventory": {
+    "frozenCanonical": "microwave.json rev1",
+    "referenceOverlay": "platform_overlays/microwave.reference.json",
+    "manufacturerOverlays": ["lg_microwave_otr.json", "samsung_microwave_otr.json"],
+    "witnessNormalizations": [
+      "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"
+    ],
+    "zeroDeltaPlatformExtensions": [
+      "CG_MICROWAVE_LG_LMVM_PLATFORM_EXTENSION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME21_PLATFORM_EXTENSION_v1.json"
+    ],
+    "independentlyCompoundedManuals": [
+      "LG-LMHM2237-MICROWAVE",
+      "SAMSUNG-ME11-MICROWAVE"
+    ],
+    "metadataGovernance": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "compoundingWorkstream": "CG_MICROWAVE_COMPOUNDING_v1.json",
+    "crossManufacturerRegression": "CG_MICROWAVE_CROSS_MANUFACTURER_REGRESSION_PROOF_v1.json"
+  },
+  "proofMatrix": [
+    {
+      "id": "canonical_expansion_zero",
+      "claim": "canonicalExpansion = 0 cumulative",
+      "result": "proven",
+      "evidence": ["LG compounding rollup 0", "Samsung compounding rollup 0"]
+    },
+    {
+      "id": "both_overlays_resolve_frozen_graph",
+      "claim": "Both manufacturer overlays independently resolve to frozen microwave graph",
+      "result": "proven",
+      "evidence": ["resolveDiagnosticGraph LG LMHM2237BD", "resolveDiagnosticGraph Samsung ME11A7510DSAA", "ME21A706BQN", "LMVM2031ST model patterns"]
+    },
+    {
+      "id": "stale_magnetron_realizes_not_propagated",
+      "claim": "overlayOnlyConcepts.magnetron.realizes=hv_generation does not propagate into runtime/compounding",
+      "result": "proven",
+      "evidence": ["Branch A governance closure", "overlay staleMetadataGuard", "compoundingEvidence.staleMagnetronRealizesNotPropagated: true"]
+    },
+    {
+      "id": "magnetron_rf_cavity_authoritative",
+      "claim": "Authoritative mapping magnetron → rf_cavity",
+      "result": "proven",
+      "evidence": ["implementationRealizationPrecedence", "both overlay magnetron.implementsCanonicalId=rf_cavity"]
+    },
+    {
+      "id": "hv_cascade_hv_generation",
+      "claim": "HV cascade remains hv_generation",
+      "result": "proven",
+      "evidence": ["hv_transformer/capacitor/diode/fuse implementsCanonicalId=hv_generation on both overlays"]
+    },
+    {
+      "id": "door_interlock_chain",
+      "claim": "door_interlock_chain remains single canonical function",
+      "result": "proven",
+      "evidence": ["microwave.json components[]", "interlock switch components on both overlays"]
+    },
+    {
+      "id": "thermal_protection_single_function",
+      "claim": "thermal_protection remains one canonical function (four-TCO network on Samsung; PCB thermistor + TCO on LG)",
+      "result": "proven",
+      "evidence": ["Samsung four_tco_network → thermal_protection", "LG pcb_thermistor + magnetron_tco → thermal_protection"]
+    },
+    {
+      "id": "ventilation_otr_conditional",
+      "claim": "ventilation_otr remains conditional — Samsung-evidenced only",
+      "result": "proven",
+      "evidence": ["Samsung vent_blower_motor conditionalConceptId", "LG overlay lacks ventilation_otr realization"]
+    },
+    {
+      "id": "independent_evidence_sourcing",
+      "claim": "LG and Samsung evidence independently sourced",
+      "result": "proven",
+      "evidence": ["Samsung rejectedLgOnlyRealizations", "all Samsung functionalRealizations provenance.sourceManual=SAMSUNG-ME11-MICROWAVE"]
+    },
+    {
+      "id": "platform_extension_distinction",
+      "claim": "Zero-delta platform extensions distinguished from independently normalized/compounded witnesses",
+      "result": "proven",
+      "evidence": ["extensionType: platform_model_coverage", "requiresSeparateCompounding: false", "deltaFunctionalMappings: 0"]
+    },
+    {
+      "id": "range_oven_untouched",
+      "claim": "range_oven hash unchanged",
+      "result": "proven",
+      "evidence": ["e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5"]
+    },
+    {
+      "id": "microwave_hash_stable",
+      "claim": "microwave rev1 hash stable at 3c9ef98e…55e533d",
+      "result": "proven",
+      "evidence": ["FROZEN_MICROWAVE_REV1_HASH", "all phase audits microwaveRev1Unchanged: true"]
+    },
+    {
+      "id": "resolver_registration",
+      "claim": "Both overlays registered in resolveDiagnosticGraph.ts",
+      "result": "proven",
+      "evidence": ["MANUFACTURER_OVERLAYS_BY_ONTOLOGY.microwave length=2"]
+    }
+  ],
+  "overlayHashesAtClosurePlanning": {
+    "lg_microwave_otr.json": "d60bff809b9025e5728314b657c6be9c9355e2a8f51a8fbafe301ff3f35ab4ee",
+    "samsung_microwave_otr.json": "48c6002809b05e2a237b1fa3477f8c717435b00725b9e8193006ad3f25658b27",
+    "microwave.reference.json": "pinned_at_family_lock_authoring"
+  },
+  "regressionSuites": {
+    "fit": { "tests": 17, "suites": ["cg-microwave-fit-*.test.ts"] },
+    "discoveryFreeze": { "tests": 18, "suites": ["cg-microwave-discovery-closure.test.ts", "cg-microwave-freeze-*.test.ts"] },
+    "normalization": { "tests": 13, "suites": ["cg-microwave-normalization-*.test.ts", "cg-microwave-frozen-metadata-governance.test.ts", "cg-microwave-platform-extension-normalization.test.ts"] },
+    "compounding": { "tests": 19, "suites": ["cg-microwave-compounding.test.ts", "cg-microwave-lg-lmhm2237-compounding.test.ts", "cg-microwave-samsung-me11-compounding.test.ts", "cg-microwave-cross-manufacturer-regression.test.ts"] },
+    "familyClosurePlanning": { "suite": "cg-microwave-family-closure-planning.test.ts" },
+    "familyClosure": { "suite": "cg-microwave-family-closure.test.ts" },
+    "totalMicrowaveTests": 87
+  },
+  "organizationalGaps": [
+    {
+      "id": "diagram_crops_deferred",
+      "scope": "platform_only",
+      "blocksTerminalClosure": false,
+      "note": "No procedure diagram crops for lg_microwave_otr or samsung_microwave_otr — same deferral pattern as most non-Whirlpool platforms"
+    },
+    {
+      "id": "countertop_microwave_coverage",
+      "scope": "coverage_expansion",
+      "blocksTerminalClosure": false,
+      "note": "Current corpus is OTR-focused (LG LMHM/LMVM + Samsung ME11/ME21); countertop-only platforms are out of current witness scope"
+    },
+    {
+      "id": "me21_html_encoding",
+      "scope": "platform_only",
+      "blocksTerminalClosure": false,
+      "note": "ME21 HTML manual has font encoding issues; ME11 PDF remains authoritative procedure source per platform extension"
+    },
+    {
+      "id": "wo_oem_lead_integration",
+      "scope": "product_integration",
+      "blocksTerminalClosure": false,
+      "note": "Phase 2 WO OEM panel lead — orthogonal to canonical family closure gate"
+    }
+  ]
+}

@@ -15,11 +15,14 @@ import { WASHER_COMPLAINT_CHIPS } from '../components/diagnostics/washer/washerC
 import { STACKED_LAUNDRY_COMPLAINT_CHIPS } from '../components/diagnostics/stacked_laundry/stackedLaundryComplaints';
 import { AIO_LAUNDRY_COMPLAINT_CHIPS } from '../components/diagnostics/aio_laundry/aioLaundryComplaints';
 import { STANDALONE_FREEZER_COMPLAINT_CHIPS } from '../components/diagnostics/standalone_freezer/standaloneFreezerComplaints';
+import { extractDiagnosticSessionFields } from '../components/diagnostics/session/diagnosticSessionPayload.js';
 
 const COMPLAINT_CHIPS_BY_TEMPLATE = {
   refrigerator: REFRIGERATOR_COMPLAINT_CHIPS,
   electric_range: ELECTRIC_RANGE_COMPLAINT_CHIPS,
   gas_range: GAS_RANGE_COMPLAINT_CHIPS,
+  induction_range: ELECTRIC_RANGE_COMPLAINT_CHIPS,
+  dual_fuel_range: ELECTRIC_RANGE_COMPLAINT_CHIPS,
   electric_dryer: ELECTRIC_DRYER_COMPLAINT_CHIPS,
   gas_dryer: GAS_DRYER_COMPLAINT_CHIPS,
   washer: WASHER_COMPLAINT_CHIPS,
@@ -833,6 +836,132 @@ export const DIAGNOSTIC_TEMPLATES = [
     ],
   },
   {
+    id: 'induction_range',
+    label: 'Induction Range',
+    equipmentKeys: ['induction_range'],
+    sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
+      missed([
+        chk('incoming_voltage', 'Incoming voltage verified'),
+        chk('miswired_outlet', 'Miswired outlet / receptacle'),
+        chk('terminal_burn', 'Burnt terminal block / loose lugs'),
+        chk('induction_cookware', 'Induction-compatible cookware verified'),
+        chk('calibration', 'Calibration / offset checked'),
+      ]),
+      {
+        id: 'visual_inspection',
+        title: 'Visual Inspection',
+        fields: [
+          tri('terminal_block', 'Terminal Block Condition'),
+          tri('wiring_condition', 'Wiring / Harness Condition'),
+          tri('door_seal', 'Door Seal Condition'),
+          tri('induction_cooktop', 'Induction cooktop glass / coils'),
+        ],
+      },
+      {
+        id: 'functional_checks',
+        title: 'Functional Checks',
+        fields: [
+          gb('bake_operation', 'Bake Operation'),
+          gb('broil_operation', 'Broil Operation'),
+          gb('convection_operation', 'Convection Operation'),
+          gb('induction_surface', 'Induction Surface Zones'),
+          gb('door_lock_operation', 'Door Lock / Self-Clean Lock'),
+        ],
+      },
+      {
+        id: 'terminal_block_readings',
+        title: 'Terminal Block / Supply Readings',
+        fields: [
+          txt('l1_l2_voltage', 'L1–L2 at block (V)'),
+          txt('l1_neutral_voltage', 'L1–Neutral (V)'),
+          txt('l2_neutral_voltage', 'L2–Neutral (V)'),
+          txt('neutral_ground_voltage', 'Neutral–Ground (V)'),
+          txt('supply_notes', 'Supply / wiring notes'),
+        ],
+      },
+      {
+        id: 'element_sensor_readings',
+        title: 'Oven Element & Sensor Readings',
+        fields: [
+          txt('bake_element_ohms', 'Bake element resistance (Ω)'),
+          txt('broil_element_ohms', 'Broil element resistance (Ω)'),
+          txt('temp_sensor_ohms', 'Oven temp sensor (Ω at room)'),
+          txt('induction_notes', 'Induction inverter / IGBT notes'),
+        ],
+      },
+      {
+        id: 'board_readings',
+        title: 'Control Board Readings',
+        fields: [
+          txt('board_supply_voltage', 'Board supply voltage (V)'),
+          txt('bake_relay_output', 'Bake relay output / bake leg (V when on)'),
+          txt('broil_relay_output', 'Broil relay output / broil leg (V when on)'),
+          area('board_notes', 'Board test points / relay notes'),
+        ],
+      },
+      diagnosis(),
+    ],
+  },
+  {
+    id: 'dual_fuel_range',
+    label: 'Dual-Fuel Range',
+    equipmentKeys: ['dual_fuel_range'],
+    sections: [
+      complaint([txt('error_codes', 'Error Codes')]),
+      missed([
+        chk('incoming_voltage', 'Incoming voltage verified'),
+        chk('gas_supply', 'Gas supply valve on / line verified'),
+        chk('lp_orifices', 'LP orifice / conversion correct'),
+        chk('miswired_outlet', 'Miswired outlet / receptacle'),
+        chk('anti_tip', 'Anti-tip bracket installed'),
+      ]),
+      {
+        id: 'visual_inspection',
+        title: 'Visual Inspection',
+        fields: [
+          tri('terminal_block', 'Terminal Block Condition'),
+          tri('burner_condition', 'Oven burner / tube condition'),
+          tri('igniter_condition', 'Oven igniter condition'),
+          tri('door_seal', 'Door Seal Condition'),
+          tri('surface_burners_visual', 'Surface burner caps / ports'),
+        ],
+      },
+      {
+        id: 'functional_checks',
+        title: 'Functional Checks',
+        fields: [
+          gb('bake_operation', 'Bake Operation (electric oven)'),
+          gb('broil_operation', 'Broil Operation (electric oven)'),
+          gb('oven_bake_ignition', 'Oven Bake Ignition (if gas oven path)'),
+          gb('surface_burner_ignition', 'Surface Burner Ignition'),
+          gb('door_lock_operation', 'Door Lock / Self-Clean Lock'),
+        ],
+      },
+      {
+        id: 'electrical_readings',
+        title: 'Electrical Readings (Oven)',
+        fields: [
+          txt('l1_l2_voltage', 'L1–L2 at block (V)'),
+          txt('bake_element_ohms', 'Bake element resistance (Ω)'),
+          txt('broil_element_ohms', 'Broil element resistance (Ω)'),
+          txt('temp_sensor_ohms', 'Oven temp sensor (Ω at room)'),
+        ],
+      },
+      {
+        id: 'gas_readings',
+        title: 'Gas Readings (Cooktop / Gas Oven Path)',
+        fields: [
+          txt('igniter_amps', 'Oven igniter amps (glow)'),
+          txt('gas_valve_coil_ohms', 'Gas valve coil resistance (Ω)'),
+          txt('manifold_pressure', 'Manifold / gas pressure (if measured)'),
+          area('gas_notes', 'Gas line / regulator notes'),
+        ],
+      },
+      diagnosis(),
+    ],
+  },
+  {
     id: 'microwave',
     label: 'Microwave',
     equipmentKeys: ['microwave'],
@@ -928,8 +1057,10 @@ function inferRangeTemplateId(workOrder) {
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
+  if (/\b(dual[- ]?fuel)\b/.test(blob)) return 'dual_fuel_range';
+  if (/\b(induction)\b/.test(blob)) return 'induction_range';
   if (/\b(gas|lp|propane|natural gas|ng)\b/.test(blob)) return 'gas_range';
-  if (/\b(electric|induction|240v|208v)\b/.test(blob)) return 'electric_range';
+  if (/\b(electric|240v|208v)\b/.test(blob)) return 'electric_range';
   return 'electric_range';
 }
 
@@ -953,6 +1084,8 @@ export function resolveDefaultDiagnosticTemplateId(workOrder) {
   const equipType = normalizeKey(workOrder.equipment_type);
   if (subtype === 'gas_dryer') return 'gas_dryer';
   if (subtype === 'gas_range') return 'gas_range';
+  if (subtype === 'induction_range') return 'induction_range';
+  if (subtype === 'dual_fuel_range') return 'dual_fuel_range';
   if (subtype === 'electric_range') return 'electric_range';
   if (subtype === 'dryer' || equipType === 'dryer') return inferDryerTemplateId(workOrder);
   if (['range', 'oven', 'wall_oven'].includes(subtype) || ['range', 'oven', 'wall_oven'].includes(equipType)) {
@@ -1002,6 +1135,14 @@ export function buildInitialDiagnosticState(workOrder) {
     autoNoteEdited: false,
     autoNoteFormat: 'bullets',
     includeAutoNoteInSummary: true,
+    visitedStepKeys: [],
+    currentStepKey: null,
+    procedureRuns: {},
+    activeProcedureId: null,
+    skippedOemWizardStep: false,
+    oemRepairDecisionPending: null,
+    oemRepairDecision: null,
+    _diagnosticSessionId: null,
   };
 }
 
@@ -1126,6 +1267,7 @@ export function parseDiagnosticNotePayload(content) {
   try {
     const data = JSON.parse(content);
     if (data && typeof data === 'object' && data.templateId) {
+      const sessionFields = extractDiagnosticSessionFields(data);
       return {
         templateId: data.templateId,
         appointmentId: data.appointmentId || '',
@@ -1136,6 +1278,14 @@ export function parseDiagnosticNotePayload(content) {
         autoNoteEdited: Boolean(data.autoNoteEdited),
         autoNoteFormat: data.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
         includeAutoNoteInSummary: data.includeAutoNoteInSummary !== false,
+        visitedStepKeys: sessionFields.visitedStepKeys,
+        currentStepKey: sessionFields.currentStepKey,
+        procedureRuns: sessionFields.procedureRuns,
+        activeProcedureId: sessionFields.activeProcedureId,
+        skippedOemWizardStep: sessionFields.skippedOemWizardStep,
+        oemRepairDecisionPending: sessionFields.oemRepairDecisionPending,
+        oemRepairDecision: sessionFields.oemRepairDecision,
+        _diagnosticSessionId: sessionFields._diagnosticSessionId,
       };
     }
   } catch {
@@ -1145,6 +1295,7 @@ export function parseDiagnosticNotePayload(content) {
 }
 
 export function serializeDiagnosticNotePayload(payload) {
+  const sessionFields = extractDiagnosticSessionFields(payload);
   return JSON.stringify({
     templateId: payload.templateId,
     appointmentId: payload.appointmentId || null,
@@ -1155,5 +1306,13 @@ export function serializeDiagnosticNotePayload(payload) {
     autoNoteEdited: Boolean(payload.autoNoteEdited),
     autoNoteFormat: payload.autoNoteFormat === 'prose' ? 'prose' : 'bullets',
     includeAutoNoteInSummary: payload.includeAutoNoteInSummary !== false,
+    visitedStepKeys: sessionFields.visitedStepKeys,
+    currentStepKey: sessionFields.currentStepKey,
+    procedureRuns: sessionFields.procedureRuns,
+    activeProcedureId: sessionFields.activeProcedureId,
+    skippedOemWizardStep: sessionFields.skippedOemWizardStep,
+    oemRepairDecisionPending: sessionFields.oemRepairDecisionPending,
+    oemRepairDecision: sessionFields.oemRepairDecision,
+    _diagnosticSessionId: sessionFields._diagnosticSessionId,
   });
 }

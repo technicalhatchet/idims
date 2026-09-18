@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_cooktop_fit_triangulation",
+  "workstream": "CG-COOKTOP-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:35:00+00:00",
+  "contract": "CG_COOKTOP_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 1,
+  "crossManufacturerTriangulation": false,
+  "thermalImplementationCoverage": {
+    "induction": ["W1"],
+    "electric_radiant": [],
+    "gas": []
+  },
+  "witnesses": [
+    {
+      "id": "W1",
+      "manufacturer": "Whirlpool/KitchenAid/JennAir",
+      "model": "Induction Cooktop (W11461580)",
+      "manualId": "W11461580",
+      "thermalImplementation": "induction",
+      "observation": "CG_W11461580_FIT_OBSERVATION_v1.json"
+    }
+  ],
+  "corpusSurvey": {
+    "method": "Repo search — backend/docs/manuals filenames and extracted-text product class",
+    "standaloneCooktopManualsFound": 1,
+    "standaloneCooktopProcedureSeedsFound": 0,
+    "platformRegistryCooktopPlatforms": 0
+  },
+  "excludedSubstitutes": [
+    {
+      "artifact": "samsunginductionne58h.pdf",
+      "reason": "Samsung slide-in self-cleaning electric RANGE — contains oven diagnostics; not standalone cooktop",
+      "countsAsCooktopWitness": false
+    },
+    {
+      "artifact": "samsungny64dualfuel.pdf",
+      "reason": "Dual-fuel freestanding range — cooktop sections are range-compound evidence, not standalone cooktop witness",
+      "countsAsCooktopWitness": false
+    },
+    {
+      "artifact": "Freestanding range manuals (W11174426, W11174814, Samsung NX60, LG LRE)",
+      "reason": "Explicit substitution guard — cooktop sections cannot substitute for standalone cooktop product class",
+      "countsAsCooktopWitness": false
+    }
+  ],
+  "candidateWitnessesMissing": {
+    "models": [
+      "Standalone electric radiant (ceran) cooktop service manual",
+      "Standalone gas cooktop service manual",
+      "Samsung/LG standalone cooktop manual",
+      "Downdraft cooktop service manual"
+    ],
+    "impact": "Gas and radiant electric standalone witnesses absent — does not block composition for induction; would be required before claiming cross-thermal generalized divergence OR before claiming gas/radiant proven without standalone witness"
+  },
+  "functionalDomainTriangulation": {
+    "surface_heating_system": { "mapsToHost": true, "witnesses": ["W1"] },
+    "induction_power_conversion": { "mapsToHost": true, "binding": "surface_heating_system + surface_control IPC overlay", "witnesses": ["W1"], "notNewCanonicalNode": true },
+    "control_board": { "mapsToHost": true, "canonicalNode": "control_board", "witnesses": ["W1"] },
+    "user_interface": { "mapsToHost": true, "canonicalNode": "user_interface", "witnesses": ["W1"] },
+    "thermal_protection": { "mapsToHost": true, "binding": "conditionalConcept.thermal_protection", "witnesses": ["W1"] },
+    "power_supply": { "mapsToHost": true, "canonicalNode": "power_supply", "witnesses": ["W1"] },
+    "electronics_cooling": { "mapsToHost": true, "binding": "deferredConcept.cooling_fan platform overlay", "notDowndraft": true, "witnesses": ["W1"] },
+    "gas_ignition_spark": { "required": false, "witnessed": false, "blocksFit": false, "note": "No standalone gas cooktop witness — range overlay vocabulary exists but not used as fit evidence" },
+    "radiant_infinite_switch": { "required": false, "witnessed": false, "blocksFit": false },
+    "oven_domains": { "required": false, "instantiated": false, "blocksFit": false },
+    "cooktop_specific_divergence": { "found": false, "witnesses": ["W1"] }
+  },
+  "hostHypothesisStatus": {
+    "hypothesis": "range_oven surface-only composition",
+    "validated": true,
+    "falsified": false,
+    "reason": "Standalone induction cooktop diagnostic paths classify to range_oven surface subgraph without semantic distortion; IPC/IGBT/coil remain platform overlays"
+  },
+  "triangulationVerdict": {
+    "recommendAnalysisOutcome": "composition",
+    "rationale": "W1 maps entirely to range_oven surface_heating_system and supporting control/UI/power domains; no cooktop-only canonical domain identified. Thermal implementation gaps documented — not architectural divergence.",
+    "discoveryNotRequired": true
+  }
+}

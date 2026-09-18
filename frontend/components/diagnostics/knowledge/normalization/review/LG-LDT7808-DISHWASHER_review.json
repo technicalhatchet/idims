@@ -1,0 +1,1456 @@
+{
+  "manualId": "LG-LDT7808-DISHWASHER",
+  "platformId": "lg_dishwasher_ldt7808",
+  "templateId": "dishwasher",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.729876+00:00",
+  "records": [
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-door_gasket",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "door_gasket",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": "gasket",
+          "actuator": null
+        },
+        "summary": "alias: door_gasket \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-bubble-error",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_gasket": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-bubble-error",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-bubble-error",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": "gasket",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-bubble-error-(be-suds-fault)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-1: Bubble Error (BE suds fault)",
+      "extractedTerm": "Bubble Error (BE suds fault)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a77-1: Bubble Error (BE suds fault) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-bubble-error",
+        "pages": [
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1: Bubble Error (BE suds fault)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-bubble-error",
+        "pages": [
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-bubble-error",
+            "pages": [
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-drain_pump",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "drain_pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": "drain",
+          "component": null,
+          "actuator": "pump"
+        },
+        "summary": "alias: drain_pump \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drain_pump": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": "drain",
+              "component": null,
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-drain-pump-(oe-drain-fault)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a77-1/7-2: Drain Pump (OE drain fault)",
+      "extractedTerm": "/7-2: Drain Pump (OE drain fault)",
+      "blockedReason": null,
+      "mapsTo": "drain_pump",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "drain pump",
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 drain",
+          "actuator": "pump"
+        },
+        "summary": "alias: \u00a77-1/7-2: Drain Pump (OE drain fault) \u2192 drain_pump"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Drain Pump (OE drain fault)": "drain_pump"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "drain pump",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 drain",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-inlet_valve",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "inlet_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: inlet_valve \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-excess-fill",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_valve": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-excess-fill",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-excess-fill",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-excess-fill-(inlet-valve-stuck-open)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a77-1: Excess Fill (inlet valve stuck open)",
+      "extractedTerm": "Excess Fill (inlet valve stuck open)",
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": null,
+          "component": "excess fill inlet",
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a77-1: Excess Fill (inlet valve stuck open) \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-excess-fill",
+        "pages": [
+          48
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1: Excess Fill (inlet valve stuck open)": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-excess-fill",
+        "pages": [
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-excess-fill",
+            "pages": [
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": null,
+              "component": "excess fill inlet",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-hall-sensor-(ie-fill-path)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-2: Hall Sensor (IE fill path)",
+      "extractedTerm": "Hall Sensor (IE fill path)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "hall",
+          "actuator": "sensor"
+        },
+        "summary": "alias: \u00a77-2: Hall Sensor (IE fill path) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-hall-sensor",
+        "pages": [
+          49,
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-2: Hall Sensor (IE fill path)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-hall-sensor",
+        "pages": [
+          49,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-hall-sensor",
+            "pages": [
+              49,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "hall",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-lg-ldt7808-dishwasher-unresolved-ldt7808-heater-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-heater",
+        "pages": [
+          47,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-heater",
+        "pages": [
+          47,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-heater",
+            "pages": [
+              47,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-wash-heater-(he-heater-error)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-1/7-2: Wash Heater (HE heater error)",
+      "extractedTerm": "/7-2: Wash Heater (HE heater error)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 wash heater he",
+          "actuator": "heater"
+        },
+        "summary": "alias: \u00a77-1/7-2: Wash Heater (HE heater error) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-heater",
+        "pages": [
+          47,
+          54
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Wash Heater (HE heater error)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-heater",
+        "pages": [
+          47,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-heater",
+            "pages": [
+              47,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 wash heater he",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-inlet-valve-(ie-fill-fault)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a77-1/7-2: Inlet Valve (IE fill fault)",
+      "extractedTerm": "/7-2: Inlet Valve (IE fill fault)",
+      "blockedReason": null,
+      "mapsTo": "inlet_valve",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet valve",
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 inlet",
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a77-1/7-2: Inlet Valve (IE fill fault) \u2192 inlet_valve"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-inlet-valve",
+        "pages": [
+          47,
+          49,
+          52
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Inlet Valve (IE fill fault)": "inlet_valve"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-inlet-valve",
+        "pages": [
+          47,
+          49,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-inlet-valve",
+            "pages": [
+              47,
+              49,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "inlet valve",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 inlet",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-leak-/-float-(ae-leakage-error)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-1/7-2: Leak / Float (AE leakage error)",
+      "extractedTerm": "/7-2: Leak / Float (AE leakage error)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: \u00a77-1/7-2: Leak / Float (AE leakage error) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-leak-float",
+        "pages": [
+          47,
+          51
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Leak / Float (AE leakage error)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-leak-float",
+        "pages": [
+          47,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-leak-float",
+            "pages": [
+              47,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-lg-ldt7808-dishwasher-unresolved-ldt7808-thermistor-heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "heater",
+      "extractedTerm": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heater \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-thermistor",
+        "pages": [
+          47,
+          53
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-thermistor",
+        "pages": [
+          47,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-thermistor",
+            "pages": [
+              47,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-tub-thermistor-(te-thermal-error)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-1/7-2: Tub Thermistor (tE thermal error)",
+      "extractedTerm": "/7-2: Tub Thermistor (tE thermal error)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 tub",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: \u00a77-1/7-2: Tub Thermistor (tE thermal error) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-thermistor",
+        "pages": [
+          47,
+          53
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Tub Thermistor (tE thermal error)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-thermistor",
+        "pages": [
+          47,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-thermistor",
+            "pages": [
+              47,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 tub",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-circulation_pump",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "circulation_pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "circulation",
+          "actuator": "pump"
+        },
+        "summary": "alias: circulation_pump \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-vario-valve",
+        "pages": [
+          47,
+          56
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "circulation_pump": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-vario-valve",
+        "pages": [
+          47,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-vario-valve",
+            "pages": [
+              47,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "circulation",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-vario-valve-(vario-error)",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "\u00a77-1/7-2: Vario Valve (VARIO ERROR)",
+      "extractedTerm": "/7-2: Vario Valve (VARIO ERROR)",
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 vario",
+          "actuator": "valve"
+        },
+        "summary": "alias: \u00a77-1/7-2: Vario Valve (VARIO ERROR) \u2192 None"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-vario-valve",
+        "pages": [
+          47,
+          56
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Vario Valve (VARIO ERROR)": null
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-vario-valve",
+        "pages": [
+          47,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-vario-valve",
+            "pages": [
+              47,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 vario",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-LG-LDT7808-DISHWASHER-compound-/7-2:-wash-motor-(motor-error)",
+      "candidateType": "canonicalMapping",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.77,
+      "what": "\u00a77-1/7-2: Wash Motor (motor error)",
+      "extractedTerm": "/7-2: Wash Motor (motor error)",
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.77,
+        "matcherLayer": "compound:global_hint",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "wash motor",
+        "decomposition": {
+          "domain": null,
+          "component": "7 2 wash motor",
+          "actuator": "motor"
+        },
+        "summary": "alias: \u00a77-1/7-2: Wash Motor (motor error) \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-wash-motor",
+        "pages": [
+          47,
+          55,
+          61
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "\u00a77-1/7-2: Wash Motor (motor error)": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-wash-motor",
+        "pages": [
+          47,
+          55,
+          61
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-wash-motor",
+            "pages": [
+              47,
+              55,
+              61
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:global_hint",
+            "matchedPhrase": "wash motor",
+            "decomposition": {
+              "domain": null,
+              "component": "7 2 wash motor",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-drain_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "ldt7808-drain-pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: ldt7808-drain-pump \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "ldt7808-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a77-1/7-2: Drain Pump (OE drain fault)",
+          "componentIds": [
+            "drain_pump"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-LG-LDT7808-DISHWASHER-ldt7808-drain-pump-meas-lgDishwasherLdt7808DrainPumpOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "ldt7808-drain-pump",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "drain_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: lgDishwasherLdt7808DrainPumpOhms \u2192 drain_test"
+      },
+      "source": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "ldt7808-drain-pump",
+          "measurementKnowledgeId": "lgDishwasherLdt7808DrainPumpOhms",
+          "testTargetId": "drain_test"
+        }
+      },
+      "provenance": {
+        "manualId": "LG-LDT7808-DISHWASHER",
+        "platformId": "lg_dishwasher_ldt7808",
+        "procedureId": "ldt7808-drain-pump",
+        "pages": [
+          47,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LDT7808-DISHWASHER",
+            "platformId": "lg_dishwasher_ldt7808"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "ldt7808-drain-pump",
+            "pages": [
+              47,
+              50
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgDishwasherLdt7808DrainPumpOhms",
+            "stepTitle": "Drain pump resistance"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 18,
+    "byStatus": {
+      "needs_review": 10,
+      "COMPOUND_TERM_CANDIDATE": 6,
+      "candidate": 2
+    },
+    "byApprovalLevel": {
+      "blocked": 10,
+      "careful": 6,
+      "normal": 2
+    },
+    "byType": {
+      "canonicalMapping": 16,
+      "procedureTestBinding": 1,
+      "measurementBinding": 1
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 2,
+      "low_lt_0.80": 6,
+      "unresolved": 10
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  }
+}

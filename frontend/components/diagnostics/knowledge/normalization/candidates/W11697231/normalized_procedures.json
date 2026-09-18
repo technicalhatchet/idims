@@ -1,0 +1,4528 @@
+{
+  "manualId": "W11697231",
+  "procedures": [
+    {
+      "procedureId": "w11697231-test-01-acu-power",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #1: Main Control",
+      "purpose": "Main Control",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "voltage_check",
+        "supply_issue",
+        "F1E1",
+        "F1E2",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "access_console",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access main control",
+          "body": "Remove console. Verify ALL connectors fully seated at main control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove console. Verify ALL connectors fully seated at main control."
+        },
+        {
+          "id": "restore_power_line",
+          "order": 3,
+          "type": "instruction",
+          "title": "Restore power for line check",
+          "body": "Plug in or reconnect power for live measurements only.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Plug in or reconnect power for live measurements only."
+        },
+        {
+          "id": "line_voltage",
+          "order": 4,
+          "type": "measurement",
+          "title": "Line voltage J5-1 to J5-2",
+          "body": "AC voltmeter: black probe J5-2 (Neutral), red probe J5-1 (L1). Expect 120 VAC.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "supplyVoltage120",
+              "testPoint": {
+                "connector": "J5",
+                "pins": "1 & 2",
+                "label": "Line voltage J5-1 to J5-2",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "L1",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "2",
+                    "signal": "Neutral",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Line voltage J5-1 to J5-2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "line_ok",
+              "label": "120 VAC present",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "diagnostic_led",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "line_bad",
+              "label": "No line voltage",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "check_power_cord",
+              "terminal": true,
+              "oemOutcome": "Check outlet, breaker, and AC power cord continuity."
+            }
+          ],
+          "sourceExcerpt": "AC voltmeter: black probe J5-2 (Neutral), red probe J5-1 (L1). Expect 120 VAC."
+        },
+        {
+          "id": "diagnostic_led",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Diagnostic LED state",
+          "body": "Is the Diagnostic LED ON or OFF? (ON = +5 VDC present, micro operating.)",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "led_on",
+              "label": "ON",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dc_12v",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "led_off",
+              "label": "OFF (+5 VDC missing)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "isolate_j12",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Is the Diagnostic LED ON or OFF? (ON = +5 VDC present, micro operating.)"
+        },
+        {
+          "id": "dc_12v",
+          "order": 6,
+          "type": "measurement",
+          "title": "+12 VDC at J12",
+          "body": "DC volts: black J12-4 (Circuit Gnd), red J12-1 (+12 VDC). Do not short pins inside header.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherAcu12Vdc",
+              "testPoint": {
+                "connector": "J12",
+                "pins": "1 & 4",
+                "label": "+12 VDC at J12",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "+12 VDC",
+                    "wireColor": "BLK",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "4",
+                    "signal": "Circuit Gnd",
+                    "wireColor": "GY",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "+12 VDC at J12"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v12_ok",
+              "label": "+12 VDC present",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "acu_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v12_bad",
+              "label": "+12 VDC missing",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "isolate_j12",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "DC volts: black J12-4 (Circuit Gnd), red J12-1 (+12 VDC). Do not short pins inside header."
+        },
+        {
+          "id": "isolate_j12",
+          "order": 7,
+          "type": "instruction",
+          "title": "Isolate shifter load on J12",
+          "body": "Disconnect power. Remove connector J12 from main control. Restore power and repeat Diagnostic LED and +12 VDC checks at J12 header.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Remove connector J12 from main control. Restore power and repeat Diagnostic LED and +12 VDC checks at J12 header."
+        },
+        {
+          "id": "led_after_j12",
+          "order": 8,
+          "type": "visual_check",
+          "title": "DC supplies return with J12 removed?",
+          "body": "With J12 disconnected, does Diagnostic LED turn ON and +12 VDC return?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "j12_shifter_short",
+              "label": "DC returns \u2014 shifter/harness short",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_shifter_harness",
+              "terminal": true,
+              "oemOutcome": "Check harness between main control and shifter; replace shifter assembly if harness good."
+            },
+            {
+              "id": "j12_acu_fault",
+              "label": "DC still missing",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With J12 disconnected, does Diagnostic LED turn ON and +12 VDC return?"
+        },
+        {
+          "id": "check_power_cord",
+          "order": 9,
+          "type": "outcome",
+          "title": "Check power cord",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "acu_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Main control supplies verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_shifter_harness",
+          "order": 11,
+          "type": "outcome",
+          "title": "Service shifter path",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "J5",
+            "pins": "1 & 2",
+            "label": "Line voltage J5-1 to J5-2",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "L1",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "Neutral",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Line voltage J5-1 to J5-2"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherAcu12Vdc",
+          "testPoint": {
+            "connector": "J12",
+            "pins": "1 & 4",
+            "label": "+12 VDC at J12",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "+12 VDC",
+                "wireColor": "BLK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "4",
+                "signal": "Circuit Gnd",
+                "wireColor": "GY",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "+12 VDC at J12"
+        }
+      ],
+      "branches": [
+        {
+          "id": "line_ok",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "diagnostic_led",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "line_voltage"
+        },
+        {
+          "id": "line_bad",
+          "label": "No line voltage",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_power_cord",
+          "terminal": true,
+          "oemOutcome": "Check outlet, breaker, and AC power cord continuity.",
+          "stepId": "line_voltage"
+        },
+        {
+          "id": "led_on",
+          "label": "ON",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dc_12v",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diagnostic_led"
+        },
+        {
+          "id": "led_off",
+          "label": "OFF (+5 VDC missing)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "isolate_j12",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diagnostic_led"
+        },
+        {
+          "id": "v12_ok",
+          "label": "+12 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_12v"
+        },
+        {
+          "id": "v12_bad",
+          "label": "+12 VDC missing",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "isolate_j12",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dc_12v"
+        },
+        {
+          "id": "j12_shifter_short",
+          "label": "DC returns \u2014 shifter/harness short",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_shifter_harness",
+          "terminal": true,
+          "oemOutcome": "Check harness between main control and shifter; replace shifter assembly if harness good.",
+          "stepId": "led_after_j12"
+        },
+        {
+          "id": "j12_acu_fault",
+          "label": "DC still missing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "led_after_j12"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "1",
+        "oemTestTitle": "Main Control",
+        "pages": [
+          30,
+          31
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-01-acu-power",
+        "pages": [
+          30,
+          31
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-01-acu-power",
+            "pages": [
+              30,
+              31
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-02-valves",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #2: Valves",
+      "purpose": "Valves",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "water_valve_check",
+        "fill_issue",
+        "F8E1",
+        "F8E5",
+        "LF"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "valve_live_precheck",
+          "order": 2,
+          "type": "instruction",
+          "title": "Manual Test valve pre-check",
+          "body": "In Manual Test Mode, run Cold and Hot Valve tests. Note any valve that fails to energize.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In Manual Test Mode, run Cold and Hot Valve tests. Note any valve that fails to energize."
+        },
+        {
+          "id": "disconnect_j9",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect J9 at main control",
+          "body": "Unplug washer. Remove console. Disconnect J9 from main control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug washer. Remove console. Disconnect J9 from main control."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Valve coil resistance at J9",
+          "body": "Measure each coil across J9-4 (L1 common) and valve pin: Hot J9-1, Cold J9-5. Expect 890 \u03a9 to 1.3 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherInletValveOhms",
+              "testPoint": {
+                "connector": "J9",
+                "pins": "4 & valve pin",
+                "label": "Valve coil resistance at J9",
+                "pinDetails": [
+                  {
+                    "pin": "4",
+                    "signal": "Valve common (L1)",
+                    "wireColor": "BK/W",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "1",
+                    "signal": "Hot valve",
+                    "wireColor": "RD",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "5",
+                    "signal": "Cold valve",
+                    "wireColor": "BU",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Valve coil resistance at J9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_pass",
+              "label": "890 \u03a9\u20131.3 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_j9_power",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure each coil across J9-4 (L1 common) and valve pin: Hot J9-1, Cold J9-5. Expect 890 \u03a9 to 1.3 k\u03a9."
+        },
+        {
+          "id": "reconnect_j9_power",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reconnect J9 and restore power",
+          "body": "Reconnect J9. Reassemble panels. Restore power for Manual Test Mode valve exercise.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J9. Reassemble panels. Restore power for Manual Test Mode valve exercise."
+        },
+        {
+          "id": "service_mode_before_test",
+          "order": 6,
+          "type": "instruction",
+          "title": "Continue to Manual Test Mode",
+          "body": "You should now be in Service Diagnostic mode. Turn cycle selector to Spin + Done LEDs, then press START for Manual Test Mode load commands.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Diagnostic mode must be active before Manual Test Mode (Spin + Done, START)."
+        },
+        {
+          "id": "live_test_valves",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Valves energize in Manual Test Mode",
+          "body": "Toggle Cold/Hot valve tests in Manual Test Mode. Does each valve in question turn on?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valves_run",
+              "label": "Valves operate",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valves_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valves_no_run",
+              "label": "Ohms OK but valve does not run",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_valves",
+              "terminal": true,
+              "oemOutcome": "Coils in range but no run \u2014 replace main control and calibrate."
+            }
+          ],
+          "sourceExcerpt": "Toggle Cold/Hot valve tests in Manual Test Mode. Does each valve in question turn on?"
+        },
+        {
+          "id": "replace_valve",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace valve assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valves_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Valves verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_valves",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherInletValveOhms",
+          "testPoint": {
+            "connector": "J9",
+            "pins": "4 & valve pin",
+            "label": "Valve coil resistance at J9",
+            "pinDetails": [
+              {
+                "pin": "4",
+                "signal": "Valve common (L1)",
+                "wireColor": "BK/W",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "1",
+                "signal": "Hot valve",
+                "wireColor": "RD",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "5",
+                "signal": "Cold valve",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Valve coil resistance at J9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "valve_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_pass",
+          "label": "890 \u03a9\u20131.3 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_j9_power",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valves_run",
+          "label": "Valves operate",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valves_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_test_valves"
+        },
+        {
+          "id": "valves_no_run",
+          "label": "Ohms OK but valve does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_valves",
+          "terminal": true,
+          "oemOutcome": "Coils in range but no run \u2014 replace main control and calibrate.",
+          "stepId": "live_test_valves"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "2",
+        "oemTestTitle": "Valves",
+        "pages": [
+          31,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-02-valves",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-02-valves",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-03-drive-system",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #3: Drive System (pre-test)",
+      "purpose": "Drive System",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "motor_check",
+        "F7E1",
+        "F7E5",
+        "F7E6",
+        "F7E7"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "enter_service_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Service Diagnostic and clear codes",
+          "body": "Activate Service Diagnostic mode. Retrieve and clear F7-E1, F7-E5, and motor speed codes if present.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Activate Service Diagnostic mode. Retrieve and clear F7-E1, F7-E5, and motor speed codes if present."
+        },
+        {
+          "id": "heavy_agitate_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Heavy Agitate runs 15\u201320 sec",
+          "body": "Enter Manual Test Mode. Run Heavy Agitate. Does motor run after 15\u201320 seconds?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "agitate_ok",
+              "label": "Motor runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "spin_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "agitate_fail",
+              "label": "Motor does not run",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_shifter_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Enter Manual Test Mode. Run Heavy Agitate. Does motor run after 15\u201320 seconds?"
+        },
+        {
+          "id": "spin_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Spin test completes",
+          "body": "In Manual Test Mode, command spin. If motor hums briefly then stops (lid lock blinking), check Fault Code Display for shifter/basket speed errors.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "spin_ok",
+              "label": "Spin OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drive_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "spin_fail",
+              "label": "Spin fails or hums out",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_shifter_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Manual Test Mode, command spin. If motor hums briefly then stops (lid lock blinking), check Fault Code Display for shifter/basket speed errors."
+        },
+        {
+          "id": "route_shifter_motor",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue to shifter or motor test",
+          "body": "Shifter-related (F7E5, basket speed) \u2192 TEST #3a Shifter. Motor circuit (F7E6, F7E7) \u2192 TEST #3b Motor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Shifter-related (F7E5, basket speed) \u2192 TEST #3a Shifter. Motor circuit (F7E6, F7E7) \u2192 TEST #3b Motor."
+        },
+        {
+          "id": "drive_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Drive system OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "drive_deferred",
+          "order": 7,
+          "type": "outcome",
+          "title": "Run TEST #3a or #3b",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "agitate_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spin_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heavy_agitate_test"
+        },
+        {
+          "id": "agitate_fail",
+          "label": "Motor does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heavy_agitate_test"
+        },
+        {
+          "id": "spin_ok",
+          "label": "Spin OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drive_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "spin_test"
+        },
+        {
+          "id": "spin_fail",
+          "label": "Spin fails or hums out",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_shifter_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "spin_test"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "3",
+        "oemTestTitle": "Drive System",
+        "pages": [
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-03-drive-system",
+        "pages": [
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-03-drive-system",
+            "pages": [
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-03a-shifter",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #3a: Drive System \u2014 Shifter",
+      "purpose": "Drive System - Shifter",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "shifter_check",
+        "F7E5",
+        "agitate_issue",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "shifter_service_test",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Spin and Agitate in Manual Test Mode",
+          "body": "Lid closed and locked. Run Spin and Agitate tests. Did shifter engage for both?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "st_fail",
+              "label": "Unsuccessful",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "basket_free",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "st_ok",
+              "label": "Both pass",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "shifter_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Lid closed and locked. Run Spin and Agitate tests. Did shifter engage for both?"
+        },
+        {
+          "id": "basket_free",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Basket turns freely",
+          "body": "Power off. Basket should turn freely. If not, resolve mechanical friction or lockup.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "basket_ok",
+              "label": "Turns freely",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_j12_j2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "basket_bind",
+              "label": "Does not turn freely",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_friction",
+              "terminal": true,
+              "oemOutcome": "Determine and correct mechanical friction or lockup."
+            }
+          ],
+          "sourceExcerpt": "Power off. Basket should turn freely. If not, resolve mechanical friction or lockup."
+        },
+        {
+          "id": "check_j12_j2",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J12 and J2 fully seated",
+          "body": "Verify J12 and J2 inserted fully at main control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Connectors OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "shifter_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "conn_bad",
+              "label": "Connector loose",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_connectors",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify J12 and J2 inserted fully at main control."
+        },
+        {
+          "id": "reseat_connectors",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat J12/J2 and retest",
+          "body": "Reconnect connectors and repeat Manual Test Spin/Agitate.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect connectors and repeat Manual Test Spin/Agitate."
+        },
+        {
+          "id": "shifter_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Shifter motor resistance J2-1 to J2-2",
+          "body": "Remove J2. Expect 2 k\u03a9 to 3.5 k\u03a9 across shifter motor. Verify splutch cam moves freely before electrical checks.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+              "testPoint": {
+                "connector": "J2",
+                "pins": "1 & 2",
+                "label": "Shifter motor resistance J2-1 to J2-2",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "Shifter motor (N)",
+                    "wireColor": "BR",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "2",
+                    "signal": "L1 common",
+                    "wireColor": "BK/W",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Shifter motor resistance J2-1 to J2-2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "shifter_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "harness_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "shifter_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "harness_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "shifter_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "harness_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "shifter_pass",
+              "label": "2\u20133.5 k\u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "shifter_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove J2. Expect 2 k\u03a9 to 3.5 k\u03a9 across shifter motor. Verify splutch cam moves freely before electrical checks."
+        },
+        {
+          "id": "shifter_voltage",
+          "order": 7,
+          "type": "visual_check",
+          "title": "120 VAC at shifter when commanded",
+          "body": "Restore power. AC volts J2-2 (L1) to J2-1 (N). Toggle Spin/Agitate in Manual Test Mode (4\u201315 sec state change). Expect 120 VAC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "vac_yes",
+              "label": "120 VAC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "shifter_switch_vdc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "vac_no",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_shifter",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Restore power. AC volts J2-2 (L1) to J2-1 (N). Toggle Spin/Agitate in Manual Test Mode (4\u201315 sec state change). Expect 120 VAC."
+        },
+        {
+          "id": "shifter_switch_vdc",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Shifter switch voltage J12-3",
+          "body": "DC volts: black J12-4 (Gnd), red J12-3. Toggle Spin/Agitate \u2014 SPIN = +5 VDC, AGITATE = 0 VDC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_ok",
+              "label": "Voltage toggles correctly",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tach_12v",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sw_bad",
+              "label": "Voltage does not switch",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "harness_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "DC volts: black J12-4 (Gnd), red J12-3. Toggle Spin/Agitate \u2014 SPIN = +5 VDC, AGITATE = 0 VDC."
+        },
+        {
+          "id": "tach_12v",
+          "order": 9,
+          "type": "visual_check",
+          "title": "+12 VDC and tachometer verification",
+          "body": "DC volts J12-4 to J12-1 expect +12 VDC. Enter Tachometer Verification Mode; slowly turn basket \u2014 status LEDs should illuminate sequentially.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tach_ok",
+              "label": "+12 VDC OK; tach verified",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_acu_shifter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tach_bad",
+              "label": "Tach not verified",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "harness_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "DC volts J12-4 to J12-1 expect +12 VDC. Enter Tachometer Verification Mode; slowly turn basket \u2014 status LEDs should illuminate sequentially."
+        },
+        {
+          "id": "harness_continuity",
+          "order": 10,
+          "type": "visual_check",
+          "title": "Shifter harness continuity",
+          "body": "Power off. Tilt washer. Continuity shifter pins to J12/J2 per OEM chart (pins 1\u20136 to J12-2, J12-1, J2-2, J12-3, J12-4, J2-1)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Continuity OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_shifter",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_open",
+              "label": "Open harness",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_lower_harness",
+              "terminal": true,
+              "oemOutcome": "Replace lower washer harness."
+            }
+          ],
+          "sourceExcerpt": "Power off. Tilt washer. Continuity shifter pins to J12/J2 per OEM chart (pins 1\u20136 to J12-2, J12-1, J2-2, J12-3, J12-4, J2-1)?"
+        },
+        {
+          "id": "clear_friction",
+          "order": 11,
+          "type": "outcome",
+          "title": "Clear mechanical friction",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "shifter_verified",
+          "order": 12,
+          "type": "outcome",
+          "title": "Shifter verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lower_harness",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace lower harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_shifter",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace shifter assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_shifter",
+          "order": 15,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+          "testPoint": {
+            "connector": "J2",
+            "pins": "1 & 2",
+            "label": "Shifter motor resistance J2-1 to J2-2",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Shifter motor (N)",
+                "wireColor": "BR",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "L1 common",
+                "wireColor": "BK/W",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Shifter motor resistance J2-1 to J2-2"
+        }
+      ],
+      "branches": [
+        {
+          "id": "st_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "basket_free",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_service_test"
+        },
+        {
+          "id": "st_ok",
+          "label": "Both pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_service_test"
+        },
+        {
+          "id": "basket_ok",
+          "label": "Turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j12_j2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "basket_free"
+        },
+        {
+          "id": "basket_bind",
+          "label": "Does not turn freely",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_friction",
+          "terminal": true,
+          "oemOutcome": "Determine and correct mechanical friction or lockup.",
+          "stepId": "basket_free"
+        },
+        {
+          "id": "conn_ok",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j12_j2"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Connector loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_connectors",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j12_j2"
+        },
+        {
+          "id": "shifter_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "harness_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_ohms"
+        },
+        {
+          "id": "shifter_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "harness_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_ohms"
+        },
+        {
+          "id": "shifter_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "harness_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_ohms"
+        },
+        {
+          "id": "shifter_pass",
+          "label": "2\u20133.5 k\u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "shifter_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_ohms"
+        },
+        {
+          "id": "vac_yes",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "shifter_switch_vdc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_voltage"
+        },
+        {
+          "id": "vac_no",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_shifter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_voltage"
+        },
+        {
+          "id": "sw_ok",
+          "label": "Voltage toggles correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tach_12v",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_switch_vdc"
+        },
+        {
+          "id": "sw_bad",
+          "label": "Voltage does not switch",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "shifter_switch_vdc"
+        },
+        {
+          "id": "tach_ok",
+          "label": "+12 VDC OK; tach verified",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_shifter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tach_12v"
+        },
+        {
+          "id": "tach_bad",
+          "label": "Tach not verified",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "harness_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tach_12v"
+        },
+        {
+          "id": "harness_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_shifter",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_continuity"
+        },
+        {
+          "id": "harness_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness",
+          "terminal": true,
+          "oemOutcome": "Replace lower washer harness.",
+          "stepId": "harness_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "3a",
+        "oemTestTitle": "Drive System - Shifter",
+        "pages": [
+          32,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-03a-shifter",
+        "pages": [
+          32,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-03a-shifter",
+            "pages": [
+              32,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-03b-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #3b: Drive System \u2014 Motor",
+      "purpose": "Drive System - Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "motor_check",
+        "F1E2",
+        "F7E6",
+        "F7E7",
+        "agitate_issue",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "motor_agitate_spin_test",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Agitate and spin in Manual Test Mode",
+          "body": "Run Gentle or Heavy Agitation and Low/High Spin. Basket should spin clockwise on spin tests.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_fail",
+              "label": "Unsuccessful",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "basket_free_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_ok",
+              "label": "Motor runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run Gentle or Heavy Agitation and Low/High Spin. Basket should spin clockwise on spin tests."
+        },
+        {
+          "id": "basket_free_motor",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Basket turns freely",
+          "body": "Power off. Basket should turn freely.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "basket_ok",
+              "label": "Turns freely",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_j12_j2_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "basket_bind",
+              "label": "Does not turn freely",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_friction_motor",
+              "terminal": true,
+              "oemOutcome": "Resolve mechanical friction or lockup."
+            }
+          ],
+          "sourceExcerpt": "Power off. Basket should turn freely."
+        },
+        {
+          "id": "check_j12_j2_motor",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J12 and J2 fully seated",
+          "body": "Verify J12 and J2 fully inserted at main control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "j_conn_ok",
+              "label": "Connectors OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "live_motor_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "j_conn_bad",
+              "label": "Connector loose",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_j2_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify J12 and J2 fully inserted at main control."
+        },
+        {
+          "id": "reseat_j2_motor",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat connectors and retest",
+          "body": "Reconnect J12/J2 and repeat Manual Test agitate/spin.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J12/J2 and repeat Manual Test agitate/spin."
+        },
+        {
+          "id": "live_motor_voltage",
+          "order": 6,
+          "type": "instruction",
+          "title": "Live motor voltage check",
+          "body": "Restore power. Run Gentle Agitation in Manual Test Mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Run Gentle Agitation in Manual Test Mode."
+        },
+        {
+          "id": "cw_voltage",
+          "order": 7,
+          "type": "visual_check",
+          "title": "120 VAC cycling on CW winding",
+          "body": "AC volts J2-4 (L1) to J2-6 (CW). Expect 120 VAC cycling ON during CW rotation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cw_ok",
+              "label": "120 VAC present on CW",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ccw_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cw_bad",
+              "label": "No CW voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_test1",
+              "terminal": true,
+              "oemOutcome": "See TEST #1 Main Control."
+            }
+          ],
+          "sourceExcerpt": "AC volts J2-4 (L1) to J2-6 (CW). Expect 120 VAC cycling ON during CW rotation."
+        },
+        {
+          "id": "ccw_voltage",
+          "order": 8,
+          "type": "visual_check",
+          "title": "120 VAC cycling on CCW winding",
+          "body": "AC volts J2-4 (L1) to J2-5 (CCW). Expect 120 VAC cycling ON during CCW rotation.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ccw_ok",
+              "label": "120 VAC present on CCW",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_winding_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ccw_bad",
+              "label": "No CCW voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_test1",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "AC volts J2-4 (L1) to J2-5 (CCW). Expect 120 VAC cycling ON during CCW rotation."
+        },
+        {
+          "id": "motor_winding_ohms",
+          "order": 9,
+          "type": "instruction",
+          "title": "Disconnect power for ohms",
+          "body": "Unplug washer. Remove J2 from main control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug washer. Remove J2 from main control."
+        },
+        {
+          "id": "j2_motor_ohms",
+          "order": 10,
+          "type": "measurement",
+          "title": "Motor winding resistance at J2",
+          "body": "CW J2-4\u21946 and CCW J2-4\u21945. 1/4 HP: 5\u20139.5 \u03a9 each; 1/3 HP (4 rotary switches): 3.5\u20136 \u03a9 each.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+              "testPoint": {
+                "connector": "J2",
+                "pins": "4-6 & 4-5",
+                "label": "Motor winding resistance at J2",
+                "pinDetails": [
+                  {
+                    "pin": "4",
+                    "signal": "L1 common",
+                    "wireColor": "BK/W",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "6",
+                    "signal": "CW winding",
+                    "wireColor": "RD",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "5",
+                    "signal": "CCW winding",
+                    "wireColor": "OR",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Motor winding resistance at J2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_j2_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_j2_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_j2_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_j2_pass",
+              "label": "In OEM range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_harness_cont",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "CW J2-4\u21946 and CCW J2-4\u21945. 1/4 HP: 5\u20139.5 \u03a9 each; 1/3 HP (4 rotary switches): 3.5\u20136 \u03a9 each."
+        },
+        {
+          "id": "motor_harness_cont",
+          "order": 11,
+          "type": "visual_check",
+          "title": "Motor harness continuity",
+          "body": "Tilt washer. Continuity motor connector to J2 and run capacitor per OEM chart?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "mh_ok",
+              "label": "Continuity OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_terminal_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mh_open",
+              "label": "Open harness",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_lower_harness_motor",
+              "terminal": true,
+              "oemOutcome": "Replace lower machine harness."
+            }
+          ],
+          "sourceExcerpt": "Tilt washer. Continuity motor connector to J2 and run capacitor per OEM chart?"
+        },
+        {
+          "id": "motor_terminal_ohms",
+          "order": 12,
+          "type": "measurement",
+          "title": "Motor resistance at drive connector",
+          "body": "At motor: CW pins 4\u21942 and CCW pins 3\u21942. Expect same \u03a9 range as J2 measurement.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+              "testPoint": {
+                "connector": "PSC motor",
+                "pins": "4-2 & 3-2",
+                "label": "Motor resistance at drive connector"
+              },
+              "title": "Motor resistance at drive connector"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_term_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_term_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_term_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_term_pass",
+              "label": "In OEM range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "capacitor_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "At motor: CW pins 4\u21942 and CCW pins 3\u21942. Expect same \u03a9 range as J2 measurement."
+        },
+        {
+          "id": "capacitor_check",
+          "order": 13,
+          "type": "visual_check",
+          "title": "Run capacitor charge/discharge test",
+          "body": "Discharge capacitor with 20 k\u03a9 resistor. Measure terminals \u2014 steady increase = good; short/open = replace capacitor.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cap_ok",
+              "label": "Capacitor OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_acu_motor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cap_bad",
+              "label": "Capacitor shorted or open",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_capacitor",
+              "terminal": true,
+              "oemOutcome": "Replace run capacitor, calibrate, and retest."
+            }
+          ],
+          "sourceExcerpt": "Discharge capacitor with 20 k\u03a9 resistor. Measure terminals \u2014 steady increase = good; short/open = replace capacitor."
+        },
+        {
+          "id": "route_test1",
+          "order": 14,
+          "type": "outcome",
+          "title": "Run TEST #1",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "clear_friction_motor",
+          "order": 15,
+          "type": "outcome",
+          "title": "Clear mechanical friction",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lower_harness_motor",
+          "order": 16,
+          "type": "outcome",
+          "title": "Replace lower harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_motor",
+          "order": 17,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_capacitor",
+          "order": 18,
+          "type": "outcome",
+          "title": "Replace run capacitor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 19,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_motor",
+          "order": 20,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testPoint": {
+            "connector": "J2",
+            "pins": "4-6 & 4-5",
+            "label": "Motor winding resistance at J2",
+            "pinDetails": [
+              {
+                "pin": "4",
+                "signal": "L1 common",
+                "wireColor": "BK/W",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "6",
+                "signal": "CW winding",
+                "wireColor": "RD",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "5",
+                "signal": "CCW winding",
+                "wireColor": "OR",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Motor winding resistance at J2"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+          "testPoint": {
+            "connector": "PSC motor",
+            "pins": "4-2 & 3-2",
+            "label": "Motor resistance at drive connector"
+          },
+          "title": "Motor resistance at drive connector"
+        }
+      ],
+      "branches": [
+        {
+          "id": "motor_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "basket_free_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_agitate_spin_test"
+        },
+        {
+          "id": "motor_ok",
+          "label": "Motor runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_agitate_spin_test"
+        },
+        {
+          "id": "basket_ok",
+          "label": "Turns freely",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j12_j2_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "basket_free_motor"
+        },
+        {
+          "id": "basket_bind",
+          "label": "Does not turn freely",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_friction_motor",
+          "terminal": true,
+          "oemOutcome": "Resolve mechanical friction or lockup.",
+          "stepId": "basket_free_motor"
+        },
+        {
+          "id": "j_conn_ok",
+          "label": "Connectors OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "live_motor_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j12_j2_motor"
+        },
+        {
+          "id": "j_conn_bad",
+          "label": "Connector loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j2_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j12_j2_motor"
+        },
+        {
+          "id": "cw_ok",
+          "label": "120 VAC present on CW",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ccw_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cw_voltage"
+        },
+        {
+          "id": "cw_bad",
+          "label": "No CW voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_test1",
+          "terminal": true,
+          "oemOutcome": "See TEST #1 Main Control.",
+          "stepId": "cw_voltage"
+        },
+        {
+          "id": "ccw_ok",
+          "label": "120 VAC present on CCW",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_winding_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ccw_voltage"
+        },
+        {
+          "id": "ccw_bad",
+          "label": "No CCW voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_test1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ccw_voltage"
+        },
+        {
+          "id": "motor_j2_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_motor_ohms"
+        },
+        {
+          "id": "motor_j2_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_motor_ohms"
+        },
+        {
+          "id": "motor_j2_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_motor_ohms"
+        },
+        {
+          "id": "motor_j2_pass",
+          "label": "In OEM range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_harness_cont",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_motor_ohms"
+        },
+        {
+          "id": "mh_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_terminal_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_harness_cont"
+        },
+        {
+          "id": "mh_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_motor",
+          "terminal": true,
+          "oemOutcome": "Replace lower machine harness.",
+          "stepId": "motor_harness_cont"
+        },
+        {
+          "id": "motor_term_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_terminal_ohms"
+        },
+        {
+          "id": "motor_term_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_terminal_ohms"
+        },
+        {
+          "id": "motor_term_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_terminal_ohms"
+        },
+        {
+          "id": "motor_term_pass",
+          "label": "In OEM range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "capacitor_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_terminal_ohms"
+        },
+        {
+          "id": "cap_ok",
+          "label": "Capacitor OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "capacitor_check"
+        },
+        {
+          "id": "cap_bad",
+          "label": "Capacitor shorted or open",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_capacitor",
+          "terminal": true,
+          "oemOutcome": "Replace run capacitor, calibrate, and retest.",
+          "stepId": "capacitor_check"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "3b",
+        "oemTestTitle": "Drive System - Motor",
+        "pages": [
+          33,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-03b-motor",
+        "pages": [
+          33,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-03b-motor",
+            "pages": [
+              33,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-04-console-indicators",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #4: Console and Indicators",
+      "purpose": "Console and Indicators",
+      "prerequisites": [],
+      "componentIds": [
+        "hmi_control"
+      ],
+      "tags": [
+        "hmi_check",
+        "F2E1",
+        "F2E3"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "ui_test_mode",
+          "order": 2,
+          "type": "visual_check",
+          "title": "UI Test Mode check",
+          "body": "Enter UI Test Mode (Rinse + Spin LEDs). All status LEDs ON? START toggles LEDs; rotary switches toggle Fill/Wash/Rinse/Spin; cycle knob toggles Done.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ui_ok",
+              "label": "All LEDs and switches OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "none_on",
+              "label": "None of the LEDs light up",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_connectors_ui",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "leds_flash",
+              "label": "One or more LEDs flashing",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "flashing_switch_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "switch_no_toggle",
+              "label": "Rotary switch does not toggle LED",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "flashing_switch_path",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Enter UI Test Mode (Rinse + Spin LEDs). All status LEDs ON? START toggles LEDs; rotary switches toggle Fill/Wash/Rinse/Spin; cycle knob toggles Done."
+        },
+        {
+          "id": "check_connectors_ui",
+          "order": 3,
+          "type": "visual_check",
+          "title": "All connectors seated",
+          "body": "Power off. ALL main control connectors fully seated; main control properly inserted in console.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Connections OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "route_test1_ui",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "conn_bad",
+              "label": "Loose connector",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_connectors",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. ALL main control connectors fully seated; main control properly inserted in console."
+        },
+        {
+          "id": "flashing_switch_path",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Switch connector and harness",
+          "body": "Verify suspect rotary switch connector fully seated. Check harness continuity and shorts between switch and main control (J3/J4).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_harness_ok",
+              "label": "Harness OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_switch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sw_harness_bad",
+              "label": "Harness fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ui_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify suspect rotary switch connector fully seated. Check harness continuity and shorts between switch and main control (J3/J4)."
+        },
+        {
+          "id": "route_test1_ui",
+          "order": 5,
+          "type": "instruction",
+          "title": "Verify main control supplies",
+          "body": "Run TEST #1 Main Control supply checks, then retest UI Test Mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run TEST #1 Main Control supply checks, then retest UI Test Mode."
+        },
+        {
+          "id": "repair_connectors",
+          "order": 6,
+          "type": "outcome",
+          "title": "Repair connections",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_ui_harness",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace console harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_switch",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace rotary switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Console verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ui_ok",
+          "label": "All LEDs and switches OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ui_test_mode"
+        },
+        {
+          "id": "none_on",
+          "label": "None of the LEDs light up",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_connectors_ui",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ui_test_mode"
+        },
+        {
+          "id": "leds_flash",
+          "label": "One or more LEDs flashing",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "flashing_switch_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ui_test_mode"
+        },
+        {
+          "id": "switch_no_toggle",
+          "label": "Rotary switch does not toggle LED",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "flashing_switch_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ui_test_mode"
+        },
+        {
+          "id": "conn_ok",
+          "label": "Connections OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_test1_ui",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connectors_ui"
+        },
+        {
+          "id": "conn_bad",
+          "label": "Loose connector",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_connectors",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_connectors_ui"
+        },
+        {
+          "id": "sw_harness_ok",
+          "label": "Harness OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flashing_switch_path"
+        },
+        {
+          "id": "sw_harness_bad",
+          "label": "Harness fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flashing_switch_path"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "4",
+        "oemTestTitle": "Console and Indicators",
+        "pages": [
+          34,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-04-console-indicators",
+        "pages": [
+          34,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-04-console-indicators",
+            "pages": [
+              34,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-05-temp-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #5: Temperature Thermistor",
+      "purpose": "Temperature Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "thermistor_check",
+        "F3E2",
+        "temp_fault",
+        "F8E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "cold_valve_test",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cold valve Manual Test",
+          "body": "Manual Test Mode: Cold valve test \u2014 cold water dispenses?",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual Test Mode: Cold valve test \u2014 cold water dispenses?"
+        },
+        {
+          "id": "hot_valve_test",
+          "order": 3,
+          "type": "instruction",
+          "title": "Hot valve Manual Test",
+          "body": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Hot valve test \u2014 hot water dispenses? Verify household hot supply if cold only."
+        },
+        {
+          "id": "disconnect_j9_therm",
+          "order": 4,
+          "type": "instruction",
+          "title": "Disconnect J9",
+          "body": "Power off. Remove J9 from main control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Remove J9 from main control."
+        },
+        {
+          "id": "therm_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Temperature thermistor J9-3 to J9-7",
+          "body": "Measure resistance at ambient. Compare to OEM R/T table in manual (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherInletThermistorOhms",
+              "testPoint": {
+                "connector": "J9",
+                "pins": "3 & 7",
+                "label": "Temperature thermistor J9-3 to J9-7",
+                "pinDetails": [
+                  {
+                    "pin": "3",
+                    "signal": "Thermistor input",
+                    "wireColor": "BLK",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "7",
+                    "signal": "Thermistor GND",
+                    "wireColor": "BLK",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Temperature thermistor J9-3 to J9-7"
+            }
+          ],
+          "branches": [
+            {
+              "id": "therm_ok",
+              "label": "In R/T table range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "replace_acu_therm",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "therm_bad",
+              "label": "Open or out of range",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace temperature thermistor assembly."
+            },
+            {
+              "id": "therm_crit",
+              "label": "Short/critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace temperature thermistor assembly."
+            }
+          ],
+          "sourceExcerpt": "Measure resistance at ambient. Compare to OEM R/T table in manual (~50 k\u03a9 @ 77\u00b0F / 25\u00b0C)."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermistor assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_therm",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherInletThermistorOhms",
+          "testPoint": {
+            "connector": "J9",
+            "pins": "3 & 7",
+            "label": "Temperature thermistor J9-3 to J9-7",
+            "pinDetails": [
+              {
+                "pin": "3",
+                "signal": "Thermistor input",
+                "wireColor": "BLK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "7",
+                "signal": "Thermistor GND",
+                "wireColor": "BLK",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Temperature thermistor J9-3 to J9-7"
+        }
+      ],
+      "branches": [
+        {
+          "id": "therm_ok",
+          "label": "In R/T table range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "replace_acu_therm",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "therm_ohms"
+        },
+        {
+          "id": "therm_bad",
+          "label": "Open or out of range",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace temperature thermistor assembly.",
+          "stepId": "therm_ohms"
+        },
+        {
+          "id": "therm_crit",
+          "label": "Short/critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace temperature thermistor assembly.",
+          "stepId": "therm_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "5",
+        "oemTestTitle": "Temperature Thermistor",
+        "pages": [
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-05-temp-thermistor",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-05-temp-thermistor",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-06-water-level",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #6: Water Level",
+      "purpose": "Water Level",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "pressure_sensor",
+        "F3E1",
+        "F8E1",
+        "F8E3",
+        "long_fill"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "small_load_fill",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Small load fill stops automatically",
+          "body": "Run small load cycle. Do valves shut off at correct water level?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fill_ok",
+              "label": "Fill stops correctly",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "level_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_bad",
+              "label": "Overfill or long fill",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "drain_tub",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run small load cycle. Do valves shut off at correct water level?"
+        },
+        {
+          "id": "drain_tub",
+          "order": 3,
+          "type": "instruction",
+          "title": "Drain tub completely",
+          "body": "Drain all water from tub before pressure hose service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Drain all water from tub before pressure hose service."
+        },
+        {
+          "id": "check_pressure_hose",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pressure hose and dome",
+          "body": "Hose secure at main control transducer and tub dome? Routed without pinch? Clear of water/suds/debris?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_ok",
+              "label": "Hose OK after service",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_acu_level",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hose_bad",
+              "label": "Pinch, leak, or debris",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_hose",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Hose secure at main control transducer and tub dome? Routed without pinch? Clear of water/suds/debris?"
+        },
+        {
+          "id": "service_hose",
+          "order": 5,
+          "type": "instruction",
+          "title": "Service pressure hose",
+          "body": "Disconnect hose at main control, blow clear, fix routing, replace if leaking. Retest fill.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect hose at main control, blow clear, fix routing, replace if leaking. Retest fill."
+        },
+        {
+          "id": "level_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Water level OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_level",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fill_ok",
+          "label": "Fill stops correctly",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "level_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "small_load_fill"
+        },
+        {
+          "id": "fill_bad",
+          "label": "Overfill or long fill",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "drain_tub",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "small_load_fill"
+        },
+        {
+          "id": "hose_ok",
+          "label": "Hose OK after service",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_level",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_pressure_hose"
+        },
+        {
+          "id": "hose_bad",
+          "label": "Pinch, leak, or debris",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_hose",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_pressure_hose"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "6",
+        "oemTestTitle": "Water Level",
+        "pages": [
+          35,
+          36
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-06-water-level",
+        "pages": [
+          35,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-06-water-level",
+            "pages": [
+              35,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-07-drain-pump",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #7: Drain Pump",
+      "purpose": "Drain Pump",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "pump_check",
+        "drain_issue",
+        "F9E1",
+        "dr"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "clear_obstructions",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clear drain path obstructions",
+          "body": "Check usual areas. Then test drain pump in Manual Test Mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check usual areas. Then test drain pump in Manual Test Mode."
+        },
+        {
+          "id": "drain_service_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Drain pump in Manual Test Mode",
+          "body": "Run Drain Test in Manual Test Mode. Does pump run?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_live_fail",
+              "label": "Does not run",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_j2_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_live_ok",
+              "label": "Runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run Drain Test in Manual Test Mode. Does pump run?"
+        },
+        {
+          "id": "check_j2_pump",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J2 fully seated",
+          "body": "Power off. J2 fully inserted at main control?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "j2p_ok",
+              "label": "J2 OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "j2_pump_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "j2p_bad",
+              "label": "J2 loose",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_j2_pump",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. J2 fully inserted at main control?"
+        },
+        {
+          "id": "reseat_j2_pump",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat J2 and retest",
+          "body": "Reconnect J2 and repeat Manual Test drain.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J2 and repeat Manual Test drain."
+        },
+        {
+          "id": "j2_pump_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Drain pump resistance J2-2 to J2-3",
+          "body": "Remove J2. Expect 14\u201325 \u03a9 across drain pump winding.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+              "testPoint": {
+                "connector": "J2",
+                "pins": "2 & 3",
+                "label": "Drain pump resistance J2-2 to J2-3",
+                "pinDetails": [
+                  {
+                    "pin": "2",
+                    "signal": "L1 common",
+                    "wireColor": "BK/W",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "3",
+                    "signal": "Drain pump",
+                    "wireColor": "BU",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Drain pump resistance J2-2 to J2-3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "drain_j2_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "harness_pump_cont",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_j2_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "harness_pump_cont",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_j2_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "harness_pump_cont",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_j2_pass",
+              "label": "14\u201325 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pump_obstruction",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove J2. Expect 14\u201325 \u03a9 across drain pump winding."
+        },
+        {
+          "id": "pump_obstruction",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Pump free of obstructions",
+          "body": "Tilt washer. Verify drain pump free from obstructions.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_clear",
+              "label": "Pump clear",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "harness_pump_cont",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_stuck",
+              "label": "Obstruction or stuck pump",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_pump_obstruction",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Tilt washer. Verify drain pump free from obstructions."
+        },
+        {
+          "id": "harness_pump_cont",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Drain pump harness continuity",
+          "body": "Continuity drain pump pin 1\u2192J2-3 and pin 2\u2192J2-2?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ph_ok",
+              "label": "Continuity OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_terminal_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ph_open",
+              "label": "Open harness",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_lower_harness_pump",
+              "terminal": true,
+              "oemOutcome": "Replace lower machine harness."
+            }
+          ],
+          "sourceExcerpt": "Continuity drain pump pin 1\u2192J2-3 and pin 2\u2192J2-2?"
+        },
+        {
+          "id": "pump_terminal_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Resistance at drain pump terminals",
+          "body": "At pump motor terminals expect 14\u201325 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+              "testPoint": {
+                "connector": "Drain pump",
+                "pins": "1 & 2",
+                "label": "Resistance at drain pump terminals"
+              },
+              "title": "Resistance at drain pump terminals"
+            }
+          ],
+          "branches": [
+            {
+              "id": "drain_pump_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_pump_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_pump_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_pump_pass",
+              "label": "14\u201325 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_pump_power",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "At pump motor terminals expect 14\u201325 \u03a9."
+        },
+        {
+          "id": "reconnect_pump_power",
+          "order": 10,
+          "type": "instruction",
+          "title": "Reconnect pump and restore power",
+          "body": "Reconnect J2 and pump harness. Restore power for Manual Test drain.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J2 and pump harness. Restore power for Manual Test drain."
+        },
+        {
+          "id": "service_mode_before_test",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue to Manual Test Mode",
+          "body": "You should now be in Service Diagnostic mode. Turn cycle selector to Spin + Done LEDs, then press START for Manual Test Mode load commands.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Diagnostic mode must be active before Manual Test Mode (Spin + Done, START)."
+        },
+        {
+          "id": "live_test_drain_pump",
+          "order": 12,
+          "type": "visual_check",
+          "title": "Drain pump runs in Manual Test Mode",
+          "body": "Run Drain Test. Does pump run and evacuate water?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dp_run",
+              "label": "Pump runs",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dp_no_run",
+              "label": "Ohms OK but no run",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_acu_pump",
+              "terminal": true,
+              "oemOutcome": "Pump good but no run \u2014 replace main control."
+            }
+          ],
+          "sourceExcerpt": "Run Drain Test. Does pump run and evacuate water?"
+        },
+        {
+          "id": "clear_pump_obstruction",
+          "order": 13,
+          "type": "outcome",
+          "title": "Clear pump obstruction",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_lower_harness_pump",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace lower harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_drain_pump",
+          "order": 15,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pump_verified",
+          "order": 16,
+          "type": "outcome",
+          "title": "Drain pump verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_pump",
+          "order": 17,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "J2",
+            "pins": "2 & 3",
+            "label": "Drain pump resistance J2-2 to J2-3",
+            "pinDetails": [
+              {
+                "pin": "2",
+                "signal": "L1 common",
+                "wireColor": "BK/W",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "3",
+                "signal": "Drain pump",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Drain pump resistance J2-2 to J2-3"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "1 & 2",
+            "label": "Resistance at drain pump terminals"
+          },
+          "title": "Resistance at drain pump terminals"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pump_live_fail",
+          "label": "Does not run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_j2_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_service_test"
+        },
+        {
+          "id": "pump_live_ok",
+          "label": "Runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_service_test"
+        },
+        {
+          "id": "j2p_ok",
+          "label": "J2 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "j2_pump_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j2_pump"
+        },
+        {
+          "id": "j2p_bad",
+          "label": "J2 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j2_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j2_pump"
+        },
+        {
+          "id": "drain_j2_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "harness_pump_cont",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_pump_ohms"
+        },
+        {
+          "id": "drain_j2_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "harness_pump_cont",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_pump_ohms"
+        },
+        {
+          "id": "drain_j2_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "harness_pump_cont",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_pump_ohms"
+        },
+        {
+          "id": "drain_j2_pass",
+          "label": "14\u201325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_obstruction",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "j2_pump_ohms"
+        },
+        {
+          "id": "pump_clear",
+          "label": "Pump clear",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_pump_cont",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_obstruction"
+        },
+        {
+          "id": "pump_stuck",
+          "label": "Obstruction or stuck pump",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_obstruction",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_obstruction"
+        },
+        {
+          "id": "ph_ok",
+          "label": "Continuity OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_terminal_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_pump_cont"
+        },
+        {
+          "id": "ph_open",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lower_harness_pump",
+          "terminal": true,
+          "oemOutcome": "Replace lower machine harness.",
+          "stepId": "harness_pump_cont"
+        },
+        {
+          "id": "drain_pump_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "drain_pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "drain_pump_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "drain_pump_pass",
+          "label": "14\u201325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_pump_power",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_terminal_ohms"
+        },
+        {
+          "id": "dp_run",
+          "label": "Pump runs",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_test_drain_pump"
+        },
+        {
+          "id": "dp_no_run",
+          "label": "Ohms OK but no run",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_acu_pump",
+          "terminal": true,
+          "oemOutcome": "Pump good but no run \u2014 replace main control.",
+          "stepId": "live_test_drain_pump"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "7",
+        "oemTestTitle": "Drain Pump",
+        "pages": [
+          36,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-07-drain-pump",
+        "pages": [
+          36,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-07-drain-pump",
+            "pages": [
+              36,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11697231-test-08-lid-lock",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "title": "TEST #8: Lid Lock",
+      "purpose": "Lid Lock",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "lid_lock",
+        "door_lock_check",
+        "F5E1",
+        "F5E2",
+        "F5E3",
+        "F5E4"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Resistance checks must be made with washer unplugged or power disconnected."
+        },
+        {
+          "id": "lid_lock_service_test",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Lid Lock Manual Test Mode",
+          "body": "Run Lid Lock test in Manual Test Mode. Does lock cycle lock and unlock?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ll_fail",
+              "label": "Unsuccessful",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_obstruction",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ll_ok",
+              "label": "Lock cycles OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "lid_lock_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Run Lid Lock test in Manual Test Mode. Does lock cycle lock and unlock?"
+        },
+        {
+          "id": "check_obstruction",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Lid lock mechanism free",
+          "body": "Check lid lock for obstruction or binding. Repair as necessary.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "obst_clear",
+              "label": "No obstruction",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "check_j6",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "obst_found",
+              "label": "Obstruction repaired",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "lid_lock_service_test",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Check lid lock for obstruction or binding. Repair as necessary."
+        },
+        {
+          "id": "check_j6",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J6 fully seated",
+          "body": "Power off. J6 fully inserted at main control?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "j6_ok",
+              "label": "J6 OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "lid_lock_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "j6_bad",
+              "label": "J6 loose",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_j6",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. J6 fully inserted at main control?"
+        },
+        {
+          "id": "reseat_j6",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat J6 and retest",
+          "body": "Reconnect J6 and repeat Lid Lock Manual Test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J6 and repeat Lid Lock Manual Test."
+        },
+        {
+          "id": "lid_lock_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Lid lock resistance J6",
+          "body": "Remove J6. Solenoid J6-1\u21942 (lid closed): 85\u2013155 \u03a9. Lock switch J6-3\u21942: locked=0 \u03a9, unlocked=open. Lid switch J6-2\u21941: lid open=open circuit.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+              "testPoint": {
+                "connector": "J6",
+                "pins": "1 & 2",
+                "label": "Lid lock resistance J6",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "Lid switch / lock solenoid",
+                    "wireColor": "BU",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "2",
+                    "signal": "L1 / lid switch",
+                    "wireColor": "WH",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "Lid lock resistance J6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lock_solenoid_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_lid_lock",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_solenoid_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_lid_lock",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_solenoid_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_lid_lock",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "lock_solenoid_pass",
+              "label": "85\u2013155 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "switch_states",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove J6. Solenoid J6-1\u21942 (lid closed): 85\u2013155 \u03a9. Lock switch J6-3\u21942: locked=0 \u03a9, unlocked=open. Lid switch J6-2\u21941: lid open=open circuit."
+        },
+        {
+          "id": "switch_states",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Lock and lid switch states",
+          "body": "Do lock switch and lid switch readings match unlocked/locked table for current lid state?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_ok",
+              "label": "Switch states OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_acu_lid",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "sw_bad",
+              "label": "Switch readings wrong",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_lid_lock",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Do lock switch and lid switch readings match unlocked/locked table for current lid state?"
+        },
+        {
+          "id": "replace_lid_lock",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace lid lock mechanism",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_acu_lid",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lid_lock_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Lid lock verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+          "testPoint": {
+            "connector": "J6",
+            "pins": "1 & 2",
+            "label": "Lid lock resistance J6",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Lid switch / lock solenoid",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "L1 / lid switch",
+                "wireColor": "WH",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "Lid lock resistance J6"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ll_fail",
+          "label": "Unsuccessful",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_obstruction",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_service_test"
+        },
+        {
+          "id": "ll_ok",
+          "label": "Lock cycles OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_lock_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_service_test"
+        },
+        {
+          "id": "obst_clear",
+          "label": "No obstruction",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_j6",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_obstruction"
+        },
+        {
+          "id": "obst_found",
+          "label": "Obstruction repaired",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "lid_lock_service_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_obstruction"
+        },
+        {
+          "id": "j6_ok",
+          "label": "J6 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "lid_lock_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j6"
+        },
+        {
+          "id": "j6_bad",
+          "label": "J6 loose",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_j6",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_j6"
+        },
+        {
+          "id": "lock_solenoid_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lid_lock",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_ohms"
+        },
+        {
+          "id": "lock_solenoid_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lid_lock",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_ohms"
+        },
+        {
+          "id": "lock_solenoid_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lid_lock",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_ohms"
+        },
+        {
+          "id": "lock_solenoid_pass",
+          "label": "85\u2013155 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "switch_states",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "lid_lock_ohms"
+        },
+        {
+          "id": "sw_ok",
+          "label": "Switch states OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_acu_lid",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "switch_states"
+        },
+        {
+          "id": "sw_bad",
+          "label": "Switch readings wrong",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_lid_lock",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "switch_states"
+        }
+      ],
+      "source": {
+        "manualId": "W11697231",
+        "manualTitle": "Whirlpool 3.8 cu ft Top Load Washer with Removable Agitator (WTW4950)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Lid Lock",
+        "pages": [
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11697231-reva wtw4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11697231",
+        "platformId": "whirlpool_tl_dd",
+        "procedureId": "w11697231-test-08-lid-lock",
+        "pages": [
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11697231",
+            "platformId": "whirlpool_tl_dd"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11697231-test-08-lid-lock",
+            "pages": [
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

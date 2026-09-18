@@ -1,0 +1,2191 @@
+{
+  "manualId": "INSIGNIA-DWR3-DISHWASHER",
+  "procedures": [
+    {
+      "procedureId": "nsdwr3ss1-control-panel",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "E9 \u2014 Stuck button (>30 s)",
+      "purpose": "Stuck button",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "E9",
+        "hmi_check",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "e9_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E9 behavior",
+          "body": "E9 logs when any button is held longer than 30 seconds.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "when some buttons have been pressed over 30 seconds, the dishwasher will warning for E9."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "inspect_panel",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Control panel / touchpad",
+          "body": "Inspect control panel for stuck, damaged, or moisture-swollen keys. Disconnect power and verify keys release freely.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "panel_frees_yes",
+              "label": "Keys release",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "panel_frees",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "panel_frees_no",
+              "label": "Stuck key",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_panel",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Inspect control panel for stuck, damaged, or moisture-swollen keys. Disconnect power and verify keys release freely."
+        },
+        {
+          "id": "panel_frees",
+          "order": 5,
+          "type": "instruction",
+          "title": "Retest operation",
+          "body": "Restore power. Press each touchpad key briefly \u2014 none should hold continuously.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. Press each touchpad key briefly \u2014 none should hold continuously."
+        },
+        {
+          "id": "replace_control_panel",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace control panel",
+          "body": "Replace control panel assembly (UI board is bonded to panel).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "panel_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Control panel verified",
+          "body": "No stuck keys \u2014 E9 should not return.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "panel_frees_yes",
+          "label": "Keys release",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "panel_frees",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_panel"
+        },
+        {
+          "id": "panel_frees_no",
+          "label": "Stuck key",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_panel",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_panel"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "E9",
+        "oemTestTitle": "Stuck button",
+        "pages": [
+          28,
+          11
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-control-panel",
+        "pages": [
+          28,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-control-panel",
+            "pages": [
+              28,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-display-comm",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "Ed \u2014 Display \u2194 main communication",
+      "purpose": "Display communication error",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface",
+        "acu"
+      ],
+      "tags": [
+        "Ed",
+        "hmi_check",
+        "no_power",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "ed_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "Ed behavior",
+          "body": "Ed logs when the display board cannot receive or the main board cannot send for more than 20 seconds.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "when the display board cant receive or the main board can't send signal over 20 seconds"
+        },
+        {
+          "id": "inspect_cn2",
+          "order": 3,
+          "type": "visual_check",
+          "title": "CN2 display harness seated",
+          "body": "Remove control panel. Is CN2 (display board) fully seated with no bent pins?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cn2_seated_yes",
+              "label": "Seated",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cn2_seated",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cn2_seated_no",
+              "label": "Loose or damaged",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_cn2",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove control panel. Is CN2 (display board) fully seated with no bent pins?"
+        },
+        {
+          "id": "cn2_seated",
+          "order": 4,
+          "type": "visual_check",
+          "title": "CN2 harness continuity",
+          "body": "With power off, verify continuity on harness between main PCB CN2 and display PCB (no opens).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_verified_yes",
+              "label": "Harness OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comm_verified_no",
+              "label": "Open harness",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_display_or_pcb",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With power off, verify continuity on harness between main PCB CN2 and display PCB (no opens)."
+        },
+        {
+          "id": "reseat_cn2",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat and retest",
+          "body": "Reseat CN2 and cycle progress indicator harness; restore power and verify display responds.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat CN2 and cycle progress indicator harness; restore power and verify display responds."
+        },
+        {
+          "id": "replace_display_or_pcb",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace display or PCB",
+          "body": "Replace display assembly or main PCB per failed path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Communication verified",
+          "body": "CN2 path OK \u2014 Ed should not return.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cn2_seated_yes",
+          "label": "Seated",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cn2_seated",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_cn2"
+        },
+        {
+          "id": "cn2_seated_no",
+          "label": "Loose or damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_cn2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inspect_cn2"
+        },
+        {
+          "id": "comm_verified_yes",
+          "label": "Harness OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn2_seated"
+        },
+        {
+          "id": "comm_verified_no",
+          "label": "Open harness",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_or_pcb",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cn2_seated"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "Ed",
+        "oemTestTitle": "Display communication error",
+        "pages": [
+          28,
+          11
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-display-comm",
+        "pages": [
+          28,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-display-comm",
+            "pages": [
+              28,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-diverter",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "E8 \u2014 Diverter valve assembly",
+      "purpose": "Diverter valve assembly problem",
+      "prerequisites": [],
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "tags": [
+        "E8",
+        "wash_issue",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "e8_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E8 behavior",
+          "body": "E8 = diverter valve assembly problem. Poor top-rack wash is a common complaint when diverter fails.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diverter valve assembly problem"
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_diverter",
+          "order": 4,
+          "type": "instruction",
+          "title": "Access diverter",
+          "body": "Remove sump diverter valve cover and storm wash pipe (3 screws). Diverter motor mounts to sump with 2 screws. CN3 carries turbidity and diverter valve detection.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove sump diverter valve cover and storm wash pipe (3 screws). Diverter motor mounts to sump with 2 screws. CN3 carries turbidity and diverter valve detection."
+        },
+        {
+          "id": "diverter_motor_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Diverter motor and linkage",
+          "body": "Does diverter motor rotate and change spray path when commanded in service test? Linkage free of debris?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "diverter_motor_ok_yes",
+              "label": "Motor moves",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "diverter_motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diverter_motor_ok_no",
+              "label": "Motor failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_diverter_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Does diverter motor rotate and change spray path when commanded in service test? Linkage free of debris?"
+        },
+        {
+          "id": "diverter_motor_ok",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Diverter micro switch (CN3)",
+          "body": "With power off, verify diverter position micro-switch at CN3 toggles with motor travel (no stuck position).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "diverter_switch_ok_yes",
+              "label": "Switch OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "diverter_switch_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "diverter_switch_ok_no",
+              "label": "Switch fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_diverter_assembly",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "With power off, verify diverter position micro-switch at CN3 toggles with motor travel (no stuck position)."
+        },
+        {
+          "id": "diverter_switch_ok",
+          "order": 7,
+          "type": "instruction",
+          "title": "CN3 harness",
+          "body": "Inspect CN3 harness between PCB and diverter detection circuit. Repair opens before replacing PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect CN3 harness between PCB and diverter detection circuit. Repair opens before replacing PCB."
+        },
+        {
+          "id": "replace_diverter_motor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace diverter motor",
+          "body": "Replace diverter valve motor on sump.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_diverter_assembly",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace diverter assembly",
+          "body": "Replace diverter motor and/or micro-switch assembly.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "diverter_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Diverter verified",
+          "body": "Motor and position detection OK \u2014 E8 should not return.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "diverter_motor_ok_yes",
+          "label": "Motor moves",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_check"
+        },
+        {
+          "id": "diverter_motor_ok_no",
+          "label": "Motor failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_check"
+        },
+        {
+          "id": "diverter_switch_ok_yes",
+          "label": "Switch OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "diverter_switch_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_ok"
+        },
+        {
+          "id": "diverter_switch_ok_no",
+          "label": "Switch fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_diverter_assembly",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diverter_motor_ok"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "E8",
+        "oemTestTitle": "Diverter valve assembly problem",
+        "pages": [
+          25,
+          28,
+          11
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-diverter",
+        "pages": [
+          25,
+          28,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-diverter",
+            "pages": [
+              25,
+              28,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-drain-pump",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "Drain pump \u2014 25\u201335 \u03a9",
+      "purpose": "Drain pump resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "E1",
+        "E4",
+        "drain_issue",
+        "pump_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "access_drain_pump",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access drain pump",
+          "body": "Lay dishwasher on back after removing from installation. Remove base cover screw. Rotate pump 1/4-turn counterclockwise to remove; disconnect 2 wires.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "The drain pump has an approximate resistance value of 25- 350."
+        },
+        {
+          "id": "drain_pump_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Drain pump winding resistance",
+          "body": "Measure across drain pump motor terminals. Expect 25\u201335 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+              "testPoint": {
+                "connector": "CON3",
+                "pins": "pin 5 / pump terminals",
+                "label": "Drain pump winding resistance"
+              },
+              "title": "Drain pump winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "drain_pump_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "drain_pump_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_pump_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump \u2014 open winding."
+            },
+            {
+              "id": "drain_pump_verified_crit",
+              "label": "Replace drain pump \u2014 open winding.",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump \u2014 open winding."
+            },
+            {
+              "id": "drain_pump_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump \u2014 open winding."
+            }
+          ],
+          "sourceExcerpt": "Measure across drain pump motor terminals. Expect 25\u201335 \u03a9."
+        },
+        {
+          "id": "drain_pump_verified",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Check valve and O-ring",
+          "body": "Verify check valve flapper moves freely and O-ring retained in pump seal before reassembly.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "drain_path_ok_yes",
+              "label": "OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_path_ok_no",
+              "label": "Mechanical fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_drain_pump",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify check valve flapper moves freely and O-ring retained in pump seal before reassembly."
+        },
+        {
+          "id": "replace_drain_pump",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": "Replace drain pump assembly; verify O-ring and clamp.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "drain_path_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Drain pump verified",
+          "body": "Pump ohms in spec and check valve OK.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "CON3",
+            "pins": "pin 5 / pump terminals",
+            "label": "Drain pump winding resistance"
+          },
+          "title": "Drain pump winding resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "drain_pump_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "drain_pump_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_pump_ohms"
+        },
+        {
+          "id": "drain_pump_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "stepId": "drain_pump_ohms"
+        },
+        {
+          "id": "drain_pump_verified_crit",
+          "label": "Replace drain pump \u2014 open winding.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "stepId": "drain_pump_ohms"
+        },
+        {
+          "id": "drain_pump_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump \u2014 open winding.",
+          "stepId": "drain_pump_ohms"
+        },
+        {
+          "id": "drain_path_ok_yes",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_pump_verified"
+        },
+        {
+          "id": "drain_path_ok_no",
+          "label": "Mechanical fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_drain_pump",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_pump_verified"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "drain-pump",
+        "oemTestTitle": "Drain pump resistance",
+        "pages": [
+          21,
+          11
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-drain-pump",
+        "pages": [
+          21,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-drain-pump",
+            "pages": [
+              21,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-fill-valve",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "Water inlet valve \u2014 ~1 k\u03a9",
+      "purpose": "Water inlet valve resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "E1",
+        "fill_issue",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_fill_valve",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access inlet valve",
+          "body": "Remove kick board and lower front cover. Inlet valve on left front brace \u2014 disconnect 2 solenoid wires before ohms.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "The water valve has an approximate resistance value of 1 Kn"
+        },
+        {
+          "id": "fill_valve_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Inlet solenoid resistance",
+          "body": "Measure across the two solenoid terminals. Expect ~1 k\u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDishwasherFillValveOhms",
+              "testPoint": {
+                "connector": "Inlet valve",
+                "pins": "solenoid terminals",
+                "label": "Inlet solenoid resistance"
+              },
+              "title": "Inlet solenoid resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fill_valve_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fill_valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_valve_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve \u2014 open or out of spec."
+            },
+            {
+              "id": "fill_valve_verified_crit",
+              "label": "Replace inlet valve \u2014 open or out of spec.",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve \u2014 open or out of spec."
+            },
+            {
+              "id": "fill_valve_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fill_valve",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve \u2014 open or out of spec."
+            }
+          ],
+          "sourceExcerpt": "Measure across the two solenoid terminals. Expect ~1 k\u03a9."
+        },
+        {
+          "id": "replace_fill_valve",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace inlet valve",
+          "body": "Replace water inlet valve; use new screw-type hose clamp per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_valve_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fill valve verified",
+          "body": "Inlet solenoid ~1 k\u03a9 \u2014 retest fill if E1 persists, check flow meter and PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDishwasherFillValveOhms",
+          "testPoint": {
+            "connector": "Inlet valve",
+            "pins": "solenoid terminals",
+            "label": "Inlet solenoid resistance"
+          },
+          "title": "Inlet solenoid resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fill_valve_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fill_valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "fill_valve_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "fill_valve_verified_crit",
+          "label": "Replace inlet valve \u2014 open or out of spec.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "stepId": "fill_valve_ohms"
+        },
+        {
+          "id": "fill_valve_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fill_valve",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve \u2014 open or out of spec.",
+          "stepId": "fill_valve_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "inlet-valve",
+        "oemTestTitle": "Water inlet valve resistance",
+        "pages": [
+          19,
+          11
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-fill-valve",
+        "pages": [
+          19,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-fill-valve",
+            "pages": [
+              19,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-heater",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+      "purpose": "Heater failure",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "E3",
+        "no_heat",
+        "heating_element_check",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "e3_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E3 behavior",
+          "body": "E3 logs when water temperature cannot reach the defined value within 90 minutes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "when the temperature cant reached the defined value after 90 minutes, the dishwasher will warning for E3."
+        },
+        {
+          "id": "service_mode_after_test_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Service test mode entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After service test entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_heater",
+          "order": 4,
+          "type": "instruction",
+          "title": "Access heating element",
+          "body": "Remove bottom rack. Lay unit on back; remove base cover. Pull down nylon terminal covers and disconnect heater wires at PO1/PO2.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "The heater has an approximate resistance value of 10-1s n"
+        },
+        {
+          "id": "heater_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Heater element resistance",
+          "body": "Measure across heating element terminals. Expect 10\u201315 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDishwasherHeaterOhms",
+              "testPoint": {
+                "connector": "PO1/PO2",
+                "pins": "heater terminals",
+                "label": "Heater element resistance"
+              },
+              "title": "Heater element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater \u2014 open element."
+            },
+            {
+              "id": "heater_verified_crit",
+              "label": "Replace heater \u2014 open element.",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater \u2014 open element."
+            },
+            {
+              "id": "heater_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": "Replace heater \u2014 open element."
+            }
+          ],
+          "sourceExcerpt": "Measure across heating element terminals. Expect 10\u201315 \u03a9."
+        },
+        {
+          "id": "heater_verified",
+          "order": 6,
+          "type": "instruction",
+          "title": "Thermistor follow-up",
+          "body": "If E3 persists with good heater ohms, run tub thermistor test (nsdwr3ss1-tub-thermistor) and inspect PCB heater output.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If E3 persists with good heater ohms, run tub thermistor test (nsdwr3ss1-tub-thermistor) and inspect PCB heater output."
+        },
+        {
+          "id": "replace_heater",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": "Replace heating element; ensure O-ring retained at sump.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_path_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Heater verified",
+          "body": "Heater 10\u201315 \u03a9 \u2014 verify thermistor and control if E3 remains.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDishwasherHeaterOhms",
+          "testPoint": {
+            "connector": "PO1/PO2",
+            "pins": "heater terminals",
+            "label": "Heater element resistance"
+          },
+          "title": "Heater element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_verified_crit",
+          "label": "Replace heater \u2014 open element.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": "Replace heater \u2014 open element.",
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "E3",
+        "oemTestTitle": "Heater failure",
+        "pages": [
+          23,
+          28
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-heater",
+        "pages": [
+          23,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-heater",
+            "pages": [
+              23,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-inlet-fill",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "E1 \u2014 Water inlet failure (4 min fill)",
+      "purpose": "Water inlet failure",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "E1",
+        "fill_issue",
+        "error_code",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "e1_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E1 behavior",
+          "body": "E1 logs when the flow meter cannot detect defined water within 4 minutes during the inlet step. OCR may show El \u2014 treat as E1.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If the flow meter can't detect the defined water after 4 minutes, the dishwasher will warning for E1."
+        },
+        {
+          "id": "supply_checks",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Water supply and installation",
+          "body": "Verify supply valve on, adequate pressure, inlet screen clean, drain hose not siphoning, and dishwasher level.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok_yes",
+              "label": "Supply OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "supply_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "supply_ok_no",
+              "label": "Supply issue found",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "1. check the water supply"
+        },
+        {
+          "id": "supply_ok",
+          "order": 4,
+          "type": "instruction",
+          "title": "Bench fill path",
+          "body": "Power off. Access kick panel. Inspect CON3 inlet harness, flow meter at CN4, pressure switch hose, and drain path. Run fill-valve ohms test (nsdwr3ss1-fill-valve) and drain pump test if sump retains water.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Access kick panel. Inspect CON3 inlet harness, flow meter at CN4, pressure switch hose, and drain path. Run fill-valve ohms test (nsdwr3ss1-fill-valve) and drain pump test if sump retains water."
+        },
+        {
+          "id": "pressure_switch_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Pressure switch hose and tubing",
+          "body": "Pressure switch hose runs from switch to sump via air breaker. Hose kinked, disconnected, or blocked?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pressure_hose_ok_yes",
+              "label": "Hose OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pressure_hose_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pressure_hose_ok_no",
+              "label": "Hose fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_pressure_hose",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "5. check the pressure switch"
+        },
+        {
+          "id": "pressure_hose_ok",
+          "order": 6,
+          "type": "instruction",
+          "title": "Flow meter and CN4",
+          "body": "Inspect CN4 flow meter / flood detection harness for damage or poor connection at main PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect CN4 flow meter / flood detection harness for damage or poor connection at main PCB."
+        },
+        {
+          "id": "fix_supply",
+          "order": 7,
+          "type": "outcome",
+          "title": "Correct supply issue",
+          "body": "Restore water supply, correct installation, and retest fill.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_pressure_hose",
+          "order": 8,
+          "type": "outcome",
+          "title": "Repair pressure switch path",
+          "body": "Repair or replace pressure switch hose; verify switch seated in base bracket.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_path_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Fill path verified",
+          "body": "Supply, inlet valve, flow meter, pressure switch, and drain prerequisites checked \u2014 retest for E1.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok_yes",
+          "label": "Supply OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_checks"
+        },
+        {
+          "id": "supply_ok_no",
+          "label": "Supply issue found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_checks"
+        },
+        {
+          "id": "pressure_hose_ok_yes",
+          "label": "Hose OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pressure_hose_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pressure_switch_check"
+        },
+        {
+          "id": "pressure_hose_ok_no",
+          "label": "Hose fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_pressure_hose",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pressure_switch_check"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "E1",
+        "oemTestTitle": "Water inlet failure",
+        "pages": [
+          28,
+          19,
+          20
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-inlet-fill",
+        "pages": [
+          28,
+          19,
+          20
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-inlet-fill",
+            "pages": [
+              28,
+              19,
+              20
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-overflow",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "E4 \u2014 Overflow / base pan",
+      "purpose": "Overflow / water flood",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "E4",
+        "leak_check",
+        "error_code",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "e4_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E4 behavior",
+          "body": "E4 logs when water floods the bottom pan and the detective micro-switch moves.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "the water flood into the bottom and result in the detective switch moves, the dishwasher will warning for E4."
+        },
+        {
+          "id": "e4_cause_checks",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Detergent, level, and leak source",
+          "body": "Check detergent type/amount, appliance level, and visible leak at door gasket, sump, or hoses.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "causes_ok_yes",
+              "label": "No obvious cause",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "causes_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "causes_ok_no",
+              "label": "Cause found",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "correct_causes",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Check detergent type/amount, appliance level, and visible leak at door gasket, sump, or hoses."
+        },
+        {
+          "id": "causes_ok",
+          "order": 4,
+          "type": "instruction",
+          "title": "CN4 flood detection",
+          "body": "Inspect CN4 rinse-aid / flow meter / water-flood detection harness and base pan micro-switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect CN4 rinse-aid / flow meter / water-flood detection harness and base pan micro-switch."
+        },
+        {
+          "id": "drain_after_overflow",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Drain pan and pump",
+          "body": "Remove standing water from base. Does drain pump run and remove water when commanded?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "drain_runs_yes",
+              "label": "Drains",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_runs",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "drain_runs_no",
+              "label": "Won't drain",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "run_drain_pump_test",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove standing water from base. Does drain pump run and remove water when commanded?"
+        },
+        {
+          "id": "drain_runs",
+          "order": 6,
+          "type": "instruction",
+          "title": "Locate leak",
+          "body": "With pan dry, run a short fill cycle and inspect sump, door seal, air breaker, and hose clamps for leak source.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "With pan dry, run a short fill cycle and inspect sump, door seal, air breaker, and hose clamps for leak source."
+        },
+        {
+          "id": "run_drain_pump_test",
+          "order": 7,
+          "type": "instruction",
+          "title": "Drain pump bench test",
+          "body": "Run nsdwr3ss1-drain-pump for 25\u201335 \u03a9 winding check and check valve.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run nsdwr3ss1-drain-pump for 25\u201335 \u03a9 winding check and check valve."
+        },
+        {
+          "id": "correct_causes",
+          "order": 8,
+          "type": "outcome",
+          "title": "Correct installation",
+          "body": "Reduce detergent, level unit, or repair identified leak source.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_drain_if_needed",
+          "order": 9,
+          "type": "outcome",
+          "title": "Service drain path",
+          "body": "Replace drain pump or clear obstruction; dry base pan before retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "overflow_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Overflow path checked",
+          "body": "Pan dry, flood switch reset, drain verified \u2014 retest for E4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "causes_ok_yes",
+          "label": "No obvious cause",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "causes_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "e4_cause_checks"
+        },
+        {
+          "id": "causes_ok_no",
+          "label": "Cause found",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_causes",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "e4_cause_checks"
+        },
+        {
+          "id": "drain_runs_yes",
+          "label": "Drains",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_runs",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_after_overflow"
+        },
+        {
+          "id": "drain_runs_no",
+          "label": "Won't drain",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "run_drain_pump_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "drain_after_overflow"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "E4",
+        "oemTestTitle": "Overflow / water flood",
+        "pages": [
+          28,
+          20,
+          21
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-overflow",
+        "pages": [
+          28,
+          20,
+          21
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-overflow",
+            "pages": [
+              28,
+              20,
+              21
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "nsdwr3ss1-tub-thermistor",
+      "manufacturer": "Insignia",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "title": "Tub thermistor \u2014 E6/E7 NTC",
+      "purpose": "Tub thermistor resistance",
+      "prerequisites": [],
+      "componentIds": [
+        "heater"
+      ],
+      "tags": [
+        "E3",
+        "E6",
+        "E7",
+        "thermistor_check",
+        "error_code"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dishwasher or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect the power supply to the dishwasher."
+        },
+        {
+          "id": "ntc_symptom",
+          "order": 2,
+          "type": "instruction",
+          "title": "E6 / E7 behavior",
+          "body": "E6 = NTC open (thermal sensor cut). E7 = NTC short. Both may appear in factory mode; also affects E3 heat path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "E6 - thermal sensor cut. E7 - thermal sensor short."
+        },
+        {
+          "id": "access_thermistor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access tub thermistor",
+          "body": "Lay dishwasher on back; remove base cover. Thermistor on back of sump \u2014 disconnect harness before ohms.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "R@25\u00b0C=10KQ\u00b12%; R@60\u00b0C=3011O\u00b12%."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Tub thermistor resistance",
+          "body": "Measure at room temperature (~25\u00b0C). Expect 10 k\u03a9 \u00b12%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "insigniaDishwasherTubThermistorOhms",
+              "testPoint": {
+                "connector": "Thermistor",
+                "pins": "harness terminals",
+                "label": "Tub thermistor resistance"
+              },
+              "title": "Tub thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "thermistor_verified_pass",
+              "label": "Within spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermistor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "thermistor_verified_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace thermistor \u2014 open or shorted."
+            },
+            {
+              "id": "thermistor_verified_crit",
+              "label": "Replace thermistor \u2014 open or shorted.",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace thermistor \u2014 open or shorted."
+            },
+            {
+              "id": "thermistor_verified_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace thermistor \u2014 open or shorted."
+            }
+          ],
+          "sourceExcerpt": "Measure at room temperature (~25\u00b0C). Expect 10 k\u03a9 \u00b12%."
+        },
+        {
+          "id": "thermistor_verified",
+          "order": 5,
+          "type": "instruction",
+          "title": "Harness check",
+          "body": "Inspect thermistor harness for pin damage at PCB and sump. Repair opens before replacing PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect thermistor harness for pin damage at PCB and sump. Repair opens before replacing PCB."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": "Replace tub thermistor; retain O-ring at sump.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermistor_path_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermistor verified",
+          "body": "NTC in spec \u2014 if E6/E7/E3 persist, suspect PCB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "insigniaDishwasherTubThermistorOhms",
+          "testPoint": {
+            "connector": "Thermistor",
+            "pins": "harness terminals",
+            "label": "Tub thermistor resistance"
+          },
+          "title": "Tub thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "thermistor_verified_pass",
+          "label": "Within spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "thermistor_verified_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "thermistor_verified_crit",
+          "label": "Replace thermistor \u2014 open or shorted.",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "thermistor_verified_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace thermistor \u2014 open or shorted.",
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "manualTitle": "Insignia NS-DWR3SS1 Top Control Dishwasher Service Manual",
+        "oemTestNumber": "thermistor",
+        "oemTestTitle": "Tub thermistor resistance",
+        "pages": [
+          22,
+          28
+        ],
+        "extractedTextFile": "backend/docs/manuals/NS-DWR3SS1 service manual again-ocr-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "platformId": "insignia_dishwasher",
+        "procedureId": "nsdwr3ss1-tub-thermistor",
+        "pages": [
+          22,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "INSIGNIA-DWR3-DISHWASHER",
+            "platformId": "insignia_dishwasher"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nsdwr3ss1-tub-thermistor",
+            "pages": [
+              22,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

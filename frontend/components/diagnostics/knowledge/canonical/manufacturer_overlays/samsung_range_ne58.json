@@ -1,0 +1,394 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "range_oven",
+  "manufacturer": "Samsung",
+  "label": "Samsung NE58R9560 induction range (NE58*9560W*)",
+  "gateArtifact": "SAMSUNG_NE58R9560WS_RANGE_overlay_mapping_table_v1.json",
+  "normalizationSource": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_range_ne58",
+      "platformId": "samsung_range_ne58",
+      "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+      "label": "Samsung NE58R9560WS induction slide-in range",
+      "appliesTo": {
+        "templateIds": ["induction_range"],
+        "manufacturers": ["Samsung"],
+        "modelPatterns": ["NE58*9560W*", "NE58R9560WS"],
+        "platformIds": ["samsung_range_ne58", "samsung_range_ne58r9560"]
+      },
+      "oemTermAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "glass_touch_pcb": "user_interface",
+        "assy_touch_pcb": "user_interface",
+        "oven_sensor": "temperature_sensor",
+        "top_sensor": "surface_heating_system",
+        "sensor_top": "surface_heating_system",
+        "igbt_sensor": "surface_heating_system",
+        "assy_inverter_module": "surface_heating_system",
+        "inverter_pcb": "surface_heating_system",
+        "igbt": "surface_heating_system",
+        "assy_working_coil": "surface_heating_system",
+        "heater_bake": "bake_heating_element",
+        "heater_broil": "broil_heating_element",
+        "convection_heater": "convection_heating_element",
+        "door_lock_motor": "oven_door_switch",
+        "door_plunger_switch": "oven_door_switch"
+      },
+      "displayTerms": {
+        "power_supply": "220–240 VAC terminal block / SMPS input",
+        "control_board": "Main PCB + Sub PCB (DLB / bake / broil / convection relays)",
+        "user_interface": "Glass touch PCB + keypad (C-d0 / C-F2)",
+        "temperature_sensor": "Oven RTD — 1080 Ω @ room; CN320 ~2850 Ω",
+        "surface_heating_system": "Induction cooktop — inverter / IGBT / top sensor / pan detection",
+        "bake_heating_element": "Electric bake element — 17–19 Ω @ room",
+        "broil_heating_element": "Electric broil element — 12–14 Ω @ room",
+        "convection_heating_element": "Electric convection element — 41–46 Ω",
+        "convection_fan": "Upper/lower convection fan motor — 20–30 Ω",
+        "thermal_protection": "Cooktop over-temp (>482°F) + PCB temp codes C-30/C-31",
+        "oven_door_switch": "Door lock motor + plunger switch (C-d1)"
+      },
+      "functionalRealizations": [
+        {
+          "canonicalLayer": "temperature_sensor",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "oven_sensor", "displayLabel": "Oven temperature sensor (RTD)" },
+          "diagnosticEvidence": {
+            "spec": "1080 Ω @ room; CN320 connector ~2850 Ω (C-20/C-21)",
+            "measurementIds": ["ne58r-oven-sensor-ohms", "ne58r-cn320-connector-ohms"],
+            "procedureIds": ["ne58r-c20-oven-sensor", "ne58r-oven-sensor-component", "ne58r-c21-abnormal-temp"],
+            "branchIds": ["ne58r-c20-sensor-fault", "ne58r-oven-sensor-replace"],
+            "errorCodes": ["C-20", "C-21"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-1 / 4-3", "pages": [37, 62, 63] }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "top_sensor", "displayLabel": "Cooktop ceramic top sensor" },
+          "diagnosticEvidence": {
+            "spec": "Top Sensor Open A/D >252; Short A/D <10; over-temp ceramic >482°F",
+            "measurementIds": ["ne58r-top-sensor-ad-thresholds"],
+            "procedureIds": ["ne58r-top-sensor-open", "ne58r-top-sensor-short", "ne58r-over-temperature"],
+            "branchIds": ["ne58r-top-sensor-wire-open", "ne58r-top-sensor-shorted", "ne58r-overtemp-empty-cookware", "ne58r-overtemp-replace-top-sensor"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-2", "pages": [48, 54] }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "igbt_sensor", "displayLabel": "IGBT module temperature sensor" },
+          "diagnosticEvidence": {
+            "spec": "10 kΩ @ 77°F (open flow) / 10 kΩ @ 25°C (short flow)",
+            "measurementIds": ["ne58r-igbt-sensor-ohms-open-good", "ne58r-igbt-sensor-ohms-short-good"],
+            "procedureIds": ["ne58r-igbt-sensor-open", "ne58r-igbt-sensor-short"],
+            "branchIds": ["ne58r-igbt-sensor-open-circuit", "ne58r-igbt-sensor-shorted", "ne58r-igbt-sensor-replace-inverter"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-2-5 / 4-2-6", "pages": [51, 53] }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "inverter_pcb", "displayLabel": "Assy-Inverter Module (IGBT + UART)" },
+          "diagnosticEvidence": {
+            "spec": "CN101 5V/12V; IGBT G-E/G-C/E-C no short; filter fuse before inverter replace",
+            "measurementIds": ["ne58r-inverter-cn101-5v-12v", "ne58r-igbt-terminal-resistance", "ne58r-filter-pcb-fuse"],
+            "procedureIds": ["ne58r-comm-display-inverter", "ne58r-heating-failure-igbt"],
+            "branchIds": ["ne58r-comm-replace-inverter-pcb", "ne58r-igbt-shorted-replace-fuse-inverter", "ne58r-comm-replace-fuse"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-2-10 / 4-3", "pages": [56, 57] }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "pan_detection", "displayLabel": "Induction pan detection logic" },
+          "diagnosticEvidence": {
+            "spec": "Suitable induction cookware required — no pan / unsuitable pan faults",
+            "procedureIds": ["ne58r-pan-detection"],
+            "branchIds": ["ne58r-pan-no-cookware", "ne58r-pan-unsuitable-cookware", "ne58r-pan-replace-inverter-touch"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-2-8", "pages": [54, 55] }
+        },
+        {
+          "canonicalLayer": "surface_heating_system",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "dc_motor", "displayLabel": "Induction DC motor (cooling/airflow path)" },
+          "diagnosticEvidence": {
+            "procedureIds": ["ne58r-dc-motor-locking"],
+            "branchIds": ["ne58r-dc-motor-interference", "ne58r-dc-motor-wire-disconnected"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-2-9", "pages": [55, 56] }
+        },
+        {
+          "canonicalLayer": "bake_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "implementation": { "platformTerm": "heater_bake", "displayLabel": "Electric bake element" },
+          "diagnosticEvidence": {
+            "spec": "17–19 Ω @ room; 240 VAC at terminals during bake call",
+            "measurementIds": ["ne58r-bake-heater-ohms", "ne58r-bake-heater-vac"],
+            "procedureIds": ["ne58r-bake-heater-component", "ne58r-c21-abnormal-temp"],
+            "branchIds": ["ne58r-bake-heater-out-of-range", "ne58r-bake-heater-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [60] }
+        },
+        {
+          "canonicalLayer": "broil_heating_element",
+          "canonicalLayerKind": "instanceScope",
+          "implementation": { "platformTerm": "heater_broil", "displayLabel": "Electric broil element" },
+          "diagnosticEvidence": {
+            "spec": "12–14 Ω @ room; 240 VAC at terminals during broil call",
+            "measurementIds": ["ne58r-broil-heater-ohms", "ne58r-broil-heater-vac"],
+            "procedureIds": ["ne58r-broil-heater-component", "ne58r-c21-abnormal-temp"],
+            "branchIds": ["ne58r-broil-heater-out-of-range", "ne58r-broil-heater-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [60] }
+        },
+        {
+          "canonicalLayer": "convection_heating_element",
+          "canonicalLayerKind": "conditionalInstanceScope",
+          "implementation": { "platformTerm": "convection_heater", "displayLabel": "Electric convection element" },
+          "diagnosticEvidence": {
+            "spec": "41–46 Ω @ room; 240 VAC during convection bake",
+            "measurementIds": ["ne58r-convection-heater-ohms", "ne58r-convection-heater-vac"],
+            "procedureIds": ["ne58r-convection-heater-component"],
+            "branchIds": ["ne58r-convection-heater-out-of-range"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [60] }
+        },
+        {
+          "canonicalLayer": "convection_fan",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "convection_fan_motor", "displayLabel": "Upper/lower convection fan motor" },
+          "diagnosticEvidence": {
+            "spec": "20–30 Ω; 120 VAC when fan cycles during bake",
+            "measurementIds": ["ne58r-convection-fan-ohms", "ne58r-convection-fan-vac"],
+            "procedureIds": ["ne58r-convection-fan-component"],
+            "branchIds": ["ne58r-convection-fan-out-of-range", "ne58r-convection-fan-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [61] }
+        },
+        {
+          "canonicalLayer": "oven_door_switch",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "door_lock_motor", "displayLabel": "Door lock motor coil" },
+          "diagnosticEvidence": {
+            "spec": "2500–2700 Ω @ room; 120 VAC when lock commanded",
+            "measurementIds": ["ne58r-door-lock-motor-ohms", "ne58r-door-lock-motor-vac"],
+            "procedureIds": ["ne58r-cd1-door-lock", "ne58r-door-lock-component"],
+            "branchIds": ["ne58r-cd1-lock-motor-fault", "ne58r-door-lock-harness-fault"],
+            "errorCodes": ["C-d1"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-1 / 4-3", "pages": [36, 61] }
+        },
+        {
+          "canonicalLayer": "oven_door_switch",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "door_plunger_switch", "displayLabel": "Door plunger micro-switch" },
+          "diagnosticEvidence": {
+            "spec": "Open 0 Ω / closed ∞ Ω",
+            "measurementIds": ["ne58r-door-plunger-ohms"],
+            "procedureIds": ["ne58r-door-plunger-switch"],
+            "branchIds": ["ne58r-door-plunger-damaged"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [62] }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "main_pcb", "displayLabel": "Main PCB + oven heater relays" },
+          "diagnosticEvidence": {
+            "spec": "SMPS 5V/12V; relay ∞ Ω de-energized; C-F0/C-21 relay checks",
+            "measurementIds": ["ne58r-smps-5v-12v", "ne58r-smps-input-120vac", "ne58r-relay-terminal-240vac"],
+            "procedureIds": ["ne58r-pcb-failure", "ne58r-cf0-main-sub-comm", "ne58r-c21-abnormal-temp"],
+            "branchIds": ["ne58r-c21-relay-check", "ne58r-cf0-replace-main-pcb", "ne58r-pcb-replace-main-or-sub"],
+            "errorCodes": ["C-F0", "C-21"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-1 / 4-3", "pages": [37, 58] }
+        },
+        {
+          "canonicalLayer": "user_interface",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "glass_touch_pcb", "displayLabel": "Glass touch PCB / keypad" },
+          "diagnosticEvidence": {
+            "procedureIds": ["ne58r-cd0-key-short", "ne58r-cf2-touch-comm"],
+            "branchIds": ["ne58r-cd0-keypad-short", "ne58r-cf2-replace-sub-pcb", "ne58r-cf2-replace-control-pcb"],
+            "errorCodes": ["C-d0", "C-F2"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-1", "pages": [36] }
+        },
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "line_supply", "displayLabel": "Terminal block 220–240 VAC" },
+          "diagnosticEvidence": {
+            "spec": "220–240 VAC @ terminal block; 240 VAC L1.L2 for inverter comm path",
+            "measurementIds": ["ne58r-terminal-block-220-240vac", "ne58r-terminal-block-240vac"],
+            "procedureIds": ["ne58r-power-no-power", "ne58r-comm-display-inverter"],
+            "branchIds": ["ne58r-power-wiring-fault", "ne58r-power-replace-pcb"]
+          },
+          "provenance": { "normalizationRef": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json", "sourceManual": "SAMSUNG-NE58R9560-INDUCTION", "section": "4-3", "pages": [57] }
+        }
+      ],
+      "instanceScopeBindings": [
+        {
+          "instanceScopeId": "bake_heating_element",
+          "implementationTerms": ["heater_bake", "bake_relay"],
+          "procedureIds": ["ne58r-bake-heater-component", "ne58r-c21-abnormal-temp"]
+        },
+        {
+          "instanceScopeId": "broil_heating_element",
+          "implementationTerms": ["heater_broil", "broil_relay"],
+          "procedureIds": ["ne58r-broil-heater-component", "ne58r-c21-abnormal-temp"]
+        }
+      ],
+      "conditionalInstanceScopeBindings": [
+        {
+          "conditionalInstanceScopeId": "convection_heating_element",
+          "implementationTerms": ["convection_heater", "convection_relay"],
+          "procedureIds": ["ne58r-convection-heater-component"]
+        }
+      ],
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "convection_fan",
+          "implementationTerms": ["convection_fan_motor"],
+          "procedureIds": ["ne58r-convection-fan-component"]
+        },
+        {
+          "conditionalConceptId": "thermal_protection",
+          "implementationTerms": ["top_sensor", "pcb_temp_sensor"],
+          "procedureIds": ["ne58r-over-temperature", "ne58r-c21-abnormal-temp"],
+          "errorCodes": ["C-21", "C-30", "C-31"]
+        },
+        {
+          "conditionalConceptId": "oven_door_switch",
+          "implementationTerms": ["door_lock_motor", "door_plunger_switch"],
+          "procedureIds": ["ne58r-cd1-door-lock", "ne58r-door-lock-component", "ne58r-door-plunger-switch"]
+        }
+      ],
+      "add": {
+        "components": [
+          { "id": "top_sensor", "name": "Cooktop ceramic top sensor", "aliases": ["top_sensor", "sensor_top"], "systemId": "surface_heating", "type": "sensor", "implementsCanonicalId": "surface_heating_system" },
+          { "id": "igbt_sensor", "name": "IGBT module temperature sensor", "aliases": ["igbt_sensor"], "systemId": "surface_heating", "type": "sensor", "implementsCanonicalId": "surface_heating_system" },
+          { "id": "inverter_pcb", "name": "Assy-Inverter Module PCB", "aliases": ["assy_inverter_module", "inverter_pcb", "inverter"], "systemId": "surface_heating", "type": "actuator", "implementsCanonicalId": "surface_heating_system" },
+          { "id": "igbt", "name": "IGBT power switches", "aliases": ["igbt"], "systemId": "surface_heating", "type": "actuator", "implementsCanonicalId": "surface_heating_system" },
+          { "id": "filter_pcb_fuse", "name": "Filter PCB fuse", "aliases": ["filter_pcb", "filter_pcb_fuse"], "systemId": "surface_heating", "type": "passive", "implementsCanonicalId": "surface_heating_system", "note": "Replace fuse before inverter if IGBT shorted." },
+          { "id": "induction_coil", "name": "Assy-Working induction coil", "aliases": ["assy_working_coil", "induction_coil"], "systemId": "surface_heating", "type": "actuator", "implementsCanonicalId": "surface_heating_system" },
+          { "id": "heater_bake", "name": "Electric bake element", "aliases": ["heater_bake", "bake_element"], "systemId": "oven_heat_generation", "type": "actuator", "implementsInstanceScopeId": "bake_heating_element" },
+          { "id": "heater_broil", "name": "Electric broil element", "aliases": ["heater_broil", "broil_element"], "systemId": "oven_heat_generation", "type": "actuator", "implementsInstanceScopeId": "broil_heating_element" },
+          { "id": "convection_heater", "name": "Electric convection element", "aliases": ["convection_heater"], "systemId": "oven_heat_generation", "type": "actuator", "implementsConditionalInstanceScopeId": "convection_heating_element" },
+          { "id": "convection_fan_motor", "name": "Convection fan motor", "aliases": ["convection_fan_motor"], "systemId": "oven_airflow", "type": "actuator", "implementsConditionalConceptId": "convection_fan" },
+          { "id": "door_lock_motor", "name": "Oven door lock motor", "aliases": ["door_lock_motor"], "systemId": "door_authorization", "type": "actuator", "implementsConditionalConceptId": "oven_door_switch" },
+          { "id": "door_plunger_switch", "name": "Door plunger micro-switch", "aliases": ["door_plunger_switch"], "systemId": "door_authorization", "type": "sensor", "implementsConditionalConceptId": "oven_door_switch" },
+          { "id": "glass_touch_pcb", "name": "Glass touch PCB", "aliases": ["glass_touch_pcb", "assy_touch_pcb"], "systemId": "user_interface", "type": "actuator", "implementsCanonicalId": "user_interface" }
+        ],
+        "relationships": [
+          { "from": "inverter_pcb", "to": "surface_heating_system", "type": "implements", "source": "service_manual", "confidence": "high", "note": "CG-12 witness — induction inverter expresses frozen surface_heating_system." },
+          { "from": "induction_coil", "to": "surface_heating_system", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "heater_bake", "to": "bake_heating_element", "type": "implements_instance_scope", "source": "service_manual", "confidence": "high" },
+          { "from": "heater_broil", "to": "broil_heating_element", "type": "implements_instance_scope", "source": "service_manual", "confidence": "high" },
+          { "from": "convection_heater", "to": "convection_heating_element", "type": "implements_instance_scope", "source": "service_manual", "confidence": "high" },
+          { "from": "control_board", "to": "surface_heating_system", "type": "controls", "source": "service_manual", "confidence": "high", "note": "UART Display PCB ↔ Inverter Module under control_board + surface domain." }
+        ]
+      },
+      "procedureBindings": [
+        { "procedureId": "ne58r-top-sensor-open", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-3: Top Sensor Open", "oemSection": "4-2-3", "sourcePages": [48, 49] },
+        { "procedureId": "ne58r-top-sensor-short", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-4: Top Sensor Short", "oemSection": "4-2-4", "sourcePages": [48, 50, 51] },
+        { "procedureId": "ne58r-igbt-sensor-open", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-5: IGBT Sensor Open", "oemSection": "4-2-5", "sourcePages": [48, 51] },
+        { "procedureId": "ne58r-igbt-sensor-short", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-6: IGBT Sensor Short", "oemSection": "4-2-6", "sourcePages": [48, 52, 53] },
+        { "procedureId": "ne58r-over-temperature", "canonicalComponents": ["surface_heating_system"], "conditionalConcepts": ["thermal_protection"], "displayTitle": "§4-2-7: Over Temperature", "oemSection": "4-2-7", "sourcePages": [48, 53, 54] },
+        { "procedureId": "ne58r-pan-detection", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-8: Pan Detection", "oemSection": "4-2-8", "sourcePages": [48, 54, 55] },
+        { "procedureId": "ne58r-dc-motor-locking", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-2-9: DC Motor Locking", "oemSection": "4-2-9", "sourcePages": [48, 55, 56] },
+        { "procedureId": "ne58r-comm-display-inverter", "canonicalComponents": ["surface_heating_system", "control_board"], "displayTitle": "§4-2-10: Display ↔ Inverter comm", "oemSection": "4-2-10", "sourcePages": [48, 56, 57] },
+        { "procedureId": "ne58r-power-no-power", "canonicalComponents": ["power_supply", "control_board"], "displayTitle": "§4-3: No Power", "oemSection": "4-3", "sourcePages": [57] },
+        { "procedureId": "ne58r-heating-failure-igbt", "canonicalComponents": ["surface_heating_system"], "displayTitle": "§4-3: Heating Failure (IGBT)", "oemSection": "4-3", "sourcePages": [57] },
+        { "procedureId": "ne58r-pcb-failure", "canonicalComponents": ["control_board"], "displayTitle": "§4-3: PCB failure", "oemSection": "4-3", "sourcePages": [58] },
+        { "procedureId": "ne58r-c20-oven-sensor", "canonicalComponents": ["temperature_sensor"], "displayTitle": "§4-1: C-20 Oven sensor", "oemSection": "4-1", "sourcePages": [37, 38] },
+        { "procedureId": "ne58r-c21-abnormal-temp", "canonicalComponents": ["temperature_sensor", "control_board"], "conditionalConcepts": ["thermal_protection"], "instanceScope": "bake_heating_element", "displayTitle": "§4-1: C-21 Abnormal temp", "oemSection": "4-1", "sourcePages": [37, 39] },
+        { "procedureId": "ne58r-cf0-main-sub-comm", "canonicalComponents": ["control_board"], "displayTitle": "§4-1: C-F0 Main ↔ Sub comm", "oemSection": "4-1", "sourcePages": [36] },
+        { "procedureId": "ne58r-cf2-touch-comm", "canonicalComponents": ["user_interface", "control_board"], "displayTitle": "§4-1: C-F2 Touch comm", "oemSection": "4-1", "sourcePages": [36] },
+        { "procedureId": "ne58r-cd0-key-short", "canonicalComponents": ["user_interface"], "displayTitle": "§4-1: C-d0 Key short", "oemSection": "4-1", "sourcePages": [36] },
+        { "procedureId": "ne58r-cd1-door-lock", "conditionalConcepts": ["oven_door_switch"], "displayTitle": "§4-1: C-d1 Door lock", "oemSection": "4-1", "sourcePages": [36, 40] },
+        { "procedureId": "ne58r-bake-heater-component", "instanceScope": "bake_heating_element", "displayTitle": "§4-3: Bake Heater test", "oemSection": "4-3", "sourcePages": [60] },
+        { "procedureId": "ne58r-broil-heater-component", "instanceScope": "broil_heating_element", "displayTitle": "§4-3: Broil Heater test", "oemSection": "4-3", "sourcePages": [60] },
+        { "procedureId": "ne58r-convection-heater-component", "conditionalInstanceScope": "convection_heating_element", "displayTitle": "§4-3: Convection Heater test", "oemSection": "4-3", "sourcePages": [60] },
+        { "procedureId": "ne58r-convection-fan-component", "conditionalConcepts": ["convection_fan"], "displayTitle": "§4-3: Convection Fan motor", "oemSection": "4-3", "sourcePages": [61] },
+        { "procedureId": "ne58r-door-lock-component", "conditionalConcepts": ["oven_door_switch"], "displayTitle": "§4-3: Door lock motor", "oemSection": "4-3", "sourcePages": [61] },
+        { "procedureId": "ne58r-door-plunger-switch", "conditionalConcepts": ["oven_door_switch"], "displayTitle": "§4-3: Door plunger switch", "oemSection": "4-3", "sourcePages": [62] },
+        { "procedureId": "ne58r-oven-sensor-component", "canonicalComponents": ["temperature_sensor"], "displayTitle": "§4-3: Oven sensor component", "oemSection": "4-3", "sourcePages": [62, 63] }
+      ],
+      "measurementBindings": [
+        { "normalizationId": "ne58r-oven-sensor-ohms", "procedureId": "ne58r-oven-sensor-component", "canonicalLayer": "temperature_sensor" },
+        { "normalizationId": "ne58r-cn320-connector-ohms", "procedureId": "ne58r-c20-oven-sensor", "canonicalLayer": "temperature_sensor" },
+        { "normalizationId": "ne58r-bake-heater-ohms", "procedureId": "ne58r-bake-heater-component", "instanceScope": "bake_heating_element" },
+        { "normalizationId": "ne58r-bake-heater-vac", "procedureId": "ne58r-bake-heater-component", "instanceScope": "bake_heating_element" },
+        { "normalizationId": "ne58r-broil-heater-ohms", "procedureId": "ne58r-broil-heater-component", "instanceScope": "broil_heating_element" },
+        { "normalizationId": "ne58r-broil-heater-vac", "procedureId": "ne58r-broil-heater-component", "instanceScope": "broil_heating_element" },
+        { "normalizationId": "ne58r-convection-heater-ohms", "procedureId": "ne58r-convection-heater-component", "conditionalInstanceScope": "convection_heating_element" },
+        { "normalizationId": "ne58r-convection-heater-vac", "procedureId": "ne58r-convection-heater-component", "conditionalInstanceScope": "convection_heating_element" },
+        { "normalizationId": "ne58r-convection-fan-ohms", "procedureId": "ne58r-convection-fan-component", "conditionalConcept": "convection_fan" },
+        { "normalizationId": "ne58r-convection-fan-vac", "procedureId": "ne58r-convection-fan-component", "conditionalConcept": "convection_fan" },
+        { "normalizationId": "ne58r-door-lock-motor-ohms", "procedureId": "ne58r-door-lock-component", "conditionalConcept": "oven_door_switch" },
+        { "normalizationId": "ne58r-door-lock-motor-vac", "procedureId": "ne58r-cd1-door-lock", "conditionalConcept": "oven_door_switch" },
+        { "normalizationId": "ne58r-door-plunger-ohms", "procedureId": "ne58r-door-plunger-switch", "conditionalConcept": "oven_door_switch" },
+        { "normalizationId": "ne58r-terminal-block-220-240vac", "procedureId": "ne58r-power-no-power", "canonicalLayer": "power_supply" },
+        { "normalizationId": "ne58r-terminal-block-240vac", "procedureId": "ne58r-comm-display-inverter", "canonicalLayer": "power_supply" },
+        { "normalizationId": "ne58r-smps-5v-12v", "procedureId": "ne58r-power-no-power", "canonicalLayer": "control_board" },
+        { "normalizationId": "ne58r-smps-input-120vac", "procedureId": "ne58r-pcb-failure", "canonicalLayer": "control_board" },
+        { "normalizationId": "ne58r-inverter-cn101-5v-12v", "procedureId": "ne58r-comm-display-inverter", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-inverter-touch-5v-12v-gnd", "procedureId": "ne58r-pcb-failure", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-relay-terminal-240vac", "procedureId": "ne58r-heating-failure-igbt", "canonicalLayer": "control_board" },
+        { "normalizationId": "ne58r-igbt-terminal-resistance", "procedureId": "ne58r-heating-failure-igbt", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-igbt-sensor-ohms-open-good", "procedureId": "ne58r-igbt-sensor-open", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-igbt-sensor-ohms-short-good", "procedureId": "ne58r-igbt-sensor-short", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-top-sensor-ad-thresholds", "procedureId": "ne58r-top-sensor-open", "canonicalLayer": "surface_heating_system" },
+        { "normalizationId": "ne58r-filter-pcb-fuse", "procedureId": "ne58r-heating-failure-igbt", "canonicalLayer": "surface_heating_system" }
+      ],
+      "decisionBranchBindings": [
+        { "branchId": "ne58r-igbt-sensor-open-circuit", "procedureId": "ne58r-igbt-sensor-open", "canonicalLayer": "surface_heating_system", "executable": true },
+        { "branchId": "ne58r-pan-no-cookware", "procedureId": "ne58r-pan-detection", "canonicalLayer": "surface_heating_system", "executable": true },
+        { "branchId": "ne58r-pan-unsuitable-cookware", "procedureId": "ne58r-pan-detection", "canonicalLayer": "surface_heating_system", "executable": true },
+        { "branchId": "ne58r-overtemp-empty-cookware", "procedureId": "ne58r-over-temperature", "conditionalConcept": "thermal_protection", "executable": true },
+        { "branchId": "ne58r-igbt-shorted-replace-fuse-inverter", "procedureId": "ne58r-heating-failure-igbt", "canonicalLayer": "surface_heating_system", "executable": true },
+        { "branchId": "ne58r-comm-replace-inverter-pcb", "procedureId": "ne58r-comm-display-inverter", "canonicalLayer": "surface_heating_system", "executable": true },
+        { "branchId": "ne58r-c20-sensor-fault", "procedureId": "ne58r-c20-oven-sensor", "canonicalLayer": "temperature_sensor", "executable": true },
+        { "branchId": "ne58r-c21-relay-check", "procedureId": "ne58r-c21-abnormal-temp", "canonicalLayer": "control_board", "executable": true },
+        { "branchId": "ne58r-bake-heater-out-of-range", "procedureId": "ne58r-bake-heater-component", "instanceScope": "bake_heating_element", "executable": true },
+        { "branchId": "ne58r-cd1-lock-motor-fault", "procedureId": "ne58r-cd1-door-lock", "conditionalConcept": "oven_door_switch", "executable": true },
+        { "branchId": "ne58r-dc-motor-interference", "procedureId": "ne58r-dc-motor-locking", "canonicalLayer": "surface_heating_system", "executable": true }
+      ],
+      "routingRejections": [
+        { "conceptId": "induction_range.json", "verdict": "reject_fuel_specific_canonical", "note": "No induction_range canonical ontology — range_oven only." },
+        { "conceptId": "inverter", "verdict": "platform_implementation_only", "note": "Canonical surface_heating_system absorbs induction architecture as platform vocabulary." },
+        { "conceptId": "oven_heating_system", "verdict": "reject_aggregate_resurrection", "note": "Monolithic aggregate remains removed per CG-10." }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "samsung_ne58_induction_range_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-RANGE-COMPOUNDING",
+    "sequence": 2,
+    "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+    "platformId": "samsung_range_ne58",
+    "normalizationArtifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+    "gateArtifact": "SAMSUNG_NE58R9560WS_RANGE_overlay_mapping_table_v1.json",
+    "auditArtifact": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "instanceScopeBindings": 2,
+      "conditionalInstanceScopeBindings": 1,
+      "conditionalBindings": 3,
+      "overlayImplementationComponents": 13,
+      "proceduresBound": 24,
+      "measurementsBound": 25,
+      "decisionBranchesExecutable": 11,
+      "functionalRealizations": 15,
+      "canonicalExpansion": 0,
+      "ontologyMutations": 0
+    },
+    "publishedAt": "2026-09-17T05:00:00+00:00"
+  }
+}

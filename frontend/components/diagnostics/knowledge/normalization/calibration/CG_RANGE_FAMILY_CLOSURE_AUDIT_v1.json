@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_closure_audit",
+  "workstream": "CG-RANGE-FAMILY-CLOSURE",
+  "status": "closed",
+  "verdict": "GREEN / RANGE_FAMILY_CLOSURE_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T07:00:00+00:00",
+  "closureArtifact": "CG_RANGE_FAMILY_CLOSURE_v1.json",
+  "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+  "priorWorkstream": "CG_RANGE_COMPOUNDING_v1.json",
+  "summary": {
+    "rangeOvenFinalizedIdentity": true,
+    "fourTemplatesRouted": true,
+    "legacyArtifactsAccounted": true,
+    "overlaysResolverDiscoverable": "4/4",
+    "provenanceChainComplete": true,
+    "deferredItemsResolvedOrPlatformOnly": true,
+    "immutabilityLocksSufficient": true,
+    "canonicalExpansionCumulative": 0,
+    "ontologyRedesignAttempted": false
+  },
+  "closureQuestionAnswers": [
+    {
+      "id": "finalized_canonical_identity",
+      "question": "Is range_oven now the finalized canonical family identity?",
+      "answer": "YES — primary organizational ID range_oven; electric_range remains immutable CG-10 historical freeze and legacy alias",
+      "evidence": ["CG_RANGE_CANONICAL_ONTOLOGY_ALIAS_REGISTRY_v1.json", "range_oven.json organizationalLineage"],
+      "status": "green"
+    },
+    {
+      "id": "template_routing",
+      "question": "Are all four fuel/technology variants routed correctly?",
+      "answer": "YES — electric_range, gas_range, induction_range, dual_fuel_range all resolve to range_oven via RANGE_IMPLEMENTATION_TEMPLATE_IDS",
+      "evidence": ["canonicalOntologyAliases.ts", "cg-range-implementation-gate.test.ts"],
+      "status": "green"
+    },
+    {
+      "id": "legacy_artifacts",
+      "question": "Are legacy aliases and historical artifacts accounted for?",
+      "answer": "YES — electric_range rev1 hash pinned; CG-10–13 closure and fit observation hashes verified at closure",
+      "evidence": ["CG_RANGE_FAMILY_LOCK_v1.json byteStabilityProof.historicalArtifactHashesAtClosure"],
+      "status": "green"
+    },
+    {
+      "id": "resolver_discoverability",
+      "question": "Are all implementation overlays discoverable through the resolver?",
+      "answer": "YES — 4 published overlays on range_oven in resolveDiagnosticGraph.ts",
+      "evidence": ["samsung_range_nx60.json", "samsung_range_ne58.json", "samsung_range_ny63.json", "whirlpool_freestanding_range_w11174814.json"],
+      "status": "green"
+    },
+    {
+      "id": "provenance_chain",
+      "question": "Is the provenance chain complete from discovery → fit → normalization → compounding?",
+      "answer": "YES — 8 phases closed with audit artifacts from CG-10 through CG-RANGE-COMPOUNDING",
+      "evidence": ["CG_RANGE_FAMILY_LOCK_v1.json provenanceChain"],
+      "status": "green"
+    },
+    {
+      "id": "deferred_scope",
+      "question": "Are unresolved/deferred range accessories or functions that affect canonical scope addressed?",
+      "answer": "YES — warming drawer and oven light explicitly platform-only; WFI505 R2 and cross-manufacturer matrix deferred organizational (no canonical scope impact)",
+      "evidence": ["CG_RANGE_FAMILY_LOCK_v1.json deferredOrganizational", "W11174814 normalization accessoryOnly"],
+      "status": "green"
+    },
+    {
+      "id": "immutability_locks",
+      "question": "Are regression/immutability locks sufficient to declare the family closed?",
+      "answer": "YES — 32 normalization + 27 compounding + implementation gate + family closure tests; canonical and overlay byte hashes pinned",
+      "evidence": ["CG_RANGE_FAMILY_REGRESSION_PROOF_v1.json"],
+      "status": "green"
+    }
+  ],
+  "integrityChecks": {
+    "electric_range.jsonHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "range_oven.jsonHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "canonicalExpansionCumulative": 0,
+    "fuelSpecificCanonicalGraphs": 0,
+    "compoundingWorkstreamClosed": true,
+    "sequencesComplete": "4/4"
+  },
+  "auditChecks": [
+    { "id": "seven_closure_questions_green", "status": "green" },
+    { "id": "four_overlays_published_and_pinned", "status": "green" },
+    { "id": "provenance_chain_eight_phases_closed", "status": "green" },
+    { "id": "no_ontology_redesign_in_closure_gate", "status": "green" },
+    { "id": "historical_artifact_hashes_match", "status": "green" },
+    { "id": "deferred_items_documented", "status": "green" }
+  ],
+  "nextDisciplinedStep": "STOP — range family closed; coverage expansion for additional manuals is out of scope for architecture gates"
+}

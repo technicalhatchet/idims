@@ -1,0 +1,613 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "vented_dryer",
+    "name": "Vented Dryer",
+    "templateId": "electric_dryer",
+    "variant": "vented",
+    "description": "Canonical functional and diagnostic ontology for vented clothes dryers (electric and gas heat sources). Heat implementation (element, burner, valve, ignitor) belongs in platform overlays — canonical layer uses heat_source only.",
+    "frozen": true,
+    "frozenAt": "2026-09-14T03:06:00+00:00",
+    "frozenRevision": "rev2",
+    "frozenNote": "CG-6.4 canonical graph #2 — signed off; W8178559 compounding baseline"
+  },
+  "designPrinciples": [
+    "The canonical graph represents functional relationships that matter to diagnosis, not every physical wire.",
+    "Manufacturer and model implementations extend this graph via platform overlays — they do not replace it.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "A normal measurement reduces likelihood of a failure mode but does not prove the entire component verified_good.",
+    "Do not condemn a downstream component until required upstream conditions are established.",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "heat_source is fuel-agnostic — electric element, gas burner, valve, and ignitor are overlay components.",
+    "Lint filter restriction and external vent restriction are distinct diagnostic domains.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "senses",
+    "monitors",
+    "provides_feedback_to",
+    "communicates_with",
+    "mechanically_drives",
+    "mechanically_connected_to",
+    "thermally_connected_to",
+    "protected_by",
+    "protects",
+    "routed_through",
+    "depends_on",
+    "enables",
+    "inhibits"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking (DS-6).",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": [
+      "verified_good",
+      "verified_failed",
+      "not_applicable"
+    ],
+    "engineSeparationNote": "DS-6: Candidate ranking (confirmed/unlikely/eliminated) is separate from component verification. confirmed does not mean verified_failed; eliminated does not mean verified_good. Procedure outcomes map through explicit evidence rules — not automatic ontology promotion."
+  },
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "categoryId": "electrical_supply",
+      "purpose": "Provides and distributes electrical power to control and load circuits."
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "categoryId": "control_board",
+      "purpose": "Coordinates dry cycle, interprets sensors, and commands motor, heat, and airflow loads."
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "categoryId": "control_hmi",
+      "purpose": "Accepts user commands and displays appliance state."
+    },
+    {
+      "id": "door",
+      "name": "Door / Authorization",
+      "categoryId": "door_switch",
+      "purpose": "Confirms door closure and authorizes drive and heat where required."
+    },
+    {
+      "id": "drive",
+      "name": "Drive",
+      "categoryId": "drive_motor",
+      "purpose": "Rotates the drum for tumbling."
+    },
+    {
+      "id": "heating",
+      "name": "Heating",
+      "categoryId": "dry_heating",
+      "purpose": "Adds thermal energy to the drying air stream via heat_source (implementation in overlay)."
+    },
+    {
+      "id": "airflow",
+      "name": "Airflow",
+      "categoryId": "vent_dry",
+      "purpose": "Moves drying air through heat source, drum, lint path, and exhaust."
+    },
+    {
+      "id": "temperature_sensing",
+      "name": "Temperature Sensing",
+      "categoryId": "dry_heating",
+      "purpose": "Measures exhaust or inlet air temperature for control feedback and safety monitoring."
+    },
+    {
+      "id": "moisture_sensing",
+      "name": "Moisture Sensing",
+      "categoryId": "vent_dry",
+      "purpose": "Detects load dryness for cycle termination and dryness algorithms."
+    }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power supply / line voltage",
+      "aliases": ["supply", "line voltage", "mains"],
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input"
+    },
+    {
+      "id": "control_board",
+      "name": "Main control board",
+      "aliases": ["main control", "main pcb", "machine control"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller"
+    },
+    {
+      "id": "hmi_control",
+      "name": "HMI / UI control",
+      "aliases": ["ui", "console", "control panel"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface"
+    },
+    {
+      "id": "door_switch",
+      "name": "Door switch / interlock",
+      "aliases": ["door interlock", "door sensor"],
+      "systemId": "door",
+      "categoryId": "door_switch",
+      "type": "sensor"
+    },
+    {
+      "id": "drive_motor",
+      "name": "Drive motor",
+      "aliases": ["drum motor", "motor"],
+      "systemId": "drive",
+      "categoryId": "drive_motor",
+      "type": "actuator"
+    },
+    {
+      "id": "drum",
+      "name": "Drum",
+      "systemId": "drive",
+      "categoryId": "mechanical",
+      "type": "mechanical"
+    },
+    {
+      "id": "heat_source",
+      "name": "Heat source",
+      "aliases": ["heater", "heating element", "heating_element"],
+      "systemId": "heating",
+      "categoryId": "dry_heating",
+      "type": "actuator",
+      "note": "Fuel-agnostic canonical concept. Platform overlay: electric_heater, gas_burner, gas_valve, ignitor, etc."
+    },
+    {
+      "id": "thermal_cutoff",
+      "name": "Thermal cutoff",
+      "aliases": ["high-limit thermostat", "hi-limit"],
+      "systemId": "heating",
+      "categoryId": "dry_heating",
+      "type": "protective"
+    },
+    {
+      "id": "thermal_fuse",
+      "name": "Thermal fuse",
+      "systemId": "heating",
+      "categoryId": "dry_heating",
+      "type": "protective"
+    },
+    {
+      "id": "temperature_sensor",
+      "name": "Temperature sensor",
+      "aliases": ["thermistor", "exhaust thermistor", "inlet thermistor", "ntc"],
+      "systemId": "temperature_sensing",
+      "categoryId": "dry_heating",
+      "type": "sensor"
+    },
+    {
+      "id": "moisture_sensor",
+      "name": "Moisture sensor",
+      "aliases": ["humidity sensor", "dryness sensor"],
+      "systemId": "moisture_sensing",
+      "categoryId": "vent_dry",
+      "type": "sensor"
+    },
+    {
+      "id": "blower",
+      "name": "Blower motor",
+      "aliases": ["fan motor", "blower wheel"],
+      "systemId": "airflow",
+      "categoryId": "vent_dry",
+      "type": "actuator"
+    },
+    {
+      "id": "lint_filter",
+      "name": "Lint filter / screen path",
+      "aliases": ["lint screen", "lint trap"],
+      "systemId": "airflow",
+      "categoryId": "vent_dry",
+      "type": "passive"
+    },
+    {
+      "id": "exhaust_path",
+      "name": "Exhaust path",
+      "aliases": ["vent duct", "exhaust duct"],
+      "systemId": "airflow",
+      "categoryId": "vent_dry",
+      "type": "passive",
+      "note": "External vent run — distinct from lint_filter (in-appliance restriction)."
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "hmi_control", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "enables", "to": "drive_motor", "source": "canonical", "confidence": "high", "note": "Door authorization — diagnostic gate before tumble/heat" },
+    { "from": "control_board", "type": "controls", "to": "drive_motor", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "commands", "to": "heat_source", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "blower", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "monitors", "to": "temperature_sensor", "source": "canonical", "confidence": "high", "note": "Control feedback loop — distinct from hard thermal protection" },
+    { "from": "drive_motor", "type": "mechanically_drives", "to": "drum", "source": "canonical", "confidence": "high" },
+    { "from": "heat_source", "type": "protected_by", "to": "thermal_fuse", "source": "canonical", "confidence": "high" },
+    { "from": "heat_source", "type": "protected_by", "to": "thermal_cutoff", "source": "canonical", "confidence": "high" },
+    { "from": "thermal_fuse", "type": "protects", "to": "heat_source", "source": "canonical", "confidence": "high" },
+    { "from": "thermal_cutoff", "type": "protects", "to": "heat_source", "source": "canonical", "confidence": "high" },
+    { "from": "heat_source", "type": "routed_through", "to": "drum", "source": "canonical", "confidence": "high", "note": "Heated drying air enters drum chamber" },
+    { "from": "drum", "type": "routed_through", "to": "lint_filter", "source": "canonical", "confidence": "high" },
+    { "from": "lint_filter", "type": "routed_through", "to": "blower", "source": "canonical", "confidence": "high" },
+    { "from": "blower", "type": "routed_through", "to": "exhaust_path", "source": "canonical", "confidence": "high" },
+    { "from": "temperature_sensor", "type": "senses", "to": "exhaust_path", "source": "canonical", "confidence": "high", "note": "Typically exhaust-side; inlet placement is platform overlay" },
+    { "from": "temperature_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "moisture_sensor", "type": "senses", "to": "drum", "source": "canonical", "confidence": "high" },
+    { "from": "moisture_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "drive_motor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "medium" }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "description": "Dry cycle start requires valid user input, control readiness, and acceptable door state.",
+      "requires": ["hmi_control", "control_board", "door_switch", "power_supply"],
+      "enables": ["drive_operation", "airflow_operation"]
+    },
+    {
+      "id": "door_authorization",
+      "description": "Drive and heat loads require closed-door authorization feedback.",
+      "requires": ["door_switch", "control_board"],
+      "enables": ["drive_operation", "heating_operation"]
+    },
+    {
+      "id": "drive_operation",
+      "description": "Tumble requires door authorization, motor command, and mechanical drive path.",
+      "requires": ["control_board", "door_switch", "drive_motor"],
+      "conditional": ["drum"]
+    },
+    {
+      "id": "airflow_operation",
+      "description": "Drying airflow requires blower and unobstructed lint filter and exhaust path.",
+      "requires": ["control_board", "blower", "lint_filter", "exhaust_path"],
+      "conditional": ["drum"]
+    },
+    {
+      "id": "heated_airflow_path",
+      "description": "Functional air path: heat_source → drum → lint_filter → blower → exhaust_path.",
+      "requires": ["heat_source", "drum", "lint_filter", "blower", "exhaust_path"],
+      "enables": ["heating_operation"]
+    },
+    {
+      "id": "heating_operation",
+      "description": "Heat requires control command, intact heat_source, thermal protection in series, airflow path, and temperature feedback where used.",
+      "requires": ["control_board", "heat_source", "door_switch", "airflow_operation"],
+      "feedback": ["temperature_sensor"],
+      "conditional": ["thermal_fuse", "thermal_cutoff", "heated_airflow_path"]
+    },
+    {
+      "id": "dry_termination",
+      "description": "Automatic cycle end uses moisture and/or temperature feedback depending on platform.",
+      "requires": ["control_board"],
+      "feedback": ["moisture_sensor", "temperature_sensor"]
+    }
+  ],
+  "establishedFactSources": [
+    {
+      "factId": "door_closed_authorized",
+      "label": "Door closed and authorized for cycle",
+      "fromComponents": ["door_switch"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "motor_running",
+      "label": "Drum motor confirmed running",
+      "fromComponents": ["drive_motor"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "blower_running",
+      "label": "Blower confirmed running",
+      "fromComponents": ["blower"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "airflow_path_clear",
+      "label": "Drying air path unobstructed through lint filter and exhaust",
+      "fromComponents": ["lint_filter", "exhaust_path", "blower"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "lint_filter_restricted",
+      "label": "Lint filter / screen path restricted or clogged",
+      "fromComponents": ["lint_filter"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "external_vent_restricted",
+      "label": "External exhaust vent restricted",
+      "fromComponents": ["exhaust_path"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "heat_command_present",
+      "label": "Heat source commanded on by control",
+      "fromComponents": ["control_board", "heat_source"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "factId": "heat_output_absent",
+      "label": "Heat source commanded but no heat output detected",
+      "fromComponents": ["heat_source"],
+      "source": "service_manual",
+      "confidence": "high"
+    },
+    {
+      "factId": "exhaust_temp_not_rising",
+      "label": "Exhaust temperature not rising during commanded heat",
+      "fromComponents": ["temperature_sensor"],
+      "source": "service_manual",
+      "confidence": "high"
+    }
+  ],
+  "testTargets": [
+    {
+      "id": "door_switch_test",
+      "label": "Door switch / authorization",
+      "role": "prerequisite",
+      "testAliasId": "door_switch_test",
+      "establishesFacts": ["door_closed_authorized"],
+      "forGoals": ["cycle_start_authorization", "drive_operation", "heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_run_test",
+      "label": "Motor run verification",
+      "role": "prerequisite",
+      "testAliasId": "motor_run_test",
+      "establishesFacts": ["motor_running"],
+      "requires": { "facts": ["door_closed_authorized"] },
+      "forGoals": ["drive_operation", "no_heat"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "blower_run_test",
+      "label": "Blower run verification",
+      "role": "prerequisite",
+      "testAliasId": "blower_run_test",
+      "establishesFacts": ["blower_running"],
+      "requires": { "facts": ["door_closed_authorized"] },
+      "forGoals": ["airflow_operation", "heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "lint_filter_test",
+      "label": "Lint filter / screen path",
+      "role": "prerequisite",
+      "testAliasId": "lint_filter_test",
+      "forGoals": ["airflow_operation", "takes_too_long_to_dry", "overheating"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "exhaust_path_test",
+      "label": "External exhaust vent path",
+      "role": "prerequisite",
+      "testAliasId": "exhaust_path_test",
+      "establishesFacts": ["airflow_path_clear"],
+      "forGoals": ["airflow_operation", "takes_too_long_to_dry", "overheating", "installation_external"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heat_command_test",
+      "label": "Heat source command / control output",
+      "role": "discriminator",
+      "testAliasId": "heat_command_test",
+      "establishesFacts": ["heat_command_present"],
+      "requires": { "facts": ["door_closed_authorized", "motor_running", "blower_running"] },
+      "forGoals": ["heating_operation", "no_heat"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heat_output_test",
+      "label": "Heat output / current / flame",
+      "role": "discriminator",
+      "testAliasId": "heat_output_test",
+      "requires": { "facts": ["heat_command_present"] },
+      "forGoals": ["heating_operation", "no_heat"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "thermal_protection_test",
+      "label": "Thermal fuse / cutoff continuity",
+      "role": "discriminator",
+      "testAliasId": "thermal_protection_test",
+      "requires": { "facts": ["heat_command_present"] },
+      "forGoals": ["heating_operation", "no_heat", "overheating"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "exhaust_temperature_test",
+      "label": "Exhaust temperature response",
+      "role": "discriminator",
+      "testAliasId": "exhaust_temperature_test",
+      "requires": { "facts": ["heat_command_present", "blower_running"] },
+      "forGoals": ["heating_operation", "no_heat", "overheating"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "moisture_sensor_test",
+      "label": "Moisture sensor response",
+      "role": "discriminator",
+      "testAliasId": "moisture_sensor_test",
+      "forGoals": ["dry_termination", "takes_too_long_to_dry", "shuts_down_early"],
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "failureDomains": [
+    {
+      "id": "power_failure",
+      "label": "Power / supply",
+      "components": ["power_supply", "control_board"]
+    },
+    {
+      "id": "control_failure",
+      "label": "Control",
+      "components": ["control_board"]
+    },
+    {
+      "id": "user_interface_failure",
+      "label": "User interface",
+      "components": ["hmi_control"]
+    },
+    {
+      "id": "door_authorization_failure",
+      "label": "Door / authorization",
+      "components": ["door_switch"]
+    },
+    {
+      "id": "drive_failure",
+      "label": "Drive / motor",
+      "components": ["drive_motor", "drum"]
+    },
+    {
+      "id": "heating_failure",
+      "label": "Heating / heat source",
+      "components": ["heat_source", "thermal_fuse", "thermal_cutoff", "control_board"]
+    },
+    {
+      "id": "blower_failure",
+      "label": "Blower",
+      "components": ["blower"]
+    },
+    {
+      "id": "lint_filter_failure",
+      "label": "Lint filter / screen path",
+      "components": ["lint_filter"]
+    },
+    {
+      "id": "exhaust_path_failure",
+      "label": "Exhaust path",
+      "components": ["exhaust_path"]
+    },
+    {
+      "id": "temperature_sensing_failure",
+      "label": "Temperature sensing / control feedback",
+      "components": ["temperature_sensor"]
+    },
+    {
+      "id": "moisture_sensing_failure",
+      "label": "Moisture sensing",
+      "components": ["moisture_sensor"]
+    },
+    {
+      "id": "installation_external",
+      "label": "Installation / external vent restriction",
+      "components": ["exhaust_path"],
+      "crossCutting": true
+    },
+    {
+      "id": "wiring_connection",
+      "label": "Wiring / connection",
+      "crossCutting": true
+    }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      {
+        "id": "upstream_before_downstream",
+        "rule": "Establish door authorization, motor run, and blower before condemning the heat source."
+      },
+      {
+        "id": "command_before_load",
+        "rule": "Verify control command before replacing a load that never received voltage or heat output."
+      },
+      {
+        "id": "lint_vs_exhaust_distinction",
+        "rule": "Clogged lint filter and restricted external vent are different failure modes — blower may run normally in both."
+      },
+      {
+        "id": "restricted_vent_not_no_blower",
+        "rule": "Restricted vent does not imply blower failure or heat source failure — expect long dry times and overheating symptoms."
+      },
+      {
+        "id": "thermal_protection_before_heat_source",
+        "rule": "Open thermal fuse or cutoff explains no heat with otherwise good heat_source — test protection in series path."
+      },
+      {
+        "id": "control_feedback_vs_hard_protection",
+        "rule": "Temperature sensor feedback (control loop) is distinct from thermal fuse/cutoff (hard protection)."
+      },
+      {
+        "id": "normal_is_not_proof",
+        "rule": "A normal measurement reduces failure likelihood without declaring the entire component verified_good."
+      },
+      {
+        "id": "preserve_uncertainty",
+        "rule": "Unknown, inaccessible, and unverified states must remain distinct from verified_good."
+      }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "wont_start",
+      "symptoms": ["won't start", "no response", "pressing start does nothing", "cycle will not begin"],
+      "initialDomains": ["power_failure", "user_interface_failure", "control_failure", "door_authorization_failure"],
+      "activeGoals": ["cycle_start_authorization"]
+    },
+    {
+      "id": "wont_tumble",
+      "symptoms": ["won't tumble", "drum does not turn", "no rotation", "motor does not run"],
+      "initialDomains": ["drive_failure", "door_authorization_failure", "control_failure"],
+      "activeGoals": ["drive_operation", "door_authorization"]
+    },
+    {
+      "id": "no_heat",
+      "symptoms": ["no heat", "not heating", "clothes stay cold", "air not hot"],
+      "initialDomains": ["heating_failure", "blower_failure", "lint_filter_failure", "exhaust_path_failure", "control_failure", "temperature_sensing_failure"],
+      "activeGoals": ["heating_operation", "airflow_operation"]
+    },
+    {
+      "id": "overheating",
+      "symptoms": ["overheating", "too hot", "scorching", "high exhaust temperature"],
+      "initialDomains": ["heating_failure", "temperature_sensing_failure", "lint_filter_failure", "exhaust_path_failure", "installation_external", "control_failure"],
+      "activeGoals": ["heating_operation", "airflow_operation"]
+    },
+    {
+      "id": "takes_too_long_to_dry",
+      "symptoms": ["takes too long", "long dry times", "still damp", "extended cycle"],
+      "initialDomains": ["lint_filter_failure", "exhaust_path_failure", "heating_failure", "blower_failure", "moisture_sensing_failure", "installation_external"],
+      "activeGoals": ["airflow_operation", "heating_operation", "dry_termination"]
+    },
+    {
+      "id": "shuts_down_early",
+      "symptoms": ["stops early", "shuts off prematurely", "cycle ends too soon"],
+      "initialDomains": ["moisture_sensing_failure", "temperature_sensing_failure", "control_failure", "heating_failure"],
+      "activeGoals": ["dry_termination"]
+    }
+  ]
+}

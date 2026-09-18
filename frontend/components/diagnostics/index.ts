@@ -39,6 +39,8 @@ export * from './procedures/resolveServiceModeBundle';
 export * from './procedures/wireColorRegistry';
 export * from './procedures/useProcedureRun';
 export * from './procedures/recommendServiceProcedures';
+export * from './knowledge/canonical/resolveCanonicalRouting';
+export * from './knowledge/canonical/canonicalTypes';
 export * from './procedures/parseProcedureErrorCodes';
 export { refrigeratorWizard } from './refrigerator/refrigeratorWizard';
 export { electricRangeWizard } from './electric_range/electricRangeWizard';

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_test_contract",
+  "workstream": "CG-WALL-OVEN-FIT-TEST",
+  "status": "active",
+  "activatedAt": "2026-09-17T18:30:00+00:00",
+  "authorizedBy": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+  "priorPhaseClosed": "CG_STANDALONE_FREEZER_FIT_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / STANDALONE_FREEZER_COMPOSITION_OF_FRENCH_DOOR_REFRIGERATOR",
+  "fitTestMode": "fit_falsification_against_frozen_range_oven_contract",
+  "applianceScope": "built_in_wall_oven_single_and_double_electric_gas",
+  "hostHypothesis": {
+    "primary": "range_oven",
+    "treatedAs": "hypothesis_only",
+    "rationale": "Inventory hypothesis — wall oven may be oven-compartment-only composition of range_oven with surface_heating_system omitted; must be proven against wall-oven-specific service evidence, not assumed from freestanding range manuals."
+  },
+  "notCreating": [
+    "wall_oven.json",
+    "mutations to range_oven.json",
+    "mutations to electric_range.json",
+    "mutations to any other frozen canonical graph",
+    "canonical expansion on any frozen family",
+    "manufacturer overlay compounding",
+    "normalization compounding of broader corpus",
+    "discovery contract execution",
+    "freeze execution"
+  ],
+  "hardGateRule": {
+    "description": "Bake/broil elements and an oven cavity alone do not prove range_oven fit. Freestanding range manuals are not wall-oven witnesses.",
+    "tree": [
+      "Locate genuine wall-oven service manual evidence in corpus",
+      "Classify wall-oven OEM procedures against range_oven functional domains",
+      "Oven-only scope fits with surface_heating_system not instantiated → composition or proven_variant",
+      "Genuine wall-oven-only functional divergence → architectural_divergence",
+      "No wall-oven corpus → insufficient_evidence — do not manufacture conclusion"
+    ],
+    "freestandingRangeSubstitutionGuard": "W11174426 / W11746350 / W11174814 and other freestanding range manuals are NOT wall-oven witnesses — model nomenclature mentioning wall ovens is not service procedure evidence.",
+    "doubleOvenGuard": "Double wall oven may require composition of existing range_oven oven instances — evaluate only with double-oven wall manual evidence."
+  },
+  "frozenContractsUnderTest": [
+    {
+      "id": "range_oven",
+      "file": "frontend/components/diagnostics/knowledge/canonical/range_oven.json",
+      "frozenRevision": "rev1",
+      "immutable": true,
+      "primaryFitTarget": true,
+      "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+      "legacyAlias": "electric_range",
+      "note": "Evaluate oven-compartment subgraph — surface_heating_system may be not_applicable"
+    }
+  ],
+  "fitTestVocabulary": {
+    "procedureClassifications": [
+      "range_oven",
+      "shared_function",
+      "implementation_specific",
+      "unresolved"
+    ],
+    "hardOutcomes": [
+      "proven_variant",
+      "composition",
+      "architectural_divergence",
+      "insufficient_evidence"
+    ],
+    "rule": "Fit-test vocabulary only — do not auto-promote to canonical concepts"
+  },
+  "functionalDomainsUnderTest": [
+    "single_vs_double_wall_oven",
+    "electric_vs_gas_oven_heat_generation",
+    "shared_vs_independent_control_architecture",
+    "bake_broil_convection_thermal_systems",
+    "temperature_sensing_control",
+    "oven_ui_control",
+    "door_latch_safety",
+    "cooling_ventilation",
+    "absence_of_cooktop_surface_heating",
+    "double_oven_composition_vs_new_family"
+  ],
+  "corpusSurvey": {
+    "wallOvenWitnessCount": 2,
+    "ingestedWallOvenManuals": [
+      {
+        "manualId": "W11174422",
+        "sourcePdf": "backend/docs/manuals/service-manual-w11174422-revBwplwallovens.pdf",
+        "configurations": ["single_electric", "double_electric", "combo_mwo"]
+      },
+      {
+        "manualId": "SAMSUNG-NV51-WALL-OVEN",
+        "sourcePdf": "backend/docs/manuals/samsungwallovennv51k6650d.pdf",
+        "configurations": ["single_electric"]
+      }
+    ],
+    "freestandingRangeManualsExplicitlyExcluded": [
+      "W11174426",
+      "W11746350",
+      "W11174814",
+      "SAMSUNG-NE58-RANGE",
+      "LG-LRE-RANGE"
+    ],
+    "note": "Dedicated wall-oven PDFs in backend/docs/manuals/ — procedure seeds not yet ingested; fit based on OEM diagnostic paths"
+  },
+  "deferredEvaluationQuestions": [
+    "Does absence of surface_heating_system block fit or simply omit an uninstantiated domain?",
+    "Do double-wall-oven products require a second oven instance scope or shared control orchestration domain?",
+    "Is wall-oven cooling/ventilation distinct from range_oven convection_fan conditional?",
+    "Do gas wall ovens fit range_oven instance scopes without canonical mutation?"
+  ],
+  "successCriteria": {
+    "canonicalExpansion": 0,
+    "wallOvenJsonCreated": false,
+    "frozenGraphMutations": 0,
+    "exactlyOneHardOutcome": true,
+    "normalizationExecuted": false
+  },
+  "stopCondition": "FIT gate only — discovery authorized only on architectural_divergence with human gate and witness evidence"
+}

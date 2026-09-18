@@ -1,0 +1,102 @@
+{
+  "id": "lgsxs-ice-maker",
+  "version": "1.0.0",
+  "title": "\u00a73: Ice maker electrical (LSC27926**)",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "ice_maker_module"
+  ],
+  "tags": [
+    "ice_maker",
+    "no_ice",
+    "LSC27926"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "3-ice",
+    "oemTestTitle": "Ice maker unit and test switch",
+    "pages": [
+      42,
+      49
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "no_ice"
+    },
+    {
+      "id": "no_ice",
+      "order": 2,
+      "type": "visual_check",
+      "title": "No ice production?",
+      "body": "LSC27926** models \u2014 verify ice maker harness, test switch on ice maker unit, and LCD check region F (ice maker unit).",
+      "sourceExcerpt": "LSC27926** models \u2014 verify ice maker harness, test switch on ice maker unit, and LCD check region F (ice maker unit).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "ice_fault_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "check_im"
+        },
+        {
+          "id": "ice_fault_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "ice_ok",
+          "terminal": true,
+          "oemOutcome": "Ice maker path not faulting.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "ice_maker_module",
+              "evidenceId": "ref_lg_kw_eid_ice"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_im",
+      "order": 3,
+      "type": "instruction",
+      "title": "Ice maker harness and test switch",
+      "body": "Verify ice maker connector seating. Press ice maker test switch \u2014 ice should eject when kit healthy. Check relays RY4/RY5/RY12.",
+      "sourceExcerpt": "Verify ice maker connector seating. Press ice maker test switch \u2014 ice should eject when kit healthy. Check relays RY4/RY5/RY12.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_im"
+    },
+    {
+      "id": "replace_im",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace ice maker parts",
+      "oemOutcome": "Replace ice maker kit, tray sensor, or dispenser relays per \u00a73 troubleshooting.",
+      "requiresInput": false
+    },
+    {
+      "id": "ice_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Ice maker OK",
+      "oemOutcome": "Ice maker electrical path verified.",
+      "requiresInput": false
+    }
+  ]
+}

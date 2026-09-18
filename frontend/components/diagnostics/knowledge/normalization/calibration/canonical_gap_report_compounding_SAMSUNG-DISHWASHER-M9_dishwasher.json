@@ -1,0 +1,3288 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "canonical_gap_report",
+  "templateFilter": "dishwasher",
+  "manualCount": 10,
+  "generatedAt": "2026-09-15T15:37:34.699590+00:00",
+  "thresholds": {
+    "ontologyMinManuals": 3,
+    "ontologyMinManufacturers": 2,
+    "aliasMinManuals": 2
+  },
+  "rules": [
+    "Never add a canonical concept from a single unknown term.",
+    "Canonical ontology candidates require multi-manual + multi-manufacturer evidence.",
+    "Platform-specific concepts belong in OEM overlays, not canonical ontology."
+  ],
+  "summary": {
+    "canonicalAliasOpportunities": 9,
+    "canonicalOntologyCandidates": 2,
+    "platformSpecificConcepts": 23,
+    "unresolved": 18,
+    "humanReview": 6,
+    "conflicts": 1,
+    "observationCount": 226,
+    "clusterCount": 61
+  },
+  "conceptTable": [
+    {
+      "concept": "drain pump",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:drain_pump",
+      "manualCount": 9,
+      "manufacturerCount": 4,
+      "platformCount": 6,
+      "manufacturers": [
+        "Insignia",
+        "LG",
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "LG-LDT7808-DISHWASHER",
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11187658",
+        "W11366142",
+        "W11480208",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "lg_dishwasher_ldt7808",
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": "drain_pump",
+      "functionalSignature": "drain|pump",
+      "sampleTerms": [
+        "Drain pump \u2014 25\u201335 \u03a9",
+        "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+        "drain_pump",
+        "\u00a73-16: Drain Motor",
+        "\u00a73-19: Drain Motor (Variable Speed platform)",
+        "\u00a74-1: Drain Pump (5C)",
+        "\u00a74-3: Drain Pump (5C)",
+        "\u00a77-1/7-2: Drain Pump (OE drain fault)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "inlet valve",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:inlet_valve",
+      "manualCount": 9,
+      "manufacturerCount": 4,
+      "platformCount": 6,
+      "manufacturers": [
+        "Insignia",
+        "LG",
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "LG-LDT7808-DISHWASHER",
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11187658",
+        "W11366142",
+        "W11480208",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "lg_dishwasher_ldt7808",
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": "inlet_valve",
+      "functionalSignature": "inlet|valve",
+      "sampleTerms": [
+        "Water inlet valve \u2014 ~1 k\u03a9",
+        "Water inlet valve \u2014 ~24 \u03a9 (CN5)",
+        "inlet_valve",
+        "\u00a73-8: Fill Valve Circuit",
+        "\u00a74-1: Fill Valve & Flow Meter (4C)",
+        "\u00a74-3: Fill Valve & Flow Meter (4C)",
+        "\u00a77-1/7-2: Inlet Valve (IE fill fault)",
+        "\u00a77-1: Excess Fill (inlet valve stuck open)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "control board",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:control_board",
+      "manualCount": 7,
+      "manufacturerCount": 3,
+      "platformCount": 4,
+      "manufacturers": [
+        "Insignia",
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11366142",
+        "W11480208",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "control_board",
+      "functionalSignature": null,
+      "sampleTerms": [
+        "ACU",
+        "acu",
+        "main_control"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "circulation pump",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:circulation_pump",
+      "manualCount": 5,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11480208",
+        "W11499711",
+        "W11633848"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "circulation_pump",
+      "functionalSignature": "wash|motor",
+      "sampleTerms": [
+        "circulation_pump",
+        "diverter_motor",
+        "wash_motor",
+        "\u00a73-13: Diverter Motor",
+        "\u00a73-14: Diverter Motor (P6)",
+        "\u00a73-15: Wash Motor (SSM)",
+        "\u00a73-15: Wash Motor (SSM, WDT750)",
+        "\u00a73-17: Wash Motor (Variable Speed)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "door gasket",
+      "classification": "canonical_ontology_candidate",
+      "clusterKey": "func:door|gasket",
+      "manualCount": 5,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "LG",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER",
+        "W11366142",
+        "W11480208",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "door|gasket",
+      "sampleTerms": [
+        "door_gasket"
+      ],
+      "conflict": false,
+      "recommendedAction": "Propose new canonical concept \u2014 requires human ontology review"
+    },
+    {
+      "concept": "heater",
+      "classification": "human_review",
+      "clusterKey": "term:heater",
+      "manualCount": 5,
+      "manufacturerCount": 3,
+      "platformCount": 4,
+      "manufacturers": [
+        "Insignia",
+        "LG",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "LG-LDT7808-DISHWASHER",
+        "W11187658",
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "lg_dishwasher_ldt7808",
+        "whirlpool_dishwasher_acu",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "heater"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "supply",
+      "classification": "human_review",
+      "clusterKey": "term:supply",
+      "manualCount": 5,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11366142",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "supply"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "circulation pump",
+      "classification": "canonical_ontology_candidate",
+      "clusterKey": "func:circulation|pump",
+      "manualCount": 4,
+      "manufacturerCount": 3,
+      "platformCount": 3,
+      "manufacturers": [
+        "Insignia",
+        "LG",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "LG-LDT7808-DISHWASHER",
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "lg_dishwasher_ldt7808",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "circulation|pump",
+      "sampleTerms": [
+        "circulation_pump"
+      ],
+      "conflict": false,
+      "recommendedAction": "Propose new canonical concept \u2014 requires human ontology review"
+    },
+    {
+      "concept": "door switch",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:door_switch",
+      "manualCount": 4,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11480208",
+        "W11633848"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "door_switch",
+      "functionalSignature": "door|latch",
+      "sampleTerms": [
+        "door_latch",
+        "\u00a73-7: Door Switch Circuit",
+        "\u00a73-8: Door Switch Circuit (P12)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "drying system",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:drying_system",
+      "manualCount": 4,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11480208",
+        "W11633848"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "drying_system",
+      "functionalSignature": "dry fan thermal|actuator",
+      "sampleTerms": [
+        "vent",
+        "\u00a73-17: DC Fan Motor",
+        "\u00a73-20: DC Fan Motor (ProDry)",
+        "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+        "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "water heating heat dry",
+      "classification": "platform_overlay",
+      "clusterKey": "func:water|heating heat dry",
+      "manualCount": 4,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11480208",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|heating heat dry",
+      "sampleTerms": [
+        "\u00a73-10: Water Heating / Heat Dry",
+        "\u00a73-11: Water Heating / Heat Dry"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "water level sensor",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:water_level_sensor",
+      "manualCount": 4,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11480208",
+        "W11633848"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "water_level_sensor",
+      "functionalSignature": "float|switch",
+      "sampleTerms": [
+        "float_switch",
+        "\u00a73-12: Overfill Float Switch",
+        "\u00a73-13: Overfill Float Switch (P11)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "detergent dispenser",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:detergent_dispenser",
+      "manualCount": 3,
+      "manufacturerCount": 2,
+      "platformCount": 3,
+      "manufacturers": [
+        "Samsung",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "W11633848"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "detergent_dispenser",
+      "functionalSignature": null,
+      "sampleTerms": [
+        "dispenser",
+        "\u00a73-9: Dispenser Solenoid",
+        "\u00a74-1: Detergent Dispenser",
+        "\u00a74-3: Detergent Dispenser"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "diverter position sensor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:diverter position|sensor",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "diverter position|sensor",
+      "sampleTerms": [
+        "\u00a73-14: Diverter Position Sensor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "drive motor",
+      "classification": "canonical_alias",
+      "clusterKey": "canonical:drive_motor",
+      "manualCount": 3,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "LG",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER",
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808",
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": "drive_motor",
+      "functionalSignature": "7 2 wash motor|motor",
+      "sampleTerms": [
+        "Variable-Speed Wash Motor (A-SYNCH)",
+        "\u00a73-15: Wash Motor (SSM)",
+        "\u00a73-15: Wash Motor (SSM, WDT750)",
+        "\u00a73-17: Wash Motor (Variable Speed)",
+        "\u00a77-1/7-2: Wash Motor (motor error)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+    },
+    {
+      "concept": "f500 triac load fuse",
+      "classification": "platform_overlay",
+      "clusterKey": "func:f500 triac load|fuse",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "f500 triac load|fuse",
+      "sampleTerms": [
+        "\u00a73-3: F500 Triac Load Fuse"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "owi thermistor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:owi|thermistor",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "owi|thermistor",
+      "sampleTerms": [
+        "\u00a73-11: OWI / Thermistor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a73-21: Interior LED Lighting",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a73-21: interior led lighting",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11480208",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a73-21: Interior LED Lighting"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "\u00a73-6: ACU Power & DC Supplies",
+      "classification": "platform_overlay",
+      "clusterKey": "term:\u00a73-6: acu power & dc supplies",
+      "manualCount": 3,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11633848",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a73-6: ACU Power & DC Supplies"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "E1 \u2014 Water inlet failure (4 min fill)",
+      "classification": "human_review",
+      "clusterKey": "term:e1 \u2014 water inlet failure (4 min fill)",
+      "manualCount": 2,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "Insignia",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "E1 \u2014 Water inlet failure (4 min fill)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "E4 \u2014 Overflow / base pan",
+      "classification": "human_review",
+      "clusterKey": "term:e4 \u2014 overflow / base pan",
+      "manualCount": 2,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "Insignia",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "E4 \u2014 Overflow / base pan"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "RIF Filter Plugged (F7E4)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:rif filter plugged (f7e4)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "RIF Filter Plugged (F7E4)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "Tub Light (12 V PWM)",
+      "classification": "platform_overlay",
+      "clusterKey": "term:tub light (12 v pwm)",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "Tub Light (12 V PWM)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "dc fan motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:dc fan|motor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "dc fan|motor",
+      "sampleTerms": [
+        "\u00a73-17: DC Fan Motor",
+        "\u00a73-20: DC Fan Motor (ProDry)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "dispenser solenoid",
+      "classification": "platform_overlay",
+      "clusterKey": "func:dispenser|solenoid",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "dispenser|solenoid",
+      "sampleTerms": [
+        "Dispenser Solenoid (310\u2013380 \u03a9)",
+        "\u00a73-9: Dispenser Solenoid"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "distributor motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:distributor|motor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "distributor|motor",
+      "sampleTerms": [
+        "\u00a74-1: Distributor Motor (PC)",
+        "\u00a74-3: Distributor Motor (PC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "diverter motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:diverter|motor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "diverter|motor",
+      "sampleTerms": [
+        "\u00a73-13: Diverter Motor",
+        "\u00a73-14: Diverter Motor (P6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "door opening system d o s",
+      "classification": "platform_overlay",
+      "clusterKey": "func:door|opening system d o s",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "door|opening system d o s",
+      "sampleTerms": [
+        "\u00a73-19: Door Opening System (D.O.S.)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "door sensing switch",
+      "classification": "platform_overlay",
+      "clusterKey": "func:door|sensing|switch",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "door|sensing|switch",
+      "sampleTerms": [
+        "\u00a74-1: Door Sensing Switch",
+        "\u00a74-3: Door Sensing Switch"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "door switch",
+      "classification": "platform_overlay",
+      "clusterKey": "func:door|switch",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "door|switch",
+      "sampleTerms": [
+        "\u00a73-7: Door Switch Circuit",
+        "\u00a73-8: Door Switch Circuit (P12)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "drain motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:drain|motor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "drain|motor",
+      "sampleTerms": [
+        "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+        "\u00a73-16: Drain Motor",
+        "\u00a73-19: Drain Motor (Variable Speed platform)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "e3 tub heater",
+      "classification": "human_review",
+      "clusterKey": "func:e3 tub|heater",
+      "manualCount": 2,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "Insignia",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "e3 tub|heater",
+      "sampleTerms": [
+        "E3 \u2014 Tub heater 10\u201315 \u03a9",
+        "E3 \u2014 Tub heater ~14 \u03a9"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "fan motor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:fan|motor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "fan|motor",
+      "sampleTerms": [
+        "fan_motor"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "heater",
+      "classification": "platform_overlay",
+      "clusterKey": "func:heater",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "heater",
+      "sampleTerms": [
+        "\u00a74-1: Heater Operation (HC / HC1)",
+        "\u00a74-3: Heater Operation (HC / HC1)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "leak sensor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:leak|sensor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "leak|sensor",
+      "sampleTerms": [
+        "leak_sensor",
+        "\u00a74-1: Leak Sensor (LC)",
+        "\u00a74-3: Leak Sensor (LC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "overfill float switch",
+      "classification": "platform_overlay",
+      "clusterKey": "func:overfill float|switch",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "overfill float|switch",
+      "sampleTerms": [
+        "\u00a73-12: Overfill Float Switch",
+        "\u00a73-13: Overfill Float Switch (P11)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "overflow sensor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:overflow|sensor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "overflow|sensor",
+      "sampleTerms": [
+        "\u00a74-1: Overflow Sensor (OC)",
+        "\u00a74-3: Overflow Sensor (OC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "tub thermistor",
+      "classification": "human_review",
+      "clusterKey": "func:tub|thermistor",
+      "manualCount": 2,
+      "manufacturerCount": 2,
+      "platformCount": 2,
+      "manufacturers": [
+        "Insignia",
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "platformIds": [
+        "insignia_dishwasher",
+        "whirlpool_dishwasher_ada"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "tub|thermistor",
+      "sampleTerms": [
+        "Tub thermistor \u2014 E6/E7 NTC"
+      ],
+      "conflict": false,
+      "recommendedAction": "Mandatory human resolution before promotion"
+    },
+    {
+      "concept": "vent wax motor 1890 2310 each coil",
+      "classification": "platform_overlay",
+      "clusterKey": "func:vent wax motor 1890 2310 each|coil",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Whirlpool"
+      ],
+      "manualIds": [
+        "W11366142",
+        "W11794121"
+      ],
+      "platformIds": [
+        "whirlpool_dishwasher_acu"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "vent wax motor 1890 2310 each|coil",
+      "sampleTerms": [
+        "Vent Wax Motor (1890\u20132310 \u03a9 each coil)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "water thermistor",
+      "classification": "platform_overlay",
+      "clusterKey": "func:water|thermistor",
+      "manualCount": 2,
+      "manufacturerCount": 1,
+      "platformCount": 2,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher",
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "water|thermistor",
+      "sampleTerms": [
+        "\u00a74-1: Water Thermistor (tC)",
+        "\u00a74-3: Water Thermistor (tC)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+    },
+    {
+      "concept": "7 2 tub thermistor",
+      "classification": "unresolved",
+      "clusterKey": "func:7 2 tub|thermistor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "7 2 tub|thermistor",
+      "sampleTerms": [
+        "\u00a77-1/7-2: Tub Thermistor (tE thermal error)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "7 2 vario valve",
+      "classification": "unresolved",
+      "clusterKey": "func:7 2 vario|valve",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "7 2 vario|valve",
+      "sampleTerms": [
+        "\u00a77-1/7-2: Vario Valve (VARIO ERROR)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "7 2 wash heater he heater",
+      "classification": "unresolved",
+      "clusterKey": "func:7 2 wash heater he|heater",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "7 2 wash heater he|heater",
+      "sampleTerms": [
+        "\u00a77-1/7-2: Wash Heater (HE heater error)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "E9 \u2014 Stuck button (>30 s)",
+      "classification": "unresolved",
+      "clusterKey": "term:e9 \u2014 stuck button (>30 s)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Insignia"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER"
+      ],
+      "platformIds": [
+        "insignia_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "E9 \u2014 Stuck button (>30 s)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "Ed \u2014 Display \u2194 main communication",
+      "classification": "unresolved",
+      "clusterKey": "term:ed \u2014 display \u2194 main communication",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Insignia"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER"
+      ],
+      "platformIds": [
+        "insignia_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "Ed \u2014 Display \u2194 main communication"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "e8 diverter valve assembly",
+      "classification": "unresolved",
+      "clusterKey": "func:e8 diverter valve|assembly",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Insignia"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER"
+      ],
+      "platformIds": [
+        "insignia_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "e8 diverter valve|assembly",
+      "sampleTerms": [
+        "E8 \u2014 Diverter valve assembly"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "hall sensor",
+      "classification": "unresolved",
+      "clusterKey": "func:hall|sensor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "hall|sensor",
+      "sampleTerms": [
+        "\u00a77-2: Hall Sensor (IE fill path)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "lower vane motor",
+      "classification": "unresolved",
+      "clusterKey": "func:lower vane|motor",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "lower vane|motor",
+      "sampleTerms": [
+        "\u00a74-3: Lower Vane Motor (7C)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "main pba power dc supplies",
+      "classification": "unresolved",
+      "clusterKey": "func:main|pba power dc supplies",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER"
+      ],
+      "platformIds": [
+        "samsung_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "main|pba power dc supplies",
+      "sampleTerms": [
+        "\u00a74-1: Main PBA Power & DC Supplies"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "no power power relay",
+      "classification": "unresolved",
+      "clusterKey": "func:no power power|relay",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": "no power power|relay",
+      "sampleTerms": [
+        "No Power & Power Relay Check"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "user_interface",
+      "classification": "unresolved",
+      "clusterKey": "term:user_interface",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Insignia"
+      ],
+      "manualIds": [
+        "INSIGNIA-DWR3-DISHWASHER"
+      ],
+      "platformIds": [
+        "insignia_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "user_interface"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-1: abnormal supply voltage (9c1 / 9c2)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-1: PBA Communication (AC / AC6)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-1: pba communication (ac / ac6)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER"
+      ],
+      "platformIds": [
+        "samsung_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-1: PBA Communication (AC / AC6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-1: touch panel & sub pba (bc2 / bc3)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER"
+      ],
+      "platformIds": [
+        "samsung_dishwasher"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: PBA Communication (AC / AC6)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: pba communication (ac / ac6)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: PBA Communication (AC / AC6)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a74-3: touch panel & sub pba (bc2 / bc3)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "Samsung"
+      ],
+      "manualIds": [
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "platformIds": [
+        "samsung_dishwasher_m9"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a77-1/7-2: Leak / Float (AE leakage error)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a77-1/7-2: leak / float (ae leakage error)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a77-1/7-2: Leak / Float (AE leakage error)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    },
+    {
+      "concept": "\u00a77-1: Bubble Error (BE suds fault)",
+      "classification": "unresolved",
+      "clusterKey": "term:\u00a77-1: bubble error (be suds fault)",
+      "manualCount": 1,
+      "manufacturerCount": 1,
+      "platformCount": 1,
+      "manufacturers": [
+        "LG"
+      ],
+      "manualIds": [
+        "LG-LDT7808-DISHWASHER"
+      ],
+      "platformIds": [
+        "lg_dishwasher_ldt7808"
+      ],
+      "canonicalId": null,
+      "functionalSignature": null,
+      "sampleTerms": [
+        "\u00a77-1: Bubble Error (BE suds fault)"
+      ],
+      "conflict": false,
+      "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+    }
+  ],
+  "buckets": {
+    "unresolved": [
+      {
+        "concept": "7 2 tub thermistor",
+        "classification": "unresolved",
+        "clusterKey": "func:7 2 tub|thermistor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "7 2 tub|thermistor",
+        "sampleTerms": [
+          "\u00a77-1/7-2: Tub Thermistor (tE thermal error)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "7 2 vario valve",
+        "classification": "unresolved",
+        "clusterKey": "func:7 2 vario|valve",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "7 2 vario|valve",
+        "sampleTerms": [
+          "\u00a77-1/7-2: Vario Valve (VARIO ERROR)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "7 2 wash heater he heater",
+        "classification": "unresolved",
+        "clusterKey": "func:7 2 wash heater he|heater",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "7 2 wash heater he|heater",
+        "sampleTerms": [
+          "\u00a77-1/7-2: Wash Heater (HE heater error)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "E9 \u2014 Stuck button (>30 s)",
+        "classification": "unresolved",
+        "clusterKey": "term:e9 \u2014 stuck button (>30 s)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Insignia"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER"
+        ],
+        "platformIds": [
+          "insignia_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "E9 \u2014 Stuck button (>30 s)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "Ed \u2014 Display \u2194 main communication",
+        "classification": "unresolved",
+        "clusterKey": "term:ed \u2014 display \u2194 main communication",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Insignia"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER"
+        ],
+        "platformIds": [
+          "insignia_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "Ed \u2014 Display \u2194 main communication"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "e8 diverter valve assembly",
+        "classification": "unresolved",
+        "clusterKey": "func:e8 diverter valve|assembly",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Insignia"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER"
+        ],
+        "platformIds": [
+          "insignia_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "e8 diverter valve|assembly",
+        "sampleTerms": [
+          "E8 \u2014 Diverter valve assembly"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "hall sensor",
+        "classification": "unresolved",
+        "clusterKey": "func:hall|sensor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "hall|sensor",
+        "sampleTerms": [
+          "\u00a77-2: Hall Sensor (IE fill path)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "lower vane motor",
+        "classification": "unresolved",
+        "clusterKey": "func:lower vane|motor",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "lower vane|motor",
+        "sampleTerms": [
+          "\u00a74-3: Lower Vane Motor (7C)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "main pba power dc supplies",
+        "classification": "unresolved",
+        "clusterKey": "func:main|pba power dc supplies",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "main|pba power dc supplies",
+        "sampleTerms": [
+          "\u00a74-1: Main PBA Power & DC Supplies"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "no power power relay",
+        "classification": "unresolved",
+        "clusterKey": "func:no power power|relay",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "no power power|relay",
+        "sampleTerms": [
+          "No Power & Power Relay Check"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "user_interface",
+        "classification": "unresolved",
+        "clusterKey": "term:user_interface",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Insignia"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER"
+        ],
+        "platformIds": [
+          "insignia_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "user_interface"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-1: abnormal supply voltage (9c1 / 9c2)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-1: PBA Communication (AC / AC6)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-1: pba communication (ac / ac6)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-1: PBA Communication (AC / AC6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-1: touch panel & sub pba (bc2 / bc3)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: PBA Communication (AC / AC6)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: pba communication (ac / ac6)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: PBA Communication (AC / AC6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a74-3: touch panel & sub pba (bc2 / bc3)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a77-1/7-2: Leak / Float (AE leakage error)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a77-1/7-2: leak / float (ae leakage error)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a77-1/7-2: Leak / Float (AE leakage error)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      },
+      {
+        "concept": "\u00a77-1: Bubble Error (BE suds fault)",
+        "classification": "unresolved",
+        "clusterKey": "term:\u00a77-1: bubble error (be suds fault)",
+        "manualCount": 1,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "LG"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a77-1: Bubble Error (BE suds fault)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Insufficient cross-manual evidence \u2014 do not add to ontology"
+      }
+    ],
+    "canonical_alias": [
+      {
+        "concept": "drain pump",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:drain_pump",
+        "manualCount": 9,
+        "manufacturerCount": 4,
+        "platformCount": 6,
+        "manufacturers": [
+          "Insignia",
+          "LG",
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "LG-LDT7808-DISHWASHER",
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11187658",
+          "W11366142",
+          "W11480208",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "lg_dishwasher_ldt7808",
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": "drain_pump",
+        "functionalSignature": "drain|pump",
+        "sampleTerms": [
+          "Drain pump \u2014 25\u201335 \u03a9",
+          "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+          "drain_pump",
+          "\u00a73-16: Drain Motor",
+          "\u00a73-19: Drain Motor (Variable Speed platform)",
+          "\u00a74-1: Drain Pump (5C)",
+          "\u00a74-3: Drain Pump (5C)",
+          "\u00a77-1/7-2: Drain Pump (OE drain fault)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "inlet valve",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:inlet_valve",
+        "manualCount": 9,
+        "manufacturerCount": 4,
+        "platformCount": 6,
+        "manufacturers": [
+          "Insignia",
+          "LG",
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "LG-LDT7808-DISHWASHER",
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11187658",
+          "W11366142",
+          "W11480208",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "lg_dishwasher_ldt7808",
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": "inlet_valve",
+        "functionalSignature": "inlet|valve",
+        "sampleTerms": [
+          "Water inlet valve \u2014 ~1 k\u03a9",
+          "Water inlet valve \u2014 ~24 \u03a9 (CN5)",
+          "inlet_valve",
+          "\u00a73-8: Fill Valve Circuit",
+          "\u00a74-1: Fill Valve & Flow Meter (4C)",
+          "\u00a74-3: Fill Valve & Flow Meter (4C)",
+          "\u00a77-1/7-2: Inlet Valve (IE fill fault)",
+          "\u00a77-1: Excess Fill (inlet valve stuck open)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "control board",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:control_board",
+        "manualCount": 7,
+        "manufacturerCount": 3,
+        "platformCount": 4,
+        "manufacturers": [
+          "Insignia",
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11366142",
+          "W11480208",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "control_board",
+        "functionalSignature": null,
+        "sampleTerms": [
+          "ACU",
+          "acu",
+          "main_control"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "circulation pump",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:circulation_pump",
+        "manualCount": 5,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11480208",
+          "W11499711",
+          "W11633848"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "circulation_pump",
+        "functionalSignature": "wash|motor",
+        "sampleTerms": [
+          "circulation_pump",
+          "diverter_motor",
+          "wash_motor",
+          "\u00a73-13: Diverter Motor",
+          "\u00a73-14: Diverter Motor (P6)",
+          "\u00a73-15: Wash Motor (SSM)",
+          "\u00a73-15: Wash Motor (SSM, WDT750)",
+          "\u00a73-17: Wash Motor (Variable Speed)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "door switch",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:door_switch",
+        "manualCount": 4,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11480208",
+          "W11633848"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "door_switch",
+        "functionalSignature": "door|latch",
+        "sampleTerms": [
+          "door_latch",
+          "\u00a73-7: Door Switch Circuit",
+          "\u00a73-8: Door Switch Circuit (P12)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "drying system",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:drying_system",
+        "manualCount": 4,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11480208",
+          "W11633848"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "drying_system",
+        "functionalSignature": "dry fan thermal|actuator",
+        "sampleTerms": [
+          "vent",
+          "\u00a73-17: DC Fan Motor",
+          "\u00a73-20: DC Fan Motor (ProDry)",
+          "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+          "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "water level sensor",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:water_level_sensor",
+        "manualCount": 4,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11480208",
+          "W11633848"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "water_level_sensor",
+        "functionalSignature": "float|switch",
+        "sampleTerms": [
+          "float_switch",
+          "\u00a73-12: Overfill Float Switch",
+          "\u00a73-13: Overfill Float Switch (P11)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "detergent dispenser",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:detergent_dispenser",
+        "manualCount": 3,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11633848"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "detergent_dispenser",
+        "functionalSignature": null,
+        "sampleTerms": [
+          "dispenser",
+          "\u00a73-9: Dispenser Solenoid",
+          "\u00a74-1: Detergent Dispenser",
+          "\u00a74-3: Detergent Dispenser"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      },
+      {
+        "concept": "drive motor",
+        "classification": "canonical_alias",
+        "clusterKey": "canonical:drive_motor",
+        "manualCount": 3,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "LG",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER",
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": "drive_motor",
+        "functionalSignature": "7 2 wash motor|motor",
+        "sampleTerms": [
+          "Variable-Speed Wash Motor (A-SYNCH)",
+          "\u00a73-15: Wash Motor (SSM)",
+          "\u00a73-15: Wash Motor (SSM, WDT750)",
+          "\u00a73-17: Wash Motor (Variable Speed)",
+          "\u00a77-1/7-2: Wash Motor (motor error)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Add OEM alias candidates; review and promote to overlay"
+      }
+    ],
+    "canonical_ontology_candidate": [
+      {
+        "concept": "door gasket",
+        "classification": "canonical_ontology_candidate",
+        "clusterKey": "func:door|gasket",
+        "manualCount": 5,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "LG",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "LG-LDT7808-DISHWASHER",
+          "W11366142",
+          "W11480208",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "lg_dishwasher_ldt7808",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "door|gasket",
+        "sampleTerms": [
+          "door_gasket"
+        ],
+        "conflict": false,
+        "recommendedAction": "Propose new canonical concept \u2014 requires human ontology review"
+      },
+      {
+        "concept": "circulation pump",
+        "classification": "canonical_ontology_candidate",
+        "clusterKey": "func:circulation|pump",
+        "manualCount": 4,
+        "manufacturerCount": 3,
+        "platformCount": 3,
+        "manufacturers": [
+          "Insignia",
+          "LG",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "LG-LDT7808-DISHWASHER",
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "lg_dishwasher_ldt7808",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "circulation|pump",
+        "sampleTerms": [
+          "circulation_pump"
+        ],
+        "conflict": false,
+        "recommendedAction": "Propose new canonical concept \u2014 requires human ontology review"
+      }
+    ],
+    "human_review": [
+      {
+        "concept": "heater",
+        "classification": "human_review",
+        "clusterKey": "term:heater",
+        "manualCount": 5,
+        "manufacturerCount": 3,
+        "platformCount": 4,
+        "manufacturers": [
+          "Insignia",
+          "LG",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "LG-LDT7808-DISHWASHER",
+          "W11187658",
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "lg_dishwasher_ldt7808",
+          "whirlpool_dishwasher_acu",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "heater"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      },
+      {
+        "concept": "supply",
+        "classification": "human_review",
+        "clusterKey": "term:supply",
+        "manualCount": 5,
+        "manufacturerCount": 2,
+        "platformCount": 3,
+        "manufacturers": [
+          "Samsung",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "W11366142",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9",
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "supply"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      },
+      {
+        "concept": "E1 \u2014 Water inlet failure (4 min fill)",
+        "classification": "human_review",
+        "clusterKey": "term:e1 \u2014 water inlet failure (4 min fill)",
+        "manualCount": 2,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "Insignia",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "W11187658"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "E1 \u2014 Water inlet failure (4 min fill)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      },
+      {
+        "concept": "E4 \u2014 Overflow / base pan",
+        "classification": "human_review",
+        "clusterKey": "term:e4 \u2014 overflow / base pan",
+        "manualCount": 2,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "Insignia",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "W11187658"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "E4 \u2014 Overflow / base pan"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      },
+      {
+        "concept": "e3 tub heater",
+        "classification": "human_review",
+        "clusterKey": "func:e3 tub|heater",
+        "manualCount": 2,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "Insignia",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "W11187658"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "e3 tub|heater",
+        "sampleTerms": [
+          "E3 \u2014 Tub heater 10\u201315 \u03a9",
+          "E3 \u2014 Tub heater ~14 \u03a9"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      },
+      {
+        "concept": "tub thermistor",
+        "classification": "human_review",
+        "clusterKey": "func:tub|thermistor",
+        "manualCount": 2,
+        "manufacturerCount": 2,
+        "platformCount": 2,
+        "manufacturers": [
+          "Insignia",
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "INSIGNIA-DWR3-DISHWASHER",
+          "W11187658"
+        ],
+        "platformIds": [
+          "insignia_dishwasher",
+          "whirlpool_dishwasher_ada"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "tub|thermistor",
+        "sampleTerms": [
+          "Tub thermistor \u2014 E6/E7 NTC"
+        ],
+        "conflict": false,
+        "recommendedAction": "Mandatory human resolution before promotion"
+      }
+    ],
+    "platform_overlay": [
+      {
+        "concept": "water heating heat dry",
+        "classification": "platform_overlay",
+        "clusterKey": "func:water|heating heat dry",
+        "manualCount": 4,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11480208",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|heating heat dry",
+        "sampleTerms": [
+          "\u00a73-10: Water Heating / Heat Dry",
+          "\u00a73-11: Water Heating / Heat Dry"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "diverter position sensor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:diverter position|sensor",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "diverter position|sensor",
+        "sampleTerms": [
+          "\u00a73-14: Diverter Position Sensor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "f500 triac load fuse",
+        "classification": "platform_overlay",
+        "clusterKey": "func:f500 triac load|fuse",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "f500 triac load|fuse",
+        "sampleTerms": [
+          "\u00a73-3: F500 Triac Load Fuse"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "owi thermistor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:owi|thermistor",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "owi|thermistor",
+        "sampleTerms": [
+          "\u00a73-11: OWI / Thermistor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a73-21: Interior LED Lighting",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a73-21: interior led lighting",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11480208",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a73-21: Interior LED Lighting"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "\u00a73-6: ACU Power & DC Supplies",
+        "classification": "platform_overlay",
+        "clusterKey": "term:\u00a73-6: acu power & dc supplies",
+        "manualCount": 3,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11633848",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "\u00a73-6: ACU Power & DC Supplies"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "RIF Filter Plugged (F7E4)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:rif filter plugged (f7e4)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "RIF Filter Plugged (F7E4)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "Tub Light (12 V PWM)",
+        "classification": "platform_overlay",
+        "clusterKey": "term:tub light (12 v pwm)",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": null,
+        "sampleTerms": [
+          "Tub Light (12 V PWM)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "dc fan motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:dc fan|motor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "dc fan|motor",
+        "sampleTerms": [
+          "\u00a73-17: DC Fan Motor",
+          "\u00a73-20: DC Fan Motor (ProDry)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "dispenser solenoid",
+        "classification": "platform_overlay",
+        "clusterKey": "func:dispenser|solenoid",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "dispenser|solenoid",
+        "sampleTerms": [
+          "Dispenser Solenoid (310\u2013380 \u03a9)",
+          "\u00a73-9: Dispenser Solenoid"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "distributor motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:distributor|motor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "distributor|motor",
+        "sampleTerms": [
+          "\u00a74-1: Distributor Motor (PC)",
+          "\u00a74-3: Distributor Motor (PC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "diverter motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:diverter|motor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "diverter|motor",
+        "sampleTerms": [
+          "\u00a73-13: Diverter Motor",
+          "\u00a73-14: Diverter Motor (P6)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "door opening system d o s",
+        "classification": "platform_overlay",
+        "clusterKey": "func:door|opening system d o s",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "door|opening system d o s",
+        "sampleTerms": [
+          "\u00a73-19: Door Opening System (D.O.S.)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "door sensing switch",
+        "classification": "platform_overlay",
+        "clusterKey": "func:door|sensing|switch",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "door|sensing|switch",
+        "sampleTerms": [
+          "\u00a74-1: Door Sensing Switch",
+          "\u00a74-3: Door Sensing Switch"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "door switch",
+        "classification": "platform_overlay",
+        "clusterKey": "func:door|switch",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "door|switch",
+        "sampleTerms": [
+          "\u00a73-7: Door Switch Circuit",
+          "\u00a73-8: Door Switch Circuit (P12)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "drain motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:drain|motor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "drain|motor",
+        "sampleTerms": [
+          "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+          "\u00a73-16: Drain Motor",
+          "\u00a73-19: Drain Motor (Variable Speed platform)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "fan motor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:fan|motor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "fan|motor",
+        "sampleTerms": [
+          "fan_motor"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "heater",
+        "classification": "platform_overlay",
+        "clusterKey": "func:heater",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "heater",
+        "sampleTerms": [
+          "\u00a74-1: Heater Operation (HC / HC1)",
+          "\u00a74-3: Heater Operation (HC / HC1)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "leak sensor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:leak|sensor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "leak|sensor",
+        "sampleTerms": [
+          "leak_sensor",
+          "\u00a74-1: Leak Sensor (LC)",
+          "\u00a74-3: Leak Sensor (LC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "overfill float switch",
+        "classification": "platform_overlay",
+        "clusterKey": "func:overfill float|switch",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "overfill float|switch",
+        "sampleTerms": [
+          "\u00a73-12: Overfill Float Switch",
+          "\u00a73-13: Overfill Float Switch (P11)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "overflow sensor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:overflow|sensor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "overflow|sensor",
+        "sampleTerms": [
+          "\u00a74-1: Overflow Sensor (OC)",
+          "\u00a74-3: Overflow Sensor (OC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "vent wax motor 1890 2310 each coil",
+        "classification": "platform_overlay",
+        "clusterKey": "func:vent wax motor 1890 2310 each|coil",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 1,
+        "manufacturers": [
+          "Whirlpool"
+        ],
+        "manualIds": [
+          "W11366142",
+          "W11794121"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "vent wax motor 1890 2310 each|coil",
+        "sampleTerms": [
+          "Vent Wax Motor (1890\u20132310 \u03a9 each coil)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      },
+      {
+        "concept": "water thermistor",
+        "classification": "platform_overlay",
+        "clusterKey": "func:water|thermistor",
+        "manualCount": 2,
+        "manufacturerCount": 1,
+        "platformCount": 2,
+        "manufacturers": [
+          "Samsung"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9"
+        ],
+        "platformIds": [
+          "samsung_dishwasher",
+          "samsung_dishwasher_m9"
+        ],
+        "canonicalId": null,
+        "functionalSignature": "water|thermistor",
+        "sampleTerms": [
+          "\u00a74-1: Water Thermistor (tC)",
+          "\u00a74-3: Water Thermistor (tC)"
+        ],
+        "conflict": false,
+        "recommendedAction": "Keep in manufacturer/platform overlay, not canonical ontology"
+      }
+    ]
+  },
+  "globalConflicts": [
+    {
+      "id": "conflict-topology-washer-family-mix",
+      "status": "CONFLICT_REQUIRES_REVIEW",
+      "conflictType": "RELATIONSHIP_CONFLICT",
+      "description": "Canonical graph assumes shared FL washer concepts, but manuals imply different motor control paths (CCU\u2192MCU vs direct drive). Do not auto-merge topology into canonical layer.",
+      "assertions": [
+        {
+          "topologySignature": "direct_drive_motor",
+          "manualIds": [
+            "W11169652",
+            "SAMSUNG-FL-BB8700-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "ccu_mcu_motor",
+          "manualIds": [
+            "W8178558",
+            "SAMSUNG-FL-WF6000R-WASHER",
+            "SAMSUNG-FLEXWASH-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "motor_present_unknown_path",
+          "manualIds": [
+            "W10864849",
+            "W11416787",
+            "W11800233",
+            "W11697231",
+            "W11455152",
+            "W11416395",
+            "W11428632",
+            "SAMSUNG-TL-A50-WASHER",
+            "SAMSUNG-TL-CG71-WASHER"
+          ]
+        },
+        {
+          "topologySignature": "unknown",
+          "manualIds": [
+            "W10785366A"
+          ]
+        }
+      ]
+    }
+  ]
+}

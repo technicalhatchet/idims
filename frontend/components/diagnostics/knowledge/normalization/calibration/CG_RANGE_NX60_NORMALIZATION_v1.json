@@ -1,0 +1,671 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_target_normalization",
+  "workstream": "CG-RANGE-NORMALIZATION",
+  "targetId": "samsung_nx60_gas",
+  "status": "normalized",
+  "normalizedAt": "2026-09-16T23:45:00+00:00",
+  "parentWorkstream": "CG_RANGE_NORMALIZATION_v1.json",
+  "canonicalOntologyId": "range_oven",
+  "implementationTemplateId": "gas_range",
+  "coreConstraint": "Normalization consumes service-manual evidence only. CG-11 fit conclusions are referenced as historical architectural evidence — not re-normalized as procedure facts.",
+  "evidenceLineageGuardrail": {
+    "serviceManualPath": {
+      "flow": "SERVICE MANUAL → normalized evidence → implementation/platform knowledge → range_oven mapping",
+      "sourceType": "service_manual"
+    },
+    "fitEvidencePath": {
+      "flow": "CG-11 → already-approved fit relationship → historical architectural evidence",
+      "sourceType": "fit_test_record",
+      "notNormalizedAsProcedureEvidence": true
+    },
+    "fitEvidenceReference": {
+      "workstream": "CG-11",
+      "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+      "observationArtifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "role": "architectural_witness_only",
+      "historicalOntologyUnderTest": "electric_range rev1 — frozen; not re-opened by this artifact"
+    }
+  },
+  "sourceMetadata": {
+    "manualId": "SAMSUNG-NX60-RANGE",
+    "manufacturer": "Samsung",
+    "platformId": "samsung_range_nx60",
+    "smokeModel": "NX60T8311SS",
+    "modelPattern": "NX60T8311S*",
+    "fuelImplementation": "gas_range",
+    "sourcePdf": "backend/docs/manuals/samsung range nx60t8311s.pdf",
+    "extractedText": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_range_nx60",
+    "measurementKnowledgeBatch": "measurement-knowledge-batch32.json",
+    "oemManualTitle": "Samsung NX60T8311S Slide-In Gas Range Service Manual"
+  },
+  "scope": {
+    "included": "Gas-range normalization for NX60T8311S* — §4-1 failure display, §4-2 control, §4-3 oven/cooktop parts, §4-4 oven burner ignition",
+    "excluded": [
+      "samsungnx60-bake-element — NE63 electric variant only",
+      "samsungnx60-broil-element — NE63 electric variant only",
+      "Wi-Fi SmartThings diagnostics (§4-4 p.88) — deferred v1",
+      "PCB diagram crops — deferred v1"
+    ],
+    "excludedReason": "CG-11 R1 gas fuel filter; electric element procedures are platform-variant knowledge for NE63*"
+  },
+  "canonicalFunctionalMappings": [
+    {
+      "canonicalId": "power_supply",
+      "rangeOvenLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-power", "samsungnx60-spark-module"],
+        "oemSections": ["4-2", "4-3"],
+        "manualPhrases": ["120 VAC", "plug", "CNP100 pins 5–7"]
+      },
+      "fitEvidenceReferenceOnly": "CG-11 INHERITS — not re-derived here"
+    },
+    {
+      "canonicalId": "control_board",
+      "rangeOvenLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-power", "samsungnx60-heater-relays", "samsungnx60-touch-comm", "samsungnx60-oven-vent"],
+        "oemSections": ["4-1", "4-2"],
+        "platformTerms": ["main_pcb", "sub_pcb", "dlb_relay", "bake_relay", "broil_relay", "RY204", "SSR200"]
+      }
+    },
+    {
+      "canonicalId": "user_interface",
+      "rangeOvenLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-hmi-touch", "samsungnx60-touch-comm"],
+        "oemSections": ["4-2"],
+        "errorCodes": ["C-F2"],
+        "platformTerms": ["display_pcb", "touch_pcb", "touch_keypad"]
+      }
+    },
+    {
+      "canonicalId": "temperature_sensor",
+      "rangeOvenLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-oven-sensor"],
+        "oemSections": ["4-1"],
+        "errorCodes": ["C-20", "C-21"],
+        "testPoint": "CN100 pins 11–13",
+        "platformTerms": ["oven_sensor", "thermistor", "RTD"]
+      }
+    },
+    {
+      "canonicalId": "surface_heating_system",
+      "rangeOvenLayer": "components[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-spark-module"],
+        "oemSections": ["4-3"],
+        "symptom": "No cooktop burners will light",
+        "platformTerms": ["spark_module", "surface_burner", "surface_ignition"]
+      }
+    },
+    {
+      "canonicalId": "bake_heating_element",
+      "rangeOvenLayer": "instanceScopes[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-bake-ignitor", "samsungnx60-heater-relays", "samsungnx60-safety-valve"],
+        "oemSections": ["4-4"],
+        "testPoints": ["Bake HSI terminals", "TB204–TB205 bake relay", "T504–T505 bake ignition voltage", "TB201–TB204 valve voltage"],
+        "platformTerms": ["bake_hsi", "bake_burner", "bake_nozzle"],
+        "note": "Gas bake path — HSI + valve + relay; not electric bake element"
+      }
+    },
+    {
+      "canonicalId": "broil_heating_element",
+      "rangeOvenLayer": "instanceScopes[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-broil-ignitor", "samsungnx60-heater-relays", "samsungnx60-safety-valve"],
+        "oemSections": ["4-4"],
+        "testPoints": ["Broil HSI terminals", "TB202–TB203 broil relay", "T504–T503 broil ignition voltage", "TB201–CN202 valve voltage"],
+        "platformTerms": ["broil_hsi", "broil_burner"]
+      }
+    },
+    {
+      "canonicalId": "convection_fan",
+      "rangeOvenLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-convection-fan"],
+        "oemSections": ["4-3"],
+        "measurement": "25–30 Ω fan motor",
+        "platformTerms": ["convection_fan_motor", "CN204", "RY204"]
+      }
+    },
+    {
+      "canonicalId": "thermal_protection",
+      "rangeOvenLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-cooling-fan", "samsungnx60-oven-vent"],
+        "oemSections": ["4-1"],
+        "errorCodes": ["C-A2", "C-24"],
+        "platformTerms": ["display_cooling_fan", "oven_vent", "cover_air"],
+        "implementationNote": "Gas-specific thermal paths — not electric fuse/hi-limit packaging"
+      }
+    },
+    {
+      "canonicalId": "oven_door_switch",
+      "rangeOvenLayer": "conditionalConcepts[]",
+      "serviceManualEvidence": {
+        "procedureIds": ["samsungnx60-door-lock"],
+        "oemSections": ["4-1"],
+        "errorCodes": ["C-d1"],
+        "platformTerms": ["door_lock_motor", "door_latch", "lock_switch_COM_NO"],
+        "bindingNote": "Door authorization via latch motor — conditional posture per range_oven contract"
+      }
+    }
+  ],
+  "normalizedProcedures": [
+    {
+      "procedureId": "samsungnx60-power",
+      "title": "§4-2: No power / no display",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-2", "pages": [68, 74] },
+      "rangeOvenBindings": ["power_supply", "control_board"],
+      "measurementIds": ["nx60-supply-plug-vac", "nx60-main-pcb-cnp100-vac"],
+      "branchIds": ["nx60-power-board-voltage-open", "nx60-power-board-voltage-normal"]
+    },
+    {
+      "procedureId": "samsungnx60-hmi-touch",
+      "title": "§4-2: Touch keypad",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-2", "pages": [70, 75] },
+      "rangeOvenBindings": ["user_interface"],
+      "branchIds": ["nx60-hmi-child-lock-cleared", "nx60-hmi-replace-display-pcb"]
+    },
+    {
+      "procedureId": "samsungnx60-touch-comm",
+      "title": "§4-1: Sub ↔ touch communication (C-F2)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [65], "errorCode": "C-F2" },
+      "rangeOvenBindings": ["user_interface", "control_board"],
+      "branchIds": ["nx60-touch-comm-harness-fault", "nx60-touch-comm-replace-sub-pcb"]
+    },
+    {
+      "procedureId": "samsungnx60-oven-sensor",
+      "title": "§4-1: Oven temperature sensor (C-20 / C-21)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [59, 62], "errorCodes": ["C-20", "C-21"] },
+      "rangeOvenBindings": ["temperature_sensor"],
+      "measurementIds": ["nx60-oven-sensor-ohms"],
+      "branchIds": ["nx60-sensor-ohms-open", "nx60-sensor-ohms-out-of-range", "nx60-sensor-ohms-normal", "nx60-sensor-harness-good"]
+    },
+    {
+      "procedureId": "samsungnx60-heater-relays",
+      "title": "§4-1: Heater relays — DLB / bake / broil (C-21)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [61, 62], "errorCode": "C-21" },
+      "rangeOvenBindings": ["control_board", "bake_heating_element", "broil_heating_element"],
+      "measurementIds": ["nx60-dlb-relay-ohms", "nx60-broil-relay-ohms", "nx60-bake-relay-ohms"],
+      "branchIds": ["nx60-dlb-relay-welded", "nx60-dlb-relay-normal"]
+    },
+    {
+      "procedureId": "samsungnx60-door-lock",
+      "title": "§4-1: Door lock motor (C-d1)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [63, 64], "errorCode": "C-d1" },
+      "rangeOvenBindings": ["oven_door_switch"],
+      "measurementIds": ["nx60-door-lock-motor-ohms"],
+      "branchIds": ["nx60-lock-motor-open", "nx60-lock-motor-normal"]
+    },
+    {
+      "procedureId": "samsungnx60-cooling-fan",
+      "title": "§4-1: Display cooling fan (C-A2)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [66], "errorCode": "C-A2" },
+      "rangeOvenBindings": ["thermal_protection"],
+      "branchIds": ["nx60-cooling-fan-not-spinning", "nx60-cooling-fan-ok"]
+    },
+    {
+      "procedureId": "samsungnx60-oven-vent",
+      "title": "§4-1: Oven vent blocked (C-24)",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [67], "errorCode": "C-24" },
+      "rangeOvenBindings": ["thermal_protection"],
+      "branchIds": ["nx60-vent-blocked", "nx60-vent-clear"]
+    },
+    {
+      "procedureId": "samsungnx60-spark-module",
+      "title": "§4-3: Cooktop spark module",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [71, 78] },
+      "rangeOvenBindings": ["surface_heating_system", "power_supply"],
+      "branchIds": ["nx60-spark-no-voltage-replace-module", "nx60-spark-module-ok"]
+    },
+    {
+      "procedureId": "samsungnx60-convection-fan",
+      "title": "§4-3: Convection fan motor",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [70, 87] },
+      "rangeOvenBindings": ["convection_fan"],
+      "measurementIds": ["nx60-convection-fan-ohms"],
+      "branchIds": ["nx60-convection-fan-open", "nx60-convection-fan-normal"]
+    },
+    {
+      "procedureId": "samsungnx60-oven-lamp",
+      "title": "§4-3: Oven lamp",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [70, 87] },
+      "rangeOvenBindings": [],
+      "platformOnly": ["oven_lamp", "RY208"],
+      "measurementIds": ["nx60-oven-lamp-socket-ohms"],
+      "branchIds": ["nx60-lamp-socket-shorted", "nx60-lamp-bulb-replace"]
+    },
+    {
+      "procedureId": "samsungnx60-bake-ignitor",
+      "title": "§4-4: Bake burner HSI",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84] },
+      "rangeOvenBindings": ["bake_heating_element"],
+      "measurementIds": ["nx60-bake-hsi-ohms", "nx60-bake-hsi-ignition-vac"],
+      "branchIds": ["nx60-bake-hsi-open", "nx60-bake-hsi-normal", "nx60-bake-hsi-no-glow-replace-hsi", "nx60-bake-hsi-no-voltage-replace-pcb"]
+    },
+    {
+      "procedureId": "samsungnx60-broil-ignitor",
+      "title": "§4-4: Broil burner HSI",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84] },
+      "rangeOvenBindings": ["broil_heating_element"],
+      "measurementIds": ["nx60-broil-hsi-ohms", "nx60-broil-hsi-ignition-vac"],
+      "branchIds": ["nx60-broil-hsi-open", "nx60-broil-hsi-normal"]
+    },
+    {
+      "procedureId": "samsungnx60-safety-valve",
+      "title": "§4-4: Oven gas safety valve",
+      "sourceType": "service_manual",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84] },
+      "rangeOvenBindings": ["bake_heating_element", "broil_heating_element"],
+      "implementationTerms": ["safety_valve", "gas_valve"],
+      "measurementIds": ["nx60-safety-valve-amps", "nx60-safety-valve-bake-vac", "nx60-safety-valve-broil-vac"],
+      "branchIds": ["nx60-valve-low-amps-replace-valve", "nx60-valve-amps-normal"]
+    }
+  ],
+  "normalizedMeasurements": [
+    {
+      "id": "nx60-oven-sensor-ohms",
+      "measurementType": "resistance",
+      "target": "oven_temperature_sensor",
+      "implementationTerm": "oven_sensor",
+      "nominalValue": 1080,
+      "unit": "ohms",
+      "condition": "Room temperature; harness disconnected at CN100",
+      "expectedRange": { "normalMin": 1030, "normalMax": 1130, "openAbove": 2950, "shortBelow": 930 },
+      "testPoint": { "connector": "CN100", "pins": "11–13" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [59, 62], "sourceType": "service_manual" },
+      "rangeOvenBinding": "temperature_sensor",
+      "measurementKnowledgeId": "samsungNx60OvenSensorOhms"
+    },
+    {
+      "id": "nx60-bake-hsi-ohms",
+      "measurementType": "resistance",
+      "target": "bake_hot_surface_ignitor",
+      "implementationTerm": "bake_hsi",
+      "unit": "ohms",
+      "condition": "Power off; measure at bake HSI terminals",
+      "expectedRange": { "normalMin": 40, "normalMax": 400 },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.bake_heating_element",
+      "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms"
+    },
+    {
+      "id": "nx60-broil-hsi-ohms",
+      "measurementType": "resistance",
+      "target": "broil_hot_surface_ignitor",
+      "implementationTerm": "broil_hsi",
+      "unit": "ohms",
+      "condition": "Power off; measure at broil HSI terminals",
+      "expectedRange": { "normalMin": 40, "normalMax": 400 },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.broil_heating_element",
+      "measurementKnowledgeId": "samsungNx60OvenIgnitorOhms"
+    },
+    {
+      "id": "nx60-bake-hsi-ignition-vac",
+      "measurementType": "voltage",
+      "target": "bake_ignition_circuit",
+      "unit": "VAC",
+      "condition": "Power on; bake mode commanded",
+      "expectedValue": 120,
+      "testPoint": { "connector": "T504", "pins": "T504–T505" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.bake_heating_element"
+    },
+    {
+      "id": "nx60-broil-hsi-ignition-vac",
+      "measurementType": "voltage",
+      "target": "broil_ignition_circuit",
+      "unit": "VAC",
+      "condition": "Power on; broil mode commanded",
+      "expectedValue": 120,
+      "testPoint": { "connector": "T504", "pins": "T504–T503" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.broil_heating_element"
+    },
+    {
+      "id": "nx60-safety-valve-amps",
+      "measurementType": "current",
+      "target": "oven_gas_safety_valve",
+      "implementationTerm": "safety_valve",
+      "unit": "amps",
+      "condition": "HSI glowing; clamp safety valve terminal during bake or broil ignition",
+      "expectedRange": { "normalMin": 3.3, "normalMax": 3.6 },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.bake_heating_element | instanceScopes.broil_heating_element",
+      "measurementKnowledgeId": "samsungNx60GasSafetyValveAmps"
+    },
+    {
+      "id": "nx60-safety-valve-bake-vac",
+      "measurementType": "voltage",
+      "target": "safety_valve_bake_circuit",
+      "unit": "VAC",
+      "condition": "During bake valve call",
+      "expectedValue": 120,
+      "testPoint": { "connector": "TB201", "pins": "TB201–TB204" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "implementationTerm": "gas_valve"
+    },
+    {
+      "id": "nx60-safety-valve-broil-vac",
+      "measurementType": "voltage",
+      "target": "safety_valve_broil_circuit",
+      "unit": "VAC",
+      "condition": "During broil valve call",
+      "expectedValue": 120,
+      "testPoint": { "connector": "TB201", "pins": "TB201–CN202" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" },
+      "implementationTerm": "gas_valve"
+    },
+    {
+      "id": "nx60-door-lock-motor-ohms",
+      "measurementType": "resistance",
+      "target": "door_lock_motor_coil",
+      "implementationTerm": "door_lock_motor",
+      "unit": "ohms",
+      "condition": "Room temperature; harness disconnected from lock motor",
+      "expectedRange": { "normalMin": 1750, "normalMax": 1950 },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [63, 64], "sourceType": "service_manual" },
+      "rangeOvenBinding": "conditionalConcepts.oven_door_switch",
+      "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms"
+    },
+    {
+      "id": "nx60-convection-fan-ohms",
+      "measurementType": "resistance",
+      "target": "convection_fan_motor",
+      "unit": "ohms",
+      "condition": "Power off; leads disconnected at fan motor",
+      "expectedRange": { "normalMin": 25, "normalMax": 30 },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [70, 87], "sourceType": "service_manual" },
+      "rangeOvenBinding": "conditionalConcepts.convection_fan",
+      "measurementKnowledgeId": "samsungNx60ConvectionFanOhms"
+    },
+    {
+      "id": "nx60-dlb-relay-ohms",
+      "measurementType": "resistance",
+      "target": "dlb_relay_contacts",
+      "implementationTerm": "dlb_relay",
+      "unit": "ohms",
+      "condition": "Power off; relay de-energized",
+      "expectedRange": { "description": "Open (∞ Ω) — contacts not welded" },
+      "testPoint": { "connector": "TB200", "pins": "TB200–TB201" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [61, 62], "sourceType": "service_manual" },
+      "rangeOvenBinding": "control_board",
+      "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms"
+    },
+    {
+      "id": "nx60-broil-relay-ohms",
+      "measurementType": "resistance",
+      "target": "broil_relay_contacts",
+      "implementationTerm": "broil_relay",
+      "unit": "ohms",
+      "condition": "Power off; relay de-energized",
+      "expectedRange": { "description": "Open (∞ Ω)" },
+      "testPoint": { "connector": "TB202", "pins": "TB202–TB203" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [61, 62], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.broil_heating_element",
+      "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms"
+    },
+    {
+      "id": "nx60-bake-relay-ohms",
+      "measurementType": "resistance",
+      "target": "bake_relay_contacts",
+      "implementationTerm": "bake_relay",
+      "unit": "ohms",
+      "condition": "Power off; relay de-energized",
+      "expectedRange": { "description": "Open (∞ Ω)" },
+      "testPoint": { "connector": "TB204", "pins": "TB204–TB205" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [61, 62], "sourceType": "service_manual" },
+      "rangeOvenBinding": "instanceScopes.bake_heating_element",
+      "measurementKnowledgeId": "samsungNx60HeaterRelayContactsOhms"
+    },
+    {
+      "id": "nx60-oven-lamp-socket-ohms",
+      "measurementType": "resistance",
+      "target": "oven_lamp_socket",
+      "implementationTerm": "oven_lamp",
+      "unit": "ohms",
+      "condition": "Bulb removed",
+      "expectedRange": { "description": "Open (∞ Ω) with bulb removed" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [70, 87], "sourceType": "service_manual" },
+      "rangeOvenBinding": null,
+      "measurementKnowledgeId": "samsungNx60OvenLampSocketOhms"
+    },
+    {
+      "id": "nx60-supply-plug-vac",
+      "measurementType": "voltage",
+      "target": "line_supply",
+      "unit": "VAC",
+      "condition": "At wall plug L–N",
+      "expectedValue": 120,
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-2", "pages": [68, 74], "sourceType": "service_manual" },
+      "rangeOvenBinding": "power_supply",
+      "measurementKnowledgeId": "supplyVoltage120"
+    },
+    {
+      "id": "nx60-main-pcb-cnp100-vac",
+      "measurementType": "voltage",
+      "target": "main_pcb_supply",
+      "implementationTerm": "main_pcb",
+      "unit": "VAC",
+      "condition": "Power applied",
+      "expectedValue": 120,
+      "testPoint": { "connector": "CNP100", "pins": "5–7" },
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-2", "pages": [68, 74], "sourceType": "service_manual" },
+      "rangeOvenBinding": "power_supply | control_board",
+      "measurementKnowledgeId": "supplyVoltage120"
+    }
+  ],
+  "normalizedDecisionBranches": [
+    {
+      "id": "nx60-sensor-ohms-open",
+      "procedureId": "samsungnx60-oven-sensor",
+      "stepId": "sensor_ohms",
+      "condition": "Resistance OL (>2950 Ω per C-20 open threshold)",
+      "when": { "kind": "measurement_open" },
+      "outcome": "Replace oven temperature sensor",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [59, 62], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-sensor-ohms-out-of-range",
+      "procedureId": "samsungnx60-oven-sensor",
+      "stepId": "sensor_ohms",
+      "condition": "Outside 1030–1130 Ω normal band or short <930 Ω",
+      "when": { "kind": "measurement_warning" },
+      "outcome": "Replace oven temperature sensor",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [59, 62], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-sensor-ohms-normal",
+      "procedureId": "samsungnx60-oven-sensor",
+      "stepId": "sensor_ohms",
+      "condition": "1080 Ω nominal at room temperature",
+      "when": { "kind": "measurement_normal" },
+      "nextStepId": "harness_check",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [59, 62], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-bake-hsi-open",
+      "procedureId": "samsungnx60-bake-ignitor",
+      "stepId": "bake_hsi_ohms",
+      "condition": "Bake HSI OL or outside 40–400 Ω",
+      "when": { "kind": "measurement_open" },
+      "outcome": "Replace bake hot surface ignitor",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-bake-hsi-normal",
+      "procedureId": "samsungnx60-bake-ignitor",
+      "stepId": "bake_hsi_ohms",
+      "condition": "40–400 Ω cold resistance",
+      "when": { "kind": "measurement_normal" },
+      "nextStepId": "bake_hsi_glow",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-bake-hsi-no-glow-replace-hsi",
+      "procedureId": "samsungnx60-bake-ignitor",
+      "stepId": "bake_hsi_glow",
+      "condition": "HSI resistance good but no glow at T504–T505",
+      "when": { "kind": "checkpoint_no" },
+      "outcome": "Replace bake HSI",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-valve-low-amps-replace-valve",
+      "procedureId": "samsungnx60-safety-valve",
+      "stepId": "valve_amps",
+      "condition": "Safety valve current below 3.3 A with glowing HSI",
+      "when": { "kind": "measurement_warning" },
+      "outcome": "Replace oven gas safety valve",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-valve-amps-normal",
+      "procedureId": "samsungnx60-safety-valve",
+      "stepId": "valve_amps",
+      "condition": "3.3–3.6 A at safety valve terminal with HSI glowing",
+      "when": { "kind": "measurement_normal" },
+      "outcome": "Safety valve current verified",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-4", "pages": [83, 84], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-dlb-relay-welded",
+      "procedureId": "samsungnx60-heater-relays",
+      "stepId": "dlb_relay",
+      "condition": "DLB relay contacts not open (∞ Ω) when de-energized",
+      "when": { "kind": "measurement_critical" },
+      "outcome": "Replace Main PCB — welded DLB relay",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [61, 62], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-spark-no-voltage-replace-module",
+      "procedureId": "samsungnx60-spark-module",
+      "stepId": "spark_voltage",
+      "condition": "No spark module voltage to surface burner terminal when knob turned",
+      "when": { "kind": "implicit_no_voltage" },
+      "outcome": "Replace spark module",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-3", "pages": [71, 78], "sourceType": "service_manual" }
+    },
+    {
+      "id": "nx60-vent-blocked",
+      "procedureId": "samsungnx60-oven-vent",
+      "stepId": "vent_clear",
+      "condition": "Foil or blockage in oven vent or cover air path",
+      "when": { "kind": "checkpoint_no" },
+      "outcome": "Clear vent blockage — C-24",
+      "source": { "manual": "SAMSUNG-NX60-RANGE", "section": "4-1", "pages": [67], "sourceType": "service_manual" }
+    }
+  ],
+  "implementationVocabulary": [
+    { "term": "gas_valve", "classification": "platform_implementation", "bindsTo": "surface_heating_system | bake/broil gas path", "procedureIds": ["samsungnx60-safety-valve"] },
+    { "term": "safety_valve", "classification": "platform_implementation", "measurement": "3.3–3.6 A", "procedureIds": ["samsungnx60-safety-valve"] },
+    { "term": "igniter", "classification": "platform_implementation", "aliases": ["bake_hsi", "broil_hsi", "HSI"], "bindsTo": "instanceScopes.bake_heating_element | instanceScopes.broil_heating_element" },
+    { "term": "spark_module", "classification": "platform_implementation", "bindsTo": "surface_heating_system", "procedureIds": ["samsungnx60-spark-module"] },
+    { "term": "electrode", "classification": "platform_implementation", "note": "Surface burner spark electrodes — cooktop path" },
+    { "term": "burner", "classification": "platform_implementation", "aliases": ["bake_burner", "broil_burner", "surface_burner"] },
+    { "term": "flame_detection", "classification": "platform_implementation", "note": "Implicit in safety valve current path — no dedicated µA flame sensor proc on NX60" },
+    { "term": "dlb_relay", "classification": "platform_implementation", "bindsTo": "control_board", "testPoint": "TB200–TB201" },
+    { "term": "bake_relay", "classification": "platform_implementation", "testPoint": "TB204–TB205" },
+    { "term": "broil_relay", "classification": "platform_implementation", "testPoint": "TB202–TB203" },
+    { "term": "main_pcb", "classification": "platform_implementation", "aliasFor": "control_board" },
+    { "term": "sub_pcb", "classification": "platform_implementation", "aliasFor": "control_board", "connector": "CN100" },
+    { "term": "display_pcb", "classification": "platform_implementation", "aliasFor": "user_interface" },
+    { "term": "door_lock_motor", "classification": "platform_implementation", "bindsTo": "conditionalConcepts.oven_door_switch" },
+    { "term": "convection_fan_motor", "classification": "platform_implementation", "bindsTo": "conditionalConcepts.convection_fan" },
+    { "term": "display_cooling_fan", "classification": "platform_implementation", "bindsTo": "conditionalConcepts.thermal_protection", "errorCode": "C-A2" },
+    { "term": "oven_lamp", "classification": "platform_only", "procedureIds": ["samsungnx60-oven-lamp"] },
+    { "term": "CN100", "classification": "test_point", "connector": "Sub PCB oven sensor" },
+    { "term": "CNP100", "classification": "test_point", "connector": "Main PCB supply" },
+    { "term": "TB200", "classification": "test_point", "connector": "DLB relay contacts" }
+  ],
+  "excludedFromCanonicalPromotion": [
+    { "term": "igniter", "reason": "HSI is bake/broil instance-scope implementation — CG-11 PLATFORM_ONLY" },
+    { "term": "gas_valve", "reason": "Safety valve hardware — platform overlay only" },
+    { "term": "safety_valve", "reason": "Oven gas valve current check — not a canonical component" },
+    { "term": "spark_module", "reason": "Cooktop surface ignition implementation under surface_heating_system" },
+    { "term": "dlb_relay", "reason": "Relay PCB implementation under control_board" },
+    { "term": "bake_relay", "reason": "Relay implementation — not separate canonical node" },
+    { "term": "broil_relay", "reason": "Relay implementation — not separate canonical node" },
+    { "term": "door_lock", "reason": "Latch motor packaging — binds via conditional oven_door_switch only" },
+    { "term": "bake_element", "reason": "NE63 electric variant — excluded from gas normalization scope" },
+    { "term": "broil_element", "reason": "NE63 electric variant — excluded from gas normalization scope" },
+    { "term": "oven_heating_system", "reason": "REMOVE from range_oven rev1 — monolithic aggregate rejected CG-10" }
+  ],
+  "provenance": [
+    {
+      "id": "nx60-prov-manual-root",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_range_nx60",
+      "modelOrFamily": "NX60T8311SS / NX60T8311S*",
+      "sourceManual": "SAMSUNG-NX60-RANGE",
+      "sourceType": "service_manual",
+      "canonicalOntologyId": "range_oven",
+      "pages": "59–87 (§4-1 through §4-4 gas procedures)"
+    },
+    {
+      "id": "nx60-prov-fit-ref",
+      "sourceManual": "SAMSUNG-NX60-RANGE",
+      "sourceType": "fit_test_record",
+      "artifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "role": "historical_architectural_witness_only",
+      "notUsedAsProcedureSource": true
+    }
+  ],
+  "provenanceAudit": {
+    "status": "passed",
+    "auditedAt": "2026-09-16T23:45:00+00:00",
+    "checks": {
+      "everyProcedureHasSourceAndPages": true,
+      "procedureCount": 14,
+      "measurementsRetainUnitsAndConditions": true,
+      "measurementCount": 16,
+      "decisionBranchesRetainConditionalLogic": true,
+      "branchCount": 11,
+      "implementationTermsClassifiedSeparately": true,
+      "noUnsupportedCanonicalComponentsIntroduced": true,
+      "canonicalGraphUnchanged": true,
+      "electricRangeRev1HashUnchanged": true,
+      "canonicalOntologyIdIsRangeOven": true,
+      "fitConclusionsNotNormalizedAsManualEvidence": true
+    },
+    "canonicalIntegrity": {
+      "electric_range.jsonHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "range_ovenPrimaryId": "range_oven",
+      "newCanonicalOntologyFiles": 0
+    }
+  },
+  "definitionOfDone": {
+    "met": true,
+    "criteria": [
+      "every selected procedure has source/page provenance",
+      "measurements retain units + conditions",
+      "decision branches retain actual conditional logic",
+      "implementation terms classified separately from canonical functions",
+      "no unsupported canonical components introduced",
+      "no canonical graph/hash changes",
+      "canonicalOntologyId = range_oven",
+      "provenance audit passes"
+    ]
+  },
+  "nextDisciplinedStep": "CG-RANGE-NORMALIZATION target 2 — Samsung NE58R9560WS induction (do not open compounding until all four targets normalized)"
+}

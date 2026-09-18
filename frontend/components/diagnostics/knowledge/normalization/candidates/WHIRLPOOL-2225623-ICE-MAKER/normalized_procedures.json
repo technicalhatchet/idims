@@ -1,0 +1,1972 @@
+{
+  "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+  "procedures": [
+    {
+      "procedureId": "w2225623-bimetal",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Harvest bimetal (T\u2013H)",
+      "purpose": "Bimetal continuity and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "defrost_thermostat"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IME3",
+        "E3",
+        "IME5",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "bimetal_cold",
+          "order": 2,
+          "type": "instruction",
+          "title": "Cold mold condition",
+          "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold must be cold (\u226417\u00b0F \u00b13\u00b0 closes). Power off for continuity test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold must be cold (\u226417\u00b0F \u00b13\u00b0 closes). Power off for continuity test."
+        },
+        {
+          "id": "bimetal_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Bimetal continuity (T\u2013H, cold)",
+          "body": "Bimetal closes \u226417\u00b0F \u00b13\u00b0; opens 32\u00b0F \u00b13\u00b0. Continuity when mold cold.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolModularIceMakerBimetalOhms",
+              "testPoint": {
+                "connector": "module",
+                "pins": "T \u2194 H",
+                "label": "Bimetal continuity (T\u2013H, cold)"
+              },
+              "title": "Bimetal continuity (T\u2013H, cold)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "th_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bimetal",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "th_pass",
+              "label": "Closed (cold)",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bimetal_live",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Bimetal closes \u226417\u00b0F \u00b13\u00b0; opens 32\u00b0F \u00b13\u00b0. Continuity when mold cold."
+        },
+        {
+          "id": "bimetal_live",
+          "order": 4,
+          "type": "instruction",
+          "title": "Live bimetal voltage (T\u2013H)",
+          "body": "Restore power. T\u2013H: 0 V = closed; line voltage = open (warm mold).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power. T\u2013H: 0 V = closed; line voltage = open (warm mold)."
+        },
+        {
+          "id": "bimetal_voltage",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Bimetal state matches mold temperature?",
+          "body": "Cold mold: T\u2013H should read 0 V (closed). Warm mold after harvest: line voltage (open).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bimetal_v_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bimetal_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bimetal_v_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_bimetal_out",
+              "terminal": true,
+              "oemOutcome": "Bimetal stuck \u2014 replace ice maker module."
+            }
+          ],
+          "sourceExcerpt": "Cold mold: T\u2013H should read 0 V (closed). Warm mold after harvest: line voltage (open)."
+        },
+        {
+          "id": "replace_bimetal",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_bimetal_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace ice maker module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bimetal_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Bimetal verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolModularIceMakerBimetalOhms",
+          "testPoint": {
+            "connector": "module",
+            "pins": "T \u2194 H",
+            "label": "Bimetal continuity (T\u2013H, cold)"
+          },
+          "title": "Bimetal continuity (T\u2013H, cold)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "th_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "th_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "th_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bimetal",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "th_pass",
+          "label": "Closed (cold)",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bimetal_live",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_ohms"
+        },
+        {
+          "id": "bimetal_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bimetal_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bimetal_voltage"
+        },
+        {
+          "id": "bimetal_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_bimetal_out",
+          "terminal": true,
+          "oemOutcome": "Bimetal stuck \u2014 replace ice maker module.",
+          "stepId": "bimetal_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "T\u2013H",
+        "oemTestTitle": "Bimetal continuity and voltage",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-bimetal",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-bimetal",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-harness-fuse",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Harness thermal fuse (IMFUSE)",
+      "purpose": "In-harness thermal fuse continuity",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IMFUSE",
+        "IME3",
+        "E3"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "fuse_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access harness fuse",
+          "body": "Disconnect ice maker from cabinet harness. Locate in-harness thermal fuse (often black wire). Power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect ice maker from cabinet harness. Locate in-harness thermal fuse (often black wire). Power off."
+        },
+        {
+          "id": "fuse_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Harness fuse continuity",
+          "body": "0 \u03a9 closed \u2014 fuse good. OL = blown fuse after mold heater overheat event.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms",
+              "testPoint": {
+                "connector": "harness",
+                "pins": "fuse leads",
+                "label": "Harness fuse continuity"
+              },
+              "title": "Harness fuse continuity"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fuse_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_pass",
+              "label": "0 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fuse_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "0 \u03a9 closed \u2014 fuse good. OL = blown fuse after mold heater overheat event."
+        },
+        {
+          "id": "fuse_ok",
+          "order": 4,
+          "type": "instruction",
+          "title": "Verify heater after fuse OK",
+          "body": "When fuse tests good, verify L\u2013H mold heater reads 72 \u03a9 before reinstall.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "When fuse tests good, verify L\u2013H mold heater reads 72 \u03a9 before reinstall."
+        },
+        {
+          "id": "replace_harness",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ice maker harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fuse_path_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Harness fuse OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolModularIceMakerHarnessFuseOhms",
+          "testPoint": {
+            "connector": "harness",
+            "pins": "fuse leads",
+            "label": "Harness fuse continuity"
+          },
+          "title": "Harness fuse continuity"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fuse_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "fuse_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "fuse_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        },
+        {
+          "id": "fuse_pass",
+          "label": "0 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fuse_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuse_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "fuse",
+        "oemTestTitle": "In-harness thermal fuse continuity",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-harness-fuse",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-harness-fuse",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-ime-errors",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Test 56 ice maker errors (IME2\u2013IME5)",
+      "purpose": "Electronic model ice maker service codes",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IME2",
+        "IME3",
+        "IME4",
+        "IME5",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "ime_code",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Which test 56 code is displayed?",
+          "body": "French-door / electronic models show IME codes during service test 56. Modular 2225623 uses L/N/M/T/H/V test points.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ime_e2",
+              "label": "E2 / IME2 \u2014 motor home",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "route_e2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ime_e3",
+              "label": "E3 / IME3 \u2014 heater timeout",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_e3",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "French-door / electronic models show IME codes during service test 56. Modular 2225623 uses L/N/M/T/H/V test points."
+        },
+        {
+          "id": "route_e2",
+          "order": 3,
+          "type": "instruction",
+          "title": "IME2 \u2014 motor path",
+          "body": "Run w2225623-motor-circuit: L\u2013M should read 8800 \u03a9 off support; verify cam \"D\" coupling alignment.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run w2225623-motor-circuit: L\u2013M should read 8800 \u03a9 off support; verify cam \"D\" coupling alignment."
+        },
+        {
+          "id": "route_e3",
+          "order": 4,
+          "type": "instruction",
+          "title": "IME3 \u2014 heater / bimetal / fuse path",
+          "body": "Run w2225623-mold-heater (L\u2013H 72 \u03a9), w2225623-bimetal (T\u2013H), and w2225623-harness-fuse (IMFUSE).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run w2225623-mold-heater (L\u2013H 72 \u03a9), w2225623-bimetal (T\u2013H), and w2225623-harness-fuse (IMFUSE)."
+        },
+        {
+          "id": "ime_code_2",
+          "order": 5,
+          "type": "visual_check",
+          "title": "E4 or E5 displayed?",
+          "body": "E4/IME4 = dry cycle (no water). E5/IME5 = thermistor on electronic models; modular uses bimetal T\u2013H.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ime_e4",
+              "label": "E4 / IME4 \u2014 dry cycle",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "route_e4",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ime_e5",
+              "label": "E5 / IME5 \u2014 thermistor",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_e5",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "E4/IME4 = dry cycle (no water). E5/IME5 = thermistor on electronic models; modular uses bimetal T\u2013H."
+        },
+        {
+          "id": "route_e4",
+          "order": 6,
+          "type": "instruction",
+          "title": "IME4 \u2014 water fill path",
+          "body": "Run w2225623-water-valve: N\u2013V valve voltage and 140 cc / 7.5 s fill specification.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run w2225623-water-valve: N\u2013V valve voltage and 140 cc / 7.5 s fill specification."
+        },
+        {
+          "id": "route_e5",
+          "order": 7,
+          "type": "instruction",
+          "title": "IME5 \u2014 bimetal substitute",
+          "body": "On modular 2225623, harvest thermostat is bimetal T\u2013H (not thermistor). Run w2225623-bimetal procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "On modular 2225623, harvest thermostat is bimetal T\u2013H (not thermistor). Run w2225623-bimetal procedure."
+        },
+        {
+          "id": "e2_done",
+          "order": 8,
+          "type": "outcome",
+          "title": "IME2 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e3_done",
+          "order": 9,
+          "type": "outcome",
+          "title": "IME3 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e4_done",
+          "order": 10,
+          "type": "outcome",
+          "title": "IME4 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "e5_done",
+          "order": 11,
+          "type": "outcome",
+          "title": "IME5 path complete",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ime_e2",
+          "label": "E2 / IME2 \u2014 motor home",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_e2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ime_code"
+        },
+        {
+          "id": "ime_e3",
+          "label": "E3 / IME3 \u2014 heater timeout",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_e3",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ime_code"
+        },
+        {
+          "id": "ime_e4",
+          "label": "E4 / IME4 \u2014 dry cycle",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "route_e4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ime_code_2"
+        },
+        {
+          "id": "ime_e5",
+          "label": "E5 / IME5 \u2014 thermistor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_e5",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ime_code_2"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "56",
+        "oemTestTitle": "Electronic model ice maker service codes",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-ime-errors",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-ime-errors",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-module-power",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Module power (L\u2013N)",
+      "purpose": "Module power voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "supply"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "no_power",
+        "voltage_check",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "module_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access module test points",
+          "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall."
+        },
+        {
+          "id": "restore_power",
+          "order": 3,
+          "type": "instruction",
+          "title": "Restore power for live check",
+          "body": "Reconnect power. Use meter or test light at module L\u2013N test points.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect power. Use meter or test light at module L\u2013N test points."
+        },
+        {
+          "id": "ln_voltage",
+          "order": 4,
+          "type": "visual_check",
+          "title": "L\u2013N line voltage present?",
+          "body": "At L\u2013N: line voltage = power OK; 0 V = no power to module.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ln_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ln_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "no_power_out",
+              "terminal": true,
+              "oemOutcome": "No line voltage at module \u2014 trace harness, shut-off arm, and cabinet supply."
+            }
+          ],
+          "sourceExcerpt": "At L\u2013N: line voltage = power OK; 0 V = no power to module."
+        },
+        {
+          "id": "no_power_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "No module power",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Module power OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ln_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ln_voltage"
+        },
+        {
+          "id": "ln_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "no_power_out",
+          "terminal": true,
+          "oemOutcome": "No line voltage at module \u2014 trace harness, shut-off arm, and cabinet supply.",
+          "stepId": "ln_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "L\u2013N",
+        "oemTestTitle": "Module power voltage",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-module-power",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-module-power",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-mold-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Mold heater (L\u2013H) \u2014 72 \u03a9",
+      "purpose": "Mold heater resistance and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "heater"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IME3",
+        "E3",
+        "IMFUSE"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "heater_setup",
+          "order": 2,
+          "type": "instruction",
+          "title": "Prepare for L\u2013H ohms",
+          "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold heater attached to support; power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Mold heater attached to support; power off."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Mold heater resistance (L\u2013H)",
+          "body": "185 W @ 120 V = 72 \u03a9 at L\u2013H with heater on support, blades in park.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms",
+              "testPoint": {
+                "connector": "module",
+                "pins": "L \u2194 H",
+                "label": "Mold heater resistance (L\u2013H)"
+              },
+              "title": "Mold heater resistance (L\u2013H)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lh_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lh_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lh_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lh_pass",
+              "label": "72 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_live",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "185 W @ 120 V = 72 \u03a9 at L\u2013H with heater on support, blades in park."
+        },
+        {
+          "id": "heater_live",
+          "order": 4,
+          "type": "instruction",
+          "title": "Live heater voltage (L\u2013H)",
+          "body": "Restore power and initiate cycle electrically. L\u2013H line voltage = heater ON; 0 V = OFF.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power and initiate cycle electrically. L\u2013H line voltage = heater ON; 0 V = OFF."
+        },
+        {
+          "id": "heater_voltage",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Heater energizes during harvest?",
+          "body": "During harvest heat phase, does L\u2013H show line voltage?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_v_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_v_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "heater_control_out",
+              "terminal": true,
+              "oemOutcome": "Heater ohms OK but no L\u2013H voltage \u2014 module control or bimetal path."
+            }
+          ],
+          "sourceExcerpt": "During harvest heat phase, does L\u2013H show line voltage?"
+        },
+        {
+          "id": "replace_heater",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace mold heater / module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_control_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Module control fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Mold heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolModularIceMakerMoldHeaterOhms",
+          "testPoint": {
+            "connector": "module",
+            "pins": "L \u2194 H",
+            "label": "Mold heater resistance (L\u2013H)"
+          },
+          "title": "Mold heater resistance (L\u2013H)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lh_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "lh_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "lh_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "lh_pass",
+          "label": "72 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_live",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "heater_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "heater_control_out",
+          "terminal": true,
+          "oemOutcome": "Heater ohms OK but no L\u2013H voltage \u2014 module control or bimetal path.",
+          "stepId": "heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "L\u2013H",
+        "oemTestTitle": "Mold heater resistance and voltage",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-mold-heater",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-mold-heater",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-motor-circuit",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Ejector motor (L\u2013M) \u2014 8800 \u03a9",
+      "purpose": "Ejector motor resistance and voltage",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IME2",
+        "E2",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "motor_setup",
+          "order": 2,
+          "type": "instruction",
+          "title": "Prepare for L\u2013M ohms",
+          "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Disconnect motor from support; blades in park; power off.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Disconnect motor from support; blades in park; power off."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Motor winding resistance (L\u2013M)",
+          "body": "1.5 W motor = 8800 \u03a9 at L\u2013M with motor disconnected from support.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolModularIceMakerMotorOhms",
+              "testPoint": {
+                "connector": "module",
+                "pins": "L \u2194 M",
+                "label": "Motor winding resistance (L\u2013M)"
+              },
+              "title": "Motor winding resistance (L\u2013M)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "lm_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "lm_pass",
+              "label": "8800 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_live",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "1.5 W motor = 8800 \u03a9 at L\u2013M with motor disconnected from support."
+        },
+        {
+          "id": "motor_live",
+          "order": 4,
+          "type": "instruction",
+          "title": "Live motor voltage (L\u2013M)",
+          "body": "Restore power and initiate cycle electrically. L\u2013M line voltage = motor ON; 0 V = OFF.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power and initiate cycle electrically. L\u2013M line voltage = motor ON; 0 V = OFF."
+        },
+        {
+          "id": "motor_voltage",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Motor energizes during cycle?",
+          "body": "During eject phase, does L\u2013M show line voltage and blades rotate?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_v_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_v_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "motor_cam_out",
+              "terminal": true,
+              "oemOutcome": "Motor ohms OK but no rotation \u2014 cam coupling or module control (IME2/E2)."
+            }
+          ],
+          "sourceExcerpt": "During eject phase, does L\u2013M show line voltage and blades rotate?"
+        },
+        {
+          "id": "replace_motor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_cam_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Check cam coupling",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Motor circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolModularIceMakerMotorOhms",
+          "testPoint": {
+            "connector": "module",
+            "pins": "L \u2194 M",
+            "label": "Motor winding resistance (L\u2013M)"
+          },
+          "title": "Motor winding resistance (L\u2013M)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "lm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "lm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "lm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "lm_pass",
+          "label": "8800 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_live",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_voltage"
+        },
+        {
+          "id": "motor_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "motor_cam_out",
+          "terminal": true,
+          "oemOutcome": "Motor ohms OK but no rotation \u2014 cam coupling or module control (IME2/E2).",
+          "stepId": "motor_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "L\u2013M",
+        "oemTestTitle": "Ejector motor resistance and voltage",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-motor-circuit",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-motor-circuit",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-water-fill-adjust",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Water level adjustment",
+      "purpose": "Fill screw adjustment (CW decreases)",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "small_cubes",
+        "hollow_cubes",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "adjust_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access fill adjustment",
+          "body": "Pull water-adjustment knob and snap off cover. Index knob on reinstall.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Pull water-adjustment knob and snap off cover. Index knob on reinstall."
+        },
+        {
+          "id": "adjust_direction",
+          "order": 3,
+          "type": "instruction",
+          "title": "Fill adjustment direction",
+          "body": "Clockwise DECREASES fill. \u00bd turn \u2248 20 cc (1.2 sec); 1 full turn \u2248 40 cc (2.4 sec). Max 1 turn either direction \u2014 over-adjust damages module.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clockwise DECREASES fill. \u00bd turn \u2248 20 cc (1.2 sec); 1 full turn \u2248 40 cc (2.4 sec). Max 1 turn either direction \u2014 over-adjust damages module."
+        },
+        {
+          "id": "cube_symptom",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Small or hollow cubes?",
+          "body": "Are cubes undersized or hollow (under-fill symptom)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cubes_yes",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "increase_fill",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cubes_no",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fill_ok",
+              "terminal": true,
+              "oemOutcome": "Fill volume acceptable \u2014 investigate other causes."
+            }
+          ],
+          "sourceExcerpt": "Are cubes undersized or hollow (under-fill symptom)?"
+        },
+        {
+          "id": "increase_fill",
+          "order": 5,
+          "type": "instruction",
+          "title": "Increase fill (CCW)",
+          "body": "Turn fill screw counter-clockwise up to \u00bd turn. Run harvest cycle and re-check 140 cc / 7.5 s target.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Turn fill screw counter-clockwise up to \u00bd turn. Run harvest cycle and re-check 140 cc / 7.5 s target."
+        },
+        {
+          "id": "adjust_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Fill adjusted",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "No fill adjustment needed",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cubes_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "increase_fill",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cube_symptom"
+        },
+        {
+          "id": "cubes_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fill_ok",
+          "terminal": true,
+          "oemOutcome": "Fill volume acceptable \u2014 investigate other causes.",
+          "stepId": "cube_symptom"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "fill",
+        "oemTestTitle": "Fill screw adjustment (CW decreases)",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-water-fill-adjust",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-water-fill-adjust",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w2225623-water-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "title": "Water valve (N\u2013V) and fill volume",
+      "purpose": "Water valve voltage and fill specification",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker_module",
+        "water_valve"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "IME4",
+        "E4",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before resistance checks or module removal. Restore power only for live voltage checks when required.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "MODULE OHMMETER CHECKS (no power; ejector blades in PARK)."
+        },
+        {
+          "id": "valve_setup",
+          "order": 2,
+          "type": "instruction",
+          "title": "Prepare for fill test",
+          "body": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Confirm water supply ON and fill tube clear. Initiate cycle electrically only.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test points L, N, M, T, H, V are stamped on the circuit module (3 Phillips removal screws). Pull water-adjust knob and snap off cover for access. Ejector blades must be in park for resistance tests. Do not manually start the cycle \u2014 initiate electrically only. Align \"D\" coupling on reinstall. Confirm water supply ON and fill tube clear. Initiate cycle electrically only."
+        },
+        {
+          "id": "valve_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "N\u2013V valve voltage during fill?",
+          "body": "During water-fill phase: N\u2013V line voltage = valve ON; 0 V = OFF.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_v_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_volume",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_v_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "valve_fault_out",
+              "terminal": true,
+              "oemOutcome": "No N\u2013V voltage during fill \u2014 module, harness, or cabinet valve path."
+            }
+          ],
+          "sourceExcerpt": "During water-fill phase: N\u2013V line voltage = valve ON; 0 V = OFF."
+        },
+        {
+          "id": "fill_volume",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fill volume ~140 cc / 7.5 sec?",
+          "body": "Measure fill: specification is 140 cc in 7.5 seconds. Under-fill causes small or hollow cubes.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fill_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fill_low",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fill_adjust_out",
+              "terminal": true,
+              "oemOutcome": "Under-fill \u2014 check water pressure, filter, fill tube freeze, and adjustment."
+            }
+          ],
+          "sourceExcerpt": "Measure fill: specification is 140 cc in 7.5 seconds. Under-fill causes small or hollow cubes."
+        },
+        {
+          "id": "valve_fault_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Valve or module fault",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fill_adjust_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Adjust fill or repair supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Water fill verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_v_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_volume",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_voltage"
+        },
+        {
+          "id": "valve_v_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "valve_fault_out",
+          "terminal": true,
+          "oemOutcome": "No N\u2013V voltage during fill \u2014 module, harness, or cabinet valve path.",
+          "stepId": "valve_voltage"
+        },
+        {
+          "id": "fill_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill_volume"
+        },
+        {
+          "id": "fill_low",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fill_adjust_out",
+          "terminal": true,
+          "oemOutcome": "Under-fill \u2014 check water pressure, filter, fill tube freeze, and adjustment.",
+          "stepId": "fill_volume"
+        }
+      ],
+      "source": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "manualTitle": "Whirlpool Modular Ice Maker Service Sheet (Part 2225623, 120 V)",
+        "oemTestNumber": "N\u2013V",
+        "oemTestTitle": "Water valve voltage and fill specification",
+        "pages": [
+          1
+        ],
+        "extractedTextFile": "backend/docs/manuals/whirlpoolmodularicemakerservicesheet-2225623-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+        "platformId": "whirlpool_modular_ice_maker",
+        "procedureId": "w2225623-water-valve",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "platformId": "whirlpool_modular_ice_maker"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w2225623-water-valve",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}
