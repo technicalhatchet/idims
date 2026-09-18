@@ -12,7 +12,8 @@ from .conflict_detector import (
     detect_topology_conflicts,
     merge_conflicts,
 )
-from .normalize_procedure import load_procedure_seeds_for_manual
+from .lifecycle import NormalizationLifecycleError
+from .normalize_procedure import declares_procedure_inheritance, load_procedure_seeds_for_manual
 from .overlay_candidate_builder import build_overlay_candidates
 from .ontology_resolver import resolve_ontology_id
 from .paths import CANDIDATES_DIR, MANIFEST_PATH, PROCEDURE_SEED_DIR
@@ -29,10 +30,25 @@ def find_manual_entry(manifest: dict[str, Any], manual_id: str) -> dict[str, Any
     raise ValueError(f"Manual '{manual_id}' not found in procedureManualManifest.json")
 
 
+def _existing_mapping_candidate_count(manual_id: str) -> int:
+    path = CANDIDATES_DIR / manual_id / "canonical_mapping_candidates.json"
+    if not path.is_file():
+        return 0
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    candidates = payload.get("candidates")
+    if isinstance(candidates, list):
+        return len(candidates)
+    if isinstance(payload, list):
+        return len(payload)
+    return 0
+
+
 def run_manual_normalization(
     manual_entry: dict[str, Any],
     global_mapping_candidates: list[dict[str, Any]] | None = None,
     global_overlay_candidates: list[dict[str, Any]] | None = None,
+    *,
+    force: bool = False,
 ) -> dict[str, Any]:
     manual_id = str(manual_entry.get("manualId"))
     seed_dir = PROCEDURE_SEED_DIR / str(manual_entry.get("seedDir"))
@@ -40,12 +56,28 @@ def run_manual_normalization(
     platform_id = manual_entry.get("platformId")
 
     procedures = load_procedure_seeds_for_manual(manual_entry, seed_dir)
+    if declares_procedure_inheritance(manual_entry) and len(procedures) == 0:
+        raise NormalizationLifecycleError(
+            f"{manual_id} declares procedureInheritance but zero procedures loaded",
+            "zero_procedure_inheritance",
+        )
+
     mapping_candidates, extraction_filters = build_mapping_candidates(
         procedures,
         manual_entry,
         template_id,
     )
     overlay_candidates = build_overlay_candidates(procedures, manual_entry, template_id)
+
+    existing_candidate_count = _existing_mapping_candidate_count(manual_id)
+    if existing_candidate_count > 0 and len(mapping_candidates) == 0 and not force:
+        raise NormalizationLifecycleError(
+            (
+                f"{manual_id} normalization would overwrite {existing_candidate_count} "
+                "existing mapping candidates with zero candidates"
+            ),
+            "candidate_overwrite_refused",
+        )
 
     if global_mapping_candidates is not None:
         global_mapping_candidates.extend(mapping_candidates)

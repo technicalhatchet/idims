@@ -22,8 +22,10 @@ from normalization.batch_orchestrator import (
     compute_manifest_hash,
     execute_manual_normalization,
     freeze_cohort_manifest,
+    load_execution_authorization,
     run_batch,
 )
+from normalization.lifecycle import NormalizationLifecycleError
 
 PILOT_COHORT_PATH = (
     REPO_ROOT
@@ -92,9 +94,97 @@ def _fake_manifest() -> dict:
     }
 
 
-def test_execution_authorization_fail_closed():
+def test_execution_authorization_fail_closed(tmp_path: Path):
+    lock_path = tmp_path / "unauthorized-lock.json"
+    lock_path.write_text(
+        json.dumps(
+            {
+                "normalizationBatchAuthorized": False,
+                "batchExecutionAuthorized": False,
+            }
+        ),
+        encoding="utf-8",
+    )
     with pytest.raises(BatchAuthorizationError):
-        assert_execution_authorized()
+        assert_execution_authorized(lock_path)
+
+
+def test_execution_authorization_top_level_tuple_authoritative(tmp_path: Path):
+    lock = {
+        "normalizationBatchAuthorized": True,
+        "batchExecutionAuthorized": True,
+        "headlineMetrics": {
+            "normalizationBatchAuthorized": False,
+            "batchExecutionAuthorized": False,
+        },
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock), encoding="utf-8")
+    auth = load_execution_authorization(lock_path)
+    assert auth["authorized"] is False
+    assert "mismatch" in auth["reason"]
+
+
+def test_execution_authorization_headline_only_not_sufficient(tmp_path: Path):
+    lock = {
+        "headlineMetrics": {
+            "normalizationBatchAuthorized": True,
+            "batchExecutionAuthorized": True,
+        },
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock), encoding="utf-8")
+    auth = load_execution_authorization(lock_path)
+    assert auth["authorized"] is False
+
+
+def test_execution_authorization_top_level_true_authorized(tmp_path: Path):
+    lock = {
+        "normalizationBatchAuthorized": True,
+        "batchExecutionAuthorized": True,
+        "headlineMetrics": {
+            "normalizationBatchAuthorized": True,
+            "batchExecutionAuthorized": True,
+        },
+    }
+    lock_path = tmp_path / "lock.json"
+    lock_path.write_text(json.dumps(lock), encoding="utf-8")
+    auth = load_execution_authorization(lock_path)
+    assert auth["authorized"] is True
+    assert auth["normalizationBatchAuthorized"] is True
+    assert auth["batchExecutionAuthorized"] is True
+
+
+def test_normalization_lifecycle_failure_recorded_in_batch_audit(tmp_path: Path):
+    cohort_path = _mini_cohort(tmp_path, pilot_only=True)
+    cohort = json.loads(cohort_path.read_text(encoding="utf-8"))
+    cohort["entries"] = [
+        {
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer",
+            "templateId": "electric_dryer",
+            "provenance": {"manifestSource": "procedureManualManifest.json"},
+        }
+    ]
+    cohort_path.write_text(json.dumps(cohort), encoding="utf-8")
+
+    def _lifecycle_fail(_manual_entry: dict) -> dict:
+        raise NormalizationLifecycleError("zero inherited procedures", "zero_procedure_inheritance")
+
+    result = run_batch(
+        BatchRunOptions(
+            cohort_path=cohort_path,
+            skip_auth=True,
+            dry_run=True,
+            write_artifacts=False,
+            normalize_manual_fn=_lifecycle_fail,
+            manifest_loader_fn=_fake_manifest,
+        )
+    )
+    audit = result["manualAudits"][0]
+    assert audit["provenance"]["normalizationStatus"] == "failed"
+    assert audit["counts"]["promotionBlocked"] is True
+    assert audit["primaryDisposition"] == "unresolved"
 
 
 def test_manifest_freeze_records_hashes():

@@ -502,6 +502,11 @@
       "seedDir": "samsung_sxs",
       "label": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md",
+      "procedureInheritance": {
+        "mode": "explicit_sibling_reuse",
+        "sourceManualIds": ["SAMSUNG-RS28-SXS"],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+      },
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_sxs/procedureCatalog.json",
       "pipeline": {
         "generate": null,
@@ -922,6 +927,18 @@
       "seedDir": "midea_rss",
       "label": "Insignia NS-RTM18 top-freezer refrigerator",
       "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md",
+      "procedureInheritance": {
+        "mode": "explicit_sibling_reuse",
+        "sourceManualIds": ["MIDEA-RSS-FRIDGE"],
+        "procedureIds": [
+          "midearss-rc-temp-sensor",
+          "midearss-fz-temp-sensor",
+          "midearss-fz-defrost-sensor",
+          "midearss-communication",
+          "midearss-ambient-sensor"
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md"
+      },
       "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_rss/procedureCatalog.json",
       "pipeline": {
         "generate": "backend/scripts/generate_insignia_rtm18_fridge_procedure_seeds.py",

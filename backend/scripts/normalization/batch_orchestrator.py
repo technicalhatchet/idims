@@ -11,8 +11,10 @@ from typing import Any
 try:
     from .paths import CANDIDATES_DIR, MANIFEST_PATH, REVIEW_DIR
     from .pilot_batch import _classify_manual_slot
+    from .lifecycle import NormalizationLifecycleError
     from .pipeline import find_manual_entry, load_manifest, run_manual_normalization
 except ImportError:  # pragma: no cover - direct script execution
+    from lifecycle import NormalizationLifecycleError
     from paths import CANDIDATES_DIR, MANIFEST_PATH, REVIEW_DIR
     from pilot_batch import _classify_manual_slot
     from pipeline import find_manual_entry, load_manifest, run_manual_normalization
@@ -173,6 +175,29 @@ def load_execution_authorization(lock_path: Path = EXECUTION_LOCK_PATH) -> dict[
     lock = _read_json(lock_path)
     normalization_authorized = bool(lock.get("normalizationBatchAuthorized"))
     batch_authorized = bool(lock.get("batchExecutionAuthorized"))
+    headline = lock.get("headlineMetrics") or {}
+    headline_norm = headline.get("normalizationBatchAuthorized")
+    headline_batch = headline.get("batchExecutionAuthorized")
+    if headline_norm is not None and bool(headline_norm) != normalization_authorized:
+        return {
+            "authorized": False,
+            "reason": "headlineMetrics.normalizationBatchAuthorized mismatch — HARD STOP",
+            "normalizationBatchAuthorized": normalization_authorized,
+            "batchExecutionAuthorized": batch_authorized,
+            "lockArtifact": lock_path.name,
+            "lockStatus": lock.get("status"),
+            "lockVerdict": lock.get("verdict"),
+        }
+    if headline_batch is not None and bool(headline_batch) != batch_authorized:
+        return {
+            "authorized": False,
+            "reason": "headlineMetrics.batchExecutionAuthorized mismatch — HARD STOP",
+            "normalizationBatchAuthorized": normalization_authorized,
+            "batchExecutionAuthorized": batch_authorized,
+            "lockArtifact": lock_path.name,
+            "lockStatus": lock.get("status"),
+            "lockVerdict": lock.get("verdict"),
+        }
     authorized = normalization_authorized and batch_authorized
     reason = "authorized" if authorized else "normalizationBatchAuthorized != true — HARD STOP"
     return {
@@ -292,6 +317,14 @@ def execute_manual_normalization(
     manual_id = str(manual_entry.get("manualId"))
     try:
         normalization_result = normalize_fn(manual_entry)
+    except NormalizationLifecycleError as exc:
+        return {
+            "manualId": manual_id,
+            "status": "failed",
+            "error": str(exc),
+            "errorCode": exc.code,
+            "result": None,
+        }
     except Exception as exc:
         return {
             "manualId": manual_id,
@@ -523,7 +556,14 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
     if options.max_manuals is not None:
         entries = entries[: options.max_manuals]
 
-    normalize_fn = options.normalize_manual_fn or run_manual_normalization
+    base_normalize_fn = options.normalize_manual_fn or run_manual_normalization
+
+    def normalize_fn(manual_entry: dict[str, Any]) -> dict[str, Any]:
+        manual_id = str(manual_entry.get("manualId"))
+        force = manual_id in options.force_manual_ids
+        if options.normalize_manual_fn is not None:
+            return base_normalize_fn(manual_entry)
+        return run_manual_normalization(manual_entry, force=force)
     if options.manifest_loader_fn is not None:
         manifest = options.manifest_loader_fn()
     elif options.manifest_path != MANIFEST_PATH:

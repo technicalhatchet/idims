@@ -4,7 +4,35 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .provenance import build_provenance
+from .provenance import build_provenance, provenance_ref
+
+INHERITANCE_MODE_EXPLICIT_SIBLING = "explicit_sibling_reuse"
+
+
+def declares_procedure_inheritance(manual_entry: dict[str, Any]) -> bool:
+    inheritance = manual_entry.get("procedureInheritance") or {}
+    return inheritance.get("mode") == INHERITANCE_MODE_EXPLICIT_SIBLING
+
+
+def allowed_seed_manual_ids(manual_entry: dict[str, Any]) -> set[str]:
+    manual_id = str(manual_entry.get("manualId"))
+    allowed = {manual_id}
+    inheritance = manual_entry.get("procedureInheritance") or {}
+    if inheritance.get("mode") == INHERITANCE_MODE_EXPLICIT_SIBLING:
+        for source_id in inheritance.get("sourceManualIds") or []:
+            if source_id:
+                allowed.add(str(source_id))
+    return allowed
+
+
+def allowed_inherited_procedure_ids(manual_entry: dict[str, Any]) -> set[str] | None:
+    inheritance = manual_entry.get("procedureInheritance") or {}
+    if inheritance.get("mode") != INHERITANCE_MODE_EXPLICIT_SIBLING:
+        return None
+    procedure_ids = inheritance.get("procedureIds") or []
+    if not procedure_ids:
+        return None
+    return {str(procedure_id) for procedure_id in procedure_ids}
 
 
 def _normalize_step(step: dict[str, Any]) -> dict[str, Any]:
@@ -47,8 +75,11 @@ def _normalize_step(step: dict[str, Any]) -> dict[str, Any]:
 def normalize_procedure_seed(
     seed: dict[str, Any],
     manual_entry: dict[str, Any],
+    *,
+    inherited_from_manual_id: str | None = None,
 ) -> dict[str, Any]:
     source = seed.get("source") or {}
+    entry_manual_id = str(manual_entry.get("manualId"))
     steps = [_normalize_step(step) for step in seed.get("steps") or []]
 
     all_measurements: list[dict[str, Any]] = []
@@ -62,6 +93,16 @@ def normalize_procedure_seed(
                     "stepId": step.get("id"),
                 },
             )
+
+    provenance_extra = None
+    if inherited_from_manual_id:
+        provenance_extra = [
+            provenance_ref(
+                "inherited_procedure",
+                inheritedFromManualId=inherited_from_manual_id,
+                targetManualId=entry_manual_id,
+            ),
+        ]
 
     return {
         "procedureId": seed.get("id"),
@@ -77,19 +118,22 @@ def normalize_procedure_seed(
         "measurements": all_measurements,
         "branches": all_branches,
         "source": {
-            "manualId": source.get("manualId") or manual_entry.get("manualId"),
-            "manualTitle": source.get("manualTitle"),
+            "manualId": entry_manual_id,
+            "manualTitle": manual_entry.get("label"),
             "oemTestNumber": source.get("oemTestNumber"),
             "oemTestTitle": source.get("oemTestTitle"),
             "pages": source.get("pages") or [],
             "extractedTextFile": source.get("extractedTextFile"),
+            "inheritedFromManualId": inherited_from_manual_id,
+            "seedSourceManualId": source.get("manualId"),
         },
         "provenance": build_provenance(
-            manual_id=str(source.get("manualId") or manual_entry.get("manualId")),
+            manual_id=entry_manual_id,
             platform_id=seed.get("platformId"),
             procedure_id=seed.get("id"),
             pages=source.get("pages"),
             extraction_doc=manual_entry.get("extractionDoc"),
+            extra=provenance_extra,
         ),
     }
 
@@ -118,15 +162,30 @@ def load_procedure_seeds_for_manual(
     if not seed_dir.is_dir():
         return procedures
 
+    entry_manual_id = str(manual_entry.get("manualId"))
+    allowed_manual_ids = allowed_seed_manual_ids(manual_entry)
+    allowed_procedure_ids = allowed_inherited_procedure_ids(manual_entry)
+
     for path in sorted(seed_dir.glob("*.json")):
         if path.name == "procedureCatalog.json":
             continue
         data = json.loads(path.read_text(encoding="utf-8"))
         if data.get("modeKind"):
             continue
+        seed_id = str(data.get("id") or "")
         source_manual_id = (data.get("source") or {}).get("manualId")
-        entry_manual_id = manual_entry.get("manualId")
-        if source_manual_id and entry_manual_id and source_manual_id != entry_manual_id:
+        if source_manual_id and str(source_manual_id) not in allowed_manual_ids:
             continue
-        procedures.append(normalize_procedure_seed(data, manual_entry))
+        if allowed_procedure_ids is not None and seed_id not in allowed_procedure_ids:
+            continue
+        inherited_from = None
+        if source_manual_id and str(source_manual_id) != entry_manual_id:
+            inherited_from = str(source_manual_id)
+        procedures.append(
+            normalize_procedure_seed(
+                data,
+                manual_entry,
+                inherited_from_manual_id=inherited_from,
+            ),
+        )
     return procedures
