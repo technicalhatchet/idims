@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave_audit",
+  "waveId": "wave1-existing-canonical-mapping",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "generatedAt": "2026-09-18T19:30:23.838929+00:00",
+  "candidateCount": 370,
+  "expectedCandidateCount": 370,
+  "manualCountRepresented": 45,
+  "canonicalIdsRepresented": [
+    "bake_heating_element",
+    "broil_heating_element",
+    "bulk_level_switch",
+    "circulation_pump",
+    "control_board",
+    "convection_fan",
+    "detergent_dispenser",
+    "door_lock",
+    "door_switch",
+    "dosing_pump",
+    "drain_pump",
+    "drive_motor",
+    "dry_blower",
+    "dry_heater",
+    "dry_ntc",
+    "drying_system",
+    "heat_source",
+    "hmi_control",
+    "inlet_valve",
+    "lid_lock",
+    "lint_filter",
+    "moisture_sensor",
+    "motor_controller",
+    "oven_door_switch",
+    "power_supply",
+    "pressure_hose",
+    "recirc_pump",
+    "supply",
+    "surface_heating_system",
+    "suspension",
+    "temperature_sensor",
+    "thermal_cutoff",
+    "thermal_fuse",
+    "user_interface",
+    "vent_baffle",
+    "vent_fan",
+    "wash_heater",
+    "wash_ntc",
+    "water_level_sensor"
+  ],
+  "preflightChecks": {
+    "passed": true,
+    "errors": [],
+    "warnings": [],
+    "frozenHashesValid": true,
+    "duplicateCandidateIds": false,
+    "allCanonicalIdsInFrozenVocabulary": true,
+    "reviewClassExact": "existingCanonicalMapping",
+    "newCanonicalKnowledgeCount": 0
+  },
+  "mutationChecks": {
+    "promotionExcluded": true,
+    "canonicalMutationAllowed": false,
+    "candidateArtifactsMutated": false,
+    "decisionsGenerated": false,
+    "existingDecisionCount": 0
+  },
+  "orderingRule": {
+    "keys": [
+      "manualId",
+      "procedureId",
+      "candidateId"
+    ]
+  },
+  "allowedDecisions": [
+    "accepted",
+    "rejected",
+    "deferred"
+  ]
+}
