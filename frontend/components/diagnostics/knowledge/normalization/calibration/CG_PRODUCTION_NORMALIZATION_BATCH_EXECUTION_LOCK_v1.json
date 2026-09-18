@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_execution_lock",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
+  "status": "orchestrator_built_not_authorized",
+  "lockedAt": "2026-09-18T02:30:00+00:00",
+  "verdict": "ORCHESTRATOR_READY — BATCH EXECUTION NOT AUTHORIZED",
+  "closureStatement": "Production normalization batch orchestrator implemented and regression-tested. Checkpointing, manifest freeze, fail-closed authorization, idempotency, STOP semantics, and pilot baseline protection are encoded in code. Batch execution against the 72-manual cohort remains NOT authorized until explicit human authorization updates this lock.",
+  "priorPhase": {
+    "artifact": "CG_PRODUCTION_NORMALIZATION_BATCH_LOCK_v1.json",
+    "verdict": "ACTIVE / BATCH_CONTRACT_DEFINED — EXECUTION NOT AUTHORIZED"
+  },
+  "artifacts": {
+    "contract": "CG_PRODUCTION_NORMALIZATION_BATCH_CONTRACT_v1.json",
+    "cohort": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+    "orchestrator": "backend/scripts/normalization/batch_orchestrator.py",
+    "cli": "backend/scripts/run_production_normalization_batch.py",
+    "executionReport": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_REPORT_v1.json",
+    "regressionSuite": "cg-production-normalization-batch-execution.test.ts"
+  },
+  "headlineMetrics": {
+    "orchestratorImplemented": true,
+    "normalizationBatchAuthorized": false,
+    "batchExecutionAuthorized": false,
+    "cohortSize": 72,
+    "pilotBaselinesProtected": 8
+  },
+  "authorizationGate": {
+    "failClosed": true,
+    "requiredFields": {
+      "normalizationBatchAuthorized": true,
+      "batchExecutionAuthorized": true
+    },
+    "cliFlagAloneInsufficient": true,
+    "lockedArtifactRequired": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json"
+  },
+  "manifestFreezeRequired": {
+    "manifestSource": "frontend/components/diagnostics/procedures/procedureManualManifest.json",
+    "cohortArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+    "recordFields": ["batchRunId", "manifestHash", "cohortHash"]
+  },
+  "authorizedNextWorkstream": null,
+  "nextDisciplinedStep": "Human authorization to set normalizationBatchAuthorized=true and batchExecutionAuthorized=true in this lock — only after reviewing CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_REPORT_v1.json."
+}

@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_audit",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-CONTRACT",
+  "status": "contract_audit_pass",
+  "auditedAt": "2026-09-17T23:45:00+00:00",
+  "verdict": "GREEN / BATCH_CONTRACT_DEFINED",
+  "auditSummary": "Batch contract defines scale processing rules without authorizing execution. Cohort manifest (72 manuals) generated from procedureManualManifest.json. STOP semantics, isolation, promotion prohibitions, audit disposition model, and frozen-hash hard STOP encoded. Pilot closure and FlexWash freeze preserved as upstream constraints.",
+  "contractDefined": true,
+  "batchExecutionAuthorized": false,
+  "requiredSectionsVerified": [
+    {
+      "section": "Batch cohort manifest",
+      "artifact": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+      "verified": true,
+      "cohortSize": 72
+    },
+    {
+      "section": "Per-manual lifecycle INGEST → NORMALIZE → CLASSIFY",
+      "verified": true
+    },
+    {
+      "section": "Isolation rules",
+      "verified": true
+    },
+    {
+      "section": "Promotion rules — candidates only",
+      "verified": true
+    },
+    {
+      "section": "Batch STOP semantics — deterministic",
+      "verified": true
+    },
+    {
+      "section": "Resume/idempotency requirements",
+      "verified": true,
+      "implementationStatus": "specified_not_implemented"
+    },
+    {
+      "section": "Audit manifest schema with disposition flags",
+      "verified": true
+    },
+    {
+      "section": "Frozen-hash verification hard STOP",
+      "verified": true
+    },
+    {
+      "section": "Human review queue",
+      "verified": true
+    }
+  ],
+  "explicitProhibitionsVerified": [
+    "No batch execution authorized",
+    "No automatic 70/72 manual processing",
+    "No FlexWash normalization",
+    "No new ontology",
+    "No automatic promotion",
+    "No UI changes",
+    "Pilot closed does not imply batch run"
+  ],
+  "upstreamConstraintsPreserved": {
+    "pilotClosure": "GREEN / PILOT_GATE_CLOSED",
+    "governanceLock": "PRODUCTION_INGESTION_GOVERNANCE_LOCKED",
+    "flexwashFreeze": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "architectureExceptionPreserved": "SAMSUNG-FLEXWASH-WASHER batchDisposition STOP"
+  },
+  "frozenHashStatus": {
+    "verifiedAtContractDefinition": true,
+    "count": 10,
+    "mutated": false
+  },
+  "pilotToBatchSemanticUpgrade": {
+    "from": "pipelineDisposition single field",
+    "to": "primaryDisposition + hasCanonicalMappings + hasOverlayCandidates + hasUnresolvedTerms + hasArchitectureException",
+    "documentedInContract": true
+  },
+  "unresolvedAtContractGate": [],
+  "orchestratorGate": {
+    "status": "orchestrator_built_not_authorized",
+    "executionLock": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json",
+    "executionReport": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_REPORT_v1.json",
+    "orchestrator": "backend/scripts/normalization/batch_orchestrator.py"
+  },
+  "validationCommands": [
+    {
+      "command": "python backend/scripts/validate_canonical_graph.py",
+      "result": "PASS — frozen_hashes=10 verified"
+    },
+    {
+      "command": "npx tsx --test cg-production-normalization-batch-contract.test.ts",
+      "result": "PASS — 7/7"
+    }
+  ]
+}

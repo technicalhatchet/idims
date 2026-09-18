@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_execution_report",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
+  "status": "orchestrator_ready_not_authorized",
+  "generatedAt": "2026-09-18T02:30:00+00:00",
+  "verdict": "ORCHESTRATOR_GREEN — EXECUTION NOT AUTHORIZED",
+  "executionAuthorized": false,
+  "reportSummary": "Batch orchestrator implemented with fail-closed authorization, cohort manifest freeze (manifestHash + cohortHash + batchRunId), checkpoint/resume, contentHash idempotency, architecture-exception forward STOP, per-manual audit manifests, frozen-hash before/after verification, pilot baseline protection, and human review queue integration. The 72-manual cohort has NOT been executed.",
+  "orchestrator": {
+    "module": "backend/scripts/normalization/batch_orchestrator.py",
+    "cli": "backend/scripts/run_production_normalization_batch.py",
+    "implementedCapabilities": [
+      "fail_closed_authorization_check",
+      "cohort_manifest_freeze_with_content_hash",
+      "batchRunId_generation",
+      "checkpoint_read_write",
+      "deterministic_resume_with_hash_verification",
+      "contentHash_idempotency",
+      "completed_pending_stopped_trigger_states",
+      "architecture_exception_forward_stop",
+      "per_manual_audit_manifest",
+      "frozen_hash_before_after_verification",
+      "pilot_baseline_no_silent_overwrite",
+      "human_review_queue_update"
+    ]
+  },
+  "authorizationStatus": {
+    "normalizationBatchAuthorized": false,
+    "batchExecutionAuthorized": false,
+    "lockArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json",
+    "failClosedBehavior": "CLI invocation without locked authorization returns exit code 2 — HARD STOP"
+  },
+  "manifestFreezeGate": {
+    "implemented": true,
+    "flow": [
+      "BATCH AUTHORIZATION (locked artifact)",
+      "freeze cohort manifest",
+      "compute manifestHash + cohortHash",
+      "record batchRunId + manifestHash",
+      "verify frozen canonical hashes",
+      "execute"
+    ],
+    "checkpointFields": ["manifestHash", "cohortHash", "manifestFreeze", "batchRunId"]
+  },
+  "stopSemanticsVerification": {
+    "architectureExceptionForwardHalt": true,
+    "priorCompletedRetained": true,
+    "subsequentManualsPending": true,
+    "flexwashPilotBaselineStopRetained": true,
+    "note": "Verified via orchestrator regression — not via full 72-manual execution"
+  },
+  "pilotBaselineProtection": {
+    "protectedManualCount": 8,
+    "defaultBehavior": "skipped_authorized with pilot disposition retained",
+    "flexwashException": "stopped_trigger retained from pilot — forward progress halts",
+    "forceManualRequiresAuthorization": true
+  },
+  "notExecuted": [
+    "72-manual production batch run",
+    "FlexWash production normalization",
+    "Automatic canonical promotion",
+    "Automatic overlay publication"
+  ],
+  "validationCommands": [
+    {
+      "command": "python -m pytest backend/scripts/tests/test_batch_orchestrator.py -q",
+      "result": "PASS — 5/5"
+    },
+    {
+      "command": "python backend/scripts/run_production_normalization_batch.py",
+      "expectedResult": "AUTHORIZATION HARD STOP exit code 2",
+      "verifiedBy": "cg-production-normalization-batch-execution.test.ts — CLI fails closed"
+    },
+    {
+      "command": "npx tsx --test cg-production-normalization-batch-execution.test.ts cg-production-normalization-batch-contract.test.ts",
+      "result": "PASS — 11/11"
+    }
+  ],
+  "executionGateCriteria": {
+    "orchestratorImplemented": true,
+    "regressionSuitePresent": true,
+    "manifestFreezeEncoded": true,
+    "explicitHumanAuthorization": false,
+    "readyForAuthorizationReview": true
+  },
+  "stopCondition": "Orchestrator build GREEN — batch execution remains NOT authorized until human updates execution lock."
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_lock",
+  "status": "active_contract_only",
+  "lockedAt": "2026-09-17T23:45:00+00:00",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH",
+  "verdict": "ACTIVE / BATCH_CONTRACT_DEFINED — EXECUTION NOT AUTHORIZED",
+  "closureStatement": "Production normalization batch CONTRACT defined for 72-manual manifest cohort. Per-manual lifecycle, isolation, promotion rules, deterministic STOP/resume semantics, audit manifest schema, and human review queue requirements encoded. Batch execution, FlexWash normalization, UI, and canonical expansion remain NOT authorized.",
+  "priorPhase": {
+    "artifact": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json",
+    "verdict": "GREEN / PILOT_GATE_CLOSED"
+  },
+  "artifacts": {
+    "contract": "CG_PRODUCTION_NORMALIZATION_BATCH_CONTRACT_v1.json",
+    "cohort": "CG_PRODUCTION_NORMALIZATION_BATCH_COHORT_v1.json",
+    "audit": "CG_PRODUCTION_NORMALIZATION_BATCH_AUDIT_v1.json",
+    "regressionSuite": "cg-production-normalization-batch-contract.test.ts"
+  },
+  "headlineMetrics": {
+    "cohortSize": 72,
+    "batchExecutionAuthorized": false,
+    "batchContractDefined": true,
+    "automaticCanonicalPromotion": false,
+    "automaticOverlayPublication": false,
+    "frozenCanonicalHashMutationsAtContract": 0,
+    "flexwashNormalizationAuthorized": false
+  },
+  "authorizedNextWorkstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
+  "nextDisciplinedStep": "Review CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_REPORT_v1.json and authorize execution via execution lock — orchestrator is built; 72-manual run remains NOT authorized.",
+  "executionGate": {
+    "orchestratorImplemented": true,
+    "executionLock": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json",
+    "executionReport": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_REPORT_v1.json",
+    "batchExecutionAuthorized": false
+  }
+}
