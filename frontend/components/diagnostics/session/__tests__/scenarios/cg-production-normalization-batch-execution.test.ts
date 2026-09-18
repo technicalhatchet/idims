@@ -58,6 +58,48 @@ test('orchestrator modules exist on disk', () => {
   assert.ok(existsSync(cli));
 });
 
+test('resume contract — resume authorization separate from execution lock', () => {
+  const resumeContract = readJson('CG_PRODUCTION_NORMALIZATION_BATCH_RESUME_CONTRACT_v1.json');
+  const rules = resumeContract.rules as {
+    resumeAuthorizationSeparateFromExecutionLock: boolean;
+    executionLockRemainsIndependentGate: boolean;
+    resumeRequiresAuthorizationArtifact: boolean;
+    topLevelAuthorizationTupleAuthoritative: boolean;
+    noGlobalArchitectureExceptionBypass: boolean;
+    forceFalseUnlessExplicitForceManual: boolean;
+  };
+
+  assert.equal(rules.resumeAuthorizationSeparateFromExecutionLock, true);
+  assert.equal(rules.executionLockRemainsIndependentGate, true);
+  assert.equal(rules.resumeRequiresAuthorizationArtifact, true);
+  assert.equal(rules.topLevelAuthorizationTupleAuthoritative, true);
+  assert.equal(rules.noGlobalArchitectureExceptionBypass, true);
+  assert.equal(rules.forceFalseUnlessExplicitForceManual, true);
+});
+
+test('resume authorization artifact — frozen observation identity encoded', () => {
+  const resumeAuth = readJson(
+    'CG_PRODUCTION_NORMALIZATION_BATCH_RESUME_AUTHORIZATION_batch-20260918-5d213986.json',
+  );
+  const clearances = resumeAuth.architectureExceptionClearances as Array<{
+    manualId: string;
+    reNormalize: boolean;
+  }>;
+
+  assert.equal(resumeAuth.batchRunId, 'batch-20260918-5d213986');
+  assert.equal(
+    resumeAuth.observationManifestHash,
+    '857b4852617ac8169fb2e5cb48d4cd3475500f40d6e89d5fe800aea46bd24f4e',
+  );
+  assert.equal(
+    resumeAuth.processingManifestHash,
+    '0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013',
+  );
+  assert.equal(clearances.length, 1);
+  assert.equal(clearances[0].manualId, 'SAMSUNG-FLEXWASH-WASHER');
+  assert.equal(clearances[0].reNormalize, false);
+});
+
 test('CLI fails closed without top-level authorization', () => {
   const tempDir = mkdtempSync(join(tmpdir(), 'cg-batch-auth-'));
   const lockPath = join(tempDir, 'unauthorized-lock.json');

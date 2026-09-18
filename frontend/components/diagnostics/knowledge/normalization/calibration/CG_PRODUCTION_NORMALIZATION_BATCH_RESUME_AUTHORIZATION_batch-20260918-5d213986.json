@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_resume_authorization",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
+  "batchRunId": "batch-20260918-5d213986",
+  "cohortHash": "5d21398612d00da6f74f94c7d283a10cd5e94a4ac7eb0078fc99f0446e17f4cf",
+  "observationManifestHash": "857b4852617ac8169fb2e5cb48d4cd3475500f40d6e89d5fe800aea46bd24f4e",
+  "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+  "remediationCommit": "27cf998f",
+  "allowedManifestDelta": {
+    "addedFields": ["procedureInheritance"],
+    "manualIds": ["SAMSUNG-RS22T-SXS", "INSIGNIA-RTM18-FRIDGE"]
+  },
+  "observationCheckpointArtifact": "CG_PRODUCTION_NORMALIZATION_BATCH_CHECKPOINT_batch-20260918-5d213986.json",
+  "architectureExceptionClearances": [
+    {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "historicalBatchState": "stopped_trigger",
+      "historicalPrimaryDisposition": "architecture_exception",
+      "historicalArtifact": "normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+      "frozenContract": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+      "freezeClosure": "CG_P08_FLEXWASH_FREEZE_CLOSURE_v1.json",
+      "resumeDisposition": "skipped_authorized",
+      "resumeSkippedReason": "architecture_exception_cleared_frozen_integration_boundary",
+      "reNormalize": false
+    }
+  ],
+  "authorizedAt": "2026-09-18T07:15:00+00:00",
+  "note": "Human-authored resume authorization for observation run batch-20260918-5d213986. Separate from batch execution lock. Does not authorize execution by itself."
+}

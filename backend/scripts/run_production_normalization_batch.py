@@ -54,6 +54,12 @@ def main() -> int:
         help="Resume a prior checkpointed batch run",
     )
     parser.add_argument(
+        "--resume-authorization",
+        type=Path,
+        default=None,
+        help="Resume authorization artifact (required for --resume; defaults to calibration resume auth for batchRunId)",
+    )
+    parser.add_argument(
         "--force-manual",
         action="append",
         default=[],
@@ -73,6 +79,7 @@ def main() -> int:
         execution_lock_path=args.execution_lock,
         dry_run=args.dry_run,
         resume_batch_run_id=args.resume,
+        resume_authorization_path=args.resume_authorization,
         force_manual_ids=frozenset(args.force_manual),
         max_manuals=args.max_manuals,
         write_artifacts=not args.dry_run,

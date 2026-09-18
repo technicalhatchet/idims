@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
+import tempfile
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -91,6 +93,7 @@ class BatchRunOptions:
     dry_run: bool = False
     skip_auth: bool = False
     resume_batch_run_id: str | None = None
+    resume_authorization_path: Path | None = None
     force_manual_ids: frozenset[str] = field(default_factory=frozenset)
     max_manuals: int | None = None
     write_artifacts: bool = True
@@ -139,6 +142,263 @@ def build_batch_run_id(cohort_hash: str, started_at: datetime | None = None) -> 
     started = started_at or datetime.now(timezone.utc)
     date_part = started.strftime("%Y%m%d")
     return f"batch-{date_part}-{cohort_hash[:8]}"
+
+
+def default_resume_authorization_path(batch_run_id: str) -> Path:
+    return CALIBRATION_DIR / f"CG_PRODUCTION_NORMALIZATION_BATCH_RESUME_AUTHORIZATION_{batch_run_id}.json"
+
+
+def load_resume_authorization(path: Path) -> dict[str, Any]:
+    if not path.is_file():
+        raise BatchManifestFreezeError(f"missing resume authorization artifact: {path.name}")
+    return _read_json(path)
+
+
+def _load_git_manifest_at_commit(commit: str, manifest_path: Path) -> dict[str, Any]:
+    relative_path = manifest_path.relative_to(REPO_ROOT).as_posix()
+    try:
+        payload = subprocess.check_output(
+            ["git", "show", f"{commit}:{relative_path}"],
+            cwd=REPO_ROOT,
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError as exc:
+        raise BatchManifestFreezeError(
+            f"unable to load baseline manifest at {commit} — HARD STOP",
+        ) from exc
+    return json.loads(payload.decode("utf-8"))
+
+
+def verify_authorized_manifest_delta(
+    manifest_path: Path,
+    observation_manifest_hash: str,
+    allowed_delta: dict[str, Any],
+    *,
+    remediation_commit: str | None = None,
+) -> None:
+    manifest = _read_json(manifest_path)
+    allowed_manual_ids = {str(manual_id) for manual_id in allowed_delta.get("manualIds") or []}
+    allowed_fields = {str(field_name) for field_name in allowed_delta.get("addedFields") or []}
+    if not allowed_manual_ids and not allowed_fields:
+        if sha256_file(manifest_path) != observation_manifest_hash:
+            raise BatchManifestFreezeError(
+                "resume manifest hash mismatch with no authorized delta — HARD STOP",
+            )
+        return
+    if not allowed_manual_ids or not allowed_fields:
+        raise BatchManifestFreezeError("resume allowedManifestDelta incomplete — HARD STOP")
+
+    for entry in manifest.get("manuals", []):
+        manual_id = str(entry.get("manualId"))
+        for field_name in allowed_fields:
+            if field_name in entry and manual_id not in allowed_manual_ids:
+                raise BatchManifestFreezeError(
+                    f"unauthorized manifest delta: {field_name} on {manual_id} — HARD STOP",
+                )
+
+    for manual_id in allowed_manual_ids:
+        entry = next(
+            (item for item in manifest.get("manuals", []) if str(item.get("manualId")) == manual_id),
+            None,
+        )
+        if entry is None:
+            raise BatchManifestFreezeError(f"authorized delta manual missing: {manual_id} — HARD STOP")
+        for field_name in allowed_fields:
+            if field_name not in entry:
+                raise BatchManifestFreezeError(
+                    f"authorized delta missing {field_name} on {manual_id} — HARD STOP",
+                )
+
+    if remediation_commit:
+        baseline_manifest = _load_git_manifest_at_commit(f"{remediation_commit}^", manifest_path)
+    else:
+        baseline_manifest = json.loads(json.dumps(manifest))
+        for entry in baseline_manifest.get("manuals", []):
+            if str(entry.get("manualId")) in allowed_manual_ids:
+                for field_name in allowed_fields:
+                    entry.pop(field_name, None)
+
+    baseline_by_id = {
+        str(entry.get("manualId")): entry for entry in baseline_manifest.get("manuals", [])
+    }
+    current_by_id = {str(entry.get("manualId")): entry for entry in manifest.get("manuals", [])}
+    if set(baseline_by_id) != set(current_by_id):
+        raise BatchManifestFreezeError("manifest manual inventory changed — HARD STOP")
+
+    for manual_id, baseline_entry in baseline_by_id.items():
+        current_entry = current_by_id[manual_id]
+        if manual_id in allowed_manual_ids:
+            extra_keys = set(current_entry) - set(baseline_entry)
+            if not extra_keys <= allowed_fields:
+                raise BatchManifestFreezeError(
+                    f"unauthorized manifest delta keys on {manual_id} — HARD STOP",
+                )
+            for key, value in baseline_entry.items():
+                if current_entry.get(key) != value:
+                    raise BatchManifestFreezeError(
+                        f"unauthorized manifest mutation on {manual_id}.{key} — HARD STOP",
+                    )
+        elif baseline_entry != current_entry:
+            raise BatchManifestFreezeError(
+                f"unauthorized manifest mutation on {manual_id} — HARD STOP",
+            )
+
+    snapshot_name = allowed_delta.get("observationManifestSnapshotArtifact")
+    if snapshot_name:
+        snapshot_path = CALIBRATION_DIR / str(snapshot_name)
+        if not snapshot_path.is_file():
+            raise BatchManifestFreezeError(
+                f"missing observation manifest snapshot: {snapshot_name} — HARD STOP",
+            )
+        if sha256_file(snapshot_path) != observation_manifest_hash:
+            raise BatchManifestFreezeError(
+                "observation manifest snapshot hash mismatch — HARD STOP",
+            )
+        stripped = json.loads(json.dumps(manifest))
+        for entry in stripped.get("manuals", []):
+            if str(entry.get("manualId")) in allowed_manual_ids:
+                for field_name in allowed_fields:
+                    entry.pop(field_name, None)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            stripped_path = Path(tmp_dir) / "manifest.json"
+            _write_json(stripped_path, stripped)
+            if sha256_file(stripped_path) != sha256_file(snapshot_path):
+                raise BatchManifestFreezeError(
+                    "manifest delta exceeds authorized resume baseline — HARD STOP",
+                )
+
+
+def _verify_flexwash_clearance_artifacts(clearance: dict[str, Any]) -> None:
+    contract_name = str(clearance.get("frozenContract") or "")
+    closure_name = str(clearance.get("freezeClosure") or "")
+    historical_artifact = str(clearance.get("historicalArtifact") or "")
+    if not contract_name or not closure_name or not historical_artifact:
+        raise BatchManifestFreezeError("FlexWash clearance incomplete — HARD STOP")
+
+    contract_path = CALIBRATION_DIR / contract_name
+    closure_path = CALIBRATION_DIR / closure_name
+    historical_path = (
+        REPO_ROOT
+        / "frontend"
+        / "components"
+        / "diagnostics"
+        / "knowledge"
+        / historical_artifact
+    )
+    if not contract_path.is_file():
+        raise BatchManifestFreezeError(f"missing frozen contract: {contract_name}")
+    if not closure_path.is_file():
+        raise BatchManifestFreezeError(f"missing freeze closure: {closure_name}")
+    if not historical_path.is_file():
+        raise BatchManifestFreezeError(f"missing historical artifact: {historical_artifact}")
+
+    contract = _read_json(contract_path)
+    closure = _read_json(closure_path)
+    if contract.get("status") != "frozen":
+        raise BatchManifestFreezeError("FlexWash frozen contract not frozen — HARD STOP")
+    if closure.get("status") != "closed_successful":
+        raise BatchManifestFreezeError("FlexWash freeze closure not closed_successful — HARD STOP")
+
+
+def _verify_architecture_exception_clearance(
+    clearance: dict[str, Any],
+    checkpoint: dict[str, Any],
+) -> None:
+    manual_id = str(clearance.get("manualId") or "")
+    prior = next(
+        (audit for audit in checkpoint.get("manualAudits", []) if audit.get("manualId") == manual_id),
+        None,
+    )
+    if prior is None:
+        raise BatchManifestFreezeError(f"clearance manual not in checkpoint: {manual_id}")
+    if prior.get("batchState") != clearance.get("historicalBatchState"):
+        raise BatchManifestFreezeError(f"clearance historical batchState mismatch for {manual_id}")
+    if prior.get("primaryDisposition") != clearance.get("historicalPrimaryDisposition"):
+        raise BatchManifestFreezeError(f"clearance historical disposition mismatch for {manual_id}")
+    if clearance.get("reNormalize"):
+        raise BatchManifestFreezeError(f"clearance reNormalize must be false for {manual_id}")
+    if manual_id == "SAMSUNG-FLEXWASH-WASHER":
+        _verify_flexwash_clearance_artifacts(clearance)
+
+
+def validate_resume_authorization(
+    resume_auth: dict[str, Any],
+    *,
+    batch_run_id: str,
+    checkpoint: dict[str, Any],
+    manifest_path: Path,
+    cohort_hash: str,
+    processing_manifest_hash: str,
+    resume_auth_path: Path,
+) -> dict[str, Any]:
+    if resume_auth.get("batchRunId") != batch_run_id:
+        raise BatchManifestFreezeError("resume authorization batchRunId mismatch — HARD STOP")
+    if resume_auth.get("cohortHash") != cohort_hash:
+        raise BatchManifestFreezeError("resume authorization cohortHash mismatch — HARD STOP")
+    if resume_auth.get("cohortHash") != checkpoint.get("cohortHash"):
+        raise BatchManifestFreezeError("resume checkpoint cohortHash mismatch — HARD STOP")
+    if resume_auth.get("observationManifestHash") != checkpoint.get("manifestHash"):
+        raise BatchManifestFreezeError("resume observation manifestHash mismatch — HARD STOP")
+    if resume_auth.get("processingManifestHash") != processing_manifest_hash:
+        raise BatchManifestFreezeError("resume processing manifestHash mismatch — HARD STOP")
+
+    verify_authorized_manifest_delta(
+        manifest_path,
+        str(resume_auth["observationManifestHash"]),
+        resume_auth.get("allowedManifestDelta") or {},
+        remediation_commit=str(resume_auth.get("remediationCommit") or ""),
+    )
+
+    for clearance in resume_auth.get("architectureExceptionClearances") or []:
+        _verify_architecture_exception_clearance(clearance, checkpoint)
+
+    return {
+        "resumeAuthorizationArtifact": resume_auth_path.name,
+        "observationManifestHash": resume_auth["observationManifestHash"],
+        "processingManifestHash": resume_auth["processingManifestHash"],
+        "remediationCommit": resume_auth.get("remediationCommit"),
+        "resumeGeneration": 2,
+    }
+
+
+def build_cleared_stop_audit(
+    clearance: dict[str, Any],
+    entry: dict[str, Any],
+    *,
+    batch_run_id: str,
+    prior_audit: dict[str, Any],
+) -> dict[str, Any]:
+    manual_id = str(clearance["manualId"])
+    provenance = prior_audit.get("provenance") or {}
+    content_hash = provenance.get("contentHash") or compute_manual_content_hash(manual_id)
+    return {
+        "manualId": manual_id,
+        "platformId": entry.get("platformId"),
+        "templateId": entry.get("templateId"),
+        "expectedFrozenOntologyId": entry.get("expectedFrozenOntologyId"),
+        "primaryDisposition": clearance.get("resumeDisposition", "skipped_authorized"),
+        "batchState": "cleared_stop",
+        "historicalBatchState": clearance.get("historicalBatchState"),
+        "historicalPrimaryDisposition": clearance.get("historicalPrimaryDisposition"),
+        "hasCanonicalMappings": prior_audit.get("hasCanonicalMappings", False),
+        "hasOverlayCandidates": prior_audit.get("hasOverlayCandidates", False),
+        "hasUnresolvedTerms": prior_audit.get("hasUnresolvedTerms", False),
+        "hasArchitectureException": False,
+        "counts": prior_audit.get("counts") or {},
+        "provenance": {
+            "manifestSource": "procedureManualManifest.json",
+            "candidateDir": f"normalization/candidates/{manual_id}/",
+            "processedAt": _utc_now(),
+            "batchRunId": batch_run_id,
+            "contentHash": content_hash,
+            "skippedReason": clearance.get("resumeSkippedReason"),
+            "normalizationStatus": "skipped",
+            "reNormalize": False,
+            "frozenContract": clearance.get("frozenContract"),
+            "freezeClosure": clearance.get("freezeClosure"),
+            "historicalArtifact": clearance.get("historicalArtifact"),
+        },
+    }
 
 
 def freeze_cohort_manifest(
@@ -531,14 +791,27 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
     manifest_hash = freeze["manifestHash"]
 
     resumed_checkpoint = None
+    resume_context: dict[str, Any] | None = None
     if options.resume_batch_run_id:
         resumed_checkpoint = load_checkpoint(options.resume_batch_run_id)
         if resumed_checkpoint is None:
             raise BatchManifestFreezeError(
                 f"resume checkpoint missing for batchRunId={options.resume_batch_run_id}"
             )
-        if resumed_checkpoint.get("manifestHash") != manifest_hash:
-            raise BatchManifestFreezeError("resume manifestHash mismatch — cohort manifest changed since authorization")
+        resume_auth_path = (
+            options.resume_authorization_path
+            or default_resume_authorization_path(options.resume_batch_run_id)
+        )
+        resume_auth = load_resume_authorization(resume_auth_path)
+        resume_context = validate_resume_authorization(
+            resume_auth,
+            batch_run_id=options.resume_batch_run_id,
+            checkpoint=resumed_checkpoint,
+            manifest_path=options.manifest_path,
+            cohort_hash=cohort_hash,
+            processing_manifest_hash=manifest_hash,
+            resume_auth_path=resume_auth_path,
+        )
         if resumed_checkpoint.get("cohortHash") != cohort_hash:
             raise BatchManifestFreezeError("resume cohortHash mismatch — cohort artifact changed since authorization")
         batch_run_id = options.resume_batch_run_id
@@ -572,6 +845,7 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         manifest = load_manifest()
 
     completed_manual_ids: set[str] = set()
+    resume_skip_manual_ids: set[str] = set()
     manual_audits: list[dict[str, Any]] = []
     review_queue: list[dict[str, Any]] = []
     batch_status = "in_progress"
@@ -580,10 +854,33 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
     forward_halted = False
 
     if resumed_checkpoint:
-        for prior in resumed_checkpoint.get("manualAudits", []):
-            if prior.get("batchState") == "completed":
-                completed_manual_ids.add(str(prior["manualId"]))
+        resume_auth_path = (
+            options.resume_authorization_path
+            or default_resume_authorization_path(options.resume_batch_run_id or "")
+        )
+        resume_auth = load_resume_authorization(resume_auth_path)
         manual_audits.extend(resumed_checkpoint.get("manualAudits", []))
+        entries_by_id = {str(entry.get("manualId")): entry for entry in entries}
+        for prior in resumed_checkpoint.get("manualAudits", []):
+            state = prior.get("batchState")
+            manual_id = str(prior["manualId"])
+            if state in {"completed", "skipped_authorized"}:
+                resume_skip_manual_ids.add(manual_id)
+        for clearance in resume_auth.get("architectureExceptionClearances") or []:
+            manual_id = str(clearance.get("manualId"))
+            prior_audit = next(
+                audit for audit in resumed_checkpoint.get("manualAudits", []) if audit.get("manualId") == manual_id
+            )
+            resume_skip_manual_ids.add(manual_id)
+            manual_audits.append(
+                build_cleared_stop_audit(
+                    clearance,
+                    entries_by_id.get(manual_id, {"manualId": manual_id}),
+                    batch_run_id=batch_run_id,
+                    prior_audit=prior_audit,
+                )
+            )
+        completed_manual_ids = set(resume_skip_manual_ids)
 
     pilot_baselines = _load_pilot_baseline_index()
 
@@ -601,7 +898,8 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
             manual_audits.append(pending_audit)
             continue
 
-        if manual_id in completed_manual_ids and manual_id not in options.force_manual_ids:
+        skip_ids = resume_skip_manual_ids if resumed_checkpoint else completed_manual_ids
+        if manual_id in skip_ids and manual_id not in options.force_manual_ids:
             continue
 
         content_hash = compute_manual_content_hash(manual_id)
@@ -683,7 +981,7 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
             classification = classify_manual_entry(entry)
 
         batch_state = "completed"
-        if classification.get("batchStop"):
+        if classification.get("batchStop") or classification.get("architectureException"):
             batch_state = "stopped_trigger"
             forward_halted = True
             batch_status = "stopped"
@@ -747,6 +1045,15 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
     manuals_completed = sum(1 for audit in manual_audits if audit.get("batchState") in {"completed", "skipped_authorized", "stopped_trigger"})
     manuals_pending = sum(1 for audit in manual_audits if audit.get("batchState") == "pending")
 
+    checkpoint_manifest_freeze = freeze
+    if resume_context is not None:
+        checkpoint_manifest_freeze = {
+            "observationManifestHash": resume_context["observationManifestHash"],
+            "processingManifestHash": resume_context["processingManifestHash"],
+            "resumeAuthorizationArtifact": resume_context["resumeAuthorizationArtifact"],
+            "remediationCommit": resume_context.get("remediationCommit"),
+        }
+
     checkpoint_payload = {
         "schemaVersion": "1.0.0",
         "reportType": "cg_production_normalization_batch_checkpoint",
@@ -754,7 +1061,7 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         "cohortArtifact": options.cohort_path.name,
         "manifestHash": manifest_hash,
         "cohortHash": cohort_hash,
-        "manifestFreeze": freeze,
+        "manifestFreeze": checkpoint_manifest_freeze,
         "authorization": auth,
         "startedAt": started_at,
         "finishedAt": finished_at,
@@ -768,12 +1075,14 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         "dryRun": options.dry_run,
         "manualAudits": manual_audits,
     }
+    if resume_context is not None:
+        checkpoint_payload["resumeGeneration"] = resume_context["resumeGeneration"]
 
     if options.write_artifacts:
         write_checkpoint(checkpoint_payload)
         update_human_review_queue(review_queue, dry_run=options.dry_run)
 
-    return {
+    result_payload = {
         "schemaVersion": "1.0.0",
         "reportType": "cg_production_normalization_batch_run",
         "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
@@ -795,3 +1104,7 @@ def run_batch(options: BatchRunOptions) -> dict[str, Any]:
         "manualAudits": manual_audits,
         "checkpointArtifact": checkpoint_path(batch_run_id).name,
     }
+    if resume_context is not None:
+        result_payload["resumeGeneration"] = resume_context["resumeGeneration"]
+        result_payload["manifestFreeze"] = checkpoint_manifest_freeze
+    return result_payload

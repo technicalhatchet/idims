@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_resume_contract",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
+  "status": "active",
+  "priorContract": "CG_PRODUCTION_NORMALIZATION_BATCH_CONTRACT_v1.json",
+  "rules": {
+    "resumeAuthorizationSeparateFromExecutionLock": true,
+    "executionLockRemainsIndependentGate": true,
+    "resumeRequiresAuthorizationArtifact": true,
+    "topLevelAuthorizationTupleAuthoritative": true,
+    "historicalObservationArtifactsImmutable": true,
+    "processingUsesRemediatedManifest": true,
+    "onlyExplicitManifestDeltaPermitted": true,
+    "unauthorizedManifestDeltaHardStop": true,
+    "cohortIdentityUnchanged": true,
+    "observationManifestHashUnchanged": true,
+    "clearedArchitectureExceptionsManualAllowlistOnly": true,
+    "nonClearedArchitectureExceptionStillStopsBatch": true,
+    "noGlobalArchitectureExceptionBypass": true,
+    "flexWashSkippedOnResumeNotRenormalized": true,
+    "completedAndSkippedPilotManualsRemainSkipped": {
+      "completed": 47,
+      "skippedAuthorizedPilotBaselines": 6
+    },
+    "firstTruePendingManualAfterClearedFlexWash": "SAMSUNG-LAUNDRY-COMBO-WD53",
+    "forceFalseUnlessExplicitForceManual": true,
+    "frozenCanonicalHashesVerifiedBeforeAndAfter": true
+  },
+  "liveCheckpointContinuation": {
+    "appendOnlyResumeGeneration": true,
+    "resumeGenerationOnResume": 2,
+    "manifestFreezeFields": [
+      "observationManifestHash",
+      "processingManifestHash",
+      "resumeAuthorizationArtifact",
+      "remediationCommit"
+    ],
+    "flexWashSupplementalAudit": {
+      "batchState": "cleared_stop",
+      "resumeDisposition": "skipped_authorized",
+      "historicalStatePreservedInObservationArtifacts": true
+    }
+  },
+  "implementation": "backend/scripts/normalization/batch_orchestrator.py"
+}
