@@ -13,6 +13,8 @@ import {
   REVIEW_CLASS_LABELS,
   REVIEW_DECISIONS_API,
 } from './candidateReviewWorkflow';
+import Wave1ReviewGuidancePanel from './Wave1ReviewGuidancePanel';
+import { WAVE1_REVIEW_CLASS } from './wave1ReviewGuidance';
 
 const REVIEW_CLASSES = Object.keys(REVIEW_CLASS_LABELS);
 const REVIEW_STATUSES = ['unreviewed', 'accepted', 'rejected', 'deferred'];
@@ -234,6 +236,10 @@ export default function CandidateReviewWorkbench() {
           ]}
         />
       </div>
+
+      {classFilter === WAVE1_REVIEW_CLASS ? (
+        <Wave1ReviewGuidancePanel candidateCount={filtered.length} />
+      ) : null}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <div className={`${SOLOMON_GLASS_PANEL_CLASS} overflow-hidden`}>
