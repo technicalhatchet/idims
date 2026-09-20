@@ -1,28 +1,45 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import {
-  SOLOMON_GLASS_PANEL_CLASS,
-  SOLOMON_REFERENCE_EYEBROW_CLASS,
-} from '../solomonListPageUi';
+/**
+ * Presentation-only review workbench shell.
+ * Does not change routing, page structure, index/candidate data model, API semantics,
+ * or review lifecycle — same list, filters, selection, and accept/reject/defer POST.
+ */
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { SOLOMON_GLASS_PANEL_CLASS } from '../solomonListPageUi';
 import reviewIndex from '../../diagnostics/knowledge/normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json';
 import {
   decisionsMapFromStore,
-  EXISTING_CANONICAL_MAPPING_NOTICE,
-  formatWhereProvenance,
+  formatSourceTermLabel,
+  mapsToCollapsedParts,
   mergeHydratedDecisions,
-  NEW_CANONICAL_KNOWLEDGE_NOTICE,
+  pickNextCandidateIdInList,
   REVIEW_CLASS_LABELS,
   REVIEW_DECISIONS_API,
 } from './candidateReviewWorkflow';
+import CandidateReviewDetailPanel from './CandidateReviewDetailPanel';
 import Wave1ReviewGuidancePanel from './Wave1ReviewGuidancePanel';
 import Wave2ReviewGuidancePanel from './Wave2ReviewGuidancePanel';
 import { WAVE1_REVIEW_CLASS } from './wave1ReviewGuidance';
 import { WAVE2_REVIEW_CLASS } from './wave2ReviewGuidance';
+import {
+  isNewPlatformKnowledgeCandidate,
+  wave2ListRowMapsToDetail,
+  wave2ListRowMapsToHighlight,
+  wave2ListRowPrimaryLabel,
+} from './wave2ReviewPresentation';
 
 const REVIEW_CLASSES = Object.keys(REVIEW_CLASS_LABELS);
 const REVIEW_STATUSES = ['unreviewed', 'accepted', 'rejected', 'deferred'];
 
 function classNames(...parts) {
   return parts.filter(Boolean).join(' ');
+}
+
+function scrollCandidateListIntoView(listRef) {
+  if (!listRef?.current) return;
+  const isStackedLayout = typeof window !== 'undefined'
+    && window.matchMedia('(max-width: 1023px)').matches;
+  if (!isStackedLayout) return;
+  listRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function FilterSelect({ label, value, onChange, options }) {
@@ -42,17 +59,6 @@ function FilterSelect({ label, value, onChange, options }) {
   );
 }
 
-function DetailSection({ title, children }) {
-  return (
-    <section className="space-y-1.5">
-      <h3 className={SOLOMON_REFERENCE_EYEBROW_CLASS}>{title}</h3>
-      <div className="text-xs text-[var(--solomon-text-secondary)] whitespace-pre-wrap break-words">
-        {children}
-      </div>
-    </section>
-  );
-}
-
 export default function CandidateReviewWorkbench() {
   const [manualFilter, setManualFilter] = useState('all');
   const [classFilter, setClassFilter] = useState('all');
@@ -66,6 +72,8 @@ export default function CandidateReviewWorkbench() {
   const [decisionsLoadError, setDecisionsLoadError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const detailPanelRef = useRef(null);
+  const candidateListRef = useRef(null);
 
   const baseRecords = reviewIndex.candidateRecords || [];
   const reconciliations = reviewIndex.manualReconciliations || [];
@@ -100,6 +108,11 @@ export default function CandidateReviewWorkbench() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedId || !detailPanelRef.current) return;
+    detailPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [selectedId]);
 
   const records = useMemo(
     () => mergeHydratedDecisions(baseRecords, { decisions: Object.fromEntries(
@@ -148,6 +161,8 @@ export default function CandidateReviewWorkbench() {
 
   const submitDecision = useCallback(async (reviewStatus) => {
     if (!selected) return;
+    const decidedId = selected.candidateId;
+    const nextId = pickNextCandidateIdInList(filtered, decidedId);
     setSaving(true);
     setError(null);
     try {
@@ -155,7 +170,7 @@ export default function CandidateReviewWorkbench() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          candidateId: selected.candidateId,
+          candidateId: decidedId,
           reviewStatus,
           manualId: selected.manualId,
           batchRunId: reviewIndex.batchRunId,
@@ -167,14 +182,20 @@ export default function CandidateReviewWorkbench() {
       }
       setDecisionState((current) => ({
         ...current,
-        [selected.candidateId]: reviewStatus,
+        [decidedId]: reviewStatus,
       }));
+      if (nextId) {
+        setSelectedId(nextId);
+      }
+      requestAnimationFrame(() => {
+        scrollCandidateListIntoView(candidateListRef);
+      });
     } catch (err) {
       setError(err.message || 'Failed to save review decision');
     } finally {
       setSaving(false);
     }
-  }, [selected]);
+  }, [filtered, selected]);
 
   const selectedStatus = selected?.reviewStatus || 'unreviewed';
 
@@ -248,12 +269,26 @@ export default function CandidateReviewWorkbench() {
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
-        <div className={`${SOLOMON_GLASS_PANEL_CLASS} overflow-hidden`}>
+        <div
+          ref={candidateListRef}
+          className={`${SOLOMON_GLASS_PANEL_CLASS} overflow-hidden scroll-mt-3`}
+        >
           <div className="border-b border-white/10 px-3 py-2 text-xs text-[var(--solomon-text-muted)]">
             {filtered.length} candidates
           </div>
-          <ul className="max-h-[70vh] overflow-y-auto divide-y divide-white/5">
-            {filtered.map((record) => (
+          <ul className="max-h-[38vh] overflow-y-auto divide-y divide-white/5 lg:max-h-[70vh]">
+            {filtered.map((record) => {
+              const wave2Row = isNewPlatformKnowledgeCandidate(record);
+              const mapsToParts = wave2Row
+                ? {
+                  highlight: wave2ListRowMapsToHighlight(record),
+                  detail: wave2ListRowMapsToDetail(record),
+                }
+                : mapsToCollapsedParts(record);
+              const rowPrimary = wave2Row
+                ? wave2ListRowPrimaryLabel(record)
+                : formatSourceTermLabel(record);
+              return (
               <li key={record.candidateId}>
                 <button
                   type="button"
@@ -263,9 +298,27 @@ export default function CandidateReviewWorkbench() {
                     selectedId === record.candidateId && 'bg-white/10',
                   )}
                 >
-                  <div className="text-xs font-medium text-[var(--solomon-text-primary)] truncate">
-                    {record.what?.sourceTerm || record.candidateId}
+                  <div className="text-sm font-semibold text-[var(--solomon-text-primary)] truncate">
+                    {rowPrimary}
                   </div>
+                  <div className="mt-0.5 text-[11px] text-[var(--solomon-text-secondary)] truncate">
+                    <span className="text-[var(--solomon-text-muted)]">→ </span>
+                    <span className="font-semibold text-[var(--solomon-text-primary)]">
+                      {mapsToParts.highlight}
+                    </span>
+                    {mapsToParts.detail ? (
+                      <span
+                        className={wave2Row ? ' font-semibold text-[var(--solomon-text-primary)]' : ''}
+                      >
+                        {` · ${mapsToParts.detail}`}
+                      </span>
+                    ) : null}
+                  </div>
+                  {wave2Row && record.what?.sourceTerm ? (
+                    <div className="mt-0.5 truncate text-[10px] text-[var(--solomon-text-muted)]">
+                      {record.what.sourceTerm}
+                    </div>
+                  ) : null}
                   <div className="mt-0.5 flex flex-wrap gap-2 text-[10px] text-[var(--solomon-text-muted)]">
                     <span>{record.manualId}</span>
                     <span>{REVIEW_CLASS_LABELS[record.reviewClass] || record.reviewClass}</span>
@@ -273,90 +326,24 @@ export default function CandidateReviewWorkbench() {
                   </div>
                 </button>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
 
-        <div className={`${SOLOMON_GLASS_PANEL_CLASS} p-4 space-y-4 min-h-[40vh]`}>
-          {!selected ? (
-            <p className="text-sm text-[var(--solomon-text-muted)]">Select a candidate to inspect provenance and decide.</p>
-          ) : (
-            <>
-              <div>
-                <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>Candidate</p>
-                <h2 className="text-sm font-medium text-[var(--solomon-text-primary)]">
-                  {selected.what?.sourceTerm || selected.candidateId}
-                </h2>
-                <p className="mt-1 text-[11px] text-[var(--solomon-text-muted)]">{selected.candidateId}</p>
-              </div>
-
-              <DetailSection title="What">
-                manualId: {selected.what?.manualId}
-                {'\n'}procedureId: {selected.what?.procedureId || '—'}
-                {'\n'}sourceTerm: {selected.what?.sourceTerm || '—'}
-              </DetailSection>
-
-              <DetailSection title="Where / Provenance">
-                {formatWhereProvenance(selected)}
-              </DetailSection>
-
-              <DetailSection title="Maps to">
-                proposedCanonicalId: {selected.mapsTo?.proposedCanonicalId || '—'}
-                {'\n'}mappingType: {selected.mapsTo?.mappingType || '—'}
-                {'\n'}candidateType: {selected.mapsTo?.candidateType || '—'}
-              </DetailSection>
-
-              {selected.reviewClass === 'existingCanonicalMapping' ? (
-                <div className="rounded-md border border-cyan-500/25 bg-cyan-500/5 p-2 text-[11px] text-cyan-100/90">
-                  {EXISTING_CANONICAL_MAPPING_NOTICE}
-                </div>
-              ) : null}
-
-              {selected.reviewClass === 'newCanonicalKnowledge' ? (
-                <div className="rounded-md border border-amber-500/25 bg-amber-500/5 p-2 text-[11px] text-amber-100/90">
-                  {NEW_CANONICAL_KNOWLEDGE_NOTICE}
-                </div>
-              ) : null}
-
-              <DetailSection title="Why">
-                {JSON.stringify(selected.why || {}, null, 2)}
-              </DetailSection>
-
-              <DetailSection title="Blockers">
-                {JSON.stringify(selected.blockers || {}, null, 2)}
-              </DetailSection>
-
-              <DetailSection title="Context">
-                {JSON.stringify(selected.context || {}, null, 2)}
-              </DetailSection>
-
-              {selectedReconciliation ? (
-                <DetailSection title="Reconciliation">
-                  {JSON.stringify(selectedReconciliation, null, 2)}
-                </DetailSection>
-              ) : null}
-
-              <div className="border-t border-white/10 pt-3 space-y-2">
-                <p className="text-[11px] text-[var(--solomon-text-muted)]">
-                  Current review status: <span className="text-[var(--solomon-text-primary)]">{selectedStatus}</span>
-                </p>
-                {error ? <p className="text-xs text-red-300">{error}</p> : null}
-                <div className="flex flex-wrap gap-2">
-                  {['accepted', 'rejected', 'deferred'].map((status) => (
-                    <button
-                      key={status}
-                      type="button"
-                      disabled={saving || decisionsLoading}
-                      onClick={() => submitDecision(status)}
-                      className="rounded-md border border-white/15 px-3 py-1.5 text-xs text-[var(--solomon-text-primary)] hover:bg-white/10 disabled:opacity-50"
-                    >
-                      {status}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </>
-          )}
+        <div
+          ref={detailPanelRef}
+          className={`${SOLOMON_GLASS_PANEL_CLASS} p-4 space-y-4 min-h-[40vh] scroll-mt-3`}
+        >
+          <CandidateReviewDetailPanel
+            selected={selected}
+            selectedStatus={selectedStatus}
+            selectedReconciliation={selectedReconciliation}
+            saving={saving}
+            decisionsLoading={decisionsLoading}
+            error={error}
+            onDecision={submitDecision}
+          />
         </div>
       </div>
     </div>
