@@ -1,0 +1,3060 @@
+{
+  "schemaVersion": 1,
+  "reportType": "cg_wave1_pattern_synthesis",
+  "status": "READ_ONLY_SYNTHESIS_COMPLETE",
+  "generatedAt": "2026-09-20T06:36:24.267159+00:00",
+  "wave1Reference": {
+    "waveId": "wave1-existing-canonical-mapping",
+    "reviewClass": "existingCanonicalMapping",
+    "closureCommit": "a6bf8815",
+    "closureAudit": "CG_WAVE1_EXISTING_CANONICAL_MAPPING_CLOSURE_AUDIT_v1.json",
+    "reviewedCount": 370,
+    "acceptedCount": 328,
+    "deferredCount": 41,
+    "rejectedCount": 1
+  },
+  "oemTestHeadingAnalysis": {
+    "patternId": "oem_test_heading",
+    "wave1Count": 33,
+    "wave1ManualIds": [
+      "W10410465",
+      "W10680150",
+      "W10864849",
+      "W10881701",
+      "W11169652",
+      "W11169659",
+      "W11416395",
+      "W11416787",
+      "W11416805",
+      "W11428632",
+      "W11455152",
+      "W11697231",
+      "W11798430",
+      "W11800233",
+      "W8178559"
+    ],
+    "wave1ReviewStatusCounts": {
+      "deferred": 33
+    },
+    "wave1Examples": [
+      {
+        "candidateId": "W10410465::canonical_mapping::map-W10410465-moisture-sensor-moisture_sensor",
+        "manualId": "W10410465",
+        "procedureId": "w10410465-moisture-sensor",
+        "sourceTerm": "TEST #5: Moisture Sensor",
+        "proposedCanonicalId": "moisture_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10410465::canonical_mapping::map-W10410465-thermal-fuse-thermal_fuse",
+        "manualId": "W10410465",
+        "procedureId": "w10410465-thermal-fuse",
+        "sourceTerm": "TEST #4b: Thermal Fuse",
+        "proposedCanonicalId": "thermal_fuse",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10680150::canonical_mapping::map-W10680150-moisture-sensor-moisture_sensor",
+        "manualId": "W10680150",
+        "procedureId": "w10680150-moisture-sensor",
+        "sourceTerm": "TEST #5: Moisture Sensor",
+        "proposedCanonicalId": "moisture_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10680150::canonical_mapping::map-W10680150-thermal-fuse-thermal_fuse",
+        "manualId": "W10680150",
+        "procedureId": "w10680150-thermal-fuse",
+        "sourceTerm": "TEST #4b: Thermal Fuse",
+        "proposedCanonicalId": "thermal_fuse",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10864849::canonical_mapping::map-W10864849-lid-lock-lid_lock",
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-08-lid-lock",
+        "sourceTerm": "TEST #8: Lid Lock",
+        "proposedCanonicalId": "lid_lock",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10881701::canonical_mapping::map-W10881701-moisture-sensor-moisture_sensor",
+        "manualId": "W10881701",
+        "procedureId": "w10881701-moisture-sensor",
+        "sourceTerm": "TEST #5: Moisture Sensor",
+        "proposedCanonicalId": "moisture_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W10881701::canonical_mapping::map-W10881701-thermal-fuse-thermal_fuse",
+        "manualId": "W10881701",
+        "procedureId": "w10881701-thermal-fuse",
+        "sourceTerm": "TEST #4b: Thermal Fuse",
+        "proposedCanonicalId": "thermal_fuse",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W11169652::canonical_mapping::map-W11169652-water-level-sensor-water_level_sensor",
+        "manualId": "W11169652",
+        "procedureId": "w11169652-test-07-water-level-sensor",
+        "sourceTerm": "TEST #7: Water Level Sensor",
+        "proposedCanonicalId": "water_level_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      }
+    ],
+    "wave1Records": [
+      {
+        "record": {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-moisture-sensor-moisture_sensor",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10410465::canonical_mapping::map-W10410465-moisture_sensor-moisture_sensor",
+            "manualId": "W10410465",
+            "procedureId": "w10410465-dryness-adjust",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-thermal-fuse-thermal_fuse",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10410465::canonical_mapping::map-W10410465-thermal_fuse-thermal_fuse",
+            "manualId": "W10410465",
+            "procedureId": "w10410465-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W10680150::canonical_mapping::map-W10680150-moisture-sensor-moisture_sensor",
+          "manualId": "W10680150",
+          "procedureId": "w10680150-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10680150::canonical_mapping::map-W10680150-moisture_sensor-moisture_sensor",
+            "manualId": "W10680150",
+            "procedureId": "w10680150-dryness-adjust",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W10680150::canonical_mapping::map-W10680150-thermal-fuse-thermal_fuse",
+          "manualId": "W10680150",
+          "procedureId": "w10680150-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10680150::canonical_mapping::map-W10680150-thermal_fuse-thermal_fuse",
+            "manualId": "W10680150",
+            "procedureId": "w10680150-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W10864849::canonical_mapping::map-W10864849-lid-lock-lid_lock",
+          "manualId": "W10864849",
+          "procedureId": "w10864849-test-08-lid-lock",
+          "sourceTerm": "TEST #8: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-door_lock-lid_lock",
+            "manualId": "W10864849",
+            "procedureId": "w10864849-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-door_lock-lid_lock",
+            "manualId": "W10864849",
+            "procedureId": "w10864849-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W10881701::canonical_mapping::map-W10881701-moisture-sensor-moisture_sensor",
+          "manualId": "W10881701",
+          "procedureId": "w10881701-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10881701::canonical_mapping::map-W10881701-moisture_sensor-moisture_sensor",
+            "manualId": "W10881701",
+            "procedureId": "w10881701-dryness-adjust",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W10881701::canonical_mapping::map-W10881701-thermal-fuse-thermal_fuse",
+          "manualId": "W10881701",
+          "procedureId": "w10881701-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W10881701::canonical_mapping::map-W10881701-thermal_fuse-thermal_fuse",
+            "manualId": "W10881701",
+            "procedureId": "w10881701-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-water-level-sensor-water_level_sensor",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-07-water-level-sensor",
+          "sourceTerm": "TEST #7: Water Level Sensor",
+          "proposedCanonicalId": "water_level_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-water_level_sensor-water_level_sensor",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-07-water-level-sensor",
+            "sourceTerm": "water_level_sensor",
+            "proposedCanonicalId": "water_level_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-water_level_sensor-water_level_sensor",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-07-water-level-sensor",
+            "sourceTerm": "water_level_sensor",
+            "proposedCanonicalId": "water_level_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-wash-temperature-sensor-wash_ntc",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-10-wash-temp-sensor",
+          "sourceTerm": "TEST #10: Wash Temperature Sensor",
+          "proposedCanonicalId": "wash_ntc",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-wash_ntc-wash_ntc",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-10-wash-temp-sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "wash_ntc",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-wash_ntc-wash_ntc",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-10-wash-temp-sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "wash_ntc",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-vent-fan-motor-vent_fan",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-13-vent-fan",
+          "sourceTerm": "TEST #13: Vent Fan Motor",
+          "proposedCanonicalId": "vent_fan",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-vent_fan-vent_fan",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-13-vent-fan",
+            "sourceTerm": "vent_fan",
+            "proposedCanonicalId": "vent_fan",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-vent_fan-vent_fan",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-13-vent-fan",
+            "sourceTerm": "vent_fan",
+            "proposedCanonicalId": "vent_fan",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-vent-baffle-solenoid-vent_baffle",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-14-vent-baffle",
+          "sourceTerm": "TEST #14: Vent Baffle Solenoid",
+          "proposedCanonicalId": "vent_baffle",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-vent_baffle-vent_baffle",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-14-vent-baffle",
+            "sourceTerm": "vent_baffle",
+            "proposedCanonicalId": "vent_baffle",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-vent_baffle-vent_baffle",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-14-vent-baffle",
+            "sourceTerm": "vent_baffle",
+            "proposedCanonicalId": "vent_baffle",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-dry-heating-element-dry_heater",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-15-dry-heater",
+          "sourceTerm": "TEST #15: Dry Heating Element",
+          "proposedCanonicalId": "dry_heater",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_heater-dry_heater",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-15-dry-heater",
+            "sourceTerm": "dry_heater",
+            "proposedCanonicalId": "dry_heater",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_heater-dry_heater",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-15-dry-heater",
+            "sourceTerm": "dry_heater",
+            "proposedCanonicalId": "dry_heater",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-dry-temperature-sensor-dry_ntc",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-16-dry-temp-sensor",
+          "sourceTerm": "TEST #16: Dry Temperature Sensor",
+          "proposedCanonicalId": "dry_ntc",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_ntc-dry_ntc",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-16-dry-temp-sensor",
+            "sourceTerm": "dry_ntc",
+            "proposedCanonicalId": "dry_ntc",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_ntc-dry_ntc",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-16-dry-temp-sensor",
+            "sourceTerm": "dry_ntc",
+            "proposedCanonicalId": "dry_ntc",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169652::canonical_mapping::map-W11169652-dry-blower-motor-dry_blower",
+          "manualId": "W11169652",
+          "procedureId": "w11169652-test-17-dry-blower",
+          "sourceTerm": "TEST #17: Dry Blower Motor",
+          "proposedCanonicalId": "dry_blower",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_blower-dry_blower",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-17-dry-blower",
+            "sourceTerm": "dry_blower",
+            "proposedCanonicalId": "dry_blower",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-dry_blower-dry_blower",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-17-dry-blower",
+            "sourceTerm": "dry_blower",
+            "proposedCanonicalId": "dry_blower",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11169659::canonical_mapping::map-W11169659-moisture-sensor-moisture_sensor",
+          "manualId": "W11169659",
+          "procedureId": "w11169659-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11169659::canonical_mapping::map-W11169659-moisture_sensor-moisture_sensor",
+            "manualId": "W11169659",
+            "procedureId": "w11169659-moisture-sensor",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11169659::canonical_mapping::map-W11169659-moisture_sensor-moisture_sensor",
+            "manualId": "W11169659",
+            "procedureId": "w11169659-moisture-sensor",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11416395::canonical_mapping::map-W11416395-drain-pump-drain_pump",
+          "manualId": "W11416395",
+          "procedureId": "w11416395-test-07-drain-pump",
+          "sourceTerm": "TEST #7: Drain Pump",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-drain_pump-drain_pump",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-drain_pump-drain_pump",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-07-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11416395::canonical_mapping::map-W11416395-lid-lock-lid_lock",
+          "manualId": "W11416395",
+          "procedureId": "w11416395-test-08-lid-lock",
+          "sourceTerm": "TEST #8: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-door_lock-lid_lock",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-door_lock-lid_lock",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11416787::canonical_mapping::map-W11416787-lid-lock-lid_lock",
+          "manualId": "W11416787",
+          "procedureId": "w11416787-test-08-lid-lock",
+          "sourceTerm": "TEST #8: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-door_lock-lid_lock",
+            "manualId": "W11416787",
+            "procedureId": "w11416787-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-door_lock-lid_lock",
+            "manualId": "W11416787",
+            "procedureId": "w11416787-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11416805::canonical_mapping::map-W11416805-moisture-sensor-moisture_sensor",
+          "manualId": "W11416805",
+          "procedureId": "w11416805-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-moisture_sensor-moisture_sensor",
+            "manualId": "W11416805",
+            "procedureId": "w11416805-moisture-sensor",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-moisture_sensor-moisture_sensor",
+            "manualId": "W11416805",
+            "procedureId": "w11416805-moisture-sensor",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11416805::canonical_mapping::map-W11416805-thermal-fuse-thermal_fuse",
+          "manualId": "W11416805",
+          "procedureId": "w11416805-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-thermal_fuse-thermal_fuse",
+            "manualId": "W11416805",
+            "procedureId": "w11416805-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W11428632::canonical_mapping::map-W11428632-drain-pump-drain_pump",
+          "manualId": "W11428632",
+          "procedureId": "w11428632-test-06-drain-pump",
+          "sourceTerm": "TEST #6: Drain Pump",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-drain_pump-drain_pump",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-drain_pump-drain_pump",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11428632::canonical_mapping::map-W11428632-lid-lock-lid_lock",
+          "manualId": "W11428632",
+          "procedureId": "w11428632-test-07-lid-lock",
+          "sourceTerm": "TEST #7: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-door_lock-lid_lock",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-door_lock-lid_lock",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11455152::canonical_mapping::map-W11455152-drain-pump-drain_pump",
+          "manualId": "W11455152",
+          "procedureId": "w11455152-test-06-drain-pump",
+          "sourceTerm": "TEST #6: Drain Pump",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-drain_pump-drain_pump",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-drain_pump-drain_pump",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11455152::canonical_mapping::map-W11455152-lid-lock-lid_lock",
+          "manualId": "W11455152",
+          "procedureId": "w11455152-test-07-lid-lock",
+          "sourceTerm": "TEST #7: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-door_lock-lid_lock",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-door_lock-lid_lock",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11697231::canonical_mapping::map-W11697231-main-control-control_board",
+          "manualId": "W11697231",
+          "procedureId": "w11697231-test-01-acu-power",
+          "sourceTerm": "TEST #1: Main Control",
+          "proposedCanonicalId": "control_board",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 0,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-supply-power_supply",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11697231::canonical_mapping::map-W11697231-drain-pump-drain_pump",
+          "manualId": "W11697231",
+          "procedureId": "w11697231-test-07-drain-pump",
+          "sourceTerm": "TEST #7: Drain Pump",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-drain_pump-drain_pump",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-07-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-drain_pump-drain_pump",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-07-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11697231::canonical_mapping::map-W11697231-lid-lock-lid_lock",
+          "manualId": "W11697231",
+          "procedureId": "w11697231-test-08-lid-lock",
+          "sourceTerm": "TEST #8: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-door_lock-lid_lock",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-door_lock-lid_lock",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-08-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11798430::canonical_mapping::map-W11798430-thermal-fuse-thermal_fuse",
+          "manualId": "W11798430",
+          "procedureId": "w11798430-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11798430::canonical_mapping::map-W11798430-thermal_fuse-thermal_fuse",
+            "manualId": "W11798430",
+            "procedureId": "w11798430-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W11800233::canonical_mapping::map-W11800233-drain-pump-drain_pump",
+          "manualId": "W11800233",
+          "procedureId": "w11800233-test-06-drain-pump",
+          "sourceTerm": "TEST #6: Drain Pump",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-drain_pump-drain_pump",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-drain_pump-drain_pump",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-06-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11800233::canonical_mapping::map-W11800233-lid-lock-lid_lock",
+          "manualId": "W11800233",
+          "procedureId": "w11800233-test-07-lid-lock",
+          "sourceTerm": "TEST #7: Lid Lock",
+          "proposedCanonicalId": "lid_lock",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-door_lock-lid_lock",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-door_lock-lid_lock",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-07-lid-lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W8178559::canonical_mapping::map-W8178559-exhaust-thermistor-temperature_sensor",
+          "manualId": "W8178559",
+          "procedureId": "w8178559-exhaust-thermistor",
+          "sourceTerm": "TEST #3a: Exhaust Thermistor",
+          "proposedCanonicalId": "temperature_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 0,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W8178559::canonical_mapping::map-W8178559-moisture-sensor-moisture_sensor",
+          "manualId": "W8178559",
+          "procedureId": "w8178559-moisture-sensor",
+          "sourceTerm": "TEST #4: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W8178559::canonical_mapping::map-W8178559-moisture_sensor-moisture_sensor",
+            "manualId": "W8178559",
+            "procedureId": "w8178559-dryness-adjust",
+            "sourceTerm": "moisture_sensor",
+            "proposedCanonicalId": "moisture_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      },
+      {
+        "record": {
+          "candidateId": "W8178559::canonical_mapping::map-W8178559-thermal-fuse-thermal_fuse",
+          "manualId": "W8178559",
+          "procedureId": "w8178559-thermal-fuse",
+          "sourceTerm": "TEST #3b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 0,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W8178559::canonical_mapping::map-W8178559-thermal_fuse-thermal_fuse",
+            "manualId": "W8178559",
+            "procedureId": "w8178559-heater-gas",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": []
+      }
+    ],
+    "corpusCount": 232,
+    "corpusReviewClassCounts": {
+      "existingCanonicalMapping": 33,
+      "unresolved": 135,
+      "implementationSpecific": 10,
+      "newPlatformKnowledge": 54
+    },
+    "corpusOccursOutsideWave1": true,
+    "wave1WithAcceptedCanonicalSiblingCount": 31,
+    "wave1WithAcceptedCanonicalSiblingPercent": 93.9,
+    "wave1WithAcceptedProcedureSiblingCount": 22,
+    "wave1WithAcceptedProcedureSiblingPercent": 66.7
+  },
+  "manualSectionHeadingAnalysis": {
+    "patternId": "manual_section_heading",
+    "wave1Count": 6,
+    "wave1ManualIds": [
+      "SAMSUNG-DISHWASHER",
+      "SAMSUNG-DISHWASHER-M9",
+      "SAMSUNG-NE58-RANGE",
+      "W11633848"
+    ],
+    "wave1ReviewStatusCounts": {
+      "accepted": 2,
+      "deferred": 4
+    },
+    "wave1Examples": [
+      {
+        "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-detergent-dispenser-detergent_dispenser",
+        "manualId": "SAMSUNG-DISHWASHER",
+        "procedureId": "samsungdw-dispenser",
+        "sourceTerm": "\u00a74-1: Detergent Dispenser",
+        "proposedCanonicalId": "detergent_dispenser",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "accepted"
+      },
+      {
+        "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-detergent-dispenser-detergent_dispenser",
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "procedureId": "samsungdwm9-dispenser",
+        "sourceTerm": "\u00a74-3: Detergent Dispenser",
+        "proposedCanonicalId": "detergent_dispenser",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-oven-temperature-sensor-temperature_sensor",
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "procedureId": "samsungne58-oven-sensor",
+        "sourceTerm": "\u00a74-2: Oven temperature sensor",
+        "proposedCanonicalId": "temperature_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "accepted"
+      },
+      {
+        "candidateId": "W11633848::canonical_mapping::map-W11633848-dispenser-solenoid-detergent_dispenser",
+        "manualId": "W11633848",
+        "procedureId": "w11633848-dispenser",
+        "sourceTerm": "\u00a73-9: Dispenser Solenoid",
+        "proposedCanonicalId": "detergent_dispenser",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W11633848::canonical_mapping::map-W11633848-diverter-motor-circulation_pump",
+        "manualId": "W11633848",
+        "procedureId": "w11633848-diverter-motor",
+        "sourceTerm": "\u00a73-13: Diverter Motor",
+        "proposedCanonicalId": "circulation_pump",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W11633848::canonical_mapping::map-W11633848-drain-motor-drain_pump",
+        "manualId": "W11633848",
+        "procedureId": "w11633848-drain-motor",
+        "sourceTerm": "\u00a73-16: Drain Motor",
+        "proposedCanonicalId": "drain_pump",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      }
+    ],
+    "wave1Records": [
+      {
+        "record": {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-detergent-dispenser-detergent_dispenser",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-dispenser",
+          "sourceTerm": "\u00a74-1: Detergent Dispenser",
+          "proposedCanonicalId": "detergent_dispenser",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-dispenser-detergent_dispenser",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "procedureId": "samsungdw-dispenser",
+            "sourceTerm": "dispenser",
+            "proposedCanonicalId": "detergent_dispenser",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-dispenser-detergent_dispenser",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "procedureId": "samsungdw-dispenser",
+            "sourceTerm": "dispenser",
+            "proposedCanonicalId": "detergent_dispenser",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-detergent-dispenser-detergent_dispenser",
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "procedureId": "samsungdwm9-dispenser",
+          "sourceTerm": "\u00a74-3: Detergent Dispenser",
+          "proposedCanonicalId": "detergent_dispenser",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-dispenser-detergent_dispenser",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "procedureId": "samsungdwm9-dispenser",
+            "sourceTerm": "dispenser",
+            "proposedCanonicalId": "detergent_dispenser",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-dispenser-detergent_dispenser",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "procedureId": "samsungdwm9-dispenser",
+            "sourceTerm": "dispenser",
+            "proposedCanonicalId": "detergent_dispenser",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-oven-temperature-sensor-temperature_sensor",
+          "manualId": "SAMSUNG-NE58-RANGE",
+          "procedureId": "samsungne58-oven-sensor",
+          "sourceTerm": "\u00a74-2: Oven temperature sensor",
+          "proposedCanonicalId": "temperature_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-thermistor-temperature_sensor",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "procedureId": "samsungne58-oven-sensor",
+            "sourceTerm": "thermistor",
+            "proposedCanonicalId": "temperature_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-thermistor-temperature_sensor",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "procedureId": "samsungne58-oven-sensor",
+            "sourceTerm": "thermistor",
+            "proposedCanonicalId": "temperature_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11633848::canonical_mapping::map-W11633848-dispenser-solenoid-detergent_dispenser",
+          "manualId": "W11633848",
+          "procedureId": "w11633848-dispenser",
+          "sourceTerm": "\u00a73-9: Dispenser Solenoid",
+          "proposedCanonicalId": "detergent_dispenser",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 0,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-inlet_valve-inlet_valve",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-dispenser",
+            "sourceTerm": "inlet_valve",
+            "proposedCanonicalId": "inlet_valve",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11633848::canonical_mapping::map-W11633848-diverter-motor-circulation_pump",
+          "manualId": "W11633848",
+          "procedureId": "w11633848-diverter-motor",
+          "sourceTerm": "\u00a73-13: Diverter Motor",
+          "proposedCanonicalId": "circulation_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-circulation_pump-circulation_pump",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-diverter-motor",
+            "sourceTerm": "circulation_pump",
+            "proposedCanonicalId": "circulation_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-circulation_pump-circulation_pump",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-diverter-motor",
+            "sourceTerm": "circulation_pump",
+            "proposedCanonicalId": "circulation_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      {
+        "record": {
+          "candidateId": "W11633848::canonical_mapping::map-W11633848-drain-motor-drain_pump",
+          "manualId": "W11633848",
+          "procedureId": "w11633848-drain-motor",
+          "sourceTerm": "\u00a73-16: Drain Motor",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "acceptedCanonicalSiblingCount": 1,
+        "acceptedProcedureSiblingCount": 1,
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-drain_pump-drain_pump",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-drain-motor",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "acceptedProcedureSiblingExamples": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-drain_pump-drain_pump",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-drain-motor",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      }
+    ],
+    "corpusCount": 559,
+    "corpusReviewClassCounts": {
+      "inheritedKnowledge": 22,
+      "implementationSpecific": 66,
+      "newPlatformKnowledge": 142,
+      "unresolved": 323,
+      "existingCanonicalMapping": 6
+    },
+    "corpusOccursOutsideWave1": true,
+    "wave1WithAcceptedCanonicalSiblingCount": 5,
+    "wave1WithAcceptedCanonicalSiblingPercent": 83.3,
+    "wave1WithAcceptedProcedureSiblingCount": 6,
+    "wave1WithAcceptedProcedureSiblingPercent": 100.0
+  },
+  "connectorIdentifierAnalysis": {
+    "wave1Identifiers": [
+      "DP2",
+      "MS2",
+      "PR6"
+    ],
+    "wave1Detail": [
+      {
+        "identifier": "DP2",
+        "record": {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-dp2-drain_pump",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-drain-pump",
+          "sourceTerm": "DP2",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "inferredRole": "connector_or_test_point_label",
+        "proposedCanonicalId": "drain_pump",
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-drain_pump-drain_pump",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-drain-pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "hasAcceptedCanonicalSibling": true
+      },
+      {
+        "identifier": "MS2",
+        "record": {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-ms2-drive_motor",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-motor-circuit",
+          "sourceTerm": "MS2",
+          "proposedCanonicalId": "drive_motor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "inferredRole": "connector_or_test_point_label",
+        "proposedCanonicalId": "drive_motor",
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-drive_motor-drive_motor",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-motor-circuit",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "hasAcceptedCanonicalSibling": true
+      },
+      {
+        "identifier": "PR6",
+        "record": {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-pr6-water_level_sensor",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-pressure-switch",
+          "sourceTerm": "PR6",
+          "proposedCanonicalId": "water_level_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        "inferredRole": "connector_or_test_point_label",
+        "proposedCanonicalId": "water_level_sensor",
+        "acceptedCanonicalSiblingExamples": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-water_level_sensor-water_level_sensor",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-pressure-switch",
+            "sourceTerm": "water_level_sensor",
+            "proposedCanonicalId": "water_level_sensor",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "hasAcceptedCanonicalSibling": true
+      }
+    ],
+    "identifierCorpusSummary": [
+      {
+        "identifier": "DP2",
+        "wave1Count": 1,
+        "corpusCount": 1,
+        "corpusReviewClassCounts": {
+          "existingCanonicalMapping": 1
+        }
+      },
+      {
+        "identifier": "MS2",
+        "wave1Count": 1,
+        "corpusCount": 1,
+        "corpusReviewClassCounts": {
+          "existingCanonicalMapping": 1
+        }
+      },
+      {
+        "identifier": "PR6",
+        "wave1Count": 1,
+        "corpusCount": 1,
+        "corpusReviewClassCounts": {
+          "existingCanonicalMapping": 1
+        }
+      }
+    ],
+    "corpusConnectorLikeIdentifierCount": 11,
+    "corpusConnectorLikeReviewClassCounts": {
+      "existingCanonicalMapping": 3,
+      "unresolved": 8
+    },
+    "corpusConnectorLikeExamples": [
+      {
+        "candidateId": "W8178558::canonical_mapping::map-W8178558-dp2-drain_pump",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-drain-pump",
+        "sourceTerm": "DP2",
+        "proposedCanonicalId": "drain_pump",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-W8178558-ms2-drive_motor",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-motor-circuit",
+        "sourceTerm": "MS2",
+        "proposedCanonicalId": "drive_motor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-W8178558-pr6-water_level_sensor",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-pressure-switch",
+        "sourceTerm": "PR6",
+        "proposedCanonicalId": "water_level_sensor",
+        "reviewClass": "existingCanonicalMapping",
+        "reviewStatus": "deferred"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup2",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup3",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup4",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup5",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup6",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup7",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      },
+      {
+        "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup8",
+        "manualId": "W8178558",
+        "procedureId": "w8178558-door-lock",
+        "sourceTerm": "DL3",
+        "proposedCanonicalId": null,
+        "reviewClass": "unresolved",
+        "reviewStatus": "unreviewed"
+      }
+    ],
+    "interpretationNote": "DP2/MS2/PR6 on W8178558 map to drain_pump/drive_motor/water_level_sensor with accepted functional siblings on the same canonical targets in several cases; treat as schematic connector labels pending corpus-wide evidence before global exclusion."
+  },
+  "supplyTerminologyAnalysis": {
+    "wave1": {
+      "count": 36,
+      "mappingCounts": {
+        "supply": 6,
+        "power_supply": 30
+      },
+      "manualIds": [
+        "LG-FL-WASHER",
+        "LG-LRE-RANGE",
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-NE58-RANGE",
+        "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "SAMSUNG-NX60-RANGE",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "SAMSUNG-TL-DV50-DRYER",
+        "W10410465",
+        "W10680150",
+        "W10864849",
+        "W10881701",
+        "W11169652",
+        "W11174426",
+        "W11174814",
+        "W11416395",
+        "W11416787",
+        "W11416805",
+        "W11428632",
+        "W11455152",
+        "W11633848",
+        "W11697231",
+        "W11798430",
+        "W11800233",
+        "W8178558",
+        "W8178559",
+        "W8178629"
+      ],
+      "byManual": {
+        "LG-FL-WASHER": [
+          {
+            "candidateId": "LG-FL-WASHER::canonical_mapping::map-LG-FL-WASHER-supply-supply",
+            "manualId": "LG-FL-WASHER",
+            "procedureId": "lgwm4000-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "LG-LRE-RANGE": [
+          {
+            "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-supply-power_supply",
+            "manualId": "LG-LRE-RANGE",
+            "procedureId": "lg-range-no-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-supply-power_supply",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "procedureId": "samsungdw-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER-M9": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-supply-power_supply",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "procedureId": "samsungdwm9-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "procedureId": "samsungbb8700-dryer-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "procedureId": "samsungbb8700-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-DV6000-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "procedureId": "samsungdv6000-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-WF6000R-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "procedureId": "samsungwf6000r-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FLEXWASH-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "procedureId": "samsungflexwash-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "rejected"
+          }
+        ],
+        "SAMSUNG-HP-DRYER-DV22N": [
+          {
+            "candidateId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-supply-power_supply",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "procedureId": "samsungdv22n-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NE58-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "procedureId": "samsungne58-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NE58H-INDUCTION-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "procedureId": "ne58h-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NX60-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "procedureId": "samsungnx60-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-A50-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "procedureId": "samsungtla50-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "procedureId": "samsungtlcg71d-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "procedureId": "samsungtlcg71-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-DV50-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "procedureId": "samsungtldv50-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10410465": [
+          {
+            "candidateId": "W10410465::canonical_mapping::map-W10410465-supply-power_supply",
+            "manualId": "W10410465",
+            "procedureId": "w10410465-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10680150": [
+          {
+            "candidateId": "W10680150::canonical_mapping::map-W10680150-supply-power_supply",
+            "manualId": "W10680150",
+            "procedureId": "w10680150-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10864849": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-supply-power_supply",
+            "manualId": "W10864849",
+            "procedureId": "w10864849-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10881701": [
+          {
+            "candidateId": "W10881701::canonical_mapping::map-W10881701-supply-power_supply",
+            "manualId": "W10881701",
+            "procedureId": "w10881701-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11169652": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-supply-supply",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "deferred"
+          }
+        ],
+        "W11174426": [
+          {
+            "candidateId": "W11174426::canonical_mapping::map-W11174426-supply-power_supply",
+            "manualId": "W11174426",
+            "procedureId": "w11174426-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11174814": [
+          {
+            "candidateId": "W11174814::canonical_mapping::map-W11174814-supply-power_supply",
+            "manualId": "W11174814",
+            "procedureId": "w11174814-oven-light",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416395": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-supply-power_supply",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416787": [
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-supply-power_supply",
+            "manualId": "W11416787",
+            "procedureId": "w11416787-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416805": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-supply-power_supply",
+            "manualId": "W11416805",
+            "procedureId": "w11416805-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11428632": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-supply-power_supply",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11455152": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-supply-power_supply",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11633848": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-supply-power_supply",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11697231": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-supply-power_supply",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11798430": [
+          {
+            "candidateId": "W11798430::canonical_mapping::map-W11798430-supply-power_supply",
+            "manualId": "W11798430",
+            "procedureId": "w11798430-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11800233": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-supply-power_supply",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178558": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-supply-supply",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-interlock-switch",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178559": [
+          {
+            "candidateId": "W8178559::canonical_mapping::map-W8178559-supply-power_supply",
+            "manualId": "W8178559",
+            "procedureId": "w8178559-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178629": [
+          {
+            "candidateId": "W8178629::canonical_mapping::map-W8178629-supply-power_supply",
+            "manualId": "W8178629",
+            "procedureId": "w8178629-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      "supplyToSupply": {
+        "count": 6,
+        "reviewStatusCounts": {
+          "accepted": 4,
+          "rejected": 1,
+          "deferred": 1
+        },
+        "records": [
+          {
+            "candidateId": "LG-FL-WASHER::canonical_mapping::map-LG-FL-WASHER-supply-supply",
+            "manualId": "LG-FL-WASHER",
+            "procedureId": "lgwm4000-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "procedureId": "samsungbb8700-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "procedureId": "samsungwf6000r-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          },
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "procedureId": "samsungflexwash-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "rejected"
+          },
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-supply-supply",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "deferred"
+          },
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-supply-supply",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-interlock-switch",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ]
+      },
+      "supplyToPowerSupply": {
+        "count": 30,
+        "reviewStatusCounts": {
+          "accepted": 30
+        },
+        "manualIds": [
+          "LG-LRE-RANGE",
+          "SAMSUNG-DISHWASHER",
+          "SAMSUNG-DISHWASHER-M9",
+          "SAMSUNG-FL-BB8700-DRYER",
+          "SAMSUNG-FL-DV6000-DRYER",
+          "SAMSUNG-HP-DRYER-DV22N",
+          "SAMSUNG-NE58-RANGE",
+          "SAMSUNG-NE58H-INDUCTION-RANGE",
+          "SAMSUNG-NX60-RANGE",
+          "SAMSUNG-TL-A50-WASHER",
+          "SAMSUNG-TL-CG71-DRYER",
+          "SAMSUNG-TL-CG71-WASHER",
+          "SAMSUNG-TL-DV50-DRYER",
+          "W10410465",
+          "W10680150",
+          "W10864849",
+          "W10881701",
+          "W11174426",
+          "W11174814",
+          "W11416395",
+          "W11416787",
+          "W11416805",
+          "W11428632",
+          "W11455152",
+          "W11633848",
+          "W11697231",
+          "W11798430",
+          "W11800233",
+          "W8178559",
+          "W8178629"
+        ]
+      }
+    },
+    "corpus": {
+      "count": 47,
+      "mappingCounts": {
+        "supply": 6,
+        "": 11,
+        "power_supply": 30
+      },
+      "manualIds": [
+        "LG-FL-WASHER",
+        "LG-LMHM2237-MICROWAVE",
+        "LG-LRE-RANGE",
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9",
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-BB8700-WASHER",
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-FL-WF6000R-WASHER",
+        "SAMSUNG-FLEXWASH-WASHER",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-ME11-MICROWAVE",
+        "SAMSUNG-NE58-RANGE",
+        "SAMSUNG-NE58H-INDUCTION-RANGE",
+        "SAMSUNG-NX60-RANGE",
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-CG71-WASHER",
+        "SAMSUNG-TL-DV50-DRYER",
+        "W10410465",
+        "W10680150",
+        "W10864849",
+        "W10881701",
+        "W11169652",
+        "W11174426",
+        "W11174814",
+        "W11416395",
+        "W11416787",
+        "W11416805",
+        "W11428632",
+        "W11455152",
+        "W11633848",
+        "W11697231",
+        "W11746350",
+        "W11798430",
+        "W11800233",
+        "W8178558",
+        "W8178559",
+        "W8178629",
+        "WHIRLPOOL-2225623-ICE-MAKER"
+      ],
+      "byManual": {
+        "LG-FL-WASHER": [
+          {
+            "candidateId": "LG-FL-WASHER::canonical_mapping::map-LG-FL-WASHER-supply-supply",
+            "manualId": "LG-FL-WASHER",
+            "procedureId": "lgwm4000-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "LG-LMHM2237-MICROWAVE": [
+          {
+            "candidateId": "LG-LMHM2237-MICROWAVE::canonical_mapping::map-lg-lmhm2237-microwave-unresolved-lgotrmw-humidity-sensor-supply",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "procedureId": "lgotrmw-humidity-sensor",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "LG-LMHM2237-MICROWAVE::canonical_mapping::map-lg-lmhm2237-microwave-unresolved-lgotrmw-keypad-supply",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "procedureId": "lgotrmw-keypad",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          }
+        ],
+        "LG-LRE-RANGE": [
+          {
+            "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-supply-power_supply",
+            "manualId": "LG-LRE-RANGE",
+            "procedureId": "lg-range-no-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-supply-power_supply",
+            "manualId": "SAMSUNG-DISHWASHER",
+            "procedureId": "samsungdw-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER-M9": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-supply-power_supply",
+            "manualId": "SAMSUNG-DISHWASHER-M9",
+            "procedureId": "samsungdwm9-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "procedureId": "samsungbb8700-dryer-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-BB8700-WASHER",
+            "procedureId": "samsungbb8700-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-DV6000-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "procedureId": "samsungdv6000-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-WF6000R-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+            "procedureId": "samsungwf6000r-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FLEXWASH-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "procedureId": "samsungflexwash-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "rejected"
+          }
+        ],
+        "SAMSUNG-HP-DRYER-DV22N": [
+          {
+            "candidateId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-supply-power_supply",
+            "manualId": "SAMSUNG-HP-DRYER-DV22N",
+            "procedureId": "samsungdv22n-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-LAUNDRY-COMBO-WD53": [
+          {
+            "candidateId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-samsung-laundry-combo-wd53-unresolved-samsungwd53-power-supply-supply",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "procedureId": "samsungwd53-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          }
+        ],
+        "SAMSUNG-ME11-MICROWAVE": [
+          {
+            "candidateId": "SAMSUNG-ME11-MICROWAVE::canonical_mapping::map-samsung-me11-microwave-unresolved-samsungotrmw-humidity-sensor-supply",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "procedureId": "samsungotrmw-humidity-sensor",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "SAMSUNG-ME11-MICROWAVE::canonical_mapping::map-samsung-me11-microwave-unresolved-samsungotrmw-keypad-touch-supply",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "procedureId": "samsungotrmw-keypad-touch",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "SAMSUNG-ME11-MICROWAVE::canonical_mapping::map-samsung-me11-microwave-unresolved-samsungotrmw-pcb-comm-supply",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "procedureId": "samsungotrmw-pcb-comm",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "SAMSUNG-ME11-MICROWAVE::canonical_mapping::map-samsung-me11-microwave-unresolved-samsungotrmw-vent-motor-supply",
+            "manualId": "SAMSUNG-ME11-MICROWAVE",
+            "procedureId": "samsungotrmw-vent-motor",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          }
+        ],
+        "SAMSUNG-NE58-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NE58-RANGE",
+            "procedureId": "samsungne58-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NE58H-INDUCTION-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+            "procedureId": "ne58h-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NX60-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-supply-power_supply",
+            "manualId": "SAMSUNG-NX60-RANGE",
+            "procedureId": "samsungnx60-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-A50-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-A50-WASHER",
+            "procedureId": "samsungtla50-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-CG71-DRYER",
+            "procedureId": "samsungtlcg71d-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "procedureId": "samsungtlcg71-power-supply",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-DV50-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-supply-power_supply",
+            "manualId": "SAMSUNG-TL-DV50-DRYER",
+            "procedureId": "samsungtldv50-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10410465": [
+          {
+            "candidateId": "W10410465::canonical_mapping::map-W10410465-supply-power_supply",
+            "manualId": "W10410465",
+            "procedureId": "w10410465-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10680150": [
+          {
+            "candidateId": "W10680150::canonical_mapping::map-W10680150-supply-power_supply",
+            "manualId": "W10680150",
+            "procedureId": "w10680150-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10864849": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-supply-power_supply",
+            "manualId": "W10864849",
+            "procedureId": "w10864849-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10881701": [
+          {
+            "candidateId": "W10881701::canonical_mapping::map-W10881701-supply-power_supply",
+            "manualId": "W10881701",
+            "procedureId": "w10881701-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11169652": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-supply-supply",
+            "manualId": "W11169652",
+            "procedureId": "w11169652-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "deferred"
+          }
+        ],
+        "W11174426": [
+          {
+            "candidateId": "W11174426::canonical_mapping::map-W11174426-supply-power_supply",
+            "manualId": "W11174426",
+            "procedureId": "w11174426-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11174814": [
+          {
+            "candidateId": "W11174814::canonical_mapping::map-W11174814-supply-power_supply",
+            "manualId": "W11174814",
+            "procedureId": "w11174814-oven-light",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416395": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-supply-power_supply",
+            "manualId": "W11416395",
+            "procedureId": "w11416395-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416787": [
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-supply-power_supply",
+            "manualId": "W11416787",
+            "procedureId": "w11416787-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416805": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-supply-power_supply",
+            "manualId": "W11416805",
+            "procedureId": "w11416805-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11428632": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-supply-power_supply",
+            "manualId": "W11428632",
+            "procedureId": "w11428632-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11455152": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-supply-power_supply",
+            "manualId": "W11455152",
+            "procedureId": "w11455152-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11633848": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-supply-power_supply",
+            "manualId": "W11633848",
+            "procedureId": "w11633848-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11697231": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-supply-power_supply",
+            "manualId": "W11697231",
+            "procedureId": "w11697231-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11746350": [
+          {
+            "candidateId": "W11746350::canonical_mapping::map-w11746350-unresolved-w11746350-acu-power-supply",
+            "manualId": "W11746350",
+            "procedureId": "w11746350-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "W11746350::canonical_mapping::map-w11746350-unresolved-w11746350-hmi-supply",
+            "manualId": "W11746350",
+            "procedureId": "w11746350-hmi",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          },
+          {
+            "candidateId": "W11746350::canonical_mapping::map-w11746350-unresolved-w11746350-thermal-fuse-supply",
+            "manualId": "W11746350",
+            "procedureId": "w11746350-thermal-fuse",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          }
+        ],
+        "W11798430": [
+          {
+            "candidateId": "W11798430::canonical_mapping::map-W11798430-supply-power_supply",
+            "manualId": "W11798430",
+            "procedureId": "w11798430-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11800233": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-supply-power_supply",
+            "manualId": "W11800233",
+            "procedureId": "w11800233-test-01-acu-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178558": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-supply-supply",
+            "manualId": "W8178558",
+            "procedureId": "w8178558-interlock-switch",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178559": [
+          {
+            "candidateId": "W8178559::canonical_mapping::map-W8178559-supply-power_supply",
+            "manualId": "W8178559",
+            "procedureId": "w8178559-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178629": [
+          {
+            "candidateId": "W8178629::canonical_mapping::map-W8178629-supply-power_supply",
+            "manualId": "W8178629",
+            "procedureId": "w8178629-supply-connections",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewClass": "existingCanonicalMapping",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "WHIRLPOOL-2225623-ICE-MAKER": [
+          {
+            "candidateId": "WHIRLPOOL-2225623-ICE-MAKER::canonical_mapping::map-whirlpool-2225623-ice-maker-unresolved-w2225623-module-power-supply",
+            "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+            "procedureId": "w2225623-module-power",
+            "sourceTerm": "supply",
+            "proposedCanonicalId": null,
+            "reviewClass": "unresolved",
+            "reviewStatus": "unreviewed"
+          }
+        ]
+      }
+    },
+    "terminologyObservation": "Wave 1 uses both proposedCanonicalId 'supply' and 'power_supply' for sourceTerm 'supply'. Both ids exist in frozen vocabulary. Human review rejected one FlexWash supply\u2192supply mapping while accepting other supply\u2192supply rows \u2014 evidence of semantic inconsistency, not authorization to impose a single production rule.",
+    "electricalPowerSupplyHypothesis": "Procedure context for deferred/rejected supply rows and accepted power_supply rows suggests 'supply' usually denotes electrical inlet/power in service-test sections; accepted supply\u2192supply rows may reflect shorthand test labels rather than a distinct canonical function from power_supply."
+  },
+  "crossCorpusRecurrence": {
+    "corpusCandidateCount": 2065,
+    "oemTestHeadingCount": 232,
+    "manualSectionHeadingCount": 559,
+    "connectorIdentifierPatternCount": 11,
+    "sourceTermSupplyCount": 47,
+    "mappingToSupplyCount": 6,
+    "mappingToPowerSupplyCount": 31,
+    "oemTestHeadingReviewClassCounts": {
+      "existingCanonicalMapping": 33,
+      "unresolved": 135,
+      "implementationSpecific": 10,
+      "newPlatformKnowledge": 54
+    },
+    "manualSectionHeadingReviewClassCounts": {
+      "inheritedKnowledge": 22,
+      "implementationSpecific": 66,
+      "newPlatformKnowledge": 142,
+      "unresolved": 323,
+      "existingCanonicalMapping": 6
+    },
+    "sourceTermSupplyMappingCounts": {
+      "supply": 6,
+      "": 11,
+      "power_supply": 30
+    },
+    "examples": {
+      "oemTestHeading": [
+        {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-moisture-sensor-moisture_sensor",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-moisture-sensor",
+          "sourceTerm": "TEST #5: Moisture Sensor",
+          "proposedCanonicalId": "moisture_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-thermal-fuse-thermal_fuse",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-thermal-fuse",
+          "sourceTerm": "TEST #4b: Thermal Fuse",
+          "proposedCanonicalId": "thermal_fuse",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-compound-buttons-and-indicators",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-button-indicator",
+          "sourceTerm": "TEST #6: Buttons and Indicators",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-compound-ccu-power-check",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-ccu-power",
+          "sourceTerm": "TEST #1: CCU Power Check",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W10410465::canonical_mapping::map-W10410465-compound-customer-dryness-level",
+          "manualId": "W10410465",
+          "procedureId": "w10410465-dryness-adjust",
+          "sourceTerm": "TEST #5a: Customer Dryness Level",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        }
+      ],
+      "manualSectionHeading": [
+        {
+          "candidateId": "INSIGNIA-RTM18-FRIDGE::canonical_mapping::map-INSIGNIA-RTM18-FRIDGE-compound-e1:-refrigerating-chamber-temperature-sensor",
+          "manualId": "INSIGNIA-RTM18-FRIDGE",
+          "procedureId": "midearss-rc-temp-sensor",
+          "sourceTerm": "\u00a710.8 E1: Refrigerating chamber temperature sensor",
+          "proposedCanonicalId": null,
+          "reviewClass": "inheritedKnowledge",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "INSIGNIA-RTM18-FRIDGE::canonical_mapping::map-INSIGNIA-RTM18-FRIDGE-compound-e2:-freezing-chamber-temperature-sensor",
+          "manualId": "INSIGNIA-RTM18-FRIDGE",
+          "procedureId": "midearss-fz-temp-sensor",
+          "sourceTerm": "\u00a710.8 E2: Freezing chamber temperature sensor",
+          "proposedCanonicalId": null,
+          "reviewClass": "inheritedKnowledge",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "INSIGNIA-RTM18-FRIDGE::canonical_mapping::map-INSIGNIA-RTM18-FRIDGE-compound-e5:-freezing-chamber-defrost-sensor",
+          "manualId": "INSIGNIA-RTM18-FRIDGE",
+          "procedureId": "midearss-fz-defrost-sensor",
+          "sourceTerm": "\u00a710.8 E5: Freezing chamber defrost sensor",
+          "proposedCanonicalId": null,
+          "reviewClass": "inheritedKnowledge",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "INSIGNIA-RTM18-FRIDGE::canonical_mapping::map-INSIGNIA-RTM18-FRIDGE-compound-e6:-display-\u2194-main-communication",
+          "manualId": "INSIGNIA-RTM18-FRIDGE",
+          "procedureId": "midearss-communication",
+          "sourceTerm": "\u00a710.8 E6: Display \u2194 main communication",
+          "proposedCanonicalId": null,
+          "reviewClass": "inheritedKnowledge",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "INSIGNIA-RTM18-FRIDGE::canonical_mapping::map-INSIGNIA-RTM18-FRIDGE-compound-e7:-ambient-temperature-sensor",
+          "manualId": "INSIGNIA-RTM18-FRIDGE",
+          "procedureId": "midearss-ambient-sensor",
+          "sourceTerm": "\u00a710.8 E7: Ambient temperature sensor",
+          "proposedCanonicalId": null,
+          "reviewClass": "inheritedKnowledge",
+          "reviewStatus": "unreviewed"
+        }
+      ],
+      "connectorIdentifier": [
+        {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-dp2-drain_pump",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-drain-pump",
+          "sourceTerm": "DP2",
+          "proposedCanonicalId": "drain_pump",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-ms2-drive_motor",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-motor-circuit",
+          "sourceTerm": "MS2",
+          "proposedCanonicalId": "drive_motor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-W8178558-pr6-water_level_sensor",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-pressure-switch",
+          "sourceTerm": "PR6",
+          "proposedCanonicalId": "water_level_sensor",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "deferred"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-door-lock",
+          "sourceTerm": "DL3",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup2",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-door-lock",
+          "sourceTerm": "DL3",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup3",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-door-lock",
+          "sourceTerm": "DL3",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup4",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-door-lock",
+          "sourceTerm": "DL3",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "W8178558::canonical_mapping::map-w8178558-unresolved-w8178558-door-lock-dl3::dup5",
+          "manualId": "W8178558",
+          "procedureId": "w8178558-door-lock",
+          "sourceTerm": "DL3",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        }
+      ],
+      "sourceTermSupply": [
+        {
+          "candidateId": "LG-FL-WASHER::canonical_mapping::map-LG-FL-WASHER-supply-supply",
+          "manualId": "LG-FL-WASHER",
+          "procedureId": "lgwm4000-power",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": "supply",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "LG-LMHM2237-MICROWAVE::canonical_mapping::map-lg-lmhm2237-microwave-unresolved-lgotrmw-humidity-sensor-supply",
+          "manualId": "LG-LMHM2237-MICROWAVE",
+          "procedureId": "lgotrmw-humidity-sensor",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "LG-LMHM2237-MICROWAVE::canonical_mapping::map-lg-lmhm2237-microwave-unresolved-lgotrmw-keypad-supply",
+          "manualId": "LG-LMHM2237-MICROWAVE",
+          "procedureId": "lgotrmw-keypad",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": null,
+          "reviewClass": "unresolved",
+          "reviewStatus": "unreviewed"
+        },
+        {
+          "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-supply-power_supply",
+          "manualId": "LG-LRE-RANGE",
+          "procedureId": "lg-range-no-power",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": "power_supply",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-supply-power_supply",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-power-supply",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": "power_supply",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-supply-power_supply",
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "procedureId": "samsungdwm9-power-supply",
+          "sourceTerm": "supply",
+          "proposedCanonicalId": "power_supply",
+          "reviewClass": "existingCanonicalMapping",
+          "reviewStatus": "accepted"
+        }
+      ]
+    }
+  },
+  "recommendedNextAction": {
+    "productionMutationAuthorized": false,
+    "items": [
+      {
+        "area": "oem_test_heading",
+        "action": "candidate_generation_cleanup_candidate",
+        "rationale": "232 corpus-wide OEM test-heading-shaped candidates (33 in Wave 1); 93.9% of deferred Wave 1 headings have an accepted functional sibling on the same canonical target."
+      },
+      {
+        "area": "manual_section_heading",
+        "action": "candidate_generation_cleanup_candidate",
+        "rationale": "Section-heading-shaped source terms mirror OEM heading issue; check component-level sibling candidates before any canonical change."
+      },
+      {
+        "area": "connector_identifier",
+        "action": "requires_separate_architecture_governance_review",
+        "rationale": "11 connector-like identifiers in corpus; only 3 deferred in Wave 1 \u2014 global exclusion not yet evidence-backed."
+      },
+      {
+        "area": "supply_terminology",
+        "action": "requires_separate_architecture_governance_review",
+        "rationale": "Wave 1 supply term maps to both supply and power_supply with mixed human outcomes; do not auto-normalize until terminology policy is decided."
+      },
+      {
+        "area": "wave2_entry",
+        "action": "proceed_with_wave2_human_review",
+        "rationale": "Wave 1 closed; synthesis is read-only. Enter Wave 2 (newPlatformKnowledge) with awareness of heading/connector/supply patterns \u2014 no pipeline mutation in this gate."
+      }
+    ],
+    "crossCorpusOemTestHeadingCount": 232,
+    "crossCorpusSupplySplit": {
+      "supply": 6,
+      "": 11,
+      "power_supply": 30
+    }
+  },
+  "mutationPolicy": {
+    "canonicalGraphsMutated": false,
+    "candidateArtifactsMutated": false,
+    "reviewDecisionsMutated": false,
+    "normalizationPipelineMutated": false
+  }
+}
