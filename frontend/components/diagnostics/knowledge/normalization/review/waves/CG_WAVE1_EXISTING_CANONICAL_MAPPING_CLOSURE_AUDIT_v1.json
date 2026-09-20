@@ -1,0 +1,554 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave_closure_audit",
+  "waveId": "wave1-existing-canonical-mapping",
+  "reviewClass": "existingCanonicalMapping",
+  "generatedAt": "2026-09-20T06:29:37.075152+00:00",
+  "expectedCount": 370,
+  "reviewedCount": 370,
+  "acceptedCount": 328,
+  "deferredCount": 41,
+  "rejectedCount": 1,
+  "decisionReconciliation": {
+    "passed": true,
+    "errors": [],
+    "expectedCount": 370,
+    "reviewedCount": 370,
+    "acceptedCount": 328,
+    "deferredCount": 41,
+    "rejectedCount": 1,
+    "missingDecisionCandidateIds": [],
+    "outOfWaveDecisionCandidateIds": [],
+    "missingDecisionCount": 0,
+    "outOfWaveDecisionCount": 0
+  },
+  "acceptedAudit": {
+    "passed": true,
+    "errors": [],
+    "acceptedCount": 328,
+    "allReviewClassExistingCanonicalMapping": true,
+    "allProposedCanonicalIdsInFrozenVocabulary": true,
+    "candidateRecordsMutatedByDecisions": false,
+    "note": "Decisions are persisted separately; index candidate payloads were not rewritten by review UI."
+  },
+  "deferredPatternAnalysis": {
+    "deferredCount": 41,
+    "patternGroupCount": 4,
+    "groups": [
+      {
+        "patternId": "oem_test_heading",
+        "count": 33,
+        "exampleCandidateIds": [
+          "W10410465::canonical_mapping::map-W10410465-moisture-sensor-moisture_sensor",
+          "W10410465::canonical_mapping::map-W10410465-thermal-fuse-thermal_fuse",
+          "W10680150::canonical_mapping::map-W10680150-moisture-sensor-moisture_sensor",
+          "W10680150::canonical_mapping::map-W10680150-thermal-fuse-thermal_fuse",
+          "W10864849::canonical_mapping::map-W10864849-lid-lock-lid_lock"
+        ],
+        "proposedCanonicalIds": [
+          "control_board",
+          "drain_pump",
+          "dry_blower",
+          "dry_heater",
+          "dry_ntc",
+          "lid_lock",
+          "moisture_sensor",
+          "temperature_sensor",
+          "thermal_fuse",
+          "vent_baffle",
+          "vent_fan",
+          "wash_ntc",
+          "water_level_sensor"
+        ],
+        "manualIds": [
+          "W10410465",
+          "W10680150",
+          "W10864849",
+          "W10881701",
+          "W11169652",
+          "W11169659",
+          "W11416395",
+          "W11416787",
+          "W11416805",
+          "W11428632",
+          "W11455152",
+          "W11697231",
+          "W11798430",
+          "W11800233",
+          "W8178559"
+        ],
+        "exampleSourceTerms": [
+          "TEST #4b: Thermal Fuse",
+          "TEST #5: Moisture Sensor",
+          "TEST #7: Water Level Sensor",
+          "TEST #8: Lid Lock"
+        ]
+      },
+      {
+        "patternId": "manual_section_heading",
+        "count": 4,
+        "exampleCandidateIds": [
+          "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-detergent-dispenser-detergent_dispenser",
+          "W11633848::canonical_mapping::map-W11633848-dispenser-solenoid-detergent_dispenser",
+          "W11633848::canonical_mapping::map-W11633848-diverter-motor-circulation_pump",
+          "W11633848::canonical_mapping::map-W11633848-drain-motor-drain_pump"
+        ],
+        "proposedCanonicalIds": [
+          "circulation_pump",
+          "detergent_dispenser",
+          "drain_pump"
+        ],
+        "manualIds": [
+          "SAMSUNG-DISHWASHER-M9",
+          "W11633848"
+        ],
+        "exampleSourceTerms": [
+          "\u00a73-13: Diverter Motor",
+          "\u00a73-16: Drain Motor",
+          "\u00a73-9: Dispenser Solenoid",
+          "\u00a74-3: Detergent Dispenser"
+        ]
+      },
+      {
+        "patternId": "connector_identifier",
+        "count": 3,
+        "exampleCandidateIds": [
+          "W8178558::canonical_mapping::map-W8178558-dp2-drain_pump",
+          "W8178558::canonical_mapping::map-W8178558-ms2-drive_motor",
+          "W8178558::canonical_mapping::map-W8178558-pr6-water_level_sensor"
+        ],
+        "proposedCanonicalIds": [
+          "drain_pump",
+          "drive_motor",
+          "water_level_sensor"
+        ],
+        "manualIds": [
+          "W8178558"
+        ],
+        "exampleSourceTerms": [
+          "DP2",
+          "MS2",
+          "PR6"
+        ]
+      },
+      {
+        "patternId": "literal_supply_term",
+        "count": 1,
+        "exampleCandidateIds": [
+          "W11169652::canonical_mapping::map-W11169652-supply-supply"
+        ],
+        "proposedCanonicalIds": [
+          "supply"
+        ],
+        "manualIds": [
+          "W11169652"
+        ],
+        "exampleSourceTerms": [
+          "supply"
+        ]
+      }
+    ],
+    "interpretationNote": "Evidence-only grouping; does not auto-resolve deferred items or change decisions."
+  },
+  "rejectedMappingAnalysis": {
+    "rejectedCandidate": {
+      "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+      "rawCandidateId": "map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+      "idCollisionDisambiguated": false,
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "artifactSource": "canonical_mapping",
+      "what": {
+        "sourceTerm": "supply",
+        "procedureId": "samsungflexwash-power-supply",
+        "manualId": "SAMSUNG-FLEXWASH-WASHER"
+      },
+      "where": {
+        "pages": [
+          30,
+          40
+        ],
+        "provenanceSources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-power-supply",
+            "pages": [
+              30,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+      },
+      "mapsTo": {
+        "proposedCanonicalId": "supply",
+        "mappingType": "alias",
+        "candidateType": "canonicalMapping"
+      },
+      "why": {
+        "confidence": 1.0,
+        "reason": null,
+        "blockedReason": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "candidateStatus": "candidate"
+      },
+      "blockers": {
+        "blockedReason": null,
+        "promotionBlocked": true,
+        "conflicts": []
+      },
+      "context": {
+        "platformId": "samsung_flexwash",
+        "inheritedFromManualId": null,
+        "seedSourceManualId": null,
+        "reviewClass": "existingCanonicalMapping",
+        "implementationContext": {
+          "ontologyId": null,
+          "templateId": null
+        },
+        "architectureException": null
+      },
+      "decision": {
+        "reviewStatus": "unreviewed"
+      },
+      "reviewClass": "existingCanonicalMapping",
+      "reviewStatus": "unreviewed",
+      "candidateStatus": "candidate",
+      "batchRunId": "batch-20260918-5d213986",
+      "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+      "sourceArtifacts": [
+        "normalization/candidates/SAMSUNG-FLEXWASH-WASHER/canonical_mapping_candidates.json"
+      ],
+      "reviewDecision": {
+        "reviewStatus": "unreviewed",
+        "reviewer": null,
+        "reason": null,
+        "updatedAt": null
+      }
+    },
+    "rejectedValidationErrors": [],
+    "canonicalVocabulary": {
+      "supplyPresent": true,
+      "power_supplyPresent": true
+    },
+    "wave1SupplyOccurrences": {
+      "totalWithSourceTermSupply": 36,
+      "mappingCounts": {
+        "supply": 6,
+        "power_supply": 30
+      },
+      "supplyToSupplyCount": 6,
+      "supplyToPowerSupplyCount": 30,
+      "manualCount": 36,
+      "byManual": {
+        "LG-FL-WASHER": [
+          {
+            "candidateId": "LG-FL-WASHER::canonical_mapping::map-LG-FL-WASHER-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "LG-LRE-RANGE": [
+          {
+            "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-DISHWASHER-M9": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-BB8700-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-DV6000-DRYER": [
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FL-WF6000R-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-FLEXWASH-WASHER": [
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "rejected"
+          }
+        ],
+        "SAMSUNG-HP-DRYER-DV22N": [
+          {
+            "candidateId": "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NE58-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NE58H-INDUCTION-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-NX60-RANGE": [
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-A50-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-CG71-WASHER": [
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "SAMSUNG-TL-DV50-DRYER": [
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10410465": [
+          {
+            "candidateId": "W10410465::canonical_mapping::map-W10410465-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10680150": [
+          {
+            "candidateId": "W10680150::canonical_mapping::map-W10680150-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10864849": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W10881701": [
+          {
+            "candidateId": "W10881701::canonical_mapping::map-W10881701-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11169652": [
+          {
+            "candidateId": "W11169652::canonical_mapping::map-W11169652-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "deferred"
+          }
+        ],
+        "W11174426": [
+          {
+            "candidateId": "W11174426::canonical_mapping::map-W11174426-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11174814": [
+          {
+            "candidateId": "W11174814::canonical_mapping::map-W11174814-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416395": [
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416787": [
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11416805": [
+          {
+            "candidateId": "W11416805::canonical_mapping::map-W11416805-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11428632": [
+          {
+            "candidateId": "W11428632::canonical_mapping::map-W11428632-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11455152": [
+          {
+            "candidateId": "W11455152::canonical_mapping::map-W11455152-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11633848": [
+          {
+            "candidateId": "W11633848::canonical_mapping::map-W11633848-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11697231": [
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11798430": [
+          {
+            "candidateId": "W11798430::canonical_mapping::map-W11798430-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W11800233": [
+          {
+            "candidateId": "W11800233::canonical_mapping::map-W11800233-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178558": [
+          {
+            "candidateId": "W8178558::canonical_mapping::map-W8178558-supply-supply",
+            "proposedCanonicalId": "supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178559": [
+          {
+            "candidateId": "W8178559::canonical_mapping::map-W8178559-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ],
+        "W8178629": [
+          {
+            "candidateId": "W8178629::canonical_mapping::map-W8178629-supply-power_supply",
+            "proposedCanonicalId": "power_supply",
+            "reviewStatus": "accepted"
+          }
+        ]
+      }
+    },
+    "inconsistencyObservation": "Wave 1 maps sourceTerm 'supply' to both proposedCanonicalId 'supply' (6 candidates) and 'power_supply' (30 candidates). The single rejected candidate is SAMSUNG-FLEXWASH-WASHER supply\u2192supply; audit does not normalize or apply mappings."
+  },
+  "decisionIntegrity": {
+    "passed": true,
+    "errors": [],
+    "decisionOnlyArtifact": true,
+    "promotionTriggered": false,
+    "reviewerIdentities": [
+      "technicalhatchet@gmail.com"
+    ],
+    "promotionExcluded": true,
+    "reviewClassMutatedByDecisions": false
+  },
+  "frozenHashValidation": {
+    "passed": true,
+    "errors": [],
+    "canonicalFilesMutated": false
+  },
+  "canonicalMutationCheck": {
+    "passed": true,
+    "errors": [],
+    "canonicalFilesMutated": false
+  },
+  "normalizationMutationCheck": {
+    "passed": true,
+    "errors": [],
+    "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+    "expectedProcessingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013",
+    "waveCandidatePoolContentHash": "a81735507710680e1d5eca699b768de2e4d76d5ad32e227434eda070a9dd4916",
+    "candidateArtifactsMutatedByClosure": false,
+    "note": "Closure verifies index manifest hash and wave pool snapshot hash; does not rewrite candidates."
+  },
+  "batchMutationCheck": {
+    "passed": true,
+    "errors": [],
+    "batchLockFile": "CG_PRODUCTION_NORMALIZATION_BATCH_EXECUTION_LOCK_v1.json",
+    "batchLockSha256": "378d00cf05aa9cb0c1084c5f105c0715f529b725fbfbd08508e58a05f11703d0",
+    "verdict": "ORCHESTRATOR_READY \u2014 BATCH EXECUTION NOT AUTHORIZED",
+    "batchArtifactsMutatedByWave1Closure": false
+  },
+  "promotionExcluded": true,
+  "errors": [],
+  "status": "WAVE1_CLOSED"
+}
