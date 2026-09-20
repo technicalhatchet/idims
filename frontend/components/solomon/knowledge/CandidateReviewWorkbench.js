@@ -14,7 +14,9 @@ import {
   REVIEW_DECISIONS_API,
 } from './candidateReviewWorkflow';
 import Wave1ReviewGuidancePanel from './Wave1ReviewGuidancePanel';
+import Wave2ReviewGuidancePanel from './Wave2ReviewGuidancePanel';
 import { WAVE1_REVIEW_CLASS } from './wave1ReviewGuidance';
+import { WAVE2_REVIEW_CLASS } from './wave2ReviewGuidance';
 
 const REVIEW_CLASSES = Object.keys(REVIEW_CLASS_LABELS);
 const REVIEW_STATUSES = ['unreviewed', 'accepted', 'rejected', 'deferred'];
@@ -239,6 +241,10 @@ export default function CandidateReviewWorkbench() {
 
       {classFilter === WAVE1_REVIEW_CLASS ? (
         <Wave1ReviewGuidancePanel candidateCount={filtered.length} />
+      ) : null}
+
+      {classFilter === WAVE2_REVIEW_CLASS ? (
+        <Wave2ReviewGuidancePanel candidateCount={filtered.length} />
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">

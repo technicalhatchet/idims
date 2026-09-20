@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave",
+  "waveId": "wave2-new-platform-knowledge",
+  "label": "Wave 2 — New platform knowledge",
+  "reviewClass": "newPlatformKnowledge",
+  "sourceIndex": "normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+  "expectedCandidateCount": 426,
+  "orderingRule": {
+    "description": "Deterministic review order without confidence or priority scoring",
+    "keys": [
+      "manualId",
+      "procedureId",
+      "candidateId"
+    ]
+  },
+  "allowedDecisions": [
+    "accepted",
+    "rejected",
+    "deferred"
+  ],
+  "decisionSemantics": {
+    "accepted": "Legitimate manufacturer/platform-specific knowledge worth retaining as implementation knowledge. Does not change frozen canonical ontology and is not canonical promotion.",
+    "rejected": "Not valid platform knowledge, extraction noise, wrong classification, or unsupported by source context.",
+    "deferred": "Ambiguous, insufficient evidence, architecture conflict, or appears to require a new canonical functional abstraction — defer for architecture review."
+  },
+  "promotionExcluded": true,
+  "canonicalMutationAllowed": false,
+  "decisionsArtifact": "normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_DECISIONS_v1.json",
+  "preflightScript": "backend/scripts/run_wave2_review_preflight.py",
+  "priorWaveClosed": {
+    "waveId": "wave1-existing-canonical-mapping",
+    "closureAudit": "CG_WAVE1_EXISTING_CANONICAL_MAPPING_CLOSURE_AUDIT_v1.json",
+    "patternSynthesis": "CG_WAVE1_PATTERN_SYNTHESIS_v1.json"
+  },
+  "governanceNote": "Human question: is this useful implementation knowledge without expanding universal ontology? Accept ≠ promotion. Suspected new canonical node → defer.",
+  "knownCorpusPatterns": {
+    "reference": "CG_WAVE1_PATTERN_SYNTHESIS_v1.json",
+    "oemTestHeadingCorpusCount": 232,
+    "manualSectionHeadingCorpusCount": 14,
+    "connectorIdentifierCorpusCount": 11,
+    "sourceTermSupplyCorpusCount": 36,
+    "reviewNote": "Patterns inform judgment only — no blanket auto-reject; use candidate provenance and context."
+  }
+}
