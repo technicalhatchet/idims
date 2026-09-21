@@ -1,0 +1,649 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_improvement_implementation_audit",
+  "status": "GREEN",
+  "generatedAt": "2026-09-21T12:34:06.831633+00:00",
+  "implementationStatus": "MATCHER_IMPROVEMENT_IMPLEMENTATION_COMPLETE",
+  "approvedBacklogIdsImplemented": [
+    "efmm-247b16052823",
+    "efmm-5edc6b1da575",
+    "efmm-615da9433924",
+    "efmm-62ec837ed0fc",
+    "efmm-c01495a054b4",
+    "efmm-ccfd232a7378",
+    "efmm-cda9def45dce",
+    "efmm-ce66fe78ffd3",
+    "efmm-e859af7c0c65"
+  ],
+  "deferredBacklogIdsUntouched": [
+    "efmm-13733bc34a3b",
+    "efmm-24a4f5a7ce08",
+    "efmm-2d18236ad40d",
+    "efmm-3a835ca66cc4",
+    "efmm-3fff71334287",
+    "efmm-712ac97b8ae5",
+    "efmm-bbf103ee2826"
+  ],
+  "rejectedBacklogIdsUntouched": [
+    "efmm-64d66fbb30c3"
+  ],
+  "decisionTallies": {
+    "approve": 9,
+    "defer": 7,
+    "reject": 1
+  },
+  "filesChanged": [
+    "backend/scripts/normalization/matcher_improvement_rules.py",
+    "backend/scripts/normalization/canonical_matcher.py",
+    "backend/scripts/normalization/review/matcher_improvement_implementation.py"
+  ],
+  "beforeAfter": {
+    "note": "Isolated in-memory manual normalization for approved provenance manuals only; production candidate artifacts not rewritten by this gate.",
+    "manualRegression": {
+      "manuals": [
+        {
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 20
+        },
+        {
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-e859af7c0c65"
+          ],
+          "totalMappingCandidates": 15
+        },
+        {
+          "manualId": "LG-LRMVS-FRIDGE",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 32
+        },
+        {
+          "manualId": "LG-LSC27926-SXS",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 29
+        },
+        {
+          "manualId": "MIDEA-RSS-FRIDGE",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 28
+        },
+        {
+          "manualId": "MIDEA-UZ21-FREEZER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 19
+        },
+        {
+          "manualId": "NS-TDRE75W1",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 27
+        },
+        {
+          "manualId": "SAMSUNG-DISHWASHER",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-c01495a054b4"
+          ],
+          "totalMappingCandidates": 29
+        },
+        {
+          "manualId": "SAMSUNG-DISHWASHER-M9",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-c01495a054b4"
+          ],
+          "totalMappingCandidates": 31
+        },
+        {
+          "manualId": "SAMSUNG-FL-BB8700-DRYER",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 25
+        },
+        {
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce",
+            "efmm-ce66fe78ffd3"
+          ],
+          "totalMappingCandidates": 19
+        },
+        {
+          "manualId": "SAMSUNG-HP-DRYER-DV22N",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823"
+          ],
+          "totalMappingCandidates": 23
+        },
+        {
+          "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-ccfd232a7378",
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 39
+        },
+        {
+          "manualId": "SAMSUNG-RF23BB-FRIDGE",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823"
+          ],
+          "totalMappingCandidates": 32
+        },
+        {
+          "manualId": "SAMSUNG-RF260B-FRIDGE",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 32
+        },
+        {
+          "manualId": "SAMSUNG-RF28-FRIDGE",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823"
+          ],
+          "totalMappingCandidates": 42
+        },
+        {
+          "manualId": "SAMSUNG-RS28-SXS",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-247b16052823",
+            "efmm-ccfd232a7378"
+          ],
+          "totalMappingCandidates": 35
+        },
+        {
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-5edc6b1da575",
+            "efmm-62ec837ed0fc"
+          ],
+          "totalMappingCandidates": 26
+        },
+        {
+          "manualId": "SAMSUNG-TL-CG71-DRYER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce",
+            "efmm-ce66fe78ffd3"
+          ],
+          "totalMappingCandidates": 25
+        },
+        {
+          "manualId": "SAMSUNG-TL-CG71-WASHER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-5edc6b1da575",
+            "efmm-62ec837ed0fc"
+          ],
+          "totalMappingCandidates": 28
+        },
+        {
+          "manualId": "SAMSUNG-TL-DV50-DRYER",
+          "matcherImprovementCandidateCount": 2,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce",
+            "efmm-ce66fe78ffd3"
+          ],
+          "totalMappingCandidates": 25
+        },
+        {
+          "manualId": "W10410465",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 30
+        },
+        {
+          "manualId": "W10680150",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 26
+        },
+        {
+          "manualId": "W10864849",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-615da9433924"
+          ],
+          "totalMappingCandidates": 25
+        },
+        {
+          "manualId": "W10881701",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 32
+        },
+        {
+          "manualId": "W11187658",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-e859af7c0c65"
+          ],
+          "totalMappingCandidates": 9
+        },
+        {
+          "manualId": "W11416395",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-615da9433924"
+          ],
+          "totalMappingCandidates": 19
+        },
+        {
+          "manualId": "W11416787",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-615da9433924"
+          ],
+          "totalMappingCandidates": 21
+        },
+        {
+          "manualId": "W11416805",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 29
+        },
+        {
+          "manualId": "W11697231",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-615da9433924"
+          ],
+          "totalMappingCandidates": 18
+        },
+        {
+          "manualId": "W11798430",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 25
+        },
+        {
+          "manualId": "W8178559",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 24
+        },
+        {
+          "manualId": "W8178629",
+          "matcherImprovementCandidateCount": 1,
+          "matcherImprovementBacklogIds": [
+            "efmm-cda9def45dce"
+          ],
+          "totalMappingCandidates": 23
+        }
+      ],
+      "matcherImprovementCandidatesTotal": 46
+    },
+    "ruleRegression": {
+      "caseCount": 12,
+      "passedCount": 12,
+      "failedCount": 0,
+      "cases": [
+        {
+          "backlogId": "efmm-247b16052823",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-ui-probe",
+          "sourceTerm": "display_panel",
+          "expectedCanonicalId": "user_interface",
+          "passed": true,
+          "actualCanonicalId": "user_interface"
+        },
+        {
+          "backlogId": "efmm-5edc6b1da575",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-inlet-probe",
+          "sourceTerm": "\u00a75-3: Water supply (4C)",
+          "expectedCanonicalId": "inlet_valve",
+          "passed": true,
+          "actualCanonicalId": "inlet_valve"
+        },
+        {
+          "backlogId": "efmm-615da9433924",
+          "manualId": "W10864849",
+          "procedureId": "w10864849-test",
+          "sourceTerm": "TEST #5: Temperature Thermistor",
+          "expectedCanonicalId": "temperature_sensor",
+          "passed": true,
+          "actualCanonicalId": "temperature_sensor"
+        },
+        {
+          "backlogId": "efmm-62ec837ed0fc",
+          "manualId": "SAMSUNG-TL-A50-WASHER",
+          "procedureId": "samsungtla50-door-probe",
+          "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+          "expectedCanonicalId": "lid_lock",
+          "passed": true,
+          "actualCanonicalId": "lid_lock"
+        },
+        {
+          "backlogId": "efmm-c01495a054b4",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-thermistor-probe",
+          "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
+          "expectedCanonicalId": "temperature_sensor",
+          "passed": true,
+          "actualCanonicalId": "temperature_sensor"
+        },
+        {
+          "backlogId": "efmm-c01495a054b4",
+          "manualId": "SAMSUNG-DISHWASHER",
+          "procedureId": "samsungdw-thermistor-probe",
+          "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+          "expectedCanonicalId": "temperature_sensor",
+          "passed": true,
+          "actualCanonicalId": "temperature_sensor"
+        },
+        {
+          "backlogId": "efmm-ccfd232a7378",
+          "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+          "procedureId": "frigidaireprmc-manual-probe",
+          "sourceTerm": "main_control",
+          "expectedCanonicalId": "control_board",
+          "passed": true,
+          "actualCanonicalId": "control_board"
+        },
+        {
+          "backlogId": "efmm-cda9def45dce",
+          "manualId": "NS-TDRE75W1",
+          "procedureId": "nstdre75w1-communication-probe",
+          "sourceTerm": "user_interface",
+          "expectedCanonicalId": "hmi_control",
+          "passed": true,
+          "actualCanonicalId": "hmi_control"
+        },
+        {
+          "backlogId": "efmm-ce66fe78ffd3",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-heater-probe",
+          "sourceTerm": "\u00a74-6: Electric heater",
+          "expectedCanonicalId": "heat_source",
+          "passed": true,
+          "actualCanonicalId": "heat_source"
+        },
+        {
+          "backlogId": "efmm-ce66fe78ffd3",
+          "manualId": "SAMSUNG-FL-DV6000-DRYER",
+          "procedureId": "samsungdv6000-heater-probe",
+          "sourceTerm": "\u00a74-4: Electric heater",
+          "expectedCanonicalId": "heat_source",
+          "passed": true,
+          "actualCanonicalId": "heat_source"
+        },
+        {
+          "backlogId": "efmm-e859af7c0c65",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater-probe",
+          "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+          "expectedCanonicalId": "heat_source",
+          "passed": true,
+          "actualCanonicalId": "heat_source"
+        },
+        {
+          "backlogId": "efmm-e859af7c0c65",
+          "manualId": "INSIGNIA-DWR3-DISHWASHER",
+          "procedureId": "nsdwr3ss1-heater-probe",
+          "sourceTerm": "E3 \u2014 Tub heater ~14 \u03a9",
+          "expectedCanonicalId": "heat_source",
+          "passed": true,
+          "actualCanonicalId": "heat_source"
+        }
+      ]
+    }
+  },
+  "frozenHashVerification": {
+    "passed": true
+  },
+  "testResults": {
+    "passed": true,
+    "returnCode": 0,
+    "stdout": "...................                                                      [100%]\n19 passed in 1.17s\n",
+    "stderr": ""
+  },
+  "provenanceByBacklogId": {
+    "efmm-247b16052823": {
+      "canonicalId": "user_interface",
+      "allowedManualIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-RF23BB-FRIDGE",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RF28-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "procedureFamilies": [
+        "frigidaireprmc-ui",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungbespoke-main",
+        "samsungdv22n-hmi",
+        "samsungrf260b-option",
+        "samsungrf28-dispenser",
+        "samsungrs28-panel"
+      ],
+      "match": {
+        "type": "exact_terms",
+        "values": [
+          "display_panel"
+        ]
+      }
+    },
+    "efmm-5edc6b1da575": {
+      "canonicalId": "inlet_valve",
+      "allowedManualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "procedureFamilies": [
+        "samsungtla50-inlet",
+        "samsungtlcg71-inlet"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^water supply \\(4c\\)$"
+      }
+    },
+    "efmm-615da9433924": {
+      "canonicalId": "temperature_sensor",
+      "allowedManualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11697231"
+      ],
+      "procedureFamilies": [
+        "w10864849-test",
+        "w11416395-test",
+        "w11416787-test",
+        "w11697231-test"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^temperature thermistor$"
+      }
+    },
+    "efmm-62ec837ed0fc": {
+      "canonicalId": "lid_lock",
+      "allowedManualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "procedureFamilies": [
+        "samsungtla50-door",
+        "samsungtlcg71-door"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^door lock \\(dc, dc1, dc2\\)$"
+      }
+    },
+    "efmm-c01495a054b4": {
+      "canonicalId": "temperature_sensor",
+      "allowedManualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "procedureFamilies": [
+        "samsungdw-thermistor",
+        "samsungdwm9-thermistor"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^water thermistor \\(tc\\)$"
+      }
+    },
+    "efmm-ccfd232a7378": {
+      "canonicalId": "control_board",
+      "allowedManualIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "procedureFamilies": [
+        "frigidaireprmc-manual",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungrf260b-option",
+        "samsungrs28-dispenser",
+        "samsungwd53-communication"
+      ],
+      "match": {
+        "type": "exact_terms",
+        "values": [
+          "main_control"
+        ]
+      }
+    },
+    "efmm-cda9def45dce": {
+      "canonicalId": "hmi_control",
+      "allowedManualIds": [
+        "NS-TDRE75W1",
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER",
+        "W10410465",
+        "W10680150",
+        "W10881701",
+        "W11416805",
+        "W11798430",
+        "W8178559",
+        "W8178629"
+      ],
+      "procedureFamilies": [
+        "nstdre75w1-communication",
+        "samsungbb8700-dryer",
+        "samsungdv6000-hmi",
+        "samsungtlcg71d-hmi",
+        "samsungtldv50-hmi",
+        "samsungwd53-hmi",
+        "w10410465-button",
+        "w10680150-button",
+        "w10881701-button",
+        "w11416805-hmi",
+        "w11798430-hmi",
+        "w8178559-button",
+        "w8178629-timer"
+      ],
+      "match": {
+        "type": "exact_terms",
+        "values": [
+          "user_interface"
+        ]
+      }
+    },
+    "efmm-ce66fe78ffd3": {
+      "canonicalId": "heat_source",
+      "allowedManualIds": [
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER"
+      ],
+      "procedureFamilies": [
+        "samsungdv6000-heater",
+        "samsungtlcg71d-heater",
+        "samsungtldv50-heater"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^electric heater$"
+      }
+    },
+    "efmm-e859af7c0c65": {
+      "canonicalId": "heat_source",
+      "allowedManualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "procedureFamilies": [
+        "nsdwr3ss1-heater",
+        "w11187658-heater"
+      ],
+      "match": {
+        "type": "normalized_regex",
+        "pattern": "^e3\\s*-\\s*tub heater\\b.*$"
+      }
+    }
+  },
+  "errors": []
+}

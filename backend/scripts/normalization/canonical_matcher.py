@@ -46,6 +46,11 @@ from .extraction_filter import build_extraction_filter_stats
 
 from .provenance import build_provenance
 from .seed_component_registry import resolve_seed_component_id
+from .matcher_improvement_rules import (
+    MatcherImprovementContext,
+    matcher_improvement_provenance_extra,
+    try_matcher_improvement,
+)
 from .semantic_inheritance import (
     build_semantic_match_context,
     semantic_inheritance_provenance_extra,
@@ -284,6 +289,10 @@ def _match_term_core(
 
     canonical_aliases: dict[str, tuple[str, float]],
 
+    *,
+    improvement_context: MatcherImprovementContext | None = None,
+    enable_matcher_improvement: bool = True,
+
 ) -> dict[str, Any]:
 
     canonical_id, confidence, source_layer = resolve_component_id(term, registry, canonical_ids)
@@ -334,6 +343,27 @@ def _match_term_core(
 
             }
 
+        improvement = None
+        if improvement_context is not None:
+            improvement = try_matcher_improvement(
+                term,
+                term,
+                context=improvement_context,
+                canonical_ids=canonical_ids,
+                enabled=enable_matcher_improvement,
+            )
+        if improvement is not None:
+            return {
+                "sourceTerm": term,
+                "canonicalId": improvement.canonical_id,
+                "confidence": improvement.confidence,
+                "status": "candidate",
+                "mappingType": "matcher_improvement",
+                "matcherLayer": improvement.matcher_layer,
+                "decomposition": compound.decomposition,
+                "matcherImprovement": {"backlogId": improvement.backlog_id},
+            }
+
         return {
 
             "sourceTerm": term,
@@ -352,7 +382,25 @@ def _match_term_core(
 
         }
 
-
+    improvement = None
+    if improvement_context is not None:
+        improvement = try_matcher_improvement(
+            term,
+            term,
+            context=improvement_context,
+            canonical_ids=canonical_ids,
+            enabled=enable_matcher_improvement,
+        )
+    if improvement is not None:
+        return {
+            "sourceTerm": term,
+            "canonicalId": improvement.canonical_id,
+            "confidence": improvement.confidence,
+            "status": "candidate",
+            "mappingType": "matcher_improvement",
+            "matcherLayer": improvement.matcher_layer,
+            "matcherImprovement": {"backlogId": improvement.backlog_id},
+        }
 
     return {
 
@@ -508,8 +556,6 @@ def build_mapping_candidates(
 
     filter_stats = build_extraction_filter_stats(procedures)
 
-
-
     for procedure in procedures:
 
         procedure_id = procedure.get("procedureId")
@@ -560,7 +606,47 @@ def build_mapping_candidates(
 
                 )
 
-
+            def append_matcher_improvement_if_matched() -> bool:
+                improvement = try_matcher_improvement(
+                    term,
+                    raw_term,
+                    context=MatcherImprovementContext(
+                        manual_id=manual_id,
+                        procedure_id=procedure_id,
+                        template_id=template_id,
+                        platform_id=platform_id,
+                    ),
+                    canonical_ids=canonical_ids,
+                )
+                if improvement is None:
+                    return False
+                slug = _normalize_term(raw_term).replace(" ", "-")
+                payload = {
+                    "id": f"map-{manual_id}-mig-{improvement.backlog_id}-{slug}"[:120],
+                    "status": "candidate",
+                    "candidateType": "canonicalMapping",
+                    "sourceTerm": raw_term,
+                    "extractedTerm": term if raw_term != term else None,
+                    "canonicalId": improvement.canonical_id,
+                    "confidence": improvement.confidence,
+                    "mappingType": "matcher_improvement",
+                    "matcherLayer": improvement.matcher_layer,
+                    "matcherImprovement": {"backlogId": improvement.backlog_id},
+                    "provenance": build_provenance(
+                        manual_id=manual_id,
+                        platform_id=platform_id,
+                        procedure_id=procedure_id,
+                        pages=pages,
+                        extraction_doc=manual_entry.get("extractionDoc"),
+                        extra=extra_provenance + matcher_improvement_provenance_extra(improvement),
+                    ),
+                }
+                key = f"{_normalize_term(term)}::{improvement.canonical_id}"
+                if key in seen:
+                    return True
+                seen.add(key)
+                candidates.append(payload)
+                return True
 
             if confidence <= 0 and extracted.source == "componentId":
                 seed_match = resolve_seed_component_id(raw_term, template_id, platform_id)
@@ -690,6 +776,9 @@ def build_mapping_candidates(
                             candidates.append(payload)
                         continue
 
+                    if append_matcher_improvement_if_matched():
+                        continue
+
                     if compound:
 
                         payload = build_compound_candidate_payload(
@@ -726,7 +815,8 @@ def build_mapping_candidates(
 
                         continue
 
-
+                if append_matcher_improvement_if_matched():
+                    continue
 
                 blocked_reason = infer_blocked_reason(
 
