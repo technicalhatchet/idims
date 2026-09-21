@@ -18,10 +18,18 @@ import {
 import CandidateReviewDetailPanel from './CandidateReviewDetailPanel';
 import Wave1ReviewGuidancePanel from './Wave1ReviewGuidancePanel';
 import Wave2ReviewGuidancePanel from './Wave2ReviewGuidancePanel';
+import Wave3ReviewGuidancePanel from './Wave3ReviewGuidancePanel';
 import { WAVE1_REVIEW_CLASS } from './wave1ReviewGuidance';
 import { WAVE2_REVIEW_CLASS } from './wave2ReviewGuidance';
+import { WAVE3_REVIEW_CLASS } from './wave3ReviewGuidance';
 import {
+  isNewCanonicalKnowledgeCandidate,
   isNewPlatformKnowledgeCandidate,
+  wave3ListRowMapsToDetail,
+  wave3ListRowMapsToHighlight,
+  wave3ListRowPrimaryLabel,
+} from './wave3ReviewPresentation';
+import {
   wave2ListRowMapsToDetail,
   wave2ListRowMapsToHighlight,
   wave2ListRowPrimaryLabel,
@@ -268,6 +276,10 @@ export default function CandidateReviewWorkbench() {
         <Wave2ReviewGuidancePanel candidateCount={filtered.length} />
       ) : null}
 
+      {classFilter === WAVE3_REVIEW_CLASS ? (
+        <Wave3ReviewGuidancePanel candidateCount={filtered.length} />
+      ) : null}
+
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <div
           ref={candidateListRef}
@@ -278,16 +290,25 @@ export default function CandidateReviewWorkbench() {
           </div>
           <ul className="max-h-[38vh] overflow-y-auto divide-y divide-white/5 lg:max-h-[70vh]">
             {filtered.map((record) => {
-              const wave2Row = isNewPlatformKnowledgeCandidate(record);
-              const mapsToParts = wave2Row
+              const wave3Row = isNewCanonicalKnowledgeCandidate(record);
+              const wave2Row = !wave3Row && isNewPlatformKnowledgeCandidate(record);
+              const waveHighlightRow = wave3Row || wave2Row;
+              const mapsToParts = wave3Row
                 ? {
-                  highlight: wave2ListRowMapsToHighlight(record),
-                  detail: wave2ListRowMapsToDetail(record),
+                  highlight: wave3ListRowMapsToHighlight(record),
+                  detail: wave3ListRowMapsToDetail(record),
                 }
-                : mapsToCollapsedParts(record);
-              const rowPrimary = wave2Row
-                ? wave2ListRowPrimaryLabel(record)
-                : formatSourceTermLabel(record);
+                : wave2Row
+                  ? {
+                    highlight: wave2ListRowMapsToHighlight(record),
+                    detail: wave2ListRowMapsToDetail(record),
+                  }
+                  : mapsToCollapsedParts(record);
+              const rowPrimary = wave3Row
+                ? wave3ListRowPrimaryLabel(record)
+                : wave2Row
+                  ? wave2ListRowPrimaryLabel(record)
+                  : formatSourceTermLabel(record);
               return (
               <li key={record.candidateId}>
                 <button
@@ -308,13 +329,13 @@ export default function CandidateReviewWorkbench() {
                     </span>
                     {mapsToParts.detail ? (
                       <span
-                        className={wave2Row ? ' font-semibold text-[var(--solomon-text-primary)]' : ''}
+                        className={waveHighlightRow ? ' font-semibold text-[var(--solomon-text-primary)]' : ''}
                       >
                         {` · ${mapsToParts.detail}`}
                       </span>
                     ) : null}
                   </div>
-                  {wave2Row && record.what?.sourceTerm ? (
+                  {waveHighlightRow && record.what?.sourceTerm ? (
                     <div className="mt-0.5 truncate text-[10px] text-[var(--solomon-text-muted)]">
                       {record.what.sourceTerm}
                     </div>

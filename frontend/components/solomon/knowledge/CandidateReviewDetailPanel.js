@@ -16,10 +16,12 @@ import {
 } from './candidateReviewWorkflow';
 import ReviewDecisionBar from './ReviewDecisionBar';
 import {
+  isNewCanonicalKnowledgeCandidate,
   isNewPlatformKnowledgeCandidate,
   reviewSectionPreviewsForCandidate,
-  wave2DiagnosticKnowledgeLines,
-} from './wave2ReviewPresentation';
+  wave3DiagnosticKnowledgeLines,
+  wave3ReconciliationSectionPreview,
+} from './wave3ReviewPresentation';
 
 export const REVIEW_DETAIL_SECTIONS = {
   what: 'what',
@@ -141,14 +143,15 @@ export default function CandidateReviewDetailPanel({
 
   const isOpen = (sectionId) => Boolean(openSections[sectionId]);
 
-  const wave2 = isNewPlatformKnowledgeCandidate(selected);
+  const wave3 = isNewCanonicalKnowledgeCandidate(selected);
+  const wave2 = !wave3 && isNewPlatformKnowledgeCandidate(selected);
   const sectionPreviews = reviewSectionPreviewsForCandidate(selected);
-  const diagnosticLines = wave2 ? wave2DiagnosticKnowledgeLines(selected) : [];
+  const diagnosticLines = (wave3 || wave2) ? wave3DiagnosticKnowledgeLines(selected) : [];
 
   return (
     <div className="space-y-4" key={selected.candidateId}>
-      <div data-testid={wave2 ? 'wave2-review-highlight' : undefined}>
-        {wave2 ? (
+      <div data-testid={wave3 ? 'wave3-review-highlight' : wave2 ? 'wave2-review-highlight' : undefined}>
+        {wave3 || wave2 ? (
           <>
             <p className={SOLOMON_REFERENCE_EYEBROW_CLASS}>Procedure</p>
             <h2 className="mt-1 text-sm font-semibold text-[var(--solomon-text-primary)]">
@@ -250,7 +253,7 @@ export default function CandidateReviewDetailPanel({
         <CollapsibleSection
           sectionId={REVIEW_DETAIL_SECTIONS.blockers}
           title={REVIEW_SECTION_NUMBERED_LABELS.blockers}
-          preview={blockersSectionPreview(selected)}
+          preview={sectionPreviews.blockers ?? blockersSectionPreview(selected)}
           isOpen={isOpen(REVIEW_DETAIL_SECTIONS.blockers)}
           onToggle={toggleSection}
         >
@@ -271,7 +274,11 @@ export default function CandidateReviewDetailPanel({
           <CollapsibleSection
             sectionId={REVIEW_DETAIL_SECTIONS.reconciliation}
             title={REVIEW_SECTION_NUMBERED_LABELS.reconciliation}
-            preview={reconciliationSectionPreview(selectedReconciliation)}
+            preview={
+              wave3
+                ? wave3ReconciliationSectionPreview(selectedReconciliation)
+                : reconciliationSectionPreview(selectedReconciliation)
+            }
             isOpen={isOpen(REVIEW_DETAIL_SECTIONS.reconciliation)}
             onToggle={toggleSection}
           >
