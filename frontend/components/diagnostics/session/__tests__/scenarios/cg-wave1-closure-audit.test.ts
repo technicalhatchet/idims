@@ -49,11 +49,18 @@ test('wave1 closure frozen hash validation passes in audit artifact', () => {
   assert.equal(audit.decisionIntegrity.promotionExcluded, true);
 });
 
-test('decisions artifact remains review-only at wave1 scale', () => {
+test('decisions artifact remains review-only with wave1 closure counts intact', () => {
   const store = JSON.parse(readFileSync(DECISIONS, 'utf8'));
-  assert.equal(Object.keys(store.decisions).length, 370);
+  assert.equal(Object.keys(store.decisions).length, 796);
   assert.equal(store.promotionExplicitlyExcluded, undefined);
   assert.ok(!('promotionApplied' in store));
+  const wave1Audit = JSON.parse(
+    readFileSync(join(WAVES, 'CG_WAVE1_EXISTING_CANONICAL_MAPPING_CLOSURE_AUDIT_v1.json'), 'utf8'),
+  );
+  assert.equal(wave1Audit.status, 'WAVE1_CLOSED');
+  assert.equal(wave1Audit.acceptedCount, 328);
+  assert.equal(wave1Audit.deferredCount, 41);
+  assert.equal(wave1Audit.rejectedCount, 1);
   const index = JSON.parse(readFileSync(INDEX, 'utf8'));
   assert.equal(index.promotionExplicitlyExcluded, true);
 });
