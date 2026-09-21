@@ -1,4 +1,6 @@
 export const REVIEW_DECISIONS_API = '/api/knowledge/normalization/review/decisions';
+export const MATCHER_IMPROVEMENT_DECISIONS_API =
+  '/api/knowledge/normalization/review/matcher-improvement-decisions';
 
 export const REVIEW_CLASS_LABELS = {
   inheritedKnowledge: 'Inherited knowledge',

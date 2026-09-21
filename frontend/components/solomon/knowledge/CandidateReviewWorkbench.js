@@ -6,16 +6,20 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { SOLOMON_GLASS_PANEL_CLASS } from '../solomonListPageUi';
 import reviewIndex from '../../diagnostics/knowledge/normalization/review/CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json';
+import matcherReviewIndex from '../../diagnostics/knowledge/normalization/calibration/CG_MATCHER_IMPROVEMENT_REVIEW_v1.json';
 import {
   decisionsMapFromStore,
   formatSourceTermLabel,
   mapsToCollapsedParts,
   mergeHydratedDecisions,
   pickNextCandidateIdInList,
+  MATCHER_IMPROVEMENT_DECISIONS_API,
   REVIEW_CLASS_LABELS,
   REVIEW_DECISIONS_API,
 } from './candidateReviewWorkflow';
 import CandidateReviewDetailPanel from './CandidateReviewDetailPanel';
+import MatcherImprovementDetailPanel from './MatcherImprovementDetailPanel';
+import MatcherImprovementReviewGuidancePanel from './MatcherImprovementReviewGuidancePanel';
 import Wave1ReviewGuidancePanel from './Wave1ReviewGuidancePanel';
 import Wave2ReviewGuidancePanel from './Wave2ReviewGuidancePanel';
 import Wave3ReviewGuidancePanel from './Wave3ReviewGuidancePanel';
@@ -74,10 +78,14 @@ export default function CandidateReviewWorkbench() {
   const [statusFilter, setStatusFilter] = useState('all');
   const [blockedFilter, setBlockedFilter] = useState('all');
   const [promotionBlockedFilter, setPromotionBlockedFilter] = useState('all');
+  const [workbenchView, setWorkbenchView] = useState('candidates');
   const [selectedId, setSelectedId] = useState(null);
   const [decisionState, setDecisionState] = useState({});
+  const [matcherDecisionState, setMatcherDecisionState] = useState({});
   const [decisionsLoading, setDecisionsLoading] = useState(true);
+  const [matcherDecisionsLoading, setMatcherDecisionsLoading] = useState(true);
   const [decisionsLoadError, setDecisionsLoadError] = useState(null);
+  const [matcherDecisionsLoadError, setMatcherDecisionsLoadError] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const detailPanelRef = useRef(null);
@@ -111,7 +119,36 @@ export default function CandidateReviewWorkbench() {
       }
     }
 
+    async function hydrateMatcherDecisions() {
+      setMatcherDecisionsLoading(true);
+      setMatcherDecisionsLoadError(null);
+      try {
+        const response = await fetch(MATCHER_IMPROVEMENT_DECISIONS_API);
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || 'Failed to load matcher improvement decisions');
+        }
+        if (cancelled) return;
+        const map = {};
+        Object.values(payload.decisions || {}).forEach((entry) => {
+          if (entry?.backlogId && entry?.reviewStatus) {
+            map[entry.backlogId] = entry.reviewStatus;
+          }
+        });
+        setMatcherDecisionState(map);
+      } catch (err) {
+        if (!cancelled) {
+          setMatcherDecisionsLoadError(err.message || 'Failed to load matcher improvement decisions');
+        }
+      } finally {
+        if (!cancelled) {
+          setMatcherDecisionsLoading(false);
+        }
+      }
+    }
+
     hydrateDecisions();
+    hydrateMatcherDecisions();
     return () => {
       cancelled = true;
     };
@@ -121,6 +158,15 @@ export default function CandidateReviewWorkbench() {
     if (!selectedId || !detailPanelRef.current) return;
     detailPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, [selectedId]);
+
+  const matcherItems = useMemo(
+    () => (matcherReviewIndex.reviewItems || []).map((item) => ({
+      ...item,
+      candidateId: item.backlogId,
+      reviewStatus: matcherDecisionState[item.backlogId] || 'unreviewed',
+    })),
+    [matcherDecisionState],
+  );
 
   const records = useMemo(
     () => mergeHydratedDecisions(baseRecords, { decisions: Object.fromEntries(
@@ -132,17 +178,24 @@ export default function CandidateReviewWorkbench() {
     [baseRecords, decisionState],
   );
 
+  const activeRecords = workbenchView === 'matcherImprovement' ? matcherItems : records;
+
   const manualOptions = useMemo(() => {
-    const manuals = [...new Set(records.map((record) => record.manualId))].sort();
+    const manuals = [...new Set(activeRecords.map((record) => record.manualId).filter(Boolean))].sort();
     return [{ value: 'all', label: 'All manuals' }, ...manuals.map((manual) => ({ value: manual, label: manual }))];
-  }, [records]);
+  }, [activeRecords]);
 
   const typeOptions = useMemo(() => {
-    const types = [...new Set(records.map((record) => record.mapsTo?.candidateType).filter(Boolean))].sort();
+    const types = [...new Set(activeRecords.map((record) => record.mapsTo?.candidateType).filter(Boolean))].sort();
     return [{ value: 'all', label: 'All types' }, ...types.map((type) => ({ value: type, label: type }))];
-  }, [records]);
+  }, [activeRecords]);
 
-  const filtered = useMemo(() => records.filter((record) => {
+  const filtered = useMemo(() => activeRecords.filter((record) => {
+    if (workbenchView === 'matcherImprovement') {
+      const status = record.reviewStatus || 'unreviewed';
+      if (statusFilter !== 'all' && status !== statusFilter) return false;
+      return true;
+    }
     if (manualFilter !== 'all' && record.manualId !== manualFilter) return false;
     if (classFilter !== 'all' && record.reviewClass !== classFilter) return false;
     if (typeFilter !== 'all' && record.mapsTo?.candidateType !== typeFilter) return false;
@@ -154,7 +207,8 @@ export default function CandidateReviewWorkbench() {
     if (promotionBlockedFilter === 'false' && record.blockers?.promotionBlocked) return false;
     return true;
   }), [
-    records,
+    activeRecords,
+    workbenchView,
     manualFilter,
     classFilter,
     typeFilter,
@@ -164,7 +218,7 @@ export default function CandidateReviewWorkbench() {
   ]);
 
   const selected = filtered.find((record) => record.candidateId === selectedId)
-    || records.find((record) => record.candidateId === selectedId)
+    || activeRecords.find((record) => record.candidateId === selectedId)
     || null;
 
   const submitDecision = useCallback(async (reviewStatus) => {
@@ -174,24 +228,43 @@ export default function CandidateReviewWorkbench() {
     setSaving(true);
     setError(null);
     try {
-      const response = await fetch(REVIEW_DECISIONS_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          candidateId: decidedId,
-          reviewStatus,
-          manualId: selected.manualId,
-          batchRunId: reviewIndex.batchRunId,
-        }),
-      });
+      const isMatcher = workbenchView === 'matcherImprovement';
+      const response = await fetch(
+        isMatcher ? MATCHER_IMPROVEMENT_DECISIONS_API : REVIEW_DECISIONS_API,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            isMatcher
+              ? {
+                backlogId: selected.backlogId,
+                reviewStatus,
+                batchRunId: matcherReviewIndex.batchRunId,
+              }
+              : {
+                candidateId: decidedId,
+                reviewStatus,
+                manualId: selected.manualId,
+                batchRunId: reviewIndex.batchRunId,
+              },
+          ),
+        },
+      );
       const payload = await response.json();
       if (!response.ok) {
         throw new Error(payload.error || 'Failed to save review decision');
       }
-      setDecisionState((current) => ({
-        ...current,
-        [decidedId]: reviewStatus,
-      }));
+      if (isMatcher) {
+        setMatcherDecisionState((current) => ({
+          ...current,
+          [selected.backlogId]: reviewStatus,
+        }));
+      } else {
+        setDecisionState((current) => ({
+          ...current,
+          [decidedId]: reviewStatus,
+        }));
+      }
       if (nextId) {
         setSelectedId(nextId);
       }
@@ -203,7 +276,7 @@ export default function CandidateReviewWorkbench() {
     } finally {
       setSaving(false);
     }
-  }, [filtered, selected]);
+  }, [filtered, selected, workbenchView]);
 
   const selectedStatus = selected?.reviewStatus || 'unreviewed';
 
@@ -222,10 +295,27 @@ export default function CandidateReviewWorkbench() {
           Batch {reviewIndex.batchRunId} · {reviewIndex.totalCandidateRecords} candidates indexed
           {decisionsLoading ? ' · loading review decisions…' : ''}
           {decisionsLoadError ? ` · ${decisionsLoadError}` : ''}
+          {matcherDecisionsLoadError ? ` · ${matcherDecisionsLoadError}` : ''}
         </p>
+        <label className="mt-2 block text-[11px] text-[var(--solomon-text-muted)]">
+          <span className="mb-1 block">Review queue</span>
+          <select
+            value={workbenchView}
+            onChange={(event) => {
+              setWorkbenchView(event.target.value);
+              setSelectedId(null);
+              setError(null);
+            }}
+            className="w-full max-w-md rounded-md border border-white/10 bg-black/20 px-2 py-1.5 text-xs text-[var(--solomon-text-primary)]"
+            data-testid="review-workbench-view-select"
+          >
+            <option value="candidates">Production normalization candidates</option>
+            <option value="matcherImprovement">Matcher improvement gate (17)</option>
+          </select>
+        </label>
       </div>
 
-      <div className={`${SOLOMON_GLASS_PANEL_CLASS} grid gap-3 p-3 md:grid-cols-3 lg:grid-cols-6`}>
+      <div className={`${SOLOMON_GLASS_PANEL_CLASS} grid gap-3 p-3 md:grid-cols-3 lg:grid-cols-6 ${workbenchView === 'matcherImprovement' ? 'hidden' : ''}`}>
         <FilterSelect label="Manual" value={manualFilter} onChange={setManualFilter} options={manualOptions} />
         <FilterSelect
           label="Review class"
@@ -280,16 +370,51 @@ export default function CandidateReviewWorkbench() {
         <Wave3ReviewGuidancePanel candidateCount={filtered.length} />
       ) : null}
 
+      {workbenchView === 'matcherImprovement' ? (
+        <MatcherImprovementReviewGuidancePanel itemCount={filtered.length} />
+      ) : null}
+
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
         <div
           ref={candidateListRef}
           className={`${SOLOMON_GLASS_PANEL_CLASS} overflow-hidden scroll-mt-3`}
         >
           <div className="border-b border-white/10 px-3 py-2 text-xs text-[var(--solomon-text-muted)]">
-            {filtered.length} candidates
+            {workbenchView === 'matcherImprovement'
+              ? `${filtered.length} matcher backlog items`
+              : `${filtered.length} candidates`}
           </div>
           <ul className="max-h-[38vh] overflow-y-auto divide-y divide-white/5 lg:max-h-[70vh]">
             {filtered.map((record) => {
+              if (workbenchView === 'matcherImprovement') {
+                return (
+                  <li key={record.backlogId}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(record.backlogId)}
+                      className={classNames(
+                        'w-full px-3 py-2 text-left hover:bg-white/5',
+                        selectedId === record.backlogId && 'bg-white/10',
+                      )}
+                    >
+                      <div className="text-sm font-semibold text-[var(--solomon-text-primary)] truncate">
+                        {record.terminologyClusterKey || record.backlogId}
+                      </div>
+                      <div className="mt-0.5 text-[11px] text-[var(--solomon-text-secondary)] truncate">
+                        <span className="text-[var(--solomon-text-muted)]">→ </span>
+                        <span className="font-semibold text-[var(--solomon-text-primary)]">
+                          {record.frozenCanonicalId}
+                        </span>
+                      </div>
+                      <div className="mt-0.5 flex flex-wrap gap-2 text-[10px] text-[var(--solomon-text-muted)]">
+                        <span>{record.category}</span>
+                        <span>{record.reviewStatus || 'unreviewed'}</span>
+                        <span>{record.affectedRecordCount} records</span>
+                      </div>
+                    </button>
+                  </li>
+                );
+              }
               const wave3Row = isNewCanonicalKnowledgeCandidate(record);
               const wave2Row = !wave3Row && isNewPlatformKnowledgeCandidate(record);
               const waveHighlightRow = wave3Row || wave2Row;
@@ -356,15 +481,26 @@ export default function CandidateReviewWorkbench() {
           ref={detailPanelRef}
           className={`${SOLOMON_GLASS_PANEL_CLASS} p-4 space-y-4 min-h-[40vh] scroll-mt-3`}
         >
-          <CandidateReviewDetailPanel
-            selected={selected}
-            selectedStatus={selectedStatus}
-            selectedReconciliation={selectedReconciliation}
-            saving={saving}
-            decisionsLoading={decisionsLoading}
-            error={error}
-            onDecision={submitDecision}
-          />
+          {workbenchView === 'matcherImprovement' ? (
+            <MatcherImprovementDetailPanel
+              selected={selected}
+              selectedStatus={selectedStatus}
+              saving={saving}
+              decisionsLoading={matcherDecisionsLoading}
+              error={error}
+              onDecision={submitDecision}
+            />
+          ) : (
+            <CandidateReviewDetailPanel
+              selected={selected}
+              selectedStatus={selectedStatus}
+              selectedReconciliation={selectedReconciliation}
+              saving={saving}
+              decisionsLoading={decisionsLoading}
+              error={error}
+              onDecision={submitDecision}
+            />
+          )}
         </div>
       </div>
     </div>
