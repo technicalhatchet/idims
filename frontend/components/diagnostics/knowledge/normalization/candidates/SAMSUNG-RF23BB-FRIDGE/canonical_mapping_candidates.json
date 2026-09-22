@@ -1544,19 +1544,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-RF23BB-FRIDGE-compound-display_panel",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "display_panel",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "user_interface",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-RF23BB-FRIDGE",
         "platformId": "samsung_fridge_bespoke",
@@ -1585,15 +1584,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-247b16052823",
+            "matchedSurface": "display_panel",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-mig-efmm-247b16052823-display_panel",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:06.354Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.619023+00:00"
       }
     },
     {

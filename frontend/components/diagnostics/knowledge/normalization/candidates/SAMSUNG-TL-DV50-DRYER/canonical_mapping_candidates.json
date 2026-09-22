@@ -550,19 +550,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-TL-DV50-DRYER-compound-electric-heater",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a74-4: Electric heater",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "electric",
-        "component": null,
-        "actuator": "heater"
+      "extractedTerm": "Electric heater",
+      "canonicalId": "heat_source",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ce66fe78ffd3"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-DV50-DRYER",
         "platformId": "samsung_tl_dryer_dv50",
@@ -591,32 +590,50 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "electric",
-              "component": null,
-              "actuator": "heater"
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-4: Electric heater",
+            "extractedTerm": "Electric heater",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ce66fe78ffd3",
+            "matchedSurface": "electric heater",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Electric heater"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:16.692Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.634023+00:00"
+      }
     },
     {
-      "id": "map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-DV50-DRYER",
         "platformId": "samsung_tl_dryer_dv50",
@@ -643,15 +660,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:15.952Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.634023+00:00"
       }
     },
     {
@@ -799,15 +828,14 @@
       "extractedTerm": "Motor windings and centrifugal switch"
     },
     {
-      "id": "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-power-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-DV50-DRYER-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-TL-DV50-DRYER",
         "platformId": "samsung_tl_dryer_dv50",
@@ -834,11 +862,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -850,7 +874,7 @@
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
+      "confidence": 0.95,
       "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-DV50-DRYER",
@@ -878,7 +902,7 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "component_aliases"
           }
         ]
       }

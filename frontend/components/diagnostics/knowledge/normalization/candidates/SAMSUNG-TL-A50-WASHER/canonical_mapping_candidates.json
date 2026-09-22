@@ -241,19 +241,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-TL-A50-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "door",
-        "component": null,
-        "actuator": "lock"
+      "extractedTerm": "Door lock (DC, DC1, DC2)",
+      "canonicalId": "lid_lock",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-62ec837ed0fc"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-A50-WASHER",
         "platformId": "samsung_tl_washer_a50",
@@ -282,17 +281,36 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "door",
-              "component": null,
-              "actuator": "lock"
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+            "extractedTerm": "Door lock (DC, DC1, DC2)",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-62ec837ed0fc",
+            "matchedSurface": "door lock (dc, dc1, dc2)",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Door lock (DC, DC1, DC2)"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-62ec837ed0fc-\u00a75-3:-door-lock-(dc,-dc1,-dc2)",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:11.549Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.628523+00:00"
+      }
     },
     {
       "id": "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
@@ -525,19 +543,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-supply-(4c)",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a75-3: Water supply (4C)",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "water",
-        "component": "supply 4c",
-        "actuator": null
+      "extractedTerm": "Water supply (4C)",
+      "canonicalId": "inlet_valve",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-5edc6b1da575"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-A50-WASHER",
         "platformId": "samsung_tl_washer_a50",
@@ -566,17 +583,36 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "water",
-              "component": "supply 4c",
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a75-3: Water supply (4C)",
+            "extractedTerm": "Water supply (4C)",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-5edc6b1da575",
+            "matchedSurface": "water supply (4c)",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Water supply (4C)"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-mig-efmm-5edc6b1da575-\u00a75-3:-water-supply-(4c)",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:10.707Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.628023+00:00"
+      }
     },
     {
       "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-leakage-(lc,-lc1)",

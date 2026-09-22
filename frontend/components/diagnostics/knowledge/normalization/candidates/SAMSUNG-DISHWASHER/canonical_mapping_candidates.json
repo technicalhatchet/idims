@@ -115,7 +115,7 @@
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
+      "confidence": 0.95,
       "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-DISHWASHER",
@@ -145,7 +145,7 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "component_aliases"
           }
         ]
       }
@@ -1281,15 +1281,14 @@
       "extractedTerm": "Overflow Sensor (OC)"
     },
     {
-      "id": "map-samsung-dishwasher-unresolved-samsungdw-power-supply-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-DISHWASHER-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-DISHWASHER",
         "platformId": "samsung_dishwasher",
@@ -1318,11 +1317,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -1424,19 +1419,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-\u00a74-1:-water-thermistor-(tc)",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "water",
-        "component": null,
-        "actuator": "thermistor"
+      "extractedTerm": "Water Thermistor (tC)",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-c01495a054b4"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-DISHWASHER",
         "platformId": "samsung_dishwasher",
@@ -1465,17 +1459,36 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "water",
-              "component": null,
-              "actuator": "thermistor"
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-1: Water Thermistor (tC)",
+            "extractedTerm": "Water Thermistor (tC)",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-c01495a054b4",
+            "matchedSurface": "water thermistor (tc)",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Water Thermistor (tC)"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-mig-efmm-c01495a054b4-\u00a74-1:-water-thermistor-(tc)",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:58.592Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.608023+00:00"
+      }
     }
   ]
 }

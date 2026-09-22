@@ -2,7 +2,9 @@
   "schemaVersion": "1.0.0",
   "reportType": "cg_production_normalization_batch_execution_lock",
   "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH-EXECUTION",
-  "status": "orchestrator_built_not_authorized",
+  "normalizationBatchAuthorized": true,
+  "batchExecutionAuthorized": true,
+  "status": "observation_run_authorized",
   "lockedAt": "2026-09-18T02:30:00+00:00",
   "verdict": "ORCHESTRATOR_READY — BATCH EXECUTION NOT AUTHORIZED",
   "closureStatement": "Production normalization batch orchestrator implemented and regression-tested. Checkpointing, manifest freeze, fail-closed authorization, idempotency, STOP semantics, and pilot baseline protection are encoded in code. Batch execution against the 72-manual cohort remains NOT authorized until explicit human authorization updates this lock.",
@@ -20,8 +22,8 @@
   },
   "headlineMetrics": {
     "orchestratorImplemented": true,
-    "normalizationBatchAuthorized": false,
-    "batchExecutionAuthorized": false,
+    "normalizationBatchAuthorized": true,
+    "batchExecutionAuthorized": true,
     "cohortSize": 72,
     "pilotBaselinesProtected": 8
   },

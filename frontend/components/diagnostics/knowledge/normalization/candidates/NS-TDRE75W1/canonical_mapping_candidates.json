@@ -2,15 +2,14 @@
   "manualId": "NS-TDRE75W1",
   "candidates": [
     {
-      "id": "map-ns-tdre75w1-unresolved-nstdre75w1-belt-safety-motor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-motor-drive_motor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "motor",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "drive_motor",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -37,11 +36,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -98,19 +93,18 @@
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -139,15 +133,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:56.263Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.604522+00:00"
       }
     },
     {
@@ -246,19 +252,14 @@
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-door_switch",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-door_switch-door_switch",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "door_switch",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "door",
-        "component": null,
-        "actuator": "switch"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -285,13 +286,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "door",
-              "component": null,
-              "actuator": "switch"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -648,19 +643,14 @@
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-heating_element",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "id": "map-NS-TDRE75W1-heating_element-heat_source",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "heating_element",
-      "canonicalId": "wash_heater",
-      "confidence": 0.77,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": "heating element",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -689,31 +679,20 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "heating element",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-thermal_cutoff",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-thermal_cutoff-thermal_cutoff",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermal_cutoff",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "thermal_cutoff",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -742,31 +721,20 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-thermal_fuse",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-thermal_fuse-thermal_fuse",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermal_fuse",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "thermal",
-        "actuator": "fuse"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "thermal_fuse",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -795,13 +763,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "thermal",
-              "actuator": "fuse"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -962,19 +924,14 @@
       }
     },
     {
-      "id": "map-NS-TDRE75W1-compound-moisture_sensor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-NS-TDRE75W1-moisture_sensor-moisture_sensor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "moisture_sensor",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "moisture",
-        "actuator": "sensor"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "moisture_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -1005,31 +962,25 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "moisture",
-              "actuator": "sensor"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
     },
     {
       "id": "map-NS-TDRE75W1-compound-humidity-sensor-\u2014-e4-timed-dry-fallback",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "Humidity sensor \u2014 E4 timed-dry fallback",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "moisture_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "humidity",
         "actuator": "sensor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "humidity sensor",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -1060,58 +1011,13 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "humidity sensor",
             "decomposition": {
               "domain": null,
               "component": "humidity",
               "actuator": "sensor"
             }
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-ns-tdre75w1-unresolved-nstdre75w1-motor-circuit-motor",
-      "status": "UNRESOLVED_TERM",
-      "candidateType": "canonicalMapping",
-      "sourceTerm": "motor",
-      "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
-      "provenance": {
-        "manualId": "NS-TDRE75W1",
-        "platformId": "insignia_dryer_tdre",
-        "procedureId": "nstdre75w1-motor-circuit",
-        "pages": [
-          29
-        ],
-        "sources": [
-          {
-            "type": "manual",
-            "manualId": "NS-TDRE75W1",
-            "platformId": "insignia_dryer_tdre"
-          },
-          {
-            "type": "procedure",
-            "procedureId": "nstdre75w1-motor-circuit",
-            "pages": [
-              29
-            ]
-          },
-          {
-            "type": "extraction_doc",
-            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
           }
         ]
       }
@@ -1169,18 +1075,18 @@
     },
     {
       "id": "map-NS-TDRE75W1-compound-exhaust_thermistor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "exhaust_thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "exhaust",
         "actuator": "thermistor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "exhaust thermistor",
       "provenance": {
         "manualId": "NS-TDRE75W1",
         "platformId": "insignia_dryer_tdre",
@@ -1211,8 +1117,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
             "decomposition": {
               "domain": null,
               "component": "exhaust",

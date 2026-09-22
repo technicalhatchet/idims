@@ -604,19 +604,18 @@
       "extractedTerm": "Electric heater (5300 W)"
     },
     {
-      "id": "map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-FL-BB8700-DRYER",
         "platformId": "samsung_fl_dryer_bb8700",
@@ -643,15 +642,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:01.087Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.610025+00:00"
       }
     },
     {
@@ -799,15 +810,14 @@
       "extractedTerm": "Motor centrifugal switch"
     },
     {
-      "id": "map-samsung-fl-bb8700-dryer-unresolved-samsungbb8700-dryer-power-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-FL-BB8700-DRYER-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-FL-BB8700-DRYER",
         "platformId": "samsung_fl_dryer_bb8700",
@@ -834,11 +844,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -850,7 +856,7 @@
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
+      "confidence": 0.95,
       "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-FL-BB8700-DRYER",
@@ -878,7 +884,7 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "component_aliases"
           }
         ]
       }

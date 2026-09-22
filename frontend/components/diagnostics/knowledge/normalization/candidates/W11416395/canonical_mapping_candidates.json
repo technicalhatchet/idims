@@ -2,13 +2,13 @@
   "manualId": "W11416395",
   "candidates": [
     {
-      "id": "map-W11416395-supply-supply",
+      "id": "map-W11416395-supply-power_supply",
       "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": "supply",
-      "confidence": 1.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.98,
       "mappingType": "alias",
       "provenance": {
         "manualId": "W11416395",
@@ -36,7 +36,7 @@
           },
           {
             "type": "matcher",
-            "layer": "canonical_component_id"
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
           }
         ]
       }
@@ -100,7 +100,7 @@
       "sourceTerm": "ACU",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.94,
+      "confidence": 0.98,
       "mappingType": "alias",
       "provenance": {
         "manualId": "W11416395",
@@ -128,7 +128,7 @@
           },
           {
             "type": "matcher",
-            "layer": "canonical_ontology_alias"
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
           }
         ]
       }
@@ -520,13 +520,13 @@
       }
     },
     {
-      "id": "map-W11416395-wash_ntc-wash_ntc",
+      "id": "map-W11416395-wash_ntc-temperature_sensor",
       "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "wash_ntc",
       "extractedTerm": null,
-      "canonicalId": "wash_ntc",
-      "confidence": 1.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.98,
       "mappingType": "alias",
       "provenance": {
         "manualId": "W11416395",
@@ -556,25 +556,24 @@
           },
           {
             "type": "matcher",
-            "layer": "canonical_component_id"
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
           }
         ]
       }
     },
     {
-      "id": "map-W11416395-compound-temperature-thermistor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "TEST #5: Temperature Thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "temperature",
-        "actuator": "thermistor"
+      "extractedTerm": "Temperature Thermistor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "W11416395",
         "platformId": "whirlpool_mvw6200",
@@ -603,17 +602,36 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "temperature",
-              "actuator": "thermistor"
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #5: Temperature Thermistor",
+            "extractedTerm": "Temperature Thermistor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-615da9433924",
+            "matchedSurface": "temperature thermistor",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Temperature Thermistor"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11416395::canonical_mapping::map-W11416395-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:21.761Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.643522+00:00"
+      }
     },
     {
       "id": "map-W11416395-water_level_sensor-water_level_sensor",
@@ -796,13 +814,13 @@
       }
     },
     {
-      "id": "map-W11416395-door_lock-door_lock",
+      "id": "map-W11416395-door_lock-lid_lock",
       "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "door_lock",
       "extractedTerm": null,
-      "canonicalId": "door_lock",
-      "confidence": 1.0,
+      "canonicalId": "lid_lock",
+      "confidence": 0.98,
       "mappingType": "alias",
       "provenance": {
         "manualId": "W11416395",
@@ -832,25 +850,20 @@
           },
           {
             "type": "matcher",
-            "layer": "canonical_component_id"
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
           }
         ]
       }
     },
     {
-      "id": "map-W11416395-compound-lid-lock",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11416395-lid-lock-lid_lock",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "TEST #8: Lid Lock",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "lid",
-        "component": null,
-        "actuator": "lock"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": "Lid Lock",
+      "canonicalId": "lid_lock",
+      "confidence": 0.92,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W11416395",
         "platformId": "whirlpool_mvw6200",
@@ -879,17 +892,18 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "lid",
-              "component": null,
-              "actuator": "lock"
-            }
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #8: Lid Lock",
+            "extractedTerm": "Lid Lock",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
           }
         ]
-      },
-      "extractedTerm": "Lid Lock"
+      }
     }
   ]
 }

@@ -1,0 +1,3286 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_improvement_full_corpus_regeneration",
+  "status": "GREEN",
+  "generatedAt": "2026-09-21T14:34:44.498139+00:00",
+  "gateType": "controlled_corpus_regeneration_impact_analysis",
+  "promotionGate": false,
+  "implementationCommit": "b1679708",
+  "scopedValidationArtifact": "CG_MATCHER_IMPROVEMENT_SCOPED_VALIDATION_v1.json",
+  "stagedCorpusPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1",
+  "productionCandidatesUntouched": true,
+  "productionMappingCorpusHash": "405fc05d289fb2fd1f43c95378344b7bc251abad3d6912b0fe8a06584dec2d80",
+  "cohort": {
+    "totalManuals": 72,
+    "manualIds": [
+      "FRIGIDAIRE-PRMC-FRIDGE",
+      "INSIGNIA-DWR3-DISHWASHER",
+      "INSIGNIA-RTM18-FRIDGE",
+      "LG-FL-WASHER",
+      "LG-LDT7808-DISHWASHER",
+      "LG-LMHM2237-MICROWAVE",
+      "LG-LRE-RANGE",
+      "LG-LRMVS-FRIDGE",
+      "LG-LSC27926-SXS",
+      "MIDEA-RSS-FRIDGE",
+      "MIDEA-UZ21-FREEZER",
+      "NS-TDRE75W1",
+      "SAMSUNG-DISHWASHER",
+      "SAMSUNG-DISHWASHER-M9",
+      "SAMSUNG-FL-BB8700-DRYER",
+      "SAMSUNG-FL-BB8700-WASHER",
+      "SAMSUNG-FL-DV6000-DRYER",
+      "SAMSUNG-FL-WF6000R-WASHER",
+      "SAMSUNG-FLEXWASH-WASHER",
+      "SAMSUNG-HP-DRYER-DV22N",
+      "SAMSUNG-ICE-MAKER-BULLETIN",
+      "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "SAMSUNG-ME11-MICROWAVE",
+      "SAMSUNG-NE58-RANGE",
+      "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "SAMSUNG-NX60-RANGE",
+      "SAMSUNG-RF23BB-FRIDGE",
+      "SAMSUNG-RF260B-FRIDGE",
+      "SAMSUNG-RF28-FRIDGE",
+      "SAMSUNG-RF32CG-FRIDGE",
+      "SAMSUNG-RS22T-SXS",
+      "SAMSUNG-RS28-SXS",
+      "SAMSUNG-TL-A50-WASHER",
+      "SAMSUNG-TL-CG71-DRYER",
+      "SAMSUNG-TL-CG71-WASHER",
+      "SAMSUNG-TL-DV50-DRYER",
+      "W10322959",
+      "W10330404",
+      "W10410465",
+      "W10674984",
+      "W10680150",
+      "W10785366A",
+      "W10864849",
+      "W10881701",
+      "W10901168",
+      "W11169652",
+      "W11169659",
+      "W11174426",
+      "W11174814",
+      "W11187658",
+      "W11296289",
+      "W11366142",
+      "W11416395",
+      "W11416787",
+      "W11416805",
+      "W11428632",
+      "W11455152",
+      "W11480208",
+      "W11499711",
+      "W11509412",
+      "W11633848",
+      "W11697231",
+      "W11746350",
+      "W11794121",
+      "W11798430",
+      "W11800233",
+      "W11803249",
+      "W11819775",
+      "W8178558",
+      "W8178559",
+      "W8178629",
+      "WHIRLPOOL-2225623-ICE-MAKER"
+    ],
+    "approvedBacklogIds": [
+      "efmm-247b16052823",
+      "efmm-5edc6b1da575",
+      "efmm-615da9433924",
+      "efmm-62ec837ed0fc",
+      "efmm-c01495a054b4",
+      "efmm-ccfd232a7378",
+      "efmm-cda9def45dce",
+      "efmm-ce66fe78ffd3",
+      "efmm-e859af7c0c65"
+    ]
+  },
+  "baseline": {
+    "root": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates",
+    "aggregate": {
+      "totalManuals": 72,
+      "totalMappingCandidates": 1616,
+      "countsByReviewClass": {
+        "unresolved": 1145,
+        "implementationSpecific": 123,
+        "existingCanonicalMapping": 370,
+        "newPlatformKnowledge": 426,
+        "architectureException": 1
+      },
+      "matcherImprovementCount": 0
+    },
+    "perManual": {
+      "FRIGIDAIRE-PRMC-FRIDGE": {
+        "totalClassifiedRecords": 19,
+        "countsByReviewClass": {
+          "unresolved": 19
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "INSIGNIA-DWR3-DISHWASHER": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "implementationSpecific": 3,
+          "unresolved": 7,
+          "existingCanonicalMapping": 5,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 0
+      },
+      "INSIGNIA-RTM18-FRIDGE": {
+        "totalClassifiedRecords": 12,
+        "countsByReviewClass": {
+          "unresolved": 12
+        },
+        "mappingCandidateCount": 12,
+        "matcherImprovementCount": 0
+      },
+      "LG-FL-WASHER": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 14,
+          "unresolved": 9,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 6
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 0
+      },
+      "LG-LDT7808-DISHWASHER": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "unresolved": 7,
+          "existingCanonicalMapping": 4,
+          "implementationSpecific": 4,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 0
+      },
+      "LG-LMHM2237-MICROWAVE": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "implementationSpecific": 2,
+          "unresolved": 21,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 0
+      },
+      "LG-LRE-RANGE": {
+        "totalClassifiedRecords": 50,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 7,
+          "unresolved": 24,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 18
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "LG-LRMVS-FRIDGE": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "unresolved": 32,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "LG-LSC27926-SXS": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 28
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 0
+      },
+      "MIDEA-RSS-FRIDGE": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 28
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 0
+      },
+      "MIDEA-UZ21-FREEZER": {
+        "totalClassifiedRecords": 19,
+        "countsByReviewClass": {
+          "unresolved": 19
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "NS-TDRE75W1": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 7,
+          "unresolved": 19,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-DISHWASHER": {
+        "totalClassifiedRecords": 37,
+        "countsByReviewClass": {
+          "implementationSpecific": 9,
+          "existingCanonicalMapping": 9,
+          "unresolved": 11,
+          "newPlatformKnowledge": 8
+        },
+        "mappingCandidateCount": 29,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-DISHWASHER-M9": {
+        "totalClassifiedRecords": 43,
+        "countsByReviewClass": {
+          "implementationSpecific": 9,
+          "existingCanonicalMapping": 9,
+          "unresolved": 13,
+          "newPlatformKnowledge": 12
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FL-BB8700-DRYER": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 18,
+          "existingCanonicalMapping": 6,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FL-BB8700-WASHER": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "unresolved": 6,
+          "implementationSpecific": 4,
+          "newPlatformKnowledge": 9
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FL-DV6000-DRYER": {
+        "totalClassifiedRecords": 21,
+        "countsByReviewClass": {
+          "unresolved": 12,
+          "existingCanonicalMapping": 6,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FL-WF6000R-WASHER": {
+        "totalClassifiedRecords": 36,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 8,
+          "unresolved": 5,
+          "newPlatformKnowledge": 12
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FLEXWASH-WASHER": {
+        "totalClassifiedRecords": 46,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 15,
+          "implementationSpecific": 6,
+          "newPlatformKnowledge": 13,
+          "architectureException": 1
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-HP-DRYER-DV22N": {
+        "totalClassifiedRecords": 24,
+        "countsByReviewClass": {
+          "unresolved": 18,
+          "existingCanonicalMapping": 5,
+          "implementationSpecific": 1
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-ICE-MAKER-BULLETIN": {
+        "totalClassifiedRecords": 5,
+        "countsByReviewClass": {
+          "unresolved": 5
+        },
+        "mappingCandidateCount": 5,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-LAUNDRY-COMBO-WD53": {
+        "totalClassifiedRecords": 51,
+        "countsByReviewClass": {
+          "unresolved": 38,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 38,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-ME11-MICROWAVE": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "unresolved": 27,
+          "newPlatformKnowledge": 3
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NE58-RANGE": {
+        "totalClassifiedRecords": 40,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "unresolved": 13,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 16
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NE58H-INDUCTION-RANGE": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 9,
+          "unresolved": 8,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NX60-RANGE": {
+        "totalClassifiedRecords": 53,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 8,
+          "unresolved": 22,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 22
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RF23BB-FRIDGE": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "unresolved": 32
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RF260B-FRIDGE": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "unresolved": 30
+        },
+        "mappingCandidateCount": 30,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RF28-FRIDGE": {
+        "totalClassifiedRecords": 41,
+        "countsByReviewClass": {
+          "unresolved": 41
+        },
+        "mappingCandidateCount": 41,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RF32CG-FRIDGE": {
+        "totalClassifiedRecords": 9,
+        "countsByReviewClass": {
+          "unresolved": 9
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RS22T-SXS": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "unresolved": 33
+        },
+        "mappingCandidateCount": 33,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RS28-SXS": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "unresolved": 33
+        },
+        "mappingCandidateCount": 33,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-TL-A50-WASHER": {
+        "totalClassifiedRecords": 39,
+        "countsByReviewClass": {
+          "unresolved": 15,
+          "existingCanonicalMapping": 9,
+          "implementationSpecific": 2,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-TL-CG71-DRYER": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 19,
+          "existingCanonicalMapping": 6,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-TL-CG71-WASHER": {
+        "totalClassifiedRecords": 41,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 9,
+          "implementationSpecific": 2,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-TL-DV50-DRYER": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 19,
+          "existingCanonicalMapping": 6,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "W10322959": {
+        "totalClassifiedRecords": 23,
+        "countsByReviewClass": {
+          "unresolved": 19,
+          "newPlatformKnowledge": 4
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "W10330404": {
+        "totalClassifiedRecords": 18,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W10410465": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "unresolved": 19,
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 30,
+        "matcherImprovementCount": 0
+      },
+      "W10674984": {
+        "totalClassifiedRecords": 16,
+        "countsByReviewClass": {
+          "unresolved": 12,
+          "newPlatformKnowledge": 4
+        },
+        "mappingCandidateCount": 12,
+        "matcherImprovementCount": 0
+      },
+      "W10680150": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 15,
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 0
+      },
+      "W10785366A": {
+        "totalClassifiedRecords": 11,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 2,
+          "unresolved": 9
+        },
+        "mappingCandidateCount": 11,
+        "matcherImprovementCount": 0
+      },
+      "W10864849": {
+        "totalClassifiedRecords": 42,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 14,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "W10881701": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "unresolved": 20,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "W10901168": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "unresolved": 25
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "W11169652": {
+        "totalClassifiedRecords": 49,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 24,
+          "unresolved": 9,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 36,
+        "matcherImprovementCount": 0
+      },
+      "W11169659": {
+        "totalClassifiedRecords": 8,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "unresolved": 4
+        },
+        "mappingCandidateCount": 8,
+        "matcherImprovementCount": 0
+      },
+      "W11174426": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "unresolved": 11,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 0
+      },
+      "W11174814": {
+        "totalClassifiedRecords": 17,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 2,
+          "unresolved": 7,
+          "newPlatformKnowledge": 8
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 0
+      },
+      "W11187658": {
+        "totalClassifiedRecords": 19,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 3,
+          "implementationSpecific": 2,
+          "unresolved": 4,
+          "newPlatformKnowledge": 10
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 0
+      },
+      "W11296289": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "unresolved": 28,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 0
+      },
+      "W11366142": {
+        "totalClassifiedRecords": 21,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "implementationSpecific": 3,
+          "unresolved": 3,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 10,
+        "matcherImprovementCount": 0
+      },
+      "W11416395": {
+        "totalClassifiedRecords": 34,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 1,
+          "unresolved": 7,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "W11416787": {
+        "totalClassifiedRecords": 36,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 10,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 21,
+        "matcherImprovementCount": 0
+      },
+      "W11416805": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 3,
+          "unresolved": 17
+        },
+        "mappingCandidateCount": 29,
+        "matcherImprovementCount": 0
+      },
+      "W11428632": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11455152": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11480208": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 5,
+          "implementationSpecific": 6,
+          "unresolved": 3,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 14,
+        "matcherImprovementCount": 0
+      },
+      "W11499711": {
+        "totalClassifiedRecords": 4,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 1,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 2,
+        "matcherImprovementCount": 0
+      },
+      "W11509412": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "unresolved": 24,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "W11633848": {
+        "totalClassifiedRecords": 43,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 9,
+          "unresolved": 6,
+          "implementationSpecific": 5,
+          "newPlatformKnowledge": 23
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "W11697231": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 7,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 18,
+        "matcherImprovementCount": 0
+      },
+      "W11746350": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "unresolved": 30
+        },
+        "mappingCandidateCount": 30,
+        "matcherImprovementCount": 0
+      },
+      "W11794121": {
+        "totalClassifiedRecords": 3,
+        "countsByReviewClass": {
+          "unresolved": 2,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 2,
+        "matcherImprovementCount": 0
+      },
+      "W11798430": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 8,
+          "unresolved": 16,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "W11800233": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11803249": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 27
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "W11819775": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 27
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "W8178558": {
+        "totalClassifiedRecords": 41,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 14,
+          "implementationSpecific": 7,
+          "unresolved": 10,
+          "newPlatformKnowledge": 10
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "W8178559": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "unresolved": 15,
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "W8178629": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 7,
+          "unresolved": 13,
+          "implementationSpecific": 5
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 0
+      },
+      "WHIRLPOOL-2225623-ICE-MAKER": {
+        "totalClassifiedRecords": 15,
+        "countsByReviewClass": {
+          "unresolved": 13,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 13,
+        "matcherImprovementCount": 0
+      }
+    }
+  },
+  "regenerated": {
+    "root": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\candidates_staging\\matcher_improvement_full_corpus_v1",
+    "aggregate": {
+      "totalManuals": 72,
+      "totalMappingCandidates": 1616,
+      "countsByReviewClass": {
+        "unresolved": 1095,
+        "existingCanonicalMapping": 421,
+        "implementationSpecific": 122,
+        "newPlatformKnowledge": 426,
+        "architectureException": 1
+      },
+      "matcherImprovementCount": 46,
+      "matcherImprovementByBacklogId": {
+        "efmm-ccfd232a7378": 8,
+        "efmm-247b16052823": 10,
+        "efmm-e859af7c0c65": 2,
+        "efmm-cda9def45dce": 13,
+        "efmm-c01495a054b4": 2,
+        "efmm-ce66fe78ffd3": 3,
+        "efmm-62ec837ed0fc": 2,
+        "efmm-5edc6b1da575": 2,
+        "efmm-615da9433924": 4
+      }
+    },
+    "perManual": {
+      "FRIGIDAIRE-PRMC-FRIDGE": {
+        "totalClassifiedRecords": 20,
+        "countsByReviewClass": {
+          "unresolved": 18,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 2
+      },
+      "INSIGNIA-DWR3-DISHWASHER": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "implementationSpecific": 3,
+          "unresolved": 6,
+          "existingCanonicalMapping": 6,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 1
+      },
+      "INSIGNIA-RTM18-FRIDGE": {
+        "totalClassifiedRecords": 12,
+        "countsByReviewClass": {
+          "unresolved": 12
+        },
+        "mappingCandidateCount": 12,
+        "matcherImprovementCount": 0
+      },
+      "LG-FL-WASHER": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 14,
+          "unresolved": 9,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 6
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 0
+      },
+      "LG-LDT7808-DISHWASHER": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "unresolved": 7,
+          "existingCanonicalMapping": 4,
+          "implementationSpecific": 4,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 0
+      },
+      "LG-LMHM2237-MICROWAVE": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "unresolved": 23,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 0
+      },
+      "LG-LRE-RANGE": {
+        "totalClassifiedRecords": 50,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 7,
+          "unresolved": 24,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 18
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "LG-LRMVS-FRIDGE": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "unresolved": 30,
+          "existingCanonicalMapping": 2,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 2
+      },
+      "LG-LSC27926-SXS": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "unresolved": 27,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 29,
+        "matcherImprovementCount": 2
+      },
+      "MIDEA-RSS-FRIDGE": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 26,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 2
+      },
+      "MIDEA-UZ21-FREEZER": {
+        "totalClassifiedRecords": 19,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 2
+      },
+      "NS-TDRE75W1": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 8,
+          "unresolved": 19,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-DISHWASHER": {
+        "totalClassifiedRecords": 37,
+        "countsByReviewClass": {
+          "implementationSpecific": 9,
+          "existingCanonicalMapping": 10,
+          "unresolved": 10,
+          "newPlatformKnowledge": 8
+        },
+        "mappingCandidateCount": 29,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-DISHWASHER-M9": {
+        "totalClassifiedRecords": 43,
+        "countsByReviewClass": {
+          "implementationSpecific": 9,
+          "existingCanonicalMapping": 10,
+          "unresolved": 12,
+          "newPlatformKnowledge": 12
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-FL-BB8700-DRYER": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 7,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-FL-BB8700-WASHER": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "unresolved": 6,
+          "implementationSpecific": 4,
+          "newPlatformKnowledge": 9
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FL-DV6000-DRYER": {
+        "totalClassifiedRecords": 21,
+        "countsByReviewClass": {
+          "unresolved": 10,
+          "existingCanonicalMapping": 8,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-FL-WF6000R-WASHER": {
+        "totalClassifiedRecords": 36,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 8,
+          "unresolved": 5,
+          "newPlatformKnowledge": 12
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-FLEXWASH-WASHER": {
+        "totalClassifiedRecords": 46,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 15,
+          "implementationSpecific": 6,
+          "newPlatformKnowledge": 13,
+          "architectureException": 1
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-HP-DRYER-DV22N": {
+        "totalClassifiedRecords": 24,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 6,
+          "implementationSpecific": 1
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-ICE-MAKER-BULLETIN": {
+        "totalClassifiedRecords": 5,
+        "countsByReviewClass": {
+          "unresolved": 5
+        },
+        "mappingCandidateCount": 5,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-LAUNDRY-COMBO-WD53": {
+        "totalClassifiedRecords": 52,
+        "countsByReviewClass": {
+          "unresolved": 37,
+          "existingCanonicalMapping": 2,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 39,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-ME11-MICROWAVE": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "unresolved": 27,
+          "newPlatformKnowledge": 3
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NE58-RANGE": {
+        "totalClassifiedRecords": 40,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "unresolved": 13,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 16
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NE58H-INDUCTION-RANGE": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 9,
+          "unresolved": 8,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-NX60-RANGE": {
+        "totalClassifiedRecords": 53,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 8,
+          "unresolved": 22,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 22
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RF23BB-FRIDGE": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "unresolved": 31,
+          "existingCanonicalMapping": 1
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-RF260B-FRIDGE": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "unresolved": 30,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-RF28-FRIDGE": {
+        "totalClassifiedRecords": 42,
+        "countsByReviewClass": {
+          "unresolved": 41,
+          "existingCanonicalMapping": 1
+        },
+        "mappingCandidateCount": 42,
+        "matcherImprovementCount": 1
+      },
+      "SAMSUNG-RF32CG-FRIDGE": {
+        "totalClassifiedRecords": 9,
+        "countsByReviewClass": {
+          "unresolved": 9
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RS22T-SXS": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "unresolved": 33
+        },
+        "mappingCandidateCount": 33,
+        "matcherImprovementCount": 0
+      },
+      "SAMSUNG-RS28-SXS": {
+        "totalClassifiedRecords": 35,
+        "countsByReviewClass": {
+          "unresolved": 33,
+          "existingCanonicalMapping": 2
+        },
+        "mappingCandidateCount": 35,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-TL-A50-WASHER": {
+        "totalClassifiedRecords": 39,
+        "countsByReviewClass": {
+          "unresolved": 13,
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 2,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-TL-CG71-DRYER": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 8,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-TL-CG71-WASHER": {
+        "totalClassifiedRecords": 41,
+        "countsByReviewClass": {
+          "unresolved": 15,
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 2,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 2
+      },
+      "SAMSUNG-TL-DV50-DRYER": {
+        "totalClassifiedRecords": 28,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "existingCanonicalMapping": 8,
+          "implementationSpecific": 3
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 2
+      },
+      "W10322959": {
+        "totalClassifiedRecords": 23,
+        "countsByReviewClass": {
+          "unresolved": 19,
+          "newPlatformKnowledge": 4
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 0
+      },
+      "W10330404": {
+        "totalClassifiedRecords": 18,
+        "countsByReviewClass": {
+          "unresolved": 17,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W10410465": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 18,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 30,
+        "matcherImprovementCount": 1
+      },
+      "W10674984": {
+        "totalClassifiedRecords": 16,
+        "countsByReviewClass": {
+          "unresolved": 12,
+          "newPlatformKnowledge": 4
+        },
+        "mappingCandidateCount": 12,
+        "matcherImprovementCount": 0
+      },
+      "W10680150": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 14,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 26,
+        "matcherImprovementCount": 1
+      },
+      "W10785366A": {
+        "totalClassifiedRecords": 11,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 2,
+          "unresolved": 9
+        },
+        "mappingCandidateCount": 11,
+        "matcherImprovementCount": 0
+      },
+      "W10864849": {
+        "totalClassifiedRecords": 42,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 1,
+          "unresolved": 13,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 1
+      },
+      "W10881701": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 20,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 32,
+        "matcherImprovementCount": 1
+      },
+      "W10901168": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "unresolved": 25
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 0
+      },
+      "W11169652": {
+        "totalClassifiedRecords": 49,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 24,
+          "unresolved": 9,
+          "implementationSpecific": 3,
+          "newPlatformKnowledge": 13
+        },
+        "mappingCandidateCount": 36,
+        "matcherImprovementCount": 0
+      },
+      "W11169659": {
+        "totalClassifiedRecords": 8,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "unresolved": 4
+        },
+        "mappingCandidateCount": 8,
+        "matcherImprovementCount": 0
+      },
+      "W11174426": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "unresolved": 11,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 15,
+        "matcherImprovementCount": 0
+      },
+      "W11174814": {
+        "totalClassifiedRecords": 17,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 2,
+          "unresolved": 7,
+          "newPlatformKnowledge": 8
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 0
+      },
+      "W11187658": {
+        "totalClassifiedRecords": 19,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "implementationSpecific": 2,
+          "unresolved": 3,
+          "newPlatformKnowledge": 10
+        },
+        "mappingCandidateCount": 9,
+        "matcherImprovementCount": 1
+      },
+      "W11296289": {
+        "totalClassifiedRecords": 29,
+        "countsByReviewClass": {
+          "unresolved": 28,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 28,
+        "matcherImprovementCount": 0
+      },
+      "W11366142": {
+        "totalClassifiedRecords": 21,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 4,
+          "implementationSpecific": 3,
+          "unresolved": 3,
+          "newPlatformKnowledge": 11
+        },
+        "mappingCandidateCount": 10,
+        "matcherImprovementCount": 0
+      },
+      "W11416395": {
+        "totalClassifiedRecords": 34,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 12,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 19,
+        "matcherImprovementCount": 1
+      },
+      "W11416787": {
+        "totalClassifiedRecords": 36,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 1,
+          "unresolved": 9,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 21,
+        "matcherImprovementCount": 1
+      },
+      "W11416805": {
+        "totalClassifiedRecords": 30,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "implementationSpecific": 3,
+          "unresolved": 16
+        },
+        "mappingCandidateCount": 29,
+        "matcherImprovementCount": 1
+      },
+      "W11428632": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11455152": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11480208": {
+        "totalClassifiedRecords": 31,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 5,
+          "implementationSpecific": 6,
+          "unresolved": 3,
+          "newPlatformKnowledge": 17
+        },
+        "mappingCandidateCount": 14,
+        "matcherImprovementCount": 0
+      },
+      "W11499711": {
+        "totalClassifiedRecords": 4,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 1,
+          "implementationSpecific": 1,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 2,
+        "matcherImprovementCount": 0
+      },
+      "W11509412": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "unresolved": 24,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 0
+      },
+      "W11633848": {
+        "totalClassifiedRecords": 43,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 9,
+          "unresolved": 6,
+          "implementationSpecific": 5,
+          "newPlatformKnowledge": 23
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "W11697231": {
+        "totalClassifiedRecords": 33,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 12,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 18,
+        "matcherImprovementCount": 1
+      },
+      "W11746350": {
+        "totalClassifiedRecords": 20,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 5,
+          "unresolved": 14,
+          "implementationSpecific": 1
+        },
+        "mappingCandidateCount": 20,
+        "matcherImprovementCount": 0
+      },
+      "W11794121": {
+        "totalClassifiedRecords": 3,
+        "countsByReviewClass": {
+          "unresolved": 2,
+          "newPlatformKnowledge": 1
+        },
+        "mappingCandidateCount": 2,
+        "matcherImprovementCount": 0
+      },
+      "W11798430": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 9,
+          "unresolved": 15,
+          "implementationSpecific": 2
+        },
+        "mappingCandidateCount": 25,
+        "matcherImprovementCount": 1
+      },
+      "W11800233": {
+        "totalClassifiedRecords": 32,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 10,
+          "implementationSpecific": 1,
+          "unresolved": 6,
+          "newPlatformKnowledge": 15
+        },
+        "mappingCandidateCount": 17,
+        "matcherImprovementCount": 0
+      },
+      "W11803249": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 27
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "W11819775": {
+        "totalClassifiedRecords": 27,
+        "countsByReviewClass": {
+          "unresolved": 27
+        },
+        "mappingCandidateCount": 27,
+        "matcherImprovementCount": 0
+      },
+      "W8178558": {
+        "totalClassifiedRecords": 41,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 14,
+          "implementationSpecific": 7,
+          "unresolved": 10,
+          "newPlatformKnowledge": 10
+        },
+        "mappingCandidateCount": 31,
+        "matcherImprovementCount": 0
+      },
+      "W8178559": {
+        "totalClassifiedRecords": 26,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 11,
+          "unresolved": 14,
+          "implementationSpecific": 1
+        },
+        "mappingCandidateCount": 24,
+        "matcherImprovementCount": 1
+      },
+      "W8178629": {
+        "totalClassifiedRecords": 25,
+        "countsByReviewClass": {
+          "existingCanonicalMapping": 8,
+          "unresolved": 12,
+          "implementationSpecific": 5
+        },
+        "mappingCandidateCount": 23,
+        "matcherImprovementCount": 1
+      },
+      "WHIRLPOOL-2225623-ICE-MAKER": {
+        "totalClassifiedRecords": 15,
+        "countsByReviewClass": {
+          "unresolved": 13,
+          "newPlatformKnowledge": 2
+        },
+        "mappingCandidateCount": 13,
+        "matcherImprovementCount": 0
+      }
+    }
+  },
+  "deltas": {
+    "unresolved": -50,
+    "existingCanonicalMapping": 51,
+    "implementationSpecific": -1,
+    "newPlatformKnowledge": 0,
+    "newCanonicalKnowledge": 0,
+    "architectureException": 0,
+    "inheritedKnowledge": 0,
+    "matcherImprovementCount": 46,
+    "totalMappingCandidates": 0
+  },
+  "comparison": {
+    "classificationChangedCount": 54,
+    "proposedCanonicalIdChangedCount": 54,
+    "removedFromUnresolvedCount": 58,
+    "addedToUnresolvedCount": 12,
+    "classificationChangedSample": [
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-manual-defrost",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-ui-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "procedureId": "nsdwr3ss1-heater",
+        "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "door_interlock",
+        "baselineReviewClass": "implementationSpecific",
+        "stagedReviewClass": "unresolved"
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "\u00a79-2: Door Interlock Switches",
+        "baselineReviewClass": "implementationSpecific",
+        "stagedReviewClass": "unresolved"
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "NS-TDRE75W1",
+        "procedureId": "nstdre75w1-communication",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "procedureId": "samsungdw-thermistor",
+        "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "procedureId": "samsungdwm9-thermistor",
+        "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-heater-electric",
+        "sourceTerm": "\u00a74-6: Electric heater",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-hmi",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "procedureId": "samsungdv22n-hmi-button",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-hmi-check",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "procedureId": "samsungrf28-dispenser-panel-comm",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "sourceTerm": "main_control",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-panel-communication",
+        "sourceTerm": "display_panel",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-hmi",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-hmi",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W10410465",
+        "procedureId": "w10410465-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W10680150",
+        "procedureId": "w10680150-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W10881701",
+        "procedureId": "w10881701-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11187658",
+        "procedureId": "w11187658-heater",
+        "sourceTerm": "E3 \u2014 Tub heater ~14 \u03a9",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11416395",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11416787",
+        "procedureId": "w11416787-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11416805",
+        "procedureId": "w11416805-hmi",
+        "sourceTerm": "user_interface",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11697231",
+        "procedureId": "w11697231-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "ACU",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "supply",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-bake-element",
+        "sourceTerm": "bake_element",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-broil-element",
+        "sourceTerm": "broil_element",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-convect-element",
+        "sourceTerm": "convection_fan",
+        "baselineReviewClass": "unresolved",
+        "stagedReviewClass": "existingCanonicalMapping"
+      }
+    ],
+    "proposedCanonicalIdChangedSample": [
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-manual-defrost",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-ui-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "procedureId": "nsdwr3ss1-heater",
+        "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+        "baselineProposed": null,
+        "stagedProposed": "heat_source",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-e859af7c0c65"
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "door_interlock",
+        "baselineProposed": "door_lock",
+        "stagedProposed": null,
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "compound_alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "\u00a79-2: Door Interlock Switches",
+        "baselineProposed": "door_lock",
+        "stagedProposed": null,
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "compound_alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "NS-TDRE75W1",
+        "procedureId": "nstdre75w1-communication",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "procedureId": "samsungdw-thermistor",
+        "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-c01495a054b4"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "procedureId": "samsungdwm9-thermistor",
+        "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-c01495a054b4"
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-heater-electric",
+        "sourceTerm": "\u00a74-6: Electric heater",
+        "baselineProposed": null,
+        "stagedProposed": "heat_source",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-hmi",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "procedureId": "samsungdv22n-hmi-button",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-hmi-check",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "procedureId": "samsungrf28-dispenser-panel-comm",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "sourceTerm": "main_control",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-panel-communication",
+        "sourceTerm": "display_panel",
+        "baselineProposed": null,
+        "stagedProposed": "user_interface",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "baselineProposed": null,
+        "stagedProposed": "lid_lock",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-62ec837ed0fc"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "baselineProposed": null,
+        "stagedProposed": "inlet_valve",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-5edc6b1da575"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "baselineProposed": null,
+        "stagedProposed": "heat_source",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-hmi",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "baselineProposed": null,
+        "stagedProposed": "lid_lock",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-62ec837ed0fc"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "baselineProposed": null,
+        "stagedProposed": "inlet_valve",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-5edc6b1da575"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "baselineProposed": null,
+        "stagedProposed": "heat_source",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-hmi",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10410465",
+        "procedureId": "w10410465-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10680150",
+        "procedureId": "w10680150-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W10881701",
+        "procedureId": "w10881701-button-indicator",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W11187658",
+        "procedureId": "w11187658-heater",
+        "sourceTerm": "E3 \u2014 Tub heater ~14 \u03a9",
+        "baselineProposed": null,
+        "stagedProposed": "heat_source",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-e859af7c0c65"
+      },
+      {
+        "manualId": "W11416395",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11416787",
+        "procedureId": "w11416787-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11416805",
+        "procedureId": "w11416805-hmi",
+        "sourceTerm": "user_interface",
+        "baselineProposed": null,
+        "stagedProposed": "hmi_control",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W11697231",
+        "procedureId": "w11697231-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "baselineProposed": null,
+        "stagedProposed": "temperature_sensor",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "matcher_improvement",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "ACU",
+        "baselineProposed": null,
+        "stagedProposed": "control_board",
+        "baselineMappingType": "alias",
+        "stagedMappingType": "alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "supply",
+        "baselineProposed": null,
+        "stagedProposed": "power_supply",
+        "baselineMappingType": "alias",
+        "stagedMappingType": "alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-bake-element",
+        "sourceTerm": "bake_element",
+        "baselineProposed": null,
+        "stagedProposed": "bake_heating_element",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-broil-element",
+        "sourceTerm": "broil_element",
+        "baselineProposed": null,
+        "stagedProposed": "broil_heating_element",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "alias",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-convect-element",
+        "sourceTerm": "convection_fan",
+        "baselineProposed": null,
+        "stagedProposed": "convection_fan",
+        "baselineMappingType": "compound_alias",
+        "stagedMappingType": "alias",
+        "stagedBacklogId": null
+      }
+    ],
+    "removedFromUnresolvedSample": [
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-manual-defrost",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-ui-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "INSIGNIA-DWR3-DISHWASHER",
+        "procedureId": "nsdwr3ss1-heater",
+        "sourceTerm": "E3 \u2014 Tub heater 10\u201315 \u03a9",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "heat_source",
+        "stagedBacklogId": "efmm-e859af7c0c65"
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "LG-LRMVS-FRIDGE",
+        "procedureId": "lglrmvs-display-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-display-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "procedureId": "midearss-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "MIDEA-UZ21-FREEZER",
+        "procedureId": "mideauz21-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "NS-TDRE75W1",
+        "procedureId": "nstdre75w1-communication",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER",
+        "procedureId": "samsungdw-thermistor",
+        "sourceTerm": "\u00a74-1: Water Thermistor (tC)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-c01495a054b4"
+      },
+      {
+        "manualId": "SAMSUNG-DISHWASHER-M9",
+        "procedureId": "samsungdwm9-thermistor",
+        "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-c01495a054b4"
+      },
+      {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-heater-electric",
+        "sourceTerm": "\u00a74-6: Electric heater",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "heat_source",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "procedureId": "samsungdv6000-hmi",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-HP-DRYER-DV22N",
+        "procedureId": "samsungdv22n-hmi-button",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-hmi-check",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-RF23BB-FRIDGE",
+        "procedureId": "samsungbespoke-main-panel-comm",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-option-error",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "procedureId": "samsungrf28-dispenser-panel-comm",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "sourceTerm": "main_control",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": "efmm-ccfd232a7378"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-panel-communication",
+        "sourceTerm": "display_panel",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "user_interface",
+        "stagedBacklogId": "efmm-247b16052823"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "lid_lock",
+        "stagedBacklogId": "efmm-62ec837ed0fc"
+      },
+      {
+        "manualId": "SAMSUNG-TL-A50-WASHER",
+        "procedureId": "samsungtla50-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "inlet_valve",
+        "stagedBacklogId": "efmm-5edc6b1da575"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "heat_source",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-DRYER",
+        "procedureId": "samsungtlcg71d-hmi",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-door-lock",
+        "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "lid_lock",
+        "stagedBacklogId": "efmm-62ec837ed0fc"
+      },
+      {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "procedureId": "samsungtlcg71-inlet-valves",
+        "sourceTerm": "\u00a75-3: Water supply (4C)",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "inlet_valve",
+        "stagedBacklogId": "efmm-5edc6b1da575"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-heater-electric",
+        "sourceTerm": "\u00a74-4: Electric heater",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "heat_source",
+        "stagedBacklogId": "efmm-ce66fe78ffd3"
+      },
+      {
+        "manualId": "SAMSUNG-TL-DV50-DRYER",
+        "procedureId": "samsungtldv50-hmi",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10410465",
+        "procedureId": "w10410465-button-indicator",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10680150",
+        "procedureId": "w10680150-button-indicator",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W10864849",
+        "procedureId": "w10864849-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W10881701",
+        "procedureId": "w10881701-button-indicator",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W11187658",
+        "procedureId": "w11187658-heater",
+        "sourceTerm": "E3 \u2014 Tub heater ~14 \u03a9",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "heat_source",
+        "stagedBacklogId": "efmm-e859af7c0c65"
+      },
+      {
+        "manualId": "W11416395",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11416787",
+        "procedureId": "w11416787-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11416805",
+        "procedureId": "w11416805-hmi",
+        "sourceTerm": "user_interface",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "hmi_control",
+        "stagedBacklogId": "efmm-cda9def45dce"
+      },
+      {
+        "manualId": "W11697231",
+        "procedureId": "w11697231-test-05-temp-thermistor",
+        "sourceTerm": "TEST #5: Temperature Thermistor",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "temperature_sensor",
+        "stagedBacklogId": "efmm-615da9433924"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "ACU",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "control_board",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-acu-power",
+        "sourceTerm": "supply",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "power_supply",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-bake-element",
+        "sourceTerm": "ACU",
+        "note": "mapping_key_removed_in_staged"
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-bake-element",
+        "sourceTerm": "bake_element",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "bake_heating_element",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-broil-element",
+        "sourceTerm": "broil_element",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "broil_heating_element",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-convect-element",
+        "sourceTerm": "convection_fan",
+        "stagedReviewClass": "existingCanonicalMapping",
+        "stagedProposed": "convection_fan",
+        "stagedBacklogId": null
+      },
+      {
+        "manualId": "W11746350",
+        "procedureId": "w11746350-hmi",
+        "sourceTerm": "ACU",
+        "note": "mapping_key_removed_in_staged"
+      }
+    ],
+    "addedToUnresolvedSample": [
+      {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "procedureId": "frigidaireprmc-ui-communication",
+        "sourceTerm": "main_control",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "door_interlock",
+        "baselineReviewClass": "implementationSpecific",
+        "baselineProposed": "door_lock"
+      },
+      {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "procedureId": "lgotrmw-door-interlock",
+        "sourceTerm": "\u00a79-2: Door Interlock Switches",
+        "baselineReviewClass": "implementationSpecific",
+        "baselineProposed": "door_lock"
+      },
+      {
+        "manualId": "LG-LSC27926-SXS",
+        "procedureId": "lgsxs-lcd-check",
+        "sourceTerm": "display_panel",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "NS-TDRE75W1",
+        "procedureId": "nstdre75w1-hmi-test",
+        "sourceTerm": "user_interface",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "procedureId": "samsungwd53-foam-detection",
+        "sourceTerm": "main_control",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-panel-communication",
+        "sourceTerm": "display_panel",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-RF260B-FRIDGE",
+        "procedureId": "samsungrf260b-panel-communication",
+        "sourceTerm": "main_control",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "procedureId": "samsungrf28-main-panel-comm",
+        "sourceTerm": "display_panel",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-inverter-communication",
+        "sourceTerm": "main_control",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "SAMSUNG-RS28-SXS",
+        "procedureId": "samsungrs28-wifi-communication",
+        "sourceTerm": "display_panel",
+        "note": "mapping_key_added_in_staged"
+      },
+      {
+        "manualId": "W10881701",
+        "procedureId": "w10881701-service-leds",
+        "sourceTerm": "user_interface",
+        "note": "mapping_key_added_in_staged"
+      }
+    ]
+  },
+  "backlogImpact": [
+    {
+      "backlogId": "efmm-247b16052823",
+      "canonicalTarget": "user_interface",
+      "authorizedManualIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-RF23BB-FRIDGE",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RF28-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "procedureFamiliesAffected": [
+        "frigidaireprmc-ui",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungbespoke-main",
+        "samsungdv22n-hmi",
+        "samsungrf260b-option",
+        "samsungrf28-dispenser",
+        "samsungrs28-panel"
+      ],
+      "manualsWithMappings": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-HP-DRYER-DV22N",
+        "SAMSUNG-RF23BB-FRIDGE",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RF28-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "newMatcherImprovementMappings": 10
+    },
+    {
+      "backlogId": "efmm-5edc6b1da575",
+      "canonicalTarget": "inlet_valve",
+      "authorizedManualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "procedureFamiliesAffected": [
+        "samsungtla50-inlet",
+        "samsungtlcg71-inlet"
+      ],
+      "manualsWithMappings": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "newMatcherImprovementMappings": 2
+    },
+    {
+      "backlogId": "efmm-615da9433924",
+      "canonicalTarget": "temperature_sensor",
+      "authorizedManualIds": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11697231"
+      ],
+      "procedureFamiliesAffected": [
+        "w10864849-test",
+        "w11416395-test",
+        "w11416787-test",
+        "w11697231-test"
+      ],
+      "manualsWithMappings": [
+        "W10864849",
+        "W11416395",
+        "W11416787",
+        "W11697231"
+      ],
+      "newMatcherImprovementMappings": 4
+    },
+    {
+      "backlogId": "efmm-62ec837ed0fc",
+      "canonicalTarget": "lid_lock",
+      "authorizedManualIds": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "procedureFamiliesAffected": [
+        "samsungtla50-door",
+        "samsungtlcg71-door"
+      ],
+      "manualsWithMappings": [
+        "SAMSUNG-TL-A50-WASHER",
+        "SAMSUNG-TL-CG71-WASHER"
+      ],
+      "newMatcherImprovementMappings": 2
+    },
+    {
+      "backlogId": "efmm-c01495a054b4",
+      "canonicalTarget": "temperature_sensor",
+      "authorizedManualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "procedureFamiliesAffected": [
+        "samsungdw-thermistor",
+        "samsungdwm9-thermistor"
+      ],
+      "manualsWithMappings": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ],
+      "newMatcherImprovementMappings": 2
+    },
+    {
+      "backlogId": "efmm-ccfd232a7378",
+      "canonicalTarget": "control_board",
+      "authorizedManualIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "procedureFamiliesAffected": [
+        "frigidaireprmc-manual",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungrf260b-option",
+        "samsungrs28-dispenser",
+        "samsungwd53-communication"
+      ],
+      "manualsWithMappings": [
+        "FRIGIDAIRE-PRMC-FRIDGE",
+        "LG-LRMVS-FRIDGE",
+        "LG-LSC27926-SXS",
+        "MIDEA-RSS-FRIDGE",
+        "MIDEA-UZ21-FREEZER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-RF260B-FRIDGE",
+        "SAMSUNG-RS28-SXS"
+      ],
+      "newMatcherImprovementMappings": 8
+    },
+    {
+      "backlogId": "efmm-cda9def45dce",
+      "canonicalTarget": "hmi_control",
+      "authorizedManualIds": [
+        "NS-TDRE75W1",
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER",
+        "W10410465",
+        "W10680150",
+        "W10881701",
+        "W11416805",
+        "W11798430",
+        "W8178559",
+        "W8178629"
+      ],
+      "procedureFamiliesAffected": [
+        "nstdre75w1-communication",
+        "samsungbb8700-dryer",
+        "samsungdv6000-hmi",
+        "samsungtlcg71d-hmi",
+        "samsungtldv50-hmi",
+        "samsungwd53-hmi",
+        "w10410465-button",
+        "w10680150-button",
+        "w10881701-button",
+        "w11416805-hmi",
+        "w11798430-hmi",
+        "w8178559-button",
+        "w8178629-timer"
+      ],
+      "manualsWithMappings": [
+        "NS-TDRE75W1",
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER",
+        "W10410465",
+        "W10680150",
+        "W10881701",
+        "W11416805",
+        "W11798430",
+        "W8178559",
+        "W8178629"
+      ],
+      "newMatcherImprovementMappings": 13
+    },
+    {
+      "backlogId": "efmm-ce66fe78ffd3",
+      "canonicalTarget": "heat_source",
+      "authorizedManualIds": [
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER"
+      ],
+      "procedureFamiliesAffected": [
+        "samsungdv6000-heater",
+        "samsungtlcg71d-heater",
+        "samsungtldv50-heater"
+      ],
+      "manualsWithMappings": [
+        "SAMSUNG-FL-DV6000-DRYER",
+        "SAMSUNG-TL-CG71-DRYER",
+        "SAMSUNG-TL-DV50-DRYER"
+      ],
+      "newMatcherImprovementMappings": 3
+    },
+    {
+      "backlogId": "efmm-e859af7c0c65",
+      "canonicalTarget": "heat_source",
+      "authorizedManualIds": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "procedureFamiliesAffected": [
+        "nsdwr3ss1-heater",
+        "w11187658-heater"
+      ],
+      "manualsWithMappings": [
+        "INSIGNIA-DWR3-DISHWASHER",
+        "W11187658"
+      ],
+      "newMatcherImprovementMappings": 2
+    }
+  ],
+  "matcherGovernance": {
+    "improvementValidationErrors": [],
+    "scopeViolations": [],
+    "deferredBacklogIds": [
+      "efmm-13733bc34a3b",
+      "efmm-24a4f5a7ce08",
+      "efmm-2d18236ad40d",
+      "efmm-3a835ca66cc4",
+      "efmm-3fff71334287",
+      "efmm-712ac97b8ae5",
+      "efmm-bbf103ee2826"
+    ],
+    "rejectedBacklogIds": [
+      "efmm-64d66fbb30c3"
+    ]
+  },
+  "humanReviewIntegrity": {
+    "wave1AcceptedChecked": 328,
+    "wave2AcceptedChecked": 426,
+    "violations": [],
+    "passed": true
+  },
+  "productionIntegrity": {
+    "before": {
+      "reviewIndexPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\review\\CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+      "reviewIndexHash": "a5e04020a1dcf40bd5164628b6d9dbf283afa0e6fe99e0864b81f05229a7c0a2",
+      "reviewDecisionCount": 796,
+      "decisionsFileHash": "6276170781c44c707a1e36c53cde21ca3bcf81316f02a0851ad06ab563f2b156",
+      "unresolvedIndexCount": 1100,
+      "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013"
+    },
+    "after": {
+      "reviewIndexPath": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\review\\CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+      "reviewIndexHash": "a5e04020a1dcf40bd5164628b6d9dbf283afa0e6fe99e0864b81f05229a7c0a2",
+      "reviewDecisionCount": 796,
+      "decisionsFileHash": "6276170781c44c707a1e36c53cde21ca3bcf81316f02a0851ad06ab563f2b156",
+      "unresolvedIndexCount": 1100,
+      "processingManifestHash": "0d537288a76ed9b2bdc3fd7fec8ccb9e5187bf282dc68b917790a1fd184a4013"
+    },
+    "unchanged": true,
+    "reviewIndexFile": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\review\\CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_INDEX_v1.json",
+    "decisionsFile": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\review\\CG_PRODUCTION_NORMALIZATION_CANDIDATE_REVIEW_DECISIONS_v1.json"
+  },
+  "waveClosureArtifacts": {
+    "wave1": "WAVE1_CLOSED",
+    "wave2": "WAVE2_CLOSED"
+  },
+  "frozenHashVerification": {
+    "passed": true,
+    "errors": []
+  },
+  "stagingWrite": {
+    "writtenManualCount": 72,
+    "writtenManualIds": [
+      "FRIGIDAIRE-PRMC-FRIDGE",
+      "INSIGNIA-DWR3-DISHWASHER",
+      "INSIGNIA-RTM18-FRIDGE",
+      "LG-FL-WASHER",
+      "LG-LDT7808-DISHWASHER",
+      "LG-LMHM2237-MICROWAVE",
+      "LG-LRE-RANGE",
+      "LG-LRMVS-FRIDGE",
+      "LG-LSC27926-SXS",
+      "MIDEA-RSS-FRIDGE",
+      "MIDEA-UZ21-FREEZER",
+      "NS-TDRE75W1",
+      "SAMSUNG-DISHWASHER",
+      "SAMSUNG-DISHWASHER-M9",
+      "SAMSUNG-FL-BB8700-DRYER",
+      "SAMSUNG-FL-BB8700-WASHER",
+      "SAMSUNG-FL-DV6000-DRYER",
+      "SAMSUNG-FL-WF6000R-WASHER",
+      "SAMSUNG-FLEXWASH-WASHER",
+      "SAMSUNG-HP-DRYER-DV22N",
+      "SAMSUNG-ICE-MAKER-BULLETIN",
+      "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "SAMSUNG-ME11-MICROWAVE",
+      "SAMSUNG-NE58-RANGE",
+      "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "SAMSUNG-NX60-RANGE",
+      "SAMSUNG-RF23BB-FRIDGE",
+      "SAMSUNG-RF260B-FRIDGE",
+      "SAMSUNG-RF28-FRIDGE",
+      "SAMSUNG-RF32CG-FRIDGE",
+      "SAMSUNG-RS22T-SXS",
+      "SAMSUNG-RS28-SXS",
+      "SAMSUNG-TL-A50-WASHER",
+      "SAMSUNG-TL-CG71-DRYER",
+      "SAMSUNG-TL-CG71-WASHER",
+      "SAMSUNG-TL-DV50-DRYER",
+      "W10322959",
+      "W10330404",
+      "W10410465",
+      "W10674984",
+      "W10680150",
+      "W10785366A",
+      "W10864849",
+      "W10881701",
+      "W10901168",
+      "W11169652",
+      "W11169659",
+      "W11174426",
+      "W11174814",
+      "W11187658",
+      "W11296289",
+      "W11366142",
+      "W11416395",
+      "W11416787",
+      "W11416805",
+      "W11428632",
+      "W11455152",
+      "W11480208",
+      "W11499711",
+      "W11509412",
+      "W11633848",
+      "W11697231",
+      "W11746350",
+      "W11794121",
+      "W11798430",
+      "W11800233",
+      "W11803249",
+      "W11819775",
+      "W8178558",
+      "W8178559",
+      "W8178629",
+      "WHIRLPOOL-2225623-ICE-MAKER"
+    ],
+    "errors": []
+  },
+  "testResults": {
+    "regressionPytest": {
+      "passed": true,
+      "returnCode": 0,
+      "stdout": "..s                                                                      [100%]\n============================== warnings summary ===============================\ntests\\test_matcher_improvement_full_corpus_regeneration.py:50\n  C:\\Users\\chee3\\IdeaProjects\\idims\\backend\\scripts\\tests\\test_matcher_improvement_full_corpus_regeneration.py:50: PytestUnknownMarkWarning: Unknown pytest.mark.slow_full_gate - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html\n    @pytest.mark.slow_full_gate\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n2 passed, 1 skipped, 1 deselected, 1 warning in 0.17s\n",
+      "stderr": ""
+    }
+  },
+  "errors": [],
+  "nextStep": "human_review_of_changed_records_then_promotion_decision_gate"
+}

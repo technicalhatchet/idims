@@ -2,19 +2,18 @@
   "manualId": "W10410465",
   "candidates": [
     {
-      "id": "map-W10410465-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -43,15 +42,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W10410465::canonical_mapping::map-W10410465-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:17.450Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.635524+00:00"
       }
     },
     {
@@ -115,7 +126,7 @@
       "sourceTerm": "ccu",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.98,
+      "confidence": 0.85,
       "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
@@ -145,7 +156,7 @@
           },
           {
             "type": "matcher",
-            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+            "layer": "global_hint"
           }
         ]
       }
@@ -205,19 +216,14 @@
       "extractedTerm": "CCU Power Check"
     },
     {
-      "id": "map-W10410465-compound-door_switch",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-door_switch-door_switch",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "door_switch",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "door",
-        "component": null,
-        "actuator": "switch"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -244,13 +250,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "door",
-              "component": null,
-              "actuator": "switch"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -415,19 +415,14 @@
       "extractedTerm": "Drum Light"
     },
     {
-      "id": "map-W10410465-compound-moisture_sensor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-moisture_sensor-moisture_sensor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "moisture_sensor",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "moisture",
-        "actuator": "sensor"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "moisture_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -454,13 +449,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "moisture",
-              "actuator": "sensor"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -672,19 +661,14 @@
       "extractedTerm": "Gas Valve"
     },
     {
-      "id": "map-W10410465-compound-heating_element",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "id": "map-W10410465-heating_element-heat_source",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "heating_element",
-      "canonicalId": "wash_heater",
-      "confidence": 0.77,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": "heating element",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -713,13 +697,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "heating element",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -779,19 +757,14 @@
       "extractedTerm": "Heat System (electric)"
     },
     {
-      "id": "map-W10410465-compound-thermal_fuse",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-thermal_fuse-thermal_fuse",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermal_fuse",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "thermal",
-        "actuator": "fuse"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "thermal_fuse",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -820,13 +793,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "thermal",
-              "actuator": "fuse"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -886,19 +853,14 @@
       "extractedTerm": "Heat System (gas)"
     },
     {
-      "id": "map-W10410465-compound-moisture-sensor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-moisture-sensor-moisture_sensor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "TEST #5: Moisture Sensor",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "moisture",
-        "actuator": "sensor"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": "Moisture Sensor",
+      "canonicalId": "moisture_sensor",
+      "confidence": 0.92,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -925,28 +887,28 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "moisture",
-              "actuator": "sensor"
-            }
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #5: Moisture Sensor",
+            "extractedTerm": "Moisture Sensor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
           }
         ]
-      },
-      "extractedTerm": "Moisture Sensor"
+      }
     },
     {
-      "id": "map-w10410465-unresolved-w10410465-motor-circuit-motor",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-motor-drive_motor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "motor",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "drive_motor",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -975,11 +937,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -1146,15 +1104,14 @@
       "extractedTerm": "Myst Valve"
     },
     {
-      "id": "map-w10410465-unresolved-w10410465-supply-connections-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -1183,11 +1140,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -1247,19 +1200,14 @@
       "extractedTerm": "Supply Connections"
     },
     {
-      "id": "map-W10410465-compound-thermal_cutoff",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-thermal_cutoff-thermal_cutoff",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermal_cutoff",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "thermal_cutoff",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -1286,13 +1234,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -1350,19 +1292,14 @@
       "extractedTerm": "Thermal Cut-Off"
     },
     {
-      "id": "map-W10410465-compound-thermal-fuse",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W10410465-thermal-fuse-thermal_fuse",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "TEST #4b: Thermal Fuse",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "thermal",
-        "actuator": "fuse"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": "Thermal Fuse",
+      "canonicalId": "thermal_fuse",
+      "confidence": 0.92,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -1389,32 +1326,33 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "thermal",
-              "actuator": "fuse"
-            }
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4b: Thermal Fuse",
+            "extractedTerm": "Thermal Fuse",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
           }
         ]
-      },
-      "extractedTerm": "Thermal Fuse"
+      }
     },
     {
       "id": "map-W10410465-compound-exhaust_thermistor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "exhaust_thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "exhaust",
         "actuator": "thermistor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "exhaust thermistor",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -1443,8 +1381,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
             "decomposition": {
               "domain": null,
               "component": "exhaust",
@@ -1456,18 +1394,18 @@
     },
     {
       "id": "map-W10410465-compound-inlet_thermistor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "inlet_thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "inlet",
         "component": null,
         "actuator": "thermistor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "inlet thermistor",
       "provenance": {
         "manualId": "W10410465",
         "platformId": "whirlpool_ccu_tl_dryer",
@@ -1496,8 +1434,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
             "decomposition": {
               "domain": "inlet",
               "component": null,

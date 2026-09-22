@@ -625,19 +625,18 @@
       }
     },
     {
-      "id": "map-LG-LSC27926-SXS-compound-display_panel",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "display_panel",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "user_interface",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "LG-LSC27926-SXS",
         "platformId": "lg_sxs",
@@ -666,31 +665,42 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-247b16052823",
+            "matchedSurface": "display_panel",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-247b16052823-display_panel",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:51.143Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.599523+00:00"
       }
     },
     {
-      "id": "map-LG-LSC27926-SXS-compound-main_control",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "main_control",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "main",
-        "component": "control",
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "LG-LSC27926-SXS",
         "platformId": "lg_sxs",
@@ -719,15 +729,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "main",
-              "component": "control",
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ccfd232a7378",
+            "matchedSurface": "main_control",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-mig-efmm-ccfd232a7378-main_control",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:51.821Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.599523+00:00"
       }
     },
     {

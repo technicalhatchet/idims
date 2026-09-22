@@ -201,11 +201,22 @@ test('review workbench UI and API files exist with no promotion path', () => {
   assert.ok(!apiSource.includes('ledger'));
 });
 
-test('workbench renders Where / Provenance section', () => {
-  const workbench = readFileSync(
-    join(process.cwd(), 'components/solomon/knowledge/CandidateReviewWorkbench.js'),
+test('workbench renders expandable What / Where / Why review questions', () => {
+  const detailPanel = readFileSync(
+    join(process.cwd(), 'components/solomon/knowledge/CandidateReviewDetailPanel.js'),
     'utf8',
   );
-  assert.match(workbench, /Where \/ Provenance/);
-  assert.match(workbench, /formatWhereProvenance/);
+  assert.match(detailPanel, /CollapsibleSection/);
+  assert.match(detailPanel, /REVIEW_SECTION_NUMBERED_LABELS/);
+  assert.match(detailPanel, /REVIEW_SECTION_NUMBERED_LABELS\.mapsTo/);
+  assert.match(detailPanel, /REVIEW_SECTION_NUMBERED_LABELS\.where/);
+  assert.match(detailPanel, /REVIEW_SECTION_NUMBERED_LABELS\.where/);
+  assert.match(detailPanel, /whereSectionPreview/);
+  assert.match(detailPanel, /REVIEW_SECTION_NUMBERED_LABELS\.why/);
+  assert.match(detailPanel, /formatWhereProvenance/);
+  assert.match(detailPanel, /openSections/);
+  assert.match(detailPanel, /SectionPreviewBlock/);
+  assert.match(detailPanel, /aria-expanded/);
+  assert.match(detailPanel, /solomon-focus-ring/);
+  assert.match(detailPanel, /SOLOMON_REFERENCE_EYEBROW_CLASS/);
 });

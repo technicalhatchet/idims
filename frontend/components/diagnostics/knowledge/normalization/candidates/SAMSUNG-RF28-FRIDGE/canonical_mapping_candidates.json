@@ -2,14 +2,15 @@
   "manualId": "SAMSUNG-RF28-FRIDGE",
   "candidates": [
     {
-      "id": "map-SAMSUNG-RF28-FRIDGE-thermistor-wash_ntc",
-      "status": "candidate",
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-ambient-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermistor",
       "extractedTerm": null,
-      "canonicalId": "wash_ntc",
-      "confidence": 0.85,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-RF28-FRIDGE",
         "platformId": "samsung_fridge_rf28",
@@ -42,7 +43,11 @@
           },
           {
             "type": "matcher",
-            "layer": "global_hint"
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -212,18 +217,18 @@
     },
     {
       "id": "map-SAMSUNG-RF28-FRIDGE-compound-inverter_board",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "inverter_board",
-      "canonicalId": "motor_controller",
-      "confidence": 0.88,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "inverter",
         "actuator": "board"
       },
-      "matchedPhrase": "inverter board",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-RF28-FRIDGE",
         "platformId": "samsung_fridge_rf28",
@@ -252,8 +257,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
-            "matchedPhrase": "inverter board",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": null,
               "component": "inverter",
@@ -529,19 +534,18 @@
       }
     },
     {
-      "id": "map-SAMSUNG-RF28-FRIDGE-compound-display_panel",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "display_panel",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "user_interface",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-RF28-FRIDGE",
         "platformId": "samsung_fridge_rf28",
@@ -570,15 +574,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-247b16052823",
+            "matchedSurface": "display_panel",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-mig-efmm-247b16052823-display_panel",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:08.643Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.624023+00:00"
       }
     },
     {
@@ -630,6 +646,57 @@
               "component": "dispenser panel communication",
               "actuator": null
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-flex-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-flex-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-flex-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -792,6 +859,57 @@
       }
     },
     {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-freezer-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-defrost-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-defrost-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-SAMSUNG-RF28-FRIDGE-compound-freezer-defrost-sensor-(f-def)",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -897,6 +1015,57 @@
               "component": null,
               "actuator": null
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-freezer-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-freezer-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-freezer-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -1059,6 +1228,57 @@
       }
     },
     {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-fridge-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-defrost-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-defrost-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-SAMSUNG-RF28-FRIDGE-compound-fridge-defrost-sensor-(r-def)",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -1169,6 +1389,57 @@
       }
     },
     {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-fridge-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-fridge-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-fridge-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-SAMSUNG-RF28-FRIDGE-compound-fridge-compartment-sensor-(r)",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -1221,6 +1492,57 @@
               "component": "fridge compartment",
               "actuator": "sensor"
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-humidity-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-humidity-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-humidity-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -1548,163 +1870,6 @@
       }
     },
     {
-      "id": "map-SAMSUNG-RF28-FRIDGE-compound-frozen-ice-room-\u2014-service-preparation",
-      "status": "UNRESOLVED_TERM",
-      "candidateType": "canonicalMapping",
-      "sourceTerm": "Frozen ice room \u2014 service preparation",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
-      "provenance": {
-        "manualId": "SAMSUNG-RF28-FRIDGE",
-        "platformId": "samsung_fridge_rf28",
-        "procedureId": "samsungrf28-ice-room-frozen-prep",
-        "pages": [
-          3
-        ],
-        "sources": [
-          {
-            "type": "manual",
-            "manualId": "SAMSUNG-RF28-FRIDGE",
-            "platformId": "samsung_fridge_rf28"
-          },
-          {
-            "type": "procedure",
-            "procedureId": "samsungrf28-ice-room-frozen-prep",
-            "pages": [
-              3
-            ]
-          },
-          {
-            "type": "extraction_doc",
-            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
-          },
-          {
-            "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-SAMSUNG-RF28-FRIDGE-compound-dispenser_panel",
-      "status": "UNRESOLVED_TERM",
-      "candidateType": "canonicalMapping",
-      "sourceTerm": "dispenser_panel",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "dispenser",
-        "component": "panel",
-        "actuator": null
-      },
-      "matchedPhrase": null,
-      "provenance": {
-        "manualId": "SAMSUNG-RF28-FRIDGE",
-        "platformId": "samsung_fridge_rf28",
-        "procedureId": "samsungrf28-ice-room-frozen-service",
-        "pages": [
-          4,
-          10
-        ],
-        "sources": [
-          {
-            "type": "manual",
-            "manualId": "SAMSUNG-RF28-FRIDGE",
-            "platformId": "samsung_fridge_rf28"
-          },
-          {
-            "type": "procedure",
-            "procedureId": "samsungrf28-ice-room-frozen-service",
-            "pages": [
-              4,
-              10
-            ]
-          },
-          {
-            "type": "extraction_doc",
-            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
-          },
-          {
-            "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "dispenser",
-              "component": "panel",
-              "actuator": null
-            }
-          }
-        ]
-      }
-    },
-    {
-      "id": "map-SAMSUNG-RF28-FRIDGE-compound-frozen-ice-room-\u2014-bulletin-service-measures",
-      "status": "UNRESOLVED_TERM",
-      "candidateType": "canonicalMapping",
-      "sourceTerm": "Frozen ice room \u2014 bulletin service measures",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
-      "provenance": {
-        "manualId": "SAMSUNG-RF28-FRIDGE",
-        "platformId": "samsung_fridge_rf28",
-        "procedureId": "samsungrf28-ice-room-frozen-service",
-        "pages": [
-          4,
-          10
-        ],
-        "sources": [
-          {
-            "type": "manual",
-            "manualId": "SAMSUNG-RF28-FRIDGE",
-            "platformId": "samsung_fridge_rf28"
-          },
-          {
-            "type": "procedure",
-            "procedureId": "samsungrf28-ice-room-frozen-service",
-            "pages": [
-              4,
-              10
-            ]
-          },
-          {
-            "type": "extraction_doc",
-            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
-          },
-          {
-            "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
-          }
-        ]
-      }
-    },
-    {
       "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-ice-room-heater-heater",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -1796,6 +1961,57 @@
               "component": "fridge ice room",
               "actuator": "heater"
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rf28-fridge-unresolved-samsungrf28-ice-room-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RF28-FRIDGE",
+        "platformId": "samsung_fridge_rf28",
+        "procedureId": "samsungrf28-ice-room-sensor",
+        "pages": [
+          56,
+          57,
+          77,
+          78
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RF28-FRIDGE",
+            "platformId": "samsung_fridge_rf28"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrf28-ice-room-sensor",
+            "pages": [
+              56,
+              57,
+              77,
+              78
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }

@@ -105,19 +105,14 @@
       "extractedTerm": "Belt cut-off switch"
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-door_switch",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-door_switch-door_switch",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "door_switch",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "door",
-        "component": null,
-        "actuator": "switch"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -146,13 +141,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "door",
-              "component": null,
-              "actuator": "switch"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -519,19 +508,14 @@
       "extractedTerm": "Gas valve coils (25M01A)"
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-heating_element",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-heating_element-heat_source",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "heating_element",
-      "canonicalId": "wash_heater",
-      "confidence": 0.77,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": "heating element",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -560,31 +544,24 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "heating element",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-electric-heater",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a74-4: Electric heater",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": "electric",
-        "component": null,
-        "actuator": "heater"
+      "extractedTerm": "Electric heater",
+      "canonicalId": "heat_source",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ce66fe78ffd3"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -613,32 +590,50 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": "electric",
-              "component": null,
-              "actuator": "heater"
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "\u00a74-4: Electric heater",
+            "extractedTerm": "Electric heater",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ce66fe78ffd3",
+            "matchedSurface": "electric heater",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
       },
-      "extractedTerm": "Electric heater"
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-ce66fe78ffd3-\u00a74-4:-electric-heater",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:13.113Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.630023+00:00"
+      }
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -665,15 +660,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:12.293Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.630023+00:00"
       }
     },
     {
@@ -729,19 +736,14 @@
       "extractedTerm": "Display / buttons (bC2)"
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-drive_motor",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-drive_motor-drive_motor",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "drive_motor",
+      "extractedTerm": null,
       "canonicalId": "drive_motor",
-      "confidence": 0.77,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "drive",
-        "actuator": "motor"
-      },
-      "matchedPhrase": "drive motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -768,13 +770,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "drive motor",
-            "decomposition": {
-              "domain": null,
-              "component": "drive",
-              "actuator": "motor"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -832,15 +828,14 @@
       "extractedTerm": "Motor windings and centrifugal switch"
     },
     {
-      "id": "map-samsung-tl-cg71-dryer-unresolved-samsungtlcg71d-power-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -867,11 +862,7 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
       }
@@ -883,7 +874,7 @@
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
+      "confidence": 0.95,
       "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
@@ -911,7 +902,7 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "component_aliases"
           }
         ]
       }
@@ -969,19 +960,14 @@
       "extractedTerm": "Power and communication (9C1, FC, AC)"
     },
     {
-      "id": "map-SAMSUNG-TL-CG71-DRYER-compound-thermal_fuse",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-TL-CG71-DRYER-thermal_fuse-thermal_fuse",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermal_fuse",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": "thermal",
-        "actuator": "fuse"
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "thermal_fuse",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -1010,13 +996,7 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": "thermal",
-              "actuator": "fuse"
-            }
+            "layer": "canonical_component_id"
           }
         ]
       }
@@ -1076,18 +1056,18 @@
     },
     {
       "id": "map-SAMSUNG-TL-CG71-DRYER-compound-thermal-cutoff-and-hi-limit",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a74-4: Thermal cutoff and hi-limit",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "thermal_cutoff",
+      "confidence": 0.85,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": null,
         "actuator": null
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "thermal cutoff",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -1116,8 +1096,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "thermal cutoff",
             "decomposition": {
               "domain": null,
               "component": null,
@@ -1130,18 +1110,18 @@
     },
     {
       "id": "map-SAMSUNG-TL-CG71-DRYER-compound-exhaust_thermistor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "exhaust_thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "exhaust",
         "actuator": "thermistor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "exhaust thermistor",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -1170,8 +1150,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
             "decomposition": {
               "domain": null,
               "component": "exhaust",
@@ -1183,18 +1163,18 @@
     },
     {
       "id": "map-SAMSUNG-TL-CG71-DRYER-compound-inlet_thermistor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "inlet_thermistor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "inlet",
         "component": null,
         "actuator": "thermistor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "inlet thermistor",
       "provenance": {
         "manualId": "SAMSUNG-TL-CG71-DRYER",
         "platformId": "samsung_tl_dryer_cg71",
@@ -1223,8 +1203,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
             "decomposition": {
               "domain": "inlet",
               "component": null,

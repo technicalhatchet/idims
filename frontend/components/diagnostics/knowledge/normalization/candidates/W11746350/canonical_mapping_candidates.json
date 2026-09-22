@@ -2,15 +2,14 @@
   "manualId": "W11746350",
   "candidates": [
     {
-      "id": "map-w11746350-unresolved-w11746350-acu-power-supply",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11746350-supply-power_supply",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "supply",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "power_supply",
+      "confidence": 0.96,
       "mappingType": "alias",
-      "blockedReason": "AMBIGUOUS_COMPONENT",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -41,13 +40,20 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "range_seed_alias"
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-supply-power_supply",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:12:01.249Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
       }
     },
     {
@@ -106,15 +112,14 @@
       }
     },
     {
-      "id": "map-w11746350-unresolved-w11746350-acu-power-acu",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11746350-acu-control_board",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "ACU",
       "extractedTerm": null,
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "control_board",
+      "confidence": 0.94,
       "mappingType": "alias",
-      "blockedReason": "UNRESOLVED_COMPONENT",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -145,29 +150,31 @@
           },
           {
             "type": "matcher",
-            "layer": "unresolved"
-          },
-          {
-            "type": "matcher",
-            "layer": "unresolved"
+            "layer": "canonical_ontology_alias"
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-acu-control_board",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:47.776Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649022+00:00"
       }
     },
     {
-      "id": "map-W11746350-compound-bake_element",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11746350-bake_element-bake_heating_element",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "bake_element",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "bake_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -198,15 +205,20 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "range_seed_alias"
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:52.107Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
       }
     },
     {
@@ -367,19 +379,14 @@
       }
     },
     {
-      "id": "map-W11746350-compound-broil_element",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11746350-broil_element-broil_heating_element",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "broil_element",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "broil_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -410,15 +417,20 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "range_seed_alias"
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:54.633Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
       }
     },
     {
@@ -477,19 +489,14 @@
       }
     },
     {
-      "id": "map-W11746350-compound-convection_fan",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-W11746350-convection_fan-convection_fan",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "convection_fan",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
-      },
-      "matchedPhrase": null,
+      "extractedTerm": null,
+      "canonicalId": "convection_fan",
+      "confidence": 1.0,
+      "mappingType": "alias",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -520,15 +527,20 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "canonical_component_id"
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:59.032Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
       }
     },
     {
@@ -1067,18 +1079,18 @@
     },
     {
       "id": "map-W11746350-compound-main-oven-temperature-sensor",
-      "status": "UNRESOLVED_TERM",
+      "status": "COMPOUND_TERM_CANDIDATE",
       "candidateType": "canonicalMapping",
       "sourceTerm": "Main Oven Temperature Sensor",
-      "canonicalId": null,
-      "confidence": 0.0,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.85,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "main",
         "component": "oven temperature",
         "actuator": "sensor"
       },
-      "matchedPhrase": null,
+      "matchedPhrase": "oven temperature sensor",
       "provenance": {
         "manualId": "W11746350",
         "platformId": "whirlpool_freestanding_range",
@@ -1111,8 +1123,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "oven temperature sensor",
             "decomposition": {
               "domain": "main",
               "component": "oven temperature",
@@ -1120,6 +1132,17 @@
             }
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:55.780Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
       }
     },
     {

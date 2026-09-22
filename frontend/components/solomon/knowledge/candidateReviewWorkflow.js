@@ -1,6 +1,10 @@
 export const REVIEW_DECISIONS_API = '/api/knowledge/normalization/review/decisions';
 export const MATCHER_IMPROVEMENT_DECISIONS_API =
   '/api/knowledge/normalization/review/matcher-improvement-decisions';
+export const DELTA_RECONCILIATION_DECISIONS_API =
+  '/api/knowledge/normalization/review/delta-reconciliation-decisions';
+export const MATCHER_RECONCILED_CANDIDATE_REVIEW_DECISIONS_API =
+  '/api/knowledge/normalization/review/matcher-reconciled-candidate-review-decisions';
 
 export const REVIEW_CLASS_LABELS = {
   inheritedKnowledge: 'Inherited knowledge',

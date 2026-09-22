@@ -105,14 +105,18 @@
       "extractedTerm": "Auto-open door (DC5)"
     },
     {
-      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-main_control-control_board",
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
       "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
-      "mappingType": "alias",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378"
+      },
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -141,20 +145,39 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ccfd232a7378",
+            "matchedSurface": "main_control",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-ccfd232a7378-main_control",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:04.750Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
       }
     },
     {
-      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-inverter-motor_controller",
-      "status": "candidate",
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-communication-inverter",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "inverter",
       "extractedTerm": null,
-      "canonicalId": "motor_controller",
-      "confidence": 0.96,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -183,7 +206,11 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -247,6 +274,53 @@
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "compressor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-compressor",
+        "pages": [
+          50,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-compressor",
+            "pages": [
+              50,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-laundry-combo-wd53-unresolved-samsungwd53-compressor-inverter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter",
       "extractedTerm": null,
       "canonicalId": null,
       "confidence": 0.0,
@@ -399,18 +473,18 @@
     },
     {
       "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drain_pump",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "drain_pump",
-      "canonicalId": "drain_pump",
-      "confidence": 0.77,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "drain",
         "component": null,
         "actuator": "pump"
       },
-      "matchedPhrase": "drain pump",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -439,8 +513,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "drain pump",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": "drain",
               "component": null,
@@ -452,18 +526,18 @@
     },
     {
       "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drain-pump-(5c)-/-\u00a74-5-pump-motor",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "\u00a74-4: Drain pump (5C) / \u00a74-5 pump motor",
-      "canonicalId": "drain_pump",
-      "confidence": 0.77,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "drain",
         "component": "pump 5c 4 5 pump",
         "actuator": "motor"
       },
-      "matchedPhrase": "drain pump",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -492,8 +566,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "drain pump",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": "drain",
               "component": "pump 5c 4 5 pump",
@@ -506,18 +580,18 @@
     },
     {
       "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-heating_element",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "heating_element",
-      "canonicalId": "wash_heater",
-      "confidence": 0.77,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": null,
         "actuator": null
       },
-      "matchedPhrase": "heating element",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -544,8 +618,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "heating element",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": null,
               "component": null,
@@ -915,19 +989,18 @@
       "extractedTerm": "Heat pump thermistors (tC, TC5\u2013TCB)"
     },
     {
-      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-user_interface",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "user_interface",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -956,15 +1029,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:05.620Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.615523+00:00"
       }
     },
     {
@@ -1023,18 +1108,18 @@
     },
     {
       "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-inlet_valve",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "inlet_valve",
-      "canonicalId": "inlet_valve",
-      "confidence": 0.77,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": "inlet",
         "component": null,
         "actuator": "valve"
       },
-      "matchedPhrase": "inlet valve",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -1063,8 +1148,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "inlet valve",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": "inlet",
               "component": null,
@@ -1238,18 +1323,18 @@
     },
     {
       "id": "map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-drive_motor",
-      "status": "COMPOUND_TERM_CANDIDATE",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "drive_motor",
-      "canonicalId": "drive_motor",
-      "confidence": 0.77,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "compound_alias",
       "decomposition": {
         "domain": null,
         "component": "drive",
         "actuator": "motor"
       },
-      "matchedPhrase": "drive motor",
+      "matchedPhrase": null,
       "provenance": {
         "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
         "platformId": "samsung_laundry_combo",
@@ -1278,8 +1363,8 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:global_hint",
-            "matchedPhrase": "drive motor",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
             "decomposition": {
               "domain": null,
               "component": "drive",

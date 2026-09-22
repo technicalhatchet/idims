@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_improvement_delta_reconciliation_final",
+  "status": "GREEN",
+  "generatedAt": "2026-09-21T20:10:45.760122+00:00",
+  "gateType": "final_delta_reconciliation_report",
+  "promotionGate": false,
+  "productionSwapPerformed": false,
+  "humanReviewComplete": true,
+  "decisionSource": "review/CG_MATCHER_IMPROVEMENT_DELTA_RECONCILIATION_DECISIONS_v1.json",
+  "totals": {
+    "populationAAccepted": 46,
+    "populationADeferred": 0,
+    "populationARejected": 0,
+    "populationBAccepted": 6,
+    "populationBKeptBaseline": 18,
+    "populationBDeferred": 0,
+    "authorizedForProductionReconciliation": 52,
+    "retainedAtProductionBaseline": 18,
+    "totalDeferred": 0,
+    "totalRejected": 0
+  },
+  "populationA": {
+    "total": 46,
+    "decisionsPresent": 46,
+    "duplicates": 0,
+    "missing": 0,
+    "tallies": {
+      "accept_staged": 46,
+      "defer_staged": 0,
+      "reject_staged": 0,
+      "invalid": 0
+    }
+  },
+  "populationB": {
+    "total": 24,
+    "decisionsPresent": 24,
+    "duplicates": 0,
+    "missing": 0,
+    "tallies": {
+      "accept_staged": 6,
+      "keep_production_baseline": 18,
+      "defer_review": 0,
+      "invalid": 0
+    }
+  },
+  "excludedFromManifest": {
+    "deferStaged": [],
+    "rejectStaged": [],
+    "keepProductionBaseline": [
+      "delta-b-7e6f62b5bb897923",
+      "delta-b-319c631933f70ce2",
+      "delta-b-2a7f7e03eff35661",
+      "delta-b-58dc625dac654ab9",
+      "delta-b-50eeba82a4f86747",
+      "delta-b-a63071cb8e20c855",
+      "delta-b-3bbf9378c4a6b434",
+      "delta-b-3efca1718359130c",
+      "delta-b-7e7602b509594a6b",
+      "delta-b-2f5c7ec0f69d7868",
+      "delta-b-a8dd794bd402694d",
+      "delta-b-009a4461670d7c46",
+      "delta-b-dcfab5817f959e94",
+      "delta-b-62bf6e0cb3bd6396",
+      "delta-b-88641ac3b84bf94f",
+      "delta-b-8f7e19ec157e45b6",
+      "delta-b-faf174af6f9c6d00",
+      "delta-b-13ec7b3eb838ad5a"
+    ],
+    "deferReview": []
+  },
+  "historicalDecisionConflicts": {
+    "count": 4,
+    "explicitlyReconciledViaAcceptStaged": 4,
+    "records": [
+      {
+        "decisionId": "delta-a-8c08094c4082bca2",
+        "candidateKey": "SAMSUNG-TL-A50-WASHER::samsungtla50-door-lock::\u00a75-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+        "population": "A",
+        "waveMatches": [
+          {
+            "wave": "wave2",
+            "candidateId": "SAMSUNG-TL-A50-WASHER::overlay::overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-lid_lock_test",
+            "reviewStatus": "accepted",
+            "acceptedTarget": "lid_lock_test",
+            "acceptedReviewClass": "newPlatformKnowledge",
+            "historicalDecisionConflict": true
+          }
+        ],
+        "deltaDecision": "accept_staged",
+        "stagedTarget": "lid_lock",
+        "stagedClassification": "existingCanonicalMapping",
+        "humanExplicitlyReconciledConflict": true,
+        "historicalDecisionArtifactMutated": false
+      },
+      {
+        "decisionId": "delta-a-30a6e3d3735cddf7",
+        "candidateKey": "SAMSUNG-TL-CG71-WASHER::samsungtlcg71-door-lock::\u00a75-3: Door lock (DC, DC1, DC2)::Door lock (DC, DC1, DC2)",
+        "population": "A",
+        "waveMatches": [
+          {
+            "wave": "wave2",
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::overlay::overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-lid_lock_test",
+            "reviewStatus": "accepted",
+            "acceptedTarget": "lid_lock_test",
+            "acceptedReviewClass": "newPlatformKnowledge",
+            "historicalDecisionConflict": true
+          }
+        ],
+        "deltaDecision": "accept_staged",
+        "stagedTarget": "lid_lock",
+        "stagedClassification": "existingCanonicalMapping",
+        "humanExplicitlyReconciledConflict": true,
+        "historicalDecisionArtifactMutated": false
+      },
+      {
+        "decisionId": "delta-a-8b2bd046986ecfd4",
+        "candidateKey": "INSIGNIA-DWR3-DISHWASHER::nsdwr3ss1-heater::E3 \u2014 Tub heater 10\u201315 \u03a9::",
+        "population": "A",
+        "waveMatches": [
+          {
+            "wave": "wave2",
+            "candidateId": "INSIGNIA-DWR3-DISHWASHER::overlay::overlay-INSIGNIA-DWR3-DISHWASHER-nsdwr3ss1-heater-heater_command_test",
+            "reviewStatus": "accepted",
+            "acceptedTarget": "heater_command_test",
+            "acceptedReviewClass": "newPlatformKnowledge",
+            "historicalDecisionConflict": true
+          }
+        ],
+        "deltaDecision": "accept_staged",
+        "stagedTarget": "heat_source",
+        "stagedClassification": "existingCanonicalMapping",
+        "humanExplicitlyReconciledConflict": true,
+        "historicalDecisionArtifactMutated": false
+      },
+      {
+        "decisionId": "delta-a-c10378c47b657298",
+        "candidateKey": "W11187658::w11187658-heater::E3 \u2014 Tub heater ~14 \u03a9::",
+        "population": "A",
+        "waveMatches": [
+          {
+            "wave": "wave2",
+            "candidateId": "W11187658::overlay::overlay-W11187658-w11187658-heater-heater_command_test",
+            "reviewStatus": "accepted",
+            "acceptedTarget": "heater_command_test",
+            "acceptedReviewClass": "newPlatformKnowledge",
+            "historicalDecisionConflict": true
+          }
+        ],
+        "deltaDecision": "accept_staged",
+        "stagedTarget": "heat_source",
+        "stagedClassification": "existingCanonicalMapping",
+        "humanExplicitlyReconciledConflict": true,
+        "historicalDecisionArtifactMutated": false
+      }
+    ],
+    "historicalArtifactsMutated": false
+  },
+  "integrity": {
+    "preflight": {
+      "deltaReviewStatus": "GREEN \u2014 DELTA REVIEW READY",
+      "implementationAudit": "GREEN",
+      "wave1": "WAVE1_CLOSED",
+      "wave2": "WAVE2_CLOSED",
+      "frozenHashes": true,
+      "productionDecisionCount": 796,
+      "productionMappingCorpusHash": "62f392fb8933fb2e8ab12c1df111acdbacd62d198ed373a7acf016e0d3a34fef"
+    },
+    "productionReviewDecisionCount": 796,
+    "productionReviewUnchanged": true,
+    "productionMappingCorpusHash": "405fc05d289fb2fd1f43c95378344b7bc251abad3d6912b0fe8a06584dec2d80",
+    "productionCandidatesUntouched": true,
+    "frozenHashVerification": {
+      "passed": true,
+      "errors": []
+    },
+    "matcherImplementationAuditStatus": "GREEN",
+    "matcherImplementationAuditUnchanged": true,
+    "architectureExceptionIntroduced": false,
+    "automaticDecisions": false
+  },
+  "nextGate": "controlled_production_candidate_reconciliation_using_manifest_only",
+  "errors": []
+}

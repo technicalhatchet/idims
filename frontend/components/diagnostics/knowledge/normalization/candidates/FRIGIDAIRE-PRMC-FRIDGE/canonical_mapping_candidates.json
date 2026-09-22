@@ -2,14 +2,15 @@
   "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
   "candidates": [
     {
-      "id": "map-FRIGIDAIRE-PRMC-FRIDGE-thermistor-wash_ntc",
-      "status": "candidate",
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-ff-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
       "sourceTerm": "thermistor",
       "extractedTerm": null,
-      "canonicalId": "wash_ntc",
-      "confidence": 0.85,
+      "canonicalId": null,
+      "confidence": 0.0,
       "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
       "provenance": {
         "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
         "platformId": "frigidaire_prmc_french_door",
@@ -36,7 +37,11 @@
           },
           {
             "type": "matcher",
-            "layer": "global_hint"
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -88,6 +93,51 @@
               "component": "er t4 fresh food evaporator defrost",
               "actuator": "sensor"
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-ff-temp-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ff-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ff-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -246,6 +296,51 @@
       }
     },
     {
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-ffim-tray-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-ffim-tray-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-ffim-tray-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-FRIGIDAIRE-PRMC-FRIDGE-compound-er-t6:-ffim-tray-temperature-sensor",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -297,6 +392,51 @@
       }
     },
     {
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-fz-defrost-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-fz-defrost-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-fz-defrost-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
       "id": "map-FRIGIDAIRE-PRMC-FRIDGE-compound-er-t2:-freezer-evaporator-defrost-sensor",
       "status": "UNRESOLVED_TERM",
       "candidateType": "canonicalMapping",
@@ -343,6 +483,51 @@
               "component": "er t2 freezer evaporator defrost",
               "actuator": "sensor"
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-fz-temp-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-fz-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-fz-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
@@ -444,14 +629,18 @@
       }
     },
     {
-      "id": "map-FRIGIDAIRE-PRMC-FRIDGE-main_control-control_board",
+      "id": "map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
       "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "main_control",
       "extractedTerm": null,
       "canonicalId": "control_board",
-      "confidence": 0.96,
-      "mappingType": "alias",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-ccfd232a7378"
+      },
       "provenance": {
         "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
         "platformId": "frigidaire_prmc_french_door",
@@ -478,9 +667,27 @@
           },
           {
             "type": "matcher",
-            "layer": "platform_overlay:samsung_fl_washer_wf6000r"
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-ccfd232a7378",
+            "matchedSurface": "main_control",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-ccfd232a7378-main_control",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:45.910Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.594522+00:00"
       }
     },
     {
@@ -535,19 +742,18 @@
       }
     },
     {
-      "id": "map-FRIGIDAIRE-PRMC-FRIDGE-compound-display_panel",
-      "status": "UNRESOLVED_TERM",
+      "id": "map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+      "status": "candidate",
       "candidateType": "canonicalMapping",
       "sourceTerm": "display_panel",
-      "canonicalId": null,
-      "confidence": 0.0,
-      "mappingType": "compound_alias",
-      "decomposition": {
-        "domain": null,
-        "component": null,
-        "actuator": null
+      "extractedTerm": null,
+      "canonicalId": "user_interface",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-247b16052823"
       },
-      "matchedPhrase": null,
       "provenance": {
         "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
         "platformId": "frigidaire_prmc_french_door",
@@ -574,15 +780,27 @@
           },
           {
             "type": "matcher",
-            "layer": "compound:unresolved",
-            "matchedPhrase": "",
-            "decomposition": {
-              "domain": null,
-              "component": null,
-              "actuator": null
-            }
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-247b16052823",
+            "matchedSurface": "display_panel",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
           }
         ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-mig-efmm-247b16052823-display_panel",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:10:39.792Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.594522+00:00"
       }
     },
     {
@@ -632,6 +850,51 @@
               "component": "er ce dispenser ui main",
               "actuator": "board"
             }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-frigidaire-prmc-fridge-unresolved-frigidaireprmc-vcz-temp-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+        "platformId": "frigidaire_prmc_french_door",
+        "procedureId": "frigidaireprmc-vcz-temp-sensor",
+        "pages": [
+          1
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+            "platformId": "frigidaire_prmc_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "frigidaireprmc-vcz-temp-sensor",
+            "pages": [
+              1
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
           }
         ]
       }
