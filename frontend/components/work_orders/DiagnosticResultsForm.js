@@ -77,9 +77,12 @@ import {
 import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
 import { syncProcedureMeasurementsToWizardFields } from '../diagnostics/procedures/syncProcedureMeasurementsToWizardFields';
 import {
+  executeProcedureContinuationPlan,
+  planContinuationAfterProcedureComplete,
+} from '../diagnostics/procedures/planContinuationAfterProcedureComplete';
+import {
   buildDiagnosisPrefillFromProcedureComplete,
   procedureRunRequiresRepairAction,
-  resolveWizardStepAfterProcedureComplete,
 } from '../diagnostics/procedures/procedureWizardRouting';
 import { getErrorCodesFromDiagnosticFields } from '../diagnostics/procedures/parseProcedureErrorCodes';
 import { SOLOMON_INTERFACE } from '../solomon/solomonThemeTokens';
@@ -151,6 +154,15 @@ export default function DiagnosticResultsForm({
   const [inlineRouteBanner, setInlineRouteBanner] = useState(false);
   const [wizardJumpNonce, setWizardJumpNonce] = useState(0);
   const handleJumpToStepKeyRef = useRef(null);
+  const handleStartOemProcedureRef = useRef(null);
+  const procedureContinuationEpochRef = useRef(0);
+  const routingResultRef = useRef(null);
+  const wizardDefinitionRef = useRef(null);
+  const defaultStepOrderRef = useRef([]);
+  const measurementContextRef = useRef(null);
+  const complaintChipIdsRef = useRef([]);
+  const errorCodesRef = useRef([]);
+  const oemRunnerEnabledRef = useRef(false);
 
   payloadRef.current = payload;
 
@@ -595,12 +607,38 @@ export default function DiagnosticResultsForm({
             queueMicrotask(() => handleJumpToStepKeyRef.current?.('oem_test'));
           }
         } else {
-          const wizardStepKey = resolveWizardStepAfterProcedureComplete(
-            procedureId,
-            nextRunState,
-          );
-          if (wizardStepKey && handleJumpToStepKeyRef.current) {
-            queueMicrotask(() => handleJumpToStepKeyRef.current?.(wizardStepKey));
+          const continuationEpoch = ++procedureContinuationEpochRef.current;
+          const visitedKeys = Array.isArray(nextPayload.visitedStepKeys)
+            ? nextPayload.visitedStepKeys
+            : visitedStepKeys;
+          const plan = planContinuationAfterProcedureComplete({
+            completedProcedureId: procedureId,
+            completedRunState: nextRunState,
+            payload: nextPayload,
+            workOrder,
+            routingResult: routingResultRef.current,
+            wizardDefinition: wizardDefinitionRef.current,
+            defaultStepOrder: defaultStepOrderRef.current,
+            measurementContext: measurementContextRef.current || measurementContext,
+            complaintChipIds: complaintChipIdsRef.current,
+            errorCodes: errorCodesRef.current,
+            visitedStepKeys: visitedKeys,
+            options: {
+              readOnly,
+              skippedOemWizardStep: Boolean(nextPayload.skippedOemWizardStep),
+              oemRunnerEnabled: oemRunnerEnabledRef.current,
+            },
+          });
+          if (plan.type !== 'repair_action') {
+            queueMicrotask(() => {
+              if (procedureContinuationEpochRef.current !== continuationEpoch) return;
+              executeProcedureContinuationPlan(plan, {
+                jumpToStepKey: (stepKey) => handleJumpToStepKeyRef.current?.(stepKey),
+                startOemProcedure: (nextProcedureId) => {
+                  handleStartOemProcedureRef.current?.(nextProcedureId);
+                },
+              });
+            });
           }
         }
       }
@@ -608,7 +646,7 @@ export default function DiagnosticResultsForm({
       payloadRef.current = nextPayload;
       emitChange(nextPayload);
     },
-    [emitChange, measurementContext, readOnly],
+    [emitChange, measurementContext, readOnly, visitedStepKeys, workOrder],
   );
 
   const handleActiveProcedureChange = useCallback(
@@ -629,6 +667,14 @@ export default function DiagnosticResultsForm({
     && isTechnician
     && procedureCatalog.length > 0
     && complaintContextReady;
+
+  routingResultRef.current = routingResult;
+  wizardDefinitionRef.current = wizardDefinition;
+  defaultStepOrderRef.current = defaultStepOrder;
+  measurementContextRef.current = measurementContext;
+  complaintChipIdsRef.current = complaintChipIds;
+  errorCodesRef.current = errorCodes;
+  oemRunnerEnabledRef.current = showProcedureRunner;
 
   const topProcedureRecommendation = useMemo(
     () => (showProcedureRunner && procedureRecommendations.length
@@ -755,6 +801,7 @@ export default function DiagnosticResultsForm({
     },
     [handleActiveProcedureChange],
   );
+  handleStartOemProcedureRef.current = handleStartOemProcedure;
 
   const handleDismissActiveOemProcedure = useCallback(() => {
     setAutoStartProcedureId(null);
