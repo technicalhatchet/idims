@@ -85,6 +85,8 @@ import {
   resolveUnifiedTopWizardStepKey,
 } from '../diagnostics/session';
 import { getServiceProcedure } from '../diagnostics/procedures/procedureRegistry';
+import { resolveProcedureRunPresentation } from '../diagnostics/procedures/procedureRunPresentation';
+import { resolveLeadingComponentLabelForProcedure } from '../diagnostics/procedures/procedureStepPresentation';
 import { syncProcedureMeasurementsToWizardFields } from '../diagnostics/procedures/syncProcedureMeasurementsToWizardFields';
 import {
   executeProcedureContinuationPlan,
@@ -153,6 +155,7 @@ export default function DiagnosticResultsForm({
   const [lastReadings, setLastReadings] = useState({});
   const [visitedStepKeys, setVisitedStepKeys] = useState([]);
   const [autoStartProcedureId, setAutoStartProcedureId] = useState(null);
+  const [oemContinuationBridge, setOemContinuationBridge] = useState(null);
   const prevStepIdRef = useRef(null);
   const prevStepKeyForTimelineRef = useRef(null);
   const payloadRef = useRef(payload);
@@ -173,6 +176,7 @@ export default function DiagnosticResultsForm({
   const complaintChipIdsRef = useRef([]);
   const errorCodesRef = useRef([]);
   const oemRunnerEnabledRef = useRef(false);
+  const procedureRecommendationsRef = useRef([]);
 
   payloadRef.current = payload;
 
@@ -453,6 +457,8 @@ export default function DiagnosticResultsForm({
     ],
   );
 
+  procedureRecommendationsRef.current = procedureRecommendations;
+
   const procedureCatalog = useMemo(
     () => listServiceProcedureCatalog({
       templateId: payload?.templateId,
@@ -674,6 +680,17 @@ export default function DiagnosticResultsForm({
             },
           });
           if (plan.type !== 'repair_action') {
+            if (plan.type === 'next_oem') {
+              const presentation = resolveProcedureRunPresentation(procedureId, nextRunState);
+              const nextRec = procedureRecommendationsRef.current?.find(
+                (item) => item.procedureId === plan.procedureId,
+              );
+              setOemContinuationBridge({
+                targetProcedureId: plan.procedureId,
+                recommendationReason: nextRec?.reason ?? null,
+                previousProcedureVerified: presentation.disposition === 'success',
+              });
+            }
             queueMicrotask(() => {
               if (procedureContinuationEpochRef.current !== continuationEpoch) return;
               executeProcedureContinuationPlan(plan, {
@@ -931,6 +948,7 @@ export default function DiagnosticResultsForm({
 
   const handleDismissActiveOemProcedure = useCallback(() => {
     setAutoStartProcedureId(null);
+    setOemContinuationBridge(null);
     const nextPayload = {
       ...payloadRef.current,
       activeProcedureId: null,
@@ -1481,6 +1499,40 @@ export default function DiagnosticResultsForm({
     </p>
   ) : null;
 
+  const activeOemPresentationContext = useMemo(() => {
+    const activeId = payload?.activeProcedureId;
+    if (!activeId) return null;
+    const rec = procedureRecommendations.find((item) => item.procedureId === activeId);
+    const procedure = getServiceProcedure(activeId);
+    if (!procedure) {
+      return rec?.reason ? { recommendationReason: rec.reason } : null;
+    }
+    const evidenceConfig = getEvidenceConfig(payload?.templateId);
+    const componentLabels = procedure.componentIds
+      .map((componentId) => evidenceConfig?.components?.find((item) => item.id === componentId)?.label)
+      .filter(Boolean);
+    return {
+      recommendationReason: rec?.reason ?? null,
+      leadingHypothesisLabel: resolveLeadingComponentLabelForProcedure(
+        procedure.componentIds,
+        intelligenceResult,
+      ),
+      procedureTitle: procedure.title,
+      componentLabels,
+    };
+  }, [
+    payload?.activeProcedureId,
+    procedureRecommendations,
+    payload?.templateId,
+    intelligenceResult,
+  ]);
+
+  const oemContinuationBridgeForSlot = useMemo(() => {
+    if (!oemContinuationBridge || !autoStartProcedureId) return null;
+    if (oemContinuationBridge.targetProcedureId !== autoStartProcedureId) return null;
+    return oemContinuationBridge;
+  }, [oemContinuationBridge, autoStartProcedureId]);
+
   const wizardEquipmentSubtitle = useMemo(() => {
     if (!procedurePlatformBanner) return null;
     const equipment = [procedurePlatformBanner.equipmentMake, procedurePlatformBanner.equipmentModel]
@@ -1504,6 +1556,8 @@ export default function DiagnosticResultsForm({
       onDismissActiveProcedure={handleDismissActiveOemProcedure}
       variant={variant}
       highlightPrimaryAction={oemProcedureActionPulse}
+      continuationBridge={oemContinuationBridgeForSlot}
+      procedurePresentationContext={activeOemPresentationContext}
     />
   ) : null;
 

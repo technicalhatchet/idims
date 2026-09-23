@@ -2,9 +2,19 @@ import { useMemo } from 'react';
 import type { MeasurementEvaluation } from '../../knowledge/types';
 import { getMeasurementKnowledge } from '../../knowledge/knowledgeRegistry';
 import { formatRangeLabel } from '../../knowledge/measurementRulesEngine';
+import {
+  formatBranchResultPresentation,
+  formatMeasurementResultPresentation,
+  formatStepHeadline,
+  hasTechnicalDetailsContent,
+  resolveWhyWeAreChecking,
+  splitInstructionPresentation,
+  type ProcedureStepPresentationContext,
+} from '../procedureStepPresentation';
 import type { DecisionBranch, ProcedureStep, ProcedureStepInput } from '../types';
 import ProcedureStepImages from './ProcedureStepImages';
-import ProcedureTestPointPanel from './ProcedureTestPointPanel';
+import ProcedureStepSourceReference from './ProcedureStepSourceReference';
+import ProcedureStepTechnicalDetails from './ProcedureStepTechnicalDetails';
 
 const STEP_TYPE_LABELS: Record<string, string> = {
   safety: 'Safety',
@@ -14,11 +24,11 @@ const STEP_TYPE_LABELS: Record<string, string> = {
   outcome: 'Outcome',
 };
 
-const STATUS_CLASS: Record<string, string> = {
-  normal: 'text-emerald-400',
-  warning: 'text-amber-400',
-  critical: 'text-red-400',
-  unknown: 'text-[var(--solomon-text-secondary)]',
+const EVALUATION_HEADLINE_CLASS: Record<string, string> = {
+  GOOD: 'text-emerald-400',
+  CRITICAL: 'text-red-400',
+  'OUT OF RANGE': 'text-amber-400',
+  'OPEN / OL': 'text-red-400',
 };
 
 interface ProcedureStepViewProps {
@@ -34,6 +44,16 @@ interface ProcedureStepViewProps {
   matchedBranch?: DecisionBranch | null;
   disabled?: boolean;
   highlightPrimaryAction?: boolean;
+  variant?: 'mobile' | 'desktop';
+  presentationContext?: ProcedureStepPresentationContext;
+}
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <p className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
+      {children}
+    </p>
+  );
 }
 
 const PRIMARY_ACTION_NUDGE_CLASS =
@@ -51,6 +71,8 @@ export default function ProcedureStepView({
   matchedBranch,
   disabled = false,
   highlightPrimaryAction = false,
+  variant = 'mobile',
+  presentationContext,
 }: ProcedureStepViewProps) {
   const primaryActionClass = highlightPrimaryAction ? PRIMARY_ACTION_NUDGE_CLASS : '';
   const knowledge = useMemo(
@@ -65,9 +87,99 @@ export default function ProcedureStepView({
   const isMeasurement = step.type === 'measurement';
   const isCheckpoint = step.type === 'visual_check';
   const isPassive = step.type === 'safety' || step.type === 'instruction' || step.type === 'outcome';
+  const isSafety = step.type === 'safety';
+
+  const whyText = useMemo(
+    () => resolveWhyWeAreChecking(presentationContext, knowledge?.purpose),
+    [presentationContext, knowledge?.purpose],
+  );
+
+  const instruction = useMemo(() => {
+    const split = splitInstructionPresentation(step.body || '');
+    if (!isMeasurement || !knowledge || !split.includeBodyInTechnical) {
+      return split;
+    }
+    const rest = (step.body || '').replace(/^[^.!?]+[.!?]\s*/, '').trim();
+    const actionText = rest.replace(/\s*expected[^.]*\.?\s*/gi, '').trim();
+    if (!actionText) return split;
+    return {
+      ...split,
+      whatToDo: `${split.whatToDo} ${actionText}`,
+    };
+  }, [step.body, isMeasurement, knowledge]);
+
+  const headline = useMemo(() => formatStepHeadline(step), [step]);
+
+  const evaluationPresentation = lastEvaluation
+    ? formatMeasurementResultPresentation(lastEvaluation)
+    : null;
+
+  const branchPresentation = matchedBranch
+    ? formatBranchResultPresentation(matchedBranch)
+    : null;
+
+  const technicalDefaultExpanded = variant === 'desktop';
+  const sourceInTechnicalAccordion = hasTechnicalDetailsContent({
+    step,
+    testingTipsCount: knowledge?.testingTips?.length || 0,
+    includeBodyInTechnical: instruction.includeBodyInTechnical,
+    meterRangeRef: instruction.meterRangeRef,
+    sourceInTechnicalAccordion: true,
+  });
+
+  if (isSafety) {
+    return (
+      <div className="space-y-4" data-procedure-step-type="safety">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[10px] uppercase tracking-[0.14em] text-amber-300/90">
+            {STEP_TYPE_LABELS.safety}
+          </span>
+          <span className="text-xs text-[var(--solomon-text-secondary)]">
+            Step {stepIndex} of {stepTotal}
+          </span>
+        </div>
+
+        <div
+          className="rounded-lg border-2 border-amber-500/50 bg-amber-500/10 px-3 py-3"
+          role="note"
+          aria-label="Safety warning"
+        >
+          <div className="flex items-start gap-2">
+            <span className="text-lg leading-none" aria-hidden>⚠</span>
+            <div className="min-w-0 flex-1 space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-amber-100">
+                Safety
+              </p>
+              <h2 className="text-lg font-semibold text-[var(--solomon-text-primary)]">
+                {headline}
+              </h2>
+              {step.body ? (
+                <p className="text-sm leading-relaxed text-[var(--solomon-text-primary)]">
+                  {step.body}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={onContinue}
+          disabled={disabled}
+          className="w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+        >
+          Continue
+        </button>
+
+        {step.sourceExcerpt ? (
+          <ProcedureStepSourceReference sourceExcerpt={step.sourceExcerpt} />
+        ) : null}
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" data-procedure-step-type={step.type}>
       <div className="flex items-center justify-between gap-3">
         <span className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
           {STEP_TYPE_LABELS[step.type] || step.type}
@@ -80,42 +192,47 @@ export default function ProcedureStepView({
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-[var(--solomon-text-primary)]">{step.title}</h2>
-        {step.body ? (
-          <p className="mt-2 text-sm leading-relaxed text-[var(--solomon-text-secondary)]">{step.body}</p>
-        ) : null}
+        <h2 className="text-lg font-semibold leading-snug text-[var(--solomon-text-primary)]">
+          {headline}
+        </h2>
       </div>
 
-      {step.sourceExcerpt ? (
-        <blockquote className="rounded-lg border border-[color:var(--solomon-border-subtle)] border-l-2 border-l-[color:var(--solomon-status-reference)]/50 bg-[var(--solomon-surface-glass)] px-3 py-2 text-xs italic leading-relaxed text-[var(--solomon-text-secondary)]">
-          {step.sourceExcerpt}
-        </blockquote>
+      {whyText ? (
+        <section className="space-y-1">
+          <SectionLabel>Why we&apos;re checking this</SectionLabel>
+          <p className="text-sm leading-relaxed text-[var(--solomon-text-secondary)]">
+            {whyText}
+          </p>
+        </section>
       ) : null}
 
-      {step.testPoint ? <ProcedureTestPointPanel testPoint={step.testPoint} /> : null}
-
-      {step.images?.length ? <ProcedureStepImages images={step.images} /> : null}
+      {instruction.whatToDo ? (
+        <section className="space-y-1">
+          <SectionLabel>What to do</SectionLabel>
+          <p className="text-sm leading-relaxed text-[var(--solomon-text-primary)]">
+            {instruction.whatToDo}
+          </p>
+          {instruction.meterRangeRef ? (
+            <p className="text-xs text-[var(--solomon-text-secondary)]">
+              Technical reference: {instruction.meterRangeRef}
+            </p>
+          ) : null}
+        </section>
+      ) : null}
 
       {isMeasurement && knowledge ? (
-        <div className="text-xs text-[var(--solomon-text-secondary)]">
-          Expected: <span className="text-[var(--solomon-text-primary)]">{expectedRange || 'See OEM spec'}</span>
-          {knowledge.openCircuitCritical ? (
-            <span className="ml-2 text-red-400">OL = critical</span>
-          ) : null}
-        </div>
-      ) : null}
-
-      {isMeasurement && knowledge?.testingTips?.length ? (
-        <div className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] px-3 py-2">
-          <p className="text-[10px] uppercase tracking-[0.12em] text-[color:var(--solomon-status-reference)]/90">
-            Testing tips
+        <section
+          className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface-glass)] px-3 py-2.5"
+          data-procedure-expected-range
+        >
+          <SectionLabel>Expected result</SectionLabel>
+          <p className="mt-1 text-xl font-semibold tracking-tight text-[var(--solomon-text-primary)]">
+            {expectedRange || 'See OEM spec'}
           </p>
-          <ul className="mt-1.5 list-disc space-y-1 pl-4 text-xs leading-relaxed text-[var(--solomon-text-secondary)]">
-            {knowledge.testingTips.map((tip) => (
-              <li key={tip}>{tip}</li>
-            ))}
-          </ul>
-        </div>
+          {knowledge.openCircuitCritical ? (
+            <p className="mt-1 text-xs text-red-400">Open circuit (OL) is a critical fault for this test.</p>
+          ) : null}
+        </section>
       ) : null}
 
       {isMeasurement ? (
@@ -182,22 +299,53 @@ export default function ProcedureStepView({
         </div>
       ) : null}
 
-      {lastEvaluation ? (
-        <div className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2 text-xs">
-          <p className={STATUS_CLASS[lastEvaluation.status] || STATUS_CLASS.unknown}>
-            {lastEvaluation.diagnosisLabel || lastEvaluation.status}: {lastEvaluation.message}
+      {evaluationPresentation ? (
+        <section className="rounded-lg border border-[color:var(--solomon-border-subtle)] bg-[var(--solomon-surface)]/50 px-3 py-2.5">
+          <SectionLabel>What your result means</SectionLabel>
+          <p
+            className={`mt-1 text-sm font-semibold ${
+              EVALUATION_HEADLINE_CLASS[evaluationPresentation.headline]
+              || 'text-[var(--solomon-text-primary)]'
+            }`}
+          >
+            {evaluationPresentation.headline}
           </p>
-        </div>
+          <p className="mt-1 text-sm leading-relaxed text-[var(--solomon-text-secondary)]">
+            {evaluationPresentation.detail}
+          </p>
+        </section>
       ) : null}
 
-      {matchedBranch ? (
-        <div className="rounded-lg border border-cyan-500/25 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-200">
-          Branch: {matchedBranch.label}
-          {matchedBranch.oemOutcome ? ` — ${matchedBranch.oemOutcome}` : ''}
-        </div>
+      {branchPresentation ? (
+        <section className="rounded-lg border border-cyan-500/25 bg-cyan-500/10 px-3 py-2.5">
+          <p className="text-[10px] uppercase tracking-[0.12em] text-cyan-200/90">
+            {branchPresentation.headline}
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-cyan-100">
+            {branchPresentation.detail}
+          </p>
+        </section>
+      ) : null}
+
+      <ProcedureStepTechnicalDetails
+        step={step}
+        knowledge={knowledge}
+        includeBodyInTechnical={instruction.includeBodyInTechnical}
+        meterRangeRef={instruction.meterRangeRef}
+        defaultExpanded={technicalDefaultExpanded}
+      />
+
+      {(step.images?.length || (!sourceInTechnicalAccordion && step.sourceExcerpt)) ? (
+        <section className="space-y-2">
+          <SectionLabel>Reference</SectionLabel>
+          {step.images?.length ? <ProcedureStepImages images={step.images} /> : null}
+          {!sourceInTechnicalAccordion ? (
+            <ProcedureStepSourceReference sourceExcerpt={step.sourceExcerpt} />
+          ) : null}
+        </section>
       ) : null}
     </div>
   );
 }
 
-export type { ProcedureStepInput };
+export type { ProcedureStepInput, ProcedureStepPresentationContext };
