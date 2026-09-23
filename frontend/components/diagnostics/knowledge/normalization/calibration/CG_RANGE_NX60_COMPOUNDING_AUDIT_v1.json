@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_audit",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "sequence": 1,
+  "targetId": "samsung_nx60_gas",
+  "status": "closed",
+  "verdict": "GREEN / NX60_COMPOUNDING_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T04:45:00+00:00",
+  "compoundingArtifact": "CG_RANGE_NX60_COMPOUNDING_v1.json",
+  "normalizationSource": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+  "overlayFile": "samsung_range_nx60.json",
+  "summary": {
+    "proceduresBound": "14/14",
+    "measurementsBound": "16/16",
+    "decisionBranchesExecutable": "11/11",
+    "functionalRealizations": 11,
+    "canonicalExpansion": 0,
+    "hierarchicalInheritance": true,
+    "flatFactDump": false
+  },
+  "integrityChecks": {
+    "canonicalOntologyId": "range_oven",
+    "electric_range.jsonHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "electricRangeRev1Unchanged": true,
+    "range_oven.jsonHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenUnchanged": true,
+    "noFuelSpecificCanonicalGraphs": true,
+    "gasHardwareInOverlayOnly": true
+  },
+  "provenanceChecks": {
+    "normalizationToCompoundingLineage": true,
+    "everyProcedureRetainsSourcePages": true,
+    "everyMeasurementRetainsUnitsAndConditions": true,
+    "decisionBranchesRetainConditionalLogic": true,
+    "functionalRealizationsHaveProvenance": true
+  },
+  "hierarchyChecks": {
+    "canonicalFunctionToImplementationToEvidence": true,
+    "instanceScopesNotPromotedToComponents": true,
+    "implementationVocabularyNotPromoted": true,
+    "examples": [
+      "temperature_sensor → oven_sensor → 1080 Ω @ room",
+      "bake_heating_element → bake_hsi → 40–400 Ω",
+      "surface_heating_system → spark_module → cooktop ignition",
+      "bake_heating_element → safety_valve → 3.3–3.6 A",
+      "convection_fan → convection_fan_motor → 25–30 Ω"
+    ]
+  },
+  "auditChecks": [
+    { "id": "fourteen_procedures_bound_with_source", "status": "green" },
+    { "id": "sixteen_measurements_with_provenance", "status": "green" },
+    { "id": "eleven_decision_branches_executable", "status": "green" },
+    { "id": "functional_realization_hierarchy", "status": "green" },
+    { "id": "canonical_contract_unchanged", "status": "green" },
+    { "id": "gas_hardware_overlay_only", "status": "green" },
+    { "id": "no_canonical_expansion", "status": "green" },
+    { "id": "provenance_chain_complete", "status": "green" }
+  ],
+  "gateStatus": {
+    "ne58CompoundingBlocked": true,
+    "nextSequence": 2,
+    "nextTarget": "samsung_ne58r9560ws_induction",
+    "openOnlyAfter": "NX60 audit green — satisfied"
+  },
+  "nextDisciplinedStep": "STOP — NE58R9560WS compounding remains blocked until explicit sequence 2 open"
+}

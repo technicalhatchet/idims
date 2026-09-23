@@ -1,0 +1,92 @@
+{
+  "promotionId": "promo-SAMSUNG-DISHWASHER-20260915130538",
+  "manualId": "SAMSUNG-DISHWASHER",
+  "platformId": "samsung_dishwasher",
+  "overlayFile": "samsung_dishwasher.json",
+  "platformFamilyId": "samsung_dishwasher",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-SAMSUNG-DISHWASHER-compound-wash_motor",
+    "map-SAMSUNG-DISHWASHER-main_control-control_board",
+    "map-SAMSUNG-DISHWASHER-dispenser-detergent_dispenser",
+    "map-SAMSUNG-DISHWASHER-compound-door_latch",
+    "map-SAMSUNG-DISHWASHER-drain_pump-drain_pump",
+    "map-SAMSUNG-DISHWASHER-vent-drying_system",
+    "map-SAMSUNG-DISHWASHER-inlet_valve-inlet_valve",
+    "map-SAMSUNG-DISHWASHER-heater-heat_source",
+    "map-SAMSUNG-DISHWASHER-compound-user_interface",
+    "map-SAMSUNG-DISHWASHER-compound-float_switch",
+    "map-SAMSUNG-DISHWASHER-thermistor-temperature_sensor",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-circulation_test",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-circulation-motor-meas-samsungDishwasherCirculationMotorOhms",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-door-switch-door_switch_test",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-drain-pump-drain_test",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-fill-valve-fill_test",
+    "overlay-SAMSUNG-DISHWASHER-samsungdw-heater-heater_command_test"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {
+        "wash_motor": "circulation_pump",
+        "main_control": "control_board",
+        "dispenser": "detergent_dispenser",
+        "door_latch": "door_switch",
+        "drain_pump": "drain_pump",
+        "vent": "drying_system",
+        "inlet_valve": "inlet_valve",
+        "heater": "heat_source",
+        "user_interface": "hmi_control",
+        "float_switch": "water_level_sensor",
+        "thermistor": "temperature_sensor"
+      },
+      "skip": {}
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a74-1: Circulation Motor & Nozzle"
+        },
+        {
+          "procedureId": "samsungdw-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a74-1: Door Sensing Switch"
+        },
+        {
+          "procedureId": "samsungdw-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-1: Drain Pump (5C)"
+        },
+        {
+          "procedureId": "samsungdw-fill-valve",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a74-1: Fill Valve & Flow Meter (4C)"
+        },
+        {
+          "procedureId": "samsungdw-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a74-1: Heater Operation (HC / HC1)"
+        }
+      ],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      ],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-15T13:05:38.497567+00:00"
+}

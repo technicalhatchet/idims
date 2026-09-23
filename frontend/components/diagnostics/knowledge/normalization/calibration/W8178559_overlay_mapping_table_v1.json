@@ -1,0 +1,539 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W8178559",
+  "platformId": "whirlpool_duet_sport_dryer",
+  "platformFamilyId": "whirlpool_duet_sport_mce_dryer",
+  "canonicalOntologyId": "vented_dryer",
+  "proposedOverlayFile": "whirlpool_vented_dryer.json",
+  "status": "published",
+  "generatedAt": "2026-09-14T03:15:00+00:00",
+  "pipelineManifest": "frontend/components/diagnostics/knowledge/normalization/candidates/W8178559/pipeline_manifest.json",
+  "reviewPackage": "frontend/components/diagnostics/knowledge/normalization/review/W8178559_review.json",
+  "gatePolicy": {
+    "canonicalGraph": "vented_dryer.json rev2 FROZEN — do not promote new canonical dryer components from this manual.",
+    "implementationRule": "electric_heater, gas_valve, and ignitor live in overlay implementation vocabulary (add.components + implements heat_source). They are NOT canonical vented_dryer components.",
+    "proceduralTitleRule": "TEST #… OEM procedure titles are procedure identifiers — reject as oemTermAliases unless a distinct knowledge-bearing component phrase is extracted.",
+    "dryerTestTargetNote": "Matcher overlay candidates reference motor_output_test (washer id). Dryer canonical uses motor_run_test and door_switch_test — correct at promotion."
+  },
+  "summary": {
+    "canonicalReuseAutoResolved": 10,
+    "whirlpoolAliasGate": 2,
+    "platformImplementationGate": 3,
+    "mcePlatformGate": 4,
+    "procedureBindingGate": 13,
+    "measurementBindingGate": 5,
+    "proceduralTitlesRejected": 9,
+    "overlayCandidatesMatcherGenerated": 4,
+    "conflicts": 0
+  },
+  "layerDefinitions": {
+    "canonical_reuse": "Term maps directly to frozen vented_dryer component — no overlay add.components entry.",
+    "whirlpool_alias": "oemTermAliases entry → canonical id (Whirlpool vocabulary on shared canonical concept).",
+    "platform_implementation": "Overlay add.components entry; implements canonical heat_source (fuel-specific physical part).",
+    "platform_model": "MCE-era control / harness / pin nomenclature — overlay aliases and displayTerms; review individually.",
+    "procedure_binding": "procedureBindings → vented_dryer testTargetId (procedure intelligence, not ontology expansion).",
+    "measurement_binding": "measurementBindings → vented_dryer testTargetId + batch14 knowledge id.",
+    "reject_procedural_title": "OEM TEST # title only — bind procedure by procedureId, not by title alias."
+  },
+  "mappings": [
+    {
+      "manualConcept": "door_switch",
+      "layer": "canonical_reuse",
+      "candidate": "door_switch",
+      "seedComponentId": "door_switch",
+      "gateAction": "approve_auto",
+      "candidateIds": ["map-W8178559-door_switch-door_switch"],
+      "rationale": "Frozen canonical door authorization concept — no overlay component needed."
+    },
+    {
+      "manualConcept": "motor",
+      "layer": "canonical_reuse",
+      "candidate": "drive_motor",
+      "seedComponentId": "motor",
+      "gateAction": "approve_auto",
+      "candidateIds": ["map-W8178559-motor-drive_motor"],
+      "rationale": "Canonical drive path — belt/idler remain out of canonical graph."
+    },
+    {
+      "manualConcept": "heating_element",
+      "layer": "canonical_reuse",
+      "candidate": "heat_source",
+      "seedComponentId": "heating_element",
+      "gateAction": "approve_auto",
+      "candidateIds": ["map-W8178559-heating_element-heat_source"],
+      "rationale": "Fuel-agnostic canonical heat concept. Physical element is electric_heater overlay implementation."
+    },
+    {
+      "manualConcept": "exhaust_thermistor",
+      "layer": "canonical_reuse",
+      "candidate": "temperature_sensor",
+      "seedComponentId": "exhaust_thermistor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W8178559-compound-exhaust_thermistor",
+        "map-W8178559-exhaust-thermistor-temperature_sensor"
+      ],
+      "rationale": "Exhaust-side NTC is a placement variant of canonical temperature_sensor."
+    },
+    {
+      "manualConcept": "thermal_fuse",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_fuse",
+      "seedComponentId": "thermal_fuse",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W8178559-thermal_fuse-thermal_fuse",
+        "map-W8178559-thermal-fuse-thermal_fuse"
+      ],
+      "rationale": "Hard thermal protection — canonical component."
+    },
+    {
+      "manualConcept": "thermal_cutoff",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_cutoff",
+      "seedComponentId": "thermal_cutoff",
+      "gateAction": "approve_auto",
+      "candidateIds": ["map-W8178559-thermal_cutoff-thermal_cutoff"],
+      "rationale": "High-limit / cutoff — canonical protective device on heat path."
+    },
+    {
+      "manualConcept": "moisture_sensor",
+      "layer": "canonical_reuse",
+      "candidate": "moisture_sensor",
+      "seedComponentId": "moisture_sensor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W8178559-moisture_sensor-moisture_sensor",
+        "map-W8178559-moisture-sensor-moisture_sensor"
+      ],
+      "rationale": "Dryness termination sensor — canonical component."
+    },
+    {
+      "manualConcept": "supply",
+      "layer": "whirlpool_alias",
+      "candidate": "power_supply",
+      "seedComponentId": "supply",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-w8178559-unresolved-w8178559-supply-connections-supply"
+      ],
+      "proposedOemTermAlias": { "supply": "power_supply" },
+      "rationale": "Whirlpool seed id supply → canonical power_supply (dryer naming differs from washer supply id)."
+    },
+    {
+      "manualConcept": "user_interface",
+      "layer": "whirlpool_alias",
+      "candidate": "hmi_control",
+      "seedComponentId": "user_interface",
+      "gateAction": "approve_human",
+      "candidateIds": ["map-W8178559-compound-user_interface"],
+      "proposedOemTermAlias": { "user_interface": "hmi_control" },
+      "rationale": "Console / keypad vocabulary — maps to canonical HMI, not control_board."
+    },
+    {
+      "manualConcept": "electric_heater",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "electric_heater",
+      "templateIds": ["electric_dryer"],
+      "gateAction": "approve_human",
+      "seedComponentIds": ["heating_element"],
+      "rationale": "7–12 Ω single element on Duet Sport MCE. Overlay component implements canonical heat_source; does NOT enter vented_dryer.json."
+    },
+    {
+      "manualConcept": "gas_valve",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "gas_valve",
+      "templateIds": ["gas_dryer"],
+      "gateAction": "approve_human",
+      "candidateIds": ["map-W8178559-compound-gas_valve"],
+      "seedComponentId": "gas_valve",
+      "rationale": "Gas valve coils (TEST #3d) — platform gas heat path; implements heat_source."
+    },
+    {
+      "manualConcept": "igniter",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "ignitor",
+      "templateIds": ["gas_dryer"],
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-w8178559-unresolved-w8178559-gas-ignitor-igniter",
+        "map-W8178559-compound-test-#3-(gas):-ignitor"
+      ],
+      "seedComponentId": "igniter",
+      "rationale": "Hot-surface ignitor 50–250 Ω — gas ignition path; overlay component, not canonical."
+    },
+    {
+      "manualConcept": "MCE",
+      "layer": "platform_model",
+      "candidate": "control_board",
+      "gateAction": "approve_human",
+      "proposedOemTermAliases": {
+        "MCE": "control_board",
+        "Machine Control Electronics": "control_board",
+        "Primary control": "control_board",
+        "Machine Control": "control_board"
+      },
+      "displayTerm": "MCE (Machine Control Electronics)",
+      "rationale": "Duet Sport dryer control — analogous to CCU on paired washer; F-01 primary control failure."
+    },
+    {
+      "manualConcept": "P14 exhaust thermistor harness",
+      "layer": "platform_model",
+      "candidate": "temperature_sensor",
+      "gateAction": "approve_human",
+      "proposedOemTermAliases": {
+        "P14": "temperature_sensor",
+        "exhaust thermistor": "temperature_sensor"
+      },
+      "displayTerm": "Exhaust thermistor (P14)",
+      "rationale": "Pin/harness nomenclature for exhaust NTC — alias to canonical sensor, not new component."
+    },
+    {
+      "manualConcept": "P8 door switch",
+      "layer": "platform_model",
+      "candidate": "door_switch",
+      "gateAction": "approve_human",
+      "proposedOemTermAliases": {
+        "P8-3": "door_switch",
+        "P8-4": "door_switch"
+      },
+      "displayTerm": "Door switch (P8-3 / P8-4, 0–2 Ω)",
+      "rationale": "Harness reference for door interlock — display/model layer only."
+    },
+    {
+      "manualConcept": "belt switch (motor circuit)",
+      "layer": "platform_model",
+      "candidate": "drive_motor",
+      "gateAction": "defer",
+      "rationale": "Centrifugal/belt switch in TEST #2 — model mechanical detail; bind via motor procedure branches, not canonical belt component."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "title": "TEST #1: Supply Connections",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-supply-connections"],
+      "bindVia": "procedureId:w8178559-supply-connections",
+      "rationale": "Procedure identifier — supply term handled separately as Whirlpool alias."
+    },
+    {
+      "title": "TEST #2: Motor Circuit",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-motor-circuit"],
+      "bindVia": "procedureId:w8178559-motor-circuit",
+      "rationale": "Procedure identifier — motor → drive_motor already resolved."
+    },
+    {
+      "title": "TEST #3: Heater (electric)",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-heater-(electric)"],
+      "bindVia": "procedureId:w8178559-heater-electric",
+      "rationale": "Procedure identifier — heat path via electric_heater implementation + heat_output_test binding."
+    },
+    {
+      "title": "TEST #3: Heater (gas)",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-heater-(gas)"],
+      "bindVia": "procedureId:w8178559-heater-gas",
+      "rationale": "Procedure identifier — gas orchestration procedure, not a canonical alias."
+    },
+    {
+      "title": "TEST #3a: Exhaust Thermistor",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-exhaust-thermistor-temperature_sensor"],
+      "note": "Compound alias candidate already maps exhaust_thermistor; title alias redundant.",
+      "bindVia": "procedureId:w8178559-exhaust-thermistor",
+      "rationale": "Approve mapping on exhaust_thermistor term, not TEST title string."
+    },
+    {
+      "title": "TEST #3b: Thermal Fuse",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-thermal-fuse-thermal_fuse"],
+      "bindVia": "procedureId:w8178559-thermal-fuse",
+      "rationale": "Procedure identifier — thermal_fuse canonical mapping already approved."
+    },
+    {
+      "title": "TEST #3c: Thermal Cut-Off",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-thermal-cut-off"],
+      "bindVia": "procedureId:w8178559-thermal-cutoff",
+      "rationale": "Procedure identifier — thermal_cutoff canonical mapping already approved."
+    },
+    {
+      "title": "TEST #3d: Gas Valve Coils",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-gas-valve-coils"],
+      "bindVia": "procedureId:w8178559-gas-valve",
+      "rationale": "Procedure identifier — gas_valve platform implementation gate."
+    },
+    {
+      "title": "TEST #4: Moisture Sensor",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-moisture-sensor-moisture_sensor"],
+      "bindVia": "procedureId:w8178559-moisture-sensor",
+      "rationale": "Procedure identifier — moisture_sensor canonical mapping already approved."
+    },
+    {
+      "title": "TEST #4a: Customer Drying Mode",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-customer-drying-mode"],
+      "bindVia": "procedureId:w8178559-dryness-adjust",
+      "rationale": "EEPROM dryness algorithm procedure — bind by procedureId to moisture_sensor_test / dry_termination."
+    },
+    {
+      "title": "TEST #5: Button and Indicator Test",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-button-and-indicator"],
+      "bindVia": "procedureId:w8178559-button-indicator",
+      "rationale": "Procedure identifier — F-02 UI diagnostic; hmi_control via user_interface alias."
+    },
+    {
+      "title": "TEST #6: Door Switch Test",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W8178559-compound-door-switch",
+        "overlay-W8178559-w8178559-door-switch-motor_output_test"
+      ],
+      "bindVia": "procedureId:w8178559-door-switch",
+      "rationale": "Procedure identifier — door_switch_test binding (not motor_output_test)."
+    },
+    {
+      "title": "TEST #3 (gas): Ignitor",
+      "gateAction": "reject_alias",
+      "candidateIds": ["map-W8178559-compound-test-#3-(gas):-ignitor"],
+      "bindVia": "procedureId:w8178559-gas-ignitor",
+      "rationale": "Procedure identifier — ignitor platform implementation gate."
+    }
+  ],
+  "procedureBindings": [
+    {
+      "procedureId": "w8178559-supply-connections",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": ["power_supply", "control_board"],
+      "failureDomains": ["power_failure", "control_failure"],
+      "displayTitle": "TEST #1 — Supply Connections",
+      "oemTestNumber": "1",
+      "gateAction": "approve_human",
+      "note": "Line voltage prerequisite — no dedicated supply testTarget in vented_dryer; binds to cycle authorization entry."
+    },
+    {
+      "procedureId": "w8178559-motor-circuit",
+      "testTargetId": "motor_run_test",
+      "canonicalComponents": ["drive_motor"],
+      "failureDomains": ["drive_failure", "control_failure"],
+      "displayTitle": "TEST #2 — Motor Circuit",
+      "oemTestNumber": "2",
+      "relatedCodes": ["F26"],
+      "gateAction": "approve_human",
+      "matcherCorrection": "Replace motor_output_test → motor_run_test"
+    },
+    {
+      "procedureId": "w8178559-heater-electric",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "electric_heater",
+      "canonicalComponents": ["heat_source", "thermal_fuse", "thermal_cutoff"],
+      "failureDomains": ["heating_failure"],
+      "templateIds": ["electric_dryer"],
+      "displayTitle": "TEST #3 — Heater (electric)",
+      "oemTestNumber": "3",
+      "relatedCodes": ["F01"],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-heater-gas",
+      "testTargetId": "heat_output_test",
+      "implementationComponents": ["gas_valve", "ignitor", "thermal_fuse", "thermal_cutoff"],
+      "canonicalComponents": ["heat_source"],
+      "failureDomains": ["heating_failure"],
+      "templateIds": ["gas_dryer"],
+      "displayTitle": "TEST #3 — Heater (gas)",
+      "oemTestNumber": "3-gas",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-exhaust-thermistor",
+      "testTargetId": "exhaust_temperature_test",
+      "canonicalComponents": ["temperature_sensor"],
+      "failureDomains": ["temperature_sensing_failure", "heating_failure"],
+      "displayTitle": "TEST #3a — Exhaust Thermistor",
+      "oemTestNumber": "3a",
+      "relatedCodes": ["F22", "F23"],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-thermal-fuse",
+      "testTargetId": "thermal_protection_test",
+      "canonicalComponents": ["thermal_fuse", "heat_source"],
+      "failureDomains": ["heating_failure"],
+      "displayTitle": "TEST #3b — Thermal Fuse",
+      "oemTestNumber": "3b",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-thermal-cutoff",
+      "testTargetId": "thermal_protection_test",
+      "canonicalComponents": ["thermal_cutoff", "heat_source"],
+      "failureDomains": ["heating_failure"],
+      "displayTitle": "TEST #3c — Thermal Cut-Off",
+      "oemTestNumber": "3c",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-gas-ignitor",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "ignitor",
+      "canonicalComponents": ["heat_source"],
+      "failureDomains": ["heating_failure"],
+      "templateIds": ["gas_dryer"],
+      "displayTitle": "TEST #3 (gas) — Ignitor",
+      "oemTestNumber": "3-gas-ignitor",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-gas-valve",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "gas_valve",
+      "canonicalComponents": ["heat_source"],
+      "failureDomains": ["heating_failure"],
+      "templateIds": ["gas_dryer"],
+      "displayTitle": "TEST #3d — Gas Valve Coils",
+      "oemTestNumber": "3d",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-moisture-sensor",
+      "testTargetId": "moisture_sensor_test",
+      "canonicalComponents": ["moisture_sensor"],
+      "failureDomains": ["moisture_sensing_failure"],
+      "displayTitle": "TEST #4 — Moisture Sensor",
+      "oemTestNumber": "4",
+      "relatedCodes": ["F28", "F29"],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-dryness-adjust",
+      "testTargetId": "moisture_sensor_test",
+      "canonicalComponents": ["moisture_sensor", "control_board"],
+      "failureDomains": ["moisture_sensing_failure", "control_failure"],
+      "displayTitle": "TEST #4a — Customer Drying Mode",
+      "oemTestNumber": "4a",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-button-indicator",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": ["hmi_control"],
+      "failureDomains": ["user_interface_failure", "control_failure"],
+      "displayTitle": "TEST #5 — Button and Indicator",
+      "oemTestNumber": "5",
+      "relatedCodes": ["F02"],
+      "gateAction": "approve_human",
+      "note": "UI diagnostic — no dedicated hmi_test target yet; binds to entry authorization stack."
+    },
+    {
+      "procedureId": "w8178559-door-switch",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": ["door_switch"],
+      "failureDomains": ["door_authorization_failure"],
+      "displayTitle": "TEST #6 — Door Switch",
+      "oemTestNumber": "6",
+      "gateAction": "approve_human",
+      "matcherCorrection": "Replace motor_output_test → door_switch_test"
+    }
+  ],
+  "measurementBindings": [
+    {
+      "procedureId": "w8178559-motor-circuit",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+      "testTargetId": "motor_run_test",
+      "displayLabel": "Motor windings at switch",
+      "units": "Ω",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-heater-electric",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerHeaterOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "electric_heater",
+      "displayLabel": "Heating element",
+      "units": "Ω",
+      "templateIds": ["electric_dryer"],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-exhaust-thermistor",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerExhaustThermistorKohm",
+      "testTargetId": "exhaust_temperature_test",
+      "displayLabel": "Exhaust thermistor (P14)",
+      "units": "kΩ",
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-gas-ignitor",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerIgnitorOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "ignitor",
+      "displayLabel": "Hot-surface ignitor",
+      "units": "Ω",
+      "templateIds": ["gas_dryer"],
+      "gateAction": "approve_human"
+    },
+    {
+      "procedureId": "w8178559-gas-valve",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "gas_valve",
+      "displayLabel": "Gas valve coils",
+      "units": "Ω",
+      "templateIds": ["gas_dryer"],
+      "gateAction": "approve_human"
+    }
+  ],
+  "proposedOverlaySkeleton": {
+    "platformFamilyId": "whirlpool_duet_sport_mce_dryer",
+    "platformId": "whirlpool_duet_sport_dryer",
+    "manualId": "W8178559",
+    "label": "Whirlpool Duet Sport MCE vented dryer (Job Aid 8178559)",
+    "appliesTo": {
+      "templateIds": ["electric_dryer", "gas_dryer"],
+      "manufacturers": ["Whirlpool", "Maytag", "Kenmore", "Amana"],
+      "modelPatterns": ["WED83*", "WED85*", "WGD83*", "WGD85*", "MED83*", "MED85*", "MGD83*", "MGD85*"],
+      "platformIds": ["whirlpool_duet_sport_dryer"]
+    },
+    "add": {
+      "components": [
+        {
+          "id": "electric_heater",
+          "implementsCanonicalId": "heat_source",
+          "templateIds": ["electric_dryer"]
+        },
+        {
+          "id": "gas_valve",
+          "implementsCanonicalId": "heat_source",
+          "templateIds": ["gas_dryer"]
+        },
+        {
+          "id": "ignitor",
+          "implementsCanonicalId": "heat_source",
+          "templateIds": ["gas_dryer"]
+        }
+      ]
+    }
+  },
+  "humanGateChecklist": [
+    "Confirm 10 canonical_reuse mappings — no vented_dryer.json changes.",
+    "Approve supply → power_supply and user_interface → hmi_control Whirlpool aliases.",
+    "Approve electric_heater / gas_valve / ignitor as overlay implementation components only.",
+    "Approve MCE → control_board aliases and displayTerms.",
+    "Reject all TEST #… title aliases (bind by procedureId instead).",
+    "Approve procedureBindings with dryer testTargetIds (motor_run_test, door_switch_test, not motor_output_test).",
+    "Approve measurementBindings (batch14 knowledge ids).",
+    "Run promotion dry-run after ledger approvals — do not publish until equivalence passes."
+  ]
+}

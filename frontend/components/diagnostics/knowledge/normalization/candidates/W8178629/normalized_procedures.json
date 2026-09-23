@@ -1,0 +1,3559 @@
+{
+  "manualId": "W8178629",
+  "procedures": [
+    {
+      "procedureId": "w8178629-door-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Door Switch Test",
+      "purpose": "Door Switch",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check",
+        "wont_start",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "diag_door_beep",
+          "order": 3,
+          "type": "instruction",
+          "title": "Diagnostic mode door check",
+          "body": "In diagnostic test mode, opening/closing door should produce audible beep.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In diagnostic test mode, opening/closing door should produce audible beep."
+        },
+        {
+          "id": "bench_door_switch",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Door switch plug pins 1\u20133",
+          "body": "Power off. Rx1: pins 1\u20133 closed (0 \u03a9) with door closed; open (OL) with door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "harness_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": "Replace door switch."
+            }
+          ],
+          "sourceExcerpt": "Power off. Rx1: pins 1\u20133 closed (0 \u03a9) with door closed; open (OL) with door open."
+        },
+        {
+          "id": "harness_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Harness neutral to P2-6 (\u00a76-5)",
+          "body": "Door closed: neutral to P2-6 on control should read closed. Open with door open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "harness_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "harness_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness",
+              "terminal": true,
+              "oemOutcome": "Repair or replace harness."
+            }
+          ],
+          "sourceExcerpt": "Door closed: neutral to P2-6 on control should read closed. Open with door open."
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "repair_harness",
+          "order": 7,
+          "type": "outcome",
+          "title": "Repair harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Door switch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bench_door_switch"
+        },
+        {
+          "id": "door_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace door switch.",
+          "stepId": "bench_door_switch"
+        },
+        {
+          "id": "harness_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harness_check"
+        },
+        {
+          "id": "harness_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": true,
+          "oemOutcome": "Repair or replace harness.",
+          "stepId": "harness_check"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-1",
+        "oemTestTitle": "Door Switch",
+        "pages": [
+          61,
+          71
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-door-switch",
+        "pages": [
+          61,
+          71
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-door-switch",
+            "pages": [
+              61,
+              71
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-drive-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Drive Motor Test",
+      "purpose": "Drive Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "motor"
+      ],
+      "tags": [
+        "motor_check",
+        "wont_spin"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_motor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access drive motor",
+          "body": "Disconnect wire connector from motor terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wire connector from motor terminals."
+        },
+        {
+          "id": "main_winding",
+          "order": 4,
+          "type": "measurement",
+          "title": "Main winding pin 4\u20135",
+          "body": "Blue wire at pin 4 to bare copper on pin 5. Spec 1.4\u20132.6 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+              "testPoint": {
+                "connector": "Motor main",
+                "pins": "4\u20135",
+                "label": "Main winding pin 4\u20135"
+              },
+              "title": "Main winding pin 4\u20135"
+            }
+          ],
+          "branches": [
+            {
+              "id": "main_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "start_winding",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "main_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            },
+            {
+              "id": "main_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            },
+            {
+              "id": "main_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            }
+          ],
+          "sourceExcerpt": "Blue wire at pin 4 to bare copper on pin 5. Spec 1.4\u20132.6 \u03a9."
+        },
+        {
+          "id": "start_winding",
+          "order": 5,
+          "type": "measurement",
+          "title": "Start winding pin 4\u20133",
+          "body": "Blue wire at pin 4 to bare copper on pin 3. Spec 1.4\u20132.8 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+              "testPoint": {
+                "connector": "Motor start",
+                "pins": "4\u20133",
+                "label": "Start winding pin 4\u20133"
+              },
+              "title": "Start winding pin 4\u20133"
+            }
+          ],
+          "branches": [
+            {
+              "id": "start_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            },
+            {
+              "id": "start_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            },
+            {
+              "id": "start_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor."
+            }
+          ],
+          "sourceExcerpt": "Blue wire at pin 4 to bare copper on pin 3. Spec 1.4\u20132.8 \u03a9."
+        },
+        {
+          "id": "replace_motor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+          "testPoint": {
+            "connector": "Motor main",
+            "pins": "4\u20135",
+            "label": "Main winding pin 4\u20135"
+          },
+          "title": "Main winding pin 4\u20135"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorOhms",
+          "testPoint": {
+            "connector": "Motor start",
+            "pins": "4\u20133",
+            "label": "Start winding pin 4\u20133"
+          },
+          "title": "Start winding pin 4\u20133"
+        }
+      ],
+      "branches": [
+        {
+          "id": "main_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "start_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor.",
+          "stepId": "start_winding"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-6",
+        "oemTestTitle": "Drive Motor",
+        "pages": [
+          66
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-drive-motor",
+        "pages": [
+          66
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-drive-motor",
+            "pages": [
+              66
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-electric-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Electric Heater (Dual Element)",
+      "purpose": "Electric Heater (Dual Element)",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element"
+      ],
+      "tags": [
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_heater",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access heater terminal block",
+          "body": "Disconnect wires at heater terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wires at heater terminals."
+        },
+        {
+          "id": "element_com_1",
+          "order": 4,
+          "type": "measurement",
+          "title": "COM to terminal 1",
+          "body": "Rx1: COM to terminal 1 = 15\u201325 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "COM\u20131",
+                "label": "COM to terminal 1"
+              },
+              "title": "COM to terminal 1"
+            }
+          ],
+          "branches": [
+            {
+              "id": "e1_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "element_com_2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "e1_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "e1_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "e1_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            }
+          ],
+          "sourceExcerpt": "Rx1: COM to terminal 1 = 15\u201325 \u03a9."
+        },
+        {
+          "id": "element_com_2",
+          "order": 5,
+          "type": "measurement",
+          "title": "COM to terminal 2",
+          "body": "Rx1: COM to terminal 2 = 15\u201325 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "COM\u20132",
+                "label": "COM to terminal 2"
+              },
+              "title": "COM to terminal 2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "e2_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "element_series",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "e2_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "e2_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "e2_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            }
+          ],
+          "sourceExcerpt": "Rx1: COM to terminal 2 = 15\u201325 \u03a9."
+        },
+        {
+          "id": "element_series",
+          "order": 6,
+          "type": "measurement",
+          "title": "Terminals 1 to 2 (series)",
+          "body": "Rx1: terminals 1 & 2 = 30\u201350 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterDualParallelOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "1\u20132",
+                "label": "Terminals 1 to 2 (series)"
+              },
+              "title": "Terminals 1 to 2 (series)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "series_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "series_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "series_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            },
+            {
+              "id": "series_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_element",
+              "terminal": true,
+              "oemOutcome": "Replace heating element."
+            }
+          ],
+          "sourceExcerpt": "Rx1: terminals 1 & 2 = 30\u201350 \u03a9."
+        },
+        {
+          "id": "replace_element",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "COM\u20131",
+            "label": "COM to terminal 1"
+          },
+          "title": "COM to terminal 1"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterElementOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "COM\u20132",
+            "label": "COM to terminal 2"
+          },
+          "title": "COM to terminal 2"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerHeaterDualParallelOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "1\u20132",
+            "label": "Terminals 1 to 2 (series)"
+          },
+          "title": "Terminals 1 to 2 (series)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "e1_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "element_com_2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_com_1"
+        },
+        {
+          "id": "e1_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_1"
+        },
+        {
+          "id": "e1_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_1"
+        },
+        {
+          "id": "e1_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_1"
+        },
+        {
+          "id": "e2_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "element_series",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_com_2"
+        },
+        {
+          "id": "e2_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_2"
+        },
+        {
+          "id": "e2_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_2"
+        },
+        {
+          "id": "e2_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_com_2"
+        },
+        {
+          "id": "series_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_series"
+        },
+        {
+          "id": "series_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_series"
+        },
+        {
+          "id": "series_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_series"
+        },
+        {
+          "id": "series_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_element",
+          "terminal": true,
+          "oemOutcome": "Replace heating element.",
+          "stepId": "element_series"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-4",
+        "oemTestTitle": "Electric Heater (Dual Element)",
+        "pages": [
+          64
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-heater",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-heater",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-electric-tco-inlet",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "TCO, High-Limit & Inlet Thermistor (electric)",
+      "purpose": "Thermal Cutoff & Inlet Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_cutoff",
+        "inlet_thermistor"
+      ],
+      "tags": [
+        "no_heat",
+        "thermistor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_tco",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access TCO and inlet thermistor",
+          "body": "Disconnect wires at component under test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wires at component under test."
+        },
+        {
+          "id": "tco_continuity",
+          "order": 4,
+          "type": "visual_check",
+          "title": "TCO and high-limit continuity",
+          "body": "Rx1: thermal cut-off and high-limit thermostat terminals = 0 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tco_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inlet_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tco_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_tco_hilimit",
+              "terminal": true,
+              "oemOutcome": "Replace TCO and high-limit."
+            }
+          ],
+          "sourceExcerpt": "Rx1: thermal cut-off and high-limit thermostat terminals = 0 \u03a9."
+        },
+        {
+          "id": "inlet_ntc",
+          "order": 5,
+          "type": "measurement",
+          "title": "Inlet thermistor",
+          "body": "Rx100K at inlet thermistor. Use OEM R/T table (~62 k\u03a9 @ 68\u00b0F).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerInletThermistorKohm",
+              "testPoint": {
+                "connector": "Inlet thermistor",
+                "pins": "terminals",
+                "label": "Inlet thermistor"
+              },
+              "title": "Inlet thermistor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "inlet_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "tco_inlet_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "inlet_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_inlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace inlet thermistor."
+            },
+            {
+              "id": "inlet_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_inlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace inlet thermistor."
+            },
+            {
+              "id": "inlet_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_inlet_ntc",
+              "terminal": true,
+              "oemOutcome": "Replace inlet thermistor."
+            }
+          ],
+          "sourceExcerpt": "Rx100K at inlet thermistor. Use OEM R/T table (~62 k\u03a9 @ 68\u00b0F)."
+        },
+        {
+          "id": "replace_tco_hilimit",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace TCO & high-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_inlet_ntc",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace inlet thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tco_inlet_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "TCO & inlet NTC OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerInletThermistorKohm",
+          "testPoint": {
+            "connector": "Inlet thermistor",
+            "pins": "terminals",
+            "label": "Inlet thermistor"
+          },
+          "title": "Inlet thermistor"
+        }
+      ],
+      "branches": [
+        {
+          "id": "tco_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tco_continuity"
+        },
+        {
+          "id": "tco_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_tco_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace TCO and high-limit.",
+          "stepId": "tco_continuity"
+        },
+        {
+          "id": "inlet_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tco_inlet_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inlet_ntc"
+        },
+        {
+          "id": "inlet_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "stepId": "inlet_ntc"
+        },
+        {
+          "id": "inlet_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "stepId": "inlet_ntc"
+        },
+        {
+          "id": "inlet_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_inlet_ntc",
+          "terminal": true,
+          "oemOutcome": "Replace inlet thermistor.",
+          "stepId": "inlet_ntc"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-5",
+        "oemTestTitle": "Thermal Cutoff & Inlet Thermistor",
+        "pages": [
+          65
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-electric-tco-inlet",
+        "pages": [
+          65
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-electric-tco-inlet",
+            "pages": [
+              65
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-flame-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Flame Sensor Test",
+      "purpose": "Flame Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "flame_sensor"
+      ],
+      "tags": [
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_flame",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access flame sensor",
+          "body": "Disconnect wire connectors from flame sensor terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wire connectors from flame sensor terminals."
+        },
+        {
+          "id": "flame_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Flame sensor continuity",
+          "body": "Rx1 across flame sensor terminals: closed circuit (0 \u03a9).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "flame_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "flame_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "flame_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_flame_sensor",
+              "terminal": true,
+              "oemOutcome": "Replace flame sensor."
+            }
+          ],
+          "sourceExcerpt": "Rx1 across flame sensor terminals: closed circuit (0 \u03a9)."
+        },
+        {
+          "id": "replace_flame_sensor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace flame sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "flame_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Flame sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flame_continuity"
+        },
+        {
+          "id": "flame_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor",
+          "terminal": true,
+          "oemOutcome": "Replace flame sensor.",
+          "stepId": "flame_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-3",
+        "oemTestTitle": "Flame Sensor",
+        "pages": [
+          63
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-flame-sensor",
+        "pages": [
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-flame-sensor",
+            "pages": [
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-gas-coils",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Gas Burner Coils Test",
+      "purpose": "Gas Valve Coils",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "gas_valve_check",
+        "no_heat",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_coils",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access gas valve coils",
+          "body": "Disconnect coil harness. Gas off, power disconnected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect coil harness. Gas off, power disconnected."
+        },
+        {
+          "id": "coil_12",
+          "order": 4,
+          "type": "measurement",
+          "title": "Coil terminals 1\u20132",
+          "body": "Spec 1365 \u00b1 25 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "1\u20132",
+                "label": "Coil terminals 1\u20132"
+              },
+              "title": "Coil terminals 1\u20132"
+            }
+          ],
+          "branches": [
+            {
+              "id": "c12_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "coil_13",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "c12_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c12_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c12_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            }
+          ],
+          "sourceExcerpt": "Spec 1365 \u00b1 25 \u03a9."
+        },
+        {
+          "id": "coil_13",
+          "order": 5,
+          "type": "measurement",
+          "title": "Coil terminals 1\u20133",
+          "body": "Spec 560 \u00b1 25 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "1\u20133",
+                "label": "Coil terminals 1\u20133"
+              },
+              "title": "Coil terminals 1\u20133"
+            }
+          ],
+          "branches": [
+            {
+              "id": "c13_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "coil_45",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "c13_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c13_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c13_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            }
+          ],
+          "sourceExcerpt": "Spec 560 \u00b1 25 \u03a9."
+        },
+        {
+          "id": "coil_45",
+          "order": 6,
+          "type": "measurement",
+          "title": "Coil terminals 4\u20135",
+          "body": "Spec 1220 \u00b1 50 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "4\u20135",
+                "label": "Coil terminals 4\u20135"
+              },
+              "title": "Coil terminals 4\u20135"
+            }
+          ],
+          "branches": [
+            {
+              "id": "c45_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "coils_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "c45_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c45_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            },
+            {
+              "id": "c45_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s)."
+            }
+          ],
+          "sourceExcerpt": "Spec 1220 \u00b1 50 \u03a9."
+        },
+        {
+          "id": "replace_coils",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace coils",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "coils_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Gas coils verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "1\u20132",
+            "label": "Coil terminals 1\u20132"
+          },
+          "title": "Coil terminals 1\u20132"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "1\u20133",
+            "label": "Coil terminals 1\u20133"
+          },
+          "title": "Coil terminals 1\u20133"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "4\u20135",
+            "label": "Coil terminals 4\u20135"
+          },
+          "title": "Coil terminals 4\u20135"
+        }
+      ],
+      "branches": [
+        {
+          "id": "c12_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_13",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_12"
+        },
+        {
+          "id": "c12_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_12"
+        },
+        {
+          "id": "c12_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_12"
+        },
+        {
+          "id": "c12_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_12"
+        },
+        {
+          "id": "c13_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_45",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_13"
+        },
+        {
+          "id": "c13_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_13"
+        },
+        {
+          "id": "c13_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_13"
+        },
+        {
+          "id": "c13_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_13"
+        },
+        {
+          "id": "c45_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coils_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_45"
+        },
+        {
+          "id": "c45_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_45"
+        },
+        {
+          "id": "c45_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_45"
+        },
+        {
+          "id": "c45_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s).",
+          "stepId": "coil_45"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "6-8",
+        "oemTestTitle": "Gas Valve Coils",
+        "pages": [
+          74
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-coils",
+        "pages": [
+          74
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-coils",
+            "pages": [
+              74
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-gas-hilimit-cutoff",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "High-Limit & Thermal Cutoff (gas)",
+      "purpose": "High-Limit Thermostat & TCO (Gas)",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_cutoff"
+      ],
+      "tags": [
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_gas_limits",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access high-limit and TCO (gas)",
+          "body": "Disconnect wire connectors from terminals.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wire connectors from terminals."
+        },
+        {
+          "id": "hilimit_continuity",
+          "order": 4,
+          "type": "visual_check",
+          "title": "High-limit thermostat continuity",
+          "body": "Rx1: high-limit thermostat terminals = 0 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hilimit_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tco_continuity",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hilimit_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_limits",
+              "terminal": true,
+              "oemOutcome": "Replace high-limit and TCO."
+            }
+          ],
+          "sourceExcerpt": "Rx1: high-limit thermostat terminals = 0 \u03a9."
+        },
+        {
+          "id": "tco_continuity",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Thermal cut-off continuity",
+          "body": "Rx1: thermal cut-off (TCO) terminals = 0 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tco_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_limits_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tco_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_limits",
+              "terminal": true,
+              "oemOutcome": "Replace TCO and high-limit."
+            }
+          ],
+          "sourceExcerpt": "Rx1: thermal cut-off (TCO) terminals = 0 \u03a9."
+        },
+        {
+          "id": "replace_limits",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace limits",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "gas_limits_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Gas limits verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tco_continuity",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hilimit_continuity"
+        },
+        {
+          "id": "hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_limits",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit and TCO.",
+          "stepId": "hilimit_continuity"
+        },
+        {
+          "id": "tco_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_limits_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tco_continuity"
+        },
+        {
+          "id": "tco_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_limits",
+          "terminal": true,
+          "oemOutcome": "Replace TCO and high-limit.",
+          "stepId": "tco_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-2-gas",
+        "oemTestTitle": "High-Limit Thermostat & TCO (Gas)",
+        "pages": [
+          62
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-hilimit-cutoff",
+        "pages": [
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-hilimit-cutoff",
+            "pages": [
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-gas-ignitor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Burner Ignitor Test",
+      "purpose": "Burner Ignitor",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "igniter_check",
+        "ignition_issue",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_ignitor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access burner ignitor",
+          "body": "Disconnect 2-wire ignitor connector from harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect 2-wire ignitor connector from harness."
+        },
+        {
+          "id": "ignitor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ignitor resistance",
+          "body": "Rx1 at 2-wire connector pins: 50\u2013500 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerIgnitorOhms",
+              "testPoint": {
+                "connector": "Ignitor",
+                "pins": "2-wire",
+                "label": "Ignitor resistance"
+              },
+              "title": "Ignitor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ign_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ignitor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace burner ignitor."
+            },
+            {
+              "id": "ign_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace burner ignitor."
+            },
+            {
+              "id": "ign_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace burner ignitor."
+            }
+          ],
+          "sourceExcerpt": "Rx1 at 2-wire connector pins: 50\u2013500 \u03a9."
+        },
+        {
+          "id": "replace_ignitor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ignitor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ignitor_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ignitor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerIgnitorOhms",
+          "testPoint": {
+            "connector": "Ignitor",
+            "pins": "2-wire",
+            "label": "Ignitor resistance"
+          },
+          "title": "Ignitor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ign_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace burner ignitor.",
+          "stepId": "ignitor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-4-gas",
+        "oemTestTitle": "Burner Ignitor",
+        "pages": [
+          64
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-gas-ignitor",
+        "pages": [
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-gas-ignitor",
+            "pages": [
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-supply-connections",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Supply Connections Test",
+      "purpose": "Supply Connections Test",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "supply_issue",
+        "voltage_check",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "fuel_variant",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Electric or gas dryer?",
+          "body": "MED/WED = electric dual-element; MGD/WGD = gas burner.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fuel_electric",
+              "label": "Electric",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_cover",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuel_gas",
+              "label": "Gas",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "gas_cover",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "MED/WED = electric dual-element; MGD/WGD = gas burner."
+        },
+        {
+          "id": "electric_cover",
+          "order": 3,
+          "type": "instruction",
+          "title": "Electric \u2014 terminal block",
+          "body": "Remove rear cover plate. Verify cord at terminal block.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove rear cover plate. Verify cord at terminal block."
+        },
+        {
+          "id": "electric_n_block",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Neutral plug to terminal block center",
+          "body": "Continuity from plug N to center terminal block contact.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "en_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_l1_id",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "en_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cord",
+              "terminal": true,
+              "oemOutcome": "Replace power cord."
+            }
+          ],
+          "sourceExcerpt": "Continuity from plug N to center terminal block contact."
+        },
+        {
+          "id": "electric_l1_id",
+          "order": 5,
+          "type": "instruction",
+          "title": "Identify L1 at block",
+          "body": "Note which plug terminal connects to left-most block contact (L1).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Note which plug terminal connects to left-most block contact (L1)."
+        },
+        {
+          "id": "electric_l1_timer",
+          "order": 6,
+          "type": "visual_check",
+          "title": "L1 plug to timer BK",
+          "body": "Access electronic control without disconnecting board wiring. Continuity L1 plug to BK (black) on timer.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "el1_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_n_p2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "el1_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Replace harness or cord."
+            }
+          ],
+          "sourceExcerpt": "Access electronic control without disconnecting board wiring. Continuity L1 plug to BK (black) on timer."
+        },
+        {
+          "id": "electric_n_p2",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Neutral plug to P2-1",
+          "body": "Continuity from plug N to P2-1 (white) on electronic control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "enp2_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "supply_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "enp2_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Replace main harness."
+            }
+          ],
+          "sourceExcerpt": "Continuity from plug N to P2-1 (white) on electronic control."
+        },
+        {
+          "id": "gas_cover",
+          "order": 3,
+          "type": "instruction",
+          "title": "Gas \u2014 cord to harness",
+          "body": "Verify power cord firmly connected to wire harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify power cord firmly connected to wire harness."
+        },
+        {
+          "id": "gas_n_p1",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Gas \u2014 neutral to P1-2",
+          "body": "Continuity plug N to P1-2 (white) on electronic control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gn_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_l1_timer",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gn_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cord",
+              "terminal": true,
+              "oemOutcome": "Replace power cord."
+            }
+          ],
+          "sourceExcerpt": "Continuity plug N to P1-2 (white) on electronic control."
+        },
+        {
+          "id": "gas_l1_timer",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Gas \u2014 L1 to timer BK",
+          "body": "Continuity L1 plug to BK (black) on timer.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gl1_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "supply_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gl1_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Replace cord or harness."
+            }
+          ],
+          "sourceExcerpt": "Continuity L1 plug to BK (black) on timer."
+        },
+        {
+          "id": "replace_cord",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace power cord",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_harness",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "supply_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Supply verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_cover",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuel_variant"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "gas_cover",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuel_variant"
+        },
+        {
+          "id": "en_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_l1_id",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_n_block"
+        },
+        {
+          "id": "en_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "stepId": "electric_n_block"
+        },
+        {
+          "id": "el1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_n_p2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_l1_timer"
+        },
+        {
+          "id": "el1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace harness or cord.",
+          "stepId": "electric_l1_timer"
+        },
+        {
+          "id": "enp2_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_n_p2"
+        },
+        {
+          "id": "enp2_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main harness.",
+          "stepId": "electric_n_p2"
+        },
+        {
+          "id": "gn_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_l1_timer",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_n_p1"
+        },
+        {
+          "id": "gn_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord.",
+          "stepId": "gas_n_p1"
+        },
+        {
+          "id": "gl1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_l1_timer"
+        },
+        {
+          "id": "gl1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace cord or harness.",
+          "stepId": "gas_l1_timer"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "6-3",
+        "oemTestTitle": "Supply Connections Test",
+        "pages": [
+          67,
+          70
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-supply-connections",
+        "pages": [
+          67,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-supply-connections",
+            "pages": [
+              67,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-thermal-fuse-exhaust",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Thermal Fuse & Exhaust Thermistor",
+      "purpose": "Thermal Fuse & Exhaust Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse",
+        "exhaust_thermistor"
+      ],
+      "tags": [
+        "no_heat",
+        "thermistor",
+        "no_spin"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "access_thermal",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access thermal fuse & exhaust NTC",
+          "body": "Disconnect wires at component under test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect wires at component under test."
+        },
+        {
+          "id": "fuse_continuity",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Thermal fuse continuity",
+          "body": "Rx1 across thermal fuse terminals: 0 \u03a9. Opens at 196\u00b0F (91\u00b0C).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fuse_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "exhaust_ntc",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_fuse",
+              "terminal": true,
+              "oemOutcome": "Replace thermal fuse; clear vent."
+            }
+          ],
+          "sourceExcerpt": "Rx1 across thermal fuse terminals: 0 \u03a9. Opens at 196\u00b0F (91\u00b0C)."
+        },
+        {
+          "id": "exhaust_ntc",
+          "order": 5,
+          "type": "measurement",
+          "title": "Exhaust thermistor resistance",
+          "body": "Rx100K at thermistor terminals. Use OEM R/T table (~12 k\u03a9 @ 70\u00b0F).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerExhaustThermistorKohm",
+              "testPoint": {
+                "connector": "Exhaust thermistor",
+                "pins": "terminals",
+                "label": "Exhaust thermistor resistance"
+              },
+              "title": "Exhaust thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermal_exhaust_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor."
+            },
+            {
+              "id": "ntc_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor."
+            },
+            {
+              "id": "ntc_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor."
+            }
+          ],
+          "sourceExcerpt": "Rx100K at thermistor terminals. Use OEM R/T table (~12 k\u03a9 @ 70\u00b0F)."
+        },
+        {
+          "id": "replace_fuse",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermal fuse",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermal_exhaust_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Fuse & exhaust NTC OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerExhaustThermistorKohm",
+          "testPoint": {
+            "connector": "Exhaust thermistor",
+            "pins": "terminals",
+            "label": "Exhaust thermistor resistance"
+          },
+          "title": "Exhaust thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "exhaust_ntc",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuse_continuity"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace thermal fuse; clear vent.",
+          "stepId": "fuse_continuity"
+        },
+        {
+          "id": "ntc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_exhaust_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "exhaust_ntc"
+        },
+        {
+          "id": "ntc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "stepId": "exhaust_ntc"
+        },
+        {
+          "id": "ntc_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "stepId": "exhaust_ntc"
+        },
+        {
+          "id": "ntc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor.",
+          "stepId": "exhaust_ntc"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "5-2",
+        "oemTestTitle": "Thermal Fuse & Exhaust Thermistor",
+        "pages": [
+          62,
+          72
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-thermal-fuse-exhaust",
+        "pages": [
+          62,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-thermal-fuse-exhaust",
+            "pages": [
+              62,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178629-timer-motor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "title": "Timer & Motor Relay Test",
+      "purpose": "Timer Test / Motor Relay",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface",
+        "motor"
+      ],
+      "tags": [
+        "timer_issue",
+        "motor_check",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (Less Dry / input beep test reviewed). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "less_dry_precheck",
+          "order": 3,
+          "type": "instruction",
+          "title": "Less Dry test (live)",
+          "body": "Door closed, Timer Less Dry, Temp High, Signal Louder \u2192 PTS. Timer should advance to Off in ~16 s.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Door closed, Timer Less Dry, Temp High, Signal Louder \u2192 PTS. Timer should advance to Off in ~16 s."
+        },
+        {
+          "id": "diag_mode_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Diagnostic mode \u2014 timer advances",
+          "body": "If Less Dry fails, enter diagnostic mode. Timer should advance continuously during test mode.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "timer_adv_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_relay_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "timer_adv_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "timer_bench",
+              "terminal": true,
+              "oemOutcome": "Bench test timer motor."
+            }
+          ],
+          "sourceExcerpt": "If Less Dry fails, enter diagnostic mode. Timer should advance continuously during test mode."
+        },
+        {
+          "id": "timer_bench",
+          "order": 5,
+          "type": "measurement",
+          "title": "Timer motor BU to PT-1",
+          "body": "Disconnect timer wires. Spec 3 k\u03a9 (\u00b12).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerTimerMotorOhms",
+              "testPoint": {
+                "connector": "Timer motor",
+                "pins": "BU\u2013PT-1",
+                "label": "Timer motor BU to PT-1"
+              },
+              "title": "Timer motor BU to PT-1"
+            }
+          ],
+          "branches": [
+            {
+              "id": "timer_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "motor_relay_path",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "timer_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_timer",
+              "terminal": true,
+              "oemOutcome": "Replace timer."
+            },
+            {
+              "id": "timer_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_timer",
+              "terminal": true,
+              "oemOutcome": "Replace timer."
+            },
+            {
+              "id": "timer_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_timer",
+              "terminal": true,
+              "oemOutcome": "Replace timer."
+            }
+          ],
+          "sourceExcerpt": "Disconnect timer wires. Spec 3 k\u03a9 (\u00b12)."
+        },
+        {
+          "id": "motor_relay_path",
+          "order": 6,
+          "type": "measurement",
+          "title": "Motor relay COM to P2-6",
+          "body": "Door open, power off for bench motor. At control: COM to P2-6 should read 1\u20136 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolCentennialDryerMotorCircuitOhms",
+              "testPoint": {
+                "connector": "Motor relay",
+                "pins": "COM\u2013P2-6",
+                "label": "Motor relay COM to P2-6"
+              },
+              "title": "Motor relay COM to P2-6"
+            }
+          ],
+          "branches": [
+            {
+              "id": "relay_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "timer_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "relay_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "thermal_door_check",
+              "terminal": true,
+              "oemOutcome": "Run thermal fuse and door switch tests."
+            },
+            {
+              "id": "relay_bad_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "thermal_door_check",
+              "terminal": true,
+              "oemOutcome": "Run thermal fuse and door switch tests."
+            },
+            {
+              "id": "relay_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "thermal_door_check",
+              "terminal": true,
+              "oemOutcome": "Run thermal fuse and door switch tests."
+            }
+          ],
+          "sourceExcerpt": "Door open, power off for bench motor. At control: COM to P2-6 should read 1\u20136 \u03a9."
+        },
+        {
+          "id": "thermal_door_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Thermal fuse & door switch",
+          "body": "Perform w8178629-thermal-fuse-exhaust and w8178629-door-switch if motor relay path out of spec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Perform w8178629-thermal-fuse-exhaust and w8178629-door-switch if motor relay path out of spec."
+        },
+        {
+          "id": "replace_timer",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace timer",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "timer_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Timer/motor relay OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerTimerMotorOhms",
+          "testPoint": {
+            "connector": "Timer motor",
+            "pins": "BU\u2013PT-1",
+            "label": "Timer motor BU to PT-1"
+          },
+          "title": "Timer motor BU to PT-1"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolCentennialDryerMotorCircuitOhms",
+          "testPoint": {
+            "connector": "Motor relay",
+            "pins": "COM\u2013P2-6",
+            "label": "Motor relay COM to P2-6"
+          },
+          "title": "Motor relay COM to P2-6"
+        }
+      ],
+      "branches": [
+        {
+          "id": "timer_adv_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_relay_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diag_mode_check"
+        },
+        {
+          "id": "timer_adv_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "timer_bench",
+          "terminal": true,
+          "oemOutcome": "Bench test timer motor.",
+          "stepId": "diag_mode_check"
+        },
+        {
+          "id": "timer_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "motor_relay_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "timer_bench"
+        },
+        {
+          "id": "timer_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "stepId": "timer_bench"
+        },
+        {
+          "id": "timer_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "stepId": "timer_bench"
+        },
+        {
+          "id": "timer_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_timer",
+          "terminal": true,
+          "oemOutcome": "Replace timer.",
+          "stepId": "timer_bench"
+        },
+        {
+          "id": "relay_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "timer_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_relay_path"
+        },
+        {
+          "id": "relay_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "stepId": "motor_relay_path"
+        },
+        {
+          "id": "relay_bad_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "stepId": "motor_relay_path"
+        },
+        {
+          "id": "relay_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "thermal_door_check",
+          "terminal": true,
+          "oemOutcome": "Run thermal fuse and door switch tests.",
+          "stepId": "motor_relay_path"
+        }
+      ],
+      "source": {
+        "manualId": "W8178629",
+        "manualTitle": "Maytag Centennial Electric & Gas Dryers (Job Aid ML-4)",
+        "oemTestNumber": "6-4",
+        "oemTestTitle": "Timer Test / Motor Relay",
+        "pages": [
+          68,
+          70
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178629 wed4950-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178629",
+        "platformId": "whirlpool_centennial_dryer",
+        "procedureId": "w8178629-timer-motor",
+        "pages": [
+          68,
+          70
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178629",
+            "platformId": "whirlpool_centennial_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178629-timer-motor",
+            "pages": [
+              68,
+              70
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

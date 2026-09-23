@@ -1,0 +1,1612 @@
+{
+  "manualId": "W11746350",
+  "candidates": [
+    {
+      "id": "map-W11746350-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-acu-power",
+        "pages": [
+          14,
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-acu-power",
+            "pages": [
+              14,
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-supply-power_supply",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:12:01.249Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      }
+    },
+    {
+      "id": "map-W11746350-compound-acu-power-&-communication",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU Power & Communication",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-acu-power",
+        "pages": [
+          14,
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-acu-power",
+            "pages": [
+              14,
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-acu-power",
+        "pages": [
+          14,
+          29,
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-acu-power",
+            "pages": [
+              14,
+              29,
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-acu-control_board",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:47.776Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649022+00:00"
+      }
+    },
+    {
+      "id": "map-W11746350-bake_element-bake_heating_element",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "bake_element",
+      "extractedTerm": null,
+      "canonicalId": "bake_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-bake-element",
+        "pages": [
+          21,
+          41,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-bake-element",
+            "pages": [
+              21,
+              41,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-bake_element-bake_heating_element",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:52.107Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      }
+    },
+    {
+      "id": "map-W11746350-compound-hidden-bake-element",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Hidden Bake Element",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-bake-element",
+        "pages": [
+          21,
+          41,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-bake-element",
+            "pages": [
+              21,
+              41,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-bake-element-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-bake-element",
+        "pages": [
+          21,
+          41,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-bake-element",
+            "pages": [
+              21,
+              41,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-bridge-/-single-/-warming-cooktop-elements",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Bridge / Single / Warming Cooktop Elements",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-bridge-element",
+        "pages": [
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-bridge-element",
+            "pages": [
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-broil_element-broil_heating_element",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "broil_element",
+      "extractedTerm": null,
+      "canonicalId": "broil_heating_element",
+      "confidence": 0.96,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-broil-element",
+        "pages": [
+          18,
+          41,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-broil-element",
+            "pages": [
+              18,
+              41,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "range_seed_alias"
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-broil_element-broil_heating_element",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:54.633Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      }
+    },
+    {
+      "id": "map-W11746350-compound-broil-element",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Broil Element",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-broil-element",
+        "pages": [
+          18,
+          41,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-broil-element",
+            "pages": [
+              18,
+              41,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-convection_fan-convection_fan",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "convection_fan",
+      "extractedTerm": null,
+      "canonicalId": "convection_fan",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-convect-element",
+        "pages": [
+          15,
+          41,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-convect-element",
+            "pages": [
+              15,
+              41,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-convection_fan-convection_fan",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:59.032Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      }
+    },
+    {
+      "id": "map-W11746350-compound-convection-element-(gas-oven)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Convection Element (gas oven)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-convect-element",
+        "pages": [
+          15,
+          41,
+          48
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-convect-element",
+            "pages": [
+              15,
+              41,
+              48
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-temp_sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "temp_sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "temp",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-door-latch",
+        "pages": [
+          12,
+          34,
+          35,
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-door-latch",
+            "pages": [
+              12,
+              34,
+              35,
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "temp",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-rear-door-latch-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Rear Door Latch Motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "rear door latch",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-door-latch",
+        "pages": [
+          12,
+          34,
+          35,
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-door-latch",
+            "pages": [
+              12,
+              34,
+              35,
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "rear door latch",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-gas_valve",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "gas_valve",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-dsi-gas-valve",
+        "pages": [
+          13,
+          17,
+          43,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-dsi-gas-valve",
+            "pages": [
+              13,
+              17,
+              43,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-dsi-board-&-gas-regulator",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "DSI Board & Gas Regulator",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "dsi",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-dsi-gas-valve",
+        "pages": [
+          13,
+          17,
+          43,
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-dsi-gas-valve",
+            "pages": [
+              13,
+              17,
+              43,
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "dsi",
+              "actuator": "board"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-hmi-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-hmi",
+        "pages": [
+          26,
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-hmi",
+            "pages": [
+              26,
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-hmi-/-touch-interface",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "HMI / Touch Interface",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-hmi",
+        "pages": [
+          26,
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-hmi",
+            "pages": [
+              26,
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-hmi-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-hmi",
+        "pages": [
+          26,
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-hmi",
+            "pages": [
+              26,
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-hmi-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-hmi",
+        "pages": [
+          26,
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-hmi",
+            "pages": [
+              26,
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-hmi-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-hmi",
+        "pages": [
+          26,
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-hmi",
+            "pages": [
+              26,
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-main-oven-temperature-sensor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Main Oven Temperature Sensor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.85,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "oven temperature",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": "oven temperature sensor",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-oven-sensor",
+        "pages": [
+          12,
+          32,
+          33,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-oven-sensor",
+            "pages": [
+              12,
+              32,
+              33,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "oven temperature sensor",
+            "decomposition": {
+              "domain": "main",
+              "component": "oven temperature",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11746350::canonical_mapping::map-W11746350-compound-main-oven-temperature-sensor",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:55.780Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.649522+00:00"
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-oven-sensor-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-oven-sensor",
+        "pages": [
+          12,
+          32,
+          33,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-oven-sensor",
+            "pages": [
+              12,
+              32,
+              33,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-oven-sensor-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-oven-sensor",
+        "pages": [
+          12,
+          32,
+          33,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-oven-sensor",
+            "pages": [
+              12,
+              32,
+              33,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-oven-sensor-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-oven-sensor",
+        "pages": [
+          12,
+          32,
+          33,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-oven-sensor",
+            "pages": [
+              12,
+              32,
+              33,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-surface_ignition",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "surface_ignition",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-surface-spark",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-surface-spark",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-surface-burner-spark-module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Surface Burner Spark Module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "surface burner spark",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-surface-spark",
+        "pages": [
+          49,
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-surface-spark",
+            "pages": [
+              49,
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "surface burner spark",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-thermal-fuse-supply",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-thermal-fuse",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-thermal-fuse",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-thermal-fuse-/-thermo-fuse",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Thermal Fuse / Thermo Fuse",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "thermal fuse thermo",
+        "actuator": "fuse"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-thermal-fuse",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-thermal-fuse",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "thermal fuse thermo",
+              "actuator": "fuse"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11746350-compound-ventilation-/-convection-fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "Ventilation / Convection Fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-vent-fan",
+        "pages": [
+          14,
+          29,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-vent-fan",
+            "pages": [
+              14,
+              29,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11746350-unresolved-w11746350-vent-fan-acu",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11746350-vent-fan",
+        "pages": [
+          14,
+          29,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11746350",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11746350-vent-fan",
+            "pages": [
+              14,
+              29,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    }
+  ]
+}

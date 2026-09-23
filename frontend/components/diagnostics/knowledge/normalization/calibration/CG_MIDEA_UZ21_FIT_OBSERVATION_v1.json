@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_standalone_freezer_fit_observation",
+  "workstream": "CG-STANDALONE-FREEZER-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T18:05:00+00:00",
+  "contract": "CG_STANDALONE_FREEZER_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Midea/Insignia",
+  "model": "NS-UZ21WH0 (OEM HS-772FWE)",
+  "platformId": "midea_uz21",
+  "manualId": "MIDEA-UZ21-FREEZER",
+  "templateId": "standalone_freezer",
+  "compressorArchitecture": "fixed_speed_EZ90H1A",
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "french_door_refrigerator",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/NS-UZ21WH0 insignia freezer.pdf",
+    "extractedText": "backend/docs/manuals/NS-UZ21WH0 insignia freezer-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/midea_uz21",
+    "procedureCatalog": "frontend/components/diagnostics/procedures/seed/midea_uz21/procedureCatalog.json"
+  },
+  "functionalArchitectureSummary": {
+    "compartments": "Single freezer cabinet only — no fresh-food compartment, no multi-door routing, no through-door dispense",
+    "refrigeration": "Fixed-speed compressor (EZ90H1A), evaporator fan, defrost heater, B3839 NTC thermistors (cabinet, defrost, ambient)",
+    "control": "Main board + display communication (E6); E-family fault codes E2/E5/E6/E7/E9",
+    "defrost": "Freezer defrost heater ~41 Ω (115 V 320 W); defrost sensor E5; forced defrost via test mode",
+    "optionalFeaturesAbsent": "No ice maker, no water dispenser, no air damper fresh-food routing, no RC compartment sensors",
+    "supplementaryCorroboration": "Midea RSS26 refrigerator manual shares E2/E5/E6/E7/E9 freezer-scoped diagnostic pattern — demonstrates french_door_refrigerator already models freezer compartment instances"
+  },
+  "classificationHistogram": {
+    "french_door_refrigerator": 7,
+    "shared_function": 0,
+    "implementation_specific": 0,
+    "unresolved": 0
+  },
+  "procedureClassifications": [
+    {
+      "procedureId": "mideauz21-fz-temp-sensor",
+      "oemSection": "§9.6 E2",
+      "pages": [34, 38, 39],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "temperature_sensing_control",
+      "provenance": "Freezer cabinet NTC (B3839) — maps to conditionalConcept temperature_sensor with freezer compartment overlay binding.",
+      "frozenContractFit": "french_door_refrigerator.temperature_sensor[freezer] — overlay binding, not new canonical node"
+    },
+    {
+      "procedureId": "mideauz21-fz-defrost-sensor",
+      "oemSection": "§9.6 E5",
+      "pages": [38, 39],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "defrost_system",
+      "provenance": "Defrost termination sensing — platform defrost_sensor vocabulary on defrost_operation path.",
+      "frozenContractFit": "french_door_refrigerator.defrost_operation + overlayOnlyConcepts.defrost_sensor"
+    },
+    {
+      "procedureId": "mideauz21-ambient-sensor",
+      "oemSection": "§9.6 E7",
+      "pages": [38, 39],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "temperature_sensing_control",
+      "provenance": "Ambient NTC for control compensation — same role as refrigerator ambient sensing on Midea E-family.",
+      "frozenContractFit": "french_door_refrigerator.temperature_sensor[ambient] overlay"
+    },
+    {
+      "procedureId": "mideauz21-fz-defrost-heater",
+      "oemSection": "§5.1 / §7.6",
+      "pages": [20, 30],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "defrost_system",
+      "provenance": "Defrost heater actuation ~41 Ω — maps to defrost_heater canonical actuator with freezer instance scope.",
+      "frozenContractFit": "french_door_refrigerator.defrost_heater[freezer]"
+    },
+    {
+      "procedureId": "mideauz21-communication",
+      "oemSection": "§9.6 E6",
+      "pages": [38, 39],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "control_board_user_interface",
+      "provenance": "Display↔main CN9 communication fault — maps to control_board + user_interface canonical nodes.",
+      "frozenContractFit": "french_door_refrigerator.control_board + user_interface"
+    },
+    {
+      "procedureId": "mideauz21-high-temp-alarm",
+      "oemSection": "§9.6 E9",
+      "pages": [38, 39],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "thermal_protection_monitoring",
+      "provenance": "High-temperature alarm orchestrates fan/defrost/compressor checks — control-board monitoring of refrigeration_operation, not a new canonical domain.",
+      "frozenContractFit": "french_door_refrigerator.control_board + refrigeration_operation diagnostic ladder"
+    },
+    {
+      "procedureId": "mideauz21-evap-fan",
+      "oemSection": "§7.5 / E9 step 5",
+      "pages": [29, 38],
+      "classification": "french_door_refrigerator",
+      "functionalDomain": "evaporator_airflow",
+      "provenance": "Freezer evaporator fan commanded during cooling and E9 recovery — maps to evaporator_fan[freezer] instance.",
+      "frozenContractFit": "french_door_refrigerator.evaporator_fan + airflow_operation"
+    }
+  ],
+  "refrigeratorSpecificDomainsAbsent": {
+    "air_damper": "Not present — not required; french_door_refrigerator.air_damper is conditional in airflow_operation",
+    "ice_maker": "Not present — optional conditionalConcept; not instantiated",
+    "water_dispenser": "Not present — optional conditionalConcept; not instantiated",
+    "fresh_food_temperature_sensors": "Not present — by product design, not diagnostic gap",
+    "multi_fan_fresh_food_routing": "Not present"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "standalone_freezer.json new canonical graph",
+      "reason": "All ingested procedures map to existing french_door_refrigerator domains with freezer-only scope"
+    },
+    {
+      "candidate": "compressor / evaporator / condenser as new canonical nodes",
+      "reason": "Physical components — compressor is conditionalConcept with overlay binding; evaporator/condenser deferred platform vocabulary per french_door_refrigerator rev1"
+    },
+    {
+      "candidate": "divergence due to missing fresh-food compartment",
+      "reason": "Absence of refrigerator-specific optional domains is not architectural divergence"
+    }
+  ],
+  "candidateWitnessesNotInCorpus": [
+    "Whirlpool WZF79R20DW",
+    "Whirlpool WZF56R16DW",
+    "Samsung RZ11M7074SA/AA",
+    "Samsung RZ11T7474AP/AA"
+  ]
+}

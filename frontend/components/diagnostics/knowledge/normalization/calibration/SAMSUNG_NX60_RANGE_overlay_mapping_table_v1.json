@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_overlay_mapping_gate_table",
+  "manualId": "SAMSUNG-NX60-RANGE",
+  "platformId": "samsung_range_nx60",
+  "platformFamilyId": "samsung_range_nx60",
+  "canonicalOntologyId": "range_oven",
+  "proposedOverlayFile": "samsung_range_nx60.json",
+  "normalizationArtifact": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_RANGE_COMPOUNDING_v1.json",
+  "compoundingSequence": 1,
+  "status": "published",
+  "generatedAt": "2026-09-17T04:45:00+00:00",
+  "gateFraming": {
+    "question": "How does normalized NX60 gas evidence realize the frozen range_oven contract?",
+    "not": "What Samsung hardware should become new canonical components?",
+    "validOutcomes": [
+      "canonical_inheritance",
+      "instance_scope_binding",
+      "conditional_binding",
+      "overlay_implementation",
+      "platform_only"
+    ]
+  },
+  "gatePolicy": {
+    "gateKind": "samsung_nx60_gas_first_range_compounding",
+    "compoundingPhase": "CG-RANGE-COMPOUNDING",
+    "canonicalGraph": "range_oven.json rev1 FROZEN — adopted from CG-10 electric_range rev1",
+    "freezeReopenBlocked": true,
+    "publishBlocked": false
+  },
+  "canonicalContract": {
+    "graph": "range_oven",
+    "revision": "rev1",
+    "frozen": true,
+    "electricRangeRev1Hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "allowedCanonicalIds": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor",
+      "surface_heating_system"
+    ],
+    "instanceScopeIds": ["bake_heating_element", "broil_heating_element"],
+    "conditionalBindingIds": ["convection_fan", "thermal_protection", "oven_door_switch"],
+    "contractRule": "Gas HSI/valve/spark/relay vocabulary binds under instance scopes and platform overlay — never components[]."
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalBinding": 3,
+    "overlayImplementation": 11,
+    "proceduresBound": 14,
+    "measurementsBound": 16,
+    "decisionBranchesExecutable": 11,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "nx60-temperature-sensor-realization",
+      "gateQuestion": "How does NX60 oven sensor evidence bind to temperature_sensor?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "temperature_sensor",
+      "implementationTerm": "oven_sensor",
+      "procedureIds": ["samsungnx60-oven-sensor"],
+      "measurementIds": ["nx60-oven-sensor-ohms"],
+      "diagnosticSpec": "1080 Ω @ room — 1030–1130 Ω band",
+      "gateAction": "approve_compounded",
+      "rationale": "Canonical temperature feedback realized by Samsung RTD at CN100 — not a new canonical node."
+    },
+    {
+      "teachingId": "nx60-bake-instance-scope-hsi",
+      "gateQuestion": "How does NX60 bake HSI realize bake_heating_element instance scope?",
+      "outcome": "instance_scope_binding",
+      "layer": "instance_scope_binding",
+      "instanceScopeTarget": "bake_heating_element",
+      "implementationTerms": ["bake_hsi", "bake_relay"],
+      "procedureIds": ["samsungnx60-bake-ignitor", "samsungnx60-heater-relays"],
+      "measurementIds": ["nx60-bake-hsi-ohms", "nx60-bake-relay-ohms"],
+      "diagnosticSpec": "40–400 Ω HSI; relay contacts open when de-energized",
+      "gateAction": "approve_compounded",
+      "rationale": "Gas bake path binds to frozen instance scope — HSI is implementation, not canonical bake_element."
+    },
+    {
+      "teachingId": "nx60-broil-instance-scope-hsi",
+      "gateQuestion": "How does NX60 broil HSI realize broil_heating_element instance scope?",
+      "outcome": "instance_scope_binding",
+      "layer": "instance_scope_binding",
+      "instanceScopeTarget": "broil_heating_element",
+      "implementationTerms": ["broil_hsi", "broil_relay"],
+      "procedureIds": ["samsungnx60-broil-ignitor", "samsungnx60-heater-relays"],
+      "measurementIds": ["nx60-broil-hsi-ohms", "nx60-broil-relay-ohms"],
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "nx60-safety-valve-overlay",
+      "gateQuestion": "Where does NX60 safety valve current evidence live?",
+      "outcome": "overlay_implementation",
+      "layer": "platform_implementation",
+      "implementationTerm": "safety_valve",
+      "bindsToInstanceScope": "bake_heating_element",
+      "procedureIds": ["samsungnx60-safety-valve"],
+      "measurementIds": ["nx60-safety-valve-amps"],
+      "diagnosticSpec": "3.3–3.6 A with glowing HSI",
+      "gateAction": "approve_compounded",
+      "rationale": "Valve hardware is platform overlay — shared across bake/broil gas paths."
+    },
+    {
+      "teachingId": "nx60-surface-spark-module",
+      "gateQuestion": "How does NX60 cooktop spark evidence bind to surface_heating_system?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "surface_heating_system",
+      "implementationTerm": "spark_module",
+      "procedureIds": ["samsungnx60-spark-module"],
+      "gateAction": "approve_compounded",
+      "rationale": "CG-11 invariant — gas surface ignition under surface_heating_system, not separate canonical."
+    },
+    {
+      "teachingId": "nx60-convection-fan-conditional",
+      "gateQuestion": "How does NX60 convection motor bind?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalTarget": "convection_fan",
+      "implementationTerm": "convection_fan_motor",
+      "procedureIds": ["samsungnx60-convection-fan"],
+      "measurementIds": ["nx60-convection-fan-ohms"],
+      "diagnosticSpec": "25–30 Ω",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "nx60-door-lock-conditional",
+      "gateQuestion": "How does NX60 door lock motor bind?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalTarget": "oven_door_switch",
+      "implementationTerm": "door_lock_motor",
+      "procedureIds": ["samsungnx60-door-lock"],
+      "measurementIds": ["nx60-door-lock-motor-ohms"],
+      "diagnosticSpec": "1750–1950 Ω",
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "nx60-thermal-protection-conditional",
+      "gateQuestion": "How do NX60 cooling fan and vent paths bind?",
+      "outcome": "conditional_binding",
+      "layer": "conditional_concept_binding",
+      "conditionalTarget": "thermal_protection",
+      "implementationTerms": ["display_cooling_fan", "oven_vent"],
+      "procedureIds": ["samsungnx60-cooling-fan", "samsungnx60-oven-vent"],
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "nx60-control-board-relays",
+      "gateQuestion": "How do NX60 DLB/bake/broil relays bind to control_board?",
+      "outcome": "canonical_inheritance",
+      "layer": "canonical_reuse",
+      "canonicalTarget": "control_board",
+      "implementationTerms": ["dlb_relay", "bake_relay", "broil_relay", "main_pcb", "sub_pcb"],
+      "procedureIds": ["samsungnx60-heater-relays", "samsungnx60-touch-comm"],
+      "gateAction": "approve_compounded"
+    },
+    {
+      "teachingId": "nx60-oven-lamp-platform-only",
+      "gateQuestion": "Should oven lamp promote to canonical?",
+      "outcome": "platform_only",
+      "layer": "platform_only",
+      "implementationTerm": "oven_lamp",
+      "procedureIds": ["samsungnx60-oven-lamp"],
+      "gateAction": "approve_platform_only",
+      "rationale": "Accessory lamp — procedure retained, no canonical promotion."
+    }
+  ]
+}

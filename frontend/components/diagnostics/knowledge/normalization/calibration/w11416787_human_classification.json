@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11416787",
+  "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+  "ontologyId": "top_load_washer",
+  "architectureBoundary": "TL_platform_family_prior → TL_ontology (crosses whirlpool_tl_dd → whirlpool_tl_dd_5100 seed boundary)",
+  "platformFamilyPriorManualIds": ["W10864849", "W11697231"],
+  "promotionId": "promo-W11416787-20260913135602",
+  "promotionGateMetrics": {
+    "newHumanDecisionCount": 2,
+    "inheritedResolvedAutomatically": 31,
+    "inheritedPlatformFamilyKnowledge": 19,
+    "inheritedCorpusKnowledge": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 2,
+    "newHumanDecisionRate": 0.061,
+    "note": "TL #3 replication gate — 0 new platform decisions; 2 model-line surface aliases only."
+  },
+  "summary": {
+    "promotionGateDecisions": 2,
+    "inheritedTlPlatformFamily": 19,
+    "inheritedFlCorpusConcepts": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 2,
+    "newCanonicalKnowledge": 0,
+    "reusableTlPlatformConcept": 8,
+    "knownConceptNewTlImplementation": 0,
+    "newTlAlias": 0,
+    "oneOffOemTerminology": 2,
+    "newTlProcedureBinding": 6
+  },
+  "classifications": [
+    {
+      "oemTerm": "TEST #4: HMI",
+      "canonicalId": "hmi_control",
+      "classification": "new_model_specific",
+      "rationale": "5100-line HMI TEST title variant — model-specific OEM alias; canonical hmi_control unchanged."
+    },
+    {
+      "oemTerm": "TEST #9: Load & Go Detergent",
+      "canonicalId": "bulk_level_switch",
+      "classification": "new_model_specific",
+      "rationale": "Whirlpool Load & Go mini-bulk feature (F3E5) — model-line specific, not reusable TL platform vocabulary."
+    }
+  ],
+  "inheritedConcepts": [
+    "control_board",
+    "drive_motor",
+    "mode_shifter",
+    "wash_ntc",
+    "pressure_sensor",
+    "drain_pump",
+    "lid_lock",
+    "inlet_valve"
+  ],
+  "notes": [
+    "pressure_sensor remains TL-platform scoped — inherited from TL #1 human review, not promoted to universal canonical.",
+    "Load & Go is Whirlpool-specific — bulk_level_switch on TL ontology, not a cross-manufacturer canonical candidate from this evidence alone.",
+    "Post-publish pipeline metrics (22 new platform) are inflated by term-resolution approvals — use gate-preview metrics only.",
+    "Frozen FL, TL #1, and TL #2 baselines unchanged."
+  ]
+}

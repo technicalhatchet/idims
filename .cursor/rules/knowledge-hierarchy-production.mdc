@@ -1,0 +1,84 @@
+---
+description: Production knowledge hierarchy — post architecture-complete governance
+globs:
+  - frontend/components/diagnostics/knowledge/**
+  - backend/scripts/normalization/**
+  - backend/scripts/generate_*_procedure_seeds.py
+  - backend/scripts/validate_canonical_graph.py
+alwaysApply: false
+---
+
+# Knowledge Hierarchy — Production Governance (Post Architecture-Complete)
+
+**Architecture phase:** CLOSED (`CG_CANONICAL_ARCHITECTURE_COMPLETE_LOCK_v1.json`)  
+**Governance phase:** LOCKED (`CG_PRODUCTION_INGESTION_GOVERNANCE_LOCK_v1.json`)  
+**Pilot phase:** ACTIVE (`CG_PRODUCTION_NORMALIZATION_PILOT_LOCK_v1.json`)  
+**Normalization batch:** NOT authorized until pilot GATE green
+
+Canonical spec: `frontend/components/diagnostics/knowledge/normalization/calibration/knowledge_hierarchy_contract_v1.json`  
+Production governance: `CG_PRODUCTION_INGESTION_GOVERNANCE_CONTRACT_v1.json`  
+Frozen hashes: `frozen_canonical_hashes_v1.json` (enforced by `validate_canonical_graph.py`)
+
+## Pipeline (immutable order)
+
+```
+SERVICE MANUAL → INGESTION → NORMALIZATION → CANONICAL MAPPING → COMPOUNDING → MANUFACTURER OVERLAY
+```
+
+## Architecture escape hatch (hard side door)
+
+When frozen vocabulary cannot represent new evidence without distortion:
+
+1. **STOP** production batch for that manual
+2. Persist `architecture_exception.json` under `normalization/candidates/{manualId}/`
+3. Route to **architecture gate only**: fit → discovery → freeze (human authorized)
+4. Update `frozen_canonical_hashes_v1.json` + regression on freeze
+5. Resume normalization
+
+**FORBIDDEN:** useful OEM term → add to `canonical/foo.json` → continue batch
+
+## First rule of production phase
+
+**Frozen canonical graphs are immutable by the production ingestion pipeline.**  
+New architecture enters only through formally authorized architecture-gate workflow.
+
+## Layer stack (unchanged)
+
+```
+Canonical Ontology → Manufacturer/Platform Family → Model → Diagnostic Session
+```
+
+Session evidence **never** auto-promotes to ontology, platform, or model layers.
+
+## Write targets by stage
+
+| Stage | May write | Must NOT write |
+|-------|-----------|----------------|
+| Ingestion | `procedures/seed/`, extracted text | `canonical/*.json` |
+| Normalization | `normalization/candidates/` | `canonical/*.json` |
+| Compounding | `review/`, `promotions/`, `calibration/` | `canonical/*.json` |
+| Overlay publish | `manufacturer_overlays/*.json` | `canonical/{ontologyId}.json` |
+
+## Promotion bars (never lower)
+
+| Layer | Requires |
+|-------|----------|
+| Canonical | Architecture gate + cross-manufacturer functional evidence |
+| Platform | Human gate; `overlay.add.components` ≠ `canonical.components` |
+| Model | `new_model_specific` human gate |
+| Session | Facts only; feeds review queues |
+
+## CG-5.3 / CG-6 (still in force)
+
+- Single unknown term ≠ ontology evidence
+- Compounding may not promote to canonical
+- UNRESOLVED_TERM and conflicts block promotion
+- Gate-preview metrics authoritative; post-publish debug only
+
+## Current authorized workstream
+
+`CG-PRODUCTION-NORMALIZATION-PILOT` — 8-manual pipeline proving cohort (`CG_PRODUCTION_NORMALIZATION_PILOT_COHORT_v1.json`).  
+Pilot success ≠ everything mapped. Legitimate outcomes: canonical continue, implementation overlay, unresolved BLOCK, architecture_exception STOP.  
+70-manual batch authorized only after pilot GATE green.
+
+Do **not** start UI build against production data contract until pilot GATE is green.

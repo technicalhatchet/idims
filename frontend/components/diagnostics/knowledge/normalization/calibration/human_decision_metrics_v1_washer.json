@@ -1,0 +1,916 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "human_decision_metrics",
+  "templateFilter": "washer",
+  "generatedAt": "2026-09-14T13:38:25.066223+00:00",
+  "manualCount": 15,
+  "promotionOrder": [
+    "W8178558",
+    "W11169652"
+  ],
+  "totals": {
+    "reviewRecords": 546,
+    "autoApprovals": 192,
+    "humanApprovals": 148,
+    "humanRejections": 0,
+    "manualResolutionsRequired": 88,
+    "humanDecisionCount": 236,
+    "newHumanDecisionCount": 235,
+    "inheritedResolvedAutomatically": 286
+  },
+  "perManual": [
+    {
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "platformId": "samsung_fl_washer_bb8700",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "totalReviewRecords": 29,
+      "byApprovalLevel": {
+        "easy": 10,
+        "blocked": 6,
+        "careful": 4,
+        "normal": 9
+      },
+      "byStatus": {
+        "approved": 25,
+        "COMPOUND_TERM_CANDIDATE": 4
+      },
+      "byType": {
+        "canonicalMapping": 20,
+        "procedureTestBinding": 5,
+        "measurementBinding": 4
+      },
+      "approved": 25,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 10,
+      "humanApprovals": 15,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 15,
+      "newHumanDecisionCount": 15,
+      "inheritedResolvedAutomatically": 14,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.5172,
+      "inheritedResolutionRate": 0.4828,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 77,
+        "procedureBindings": 9,
+        "measurementBindings": 9
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 14,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 15,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 14,
+        "inheritedCorpusKnowledge": 14,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 15,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652",
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "totalReviewRecords": 36,
+      "byApprovalLevel": {
+        "easy": 11,
+        "blocked": 9,
+        "careful": 4,
+        "normal": 12
+      },
+      "byStatus": {
+        "approved": 36
+      },
+      "byType": {
+        "canonicalMapping": 24,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 36,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 15,
+      "humanApprovals": 21,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 21,
+      "newHumanDecisionCount": 21,
+      "inheritedResolvedAutomatically": 14,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.5833,
+      "inheritedResolutionRate": 0.4,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 83,
+        "procedureBindings": 14,
+        "measurementBindings": 13
+      },
+      "platformFamilyPriorManualIds": [
+        "SAMSUNG-FL-BB8700-WASHER"
+      ],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 14,
+      "newPlatformKnowledgeCount": 21,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 14,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 14,
+        "newPlatformKnowledge": 21,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "platformId": "samsung_flexwash",
+      "priorManualIds": [],
+      "totalReviewRecords": 45,
+      "byApprovalLevel": {
+        "easy": 10,
+        "blocked": 15,
+        "careful": 6,
+        "normal": 14
+      },
+      "byStatus": {
+        "approved": 10,
+        "needs_review": 15,
+        "COMPOUND_TERM_CANDIDATE": 6,
+        "candidate": 14
+      },
+      "byType": {
+        "canonicalMapping": 32,
+        "procedureTestBinding": 11,
+        "measurementBinding": 2
+      },
+      "approved": 10,
+      "rejected": 0,
+      "needsReview": 15,
+      "promoted": 0,
+      "autoApprovals": 10,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 15,
+      "humanDecisionCount": 15,
+      "newHumanDecisionCount": 15,
+      "inheritedResolvedAutomatically": 30,
+      "newManualResolutions": 15,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.3333,
+      "inheritedResolutionRate": 0.6667,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 15,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 30,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 15,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "platformId": "samsung_tl_washer_a50",
+      "priorManualIds": [],
+      "totalReviewRecords": 38,
+      "byApprovalLevel": {
+        "blocked": 11,
+        "easy": 9,
+        "careful": 5,
+        "normal": 13
+      },
+      "byStatus": {
+        "needs_review": 11,
+        "approved": 9,
+        "COMPOUND_TERM_CANDIDATE": 5,
+        "candidate": 13
+      },
+      "byType": {
+        "canonicalMapping": 26,
+        "procedureTestBinding": 7,
+        "measurementBinding": 5
+      },
+      "approved": 9,
+      "rejected": 0,
+      "needsReview": 11,
+      "promoted": 0,
+      "autoApprovals": 9,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 11,
+      "humanDecisionCount": 11,
+      "newHumanDecisionCount": 11,
+      "inheritedResolvedAutomatically": 27,
+      "newManualResolutions": 11,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2895,
+      "inheritedResolutionRate": 0.7105,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 11,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 27,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 11,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "platformId": "samsung_tl_washer_cg71",
+      "priorManualIds": [],
+      "totalReviewRecords": 40,
+      "byApprovalLevel": {
+        "blocked": 13,
+        "easy": 9,
+        "careful": 5,
+        "normal": 13
+      },
+      "byStatus": {
+        "needs_review": 13,
+        "approved": 9,
+        "COMPOUND_TERM_CANDIDATE": 5,
+        "candidate": 13
+      },
+      "byType": {
+        "canonicalMapping": 28,
+        "procedureTestBinding": 7,
+        "measurementBinding": 5
+      },
+      "approved": 9,
+      "rejected": 0,
+      "needsReview": 13,
+      "promoted": 0,
+      "autoApprovals": 9,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 13,
+      "humanDecisionCount": 13,
+      "newHumanDecisionCount": 13,
+      "inheritedResolvedAutomatically": 27,
+      "newManualResolutions": 13,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.325,
+      "inheritedResolutionRate": 0.675,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 13,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 27,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 13,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W10785366A",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "priorManualIds": [],
+      "totalReviewRecords": 11,
+      "byApprovalLevel": {
+        "easy": 1,
+        "blocked": 9,
+        "normal": 1
+      },
+      "byStatus": {
+        "approved": 2,
+        "needs_review": 9
+      },
+      "byType": {
+        "canonicalMapping": 11
+      },
+      "approved": 2,
+      "rejected": 0,
+      "needsReview": 9,
+      "promoted": 0,
+      "autoApprovals": 2,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 9,
+      "humanDecisionCount": 9,
+      "newHumanDecisionCount": 9,
+      "inheritedResolvedAutomatically": 2,
+      "newManualResolutions": 9,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.8182,
+      "inheritedResolutionRate": 0.1818,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 9,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 2,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 9,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W10864849",
+      "platformId": "whirlpool_tl_dd",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "totalReviewRecords": 53,
+      "byApprovalLevel": {
+        "easy": 12,
+        "careful": 14,
+        "normal": 27
+      },
+      "byStatus": {
+        "promoted": 35,
+        "approved": 16,
+        "candidate": 2
+      },
+      "byType": {
+        "canonicalMapping": 29,
+        "procedureTestBinding": 12,
+        "measurementBinding": 12
+      },
+      "approved": 51,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 35,
+      "autoApprovals": 13,
+      "humanApprovals": 38,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 38,
+      "newHumanDecisionCount": 38,
+      "inheritedResolvedAutomatically": 15,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.717,
+      "inheritedResolutionRate": 0.283,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 77,
+        "procedureBindings": 9,
+        "measurementBindings": 9
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 12,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 38,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 15,
+        "inheritedCorpusKnowledge": 12,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 38,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11169652",
+      "platformId": "whirlpool_fl_dd",
+      "priorManualIds": [
+        "W8178558"
+      ],
+      "totalReviewRecords": 49,
+      "byApprovalLevel": {
+        "easy": 16,
+        "blocked": 9,
+        "normal": 21,
+        "careful": 3
+      },
+      "byStatus": {
+        "approved": 49
+      },
+      "byType": {
+        "canonicalMapping": 36,
+        "procedureTestBinding": 4,
+        "measurementBinding": 9
+      },
+      "approved": 49,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 37,
+      "humanApprovals": 12,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 12,
+      "newHumanDecisionCount": 12,
+      "inheritedResolvedAutomatically": 13,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2449,
+      "inheritedResolutionRate": 0.52,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 56,
+        "procedureBindings": 5,
+        "measurementBindings": 3
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [
+        "W8178558"
+      ],
+      "inheritedCorpusKnowledge": 13,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 12,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 13,
+        "inheritedCorpusKnowledge": 13,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 12,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11416395",
+      "platformId": "whirlpool_mvw6200",
+      "priorManualIds": [],
+      "totalReviewRecords": 31,
+      "byApprovalLevel": {
+        "easy": 8,
+        "careful": 1,
+        "normal": 14,
+        "blocked": 8
+      },
+      "byStatus": {
+        "candidate": 13,
+        "COMPOUND_TERM_CANDIDATE": 1,
+        "approved": 9,
+        "needs_review": 8
+      },
+      "byType": {
+        "canonicalMapping": 19,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 9,
+      "rejected": 0,
+      "needsReview": 8,
+      "promoted": 0,
+      "autoApprovals": 9,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 8,
+      "humanDecisionCount": 8,
+      "newHumanDecisionCount": 8,
+      "inheritedResolvedAutomatically": 23,
+      "newManualResolutions": 8,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2581,
+      "inheritedResolutionRate": 0.7419,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 8,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 23,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 8,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11416787",
+      "platformId": "whirlpool_tl_dd_5100",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652",
+        "W10864849",
+        "W11697231"
+      ],
+      "totalReviewRecords": 33,
+      "byApprovalLevel": {
+        "easy": 10,
+        "careful": 2,
+        "blocked": 9,
+        "normal": 12
+      },
+      "byStatus": {
+        "approved": 32,
+        "needs_review": 1
+      },
+      "byType": {
+        "canonicalMapping": 21,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 32,
+      "rejected": 0,
+      "needsReview": 1,
+      "promoted": 0,
+      "autoApprovals": 10,
+      "humanApprovals": 22,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 1,
+      "humanDecisionCount": 23,
+      "newHumanDecisionCount": 22,
+      "inheritedResolvedAutomatically": 11,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 1,
+      "newHumanDecisionRate": 0.6667,
+      "inheritedResolutionRate": 0.3333,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 92,
+        "procedureBindings": 21,
+        "measurementBindings": 17
+      },
+      "platformFamilyPriorManualIds": [
+        "W10864849",
+        "W11697231"
+      ],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 11,
+      "newPlatformKnowledgeCount": 22,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 11,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 11,
+        "newPlatformKnowledge": 22,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11428632",
+      "platformId": "whirlpool_tl_psc_washer",
+      "priorManualIds": [],
+      "totalReviewRecords": 29,
+      "byApprovalLevel": {
+        "easy": 7,
+        "careful": 1,
+        "normal": 14,
+        "blocked": 7
+      },
+      "byStatus": {
+        "candidate": 13,
+        "COMPOUND_TERM_CANDIDATE": 1,
+        "approved": 8,
+        "needs_review": 7
+      },
+      "byType": {
+        "canonicalMapping": 17,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 8,
+      "rejected": 0,
+      "needsReview": 7,
+      "promoted": 0,
+      "autoApprovals": 8,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 7,
+      "humanDecisionCount": 7,
+      "newHumanDecisionCount": 7,
+      "inheritedResolvedAutomatically": 22,
+      "newManualResolutions": 7,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2414,
+      "inheritedResolutionRate": 0.7586,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 7,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 22,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 7,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11455152",
+      "platformId": "whirlpool_tl_dd_6157",
+      "priorManualIds": [],
+      "totalReviewRecords": 29,
+      "byApprovalLevel": {
+        "easy": 7,
+        "careful": 1,
+        "normal": 14,
+        "blocked": 7
+      },
+      "byStatus": {
+        "candidate": 13,
+        "COMPOUND_TERM_CANDIDATE": 1,
+        "approved": 8,
+        "needs_review": 7
+      },
+      "byType": {
+        "canonicalMapping": 17,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 8,
+      "rejected": 0,
+      "needsReview": 7,
+      "promoted": 0,
+      "autoApprovals": 8,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 7,
+      "humanDecisionCount": 7,
+      "newHumanDecisionCount": 7,
+      "inheritedResolvedAutomatically": 22,
+      "newManualResolutions": 7,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2414,
+      "inheritedResolutionRate": 0.7586,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 7,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 22,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 7,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11697231",
+      "platformId": "whirlpool_tl_dd",
+      "priorManualIds": [
+        "W8178558",
+        "W11169652",
+        "W10864849"
+      ],
+      "totalReviewRecords": 53,
+      "byApprovalLevel": {
+        "easy": 12,
+        "careful": 2,
+        "blocked": 14,
+        "normal": 25
+      },
+      "byStatus": {
+        "approved": 53
+      },
+      "byType": {
+        "canonicalMapping": 29,
+        "procedureTestBinding": 12,
+        "measurementBinding": 12
+      },
+      "approved": 53,
+      "rejected": 0,
+      "needsReview": 0,
+      "promoted": 0,
+      "autoApprovals": 13,
+      "humanApprovals": 40,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 0,
+      "humanDecisionCount": 40,
+      "newHumanDecisionCount": 40,
+      "inheritedResolvedAutomatically": 13,
+      "newManualResolutions": 0,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.7547,
+      "inheritedResolutionRate": 0.2453,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 92,
+        "procedureBindings": 19,
+        "measurementBindings": 17
+      },
+      "platformFamilyPriorManualIds": [
+        "W10864849"
+      ],
+      "flPriorManualIds": [
+        "W8178558",
+        "W11169652"
+      ],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 13,
+      "newPlatformKnowledgeCount": 40,
+      "newModelSpecificKnowledge": 0,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 13,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 13,
+        "newPlatformKnowledge": 40,
+        "newModelSpecificKnowledge": 0,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W11800233",
+      "platformId": "whirlpool_tl_dd_4100",
+      "priorManualIds": [],
+      "totalReviewRecords": 29,
+      "byApprovalLevel": {
+        "easy": 7,
+        "careful": 1,
+        "normal": 14,
+        "blocked": 7
+      },
+      "byStatus": {
+        "candidate": 13,
+        "COMPOUND_TERM_CANDIDATE": 1,
+        "approved": 8,
+        "needs_review": 7
+      },
+      "byType": {
+        "canonicalMapping": 17,
+        "procedureTestBinding": 6,
+        "measurementBinding": 6
+      },
+      "approved": 8,
+      "rejected": 0,
+      "needsReview": 7,
+      "promoted": 0,
+      "autoApprovals": 8,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 7,
+      "humanDecisionCount": 7,
+      "newHumanDecisionCount": 7,
+      "inheritedResolvedAutomatically": 22,
+      "newManualResolutions": 7,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2414,
+      "inheritedResolutionRate": 0.7586,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 7,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 22,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 7,
+        "newCanonicalKnowledge": 0
+      }
+    },
+    {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "priorManualIds": [],
+      "totalReviewRecords": 41,
+      "byApprovalLevel": {
+        "easy": 14,
+        "careful": 7,
+        "blocked": 10,
+        "normal": 10
+      },
+      "byStatus": {
+        "promoted": 31,
+        "needs_review": 10
+      },
+      "byType": {
+        "canonicalMapping": 31,
+        "procedureTestBinding": 5,
+        "measurementBinding": 5
+      },
+      "approved": 31,
+      "rejected": 0,
+      "needsReview": 10,
+      "promoted": 31,
+      "autoApprovals": 31,
+      "humanApprovals": 0,
+      "humanRejections": 0,
+      "manualResolutionsRequired": 10,
+      "humanDecisionCount": 10,
+      "newHumanDecisionCount": 10,
+      "inheritedResolvedAutomatically": 31,
+      "newManualResolutions": 10,
+      "inheritedManualResolutions": 0,
+      "newHumanDecisionRate": 0.2439,
+      "inheritedResolutionRate": 0.7561,
+      "corpusKnowledgeSize": {
+        "canonicalMappings": 121,
+        "procedureBindings": 38,
+        "measurementBindings": 31
+      },
+      "platformFamilyPriorManualIds": [],
+      "flPriorManualIds": [],
+      "inheritedCorpusKnowledge": 0,
+      "inheritedPlatformFamilyKnowledge": 0,
+      "newPlatformKnowledgeCount": 0,
+      "newModelSpecificKnowledge": 10,
+      "newCanonicalKnowledgeCount": 0,
+      "knowledgeClassification": {
+        "inheritedKnowledge": 31,
+        "inheritedCorpusKnowledge": 0,
+        "inheritedPlatformFamilyKnowledge": 0,
+        "newPlatformKnowledge": 0,
+        "newModelSpecificKnowledge": 10,
+        "newCanonicalKnowledge": 0
+      }
+    }
+  ]
+}

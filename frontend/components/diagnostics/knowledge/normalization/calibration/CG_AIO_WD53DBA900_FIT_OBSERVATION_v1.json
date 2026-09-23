@@ -1,0 +1,295 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_fit_observation",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T13:45:00+00:00",
+  "contract": "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Samsung",
+  "model": "WD53DBA900HZA1",
+  "platformId": "samsung_laundry_combo",
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "templateId": "aio_laundry",
+  "dryingArchitecture": "heat_pump_ventless_condenser",
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "front_load_washer",
+    "top_load_washer",
+    "vented_dryer",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+    "extractedText": "backend/docs/manuals/samsung aio wd53dba900hza1-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/samsung_laundry_combo",
+    "procedureCatalog": "frontend/components/diagnostics/procedures/seed/samsung_laundry_combo/procedureCatalog.json"
+  },
+  "functionalArchitectureSummary": {
+    "washPath": "Front-load horizontal drum; inlet valves, water level frequency sensor, drain/circulation pump, BLDC wash motor (6.0 Ω), door lock/switch, wash heater + thermistor, overflow/leak/unbalance/MEMS paths — §4-4 corrective actions.",
+    "dryPath": "Heat-pump ventless: BLDC compressor (3CA family), EVA IN/OUT + discharge + compressor-top + dry-heater thermistors (§4-5), supplemental dry heater element (35.6–39.4 Ω), dehumidifying-kit magnet interlock (NC), foam-in-dehumidification (ULC), auto-open door (DC5). No external exhaust vent as primary moisture rejection.",
+    "integration": "Single Smart Install controller spans wash steps 1–8 and dry steps 9–10 (dry heater + fan, door). Shared main PBA + inverter/LCD comm (AC, AC3–AC6). One drum, one motor for wash spin and dry tumble.",
+    "topLoadRelevance": "Not top-load — vertical-axis TL washer contract not implicated."
+  },
+  "classificationHistogram": {
+    "front_load_washer": 9,
+    "top_load_washer": 0,
+    "vented_dryer": 0,
+    "shared_function": 5,
+    "implementation_specific": 7,
+    "unresolved": 0
+  },
+  "procedureClassifications": [
+    {
+      "procedureId": "samsungwd53-water-level-sensor",
+      "oemSection": "§4-4 1C",
+      "pages": [55, 59],
+      "classification": "front_load_washer",
+      "functionalDomain": "water_level_load_sensing",
+      "provenance": "Water level frequency ~25.5 kHz Pink–Orange — same diagnostic role as FL washer level sense; maps to front_load_washer water_level system.",
+      "frozenContractFit": "front_load_washer.water_level without mutation"
+    },
+    {
+      "procedureId": "samsungwd53-motor-circuit",
+      "oemSection": "§4-4 3C",
+      "pages": [55, 59],
+      "classification": "shared_function",
+      "functionalDomain": "motor_mechanical_drive",
+      "provenance": "BLDC motor 6.0 Ω serves wash agitation/spin (step 8 dehydration) and dry tumble — shared drive across modes under one controller.",
+      "frozenContractFit": "Partial overlap front_load_washer.drive and dry drum drive — neither frozen graph models shared single-motor wash+dry orchestration alone"
+    },
+    {
+      "procedureId": "samsungwd53-inlet-valves",
+      "oemSection": "§4-4 4C",
+      "pages": [55, 59],
+      "classification": "front_load_washer",
+      "functionalDomain": "water_supply_fill",
+      "provenance": "Cold/hot inlet valve codes 4C/4C2; Smart Install Co/Ho manual check steps.",
+      "frozenContractFit": "front_load_washer.water_inlet"
+    },
+    {
+      "procedureId": "samsungwd53-drain-pump",
+      "oemSection": "§4-4 5C / §4-5 #7",
+      "pages": [55, 59],
+      "classification": "shared_function",
+      "functionalDomain": "drain",
+      "provenance": "Drain pump 330 Ω; wash drain step 2/7 and condensate management integration in sealed dry path.",
+      "frozenContractFit": "front_load_washer.drain primary; condensate routing in dry mode is implementation extension"
+    },
+    {
+      "procedureId": "samsungwd53-communication",
+      "oemSection": "§4-4 AC",
+      "pages": [50, 55],
+      "classification": "shared_function",
+      "functionalDomain": "control_logic",
+      "provenance": "Main/sub PBA, DR, Wi-Fi, LCD, inverter comm AC3–AC6 — single control architecture for wash and heat-pump dry.",
+      "frozenContractFit": "Neither frozen family models integrated wash+dry controller comm topology"
+    },
+    {
+      "procedureId": "samsungwd53-door-lock",
+      "oemSection": "§4-4 DC",
+      "pages": [55, 59],
+      "classification": "shared_function",
+      "functionalDomain": "safety_interlock",
+      "provenance": "Door lock/switch serves wash authorization and dry authorization (dC dry door-open); distinct from auto-open door dry exit.",
+      "frozenContractFit": "Overlaps front_load_washer.door_interlock and vented_dryer.door_switch superficially — shared in AIO"
+    },
+    {
+      "procedureId": "samsungwd53-wash-heater",
+      "oemSection": "§4-4 HC",
+      "pages": [55, 59],
+      "classification": "front_load_washer",
+      "functionalDomain": "temperature_heating",
+      "provenance": "Wash heater 16.05 ± 0.65 Ω in-circuit; Smart Install step 6 water shot + wash heater + rinse.",
+      "frozenContractFit": "front_load_washer heating system — wash-path only"
+    },
+    {
+      "procedureId": "samsungwd53-wash-thermistor",
+      "oemSection": "§4-4 TC1",
+      "pages": [55, 59],
+      "classification": "front_load_washer",
+      "functionalDomain": "temperature_heating",
+      "provenance": "Wash temperature sensor ~12 kΩ @ room temp.",
+      "frozenContractFit": "front_load_washer temperature feedback for wash"
+    },
+    {
+      "procedureId": "samsungwd53-overflow",
+      "oemSection": "§4-4 OC",
+      "pages": [55],
+      "classification": "front_load_washer",
+      "functionalDomain": "water_level_load_sensing",
+      "provenance": "Overflow protection on fill path.",
+      "frozenContractFit": "front_load_washer water_level / safety"
+    },
+    {
+      "procedureId": "samsungwd53-unbalance",
+      "oemSection": "§4-4 UB",
+      "pages": [55],
+      "classification": "front_load_washer",
+      "functionalDomain": "wash_agitation_tumble",
+      "provenance": "Unbalance / tarpaulin detection on spin.",
+      "frozenContractFit": "front_load_washer drive / suspension diagnostic domain"
+    },
+    {
+      "procedureId": "samsungwd53-mems-sensor",
+      "oemSection": "§4-4 8C",
+      "pages": [55],
+      "classification": "implementation_specific",
+      "functionalDomain": "wash_agitation_tumble",
+      "provenance": "MEMS vibration sensor 8C family — Samsung platform vocabulary; vibration sense role exists on some FL platforms as overlay.",
+      "frozenContractFit": "Does not require FL washer canonical mutation — platform overlay"
+    },
+    {
+      "procedureId": "samsungwd53-power-supply",
+      "oemSection": "§4-4 9C",
+      "pages": [55],
+      "classification": "shared_function",
+      "functionalDomain": "power_supply",
+      "provenance": "Power/IPM thermal 9C1/9C2/9C5/9C9 — feeds wash inverter motor and heat-pump compressor inverter.",
+      "frozenContractFit": "Shared power domain across wash and dry subsystems"
+    },
+    {
+      "procedureId": "samsungwd53-hmi-check",
+      "oemSection": "§4-4 BC2",
+      "pages": [55],
+      "classification": "shared_function",
+      "functionalDomain": "user_interface",
+      "provenance": "Stuck button >30 s — single UI for wash and dry cycles.",
+      "frozenContractFit": "shared user_interface across modes"
+    },
+    {
+      "procedureId": "samsungwd53-leak-check",
+      "oemSection": "§4-4 LC",
+      "pages": [55],
+      "classification": "front_load_washer",
+      "functionalDomain": "water_supply_fill",
+      "provenance": "Water leakage detection on hydraulic wash path.",
+      "frozenContractFit": "front_load_washer leak diagnostic domain"
+    },
+    {
+      "procedureId": "samsungwd53-heat-pump-thermistors",
+      "oemSection": "§4-5 / §4-2",
+      "pages": [50, 59],
+      "classification": "implementation_specific",
+      "functionalDomain": "moisture_removal_condensation_heat_pump",
+      "provenance": "Duct/discharge 50 kΩ, EVA IN/OUT 10 kΩ, compressor top 200 kΩ, heater thermistor 238 kΩ — refrigerant-loop temperature network (tC, TC5–TCB, TCH).",
+      "frozenContractFit": "NOT vented_dryer.temperature_sensing on exhaust_path — different functional contract (refrigerant loop vs heated exhaust air)",
+      "divergenceNote": "vented_dryer senses exhaust_path air temperature; AIO senses evaporator/condenser refrigerant circuit"
+    },
+    {
+      "procedureId": "samsungwd53-dry-heater",
+      "oemSection": "§4-5 #5",
+      "pages": [59],
+      "classification": "implementation_specific",
+      "functionalDomain": "heat_generation",
+      "provenance": "Supplemental dry heater 35.6–39.4 Ω (3P pins 1–3); Smart Install step 9 dry heater + fan — auxiliary to heat pump, not primary resistive/gas heat_source path.",
+      "frozenContractFit": "Superficial heat_source overlap rejected — element is supplemental within heat-pump architecture, not vented_dryer heated_airflow_path primary heat"
+    },
+    {
+      "procedureId": "samsungwd53-compressor",
+      "oemSection": "§4-2 3CA / HC",
+      "pages": [50, 55],
+      "classification": "implementation_specific",
+      "functionalDomain": "heat_generation",
+      "provenance": "BLDC compressor 3CA family; compressor overheat HC checks EVA IN/OUT resistance.",
+      "frozenContractFit": "NO vented_dryer host — vented_dryer heat_source is fuel-agnostic element/burner, not refrigerant compressor loop",
+      "divergenceNote": "Different heat-generation functional architecture"
+    },
+    {
+      "procedureId": "samsungwd53-filter-check",
+      "oemSection": "§4-2 NC",
+      "pages": [50, 55],
+      "classification": "implementation_specific",
+      "functionalDomain": "lint_moisture_management",
+      "provenance": "Dehumidifying kit magnet interlock NC/NC2/NC3 — not lint_filter + external exhaust restriction model.",
+      "frozenContractFit": "NOT vented_dryer.lint_filter or exhaust_path — sealed dehumidification kit presence interlock",
+      "divergenceNote": "Moisture-path authorization differs from vented lint vs exhaust distinction"
+    },
+    {
+      "procedureId": "samsungwd53-foam-detection",
+      "oemSection": "§4-2 ULC",
+      "pages": [50, 55],
+      "classification": "implementation_specific",
+      "functionalDomain": "moisture_removal_condensation_heat_pump",
+      "provenance": "Foam in dehumidification course — wash residue contaminating dry sealed path.",
+      "frozenContractFit": "Cross-mode functional relationship absent from both frozen families",
+      "divergenceNote": "Integrated wash→dry contamination domain"
+    },
+    {
+      "procedureId": "samsungwd53-auto-open-door",
+      "oemSection": "§4-2 DC5",
+      "pages": [50, 55],
+      "classification": "implementation_specific",
+      "functionalDomain": "drying_control",
+      "provenance": "Auto-open door failure during dry exit — dry-cycle mechanical authorization not present on vented_dryer or FL washer contracts.",
+      "frozenContractFit": "Dry-specific exit mechanism — no frozen host"
+    },
+    {
+      "procedureId": "samsungwd53-system-fault",
+      "oemSection": "§4-4 SF",
+      "pages": [55],
+      "classification": "shared_function",
+      "functionalDomain": "control_logic",
+      "provenance": "MCU/system error — affects integrated controller.",
+      "frozenContractFit": "Generic control failure — shared"
+    }
+  ],
+  "fitObservations": {
+    "frontLoadWasherCoverage": {
+      "represented": [
+        "water_supply_fill",
+        "drain",
+        "wash_agitation_tumble",
+        "water_level_load_sensing",
+        "wash_temperature_heating",
+        "door_interlock_wash",
+        "leak_overflow"
+      ],
+      "washPortionFit": "strong_partial_variant",
+      "mutationRequired": false,
+      "note": "Wash-domain procedures map to front_load_washer functional systems without requiring canonical edits — platform overlay carries Samsung-specific codes and MEMS."
+    },
+    "ventedDryerCoverage": {
+      "represented": [],
+      "dryPortionFit": "does_not_fit",
+      "mutationRequired": true,
+      "rejectedMappings": [
+        {
+          "aioMechanism": "heat_pump_compressor + refrigerant thermistors",
+          "ventedDryerNode": "heat_source",
+          "reason": "vented_dryer heat_source models resistive/gas thermal addition to air stream — not BLDC compressor refrigerant loop"
+        },
+        {
+          "aioMechanism": "condensation / dehumidifying kit / auto condenser cleaning",
+          "ventedDryerNode": "exhaust_path + heated_airflow_path",
+          "reason": "vented_dryer functional path requires heat_source → drum → lint_filter → blower → exhaust_path; AIO rejects moisture via condenser with no external exhaust as primary path"
+        },
+        {
+          "aioMechanism": "dehumidifying kit magnet NC codes",
+          "ventedDryerNode": "lint_filter",
+          "reason": "Different functional responsibility — kit presence interlock vs lint restriction"
+        }
+      ]
+    },
+    "topLoadWasherCoverage": {
+      "relevant": false,
+      "reason": "Horizontal front-load drum; no impeller/agitator TL architecture"
+    },
+    "integrationDivergence": {
+      "sharedDrumMotorController": true,
+      "washToDryWithoutTransfer": true,
+      "crossModeFoamContamination": true,
+      "singleSmartInstallSpanningWashAndDry": true,
+      "conclusion": "Integration introduces functional relationships beyond composed FL wash + vented dry"
+    }
+  },
+  "evidenceInvalidationConditions": [
+    "Second AIO witness with vented exhaust primary dry path would challenge heat-pump-only divergence generalization",
+    "Evidence that vented_dryer heated_airflow_path was intentionally abstracted to cover sealed-system dryers without mutation",
+    "Discovery that WD53 dry path uses hidden external vent not documented in manual"
+  ]
+}

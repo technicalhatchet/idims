@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_samsung_dryer_compounding_curve",
+  "status": "CLOSED",
+  "phase": "CG-6.4.1",
+  "frozen": true,
+  "frozenAt": "2026-09-14T15:45:00+00:00",
+  "closedAt": "2026-09-14T17:06:44+00:00",
+  "canonicalOntologyId": "vented_dryer",
+  "overlayFile": "samsung_vented_dryer.json",
+  "headline": "CG-6.4.1 CLOSED — 3 platforms, 30 procedures, 69 mapping candidates, 13 → 0 → 0 new human semantic decisions, 0 canonical expansion",
+  "totals": {
+    "platformFamilies": 3,
+    "procedures": 30,
+    "mappingCandidates": 69,
+    "newHumanSemanticDecisions": 13,
+    "newCanonicalConcepts": 0
+  },
+  "cohortAccountingRule": "newHumanDecisions counts genuinely new semantic decisions at human gate only. Procedural title rejects establish binding discipline but are not compounding decisions. Platform implementation (Ω specs, display terms, measurement bindings) is newPlatformKnowledge — not semantic teaching and not inflated into newHumanDecisions.",
+  "hierarchyProven": {
+    "canonical": "vented_dryer.json rev2 FROZEN — zero expansion across three Samsung dryer platforms including TL chassis",
+    "manufacturer": "samsung_vented_dryer.json — shared Samsung diagnostic vocabulary transfers FL→FL→TL",
+    "platform": "bb8700 / dv6000 / tl_dv50 families — implementation divergence without canonical or manufacturer re-teaching",
+    "excludedArchitecture": "samsung_laundry_combo / WD53DBA900 heat-pump — outside vented_dryer; top-load chassis does not justify top_load_washer ontology"
+  },
+  "manuals": {
+    "SAMSUNG-FL-BB8700-DRYER": {
+      "platformFamilyId": "samsung_fl_dryer_bb8700",
+      "role": "baseline",
+      "chassis": "front_load",
+      "procedures": 11,
+      "templateIds": ["electric_dryer", "gas_dryer"],
+      "mappingCandidates": 25,
+      "humanGateApprovals": 13,
+      "humanGateRejections": 11,
+      "newHumanDecisions": 13,
+      "newCanonicalConcepts": 0,
+      "publishedAt": "2026-09-14",
+      "equivalence": true
+    },
+    "SAMSUNG-FL-DV6000-DRYER": {
+      "platformFamilyId": "samsung_fl_dryer_dv6000",
+      "role": "compounding_target_2",
+      "chassis": "front_load",
+      "priorManualIds": ["SAMSUNG-FL-BB8700-DRYER"],
+      "procedures": 8,
+      "templateIds": ["electric_dryer"],
+      "mappingCandidates": 19,
+      "humanGateApprovals": 10,
+      "humanGateRejections": 8,
+      "newHumanDecisions": 0,
+      "inheritedGateApprovals": 10,
+      "newCanonicalConcepts": 0,
+      "publishedAt": "2026-09-14",
+      "equivalence": true
+    },
+    "SAMSUNG-TL-DV50-DRYER": {
+      "platformFamilyId": "samsung_tl_dryer_dv50",
+      "role": "compounding_target_3",
+      "chassis": "top_load",
+      "priorManualIds": [
+        "SAMSUNG-FL-BB8700-DRYER",
+        "SAMSUNG-FL-DV6000-DRYER"
+      ],
+      "procedures": 11,
+      "templateIds": ["electric_dryer", "gas_dryer"],
+      "mappingCandidates": 25,
+      "humanGateApprovals": 13,
+      "humanGateRejections": 11,
+      "newHumanDecisions": 0,
+      "inheritedGateApprovals": 13,
+      "newCanonicalConcepts": 0,
+      "newPlatformKnowledge": [
+        "TL chassis — §4-4 section numbering",
+        "motor winding 2.88 Ω / 3.5 Ω TL platform bindings",
+        "gas valve coil pairs TL-specific knowledge ids",
+        "12 measurementBindings (no dedicated hi-limit Ω step on thermal-cutoff v1)",
+        "drive_motor display term: centrifugal switch (TL)"
+      ],
+      "unresolvedAbstained": ["belt_switch defer"],
+      "architectureBoundary": {
+        "ontologyResolved": "vented_dryer",
+        "notTopLoadWasher": true,
+        "topologySignature": "motor_present_unknown_path"
+      },
+      "publishedAt": "2026-09-14",
+      "promotionId": "promo-SAMSUNG-TL-DV50-DRYER-20260914170644",
+      "ledgerPublished": true,
+      "equivalence": true,
+      "artifacts": {
+        "mappingTable": "SAMSUNG_TL_DV50_DRYER_overlay_mapping_table_v1.json",
+        "compilerLoop": "compiler_loop_SAMSUNG-TL-DV50-DRYER.json",
+        "equivalence": "promotion_equivalence_SAMSUNG-TL-DV50-DRYER.json"
+      }
+    }
+  },
+  "cohortTable": [
+    {
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "platformFamilyId": "samsung_fl_dryer_bb8700",
+      "chassis": "front_load",
+      "newHumanDecisions": 13,
+      "newCanonicalConcepts": 0,
+      "result": "Samsung vented_dryer manufacturer layer established"
+    },
+    {
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "platformFamilyId": "samsung_fl_dryer_dv6000",
+      "chassis": "front_load",
+      "newHumanDecisions": 0,
+      "inheritedGateApprovals": 10,
+      "newCanonicalConcepts": 0,
+      "result": "Manufacturer knowledge transferred — FL platform divergence"
+    },
+    {
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "platformFamilyId": "samsung_tl_dryer_dv50",
+      "chassis": "top_load",
+      "newHumanDecisions": 0,
+      "inheritedGateApprovals": 13,
+      "newCanonicalConcepts": 0,
+      "result": "Manufacturer knowledge transferred — TL chassis, zero new semantic gate decisions"
+    }
+  ],
+  "compoundingSignal": {
+    "threePointCurve": "13 → 0 → 0",
+    "interpretation": "Samsung manufacturer-layer vocabulary established on BB8700 and transferred without new human semantic decisions across two subsequent platforms with increasing implementation distance (FL BB8700 → FL DV6000 → TL DV50). Canonical vented_dryer ontology unchanged. Top-load chassis did not trigger top_load_washer mis-route."
+  },
+  "routingInvariant": {
+    "rule": "explicit platformId is authoritative over model-pattern inference",
+    "implementation": "platformFamilyApplies() — mismatch on explicit platformId returns false before modelPatterns",
+    "regression": "session/__tests__/scenarios/cg6-samsung-dryer-routing-boundary.test.ts",
+    "discoveredBy": "DVE50* collision between samsung_fl_dryer_bb8700 and samsung_tl_dryer_dv50 during TL DV50 regression"
+  },
+  "validationGate": {
+    "promotion_equivalence_SAMSUNG-FL-BB8700-DRYER": true,
+    "promotion_equivalence_SAMSUNG-FL-DV6000-DRYER": true,
+    "promotion_equivalence_SAMSUNG-TL-DV50-DRYER": true,
+    "ledger_publish_SAMSUNG-TL-DV50-DRYER": "promo-SAMSUNG-TL-DV50-DRYER-20260914170644 published",
+    "cg6_vented_dryer_ontology": "13/13 pass",
+    "cg6_samsung_dryer_routing_boundary": "pass",
+    "three_family_cross_isolation": "pass",
+    "validate_canonical_graph": "pass"
+  }
+}

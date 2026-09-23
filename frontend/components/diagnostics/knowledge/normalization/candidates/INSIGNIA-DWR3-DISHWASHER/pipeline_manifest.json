@@ -1,0 +1,55 @@
+{
+  "manualId": "INSIGNIA-DWR3-DISHWASHER",
+  "platformId": "insignia_dishwasher",
+  "templateId": "dishwasher",
+  "label": "Insignia NS-DWR3SS1 top-control dishwasher",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.922876+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 9,
+    "mappingCandidates": 16,
+    "overlayCandidates": 3,
+    "conflicts": 0,
+    "extractionFiltered": 5
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 5,
+    "invalidExtraction": 0,
+    "totalFiltered": 5,
+    "samples": [
+      {
+        "rawTerm": "E9",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "nsdwr3ss1-control-panel",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E8",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "nsdwr3ss1-diverter",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E3",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "nsdwr3ss1-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "nsdwr3ss1-inlet-fill",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "nsdwr3ss1-overflow",
+        "source": "title_token"
+      }
+    ]
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "gateKind": "samsung_tl_first_manual_compounding",
+  "promotionId": "promo-SAMSUNG-TL-A50-CG67-gate-table-dry-run",
+  "publish": false,
+  "publishMode": "gate_table_first_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "accounting": {
+    "infrastructureCorrectionHits": 6,
+    "observationCanonicalInheritance": 17,
+    "postRoutingCanonicalInheritance": 23,
+    "newOverlaySemanticDecisions": 6,
+    "canonicalExpansion": 0,
+    "forbiddenFamilyLeaks": {
+      "whirlpoolTl": 0,
+      "whirlpoolFl": 0,
+      "samsungFl": 0
+    },
+    "candidateLedgerApproved": 24,
+    "candidateLedgerDeferred": 14,
+    "note": "newOverlaySemanticDecisions counts approved Samsung overlay vocabulary in bucket B only. Bucket A inheritance is rev1 reuse, not new learning."
+  },
+  "infrastructureCorrection": {
+    "workPackage": "WP1.1_boundary_cleanup_reobservation",
+    "classification": "matcher_routing_hygiene_not_learning",
+    "newSemanticDecisions": 0,
+    "canonicalExpansion": 0,
+    "before": {
+      "canonicalInheritance": 17,
+      "samsungKnowledgeCreation": 1,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 10,
+      "pipelineFlOntologyPollution": 6,
+      "pipelineFlTestTargetPollution": 4,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "after": {
+      "canonicalInheritance": 23,
+      "samsungKnowledgeCreation": 2,
+      "canonicalExpansionCandidates": 0,
+      "unresolvedProceduralNoise": 14,
+      "pipelineFlOntologyPollution": 0,
+      "pipelineFlTestTargetPollution": 0,
+      "forbiddenWhirlpoolDependent": 0
+    },
+    "deltas": {
+      "canonicalExpansionCandidates": 0,
+      "canonicalInheritance": 6,
+      "forbiddenWhirlpoolDependent": 0,
+      "pipelineFlOntologyPollution": -6,
+      "pipelineFlTestTargetPollution": -4,
+      "samsungKnowledgeCreation": 1,
+      "unresolvedProceduralNoise": 4
+    },
+    "attribution": "Six additional canonical inheritance hits (17\u219223) are correct ontology routing under top_load_washer rev1 \u2014 not newly learned Samsung concepts. Previously classified FL pollution: door_lock, supply, wash_ntc functional remaps plus compound title resolutions.",
+    "successCriteria": {
+      "canonicalInheritancePreserved": true,
+      "flOntologyPollutionZero": true,
+      "flTestTargetPollutionZero": true,
+      "whirlpoolDependencyZero": true,
+      "samsungFlDependencyZero": true
+    },
+    "semanticLearningFromRouting": 0,
+    "note": "WP1 observation: 17 canonical hits. WP1.1 routing correction: +6 hits. Semantic learning from routing: 0. WP3 overlay vocabulary decisions are separate from infrastructure correction."
+  },
+  "appliedCounts": {
+    "oemSeedAliases": 9,
+    "platformComponents": 3,
+    "procedureBindings": 8,
+    "measurementBindings": 5,
+    "procedureRoleEvidence": 2,
+    "deferredArtifacts": 12
+  },
+  "summary": {
+    "representationFailures": 0,
+    "publisherAppliedTotal": 39,
+    "gateIntentTotal": 30
+  },
+  "checks": {
+    "canonicalHashMatch": true,
+    "canonicalFrozenRev1": true,
+    "driveSystemAbsent": true,
+    "lidSwitchNoMatcherAlias": true,
+    "doorLockMapsToLidLockOnly": true,
+    "washHeaterDeferred": true,
+    "whirlpoolTlOverlayByteStable": true,
+    "whirlpoolFlOverlayByteStable": true,
+    "samsungFlOverlayByteStable": true,
+    "whirlpoolTlLeakZero": true,
+    "whirlpoolFlLeakZero": true,
+    "samsungFlLeakZero": true,
+    "overlayStatusDraft": true,
+    "isLearningEventNotCertification": true,
+    "newOverlaySemanticDecisionsSix": true,
+    "infrastructureSemanticLearningZero": true,
+    "canonicalExpansionZero": true,
+    "gatePublisherNoFailures": true,
+    "procedureBindingsEight": true,
+    "measurementBindingsFive": true,
+    "procedureRoleEvidenceTwo": true,
+    "whirlpoolTlOverlayRestored": true,
+    "whirlpoolFlOverlayRestored": true,
+    "samsungFlOverlayRestored": true,
+    "samsungOverlayDraftPresent": true
+  },
+  "canonicalHash": {
+    "before": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "after": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "expected": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "match": true
+  },
+  "whirlpoolPreservation": {
+    "tlByteStable": true,
+    "flByteStable": true
+  },
+  "foreignFamilyIsolation": {
+    "whirlpoolTl": 0,
+    "whirlpoolFl": 0,
+    "samsungFl": 0
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg5-tl-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg66-whirlpool-tl-certification-closure.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg67-samsung-tl-a50-promotion-dry-run.test.ts": 0
+  },
+  "notes": [
+    "First Samsung TL semantic learning event \u2014 6 overlay vocabulary decisions.",
+    "WP1.1 +6 inheritance delta is infrastructure correction (zero teaching cost).",
+    "Overlay written as draft \u2014 publication gate remains blocked."
+  ],
+  "dryRunPass": true
+}

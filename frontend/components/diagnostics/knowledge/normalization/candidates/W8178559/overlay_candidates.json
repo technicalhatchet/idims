@@ -1,0 +1,159 @@
+{
+  "manualId": "W8178559",
+  "candidates": [
+    {
+      "id": "overlay-W8178559-w8178559-door-switch-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w8178559-door-switch",
+      "canonicalTestTarget": "door_switch_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #6: Door Switch Test",
+      "componentIds": [
+        "door_switch"
+      ],
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-door-switch",
+        "pages": [
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-door-switch",
+            "pages": [
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W8178559-w8178559-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w8178559-motor-circuit",
+      "canonicalTestTarget": "motor_run_test",
+      "confidence": 0.92,
+      "displayTitle": "TEST #2: Motor Circuit",
+      "componentIds": [
+        "motor"
+      ],
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W8178559-w8178559-motor-circuit-meas-whirlpoolDuetSportDryerMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w8178559-motor-circuit",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+      "canonicalTestTarget": "motor_run_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+            "stepTitle": "Main winding \u2014 pin 4 to pin 5"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W8178559-w8178559-motor-circuit-meas-whirlpoolDuetSportDryerMotorOhms-start",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w8178559-motor-circuit",
+      "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+      "canonicalTestTarget": "motor_run_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+            "stepTitle": "Start winding \u2014 pin 4 to pin 3"
+          }
+        ]
+      }
+    }
+  ]
+}

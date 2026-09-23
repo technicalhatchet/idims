@@ -1,0 +1,194 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W10864849",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "ontologyId": "top_load_washer",
+  "architectureBoundary": "FL_corpus_prior → TL_ontology",
+  "promotionGateMetrics": {
+    "newHumanDecisionCount": 14,
+    "inheritedResolvedAutomatically": 39,
+    "newHumanDecisionRate": 0.264,
+    "note": "14 = blocked OEM TEST compounds at promotion gate (before batch binding approve). Not a regression — architecture boundary experiment."
+  },
+  "classifications": [
+    {
+      "candidateId": "map-w10864849-unresolved-w10864849-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves",
+      "canonicalId": "inlet_valve",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Functional concept known from FL corpus; OEM TEST title alias new to TL overlay."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-(pre-test)",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": "drive_motor",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "reusable_tl_platform_concept",
+      "inheritedFrom": null,
+      "reusableTlPlatformConcept": true,
+      "notes": "TL DD drive orchestration parent TEST; routes to motor + shifter sub-procedures."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-\u2014-shifter",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": "mode_shifter",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "reusable_tl_platform_concept",
+      "inheritedFrom": null,
+      "reusableTlPlatformConcept": true,
+      "notes": "Key TL platform knowledge. Expect W11697231 / other TL manuals to inherit this — does NOT cross to universal FL ontology without multi-manufacturer evidence."
+    },
+    {
+      "candidateId": "map-W10864849-compound-drive-system-\u2014-motor",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": "drive_motor",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "known_concept_new_tl_implementation",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": true,
+      "notes": "drive_motor known functionally; BPM direct-drive implementation path is TL-specific."
+    },
+    {
+      "candidateId": "map-W10864849-compound-keys-and-encoders",
+      "oemTerm": "TEST #4: Keys and Encoders",
+      "canonicalId": "hmi_control",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Capacitive glass UI TEST title on W10864849."
+    },
+    {
+      "candidateId": "map-W10864849-compound-temperature-thermistor",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "canonicalId": "wash_ntc",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Standard NTC TEST alias."
+    },
+    {
+      "candidateId": "map-W10864849-compound-water-level",
+      "oemTerm": "TEST #6: Water Level",
+      "canonicalId": "pressure_sensor",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "reusable_tl_platform_concept",
+      "inheritedFrom": null,
+      "reusableTlPlatformConcept": true,
+      "notes": "Human-reviewed: TL OEM term pressure_sensor on top_load_washer ontology. Not water_level_sensor. Second TL manual should inherit, not re-decide."
+    },
+    {
+      "candidateId": "map-W10864849-compound-lid-lock",
+      "oemTerm": "TEST #8: Lid Lock",
+      "canonicalId": "lid_lock",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "known_concept_new_tl_implementation",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": true,
+      "notes": "Architecture boundary: FL door_lock function → TL lid_lock ontology id. Not a new universal canonical concept."
+    },
+    {
+      "candidateId": "map-W10864849-compound-heater-element",
+      "oemTerm": "TEST #9: Heater Element",
+      "canonicalId": "wash_heater",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Optional heater variant."
+    },
+    {
+      "candidateId": "map-W10864849-compound-service-leds",
+      "oemTerm": "TEST #10: Service LEDs",
+      "canonicalId": "hmi_control",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "one_off_oem_terminology",
+      "inheritedFrom": null,
+      "reusableTlPlatformConcept": false,
+      "notes": "W10864849-specific service LED TEST routed to hmi_control."
+    },
+    {
+      "candidateId": "map-W10864849-compound-basket-light",
+      "oemTerm": "TEST #11: Basket Light",
+      "canonicalId": "supply",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "one_off_oem_terminology",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Same platform pattern as FL drum light → supply; optional variant feature."
+    },
+    {
+      "candidateId": "map-W10864849-compound-bulk-dispense-pump-and-rex-board",
+      "oemTerm": "TEST #12: Bulk Dispense Pump and REX Board",
+      "canonicalId": "bulk_level_switch",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Bulk dispense on select variants."
+    },
+    {
+      "candidateId": "map-w10864849-unresolved-w11697231-test-02-valves-test-#2:-valves",
+      "oemTerm": "TEST #2: Valves (W11697231 procedure in package)",
+      "canonicalId": "inlet_valve",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "one_off_oem_terminology",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "Corpus normalization artifact — shared seed folder with W11697231. Same mapping as #2; should inherit on TL #2 compounding."
+    },
+    {
+      "candidateId": "map-W10864849-compound-console-and-indicators",
+      "oemTerm": "TEST #4: Console and Indicators",
+      "canonicalId": "hmi_control",
+      "knowledgeBucket": "newPlatformKnowledge",
+      "platformSubtype": "one_off_oem_terminology",
+      "inheritedFrom": "fl_corpus",
+      "reusableTlPlatformConcept": false,
+      "notes": "W11697231 family variant HMI TEST title; same canonical as keys/encoders."
+    }
+  ],
+  "carefulResolutions": [
+    {
+      "candidateId": "map-W10864849-compound-main-control-(acu)",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "platformSubtype": "new_tl_alias",
+      "inheritedFrom": "fl_corpus"
+    },
+    {
+      "candidateId": "map-W10864849-compound-drain-&-recirculation-pump",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": "drain_pump",
+      "platformSubtype": "known_concept_new_tl_implementation",
+      "inheritedFrom": "fl_corpus"
+    }
+  ],
+  "procedureBindingBatch": {
+    "count": 24,
+    "platformSubtype": "new_tl_procedure_binding",
+    "knowledgeBucket": "newPlatformKnowledge",
+    "notes": "Mechanical overlay wiring; batch-approved after term resolution pass."
+  },
+  "summary": {
+    "promotionGateDecisions": 14,
+    "newCanonicalKnowledge": 0,
+    "newPlatformKnowledge": 14,
+    "reusableTlPlatformConcept": 5,
+    "oneOffOemTerminology": 4,
+    "knownConceptNewTlImplementation": 3,
+    "newTlAlias": 6,
+    "newTlProcedureBinding": 24,
+    "inheritedFlCorpusConcepts": 10,
+    "inheritedTlPlatformFamily": 0
+  },
+  "nextManualRecommendation": {
+    "manualId": "W11697231",
+    "platformId": "whirlpool_tl_dd",
+    "reason": "Shares whirlpool_tl_dd seed folder with W10864849 — best test of TL platform knowledge compounding before Samsung or distinct TL DD variants (W11416787, W11800233)."
+  }
+}

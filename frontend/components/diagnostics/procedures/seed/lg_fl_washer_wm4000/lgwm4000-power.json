@@ -1,0 +1,76 @@
+{
+  "id": "lgwm4000-power",
+  "version": "1.0.0",
+  "title": "\u00a74: Power / MAIN PWB supply",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "supply",
+    "control_board"
+  ],
+  "tags": [
+    "no_power"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4",
+    "oemTestTitle": "Installation and power",
+    "pages": [
+      8,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "check_outlet"
+    },
+    {
+      "id": "check_outlet",
+      "order": 2,
+      "type": "instruction",
+      "title": "Outlet and cord",
+      "body": "Verify 120 VAC at outlet and power cord to MAIN PWB.",
+      "sourceExcerpt": "Verify 120 VAC at outlet and power cord to MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "main_pwb_check"
+    },
+    {
+      "id": "main_pwb_check",
+      "order": 3,
+      "type": "instruction",
+      "title": "MAIN PWB supply",
+      "body": "Check MAIN PWB power input and noise filter path.",
+      "sourceExcerpt": "Check MAIN PWB power input and noise filter path.",
+      "requiresInput": false,
+      "defaultNextStepId": "power_ok"
+    },
+    {
+      "id": "replace_main_pwb",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace MAIN PWB",
+      "oemOutcome": "Replace MAIN PWB when supply verified but control dead.",
+      "requiresInput": false
+    },
+    {
+      "id": "power_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Power path OK",
+      "oemOutcome": "Supply and MAIN PWB input verified.",
+      "requiresInput": false
+    }
+  ]
+}

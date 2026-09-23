@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "tl_replication_preview",
+  "experiment": "TL #3 replication — no compiler/matching changes",
+  "manualId": "W11416787",
+  "platformId": "whirlpool_tl_dd_5100",
+  "model": "WTW5100",
+  "platformFamilyPriorManualIds": ["W10864849", "W11697231"],
+  "generatedAt": "2026-09-13T13:50:00+00:00",
+  "killerMetricTable": {
+    "columns": ["TL #1 W10864849", "TL #2 W11697231", "TL #3 W11416787"],
+    "rows": {
+      "tlPlatformInherited": [0, 51, 19],
+      "newPlatform": [14, 0, 0],
+      "newModelSpecific": [0, 0, 2],
+      "newCanonical": [0, 0, 0],
+      "newDecisions": [14, 0, 2],
+      "newDecisionRate": [0.264, 0.0, 0.061],
+      "equivalence": ["PASS", "PASS", "PASS"]
+    }
+  },
+  "interpretation": {
+    "bucket": "1-3 new decisions — very strong replication; legitimate model/platform variation",
+    "newModelSpecificGateDecisions": [
+      {
+        "candidateId": "map-w11416787-unresolved-w11416787-test-04-hmi-test-#4:-hmi",
+        "oemTerm": "TEST #4: HMI",
+        "rationale": "5100-line HMI TEST title variant (not Keys/Encoders or Console from TL #1/#2)"
+      },
+      {
+        "candidateId": "map-W11416787-compound-load-&-go-detergent",
+        "oemTerm": "TEST #9: Load & Go Detergent",
+        "rationale": "WTW5100 Load & Go feature — genuinely model-line specific, not TL #1 platform vocabulary"
+      }
+    ],
+    "reusedPlatformConcepts": [
+      "mode_shifter",
+      "pressure_sensor",
+      "lid_lock",
+      "drive_motor",
+      "drive pre-test orchestration",
+      "inlet_valve",
+      "wash_ntc",
+      "drain_pump"
+    ],
+    "notes": [
+      "33 review records vs 53 on TL #1/#2 — proportional inherited count (19) expected.",
+      "0 newPlatformKnowledge confirms TL #1+#2 vocabulary covers shared BPM DD concepts.",
+      "Published promo-W11416787-20260913135602 — equivalence PASS after whirlpool_tl_dd_5100_direct_drive overlay family added.",
+      "Gate-preview metrics frozen in compounding_baseline_v1_whirlpool_tl3.json — post-publish pipeline counts are inflated."
+    ]
+  },
+  "canonicalReport": "compounding_tl_platform_v1.json",
+  "pipelineReport": "compounding_pipeline_W11416787.json"
+}

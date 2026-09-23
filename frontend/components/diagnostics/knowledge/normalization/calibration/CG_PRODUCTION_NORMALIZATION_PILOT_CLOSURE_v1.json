@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_closure",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "status": "closed",
+  "verdict": "GREEN / PILOT_GATE_CLOSED",
+  "closedAt": "2026-09-17T23:00:00+00:00",
+  "closureStatement": "Production normalization pilot GATE closed GREEN. Eight-slot stress cohort executed; all four pipeline lifecycle branches demonstrated (continue, implementation-specific overlay, unresolved BLOCK, architecture_exception STOP). P05 routing defect isolated and repaired. P08 correctly STOPped batch; FlexWash integration boundary frozen separately — production FlexWash normalization not authorized by this closure. Frozen canonical hashes unchanged. Production 70-manual batch NOT authorized — requires separate batch contract.",
+  "closureAnalysis": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_ANALYSIS_v1.json",
+  "authorizesProductionBatch": false,
+  "authorizesBatchContract": true,
+  "lifecycleProven": {
+    "canonical_mapping_continue": true,
+    "implementation_specific_overlay": true,
+    "unresolved_block": true,
+    "architecture_exception_stop": true,
+    "allEightSlotsExecuted": true,
+    "silentCanonicalPromotion": false,
+    "frozenHashMutation": false
+  },
+  "p08Resolution": {
+    "pipelineDisposition": "architecture_exception_stop",
+    "architectureExceptionPreserved": true,
+    "integrationBoundaryFrozen": true,
+    "freezeReference": "CG_P08_FLEXWASH_FREEZE_CLOSURE_v1.json",
+    "flexWashNormalizationAuthorized": false
+  },
+  "requiredArtifacts": [
+    "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_COHORT_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_ANALYSIS_v1.json",
+    "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_ANALYSIS_v1.json",
+    "CG_PILOT_FRESH_8OF8_RERUN_REPORT_v1.json",
+    "cg-production-normalization-pilot.test.ts",
+    "cg-production-normalization-pilot-closure.test.ts"
+  ],
+  "explicitlyNotAuthorized": [
+    "70-manual production normalization batch execution",
+    "FlexWash production normalization",
+    "FlexWash overlay publication",
+    "WV60 procedure ingestion",
+    "Production UI build against production data contract",
+    "Canonical graph expansion",
+    "Deletion or rewrite of architecture_exception.json"
+  ],
+  "gateCriteriaRef": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json#gateCriteria",
+  "nextDisciplinedStep": "CG-PRODUCTION-NORMALIZATION-BATCH contract authorization (separate gate). FlexWash normalization remains deferred until explicitly opened."
+}

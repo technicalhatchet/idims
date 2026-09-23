@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_rule_validation",
+  "ruleId": "samsung-fl-overflow-oc-water-level-sensor",
+  "ladder": "R4",
+  "status": "VALIDATED",
+  "validatedAt": "2026-09-14T03:00:00+00:00",
+  "phase": "CG-6.3",
+  "semanticRiskClass": "high",
+  "controlBaseline": "compounding_efficiency_v1.json",
+  "r3ValidatedBaseline": "compounding_semantic_inheritance_rule3_validated_v1.json",
+  "benchmarkArtifact": "semantic_inheritance_benchmark_v1.json",
+  "problemClass": "Constrained functional inference — Overflow/OC OEM diagnostic maps to water_level_sensor without lexical concept name in title",
+  "architecturalProperty": "Rule may only inherit established water_level_sensor from BB8700 platform prior — mayNotCreateConcept: true",
+  "closedLoop": [
+    "Human proves: Overflow (OC) → water_level_sensor (BB8700 corpus + WF6000R platform family)",
+    "Freeze R3 baseline (71→68 mapping, 48→45 cohort) — do not rewrite prior artifacts",
+    "Encode high-risk functional rule — require overflow + OC; exclude drain/inlet/basket/leakage paths",
+    "Matcher applies on WF6000R only when BB8700 water_level_sensor prior exists",
+    "R4 incremental: mapping 68→67, cohort 45→44, +1 auto-resolve",
+    "0 false positives on 7-manual calibration corpus",
+    "Explicit abstentions on water level alone, overflow alone, OC alone, hostile overflow variants",
+    "0 leakage, 0 ontology promotion, 0 topology inference"
+  ],
+  "hostileRegressionMatrix": {
+    "Samsung FL Overflow (OC)": "match → water_level_sensor",
+    "Overflow (OC) with qualifying context": "match → water_level_sensor",
+    "water level alone": "abstain",
+    "water leakage": "abstain (no R4 match)",
+    "drain overflow": "abstain",
+    "inlet overflow": "abstain",
+    "basket overflow": "abstain",
+    "generic overflow outside Samsung FL": "abstain",
+    "Whirlpool Overflow": "no Samsung inheritance",
+    "partial/ambiguous OC": "abstain",
+    "no prior Samsung water_level_sensor": "abstain"
+  },
+  "benchmarkResults": {
+    "cumulative": {
+      "mappingGateBurden": { "before": 71, "after": 67 },
+      "projectedCohortHumanGateDecisions": { "before": 48, "after": 44 },
+      "semanticInheritsAutoResolved": 4,
+      "regressionAbstentions": 2,
+      "regressionFalsePositives": 0,
+      "leakage": 0,
+      "newCanonical": 0
+    },
+    "r4IncrementalVsR3Baseline": {
+      "mappingGateBurdenDelta": 1,
+      "projectedCohortDelta": 1,
+      "semanticInheritsAutoResolvedDelta": 1,
+      "regressionAbstentionsDelta": 1,
+      "falsePositives": 0
+    }
+  },
+  "nextRuleGuidance": {
+    "ladder": "R5",
+    "requirement": "Deliberate abstention boundary — ambiguous/insufficient evidence must remain human gate",
+    "note": "Semantic inheritance policy complete through R4; R5 is the permanent refusal layer"
+  }
+}

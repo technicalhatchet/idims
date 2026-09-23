@@ -1,0 +1,830 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6_samsung_dishwasher_m9_compounding_observation",
+  "experiment": "Samsung dishwasher manual #2 \u2014 compounding against published samsung_dishwasher.json",
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "platformId": "samsung_dishwasher_m9",
+  "platformFamilyId": "samsung_dishwasher",
+  "ontologyId": "dishwasher",
+  "ontologyFrozen": true,
+  "ontologyFrozenRevision": "rev1",
+  "priorManualId": "SAMSUNG-DISHWASHER",
+  "manufacturerOverlay": "samsung_dishwasher.json",
+  "manufacturerOverlayPublishedThrough": "SAMSUNG-DISHWASHER",
+  "generatedAt": "2026-09-15T15:37:34.703590+00:00",
+  "metricsSource": "cg3_compounding_observation",
+  "publishBlocked": true,
+  "pipelineCounts": {
+    "procedures": 16,
+    "mappingCandidates": 32,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "baselineComparison": {
+    "SAMSUNG-DISHWASHER": {
+      "role": "first_samsung_manual_baseline",
+      "newHumanSemanticDecisions": 15,
+      "publicationDelta": {
+        "procedureBindingsAdded": 10,
+        "measurementBindingsAdded": 5,
+        "oemAliasesAdded": 17,
+        "platformComponentsAdded": 5,
+        "canonicalChanges": 0
+      }
+    },
+    "nativeCohortFilter": "source.manualId === SAMSUNG-DISHWASHER-M9 (16 native procedures; platformId samsung_dishwasher_m9)"
+  },
+  "inheritanceAccounting": {
+    "inherited_exact": 10,
+    "inherited_semantic": 10,
+    "inherited_total": 20,
+    "nonNoiseCandidateCount": 28,
+    "inheritanceRate": 0.714,
+    "exactInheritanceRate": 0.357,
+    "note": "Exact = published alias or seed-id match. Semantic = same canonical/test family with new M9 procedureId or measurement id."
+  },
+  "classificationSummary": {
+    "mappingCandidates": {
+      "inherited_semantic": 1,
+      "deferred_procedural_title": 14,
+      "rejected": 2,
+      "inherited_exact": 10,
+      "unresolved": 5
+    },
+    "overlayCandidates": {
+      "inherited_semantic": 9,
+      "unresolved": 3
+    },
+    "combined": {
+      "inherited_semantic": 10,
+      "deferred_procedural_title": 14,
+      "rejected": 2,
+      "inherited_exact": 10,
+      "unresolved": 8
+    }
+  },
+  "teachingCostCurve": {
+    "SAMSUNG-DISHWASHER": 15,
+    "SAMSUNG-DISHWASHER-M9_projected": 6,
+    "reductionVsFirstSamsung": 0.6,
+    "teachingUnits": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-fan_motor",
+        "sourceTerm": "fan_motor",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-dry-system",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "No confident mapping \u2014 human gate required.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-leak_sensor",
+        "sourceTerm": "leak_sensor",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Leak sensor \u2014 deferred on first manual; M9 functional role review.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-power-supply-supply",
+        "sourceTerm": "supply",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-power-supply",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "unresolved",
+          "unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-no-power-&-power-relay-check",
+        "sourceTerm": "No Power & Power Relay Check",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-power-supply",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-voltage-abnormal-supply",
+        "sourceTerm": "supply",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "unresolved",
+          "unresolved"
+        ]
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-power-supply",
+        "canonicalTestTarget": "fill_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "No Power & Power Relay Check",
+        "classification": "unresolved",
+        "rationale": "Overlay binding needs human gate."
+      }
+    ]
+  },
+  "compoundingBuckets": {
+    "inherited_exact": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-dispenser-detergent_dispenser",
+        "sourceTerm": "dispenser",
+        "canonicalId": "detergent_dispenser",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-dispenser",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'dispenser' \u2192 detergent_dispenser.",
+        "matcherLayers": [
+          "canonical_ontology_alias"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-door_latch",
+        "sourceTerm": "door_latch",
+        "canonicalId": "door_switch",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-door-switch",
+        "matchedPhrase": "door latch",
+        "classification": "inherited_exact",
+        "rationale": "Matched published alias 'door latch' \u2192 door_switch.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-drain_pump-drain_pump",
+        "sourceTerm": "drain_pump",
+        "canonicalId": "drain_pump",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-drain-pump",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'drain_pump' \u2192 drain_pump.",
+        "matcherLayers": [
+          "canonical_component_id"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-vent-drying_system",
+        "sourceTerm": "vent",
+        "canonicalId": "drying_system",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-dry-system",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'vent' \u2192 drying_system.",
+        "matcherLayers": [
+          "canonical_ontology_alias"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-dry-fan,-actuator-&-auto-door-(fc-/-dc3)",
+        "sourceTerm": "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)",
+        "canonicalId": "drying_system",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-dry-system",
+        "matchedPhrase": "dry fan",
+        "classification": "inherited_exact",
+        "rationale": "Procedural title matched published alias 'dry fan' \u2192 drying_system.",
+        "matcherLayers": [
+          "compound:template_hint"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-inlet_valve-inlet_valve",
+        "sourceTerm": "inlet_valve",
+        "canonicalId": "inlet_valve",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-fill-valve",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'inlet_valve' \u2192 inlet_valve.",
+        "matcherLayers": [
+          "canonical_component_id"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-heater-heat_source",
+        "sourceTerm": "heater",
+        "canonicalId": "heat_source",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-heater",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'heater' \u2192 heat_source.",
+        "matcherLayers": [
+          "canonical_ontology_alias"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-user_interface",
+        "sourceTerm": "user_interface",
+        "canonicalId": "hmi_control",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-hmi-check",
+        "matchedPhrase": "user interface",
+        "classification": "inherited_exact",
+        "rationale": "Matched published alias 'user interface' \u2192 hmi_control.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-float_switch",
+        "sourceTerm": "float_switch",
+        "canonicalId": "water_level_sensor",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-overflow",
+        "matchedPhrase": "float switch",
+        "classification": "inherited_exact",
+        "rationale": "Matched published alias 'float switch' \u2192 water_level_sensor.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-thermistor-temperature_sensor",
+        "sourceTerm": "thermistor",
+        "canonicalId": "temperature_sensor",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-thermistor",
+        "matchedPhrase": null,
+        "classification": "inherited_exact",
+        "rationale": "Exact published Samsung alias 'thermistor' \u2192 temperature_sensor.",
+        "matcherLayers": [
+          "canonical_ontology_alias"
+        ]
+      }
+    ],
+    "inherited_semantic": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-wash_motor",
+        "sourceTerm": "wash_motor",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "matchedPhrase": "wash motor",
+        "classification": "inherited_semantic",
+        "rationale": "Circulation hardware maps to published circulation_pump / circulation_motor.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-circulation-motor-circulation_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "canonicalTestTarget": "circulation_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: Circulation Pump (3C)",
+        "classification": "inherited_semantic",
+        "rationale": "M9 circulation procedure reuses published circulation_test semantics (circulation_motor)."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-circulation-motor-meas-samsungDishwasherM9CirculationMotorOhms",
+        "candidateType": "measurementBinding",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "canonicalTestTarget": "circulation_test",
+        "measurementKnowledgeId": "samsungDishwasherM9CirculationMotorOhms",
+        "displayTitle": null,
+        "classification": "inherited_semantic",
+        "rationale": "M9-native measurement (samsungDishwasherM9CirculationMotorOhms) reuses published test family circulation_test."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-door-switch-door_switch_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-door-switch",
+        "canonicalTestTarget": "door_switch_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: Door Sensing Switch",
+        "classification": "inherited_semantic",
+        "rationale": "M9 door-switch reuses published door_switch_test semantics (new procedureId registration)."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-drain-pump-drain_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-drain-pump",
+        "canonicalTestTarget": "drain_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: Drain Pump (5C)",
+        "classification": "inherited_semantic",
+        "rationale": "M9 drain-pump reuses published drain_test semantics (new procedureId registration)."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-drain-pump-meas-samsungDishwasherM9DrainPumpOhms",
+        "candidateType": "measurementBinding",
+        "procedureId": "samsungdwm9-drain-pump",
+        "canonicalTestTarget": "drain_test",
+        "measurementKnowledgeId": "samsungDishwasherM9DrainPumpOhms",
+        "displayTitle": null,
+        "classification": "inherited_semantic",
+        "rationale": "M9-native measurement (samsungDishwasherM9DrainPumpOhms) reuses published test family drain_test."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-fill-valve-fill_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-fill-valve",
+        "canonicalTestTarget": "fill_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+        "classification": "inherited_semantic",
+        "rationale": "M9 fill-valve reuses published fill_test semantics (new procedureId registration)."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-fill-valve-meas-samsungDishwasherM9FillValveOhms",
+        "candidateType": "measurementBinding",
+        "procedureId": "samsungdwm9-fill-valve",
+        "canonicalTestTarget": "fill_test",
+        "measurementKnowledgeId": "samsungDishwasherM9FillValveOhms",
+        "displayTitle": null,
+        "classification": "inherited_semantic",
+        "rationale": "M9-native measurement (samsungDishwasherM9FillValveOhms) reuses published test family fill_test."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-heater-heater_command_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-heater",
+        "canonicalTestTarget": "heater_command_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: Heater Operation (HC / HC1)",
+        "classification": "inherited_semantic",
+        "rationale": "M9 heater reuses published heater_command_test semantics (new procedureId registration)."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-heater-meas-samsungDishwasherM9HeaterOhms",
+        "candidateType": "measurementBinding",
+        "procedureId": "samsungdwm9-heater",
+        "canonicalTestTarget": "heater_command_test",
+        "measurementKnowledgeId": "samsungDishwasherM9HeaterOhms",
+        "displayTitle": null,
+        "classification": "inherited_semantic",
+        "rationale": "M9-native measurement (samsungDishwasherM9HeaterOhms) reuses published test family heater_command_test."
+      }
+    ],
+    "new_platform": [],
+    "new_model": [],
+    "new_manufacturer_vocabulary": [],
+    "new_canonical": [],
+    "unresolved": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-fan_motor",
+        "sourceTerm": "fan_motor",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-dry-system",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "No confident mapping \u2014 human gate required.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-leak_sensor",
+        "sourceTerm": "leak_sensor",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Leak sensor \u2014 deferred on first manual; M9 functional role review.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-power-supply-supply",
+        "sourceTerm": "supply",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-power-supply",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "unresolved",
+          "unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-no-power-&-power-relay-check",
+        "sourceTerm": "No Power & Power Relay Check",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-power-supply",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-samsung-dishwasher-m9-unresolved-samsungdwm9-voltage-abnormal-supply",
+        "sourceTerm": "supply",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "matchedPhrase": null,
+        "classification": "unresolved",
+        "rationale": "Power/PBA path \u2014 deferred on first manual.",
+        "matcherLayers": [
+          "unresolved",
+          "unresolved"
+        ]
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-communication-heater_command_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-communication",
+        "canonicalTestTarget": "heater_command_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-3: PBA Communication (AC / AC6)",
+        "classification": "unresolved",
+        "rationale": "Overlay binding needs human gate."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-power-supply",
+        "canonicalTestTarget": "fill_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "No Power & Power Relay Check",
+        "classification": "unresolved",
+        "rationale": "Overlay binding needs human gate."
+      },
+      {
+        "id": "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-voltage-abnormal-fill_test",
+        "candidateType": "procedureTestBinding",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "canonicalTestTarget": "fill_test",
+        "measurementKnowledgeId": null,
+        "displayTitle": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+        "classification": "unresolved",
+        "rationale": "Overlay binding needs human gate."
+      }
+    ],
+    "deferred_procedural_title": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-circulation-pump-(3c)",
+        "sourceTerm": "\u00a74-3: Circulation Pump (3C)",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-circulation-motor",
+        "matchedPhrase": "circulation pump",
+        "classification": "deferred_procedural_title",
+        "rationale": "OEM \u00a7 title \u2014 bind by procedureId; alias already on published layer.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-pba-communication-(ac-/-ac6)",
+        "sourceTerm": "\u00a74-3: PBA Communication (AC / AC6)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-communication",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-detergent-dispenser-detergent_dispenser",
+        "sourceTerm": "\u00a74-3: Detergent Dispenser",
+        "canonicalId": "detergent_dispenser",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-dispenser",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "OEM \u00a7 title \u2014 bind by procedureId; alias already on published layer.",
+        "matcherLayers": [
+          "canonical_ontology_alias"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-distributor-motor-(pc)",
+        "sourceTerm": "\u00a74-3: Distributor Motor (PC)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-distributor",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-door-sensing-switch",
+        "sourceTerm": "\u00a74-3: Door Sensing Switch",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-door-switch",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-drain-pump-(5c)",
+        "sourceTerm": "\u00a74-3: Drain Pump (5C)",
+        "canonicalId": "drain_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-drain-pump",
+        "matchedPhrase": "drain pump",
+        "classification": "deferred_procedural_title",
+        "rationale": "OEM \u00a7 title \u2014 bind by procedureId; alias already on published layer.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-fill-valve-&-flow-meter-(4c)",
+        "sourceTerm": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+        "canonicalId": "inlet_valve",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-fill-valve",
+        "matchedPhrase": "fill valve",
+        "classification": "deferred_procedural_title",
+        "rationale": "OEM \u00a7 title \u2014 bind by procedureId; alias already on published layer.",
+        "matcherLayers": [
+          "compound:canonical_alias_suffix"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-heater-operation-(hc-/-hc1)",
+        "sourceTerm": "\u00a74-3: Heater Operation (HC / HC1)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-heater",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-touch-panel-&-sub-pba-(bc2-/-bc3)",
+        "sourceTerm": "\u00a74-3: Touch Panel & Sub PBA (bC2 / bC3)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-hmi-check",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-leak-sensor-(lc)",
+        "sourceTerm": "\u00a74-3: Leak Sensor (LC)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-leak-sensor",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-overflow-sensor-(oc)",
+        "sourceTerm": "\u00a74-3: Overflow Sensor (OC)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-overflow",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-water-thermistor-(tc)",
+        "sourceTerm": "\u00a74-3: Water Thermistor (tC)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-thermistor",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-lower-vane-motor-(7c)",
+        "sourceTerm": "\u00a74-3: Lower Vane Motor (7C)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-vane-motor",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-abnormal-supply-voltage-(9c1-/-9c2)",
+        "sourceTerm": "\u00a74-1: Abnormal Supply Voltage (9C1 / 9C2)",
+        "canonicalId": null,
+        "matcherStatus": "UNRESOLVED_TERM",
+        "procedureId": "samsungdwm9-voltage-abnormal",
+        "matchedPhrase": null,
+        "classification": "deferred_procedural_title",
+        "rationale": "Procedural title noise \u2014 not a vocabulary decision.",
+        "matcherLayers": [
+          "compound:unresolved"
+        ]
+      }
+    ],
+    "rejected": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+        "sourceTerm": "main_control",
+        "canonicalId": "control_board",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-communication",
+        "matchedPhrase": null,
+        "classification": "rejected",
+        "rationale": "Cross-template matcher route (washer/dryer/Whirlpool) \u2014 routing defect.",
+        "matcherLayers": [
+          "platform_overlay:samsung_fl_washer_wf6000r"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-diverter_motor",
+        "sourceTerm": "diverter_motor",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-distributor",
+        "matchedPhrase": "diverter motor",
+        "classification": "rejected",
+        "rationale": "Samsung uses distributor motor at platform layer \u2014 diverter terminology must not promote diverter_valve or Whirlpool diverter path.",
+        "matcherLayers": [
+          "compound:template_hint"
+        ]
+      }
+    ]
+  },
+  "manufacturerIsolation": {
+    "whirlpoolLeakCount": 2,
+    "whirlpoolLeaks": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+        "sourceTerm": "main_control",
+        "canonicalId": "control_board",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-communication",
+        "matchedPhrase": null,
+        "classification": "rejected",
+        "rationale": "Cross-template matcher route (washer/dryer/Whirlpool) \u2014 routing defect.",
+        "matcherLayers": [
+          "platform_overlay:samsung_fl_washer_wf6000r"
+        ]
+      },
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-compound-diverter_motor",
+        "sourceTerm": "diverter_motor",
+        "canonicalId": "circulation_pump",
+        "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+        "procedureId": "samsungdwm9-distributor",
+        "matchedPhrase": "diverter motor",
+        "classification": "rejected",
+        "rationale": "Samsung uses distributor motor at platform layer \u2014 diverter terminology must not promote diverter_valve or Whirlpool diverter path.",
+        "matcherLayers": [
+          "compound:template_hint"
+        ]
+      }
+    ],
+    "crossTemplateLeakCount": 1,
+    "crossTemplateLeaks": [
+      {
+        "id": "map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+        "sourceTerm": "main_control",
+        "canonicalId": "control_board",
+        "matcherStatus": "candidate",
+        "procedureId": "samsungdwm9-communication",
+        "matchedPhrase": null,
+        "classification": "rejected",
+        "rationale": "Cross-template matcher route (washer/dryer/Whirlpool) \u2014 routing defect.",
+        "matcherLayers": [
+          "platform_overlay:samsung_fl_washer_wf6000r"
+        ]
+      }
+    ],
+    "whirlpoolOverlayReferenced": true,
+    "verdict": "review"
+  },
+  "canonicalOntologyWatch": {
+    "watchlistHits": [],
+    "newCanonicalCandidates": [],
+    "verdict": "contained"
+  },
+  "architectureBoundary": {
+    "distributorImplementsCirculation": true,
+    "noDiverterValvePromotion": true,
+    "circulationMotorOutputTestRejected": false,
+    "vaneMotorPlatformCandidate": true,
+    "publishedPlatformComponents": [
+      "circulation_motor",
+      "distributor_motor",
+      "overflow_sensor",
+      "thermal_actuator",
+      "vent_fan_motor"
+    ]
+  },
+  "focusAreaReview": {
+    "circulation_motor": {
+      "m9Procedure": "samsungdwm9-circulation-motor",
+      "matcherRisk": "motor_output_test / drive_motor washer leak",
+      "expected": "circulation_test + circulation_motor (published)"
+    },
+    "vane_motor": {
+      "m9Procedure": "samsungdwm9-vane-motor",
+      "note": "M9 delta \u2014 lower vane motor; platform knowledge not first-manual vocabulary."
+    },
+    "diverter_terminology": {
+      "observed": [
+        {
+          "id": "map-SAMSUNG-DISHWASHER-M9-compound-diverter_motor",
+          "sourceTerm": "diverter_motor",
+          "canonicalId": "circulation_pump",
+          "matcherStatus": "COMPOUND_TERM_CANDIDATE",
+          "procedureId": "samsungdwm9-distributor",
+          "matchedPhrase": "diverter motor",
+          "classification": "rejected",
+          "rationale": "Samsung uses distributor motor at platform layer \u2014 diverter terminology must not promote diverter_valve or Whirlpool diverter path.",
+          "matcherLayers": [
+            "compound:template_hint"
+          ]
+        }
+      ],
+      "verdict": "reject diverter_motor seed \u2014 use distributor/vane platform layer"
+    },
+    "leak_overflow": {
+      "procedures": [
+        "samsungdwm9-leak-sensor",
+        "samsungdwm9-overflow"
+      ],
+      "note": "First manual deferred leak; overflow may inherit overflow_sensor platform."
+    }
+  },
+  "conflicts": [],
+  "gapReportBuckets": {
+    "unresolved": 18,
+    "canonical_alias": 9,
+    "canonical_ontology_candidate": 2,
+    "human_review": 6,
+    "platform_overlay": 23
+  },
+  "hardGates": {
+    "dishwasherJsonUnchanged": true,
+    "samsungDishwasherJsonPublished": true,
+    "noWhirlpoolLeakage": false,
+    "noCanonicalExpansion": true,
+    "autoPublish": false,
+    "autoApprove": false
+  },
+  "nextDecisionPoint": [
+    "Inspect projected teaching units before M9 gate",
+    "Confirm vane_motor platform implementation vs circulation_pump",
+    "Reject motor_output_test / drive_motor washer routing on circulation",
+    "Do not import Whirlpool diverter or ACU measurements"
+  ]
+}

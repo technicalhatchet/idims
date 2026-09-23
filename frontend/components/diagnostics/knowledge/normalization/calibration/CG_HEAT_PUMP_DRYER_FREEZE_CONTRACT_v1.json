@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_freeze_contract",
+  "workstream": "CG-HEAT-PUMP-DRYER-FREEZE",
+  "status": "closed",
+  "closedAt": "2026-09-17T16:00:00+00:00",
+  "closureArtifact": "CG_HEAT_PUMP_DRYER_FREEZE_CLOSURE_v1.json",
+  "closureVerdict": "CLOSED / HEAT_PUMP_DRYER_FAMILY_FROZEN",
+  "freezeLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json",
+  "phase": "CG-HEAT-PUMP-DRYER-FREEZE",
+  "activatedAt": "2026-09-17T16:00:00+00:00",
+  "priorPhaseClosed": "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json",
+  "priorPhaseVerdict": "CLOSED / HEAT_PUMP_DRYER_CANDIDATE_READY_FOR_FREEZE_REVIEW",
+  "freezeMode": "canonical_ontology_authoring_from_approved_functional_contract",
+  "coreConstraint": "Freeze gate authors heat_pump_dryer.json rev1 from discovery-approved 2+7 contract only. No refrigeration hardware promotion. routed_through thermal→moisture edge omitted — functional coupling via functionalDependencies only.",
+  "approvedFunctionalContract": {
+    "artifact": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "status": "approved_for_freeze",
+    "newCoreFunctions": 2,
+    "reusedVentedDryerFunctions": 7,
+    "ontologyId": "heat_pump_dryer",
+    "templateId": "electric_dryer",
+    "variant": "heat_pump"
+  },
+  "immutableInputs": {
+    "policy": "Read-only — freeze must not mutate fit or discovery closure evidence",
+    "artifacts": [
+      "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json",
+      "CG_HEAT_PUMP_DRYER_DISCOVERY_CONTRACT_v1.json",
+      "CG_HEAT_PUMP_DRYER_DISCOVERY_TRIANGULATION_v1.json",
+      "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json",
+      "heat_pump_dryer_functional_contract_candidate_v1.json"
+    ],
+    "ventedDryerFamilyLock": "vented_dryer.json frozen rev2",
+    "ventedDryerImmutable": true,
+    "aioWorkstreamPaused": true
+  },
+  "notCreating": [
+    "manufacturer overlays",
+    "corpus normalization/compounding",
+    "aio_laundry_combo.json",
+    "mutations to vented_dryer.json",
+    "mutations to aio candidate artifacts",
+    "automatic AIO workstream resume"
+  ],
+  "targetCanonicalArtifact": {
+    "file": "frontend/components/diagnostics/knowledge/canonical/heat_pump_dryer.json",
+    "ontologyId": "heat_pump_dryer",
+    "revision": "rev1",
+    "frozen": true
+  },
+  "canonicalArtifactAuthored": {
+    "file": "heat_pump_dryer.json",
+    "referenceOverlay": "heat_pump_dryer.reference.json",
+    "frozen": true,
+    "frozenHash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "registryRegistered": true
+  },
+  "deferredRelationshipDecision": {
+    "proposed": "heat_pump_thermal_system → routed_through → sealed_moisture_rejection_path",
+    "decision": "OMITTED",
+    "rationale": "routed_through in vented_dryer encodes physical air-path topology. HP coupling is functional only — encoded in functionalDependencies.thermal_moisture_functional_coupling."
+  },
+  "successCriteria": {
+    "heatPumpDryerJsonAuthored": true,
+    "humanFreezeApprovalRequired": true,
+    "humanFreezeApprovalStatus": "approved",
+    "validateCanonicalGraphPass": true,
+    "freezeLockCreated": true,
+    "registryRegistered": true,
+    "newCoreFunctionCount": 2,
+    "reusedFunctionCount": 7,
+    "componentPromotionCount": 0,
+    "ventedDryerHashUnchanged": true,
+    "aioArtifactsUnchanged": true,
+    "heatPumpDryerFamilyLocked": true
+  },
+  "nextDisciplinedStep": "Heat-pump dryer family LOCKED — normalization/compounding deferred; AIO workstream remains PAUSED"
+}

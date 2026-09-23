@@ -1,0 +1,43 @@
+{
+  "manualId": "LG-LSC27926-SXS",
+  "platformId": "lg_sxs",
+  "templateId": "refrigerator",
+  "label": "LG LSC27926 side-by-side refrigerator",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-16T13:46:48.057783+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 14,
+    "mappingCandidates": 28,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 3
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 3,
+    "invalidExtraction": 0,
+    "totalFiltered": 3,
+    "samples": [
+      {
+        "rawTerm": "CON7",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "lgsxs-freezer-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "CON8",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "lgsxs-fresh-food-sensor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "LSC27926",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "lgsxs-ice-maker",
+        "source": "title_token"
+      }
+    ]
+  }
+}

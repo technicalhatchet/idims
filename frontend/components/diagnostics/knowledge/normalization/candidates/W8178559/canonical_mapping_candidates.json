@@ -1,0 +1,1185 @@
+{
+  "manualId": "W8178559",
+  "candidates": [
+    {
+      "id": "map-W8178559-mig-efmm-cda9def45dce-user_interface",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "user_interface",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-cda9def45dce"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-button-indicator",
+        "pages": [
+          86,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-button-indicator",
+            "pages": [
+              86,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-cda9def45dce",
+            "matchedSurface": "user_interface",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W8178559::canonical_mapping::map-W8178559-mig-efmm-cda9def45dce-user_interface",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:12:06.751Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.653022+00:00"
+      }
+    },
+    {
+      "id": "map-W8178559-compound-button-and-indicator",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #5: Button and Indicator Test",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-button-indicator",
+        "pages": [
+          86,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-button-indicator",
+            "pages": [
+              86,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Button and Indicator"
+    },
+    {
+      "id": "map-W8178559-door_switch-door_switch",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_switch",
+      "extractedTerm": null,
+      "canonicalId": "door_switch",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-door-switch",
+        "pages": [
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-door-switch",
+            "pages": [
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-door-switch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #6: Door Switch Test",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "door",
+        "component": null,
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-door-switch",
+        "pages": [
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-door-switch",
+            "pages": [
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Door Switch"
+    },
+    {
+      "id": "map-W8178559-moisture_sensor-moisture_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "moisture_sensor",
+      "extractedTerm": null,
+      "canonicalId": "moisture_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-dryness-adjust",
+        "pages": [
+          86
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-dryness-adjust",
+            "pages": [
+              86
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-customer-drying-mode",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #4a: Customer Drying Mode",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-dryness-adjust",
+        "pages": [
+          86
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-dryness-adjust",
+            "pages": [
+              86
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Customer Drying Mode"
+    },
+    {
+      "id": "map-W8178559-compound-exhaust_thermistor",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "exhaust_thermistor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "exhaust",
+        "actuator": "thermistor"
+      },
+      "matchedPhrase": "exhaust thermistor",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-exhaust-thermistor",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-exhaust-thermistor",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-exhaust-thermistor-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3a: Exhaust Thermistor",
+      "extractedTerm": "Exhaust Thermistor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-exhaust-thermistor",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-exhaust-thermistor",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #3a: Exhaust Thermistor",
+            "extractedTerm": "Exhaust Thermistor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w8178559-unresolved-w8178559-gas-ignitor-igniter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "igniter",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-ignitor",
+        "pages": [
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-ignitor",
+            "pages": [
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-test-#3-(gas):-ignitor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3 (gas): Ignitor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-ignitor",
+        "pages": [
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-ignitor",
+            "pages": [
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-gas_valve",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "gas_valve",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-valve",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-valve",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-gas-valve-coils",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3d: Gas Valve Coils",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "gas",
+        "component": null,
+        "actuator": "valve"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-valve",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-valve",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Gas Valve Coils"
+    },
+    {
+      "id": "map-W8178559-heating_element-heat_source",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heating_element",
+      "extractedTerm": null,
+      "canonicalId": "heat_source",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-electric",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-electric",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-heater-(electric)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3: Heater (electric)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-electric",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-electric",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Heater (electric)"
+    },
+    {
+      "id": "map-W8178559-thermal_fuse-thermal_fuse",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermal_fuse",
+      "extractedTerm": null,
+      "canonicalId": "thermal_fuse",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-gas",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-gas",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-thermal_cutoff-thermal_cutoff",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermal_cutoff",
+      "extractedTerm": null,
+      "canonicalId": "thermal_cutoff",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-gas",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-gas",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-heater-(gas)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3: Heater (gas)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-gas",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-gas",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Heater (gas)"
+    },
+    {
+      "id": "map-W8178559-moisture-sensor-moisture_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #4: Moisture Sensor",
+      "extractedTerm": "Moisture Sensor",
+      "canonicalId": "moisture_sensor",
+      "confidence": 0.92,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-moisture-sensor",
+        "pages": [
+          85,
+          86
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-moisture-sensor",
+            "pages": [
+              85,
+              86
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4: Moisture Sensor",
+            "extractedTerm": "Moisture Sensor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-motor-circuit",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #2: Motor Circuit",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Motor Circuit"
+    },
+    {
+      "id": "map-W8178559-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.94,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-supply-connections",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-supply-connections",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W8178559-compound-supply-connections",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #1: Supply Connections",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-supply-connections",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-supply-connections",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Supply Connections"
+    },
+    {
+      "id": "map-W8178559-compound-thermal-cut-off",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3c: Thermal Cut-Off",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-thermal-cutoff",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-thermal-cutoff",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Thermal Cut-Off"
+    },
+    {
+      "id": "map-W8178559-thermal-fuse-thermal_fuse",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3b: Thermal Fuse",
+      "extractedTerm": "Thermal Fuse",
+      "canonicalId": "thermal_fuse",
+      "confidence": 0.92,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-thermal-fuse",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-thermal-fuse",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #3b: Thermal Fuse",
+            "extractedTerm": "Thermal Fuse",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -8,6 +8,7 @@ export default function OemSpecsLoadedBanner({
   platformLabel,
   equipmentMake,
   equipmentModel,
+  canonicalDomainLabels = [],
   compact = false,
   className = '',
 }) {
@@ -39,6 +40,15 @@ export default function OemSpecsLoadedBanner({
           }`}
         >
           {equipmentLabel}
+        </p>
+      ) : null}
+      {canonicalDomainLabels.length ? (
+        <p
+          className={`text-emerald-200/80 ${
+            compact ? 'mt-1 text-[10px]' : 'mt-1.5 text-[11px]'
+          }`}
+        >
+          Routing: {canonicalDomainLabels.join(' · ')}
         </p>
       ) : null}
     </div>

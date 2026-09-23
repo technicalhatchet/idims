@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_prerequisite_ingestion_blocker",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "slotId": "P03",
+  "manualId": "LG-FL-WASHER",
+  "status": "blocked_missing_source_manual",
+  "blockedAt": "2026-09-17T22:00:00+00:00",
+  "blocker": "No LG front-load washer service manual PDF exists in backend/docs/manuals/. Corpus audit found LG refrigerator, range, dishwasher, microwave, and heat-pump dryer manuals only.",
+  "recommendedWitness": {
+    "manufacturer": "LG",
+    "suggestedModels": ["WM4000H*", "WM3900H*"],
+    "queueReference": "frontend/components/diagnostics/knowledge/pattern-catalog/MANUAL_EXTRACTION_QUEUE.md",
+    "note": "WM4000 TurboWash platform is the documented high-priority LG WSH gap"
+  },
+  "requiredBeforeUnblock": [
+    "Add LG FL washer service manual PDF to backend/docs/manuals/",
+    "python backend/docs/manuals/extract_pdf.py",
+    "Extraction doc LG_FL_WASHER_EXTRACTION.md",
+    "platformRegistry + procedureManualManifest entry (manualId LG-FL-WASHER)",
+    "Procedure seeds + normalization candidates"
+  ],
+  "pilotBehavior": "Slot remains prerequisite_blocked until source manual ingested — not silently skipped",
+  "doesNotBlockP05P07": true,
+  "doesNotResolveP08": true
+}

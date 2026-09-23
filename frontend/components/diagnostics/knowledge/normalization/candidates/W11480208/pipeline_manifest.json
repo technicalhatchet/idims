@@ -1,0 +1,43 @@
+{
+  "manualId": "W11480208",
+  "platformId": "whirlpool_dishwasher_acu",
+  "templateId": "dishwasher",
+  "label": "Whirlpool filtration dishwasher WDT740 (W11480208)",
+  "status": "candidate",
+  "ontologyId": "dishwasher",
+  "generatedAt": "2026-09-15T04:20:59.775564+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 8,
+    "mappingCandidates": 14,
+    "overlayCandidates": 17,
+    "conflicts": 0,
+    "extractionFiltered": 3
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 3,
+    "invalidExtraction": 0,
+    "totalFiltered": 3,
+    "samples": [
+      {
+        "rawTerm": "P6",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-diverter-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P12",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-door-switch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "P11",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11480208-overfill-switch",
+        "source": "title_token"
+      }
+    ]
+  }
+}

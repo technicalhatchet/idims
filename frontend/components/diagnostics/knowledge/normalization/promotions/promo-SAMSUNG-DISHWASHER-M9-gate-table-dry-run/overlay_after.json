@@ -1,0 +1,575 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "dishwasher",
+  "manufacturer": "Samsung",
+  "label": "Samsung dishwasher family overlays",
+  "status": "gated_preview",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_dishwasher",
+      "platformId": "samsung_dishwasher",
+      "manualId": "SAMSUNG-DISHWASHER",
+      "label": "Samsung DW80/DW82 + DW80M9 premium dishwasher (SAMSUNG-DISHWASHER + SAMSUNG-DISHWASHER-M9)",
+      "appliesTo": {
+        "templateId": "dishwasher",
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DW80M9*",
+          "DW80M955*",
+          "DW80M996*",
+          "DW80M999*",
+          "DW80R506*",
+          "DW80R507*",
+          "DW80T504*",
+          "DW82*"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ]
+      },
+      "oemTermAliases": {
+        "circulation motor": "circulation_pump",
+        "main pba": "control_board",
+        "main control": "control_board",
+        "dispenser": "detergent_dispenser",
+        "distributor motor": "circulation_pump",
+        "door latch": "door_switch",
+        "door sensing switch": "door_switch",
+        "drain_pump": "drain_pump",
+        "vent": "drying_system",
+        "dry fan": "drying_system",
+        "inlet_valve": "inlet_valve",
+        "heater": "heat_source",
+        "user interface": "hmi_control",
+        "touch panel": "hmi_control",
+        "float switch": "water_level_sensor",
+        "overflow sensor": "water_level_sensor",
+        "thermistor": "temperature_sensor"
+      },
+      "displayTerms": {
+        "control_board": "Main PBA",
+        "circulation_pump": "Circulation / distributor motor path",
+        "detergent_dispenser": "Detergent dispenser",
+        "drying_system": "Vent / dry fan + thermal actuator",
+        "heat_source": "Wash heater",
+        "hmi_control": "Touch panel / Sub PBA",
+        "inlet_valve": "Fill valve & flow meter",
+        "water_level_sensor": "Float / overflow sensor (OC)"
+      },
+      "deferredConcepts": {
+        "platform": [
+          "leak_sensor",
+          "main_pba_power"
+        ],
+        "rejectedProceduralTitles": [
+          "\u00a74-1: Circulation Motor & Nozzle",
+          "\u00a74-1: Detergent Dispenser",
+          "\u00a74-1: Distributor Motor (PC)",
+          "\u00a74-1: Door Sensing Switch",
+          "\u00a74-1: Drain Pump (5C)",
+          "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+          "\u00a74-1: Fill Valve & Flow Meter (4C)",
+          "\u00a74-1: Heater Operation (HC / HC1)",
+          "\u00a74-1: Leak Sensor (LC)",
+          "\u00a74-1: Main PBA Power & DC Supplies",
+          "\u00a74-1: Overflow Sensor (OC)",
+          "\u00a74-1: PBA Communication (AC / AC6)",
+          "\u00a74-1: Touch Panel & Sub PBA (bC2 / bC3)",
+          "\u00a74-1: Water Thermistor (tC)"
+        ]
+      },
+      "add": {
+        "components": [
+          {
+            "id": "circulation_motor",
+            "name": "Circulation motor & nozzle",
+            "aliases": [
+              "circulation motor"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "Samsung circulation motor + nozzle (~5.8 \u03a9)."
+          },
+          {
+            "id": "distributor_motor",
+            "name": "Distributor motor",
+            "aliases": [
+              "distributor motor"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "Samsung distributor/cam motor (PC code) \u2014 not diverter_valve."
+          },
+          {
+            "id": "vent_fan_motor",
+            "name": "Dry fan motor",
+            "aliases": [
+              "dry fan",
+              "vent fan motor"
+            ],
+            "systemId": "drying",
+            "categoryId": "heat_dry",
+            "type": "actuator",
+            "note": "Samsung dry fan (~150 \u03a9) \u2014 distinct from Whirlpool ProDry DC fan."
+          },
+          {
+            "id": "thermal_actuator",
+            "name": "Thermal actuator (auto door)",
+            "aliases": [
+              "thermal actuator"
+            ],
+            "systemId": "drying",
+            "categoryId": "heat_dry",
+            "type": "actuator",
+            "note": "Samsung auto-door thermal actuator (~1.45 k\u03a9)."
+          },
+          {
+            "id": "overflow_sensor",
+            "name": "Overflow sensor (OC)",
+            "aliases": [
+              "overflow sensor"
+            ],
+            "systemId": "water_level",
+            "categoryId": "fill_supply",
+            "type": "sensor",
+            "note": "Samsung OC overflow sensor on CN505."
+          },
+          {
+            "id": "vane_motor",
+            "name": "Lower vane motor",
+            "aliases": [
+              "vane motor",
+              "lower vane motor"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "M9 lower vane/cam motor (7C) \u2014 implements circulation_pump; not diverter_valve."
+          }
+        ],
+        "relationships": [
+          {
+            "from": "circulation_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung circulation motor implements canonical circulation_pump."
+          },
+          {
+            "from": "distributor_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung distributor motor implements canonical circulation_pump \u2014 not diverter_valve."
+          },
+          {
+            "from": "vent_fan_motor",
+            "to": "drying_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "thermal_actuator",
+            "to": "drying_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "overflow_sensor",
+            "to": "water_level_sensor",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "circulation_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "distributor_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "vent_fan_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "vane_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "Samsung M9 vane motor implements canonical circulation function."
+          },
+          {
+            "from": "control_board",
+            "to": "vane_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "M9 lower vane motor commanded by main PBA."
+          }
+        ]
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a74-1: Circulation Motor & Nozzle",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "circulation_motor"
+        },
+        {
+          "procedureId": "samsungdw-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a74-1: Door Sensing Switch",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "samsungdw-drain-pump",
+          "testTargetId": "drain_test",
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "\u00a74-1: Drain Pump (5C)",
+          "canonicalComponents": [
+            "drain_pump"
+          ]
+        },
+        {
+          "procedureId": "samsungdw-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "failureDomains": [
+            "dispensing_failure"
+          ],
+          "displayTitle": "\u00a74-1: Detergent Dispenser",
+          "canonicalComponents": [
+            "detergent_dispenser"
+          ]
+        },
+        {
+          "procedureId": "samsungdw-distributor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a74-1: Distributor Motor (PC)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "distributor_motor"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "testTargetId": "drying_airflow_test",
+          "failureDomains": [
+            "drying_failure"
+          ],
+          "displayTitle": "\u00a74-1: Dry Fan & Thermal Actuator (FC / dC3)",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "vent_fan_motor"
+        },
+        {
+          "procedureId": "samsungdw-fill-valve",
+          "testTargetId": "fill_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a74-1: Fill Valve & Flow Meter (4C)",
+          "canonicalComponents": [
+            "inlet_valve"
+          ]
+        },
+        {
+          "procedureId": "samsungdw-heater",
+          "testTargetId": "heater_command_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-1: Heater Operation (HC / HC1)",
+          "canonicalComponents": [
+            "heat_source"
+          ]
+        },
+        {
+          "procedureId": "samsungdw-overflow",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a74-1: Overflow Sensor (OC)",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "implementationComponent": "overflow_sensor"
+        },
+        {
+          "procedureId": "samsungdw-thermistor",
+          "testTargetId": "temperature_response_test",
+          "failureDomains": [
+            "temperature_sensing_failure"
+          ],
+          "displayTitle": "\u00a74-1: Water Thermistor (tC)",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-circulation-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a74-3: Circulation Pump (3C)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "circulation_motor",
+          "platformNote": "M9 compounding \u2014 semantic anchor circulation_test."
+        },
+        {
+          "procedureId": "samsungdwm9-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a74-3: Door Sensing Switch",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-drain-pump",
+          "testTargetId": "drain_test",
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "\u00a74-3: Drain Pump (5C)",
+          "canonicalComponents": [
+            "drain_pump"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-fill-valve",
+          "testTargetId": "fill_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a74-3: Fill Valve & Flow Meter (4C)",
+          "canonicalComponents": [
+            "inlet_valve"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-heater",
+          "testTargetId": "heater_command_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a74-3: Heater Operation (HC / HC1)",
+          "canonicalComponents": [
+            "heat_source"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "failureDomains": [
+            "dispensing_failure"
+          ],
+          "displayTitle": "\u00a74-3: Detergent Dispenser",
+          "canonicalComponents": [
+            "detergent_dispenser"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-distributor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a74-3: Distributor Motor (PC)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "distributor_motor",
+          "platformNote": "M9 compounding \u2014 semantic anchor distributor_motor\u2192circulation_pump."
+        },
+        {
+          "procedureId": "samsungdwm9-dry-system",
+          "testTargetId": "drying_airflow_test",
+          "failureDomains": [
+            "drying_failure"
+          ],
+          "displayTitle": "\u00a74-3: Dry Fan, Actuator & Auto Door (FC / dC3)",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "vent_fan_motor",
+          "platformNote": "M9 compounding \u2014 semantic anchor vent_fan_motor."
+        },
+        {
+          "procedureId": "samsungdwm9-overflow",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a74-3: Overflow Sensor (OC)",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "implementationComponent": "overflow_sensor"
+        },
+        {
+          "procedureId": "samsungdwm9-thermistor",
+          "testTargetId": "temperature_response_test",
+          "failureDomains": [
+            "temperature_sensing_failure"
+          ],
+          "displayTitle": "\u00a74-3: Water Thermistor (tC)",
+          "canonicalComponents": [
+            "temperature_sensor"
+          ]
+        },
+        {
+          "procedureId": "samsungdwm9-vane-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a74-3: Lower Vane Motor (7C)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "vane_motor"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "circulation_motor"
+        },
+        {
+          "procedureId": "samsungdw-dispenser",
+          "measurementKnowledgeId": "samsungDishwasherDispenserOhms",
+          "testTargetId": "detergent_dispenser_test"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherDryFanOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "vent_fan_motor"
+        },
+        {
+          "procedureId": "samsungdw-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherThermalActuatorOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "thermal_actuator"
+        },
+        {
+          "procedureId": "samsungdw-thermistor",
+          "measurementKnowledgeId": "samsungDishwasherThermistorOhms",
+          "testTargetId": "temperature_response_test"
+        },
+        {
+          "procedureId": "samsungdwm9-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherM9CirculationMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "circulation_motor"
+        },
+        {
+          "procedureId": "samsungdwm9-drain-pump",
+          "measurementKnowledgeId": "samsungDishwasherM9DrainPumpOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "samsungdwm9-fill-valve",
+          "measurementKnowledgeId": "samsungDishwasherM9FillValveOhms",
+          "testTargetId": "fill_test"
+        },
+        {
+          "procedureId": "samsungdwm9-heater",
+          "measurementKnowledgeId": "samsungDishwasherM9HeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "samsungdwm9-dispenser",
+          "measurementKnowledgeId": "samsungDishwasherM9DispenserOhms",
+          "testTargetId": "detergent_dispenser_test"
+        },
+        {
+          "procedureId": "samsungdwm9-distributor",
+          "measurementKnowledgeId": "samsungDishwasherM9DistributorMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "distributor_motor"
+        },
+        {
+          "procedureId": "samsungdwm9-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherM9DryFanOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "vent_fan_motor"
+        },
+        {
+          "procedureId": "samsungdwm9-dry-system",
+          "measurementKnowledgeId": "samsungDishwasherM9ThermalActuatorOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "thermal_actuator"
+        },
+        {
+          "procedureId": "samsungdwm9-thermistor",
+          "measurementKnowledgeId": "samsungDishwasherM9ThermistorOhms",
+          "testTargetId": "temperature_response_test"
+        },
+        {
+          "procedureId": "samsungdwm9-vane-motor",
+          "measurementKnowledgeId": "samsungDishwasherM9VaneMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "vane_motor"
+        }
+      ],
+      "compoundingManualIds": [
+        "SAMSUNG-DISHWASHER",
+        "SAMSUNG-DISHWASHER-M9"
+      ]
+    }
+  ],
+  "gateArtifact": "SAMSUNG_DISHWASHER_M9_overlay_mapping_table_v1.json",
+  "publishedManualIds": [
+    "SAMSUNG-DISHWASHER",
+    "SAMSUNG-DISHWASHER-M9"
+  ],
+  "publishedAt": "2026-09-15T18:27:10.558098+00:00",
+  "priorGateArtifact": "SAMSUNG_DISHWASHER_overlay_mapping_table_v1.json"
+}

@@ -1,0 +1,327 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-TL-DV50-DRYER",
+  "platformId": "samsung_tl_dryer_dv50",
+  "platformFamilyId": "samsung_tl_dryer_dv50",
+  "canonicalOntologyId": "vented_dryer",
+  "proposedOverlayFile": "samsung_vented_dryer.json",
+  "status": "published",
+  "generatedAt": "2026-09-14T15:40:00+00:00",
+  "gatePolicy": {
+    "canonicalGraph": "vented_dryer.json rev2 FROZEN \u2014 TL chassis does not justify new canonical dryer ontology.",
+    "implementationRule": "electric_heater, gas_valve, ignitor in samsung_tl_dryer_dv50 platform-family vocabulary. Top-load mechanics stay at platform layer.",
+    "proceduralTitleRule": "\u00a74-1 / \u00a74-4 OEM procedure titles are procedure identifiers \u2014 reject as oemTermAliases.",
+    "dryerTestTargetNote": "Matcher overlay candidates reference motor_output_test (washer id). Dryer canonical uses motor_run_test.",
+    "inheritanceNote": "Gate built from fresh CG-3 normalize output (25 mapping / 4 overlay candidates). Alias decisions inherit SAMSUNG-FL-BB8700-DRYER patterns."
+  },
+  "compoundingEvidence": {
+    "priorManualIds": [
+      "SAMSUNG-FL-BB8700-DRYER",
+      "SAMSUNG-FL-DV6000-DRYER"
+    ],
+    "inheritedAliasDecisions": [
+      "door_switch",
+      "drive_motor",
+      "heating_element",
+      "thermal_fuse",
+      "high_limit_thermostat",
+      "exhaust_thermistor",
+      "inlet_thermistor",
+      "supply",
+      "user_interface",
+      "main_control",
+      "gas_valve",
+      "igniter",
+      "flame_sensor"
+    ],
+    "genuinelyNewHumanDecisions": 0,
+    "reaffirmedInheritedDecisions": 13,
+    "newPlatformKnowledge": [
+      "TL chassis \u2014 \u00a74-4 section numbering (not \u00a74-6)",
+      "electric_heater 10 / 13 / 34 \u03a9 (same spec family as DV6000, TL platform binding)",
+      "motor winding 2.88 \u03a9 / 3.5 \u03a9 TL measurement bindings",
+      "gas valve coil pairs 1365/560/1325/1000 \u03a9 (25M01A, TL-specific knowledge ids)",
+      "11 procedureBindings + 12 measurementBindings",
+      "thermal-cutoff visual-only (no dedicated hi-limit \u03a9 step in v1 procedure)"
+    ],
+    "newCanonicalKnowledge": 0,
+    "unresolvedAbstained": [
+      "belt_switch \u2014 defer; bind via procedureId only"
+    ],
+    "architectureBoundary": {
+      "ontologyResolved": "vented_dryer",
+      "notTopLoadWasher": true,
+      "notLaundryCombo": true,
+      "topologySignature": "motor_present_unknown_path"
+    }
+  },
+  "mappings": [
+    {
+      "manualConcept": "door_switch",
+      "layer": "canonical_reuse",
+      "candidate": "door_switch",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-door_switch-door_switch"
+      ]
+    },
+    {
+      "manualConcept": "drive_motor",
+      "layer": "canonical_reuse",
+      "candidate": "drive_motor",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-drive_motor-drive_motor"
+      ]
+    },
+    {
+      "manualConcept": "heating_element",
+      "layer": "canonical_reuse",
+      "candidate": "heat_source",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-heating_element-heat_source"
+      ]
+    },
+    {
+      "manualConcept": "thermal_fuse",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_fuse",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-thermal_fuse-thermal_fuse"
+      ]
+    },
+    {
+      "manualConcept": "high_limit_thermostat",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_cutoff",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-high_limit_thermostat"
+      ]
+    },
+    {
+      "manualConcept": "exhaust_thermistor",
+      "layer": "canonical_reuse",
+      "candidate": "temperature_sensor",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-exhaust_thermistor"
+      ]
+    },
+    {
+      "manualConcept": "inlet_thermistor",
+      "layer": "canonical_reuse",
+      "candidate": "temperature_sensor",
+      "gateAction": "approve_auto",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-inlet_thermistor"
+      ]
+    },
+    {
+      "manualConcept": "supply",
+      "layer": "samsung_alias",
+      "candidate": "power_supply",
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-power-supply"
+      ]
+    },
+    {
+      "manualConcept": "user_interface",
+      "layer": "samsung_alias",
+      "candidate": "hmi_control",
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-user_interface"
+      ]
+    },
+    {
+      "manualConcept": "main_control",
+      "layer": "samsung_alias",
+      "candidate": "control_board",
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "note": "Matcher cited samsung_fl_washer_wf6000r \u2014 gate binds via Samsung dryer overlay, not washer inheritance.",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-main_control-control_board"
+      ]
+    },
+    {
+      "manualConcept": "gas_valve",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "gas_valve",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-gas_valve"
+      ]
+    },
+    {
+      "manualConcept": "igniter",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "ignitor",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-samsung-tl-dv50-dryer-unresolved-samsungtldv50-gas-ignitor-igniter"
+      ]
+    },
+    {
+      "manualConcept": "flame_sensor",
+      "layer": "samsung_alias",
+      "candidate": "heat_source",
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-flame_sensor"
+      ]
+    },
+    {
+      "manualConcept": "electric_heater",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "electric_heater",
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "gateAction": "approve_human",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "rationale": "TL DV50 \u2014 single 10 \u03a9 or dual 13 \u03a9 / 34 \u03a9 element paths (\u00a74-4)."
+    },
+    {
+      "manualConcept": "belt_switch",
+      "layer": "platform_model",
+      "candidate": "drive_motor",
+      "gateAction": "defer",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "rationale": "Belt cut-off on motor circuit \u2014 bind via procedureId, not canonical belt component."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "title": "\u00a74-4: Belt cut-off switch",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-belt-cut-off-switch"
+      ],
+      "bindVia": "procedureId:samsungtldv50-belt-cutoff"
+    },
+    {
+      "title": "\u00a74-1 / \u00a74-4: Door switch (dC, dF)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-/-\u00a74-4:-door-switch-(dc,-df)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-door-switch"
+    },
+    {
+      "title": "\u00a74-4: Radiant flame sensor (10RS)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-radiant-flame-sensor-(10rs)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-gas-flame-sensor"
+    },
+    {
+      "title": "\u00a74-4: Gas igniter (101D)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-gas-igniter-(101d)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-gas-ignitor"
+    },
+    {
+      "title": "\u00a74-4: Gas valve coils (25M01A)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-gas-valve-coils-(25m01a)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-gas-valve"
+    },
+    {
+      "title": "\u00a74-4: Electric heater",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-electric-heater"
+      ],
+      "bindVia": "procedureId:samsungtldv50-heater-electric"
+    },
+    {
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-display-/-buttons-(bc2)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-hmi"
+    },
+    {
+      "title": "\u00a74-4: Motor windings and centrifugal switch",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-motor-windings-and-centrifugal-switch"
+      ],
+      "bindVia": "procedureId:samsungtldv50-motor-circuit"
+    },
+    {
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-power-and-communication-(9c1,-fc,-ac)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-power"
+    },
+    {
+      "title": "\u00a74-4: Thermal cutoff and hi-limit",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-thermal-cutoff-and-hi-limit"
+      ],
+      "bindVia": "procedureId:samsungtldv50-thermal-cutoff"
+    },
+    {
+      "title": "\u00a74-1 / \u00a74-4: Thermistors (tC, tC5, HC)",
+      "gateAction": "reject_alias",
+      "inheritedFrom": "SAMSUNG-FL-BB8700-DRYER",
+      "candidateIds": [
+        "map-SAMSUNG-TL-DV50-DRYER-compound-/-\u00a74-4:-thermistors-(tc,-tc5,-hc)"
+      ],
+      "bindVia": "procedureId:samsungtldv50-thermistor"
+    }
+  ],
+  "gateSummary": {
+    "approved": 13,
+    "rejected": 11,
+    "inheritedFromBb8700": 13,
+    "genuinelyNew": 0,
+    "gatedAt": "2026-09-14T15:38:34.741109+00:00"
+  }
+}

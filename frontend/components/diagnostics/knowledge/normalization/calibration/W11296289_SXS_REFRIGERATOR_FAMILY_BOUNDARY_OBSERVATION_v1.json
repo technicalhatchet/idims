@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_refrigerator_family_boundary_observation",
+  "phase": "CG-9-R2",
+  "probeKind": "falsification_non_samsung_sxs",
+  "status": "discovery_only",
+  "generatedAt": "2026-09-16T12:55:37.116283+00:00",
+  "canonicalExpansion": 0,
+  "canonicalMutation": 0,
+  "freezeReopened": false,
+  "discoveryCorpusInheritance": 0,
+  "cg8CompoundingPerformed": false,
+  "sourceMetadata": {
+    "manualId": "W11296289",
+    "platformId": "whirlpool_sxs_w11296289",
+    "manufacturer": "Whirlpool",
+    "configuration": "side_by_side",
+    "smokeModel": "WRS325SDHZ",
+    "pdf": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator.pdf",
+    "extractedText": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md",
+    "procedureSeedDir": "frontend/components/diagnostics/knowledge/procedures/seed/whirlpool_sxs_w11296289",
+    "procedureCounts": {
+      "procedureSeeds": 0,
+      "serviceModeBundles": 0,
+      "proceduresWithMeasurementSteps": 0
+    }
+  },
+  "probeQuestion": "Does non-Samsung SxS introduce a functional diagnostic role outside the frozen french_door_refrigerator contract?",
+  "sixKeepFunctionEvidence": [
+    {
+      "concept": "control_board",
+      "evidence": "THESEUS/ATHENA ACU service-mode orchestration; fail LED decode.",
+      "procedureOrTest": [
+        "w11296289-theseus-service-entry",
+        "w11296289-athena-service-entry",
+        "w11296289-athena-fail-display"
+      ],
+      "functionalRole": "Refrigeration control orchestration",
+      "configurationEffect": "THESEUS vs ATHENA board variants \u2014 implementation overlay.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "user_interface",
+      "evidence": "CUDA dispenser LED step UI; MINOTAUR HMI J1 12.7 VDC.",
+      "procedureOrTest": [
+        "w11296289-theseus-service-entry",
+        "w11296289-athena-fail-display"
+      ],
+      "functionalRole": "HMI / service-mode display surface",
+      "configurationEffect": "Dispenser CUDA vs ATHENA TEMP-button entry.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "door_switch",
+      "evidence": "Dedicated service steps 21/23 RC and FC door switches.",
+      "procedureOrTest": [
+        "w11296289-test-21-rc-door-switch",
+        "w11296289-test-23-fc-door-switch"
+      ],
+      "functionalRole": "Door authorization / lighting",
+      "configurationEffect": "Dual vertical doors \u2014 same role as other configs.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "evaporator_fan",
+      "evidence": "Service step 15 single evaporator fan (single-evap SxS architecture).",
+      "procedureOrTest": [
+        "w11296289-test-15-evap-fan"
+      ],
+      "functionalRole": "Evaporator airflow",
+      "configurationEffect": "Single fan vs multi-fan french-door \u2014 instance topology only.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "air_damper",
+      "evidence": "Service steps 9 damper open + 11 damper heater.",
+      "procedureOrTest": [
+        "w11296289-test-09-damper-open",
+        "w11296289-test-11-damper-heater"
+      ],
+      "functionalRole": "Fresh-food airflow regulation",
+      "configurationEffect": "12 VDC stepper + heater vs Samsung heater-only path.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "defrost_heater",
+      "evidence": "Service step 13 defrost heater 550\u2013650 \u03a9.",
+      "procedureOrTest": [
+        "w11296289-test-13-defrost-heater"
+      ],
+      "functionalRole": "Defrost heat actuation",
+      "configurationEffect": "Single evaporator defrost on SxS \u2014 instance scope.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    }
+  ],
+  "fiveConditionalFunctionEvidence": [
+    {
+      "concept": "temperature_sensor",
+      "instanceScopes": [
+        "freezer",
+        "fresh_food",
+        "defrost"
+      ],
+      "evidence": "FC/RC cabinet thermistors + defrost NTC service steps.",
+      "procedureOrTest": [
+        "w11296289-test-01-fc-thermistor",
+        "w11296289-test-03-rc-thermistor",
+        "w11296289-test-05-defrost-thermistor"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "compressor",
+      "evidence": "Service step 7 compressor run windings; relay-drive EGX/EM3 variants.",
+      "procedureOrTest": [
+        "w11296289-test-07-compressor-cond-fan"
+      ],
+      "roleAssessment": "same_functional_role",
+      "implementation": "relay_drive_em3y60_class",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    },
+    {
+      "concept": "condenser_fan",
+      "evidence": "Service step 7 explicitly exercises condenser fan with compressor.",
+      "procedureOrTest": [
+        "w11296289-test-07-compressor-cond-fan"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "maps_to_frozen_contract",
+      "note": "Resolves Samsung SxS C-FAN ambiguity class \u2014 role holds, implementation naming varies.",
+      "confidence": "high"
+    },
+    {
+      "concept": "ice_maker",
+      "evidence": "IDI twist-tray steps 29\u201335; tray thermistor step 33.",
+      "procedureOrTest": [
+        "w11296289-test-33-im-tray-thermistor"
+      ],
+      "roleAssessment": "same_functional_role",
+      "configurationEffect": "In-door IDI vs in-freezer vs door-mounted ice.",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "medium"
+    },
+    {
+      "concept": "water_dispenser",
+      "evidence": "Service step 19 water valve; paddle steps 25/27.",
+      "procedureOrTest": [
+        "w11296289-test-19-water-valve"
+      ],
+      "roleAssessment": "same_functional_role",
+      "disposition": "maps_to_frozen_contract",
+      "confidence": "high"
+    }
+  ],
+  "possibleNewCanonicalFunctions": [],
+  "outsideContractFindings": []
+}

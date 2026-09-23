@@ -1,0 +1,144 @@
+{
+  "id": "samsungne58-door-lock",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Door lock motor",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "door_lock"
+  ],
+  "tags": [
+    "E-0E",
+    "door_latch_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Lock motor and micro switch \u2014 E-0E",
+    "pages": [
+      45
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_motor"
+    },
+    {
+      "id": "lock_motor",
+      "order": 2,
+      "type": "measurement",
+      "title": "Lock motor resistance",
+      "body": "Measure lock motor coil at room temperature with harness disconnected.",
+      "sourceExcerpt": "Measure lock motor coil at room temperature with harness disconnected.",
+      "measurementKnowledgeId": "samsungNx60DoorLockMotorOhms",
+      "testPoint": {
+        "connector": "Lock motor",
+        "pins": "coil",
+        "label": "Lock motor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "lock_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_lock",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "door_lock",
+              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+            }
+          ]
+        },
+        {
+          "id": "lock_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "lock_switch",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "door_lock",
+              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lock_switch",
+      "order": 3,
+      "type": "instruction",
+      "title": "Micro switch COM-NO",
+      "body": "Verify micro switch state. Command lock (cooking time + delay start 3 s) \u2014 120 V at lock motor.",
+      "sourceExcerpt": "Verify micro switch state. Command lock (cooking time + delay start 3 s) \u2014 120 V at lock motor.",
+      "requiresInput": false,
+      "defaultNextStepId": "lock_ok"
+    },
+    {
+      "id": "replace_lock",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace lock motor or switch",
+      "oemOutcome": "Replace lock motor, micro switch, or harness \u2014 E-0E.",
+      "requiresInput": false
+    },
+    {
+      "id": "lock_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Door lock OK",
+      "oemOutcome": "Door lock motor and switch verified.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -17,6 +17,7 @@ import type {
   WizardVariant,
 } from './types';
 import { resolveRecommendedWizardStepIndex } from './resolveRecommendedWizardStepIndex';
+import { readWizardNavigationGate } from './navigationGate';
 
 function isStepHidden<TContext>(
   step: WizardStepDefinition<TContext>,
@@ -96,6 +97,8 @@ export interface WizardContextValue<TContext = unknown> {
   goPrevious: () => void;
   goNext: () => Promise<boolean>;
   markStepCompleted: (stepId: string) => void;
+  navigationBlockHint: string | null;
+  clearNavigationBlockHint: () => void;
 }
 
 const WizardContext = createContext<WizardContextValue<unknown> | null>(null);
@@ -143,6 +146,7 @@ export function WizardProvider<TContext>({
 
   const [currentStepIndex, setCurrentStepIndex] = useState(resolveInitialIndex);
   const [completedStepIds, setCompletedStepIds] = useState<Set<string>>(() => new Set());
+  const [navigationBlockHint, setNavigationBlockHint] = useState<string | null>(null);
   const [visitedStepIds, setVisitedStepIds] = useState<Set<string>>(() =>
     buildInitialVisitedIds(visibleSteps, resolveInitialIndex(), initialVisitedStepIds),
   );
@@ -227,6 +231,30 @@ export function WizardProvider<TContext>({
     [onAutoSave, onStepChange],
   );
 
+  const clearNavigationBlockHint = useCallback(() => {
+    setNavigationBlockHint(null);
+  }, []);
+
+  const notifyNavigationBlocked = useCallback(() => {
+    const gate = readWizardNavigationGate(context);
+    if (!gate) return false;
+    setNavigationBlockHint(gate.message);
+    gate.onBlockedAttempt?.();
+    return true;
+  }, [context]);
+
+  useEffect(() => {
+    if (!navigationBlockHint) return undefined;
+    const timer = window.setTimeout(() => setNavigationBlockHint(null), 4500);
+    return () => window.clearTimeout(timer);
+  }, [navigationBlockHint]);
+
+  useEffect(() => {
+    if (!readWizardNavigationGate(context)) {
+      setNavigationBlockHint(null);
+    }
+  }, [context]);
+
   const markStepCompleted = useCallback((stepId: string) => {
     setCompletedStepIds((prev) => {
       if (prev.has(stepId)) return prev;
@@ -268,9 +296,11 @@ export function WizardProvider<TContext>({
 
   const goToStep = useCallback(
     (index: number, options?: { fromBack?: boolean }) => {
+      if (index !== currentStepIndex && notifyNavigationBlocked()) return;
       if (!canJumpToStep(index)) return;
       const step = visibleSteps[index];
       if (!step) return;
+      setNavigationBlockHint(null);
 
       if (!options?.fromBack && index !== currentStepIndex) {
         const current = visibleSteps[currentStepIndex];
@@ -299,10 +329,19 @@ export function WizardProvider<TContext>({
         ),
       );
     },
-    [canJumpToStep, completedStepIds, currentStepIndex, emitStepChange, visitedStepIds, visibleSteps],
+    [
+      canJumpToStep,
+      completedStepIds,
+      currentStepIndex,
+      emitStepChange,
+      notifyNavigationBlocked,
+      visitedStepIds,
+      visibleSteps,
+    ],
   );
 
   const goPrevious = useCallback(() => {
+    if (notifyNavigationBlocked()) return;
     const prevId = backStackRef.current.pop();
     if (prevId) {
       const idx = visibleSteps.findIndex((s) => s.id === prevId);
@@ -312,11 +351,13 @@ export function WizardProvider<TContext>({
       }
     }
     goToStep(currentStepIndex - 1, { fromBack: true });
-  }, [currentStepIndex, goToStep, visibleSteps]);
+  }, [currentStepIndex, goToStep, notifyNavigationBlocked, visibleSteps]);
 
   const goNext = useCallback(async () => {
+    if (notifyNavigationBlocked()) return false;
     const step = visibleSteps[currentStepIndex];
     if (!step) return false;
+    setNavigationBlockHint(null);
 
     if (step.validate) {
       const valid = await step.validate(context);
@@ -395,6 +436,7 @@ export function WizardProvider<TContext>({
     markStepCompleted,
     visitedStepIds,
     visibleSteps,
+    notifyNavigationBlocked,
   ]);
 
   useEffect(() => {
@@ -444,6 +486,8 @@ export function WizardProvider<TContext>({
       goPrevious,
       goNext,
       markStepCompleted,
+      navigationBlockHint,
+      clearNavigationBlockHint,
     }),
     [
       steps,
@@ -465,6 +509,8 @@ export function WizardProvider<TContext>({
       goPrevious,
       goNext,
       markStepCompleted,
+      navigationBlockHint,
+      clearNavigationBlockHint,
     ],
   );
 

@@ -1,0 +1,212 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_corroboration_observation",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-CORROBORATION",
+  "witnessId": "W2",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:30:00+00:00",
+  "analysisMethod": "independent_manual_derivation_first",
+  "note": "Whirlpool architecture derived from manual evidence before any comparison to Samsung candidate.",
+  "manufacturer": "Whirlpool",
+  "brandAlsoCovers": ["Maytag"],
+  "modelExample": "WFW9620HC0",
+  "modelNomenclature": {
+    "productCode": "C = All-In-One",
+    "source": "service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+    "pages": [15],
+    "excerpt": "W = Washer; C = All-In-One (vs W = Washer-only in same manual family)"
+  },
+  "platformId": "whirlpool_fl_dd",
+  "manualId": "W11169652",
+  "manualTitle": "Whirlpool & Maytag 27 in. Front-Load Washers (W11169652A)",
+  "sourcePdf": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers.pdf",
+  "extractedText": "backend/docs/manuals/service-manual-w11169652-reva-27in-front-load-washers-extracted.txt",
+  "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169652_WASHER_EXTRACTION.md",
+  "procedureSeedDir": "frontend/components/diagnostics/procedures/seed/whirlpool_fl_dd",
+  "aioQualification": {
+    "qualifiesAsAioWitness": true,
+    "rationale": "Manual explicitly defines C = All-In-One product line on single front-load platform. Combo models add integrated dry subsystem (dry heater, dry blower, vent fan, condenser duct) on shared drum/ACU. Quick Service Cycle and component activation span wash and dry functions in one cabinet without load transfer.",
+    "notStackedLaundry": "GE GUD27-class stacked center excluded — W11169652 is single-chassis FL platform",
+    "notFlexWashDualLoad": "Single drum architecture — not dual-load FlexWash",
+    "notAccessoryOnly": "Dry subsystem is integrated factory configuration on C models, not aftermarket accessory",
+    "notStandaloneDryer": "Dry functions are subsystem of washer chassis controlled by same ACU"
+  },
+  "washingArchitecture": {
+    "fill": {
+      "evidence": "TEST #6 inlet valves; QSC steps 3–5 cold/hot valves",
+      "pages": [13, 30],
+      "procedures": ["w11169652-test-06-inlet-valves"]
+    },
+    "drain": {
+      "evidence": "TEST #8 drain/recirc pump; QSC steps 2, 6, 8",
+      "pages": [15, 30],
+      "procedures": ["w11169652-test-08-drain-pump"]
+    },
+    "drumDrive": {
+      "evidence": "TEST #3 motor circuit; QSC spin steps 9, 13",
+      "pages": [10, 30],
+      "procedures": ["w11169652-test-03-motor"]
+    },
+    "waterLevelSensing": {
+      "evidence": "TEST #7 pressure sensor; F3E1",
+      "pages": [13],
+      "procedures": ["w11169652-test-07-water-level-sensor"]
+    },
+    "washHeating": {
+      "evidence": "TEST #9 wash heating element; F4E1/F4E2",
+      "pages": [16],
+      "procedures": ["w11169652-test-09-wash-heater"]
+    },
+    "washTemperatureSensing": {
+      "evidence": "TEST #10 wash NTC; F3E2",
+      "pages": [17],
+      "procedures": ["w11169652-test-10-wash-temp-sensor"]
+    },
+    "doorInterlock": {
+      "evidence": "TEST #4 door lock; F5E1–F5E4 including F5E4 door not open between cycles",
+      "pages": [11],
+      "procedures": ["w11169652-test-04-door-lock"]
+    },
+    "control": {
+      "evidence": "TEST #1 ACU power; TEST #2 HMI; F1E1/F6Ex comm",
+      "pages": [8, 9],
+      "procedures": ["w11169652-test-01-acu-power", "w11169652-test-02-hmi"]
+    },
+    "userInterface": {
+      "evidence": "Console and LCD-in-door service diagnostic variants",
+      "pages": [24, 29, 30],
+      "procedures": ["w11169652-test-02-hmi"]
+    },
+    "safety": {
+      "evidence": "Door lock authorization; power-off warnings on all component tests",
+      "pages": [3, 11]
+    },
+    "frontLoadWasherFit": {
+      "verdict": "strong_fit_wash_domains",
+      "domainsMappingToFrozenContract": [
+        "water_inlet",
+        "drain",
+        "drive",
+        "water_level",
+        "heating_wash",
+        "door_interlock",
+        "control",
+        "user_interface"
+      ],
+      "mutationRequired": false
+    }
+  },
+  "dryingArchitecture": {
+    "presentOn": "All-In-One (C) models — tests marked on some models",
+    "ventedVsVentless": "ventless_condenser",
+    "heatPumpRefrigeration": false,
+    "compressorPresent": false,
+    "refrigerantLoopPresent": false,
+    "heatSource": {
+      "type": "resistive_dry_heating_element",
+      "evidence": "TEST #15 dry heating element 1100W (12.32–13.6 Ω) or 450W (30.1–34.9 Ω) on J4",
+      "pages": [62, 63],
+      "procedures": ["w11169652-test-15-dry-heater"],
+      "note": "Deactivated on some LCD diagnostic activations — element exists on combo hardware"
+    },
+    "airflowPath": {
+      "type": "sealed_recirculating_with_condenser_duct",
+      "componentsTested": [
+        {
+          "role": "dry_blower",
+          "evidence": "TEST #17 dry blower motor; QSC step 10; F4E4",
+          "pages": [26, 30, 64],
+          "procedures": ["w11169652-test-17-dry-blower"]
+        },
+        {
+          "role": "vent_fan",
+          "evidence": "TEST #13 vent fan motor; component activation Combo Fan; F4E4",
+          "pages": [22, 29, 61],
+          "procedures": ["w11169652-test-13-vent-fan"]
+        },
+        {
+          "role": "vent_baffle_solenoid",
+          "evidence": "TEST #14 vent baffle solenoid — rear vent/baffle path",
+          "pages": [61, 62],
+          "procedures": ["w11169652-test-14-vent-baffle"]
+        },
+        {
+          "role": "condenser_duct_assembly",
+          "evidence": "Disassembly §4-13 condenser duct; dry heater routed through condenser duct and bellows",
+          "pages": [13, 65, 66]
+        }
+      ]
+    },
+    "moistureRemoval": {
+      "type": "condensation_in_condenser_duct",
+      "externalExhaustAsPrimary": false,
+      "evidence": "Condenser duct assembly captures moisture in sealed ventless path — not vented_dryer exhaust_path terminal model",
+      "pages": [65, 66]
+    },
+    "dryTemperatureSensing": {
+      "evidence": "TEST #16 dry NTC J13; F3E5",
+      "pages": [63, 64],
+      "procedures": ["w11169652-test-16-dry-temp-sensor"],
+      "spec": "77°F (25°C) = 20.0 kΩ"
+    },
+    "dryThermalProtection": {
+      "evidence": "ACU-monitored dry NTC and heater relay control — distinct dry thermal path from wash heater",
+      "pages": [63, 64]
+    },
+    "dryControl": {
+      "evidence": "ACU commands dry heater, blower, vent fan, baffle; F4E4 vent/dry blower faults",
+      "pages": [29, 33]
+    },
+    "ventedDryerFit": {
+      "verdict": "does_not_fit",
+      "reason": "No external exhaust vent as primary moisture rejection; condenser duct sealed path; dual-fan ventless architecture — not heated_airflow_path → exhaust_path"
+    }
+  },
+  "integrationArchitecture": {
+    "sharedController": {
+      "evidence": "Single ACU commands wash loads and dry loads (J4 dry heater, J12 vent fan, J13 dry NTC)",
+      "pages": [7, 62, 63]
+    },
+    "sharedDrumDrive": {
+      "evidence": "Same motor TEST #3; QSC spin then dry blower in one cycle",
+      "pages": [10, 30]
+    },
+    "washDryModeOrchestration": {
+      "evidence": "Quick Service Cycle table steps 1–14: lock→fill→drain→spin→dry blower→dispenser→end unlock; Component Activation Dry Heater & Combo Fan",
+      "pages": [29, 30],
+      "bundles": ["w11169652-quick-service-cycle", "w11169652-component-activation-vent-fan", "w11169652-component-activation-dry-blower"]
+    },
+    "crossModeDependencies": {
+      "evidence": "F5E4 door not open between cycles; shared door lock TEST #4 for wash and dry authorization",
+      "pages": [33]
+    },
+    "washToDryTransition": {
+      "evidence": "QSC step 9 spin w/drain then step 10 dry blower — sequential integrated cycle without user transfer",
+      "pages": [30]
+    },
+    "sharedSensorsControl": {
+      "evidence": "ACU interprets wash NTC and dry NTC; single HMI diagnostic mode spans wash and dry activations",
+      "pages": [29, 30]
+    }
+  },
+  "procedureInventory": {
+    "washPathCount": 10,
+    "dryPathCount": 5,
+    "integrationBundles": 4,
+    "keyMeasurements": [
+      { "item": "Motor J6", "spec": "6–20 Ω", "test": "#3" },
+      { "item": "Wash heater J3", "spec": "7–30 Ω", "test": "#9" },
+      { "item": "Dry heater J4", "spec": "12.32–13.6 Ω or 30.1–34.9 Ω", "test": "#15" },
+      { "item": "Dry NTC J13", "spec": "20.0 kΩ @ 77°F", "test": "#16" },
+      { "item": "Inlet valve", "spec": "1.1–1.35 kΩ", "test": "#6" },
+      { "item": "Drain pump J11", "spec": "18.5–21.5 Ω", "test": "#8" }
+    ]
+  },
+  "independentlyDerivedFunctionalDomains": [
+    "fl_wash_subsystem_reusable",
+    "ventless_condenser_dry_subsystem",
+    "integrated_single_controller_orchestration",
+    "shared_drum_motor_across_modes"
+  ],
+  "samsungCandidateNotConsultedDuringDerivation": true
+}

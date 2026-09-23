@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_return_contract",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-RETURN",
+  "status": "active",
+  "activatedAt": "2026-09-17T16:30:00+00:00",
+  "humanAuthorization": {
+    "approvedAt": "2026-09-17T16:30:00+00:00",
+    "authorizationStatement": "APPROVED — AUTHORIZE CG-AIO-LAUNDRY-COMBO-RETURN. Architecture-only re-evaluation against frozen heat_pump_dryer.json."
+  },
+  "returnMode": "architecture_only_re_evaluation",
+  "resumedFrom": {
+    "workstreamStatus": "CG_AIO_LAUNDRY_COMBO_WORKSTREAM_STATUS_v1.json",
+    "priorState": "CORROBORATION_PAUSED_PENDING_HP_DRYER_FREEZE",
+    "hpDryerFreezeComplete": true,
+    "hpDryerFrozenHash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb"
+  },
+  "frozenReferencesImmutable": {
+    "front_load_washer": "frontend/components/diagnostics/knowledge/canonical/front_load_washer.json",
+    "heat_pump_dryer": "frontend/components/diagnostics/knowledge/canonical/heat_pump_dryer.json",
+    "rule": "Composition by reference only — no mutation, no duplication of HP functions into AIO-owned nodes"
+  },
+  "immutablePriorArtifacts": {
+    "policy": "Read-only evidence chain",
+    "fit": [
+      "CG_AIO_LAUNDRY_COMBO_FIT_TEST_CONTRACT_v1.json",
+      "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_TRIANGULATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_FIT_DIVERGENCE_PACKAGE_v1.json"
+    ],
+    "discovery": [
+      "CG_AIO_LAUNDRY_COMBO_DISCOVERY_CONTRACT_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_DISCOVERY_CLOSURE_v1.json"
+    ],
+    "corroboration": [
+      "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json",
+      "CG_AIO_LAUNDRY_COMBO_CORROBORATION_v1.json"
+    ]
+  },
+  "witnesses": [
+    { "id": "W1", "manufacturer": "Samsung", "model": "WD53DBA900HZA1", "dryModality": "heat_pump_refrigerant" },
+    { "id": "W2", "manufacturer": "Whirlpool", "model": "WFW9620HC0", "manualId": "W11169652", "dryModality": "condenser_resistive" }
+  ],
+  "primaryArchitecturalQuestion": "Does AIO dry architecture require sealed_ventless_drying parent, or composition of frozen heat_pump_dryer reference + sibling condenser-resistive thermal function + shared sealed_moisture_rejection_path?",
+  "centerpieceConstraints": [
+    "sealed_heat_pump_drying MUST NOT be promoted as generic AIO dry abstraction",
+    "heat_pump_thermal_system MUST NOT be generalized to Whirlpool condenser-resistive drying",
+    "sealed_ventless_drying parent must earn diagnostic meaning — not descriptive umbrella",
+    "Do not union FL washer + HP dryer graphs blindly"
+  ],
+  "notCreating": [
+    "aio_laundry_combo.json",
+    "freeze execution",
+    "manufacturer overlays",
+    "service manual normalization",
+    "procedure compounding",
+    "mutations to frozen canonical graphs"
+  ],
+  "requiredArtifacts": [
+    "CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_RETURN_ANALYSIS_v1.json",
+    "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json"
+  ],
+  "permittedOutcomes": [
+    "candidate_ready_for_freeze",
+    "discovery_insufficient",
+    "existing_family_can_be_extended"
+  ]
+}

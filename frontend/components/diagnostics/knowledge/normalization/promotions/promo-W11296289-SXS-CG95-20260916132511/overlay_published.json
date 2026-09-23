@@ -1,0 +1,459 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool/Maytag/Amana/IKEA SxS refrigerator (W11296289)",
+  "gateArtifact": "W11296289_SXS_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_sxs_w11296289",
+      "platformId": "whirlpool_sxs_w11296289",
+      "manualId": "W11296289",
+      "label": "Whirlpool SxS W11296289 (WRS321/325/315/311/312, ASI2575, WRSA15)",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Amana",
+          "IKEA"
+        ],
+        "modelPatterns": [
+          "WRS321*",
+          "WRS325*",
+          "WRS315*",
+          "WRS311*",
+          "WRS312*",
+          "ASI2575*",
+          "WRSA15*"
+        ],
+        "platformIds": [
+          "whirlpool_sxs_w11296289"
+        ]
+      },
+      "oemTermAliases": {
+        "theseus": "control_board",
+        "athena": "control_board",
+        "service mode": "control_board",
+        "cuda": "user_interface",
+        "minotaur": "user_interface",
+        "door switch": "door_switch",
+        "rc door switch": "door_switch",
+        "fc door switch": "door_switch",
+        "evap_fan": "evaporator_fan",
+        "evaporator fan": "evaporator_fan",
+        "damper_motor": "damper_motor",
+        "defrost heater": "defrost_heater",
+        "defrost_thermostat": "defrost_thermostat",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "condenser_fan": "condenser_fan",
+        "condenser fan": "condenser_fan",
+        "water valve": "water_valve",
+        "ice maker": "ice_maker",
+        "sealed system": "sealed_system"
+      },
+      "displayTerms": {
+        "control_board": "THESEUS/ATHENA ACU (service-mode orchestration)",
+        "user_interface": "CUDA dispenser LEDs / ATHENA fail-display decode",
+        "door_switch": "RC + FC door switches (steps 21/23)",
+        "evaporator_fan": "Single evaporator fan (step 15)",
+        "air_damper": "12 VDC stepper damper + heater (steps 9/11)",
+        "defrost_heater": "Defrost heater (step 13, 550\u2013650 \u03a9)",
+        "temperature_sensor": "FC/RC compartment NTCs (steps 1/3 \u2014 conditional scopes)",
+        "compressor": "EM3Y60/EGX60 via relay drive (conditional)",
+        "condenser_fan": "Condenser fan with compressor (step 7 \u2014 conditional)",
+        "defrost_thermostat": "Defrost NTC (step 5 \u2014 platform defrost_sensor)",
+        "ice_maker": "IDI twist-tray ice maker (conditional, step 33)",
+        "water_dispenser": "Water inlet valve (step 19 \u2014 conditional)",
+        "sealed_system": "Sealed-system complaint routing \u2014 not canonical"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "relay_drive_em3y60",
+          "procedureIds": [
+            "w11296289-test-07-compressor-cond-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "condenser_fan",
+          "procedureIds": [
+            "w11296289-test-07-compressor-cond-fan"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "w11296289-test-01-fc-thermistor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "w11296289-test-03-rc-thermistor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "w11296289-test-33-im-tray-thermistor"
+          ]
+        },
+        {
+          "conditionalConceptId": "water_dispenser",
+          "procedureIds": [
+            "w11296289-test-19-water-valve"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "defrost_thermostat",
+            "name": "Defrost thermistor (step 5)",
+            "aliases": [
+              "defrost thermistor",
+              "defrost_thermostat"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "note": "Step 5 defrost NTC \u2014 platform defrost_sensor, not cabinet temperature_sensor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "12 VDC stepper damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor",
+              "electric air baffle"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Steps 9/11 stepper open + damper heater \u2014 Whirlpool SxS air_damper implementation."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay",
+            "aliases": [
+              "relay",
+              "compressor relay"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "em3y60_compressor",
+            "name": "EM3Y60/EGX60 compressor",
+            "aliases": [
+              "em3y60",
+              "egx60",
+              "embraco em3y60"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_em3y60",
+            "note": "SxS compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          },
+          {
+            "id": "water_valve",
+            "name": "Water dispenser inlet valve",
+            "aliases": [
+              "water valve",
+              "water_valve"
+            ],
+            "systemId": "water_dispenser",
+            "type": "actuator",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "Step 19 P3 valve \u2014 conditional water_dispenser implementation."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "IDI twist-tray ice maker",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module",
+              "idi ice maker"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 step 33 tray thermistor evidence."
+          },
+          {
+            "id": "defrost_thermostat",
+            "name": "Defrost thermistor (step 5)",
+            "aliases": [
+              "defrost thermistor",
+              "defrost_thermostat"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "note": "Step 5 defrost NTC \u2014 platform defrost_sensor, not cabinet temperature_sensor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "12 VDC stepper damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor",
+              "electric air baffle"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Steps 9/11 stepper open + damper heater \u2014 Whirlpool SxS air_damper implementation."
+          },
+          {
+            "id": "compressor_relay",
+            "name": "Compressor relay",
+            "aliases": [
+              "relay",
+              "compressor relay"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsPlatformId": "compressor_controller",
+            "note": "Relay-drive path \u2014 not canonical compressor."
+          },
+          {
+            "id": "em3y60_compressor",
+            "name": "EM3Y60/EGX60 compressor",
+            "aliases": [
+              "em3y60",
+              "egx60",
+              "embraco em3y60"
+            ],
+            "systemId": "cooling",
+            "type": "actuator",
+            "implementsConditionalConceptId": "compressor",
+            "conditionalInstanceScope": "relay_drive_em3y60",
+            "note": "SxS compressor actuator \u2014 conditionalConcept binding, not canonical node."
+          },
+          {
+            "id": "water_valve",
+            "name": "Water dispenser inlet valve",
+            "aliases": [
+              "water valve",
+              "water_valve"
+            ],
+            "systemId": "water_dispenser",
+            "type": "actuator",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "Step 19 P3 valve \u2014 conditional water_dispenser implementation."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "IDI twist-tray ice maker",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module",
+              "idi ice maker"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 step 33 tray thermistor evidence."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "w11296289-theseus-service-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11296289-athena-service-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "w11296289-athena-fail-display",
+          "canonicalComponents": [
+            "control_board",
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-21-rc-door-switch",
+          "canonicalComponents": [
+            "door_switch"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "w11296289-test-23-fc-door-switch",
+          "canonicalComponents": [
+            "door_switch"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "w11296289-test-15-evap-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-09-damper-open",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-11-damper-heater",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-13-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-07-compressor-cond-fan",
+          "conditionalConcepts": [
+            "compressor",
+            "condenser_fan"
+          ],
+          "instanceScope": "relay_drive_em3y60"
+        },
+        {
+          "procedureId": "w11296289-test-01-fc-thermistor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "w11296289-test-03-rc-thermistor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "w11296289-test-33-im-tray-thermistor",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "w11296289-test-19-water-valve",
+          "conditionalConcepts": [
+            "water_dispenser"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "whirlpool-sxs-idi-partial-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_partial_procedure_coverage",
+          "procedureIds": [
+            "w11296289-test-33-im-tray-thermistor"
+          ],
+          "note": "IDI steps 29\u201332/34\u201335 not seeded \u2014 step 33 only for ice_maker conditional."
+        },
+        {
+          "teachingId": "whirlpool-sxs-dispenser-light-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed",
+          "note": "Step 17 dispenser light \u2014 no procedure seed."
+        },
+        {
+          "teachingId": "whirlpool-sxs-paddle-feedback-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed",
+          "note": "Steps 25/27 paddle feedback \u2014 HMI only, no procedure seeds."
+        },
+        {
+          "teachingId": "whirlpool-sxs-humidity-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_not_on_manual"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "whirlpool-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "THESEUS service steps decompose to members \u2014 aggregate remains dead."
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "whirlpool-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Compressor/condenser vocabulary does not resurrect cooling_system aggregate."
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "whirlpool-sxs-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Evap fan + damper stay under canonical members + platform instances."
+        },
+        {
+          "conceptId": "sealed_system",
+          "teachingId": "whirlpool-sxs-sealed-system-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "Complaint routing only \u2014 routes to compressor + condenser_fan conditionals."
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorOverlaysBlocked": [
+          "whirlpool_jazz_french_door.json",
+          "samsung_sxs.json"
+        ],
+        "jazzOverlayImportBlocked": true,
+        "samsungSxsOverlayImportBlocked": true,
+        "cg9BoundaryProbe": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+        "cg9AutoApprovalBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "sxs_production_compounding_whirlpool",
+  "compoundingEvidence": {
+    "phase": "CG-9.5",
+    "workPackage": "WP2",
+    "manualId": "W11296289",
+    "platformId": "whirlpool_sxs_w11296289",
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "W11296289_SXS_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "W11296289_SXS_gate_decision_ledger_v1.json",
+    "boundaryProbeArtifact": "W11296289_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "accounting": {
+      "canonicalInheritances": 6,
+      "conditionalBindings": 6,
+      "overlayLearningEvents": 10,
+      "intentionalAbstentions": 4,
+      "newOverlaySemanticDecisions": 10,
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "publishedAt": "2026-09-16T13:25:11.693291+00:00"
+  }
+}

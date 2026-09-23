@@ -1,0 +1,139 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER-M9",
+  "priorManualId": "SAMSUNG-DISHWASHER",
+  "gateKind": "manufacturer_compounding_second_manual",
+  "gatedAt": "2026-09-15T18:32:34.802597+00:00",
+  "classificationCounts": {
+    "approved": 33,
+    "rejected": 5,
+    "deferred": 18
+  },
+  "mappingApprovals": 12,
+  "mappingRejections": 2,
+  "mappingDeferred": 18,
+  "procedureBindingsApprovedGateTable": 11,
+  "measurementBindingsApprovedGateTable": 10,
+  "carryForwardMatcherDefects": [
+    {
+      "theme": "power_supply_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedures": [
+        "samsungdwm9-power-supply",
+        "samsungdwm9-voltage-abnormal"
+      ],
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "power_supply diagnostic family \u2014 not fill_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-power-supply-fill_test",
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-voltage-abnormal-fill_test"
+      ]
+    },
+    {
+      "theme": "communication_routing",
+      "countsAsNewTeaching": false,
+      "compilerSignal": true,
+      "priorManualOccurrence": "SAMSUNG-DISHWASHER",
+      "m9Procedure": "samsungdwm9-communication",
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "control_board communication diagnostic \u2014 not heater_command_test",
+      "overlayCandidateIds": [
+        "overlay-SAMSUNG-DISHWASHER-M9-samsungdwm9-communication-heater_command_test"
+      ]
+    }
+  ],
+  "carryForwardMatcherDefectThemes": 2,
+  "genuineNewHumanSemanticDecisions": 2,
+  "genuineNewKnowledgeThemes": [
+    {
+      "theme": "leak_sensor",
+      "gateAction": "defer_platform",
+      "countsAsNewTeaching": true
+    },
+    {
+      "theme": "vane_motor",
+      "gateAction": "approve_platform_delta",
+      "countsAsNewTeaching": true
+    }
+  ],
+  "rawProjectedTeachingUnits": 6,
+  "deduplicatedTeachingThemes": 5,
+  "inheritedExact": 10,
+  "inheritedSemantic": 10,
+  "inheritanceRate": 0.714,
+  "mechanicalProcedureRegistrations": 11,
+  "mechanicalMeasurementRegistrations": 10,
+  "newCanonicalConcepts": 0,
+  "whirlpoolImports": 0,
+  "publishBlocked": true,
+  "reviewPackageSummary": {
+    "total": 44,
+    "byStatus": {
+      "approved": 21,
+      "COMPOUND_TERM_CANDIDATE": 3,
+      "rejected": 5,
+      "needs_review": 14,
+      "candidate": 1
+    },
+    "byApprovalLevel": {
+      "careful": 9,
+      "easy": 3,
+      "blocked": 15,
+      "normal": 17
+    },
+    "byType": {
+      "canonicalMapping": 32,
+      "procedureTestBinding": 8,
+      "measurementBinding": 4
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 3,
+      "medium_0.80_0.94": 26,
+      "low_lt_0.80": 0,
+      "unresolved": 15
+    },
+    "byBlockedReason": {
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  },
+  "teachingCostAccounting": {
+    "priorManualHumanDecisions": 15,
+    "genuineNewHumanSemanticDecisions": 2,
+    "carryForwardMatcherDefectThemes": 2,
+    "rawProjectedTeachingUnits": 6,
+    "note": "M9 gate separates genuine new knowledge (leak_sensor defer, vane_motor platform) from carry-forward matcher defects (power_supply_routing, communication_routing)."
+  },
+  "matcherEvidencePreserved": [
+    {
+      "theme": "communication_routing",
+      "procedureId": "samsungdwm9-communication",
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "defer \u2014 carry-forward matcher defect"
+    },
+    {
+      "theme": "power_supply_routing",
+      "procedureId": "samsungdwm9-power-supply",
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "reject \u2014 power_supply diagnostic, not fill_test"
+    },
+    {
+      "theme": "power_supply_routing",
+      "procedureId": "samsungdwm9-voltage-abnormal",
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "reject \u2014 supply voltage diagnostic, not fill_test"
+    },
+    {
+      "theme": "power_supply_routing",
+      "procedureId": null,
+      "matcherOutput": "fill_test",
+      "expectedCorrection": "power_supply diagnostic family \u2014 not fill_test"
+    },
+    {
+      "theme": "communication_routing",
+      "procedureId": null,
+      "matcherOutput": "heater_command_test",
+      "expectedCorrection": "control_board communication diagnostic \u2014 not heater_command_test"
+    }
+  ]
+}

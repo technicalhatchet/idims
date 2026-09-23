@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_freeze_contract",
+  "workstream": "CG-P08-FLEXWASH-FREEZE",
+  "status": "closed",
+  "closedAt": "2026-09-17T22:30:00+00:00",
+  "closureArtifact": "CG_P08_FLEXWASH_FREEZE_CLOSURE_v1.json",
+  "closureVerdict": "GREEN / P08_FLEXWASH_INTEGRATION_BOUNDARY_FROZEN",
+  "freezeLock": "CG_P08_FLEXWASH_FREEZE_LOCK_v1.json",
+  "freezeAudit": "CG_P08_FLEXWASH_FREEZE_AUDIT_v1.json",
+  "phase": "CG-P08-FLEXWASH-FREEZE",
+  "activatedAt": "2026-09-17T22:30:00+00:00",
+  "priorPhaseClosed": "CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json",
+  "priorPhaseVerdict": "W2_PARTIALLY_CORROBORATES — human freeze decision complete",
+  "freezeMode": "integration_boundary_contract_freeze_without_canonical_family_authoring",
+  "coreConstraint": "Freeze gate locks FlexWash integration boundary contract from W1 fit + W2 corroboration + six human decisions. Composes 2× front_load_washer by reference. One integration boundary with system_supervision (corroborated), inter_instance_control_communication (W1_DERIVED), enable_inhibit (facet). No canonical family file. No frozen canonical hash mutation.",
+  "humanFreezeDecisions": [
+    {
+      "id": "D1",
+      "decision": "Freeze system_supervision",
+      "evidence": "W1 WV55 + W2 WV60 SF",
+      "status": "approved"
+    },
+    {
+      "id": "D2",
+      "decision": "Freeze inter_instance_control_communication as W1_DERIVED",
+      "evidence": "W1 WV55 AC7 only",
+      "status": "approved"
+    },
+    {
+      "id": "D3",
+      "decision": "WV60 AC7 UNDOCUMENTED — not absent",
+      "status": "approved"
+    },
+    {
+      "id": "D4",
+      "decision": "Freeze enable_inhibit as facet — not canonical node",
+      "status": "approved"
+    },
+    {
+      "id": "D5",
+      "decision": "Simultaneous active wash NOT_PROVEN — do not freeze",
+      "status": "approved"
+    },
+    {
+      "id": "D6",
+      "decision": "Register WV60 as platform generation — metadata only",
+      "status": "approved"
+    }
+  ],
+  "approvedFunctionalContract": {
+    "artifact": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "status": "frozen",
+    "notCanonicalFile": true,
+    "composedInstances": 2,
+    "integrationResponsibilities": 3,
+    "canonicalExpansion": 0
+  },
+  "immutableInputs": {
+    "policy": "Read-only — freeze must not mutate fit, discovery, corroboration, or W2 evidence",
+    "artifacts": [
+      "CG_P08_FLEXWASH_ARCHITECTURE_DECISION_PACKAGE_v1.json",
+      "CG_P08_FLEXWASH_INTEGRATION_DISCOVERY_v1.json",
+      "CG_P08_FLEXWASH_FIT_TEST_v1.json",
+      "CG_P08_FLEXWASH_CORROBORATION_OR_W2_FIT_v1.json",
+      "CG_P08_FLEXWASH_W2_FIT_OBSERVATION_v1.json"
+    ],
+    "architectureException": {
+      "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+      "preservedAsHistorical": true
+    },
+    "frozenGraphs": {
+      "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05"
+    }
+  },
+  "notCreating": [
+    "dual_load_integrated_orchestration",
+    "dual_compartment_partition canonical node",
+    "integrated_laundry_orchestration copy",
+    "simultaneous_active_wash canonical capability",
+    "new canonical family file",
+    "mutations to front_load_washer.json",
+    "mutations to frozen_canonical_hashes_v1.json",
+    "manufacturer normalization overlays",
+    "production normalization pipeline changes",
+    "UI changes",
+    "deletion or rewrite of architecture_exception.json"
+  ],
+  "targetFrozenArtifact": {
+    "file": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+    "type": "integration_boundary_contract",
+    "frozen": true
+  },
+  "platformRegistration": {
+    "artifact": "CG_P08_FLEXWASH_WV60_PLATFORM_GENERATION_v1.json",
+    "platformId": "samsung_flexwash",
+    "canonicalMutation": false
+  },
+  "successCriteria": {
+    "functionalContractFrozen": true,
+    "humanFreezeApprovalRequired": true,
+    "humanFreezeApprovalStatus": "approved",
+    "validateCanonicalGraphPass": true,
+    "freezeLockCreated": true,
+    "freezeAuditCreated": true,
+    "wv60PlatformGenerationRegistered": true,
+    "canonicalExpansion": 0,
+    "newCanonicalFamilyFile": false,
+    "frozenSourceGraphHashesUnchanged": true,
+    "architectureExceptionPreserved": true,
+    "normalizationExecuted": false,
+    "pilotClosureExecuted": false
+  },
+  "nextDisciplinedStep": "P08 integration boundary LOCKED — normalization/compounding/UI deferred until explicitly authorized. architecture_exception.json preserved as historical STOP evidence."
+}

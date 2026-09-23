@@ -1,0 +1,66 @@
+{
+  "id": "samsungdv22n-condensate-overflow",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Condensate overflow (5C)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "condensate",
+    "drain"
+  ],
+  "tags": [
+    "5C",
+    "long_dry"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Water tank / drain path",
+    "pages": [
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "tank_drain"
+    },
+    {
+      "id": "tank_drain",
+      "order": 2,
+      "type": "instruction",
+      "title": "Tank and drain pump",
+      "body": "Empty water tank; verify drain pump and float sensor.",
+      "sourceExcerpt": "Empty water tank; verify drain pump and float sensor.",
+      "requiresInput": false,
+      "defaultNextStepId": "moisture_ok"
+    },
+    {
+      "id": "replace_pump",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace drain pump",
+      "oemOutcome": "Replace drain pump or float switch.",
+      "requiresInput": false
+    },
+    {
+      "id": "moisture_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Moisture rejection OK",
+      "oemOutcome": "Sealed moisture rejection path verified.",
+      "requiresInput": false
+    }
+  ]
+}

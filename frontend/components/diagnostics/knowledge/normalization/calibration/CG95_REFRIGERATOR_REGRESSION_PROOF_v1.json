@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg95_refrigerator_regression_proof",
+  "status": "locked",
+  "generatedAt": "2026-09-16T14:00:00+00:00",
+  "familyLock": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  },
+  "regressionQuestions": [
+    {
+      "id": "canonical_hash_unchanged",
+      "question": "Is french_door_refrigerator rev1 hash unchanged through CG-8 + CG-9.5?",
+      "expected": true,
+      "evidence": "All publication_*CG8.json and publication_*CG95.json report identical canonicalHashBefore/After"
+    },
+    {
+      "id": "canonical_expansion_zero",
+      "question": "Is cumulative canonicalExpansion zero across all refrigerator compounding?",
+      "expected": true,
+      "evidence": "CG-7 freezeBuckets.canonicalExpansion=0; each CG-8/CG-9.5 gate ledger accounting.canonicalExpansion=0"
+    },
+    {
+      "id": "no_sxs_ontology",
+      "question": "Was side_by_side_refrigerator ontology created?",
+      "expected": false,
+      "evidence": "CG9_5 contract notCreating includes side_by_side_refrigerator.json"
+    },
+    {
+      "id": "configuration_boundary_closed",
+      "question": "Does CG-9 triangulation close SxS as overlay configuration on frozen contract?",
+      "expected": true,
+      "evidence": "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json status=family_boundary_closed"
+    },
+    {
+      "id": "seven_overlays_published",
+      "question": "Are all production overlays published on french_door_refrigerator ontology?",
+      "expected": true,
+      "evidence": "resolveDiagnosticGraph.ts MANUFACTURER_OVERLAYS_BY_ONTOLOGY.french_door_refrigerator length=7"
+    },
+    {
+      "id": "proof_matrix_six",
+      "question": "Does 3×2 manufacturer/configuration proof matrix have six overlays?",
+      "expected": true,
+      "evidence": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json proofMatrix — 3 FD + 3 SxS"
+    },
+    {
+      "id": "overlay_byte_hashes_recorded",
+      "question": "Are closure overlay byte hashes recorded for regression?",
+      "expected": true,
+      "evidence": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json byteStabilityProof.overlayHashesAtClosure"
+    },
+    {
+      "id": "rename_deferred",
+      "question": "Is french_door_refrigerator→refrigerator rename deferred and non-blocking?",
+      "expected": true,
+      "evidence": "deferredOrganizational in family lock and CG9_5 contract"
+    }
+  ],
+  "overlayHashesAtClosure": {
+    "whirlpool_jazz_french_door.json": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+    "samsung_fridge_bespoke.json": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+    "lg_lrmvs.json": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b",
+    "samsung_sxs.json": "4461b920a2d346ffb5b673d556229d277e11d3d10dbcf4dd835a6a38a47b4cf7",
+    "whirlpool_sxs_w11296289.json": "e2c827f7f0a16a053dffe2c2db1526e75762b1e793e7a469c2ec2d777b14479e",
+    "lg_sxs.json": "4a81860197c05742292ad7749a85f12971774739b1a2973eb7d5d16311eaea60",
+    "midea_rss.json": "2dfda8185f8bf6d8aae3eed7db4396b970335bcee1bbdc53560cb06ea37b931c"
+  },
+  "closureTests": [
+    "components/diagnostics/session/__tests__/scenarios/cg95-refrigerator-family-closure.test.ts"
+  ]
+}

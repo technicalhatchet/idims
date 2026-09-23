@@ -1,0 +1,3689 @@
+{
+  "manualId": "W8178559",
+  "procedures": [
+    {
+      "procedureId": "w8178559-button-indicator",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #5: Button and Indicator Test",
+      "purpose": "Button and Indicator Test",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "hmi_check",
+        "F02",
+        "error_code",
+        "supply_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "advance_console_diag",
+          "order": 3,
+          "type": "instruction",
+          "title": "Console Buttons and Indicators diagnostic",
+          "body": "In diagnostic test mode (past saved/active fault codes), press buttons and rotate cycle selector. Each control should extinguish its indicator and beep; MORE/LESS time toggles display digits.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In diagnostic test mode (past saved/active fault codes), press buttons and rotate cycle selector. Each control should extinguish its indicator and beep; MORE/LESS time toggles display digits."
+        },
+        {
+          "id": "console_diag_pass",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Console button / indicator test result",
+          "body": "Do all indicators light and beep correctly when buttons and selector are exercised?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "console_pass",
+              "label": "Yes / all respond",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "button_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "console_fail",
+              "label": "No / fault present",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "p5_seated_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Do all indicators light and beep correctly when buttons and selector are exercised?"
+        },
+        {
+          "id": "p5_seated_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "P5 connector fully seated",
+          "body": "Access electronic assemblies. Is P5 fully inserted into the machine control electronics?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "p5_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "console_housing_seated",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "p5_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_p5",
+              "terminal": true,
+              "oemOutcome": "Reseat P5 connector and retest console diagnostic."
+            }
+          ],
+          "sourceExcerpt": "Access electronic assemblies. Is P5 fully inserted into the machine control electronics?"
+        },
+        {
+          "id": "console_housing_seated",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Console housing fully seated",
+          "body": "Is the console electronics and housing assembly properly inserted into the front console?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "housing_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_console_asm",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "housing_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reseat_console",
+              "terminal": true,
+              "oemOutcome": "Reseat console assembly and retest."
+            }
+          ],
+          "sourceExcerpt": "Is the console electronics and housing assembly properly inserted into the front console?"
+        },
+        {
+          "id": "reseat_p5",
+          "order": 7,
+          "type": "instruction",
+          "title": "Reseat P5 and retest",
+          "body": "Reseat P5, reassemble, restore power, and rerun Console Buttons and Indicators diagnostic.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat P5, reassemble, restore power, and rerun Console Buttons and Indicators diagnostic."
+        },
+        {
+          "id": "reseat_console",
+          "order": 8,
+          "type": "instruction",
+          "title": "Reseat console and retest",
+          "body": "Reseat console assembly, restore power, and rerun console diagnostic.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reseat console assembly, restore power, and rerun console diagnostic."
+        },
+        {
+          "id": "replace_console_asm",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace console assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "button_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Console UI verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "console_pass",
+          "label": "Yes / all respond",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "button_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "console_diag_pass"
+        },
+        {
+          "id": "console_fail",
+          "label": "No / fault present",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "p5_seated_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "console_diag_pass"
+        },
+        {
+          "id": "p5_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_housing_seated",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "p5_seated_check"
+        },
+        {
+          "id": "p5_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_p5",
+          "terminal": true,
+          "oemOutcome": "Reseat P5 connector and retest console diagnostic.",
+          "stepId": "p5_seated_check"
+        },
+        {
+          "id": "housing_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_console_asm",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "console_housing_seated"
+        },
+        {
+          "id": "housing_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reseat_console",
+          "terminal": true,
+          "oemOutcome": "Reseat console assembly and retest.",
+          "stepId": "console_housing_seated"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "5",
+        "oemTestTitle": "Button and Indicator Test",
+        "pages": [
+          86,
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-button-indicator",
+        "pages": [
+          86,
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-button-indicator",
+            "pages": [
+              86,
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-door-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #6: Door Switch Test",
+      "purpose": "Door Switch Test",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check",
+        "wont_start",
+        "no_power",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "advance_door_diag",
+          "order": 3,
+          "type": "instruction",
+          "title": "Door Switch diagnostic (live)",
+          "body": "In diagnostic mode, advance to Door Switch diagnostic. Opening/closing door should beep and show alphanumeric codes (e.g. 0E, 09). Wrong model code with door closed indicates a fault.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In diagnostic mode, advance to Door Switch diagnostic. Opening/closing door should beep and show alphanumeric codes (e.g. 0E, 09). Wrong model code with door closed indicates a fault."
+        },
+        {
+          "id": "door_diag_pass",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Door switch diagnostic result",
+          "body": "Does door open/close produce beep and expected display codes with door properly closed?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_diag_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_diag_fail",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_door_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Does door open/close produce beep and expected display codes with door properly closed?"
+        },
+        {
+          "id": "bench_door_switch",
+          "order": 5,
+          "type": "instruction",
+          "title": "Bench door switch \u2014 P8-3 to P8-4",
+          "body": "Disconnect power. Ohmmeter across P8-3 (neutral, white) and P8-4 (door, tan) at MCE. Door closed: 0\u20132 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Ohmmeter across P8-3 (neutral, white) and P8-4 (door, tan) at MCE. Door closed: 0\u20132 \u03a9."
+        },
+        {
+          "id": "door_switch_ohms",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Door closed resistance 0\u20132 \u03a9",
+          "body": "With door properly closed, does P8-3 to P8-4 read 0\u20132 \u03a9?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ohms_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inspect_door_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "door_ohms_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch",
+              "terminal": true,
+              "oemOutcome": "Replace wire and door switch assembly."
+            }
+          ],
+          "sourceExcerpt": "With door properly closed, does P8-3 to P8-4 read 0\u20132 \u03a9?"
+        },
+        {
+          "id": "inspect_door_harness",
+          "order": 7,
+          "type": "instruction",
+          "title": "Inspect door switch harness",
+          "body": "Verify harness between door switch and MCE. Repair opens; replace door switch assembly if wiring OK.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify harness between door switch and MCE. Repair opens; replace door switch assembly if wiring OK."
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_switch_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Door switch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_diag_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_diag_pass"
+        },
+        {
+          "id": "door_diag_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_door_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_diag_pass"
+        },
+        {
+          "id": "door_ohms_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inspect_door_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_ohms"
+        },
+        {
+          "id": "door_ohms_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch",
+          "terminal": true,
+          "oemOutcome": "Replace wire and door switch assembly.",
+          "stepId": "door_switch_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "6",
+        "oemTestTitle": "Door Switch Test",
+        "pages": [
+          87
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-door-switch",
+        "pages": [
+          87
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-door-switch",
+            "pages": [
+              87
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-dryness-adjust",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #4a: Customer Drying Mode",
+      "purpose": "Adjusting Customer-Focused Drying Modes",
+      "prerequisites": [],
+      "componentIds": [
+        "moisture_sensor"
+      ],
+      "tags": [
+        "long_dry",
+        "moisture_sensor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "diag_past_faults",
+          "order": 3,
+          "type": "instruction",
+          "title": "Enter diagnostic mode",
+          "body": "Activate diagnostic test mode and advance past saved fault codes. Moisture sensor should already pass TEST #4.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Activate diagnostic test mode and advance past saved fault codes. Moisture sensor should already pass TEST #4."
+        },
+        {
+          "id": "dryness_hold_entry",
+          "order": 4,
+          "type": "instruction",
+          "title": "Hold Dryness 5 seconds",
+          "body": "In diagnostic mode, press and hold the Dryness button 5 seconds. Dryer beeps; current mode (factory default 1) displays.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "In diagnostic mode, press and hold the Dryness button 5 seconds. Dryer beeps; current mode (factory default 1) displays."
+        },
+        {
+          "id": "dryness_cycle_mode",
+          "order": 5,
+          "type": "instruction",
+          "title": "Select longer auto cycle",
+          "body": "Press Dryness again to cycle display through 2, 3, or 1 (longer auto dry times).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Press Dryness again to cycle display through 2, 3, or 1 (longer auto dry times)."
+        },
+        {
+          "id": "dryness_save",
+          "order": 6,
+          "type": "instruction",
+          "title": "Save with START",
+          "body": "With desired mode flashing, press START to save to EEPROM and exit diagnostics. PAUSE/CANCEL cancels without saving.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "With desired mode flashing, press START to save to EEPROM and exit diagnostics. PAUSE/CANCEL cancels without saving."
+        },
+        {
+          "id": "dryness_adjusted",
+          "order": 7,
+          "type": "outcome",
+          "title": "Drying mode updated",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "4a",
+        "oemTestTitle": "Adjusting Customer-Focused Drying Modes",
+        "pages": [
+          86
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-dryness-adjust",
+        "pages": [
+          86
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-dryness-adjust",
+            "pages": [
+              86
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-exhaust-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3a: Exhaust Thermistor",
+      "purpose": "Thermistor Test",
+      "prerequisites": [],
+      "componentIds": [
+        "exhaust_thermistor"
+      ],
+      "tags": [
+        "thermistor",
+        "no_heat",
+        "F22",
+        "F23"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "timed_dry_fault_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "Timed Dry fault check (optional)",
+          "body": "Empty dryer, clean lint screen. Start Timed Dry. If F-22 or F-23 flashes within 60 s and dryer shuts off, thermistor or harness is open/short \u2014 disconnect power before bench tests.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Empty dryer, clean lint screen. Start Timed Dry. If F-22 or F-23 flashes within 60 s and dryer shuts off, thermistor or harness is open/short \u2014 disconnect power before bench tests."
+        },
+        {
+          "id": "disconnect_p14",
+          "order": 4,
+          "type": "instruction",
+          "title": "Disconnect P14 at MCE",
+          "body": "Access MCE. Disconnect P14 connector. Measure thermistor at component or through harness per wiring diagram.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Access MCE. Disconnect P14 connector. Measure thermistor at component or through harness per wiring diagram."
+        },
+        {
+          "id": "thermistor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Exhaust thermistor resistance",
+          "body": "Measure exhaust thermistor. ~12 k\u03a9 @ 70\u00b0F; 9.2 k\u03a9 @ 80\u00b0F; 19.9 k\u03a9 @ 50\u00b0F (OEM R/T table). Open \u2192 F-22. Short \u2192 F-23.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerExhaustThermistorKohm",
+              "testPoint": {
+                "connector": "P14 thermistor",
+                "pins": "P14-3 to P14-6",
+                "label": "Exhaust thermistor resistance"
+              },
+              "title": "Exhaust thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermistor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted."
+            },
+            {
+              "id": "ntc_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted."
+            },
+            {
+              "id": "ntc_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_thermistor",
+              "terminal": true,
+              "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted."
+            }
+          ],
+          "sourceExcerpt": "Measure exhaust thermistor. ~12 k\u03a9 @ 70\u00b0F; 9.2 k\u03a9 @ 80\u00b0F; 19.9 k\u03a9 @ 50\u00b0F (OEM R/T table). Open \u2192 F-22. Short \u2192 F-23."
+        },
+        {
+          "id": "replace_thermistor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermistor_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermistor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerExhaustThermistorKohm",
+          "testPoint": {
+            "connector": "P14 thermistor",
+            "pins": "P14-3 to P14-6",
+            "label": "Exhaust thermistor resistance"
+          },
+          "title": "Exhaust thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ntc_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermistor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted.",
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted.",
+          "stepId": "thermistor_ohms"
+        },
+        {
+          "id": "ntc_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_thermistor",
+          "terminal": true,
+          "oemOutcome": "Replace exhaust thermistor \u2014 out of spec or shorted.",
+          "stepId": "thermistor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3a",
+        "oemTestTitle": "Thermistor Test",
+        "pages": [
+          83,
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-exhaust-thermistor",
+        "pages": [
+          83,
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-exhaust-thermistor",
+            "pages": [
+              83,
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-gas-ignitor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3 (gas): Ignitor",
+      "purpose": "Gas Ignitor Check",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "no_heat",
+        "igniter_check",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_ignitor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access ignitor",
+          "body": "Remove toe panel. Disconnect ignitor connector at harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Disconnect ignitor connector at harness."
+        },
+        {
+          "id": "ignitor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Ignitor resistance",
+          "body": "Measure ignitor cold resistance. Spec 50\u2013250 \u03a9. Open = no glow. In spec but weak glow \u2014 check amp draw before condemning valve.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerIgnitorOhms",
+              "testPoint": {
+                "connector": "Ignitor",
+                "pins": "harness",
+                "label": "Ignitor resistance"
+              },
+              "title": "Ignitor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ignitor_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ignitor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ignitor_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace gas ignitor."
+            },
+            {
+              "id": "ignitor_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace gas ignitor."
+            },
+            {
+              "id": "ignitor_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": "Replace gas ignitor."
+            }
+          ],
+          "sourceExcerpt": "Measure ignitor cold resistance. Spec 50\u2013250 \u03a9. Open = no glow. In spec but weak glow \u2014 check amp draw before condemning valve."
+        },
+        {
+          "id": "replace_ignitor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace ignitor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ignitor_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Ignitor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerIgnitorOhms",
+          "testPoint": {
+            "connector": "Ignitor",
+            "pins": "harness",
+            "label": "Ignitor resistance"
+          },
+          "title": "Ignitor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ignitor_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ignitor_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": "Replace gas ignitor.",
+          "stepId": "ignitor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3-gas-ignitor",
+        "oemTestTitle": "Gas Ignitor Check",
+        "pages": [
+          82
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-ignitor",
+        "pages": [
+          82
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-ignitor",
+            "pages": [
+              82
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-gas-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3d: Gas Valve Coils",
+      "purpose": "Gas Valve Test",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "no_heat",
+        "gas_valve_check",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_gas_valve",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access gas valve",
+          "body": "Remove toe panel. Disconnect gas valve harness. Gas supply off, power disconnected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Disconnect gas valve harness. Gas supply off, power disconnected."
+        },
+        {
+          "id": "coil_1_2",
+          "order": 3,
+          "type": "measurement",
+          "title": "Coil terminals 1 to 2",
+          "body": "Measure resistance across terminals 1 and 2. Spec 1365 \u03a9 \u00b1 25.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "1\u20132",
+                "label": "Coil terminals 1 to 2"
+              },
+              "title": "Coil terminals 1 to 2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "coil12_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "coil_1_3",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "coil12_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec."
+            },
+            {
+              "id": "coil12_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec."
+            },
+            {
+              "id": "coil12_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec."
+            }
+          ],
+          "sourceExcerpt": "Measure resistance across terminals 1 and 2. Spec 1365 \u03a9 \u00b1 25."
+        },
+        {
+          "id": "coil_1_3",
+          "order": 4,
+          "type": "measurement",
+          "title": "Coil terminals 1 to 3",
+          "body": "Measure resistance across terminals 1 and 3. Spec 560 \u03a9 \u00b1 25.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "1\u20133",
+                "label": "Coil terminals 1 to 3"
+              },
+              "title": "Coil terminals 1 to 3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "coil13_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "coil_4_5",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "coil13_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec."
+            },
+            {
+              "id": "coil13_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec."
+            },
+            {
+              "id": "coil13_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec."
+            }
+          ],
+          "sourceExcerpt": "Measure resistance across terminals 1 and 3. Spec 560 \u03a9 \u00b1 25."
+        },
+        {
+          "id": "coil_4_5",
+          "order": 5,
+          "type": "measurement",
+          "title": "Coil terminals 4 to 5",
+          "body": "Measure resistance across terminals 4 and 5. Spec 1220 \u03a9 \u00b1 50.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+              "testPoint": {
+                "connector": "Gas valve",
+                "pins": "4\u20135",
+                "label": "Coil terminals 4 to 5"
+              },
+              "title": "Coil terminals 4 to 5"
+            }
+          ],
+          "branches": [
+            {
+              "id": "coil45_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "gas_valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "coil45_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec."
+            },
+            {
+              "id": "coil45_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec."
+            },
+            {
+              "id": "coil45_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_coils",
+              "terminal": true,
+              "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec."
+            }
+          ],
+          "sourceExcerpt": "Measure resistance across terminals 4 and 5. Spec 1220 \u03a9 \u00b1 50."
+        },
+        {
+          "id": "replace_coils",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace valve coils",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "gas_valve_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Gas valve coils verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "1\u20132",
+            "label": "Coil terminals 1 to 2"
+          },
+          "title": "Coil terminals 1 to 2"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "1\u20133",
+            "label": "Coil terminals 1 to 3"
+          },
+          "title": "Coil terminals 1 to 3"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+          "testPoint": {
+            "connector": "Gas valve",
+            "pins": "4\u20135",
+            "label": "Coil terminals 4 to 5"
+          },
+          "title": "Coil terminals 4 to 5"
+        }
+      ],
+      "branches": [
+        {
+          "id": "coil12_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_1_3",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_1_2"
+        },
+        {
+          "id": "coil12_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "stepId": "coil_1_2"
+        },
+        {
+          "id": "coil12_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "stepId": "coil_1_2"
+        },
+        {
+          "id": "coil12_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20132 out of spec.",
+          "stepId": "coil_1_2"
+        },
+        {
+          "id": "coil13_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "coil_4_5",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_1_3"
+        },
+        {
+          "id": "coil13_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "stepId": "coil_1_3"
+        },
+        {
+          "id": "coil13_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "stepId": "coil_1_3"
+        },
+        {
+          "id": "coil13_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 1\u20133 out of spec.",
+          "stepId": "coil_1_3"
+        },
+        {
+          "id": "coil45_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "gas_valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "coil_4_5"
+        },
+        {
+          "id": "coil45_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "stepId": "coil_4_5"
+        },
+        {
+          "id": "coil45_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "stepId": "coil_4_5"
+        },
+        {
+          "id": "coil45_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_coils",
+          "terminal": true,
+          "oemOutcome": "Replace gas valve coil(s) \u2014 terminals 4\u20135 out of spec.",
+          "stepId": "coil_4_5"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3d",
+        "oemTestTitle": "Gas Valve Test",
+        "pages": [
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-gas-valve",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-gas-valve",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-heater-electric",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3: Heater (electric)",
+      "purpose": "Heater Test",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element"
+      ],
+      "tags": [
+        "heating_element_check",
+        "no_heat",
+        "F01"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_thermal",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal components",
+          "body": "Remove toe panel. Measure resistance from red wire at thermal cut-off to red wire at heater element.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Measure resistance from red wire at thermal cut-off to red wire at heater element."
+        },
+        {
+          "id": "heater_circuit",
+          "order": 3,
+          "type": "measurement",
+          "title": "Thermal cut-off to heater \u2014 ~10 \u03a9",
+          "body": "Red at thermal cut-off to red at heater should read about 10 \u03a9 (7\u201312 \u03a9 element path). Open \u2014 check thermal cut-off, high-limit, and element continuity.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerHeaterOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "cut-off to heater",
+                "label": "Thermal cut-off to heater \u2014 ~10 \u03a9"
+              },
+              "title": "Thermal cut-off to heater \u2014 ~10 \u03a9"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_path_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "p14_thermistor_check",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_path_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater_path",
+              "terminal": true,
+              "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test."
+            },
+            {
+              "id": "heater_path_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater_path",
+              "terminal": true,
+              "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test."
+            },
+            {
+              "id": "heater_path_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater_path",
+              "terminal": true,
+              "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test."
+            }
+          ],
+          "sourceExcerpt": "Red at thermal cut-off to red at heater should read about 10 \u03a9 (7\u201312 \u03a9 element path). Open \u2014 check thermal cut-off, high-limit, and element continuity."
+        },
+        {
+          "id": "p14_thermistor_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "P14-3 to P14-6 at MCE",
+          "body": "At MCE: measure P14-3 to P14-6. 5\u201315 k\u03a9 \u2192 replace MCE. Less than 1 k\u03a9 \u2192 replace exhaust thermistor. Greater than 20 k\u03a9 (heat won't shut off) \u2192 replace thermistor.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "p14_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "p14_mce",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_mce",
+              "terminal": true,
+              "oemOutcome": "Replace machine control electronics \u2014 P14 thermistor circuit indicates MCE fault."
+            }
+          ],
+          "sourceExcerpt": "At MCE: measure P14-3 to P14-6. 5\u201315 k\u03a9 \u2192 replace MCE. Less than 1 k\u03a9 \u2192 replace exhaust thermistor. Greater than 20 k\u03a9 (heat won't shut off) \u2192 replace thermistor."
+        },
+        {
+          "id": "replace_heater_path",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace heater path component",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_mce",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace MCE",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Heater circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerHeaterOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "cut-off to heater",
+            "label": "Thermal cut-off to heater \u2014 ~10 \u03a9"
+          },
+          "title": "Thermal cut-off to heater \u2014 ~10 \u03a9"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_path_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "p14_thermistor_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_circuit"
+        },
+        {
+          "id": "heater_path_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_path",
+          "terminal": true,
+          "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test.",
+          "stepId": "heater_circuit"
+        },
+        {
+          "id": "heater_path_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_path",
+          "terminal": true,
+          "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test.",
+          "stepId": "heater_circuit"
+        },
+        {
+          "id": "heater_path_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_path",
+          "terminal": true,
+          "oemOutcome": "Replace open heater, thermal cut-off, or high-limit per component test.",
+          "stepId": "heater_circuit"
+        },
+        {
+          "id": "p14_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "p14_thermistor_check"
+        },
+        {
+          "id": "p14_mce",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_mce",
+          "terminal": true,
+          "oemOutcome": "Replace machine control electronics \u2014 P14 thermistor circuit indicates MCE fault.",
+          "stepId": "p14_thermistor_check"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3",
+        "oemTestTitle": "Heater Test",
+        "pages": [
+          82,
+          83
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-electric",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-electric",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-heater-gas",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3: Heater (gas)",
+      "purpose": "Heater Test \u2014 Gas Dryer",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve",
+        "thermal_fuse",
+        "thermal_cutoff"
+      ],
+      "tags": [
+        "no_heat",
+        "ignition_issue",
+        "gas_heater_check",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_gas_thermal",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal components (gas)",
+          "body": "Remove toe panel. Gas dryer heating path: thermal fuse \u2192 thermal cut-off \u2192 high-limit \u2192 gas valve coils.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Gas dryer heating path: thermal fuse \u2192 thermal cut-off \u2192 high-limit \u2192 gas valve coils."
+        },
+        {
+          "id": "gas_thermal_fuse",
+          "order": 3,
+          "type": "visual_check",
+          "title": "TEST #3b \u2014 thermal fuse continuity",
+          "body": "Thermal fuse in series with gas valve: 0 \u03a9 = good. Open = replace fuse (see w8178559-thermal-fuse).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_fuse_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_thermal_cutoff",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_fuse_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_thermal_fuse",
+              "terminal": true,
+              "oemOutcome": "Replace failed thermal fuse."
+            }
+          ],
+          "sourceExcerpt": "Thermal fuse in series with gas valve: 0 \u03a9 = good. Open = replace fuse (see w8178559-thermal-fuse)."
+        },
+        {
+          "id": "gas_thermal_cutoff",
+          "order": 4,
+          "type": "visual_check",
+          "title": "TEST #3c \u2014 thermal cut-off continuity",
+          "body": "Thermal cut-off shows continuity (0 \u03a9)? Open = replace cut-off and high-limit.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_cutoff_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_high_limit",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_cutoff_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cutoff_hilimit",
+              "terminal": true,
+              "oemOutcome": "Replace thermal cut-off and high-limit thermostat."
+            }
+          ],
+          "sourceExcerpt": "Thermal cut-off shows continuity (0 \u03a9)? Open = replace cut-off and high-limit."
+        },
+        {
+          "id": "gas_high_limit",
+          "order": 5,
+          "type": "visual_check",
+          "title": "High-limit thermostat continuity",
+          "body": "Measure continuity red wire to blue wire at high-limit thermostat. Open = replace high-limit and cut-off.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_hilimit_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_valve_next",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_hilimit_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cutoff_hilimit",
+              "terminal": true,
+              "oemOutcome": "Replace high-limit thermostat and thermal cut-off."
+            }
+          ],
+          "sourceExcerpt": "Measure continuity red wire to blue wire at high-limit thermostat. Open = replace high-limit and cut-off."
+        },
+        {
+          "id": "gas_valve_next",
+          "order": 6,
+          "type": "instruction",
+          "title": "TEST #3d \u2014 gas valve coils",
+          "body": "Perform gas valve coil resistance checks (procedure w8178559-gas-valve). Also verify ignitor 50\u2013250 \u03a9 if flame never appears.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Perform gas valve coil resistance checks (procedure w8178559-gas-valve). Also verify ignitor 50\u2013250 \u03a9 if flame never appears."
+        },
+        {
+          "id": "replace_thermal_fuse",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace thermal fuse",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_cutoff_hilimit",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace cut-off & high-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "gas_heater_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Gas heat path verified at components",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "gas_fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_thermal_cutoff",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_thermal_fuse"
+        },
+        {
+          "id": "gas_fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace failed thermal fuse.",
+          "stepId": "gas_thermal_fuse"
+        },
+        {
+          "id": "gas_cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_high_limit",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_thermal_cutoff"
+        },
+        {
+          "id": "gas_cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace thermal cut-off and high-limit thermostat.",
+          "stepId": "gas_thermal_cutoff"
+        },
+        {
+          "id": "gas_hilimit_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_valve_next",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_high_limit"
+        },
+        {
+          "id": "gas_hilimit_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_hilimit",
+          "terminal": true,
+          "oemOutcome": "Replace high-limit thermostat and thermal cut-off.",
+          "stepId": "gas_high_limit"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3-gas",
+        "oemTestTitle": "Heater Test \u2014 Gas Dryer",
+        "pages": [
+          82,
+          83
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-heater-gas",
+        "pages": [
+          82,
+          83
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-heater-gas",
+            "pages": [
+              82,
+              83
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-moisture-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #4: Moisture Sensor",
+      "purpose": "Moisture Sensor Test",
+      "prerequisites": [],
+      "componentIds": [
+        "moisture_sensor"
+      ],
+      "tags": [
+        "long_dry",
+        "F28",
+        "F29"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "diag_mode_entry",
+          "order": 3,
+          "type": "instruction",
+          "title": "Enter diagnostic test mode",
+          "body": "Activate diagnostic test mode and advance past saved fault codes. Machine fully assembled.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Activate diagnostic test mode and advance past saved fault codes. Machine fully assembled."
+        },
+        {
+          "id": "door_short_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Door open short check",
+          "body": "Open dryer door. If beep + alphanumeric display immediately, short exists in moisture sensor system \u2014 inspect harness and sensor.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_short",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wet_cloth_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_found",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_short",
+              "terminal": true,
+              "oemOutcome": "Repair short in moisture sensor harness or replace sensor/MCE as needed."
+            }
+          ],
+          "sourceExcerpt": "Open dryer door. If beep + alphanumeric display immediately, short exists in moisture sensor system \u2014 inspect harness and sensor."
+        },
+        {
+          "id": "wet_cloth_test",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Wet cloth bridge test",
+          "body": "Bridge lint screen housing sensor strips with wet cloth. Beep + software revision on console = pass.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wet_pass",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "moisture_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wet_fail",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_sensor",
+              "terminal": true,
+              "oemOutcome": "Sensor failed wet-cloth test \u2014 bench test at disconnected harness."
+            }
+          ],
+          "sourceExcerpt": "Bridge lint screen housing sensor strips with wet cloth. Beep + software revision on console = pass."
+        },
+        {
+          "id": "bench_sensor",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench moisture sensor",
+          "body": "Disconnect power. Remove toe panel, disconnect sensor from harness. Measure outermost contacts on cable with red MOVs. Replace sensor/harness if shorted.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Remove toe panel, disconnect sensor from harness. Measure outermost contacts on cable with red MOVs. Replace sensor/harness if shorted."
+        },
+        {
+          "id": "repair_short",
+          "order": 7,
+          "type": "outcome",
+          "title": "Repair moisture short",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "moisture_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Moisture sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "no_short",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wet_cloth_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_short_check"
+        },
+        {
+          "id": "short_found",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_short",
+          "terminal": true,
+          "oemOutcome": "Repair short in moisture sensor harness or replace sensor/MCE as needed.",
+          "stepId": "door_short_check"
+        },
+        {
+          "id": "wet_pass",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "moisture_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wet_cloth_test"
+        },
+        {
+          "id": "wet_fail",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_sensor",
+          "terminal": true,
+          "oemOutcome": "Sensor failed wet-cloth test \u2014 bench test at disconnected harness.",
+          "stepId": "wet_cloth_test"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "4",
+        "oemTestTitle": "Moisture Sensor Test",
+        "pages": [
+          85,
+          86
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-moisture-sensor",
+        "pages": [
+          85,
+          86
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-moisture-sensor",
+            "pages": [
+              85,
+              86
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-motor-circuit",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #2: Motor Circuit",
+      "purpose": "Motor Circuit Test",
+      "prerequisites": [],
+      "componentIds": [
+        "motor"
+      ],
+      "tags": [
+        "motor_check",
+        "wont_spin",
+        "F26"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Diagnostic mode entered (saved/active F-xx codes reviewed if applicable). Continue with component tests below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "After diagnostic entry, proceed with OEM component test steps."
+        },
+        {
+          "id": "mce_p8_p9_precheck",
+          "order": 3,
+          "type": "instruction",
+          "title": "MCE P8-4 to P9-1 pre-check",
+          "body": "Access machine control electronics. Measure resistance across P8-4 and P9-1. If 1\u20136 \u03a9, replace MCE. Otherwise continue to belt switch and motor at component.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Access machine control electronics. Measure resistance across P8-4 and P9-1. If 1\u20136 \u03a9, replace MCE. Otherwise continue to belt switch and motor at component."
+        },
+        {
+          "id": "access_motor",
+          "order": 4,
+          "type": "instruction",
+          "title": "Access belt switch and motor",
+          "body": "Remove back panel. Release drum belt from belt switch pulley. Disconnect white connector from drive motor switch.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove back panel. Release drum belt from belt switch pulley. Disconnect white connector from drive motor switch."
+        },
+        {
+          "id": "main_winding",
+          "order": 5,
+          "type": "measurement",
+          "title": "Main winding \u2014 pin 4 to pin 5",
+          "body": "At motor switch: measure main winding between lt. blue wire at pin 4 and bare copper at pin 5. Spec 2.4\u20133.6 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+              "testPoint": {
+                "connector": "Motor main",
+                "pins": "4\u20135",
+                "label": "Main winding \u2014 pin 4 to pin 5"
+              },
+              "title": "Main winding \u2014 pin 4 to pin 5"
+            }
+          ],
+          "branches": [
+            {
+              "id": "main_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "start_winding",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "main_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 main winding out of spec."
+            },
+            {
+              "id": "main_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 main winding out of spec."
+            },
+            {
+              "id": "main_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 main winding out of spec."
+            }
+          ],
+          "sourceExcerpt": "At motor switch: measure main winding between lt. blue wire at pin 4 and bare copper at pin 5. Spec 2.4\u20133.6 \u03a9."
+        },
+        {
+          "id": "start_winding",
+          "order": 6,
+          "type": "measurement",
+          "title": "Start winding \u2014 pin 4 to pin 3",
+          "body": "At motor switch: measure start winding between lt. blue at pin 4 and bare copper at pin 3. Spec 2.4\u20133.8 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+              "testPoint": {
+                "connector": "Motor start",
+                "pins": "4\u20133",
+                "label": "Start winding \u2014 pin 4 to pin 3"
+              },
+              "title": "Start winding \u2014 pin 4 to pin 3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "start_ok",
+              "label": "In spec",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "belt_switch_checkpoint",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "start_bad",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 start winding out of spec."
+            },
+            {
+              "id": "start_bad_warn",
+              "label": "Borderline / warning",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 start winding out of spec."
+            },
+            {
+              "id": "start_bad_open",
+              "label": "Open circuit",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": "Replace drive motor \u2014 start winding out of spec."
+            }
+          ],
+          "sourceExcerpt": "At motor switch: measure start winding between lt. blue at pin 4 and bare copper at pin 3. Spec 2.4\u20133.8 \u03a9."
+        },
+        {
+          "id": "belt_switch_checkpoint",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Belt switch \u2014 infinity down, few \u03a9 up",
+          "body": "With belt off pulley, belt switch should read infinity (OL). Push pulley up \u2014 should read a few ohms. Door switch with door closed: 0\u20132 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "belt_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "belt_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_belt_switch",
+              "terminal": true,
+              "oemOutcome": "Replace belt switch or door switch per failed check."
+            }
+          ],
+          "sourceExcerpt": "With belt off pulley, belt switch should read infinity (OL). Push pulley up \u2014 should read a few ohms. Door switch with door closed: 0\u20132 \u03a9."
+        },
+        {
+          "id": "replace_motor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_belt_switch",
+          "order": 9,
+          "type": "outcome",
+          "title": "Service belt/door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Motor circuit verified at component",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+          "testPoint": {
+            "connector": "Motor main",
+            "pins": "4\u20135",
+            "label": "Main winding \u2014 pin 4 to pin 5"
+          },
+          "title": "Main winding \u2014 pin 4 to pin 5"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+          "testPoint": {
+            "connector": "Motor start",
+            "pins": "4\u20133",
+            "label": "Start winding \u2014 pin 4 to pin 3"
+          },
+          "title": "Start winding \u2014 pin 4 to pin 3"
+        }
+      ],
+      "branches": [
+        {
+          "id": "main_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "start_winding",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "main_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 main winding out of spec.",
+          "stepId": "main_winding"
+        },
+        {
+          "id": "start_ok",
+          "label": "In spec",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "belt_switch_checkpoint",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad_warn",
+          "label": "Borderline / warning",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "stepId": "start_winding"
+        },
+        {
+          "id": "start_bad_open",
+          "label": "Open circuit",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": "Replace drive motor \u2014 start winding out of spec.",
+          "stepId": "start_winding"
+        },
+        {
+          "id": "belt_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_switch_checkpoint"
+        },
+        {
+          "id": "belt_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_belt_switch",
+          "terminal": true,
+          "oemOutcome": "Replace belt switch or door switch per failed check.",
+          "stepId": "belt_switch_checkpoint"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "2",
+        "oemTestTitle": "Motor Circuit Test",
+        "pages": [
+          80,
+          81
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-motor-circuit",
+        "pages": [
+          80,
+          81
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-motor-circuit",
+            "pages": [
+              80,
+              81
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-supply-connections",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #1: Supply Connections",
+      "purpose": "Supply Connections",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "supply_issue",
+        "voltage_check",
+        "no_power",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "fuel_variant",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Electric or gas dryer?",
+          "body": "Identify fuel type: WED/MED = electric element; WGD/MGD = gas burner.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fuel_electric",
+              "label": "Electric (WED/MED)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_cover_plate",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuel_gas",
+              "label": "Gas (WGD/MGD)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "gas_cover_plate",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Electric dryer terminal block vs gas dryer wire harness connection."
+        },
+        {
+          "id": "electric_cover_plate",
+          "order": 3,
+          "type": "instruction",
+          "title": "Electric \u2014 access terminal block",
+          "body": "Remove cover plate from top right rear. Verify power cord is secure at terminal block.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove cover plate from top right rear. Verify power cord is secure at terminal block."
+        },
+        {
+          "id": "electric_n_to_block",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Neutral plug to terminal block center",
+          "body": "Ohmmeter: continuity between plug neutral (N) and center terminal block contact.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "electric_n_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_identify_l1",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "electric_n_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_power_cord",
+              "terminal": true,
+              "oemOutcome": "Replace power cord \u2014 open neutral."
+            }
+          ],
+          "sourceExcerpt": "Ohmmeter: continuity between plug neutral (N) and center terminal block contact."
+        },
+        {
+          "id": "electric_identify_l1",
+          "order": 5,
+          "type": "instruction",
+          "title": "Identify L1 at terminal block",
+          "body": "Find which plug terminal connects to left-most terminal block contact (L1 / black wire). Note for step 6.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Find which plug terminal connects to left-most terminal block contact (L1 / black wire). Note for step 6."
+        },
+        {
+          "id": "electric_l1_to_p9",
+          "order": 6,
+          "type": "visual_check",
+          "title": "L1 plug to P9-2 at MCE",
+          "body": "Access MCE without disconnecting board wiring. Continuity from L1 plug terminal to P9-2 (black).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "electric_l1_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "electric_n_to_p8",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "electric_l1_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness_or_cord",
+              "terminal": true,
+              "oemOutcome": "Secure terminal block wires or replace main harness / power cord."
+            }
+          ],
+          "sourceExcerpt": "Access MCE without disconnecting board wiring. Continuity from L1 plug terminal to P9-2 (black)."
+        },
+        {
+          "id": "electric_n_to_p8",
+          "order": 7,
+          "type": "visual_check",
+          "title": "Neutral plug to P8-3 at MCE",
+          "body": "Continuity from plug neutral (N) to P8-3 (white) on machine control board.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "electric_p8_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "console_visual_checks",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "electric_p8_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness",
+              "terminal": true,
+              "oemOutcome": "Replace main wire harness \u2014 open neutral path to MCE."
+            }
+          ],
+          "sourceExcerpt": "Continuity from plug neutral (N) to P8-3 (white) on machine control board."
+        },
+        {
+          "id": "gas_cover_plate",
+          "order": 3,
+          "type": "instruction",
+          "title": "Gas \u2014 access power connection",
+          "body": "Remove rear cover plate. Verify power cord is firmly connected to wire harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove rear cover plate. Verify power cord is firmly connected to wire harness."
+        },
+        {
+          "id": "gas_n_to_p8",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Gas \u2014 neutral to P8-3",
+          "body": "Access MCE. Continuity from plug neutral (N) to P8-3 (white). If open, test cord neutral per Figure 6.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_n_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "gas_l1_to_p9",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_n_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_power_cord",
+              "terminal": true,
+              "oemOutcome": "Replace power cord \u2014 open neutral."
+            }
+          ],
+          "sourceExcerpt": "Access MCE. Continuity from plug neutral (N) to P8-3 (white). If open, test cord neutral per Figure 6."
+        },
+        {
+          "id": "gas_l1_to_p9",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Gas \u2014 L1 plug to P9-2",
+          "body": "Continuity from L1 plug terminal to P9-2 (black) on MCE.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gas_l1_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "console_visual_checks",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "gas_l1_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_harness_or_cord",
+              "terminal": true,
+              "oemOutcome": "Replace power cord or main harness per OEM Figure 6 path."
+            }
+          ],
+          "sourceExcerpt": "Continuity from L1 plug terminal to P9-2 (black) on MCE."
+        },
+        {
+          "id": "console_visual_checks",
+          "order": 8,
+          "type": "visual_check",
+          "title": "P5 and console housing seated",
+          "body": "P5 fully inserted into MCE; console electronics and housing assembly fully seated in front console.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "console_seated_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "supply_verified_reconnect",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "console_seated_bad",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_console",
+              "terminal": true,
+              "oemOutcome": "Replace console electronics and housing assembly."
+            }
+          ],
+          "sourceExcerpt": "P5 fully inserted into MCE; console electronics and housing assembly fully seated in front console."
+        },
+        {
+          "id": "supply_verified_reconnect",
+          "order": 9,
+          "type": "instruction",
+          "title": "Reconnect and verify console diag",
+          "body": "Plug in dryer. Run Console Buttons and Indicators diagnostic test from diagnostic mode.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Plug in dryer. Run Console Buttons and Indicators diagnostic test from diagnostic mode."
+        },
+        {
+          "id": "replace_power_cord",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace power cord",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_harness_or_cord",
+          "order": 11,
+          "type": "outcome",
+          "title": "Replace harness or cord",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_harness",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace main harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_console",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace console assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "supply_verified",
+          "order": 14,
+          "type": "outcome",
+          "title": "Supply path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fuel_electric",
+          "label": "Electric (WED/MED)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_cover_plate",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuel_variant"
+        },
+        {
+          "id": "fuel_gas",
+          "label": "Gas (WGD/MGD)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "gas_cover_plate",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fuel_variant"
+        },
+        {
+          "id": "electric_n_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_identify_l1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_n_to_block"
+        },
+        {
+          "id": "electric_n_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_power_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord \u2014 open neutral.",
+          "stepId": "electric_n_to_block"
+        },
+        {
+          "id": "electric_l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "electric_n_to_p8",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_l1_to_p9"
+        },
+        {
+          "id": "electric_l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_or_cord",
+          "terminal": true,
+          "oemOutcome": "Secure terminal block wires or replace main harness / power cord.",
+          "stepId": "electric_l1_to_p9"
+        },
+        {
+          "id": "electric_p8_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_visual_checks",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "electric_n_to_p8"
+        },
+        {
+          "id": "electric_p8_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness",
+          "terminal": true,
+          "oemOutcome": "Replace main wire harness \u2014 open neutral path to MCE.",
+          "stepId": "electric_n_to_p8"
+        },
+        {
+          "id": "gas_n_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "gas_l1_to_p9",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_n_to_p8"
+        },
+        {
+          "id": "gas_n_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_power_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord \u2014 open neutral.",
+          "stepId": "gas_n_to_p8"
+        },
+        {
+          "id": "gas_l1_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "console_visual_checks",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "gas_l1_to_p9"
+        },
+        {
+          "id": "gas_l1_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_harness_or_cord",
+          "terminal": true,
+          "oemOutcome": "Replace power cord or main harness per OEM Figure 6 path.",
+          "stepId": "gas_l1_to_p9"
+        },
+        {
+          "id": "console_seated_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "supply_verified_reconnect",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "console_visual_checks"
+        },
+        {
+          "id": "console_seated_bad",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_console",
+          "terminal": true,
+          "oemOutcome": "Replace console electronics and housing assembly.",
+          "stepId": "console_visual_checks"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "1",
+        "oemTestTitle": "Supply Connections",
+        "pages": [
+          78,
+          79
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-supply-connections",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-supply-connections",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-thermal-cutoff",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3c: Thermal Cut-Off",
+      "purpose": "Thermal Cut-Off Test",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_cutoff"
+      ],
+      "tags": [
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_cutoff",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal cut-off",
+          "body": "Remove toe panel. Locate thermal cut-off per Figure 11.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Locate thermal cut-off per Figure 11."
+        },
+        {
+          "id": "cutoff_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Thermal cut-off continuity",
+          "body": "Does the thermal cut-off show continuity (0 \u03a9)? Open = replace cut-off and high-limit thermostat; check vent path and heater (electric).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cutoff_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "cutoff_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cutoff_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cutoff",
+              "terminal": true,
+              "oemOutcome": "Replace thermal cut-off and high-limit thermostat; inspect exhaust and heater."
+            }
+          ],
+          "sourceExcerpt": "Does the thermal cut-off show continuity (0 \u03a9)? Open = replace cut-off and high-limit thermostat; check vent path and heater (electric)."
+        },
+        {
+          "id": "replace_cutoff",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace cut-off & high-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "cutoff_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Cut-off verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cutoff_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "cutoff_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cutoff_continuity"
+        },
+        {
+          "id": "cutoff_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff",
+          "terminal": true,
+          "oemOutcome": "Replace thermal cut-off and high-limit thermostat; inspect exhaust and heater.",
+          "stepId": "cutoff_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3c",
+        "oemTestTitle": "Thermal Cut-Off Test",
+        "pages": [
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-thermal-cutoff",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-thermal-cutoff",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w8178559-thermal-fuse",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "title": "TEST #3b: Thermal Fuse",
+      "purpose": "Thermal Fuse Test",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse"
+      ],
+      "tags": [
+        "no_heat",
+        "thermal_fuse_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Electrical Shock Hazard. Disconnect power before accessing."
+        },
+        {
+          "id": "access_thermal_fuse",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal fuse",
+          "body": "Remove toe panel. Electric: fuse in series with drive motor. Gas: fuse in series with gas valve. See Figure 11.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Remove toe panel. Electric: fuse in series with drive motor. Gas: fuse in series with gas valve. See Figure 11."
+        },
+        {
+          "id": "thermal_fuse_continuity",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Thermal fuse continuity",
+          "body": "With ohmmeter on thermal fuse terminals: does the fuse show continuity (0 \u03a9)? Open circuit = failed fuse.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fuse_ok",
+              "label": "Yes / passes",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermal_fuse_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fuse_open",
+              "label": "No / failed",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_thermal_fuse",
+              "terminal": true,
+              "oemOutcome": "Replace failed thermal fuse."
+            }
+          ],
+          "sourceExcerpt": "With ohmmeter on thermal fuse terminals: does the fuse show continuity (0 \u03a9)? Open circuit = failed fuse."
+        },
+        {
+          "id": "replace_thermal_fuse",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace thermal fuse",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermal_fuse_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Thermal fuse verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fuse_ok",
+          "label": "Yes / passes",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_fuse_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_fuse_continuity"
+        },
+        {
+          "id": "fuse_open",
+          "label": "No / failed",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermal_fuse",
+          "terminal": true,
+          "oemOutcome": "Replace failed thermal fuse.",
+          "stepId": "thermal_fuse_continuity"
+        }
+      ],
+      "source": {
+        "manualId": "W8178559",
+        "manualTitle": "Whirlpool Duet Sport Front-Load Dryer (Job Aid L-79)",
+        "oemTestNumber": "3b",
+        "oemTestTitle": "Thermal Fuse Test",
+        "pages": [
+          84
+        ],
+        "extractedTextFile": "backend/docs/manuals/jobaid-8178559-l-79 whirlpool fl dryer 2013 era-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W8178559",
+        "platformId": "whirlpool_duet_sport_dryer",
+        "procedureId": "w8178559-thermal-fuse",
+        "pages": [
+          84
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W8178559",
+            "platformId": "whirlpool_duet_sport_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w8178559-thermal-fuse",
+            "pages": [
+              84
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

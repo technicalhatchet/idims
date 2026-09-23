@@ -1,0 +1,489 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "Samsung",
+  "label": "Samsung Bespoke French-door refrigerator (RF23BB)",
+  "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_fridge_bespoke",
+      "platformId": "samsung_fridge_bespoke",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "label": "Samsung Bespoke 4-door RF23BB / RF23BB8600",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "RF23BB*",
+          "RF23B*"
+        ],
+        "platformIds": [
+          "samsung_fridge_bespoke"
+        ]
+      },
+      "oemTermAliases": {
+        "main pcb": "control_board",
+        "main pba": "control_board",
+        "engineer mode": "control_board",
+        "self diagnosis": "control_board",
+        "display panel": "user_interface",
+        "display_panel": "user_interface",
+        "inverter board": "inverter_board",
+        "inverter_board": "inverter_board",
+        "evap_fan": "evaporator_fan",
+        "f-fan": "evaporator_fan",
+        "fridge fan": "evaporator_fan",
+        "freezer fan": "evaporator_fan",
+        "c-fan": "evaporator_fan",
+        "damper_motor": "damper_motor",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "ice maker": "ice_maker",
+        "autofill": "water_dispenser"
+      },
+      "displayTerms": {
+        "control_board": "Main PBA (engineer mode / self-diagnosis orchestration)",
+        "user_interface": "Display panel (41E main\u2194panel communication)",
+        "evaporator_fan": "Multi-compartment fans (F/R/C \u2014 canonical; ice-room platform)",
+        "air_damper": "Flex-zone damper heater (135 \u03a9 / 24 \u03a9)",
+        "defrost_heater": "Freezer defrost heater (CN20)",
+        "temperature_sensor": "Compartment NTCs (R/F/flex/ambient \u2014 conditional scopes)",
+        "compressor": "Inverter PBA-mediated compressor (conditional)",
+        "inverter_board": "Inverter PBA / IPM (platform compressor_controller)",
+        "ice_maker": "Ice subsystem (conditional optional feature)",
+        "water_dispenser": "AutoFill overflow path (conditional optional feature)"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "inverter_pba_mediated",
+          "procedureIds": [
+            "samsungbespoke-compressor-inverter"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "samsungbespoke-fridge-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "samsungbespoke-freezer-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "flex_zone",
+          "procedureIds": [
+            "samsungbespoke-flex-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "ambient",
+          "procedureIds": [
+            "samsungbespoke-ambient-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "samsungbespoke-ice-maker-sensor",
+            "samsungbespoke-ice-room-fan",
+            "samsungbespoke-ice-room-heater"
+          ]
+        },
+        {
+          "conditionalConceptId": "water_dispenser",
+          "procedureIds": [
+            "samsungbespoke-autofill-overflow"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "inverter_board",
+            "name": "Compressor inverter PBA",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "inverter PBA"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "44E/84C inverter-mediated drive \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Flex-zone damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Damper heater \u03a9 on damper_motor seed \u2014 Samsung air_damper implementation."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F-DEF)",
+            "aliases": [
+              "f-def",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (R-DEF)",
+            "aliases": [
+              "r-def",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "ice_pipe_heater",
+            "name": "Ice pipe / duct heater",
+            "aliases": [
+              "ice pipe heater",
+              "ice_pipe_heater"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Ice subsystem hardware \u2014 conditional ice_maker implementation only."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 not components[] promotion."
+          },
+          {
+            "id": "ice_room_fan",
+            "name": "Ice room evaporator fan",
+            "aliases": [
+              "ice room fan",
+              "ice-room fan"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "ice_room",
+            "note": "Compartment-specific fan under canonical evaporator_fan \u2014 platform detail."
+          },
+          {
+            "id": "inverter_board",
+            "name": "Compressor inverter PBA",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "inverter PBA"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "44E/84C inverter-mediated drive \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "damper_motor",
+            "name": "Flex-zone damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Damper heater \u03a9 on damper_motor seed \u2014 Samsung air_damper implementation."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F-DEF)",
+            "aliases": [
+              "f-def",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (R-DEF)",
+            "aliases": [
+              "r-def",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "ice_pipe_heater",
+            "name": "Ice pipe / duct heater",
+            "aliases": [
+              "ice pipe heater",
+              "ice_pipe_heater"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Ice subsystem hardware \u2014 conditional ice_maker implementation only."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 not components[] promotion."
+          },
+          {
+            "id": "ice_room_fan",
+            "name": "Ice room evaporator fan",
+            "aliases": [
+              "ice room fan",
+              "ice-room fan"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "ice_room",
+            "note": "Compartment-specific fan under canonical evaporator_fan \u2014 platform detail."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "samsungbespoke-engineer-mode-rf23bb-inner",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-fhub-engineer-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-self-diagnosis-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-main-panel-comm",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-freezer-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungbespoke-freezer-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungbespoke-fridge-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungbespoke-convertible-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "convertible"
+        },
+        {
+          "procedureId": "samsungbespoke-damper-heater-135",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-damper-heater-24",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-compressor-inverter",
+          "conditionalConcepts": [
+            "compressor"
+          ],
+          "instanceScope": "inverter_pba_mediated"
+        },
+        {
+          "procedureId": "samsungbespoke-fridge-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungbespoke-freezer-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungbespoke-flex-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "flex_zone"
+        },
+        {
+          "procedureId": "samsungbespoke-ambient-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "ambient"
+        },
+        {
+          "procedureId": "samsungbespoke-ice-maker-sensor",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungbespoke-autofill-overflow",
+          "conditionalConcepts": [
+            "water_dispenser"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "samsung-door-switch-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_insufficient_procedure_evidence",
+          "note": "No standalone RF23BB door-switch procedure \u2014 do not inherit Jazz evidence."
+        },
+        {
+          "teachingId": "samsung-condenser-fan-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_standalone_diagnostic"
+        },
+        {
+          "teachingId": "samsung-humidity-abstention",
+          "procedureIds": [
+            "samsungbespoke-humidity-sensor"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_single_manufacturer_feature"
+        },
+        {
+          "teachingId": "samsung-water-level-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_insufficient_cross_manual_evidence"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "samsung-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Fd forced-defrost mode decomposes to members \u2014 aggregate remains dead."
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "samsung-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Inverter/PBA vocabulary does not resurrect cooling_system aggregate."
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "samsung-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Multi-fan topology stays under evaporator_fan + platform instances."
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorPublishedManualIds": [
+          "W10322959"
+        ],
+        "whirlpoolOverlayImportBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "samsung_rf23bb_second_manual_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-8",
+    "workPackage": "WP2",
+    "manualId": "SAMSUNG-RF23BB-FRIDGE",
+    "platformId": "samsung_fridge_bespoke",
+    "priorPublishedManualIds": [
+      "W10322959"
+    ],
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "SAMSUNG_RF23BB_FD_gate_decision_ledger_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "conditionalBindings": 7,
+      "overlayLearningEvents": 7,
+      "intentionalAbstentions": 4,
+      "newOverlaySemanticDecisions": 7,
+      "canonicalExpansion": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "publishedAt": "2026-09-16T06:25:03.886721+00:00"
+  }
+}

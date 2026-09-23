@@ -1,0 +1,476 @@
+{
+  "manualId": "SAMSUNG-TL-CG71-WASHER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-door-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorReedOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71-door-lock",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorReedOhms",
+            "stepTitle": "Reed switch (White\u2013Green)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorLockMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71-door-lock",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorLockMotorOhms",
+            "stepTitle": "Lock motor (Black\u2013Brown)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-door-lock-meas-samsungTlA50WasherDoorLockContactOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71-door-lock",
+      "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-door-lock",
+        "pages": [
+          31,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-door-lock",
+            "pages": [
+              31,
+              34
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDoorLockContactOhms",
+            "stepTitle": "Lock/unlock contacts"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Drain pump (5C)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-drain-pump-meas-samsungTlA50WasherDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71-drain-pump",
+      "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-drain-pump",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-drain-pump",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherDrainPumpOhms",
+            "stepTitle": "Drain pump resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-leak-check-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-leak-check",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Water leakage (LC, LC1)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-leak-check",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-leak-check",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Washing motor (3C)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-motor-circuit-meas-samsungTlA50WasherMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungtlcg71-motor-circuit",
+      "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-motor-circuit",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-motor-circuit",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungTlA50WasherMotorOhms",
+            "stepTitle": "Motor winding resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-overflow-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-overflow",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Overflow (OC)",
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-overflow",
+        "pages": [
+          34,
+          36
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-overflow",
+            "pages": [
+              34,
+              36
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-unbalance-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-unbalance",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-2: Unbalance (UB)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-unbalance",
+        "pages": [
+          30,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-unbalance",
+            "pages": [
+              30,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-CG71-WASHER-samsungtlcg71-water-level-sensor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungtlcg71-water-level-sensor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a75-3: Water level sensor (1C)",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-TL-CG71-WASHER",
+        "platformId": "samsung_tl_washer_cg71",
+        "procedureId": "samsungtlcg71-water-level-sensor",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-TL-CG71-WASHER",
+            "platformId": "samsung_tl_washer_cg71"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungtlcg71-water-level-sensor",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

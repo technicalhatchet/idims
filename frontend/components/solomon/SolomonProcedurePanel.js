@@ -43,7 +43,6 @@ function ProcedureRunCard({
     measurementDraft,
     setMeasurementDraft,
     stepIndex,
-    stepTotal,
     isRunning,
     isComplete,
     start,
@@ -59,7 +58,7 @@ function ProcedureRunCard({
   const statusLabel = isComplete
     ? 'Complete'
     : isRunning
-      ? `Step ${stepIndex} of ${stepTotal}`
+      ? (stepIndex > 0 ? `Step ${stepIndex}` : 'In progress')
       : savedRunState
         ? 'Paused'
         : 'Not started';
@@ -88,6 +87,23 @@ function ProcedureRunCard({
                   {badge}
                 </span>
               ))}
+            </div>
+          ) : null}
+          {recommendation.canonicalDomainMatches?.length ? (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {recommendation.canonicalDomainMatches.map((domainId) => (
+                <span
+                  key={domainId}
+                  className="rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-medium text-sky-100"
+                >
+                  {domainId.replace(/_failure$/, '').replace(/_/g, ' ')}
+                </span>
+              ))}
+              {recommendation.canonicalBoost ? (
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-200">
+                  +{recommendation.canonicalBoost} canonical
+                </span>
+              ) : null}
             </div>
           ) : null}
         </div>
@@ -120,7 +136,6 @@ function ProcedureRunCard({
             <ProcedureStepView
               step={currentStep}
               stepIndex={stepIndex}
-              stepTotal={stepTotal}
               measurementDraft={measurementDraft}
               onMeasurementDraftChange={setMeasurementDraft}
               onCheckpoint={submitCheckpoint}
@@ -309,6 +324,7 @@ export default function SolomonProcedurePanel({
         platformLabel={platformBanner?.platformLabel}
         equipmentMake={platformBanner?.equipmentMake}
         equipmentModel={platformBanner?.equipmentModel}
+        canonicalDomainLabels={platformBanner?.canonicalDomainLabels || []}
         compact={isCompact}
       />
     );
@@ -321,6 +337,7 @@ export default function SolomonProcedurePanel({
         platformLabel={platformBanner.platformLabel}
         equipmentMake={platformBanner.equipmentMake}
         equipmentModel={platformBanner.equipmentModel}
+        canonicalDomainLabels={platformBanner.canonicalDomainLabels || []}
         compact={isCompact}
       />
     );
@@ -333,6 +350,7 @@ export default function SolomonProcedurePanel({
           platformLabel={platformBanner.platformLabel}
           equipmentMake={platformBanner.equipmentMake}
           equipmentModel={platformBanner.equipmentModel}
+          canonicalDomainLabels={platformBanner.canonicalDomainLabels || []}
           compact={isCompact}
           className={isCompact ? 'mb-2' : 'mb-3'}
         />

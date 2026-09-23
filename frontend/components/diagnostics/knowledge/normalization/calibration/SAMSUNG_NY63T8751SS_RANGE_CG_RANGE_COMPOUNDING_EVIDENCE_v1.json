@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_evidence",
+  "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+  "platformId": "samsung_range_ny63",
+  "compoundingPhase": "CG-RANGE-COMPOUNDING",
+  "compoundingSequence": 3,
+  "generatedAt": "2026-09-17T06:00:00+00:00",
+  "priorSequenceClosed": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json",
+  "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+  "gateArtifact": "SAMSUNG_NY63T8751SS_RANGE_overlay_mapping_table_v1.json",
+  "overlayFile": "samsung_range_ny63.json",
+  "canonicalOntology": {
+    "id": "range_oven",
+    "revision": "rev1",
+    "immutable": true,
+    "adoptedFromHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54"
+  },
+  "compoundingCurve": {
+    "framing": "functional_realization_hierarchy",
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalInstanceScopeBinding": 1,
+    "conditionalBinding": 3,
+    "overlayImplementation": 12,
+    "proceduresBound": 23,
+    "measurementsBound": 20,
+    "decisionBranchesExecutable": 13,
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "note": "Third range compounding — gas cooktop under surface_heating_system; electric oven under instance scopes; shared control_board without dual_fuel canonical ontology."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "surfaceHeatingAbsorbsGasCooktop": true,
+    "instanceScopeAbsorbsElectricOvenElements": true,
+    "conditionalAbsorbsFanDoorThermal": true,
+    "dualDomainUnderControlBoard": true,
+    "isolatedFromNx60AndNe58Overlays": true,
+    "verdict": "NY63 compounding realizes dual-energy as surface_heating_system (gas) + electric instance scopes under shared range_oven contract — no dual_fuel_range.json."
+  },
+  "provenanceChain": {
+    "flow": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json → SAMSUNG_NY63T8751SS_RANGE_overlay_mapping_table_v1.json → samsung_range_ny63.json",
+    "fitWitnessReferenceOnly": "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json",
+    "notRetroactiveFitEvidence": true
+  },
+  "nextSteps": [
+    "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json integrity + regression green",
+    "STOP — do not open W11174814 corroboration compounding until NY63 audit green"
+  ]
+}

@@ -1,0 +1,1373 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg67_samsung_tl_washer_cg3_observation",
+  "phase": "CG-6.7",
+  "workPackage": "WP1.1_boundary_cleanup_reobservation",
+  "experiment": "Manufacturer-boundary test \u2014 Samsung TL WA50R5200 observed against frozen top_load_washer rev1 without Whirlpool TL overlay imports.",
+  "certificationStatement": "Not compounding. Not gate. Not promotion. Observation only.",
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "platformId": "samsung_tl_washer_a50",
+  "smokeModel": "WA50R5200",
+  "ontologyId": "top_load_washer",
+  "ontologyFrozen": true,
+  "ontologyFrozenRevision": "rev1",
+  "ontologyHash": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+  "generatedAt": "2026-09-15T21:54:17.166072+00:00",
+  "publishBlocked": true,
+  "priorPhaseClosed": "CG66_WHIRLPOOL_TOP_LOAD_WASHER_FAMILY_LOCK_v1.json",
+  "hierarchyShape": {
+    "canonical": "top_load_washer rev1 (frozen \u2014 do not modify without contradiction)",
+    "targetManufacturerOverlay": "samsung_top_load_washer.json (does not exist yet)",
+    "whirlpoolTlOverlayPublished": true,
+    "whirlpoolTlOverlayUsedForResolution": false,
+    "isolationGoal": "Samsung TL knowledge must resolve through frozen rev1 functional ontology or become Samsung-specific knowledge \u2014 never inherit because Whirlpool TL exists.",
+    "hardBoundary": "If a Samsung TL candidate can only be resolved because a Whirlpool TL overlay exists, it is NOT inherited knowledge."
+  },
+  "procedureInventory": {
+    "plannedCount": 15,
+    "normalizedCount": 15,
+    "plannedProcedureIds": [
+      "samsungtla50-water-level-sensor",
+      "samsungtla50-motor-circuit",
+      "samsungtla50-inlet-valves",
+      "samsungtla50-drain-pump",
+      "samsungtla50-communication",
+      "samsungtla50-door-lock",
+      "samsungtla50-hmi-check",
+      "samsungtla50-leak-check",
+      "samsungtla50-unbalance",
+      "samsungtla50-mems-sensor",
+      "samsungtla50-overflow",
+      "samsungtla50-wash-heater",
+      "samsungtla50-wash-thermistor",
+      "samsungtla50-power-supply",
+      "samsungtla50-clutch"
+    ],
+    "bundleIds": [
+      "samsungtla50-diagnostic-code-check",
+      "samsungtla50-manual-check-mode",
+      "samsungtla50-smart-install-entry"
+    ],
+    "bundleCount": 3
+  },
+  "pipelineCounts": {
+    "procedures": 15,
+    "mappingCandidates": 26,
+    "overlayCandidates": 13,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "normalizeRun": {
+    "manualId": "SAMSUNG-TL-A50-WASHER",
+    "generatedAt": null,
+    "pipelineOntologyId": "top_load_washer",
+    "pipelineOntologyNote": "CG-3 matcher routes samsung_tl_* through top_load_washer rev1 ontology and top_load functional aliases \u2014 not front_load_washer or Samsung FL overlays."
+  },
+  "threeMetrics": {
+    "canonicalInheritance": 23,
+    "samsungKnowledgeCreation": 2,
+    "canonicalExpansionCandidates": 0,
+    "unresolvedProceduralNoise": 14,
+    "pipelineFlOntologyPollution": 0,
+    "pipelineFlTestTargetPollution": 0,
+    "forbiddenWhirlpoolDependent": 0
+  },
+  "threeMetricsDefinitions": {
+    "canonicalInheritance": "Samsung evidence resolves directly to rev1 functional concepts",
+    "samsungKnowledgeCreation": "New manufacturer/platform/model implementation knowledge",
+    "canonicalExpansionCandidates": "Evidence that potentially challenges frozen ontology \u2014 observation only, no promotion"
+  },
+  "classificationBuckets": {
+    "samsung_knowledge_creation": 2,
+    "unresolved_procedural_noise": 14,
+    "canonical_inheritance": 23
+  },
+  "matcherLayers": {
+    "compound:unresolved": 14,
+    "canonical_component_id": 4,
+    "top_load_functional_alias": 3,
+    "unresolved": 2,
+    "compound:canonical_alias_suffix": 2,
+    "component_aliases": 1,
+    "canonical_ontology_alias": 1
+  },
+  "seedComponentHistogram": {
+    "main_control": 3,
+    "drain_pump": 2,
+    "inlet_valve": 2,
+    "drive_motor": 2,
+    "water_level_sensor": 2,
+    "wash_ntc": 2,
+    "clutch": 1,
+    "door_lock": 1,
+    "user_interface": 1,
+    "supply": 1,
+    "wash_heater": 1
+  },
+  "procedureLevelClassification": [
+    {
+      "procedureId": "samsungtla50-clutch",
+      "seedComponentIds": [
+        "clutch"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "clutch"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-communication",
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "main_control"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-door-lock",
+      "seedComponentIds": [
+        "door_lock"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "door_lock"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-drain-pump",
+      "seedComponentIds": [
+        "drain_pump"
+      ],
+      "rev1DirectHits": [
+        "drain_pump"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-hmi-check",
+      "seedComponentIds": [
+        "user_interface"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "user_interface"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-inlet-valves",
+      "seedComponentIds": [
+        "inlet_valve"
+      ],
+      "rev1DirectHits": [
+        "inlet_valve"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-leak-check",
+      "seedComponentIds": [
+        "drain_pump"
+      ],
+      "rev1DirectHits": [
+        "drain_pump"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-mems-sensor",
+      "seedComponentIds": [
+        "main_control"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "main_control"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-motor-circuit",
+      "seedComponentIds": [
+        "drive_motor"
+      ],
+      "rev1DirectHits": [
+        "drive_motor"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-overflow",
+      "seedComponentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "rev1DirectHits": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-power-supply",
+      "seedComponentIds": [
+        "supply",
+        "main_control"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "supply",
+        "main_control"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-unbalance",
+      "seedComponentIds": [
+        "drive_motor"
+      ],
+      "rev1DirectHits": [
+        "drive_motor"
+      ],
+      "samsungPlatformCandidates": []
+    },
+    {
+      "procedureId": "samsungtla50-wash-heater",
+      "seedComponentIds": [
+        "wash_heater",
+        "wash_ntc"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "wash_heater",
+        "wash_ntc"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-wash-thermistor",
+      "seedComponentIds": [
+        "wash_ntc"
+      ],
+      "rev1DirectHits": [],
+      "samsungPlatformCandidates": [
+        "wash_ntc"
+      ]
+    },
+    {
+      "procedureId": "samsungtla50-water-level-sensor",
+      "seedComponentIds": [
+        "water_level_sensor"
+      ],
+      "rev1DirectHits": [
+        "water_level_sensor"
+      ],
+      "samsungPlatformCandidates": []
+    }
+  ],
+  "samsungPlatformConceptsObserved": [
+    "clutch",
+    "door_lock",
+    "main_control",
+    "supply",
+    "user_interface",
+    "wash_heater",
+    "wash_ntc"
+  ],
+  "procedureLevelSamsungPlatformCount": 7,
+  "measurementKnowledgeIds": [
+    "samsungTlA50WasherDoorLockContactOhms",
+    "samsungTlA50WasherDoorLockMotorOhms",
+    "samsungTlA50WasherDoorReedOhms",
+    "samsungTlA50WasherDrainPumpOhms",
+    "samsungTlA50WasherMotorOhms"
+  ],
+  "samsungSpecificSeedTerms": [
+    "clutch",
+    "door_lock",
+    "drain_pump",
+    "drive_motor",
+    "inlet_valve",
+    "main_control",
+    "supply",
+    "user_interface",
+    "wash_heater",
+    "wash_ntc",
+    "water_level_sensor"
+  ],
+  "manufacturerIsolation": {
+    "whirlpoolTlLeakCount": 0,
+    "whirlpoolFlLeakCount": 0,
+    "samsungFlLeakCount": 0,
+    "whirlpoolOverlayDependentCount": 0,
+    "whirlpoolOverlayDependent": [],
+    "crossLeaks": {
+      "whirlpoolTl": [],
+      "whirlpoolFl": [],
+      "samsungFl": []
+    },
+    "verdict": "clean"
+  },
+  "adversarialReview": {
+    "driveArchitecture": {
+      "question": "Motor \u2192 clutch/actuator/mode mechanism \u2192 agitate/spin: what functional role does each implementation fulfill? Do not map physical mechanisms into canonical graph.",
+      "rev1FunctionalAnchor": "transmission_or_shifter (canonical) \u2014 clutch/hall/actuator overlay-only",
+      "rev1Forbidden": "drive_system",
+      "seedClutchProcedure": "samsungtla50-clutch",
+      "seedMotorProcedure": "samsungtla50-motor-circuit",
+      "procedureEvidenceSample": [
+        {
+          "procedureId": "samsungtla50-clutch",
+          "stepId": "clutch_power_cycle",
+          "seedComponentIds": [
+            "clutch"
+          ],
+          "matchedPatterns": [
+            "clutch"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-clutch",
+          "stepId": "clutch_inspect",
+          "seedComponentIds": [
+            "clutch"
+          ],
+          "matchedPatterns": [
+            "clutch",
+            "motor",
+            "hall\\s+sensor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-clutch",
+          "stepId": "replace_clutch_out",
+          "seedComponentIds": [
+            "clutch"
+          ],
+          "matchedPatterns": [
+            "clutch"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-clutch",
+          "stepId": "clutch_verified",
+          "seedComponentIds": [
+            "clutch"
+          ],
+          "matchedPatterns": [
+            "clutch"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "lock_motor_ohms",
+          "seedComponentIds": [
+            "door_lock"
+          ],
+          "matchedPatterns": [
+            "motor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "replace_lock_motor",
+          "seedComponentIds": [
+            "door_lock"
+          ],
+          "matchedPatterns": [
+            "motor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "service_mode_before_manual_check",
+          "seedComponentIds": [
+            "door_lock"
+          ],
+          "matchedPatterns": [
+            "spin"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-drain-pump",
+          "stepId": "pump_ohms",
+          "seedComponentIds": [
+            "drain_pump"
+          ],
+          "matchedPatterns": [
+            "motor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-drain-pump",
+          "stepId": "service_mode_before_manual_check",
+          "seedComponentIds": [
+            "drain_pump"
+          ],
+          "matchedPatterns": [
+            "spin"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-inlet-valves",
+          "stepId": "service_mode_before_manual_check",
+          "seedComponentIds": [
+            "inlet_valve"
+          ],
+          "matchedPatterns": [
+            "spin"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-leak-check",
+          "stepId": "leak_inspection",
+          "seedComponentIds": [
+            "drain_pump"
+          ],
+          "matchedPatterns": [
+            "motor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        },
+        {
+          "procedureId": "samsungtla50-motor-circuit",
+          "stepId": "disconnect_motor",
+          "seedComponentIds": [
+            "drive_motor"
+          ],
+          "matchedPatterns": [
+            "motor"
+          ],
+          "functionalQuestion": "What functional role does this implementation fulfill (motor output / mode selection / agitate / spin)?"
+        }
+      ],
+      "observationVerdict": "clutch is Samsung platform implementation candidate for transmission_or_shifter \u2014 not canonical expansion"
+    },
+    "lidAuthorization": {
+      "question": "Resolve Samsung lid switch / lid lock / lock switch / reed switch / lid sensor from functional role + procedure evidence \u2014 not Whirlpool alias string similarity.",
+      "rev1Concepts": {
+        "lid_switch": "conditional \u2014 cycle-start authorization",
+        "lid_lock": "spin-safety authorization"
+      },
+      "samsungDoorLockSeed": "door_lock on samsungtla50-door-lock",
+      "reedSwitchInProcedure": true,
+      "procedureEvidenceSample": [
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "door_closed",
+          "matchedPatterns": [
+            "door\\s+lock",
+            "door\\s+closed"
+          ],
+          "excerpt": "Ensure door closed with no laundry caught. Check door lock tray for debris."
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "reed_ohms",
+          "matchedPatterns": [
+            "reed\\s+switch"
+          ],
+          "excerpt": "Approx 0.2 \u03a9 at reed switch."
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "replace_reed",
+          "matchedPatterns": [
+            "reed\\s+switch"
+          ],
+          "excerpt": ""
+        },
+        {
+          "procedureId": "samsungtla50-door-lock",
+          "stepId": "replace_lock_unit",
+          "matchedPatterns": [
+            "lock\\s+switch"
+          ],
+          "excerpt": ""
+        }
+      ],
+      "observationVerdict": "Samsung door_lock seed + reed/lock contact measurements require functional split review at gate \u2014 do not fabricate lid_switch matcher alias from Whirlpool pattern"
+    }
+  },
+  "canonicalOntologyWatch": {
+    "rev1ComponentCount": 17,
+    "conditionalComponents": [
+      "lid_switch"
+    ],
+    "forbiddenComponents": [
+      "drive_system"
+    ],
+    "expansionCandidates": [],
+    "flOntologyPollution": [],
+    "verdict": "contained"
+  },
+  "conflicts": [],
+  "conflictCount": 0,
+  "mappingSample": [
+    {
+      "id": "map-samsung-tl-a50-washer-unresolved-samsungtla50-clutch-clutch",
+      "sourceTerm": "clutch",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "samsung_knowledge_creation",
+      "matcherLayers": [
+        "unresolved",
+        "unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-clutch-position-(pc,-pc1)",
+      "sourceTerm": "\u00a75-2: Clutch position (PC, PC1)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-main_control-control_board",
+      "sourceTerm": "main_control",
+      "canonicalId": "control_board",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "component_aliases"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-pba-communication-(ac)",
+      "sourceTerm": "\u00a75-3: PBA communication (AC)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-door_lock-lid_lock",
+      "sourceTerm": "door_lock",
+      "canonicalId": "lid_lock",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "top_load_functional_alias"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
+      "sourceTerm": "\u00a75-3: Door lock (DC, DC1, DC2)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-drain_pump-drain_pump",
+      "sourceTerm": "drain_pump",
+      "canonicalId": "drain_pump",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "canonical_component_id"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-drain-pump-(5c)",
+      "sourceTerm": "\u00a75-3: Drain pump (5C)",
+      "canonicalId": "drain_pump",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "compound:canonical_alias_suffix"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+      "sourceTerm": "user_interface",
+      "canonicalId": "hmi_control",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "canonical_ontology_alias"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-control-panel-(bc2)",
+      "sourceTerm": "\u00a75-3: Control panel (BC2)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+      "sourceTerm": "inlet_valve",
+      "canonicalId": "inlet_valve",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "canonical_component_id"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-supply-(4c)",
+      "sourceTerm": "\u00a75-3: Water supply (4C)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-water-leakage-(lc,-lc1)",
+      "sourceTerm": "\u00a75-3: Water leakage (LC, LC1)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-mems-sensor-(8c)",
+      "sourceTerm": "\u00a75-3: MEMS sensor (8C)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor",
+      "sourceTerm": "drive_motor",
+      "canonicalId": "drive_motor",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "canonical_component_id"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-washing-motor-(3c)",
+      "sourceTerm": "\u00a75-3: Washing motor (3C)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-water_level_sensor-water_level_sensor",
+      "sourceTerm": "water_level_sensor",
+      "canonicalId": "water_level_sensor",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "canonical_component_id"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-overflow-(oc)",
+      "sourceTerm": "\u00a75-3: Overflow (OC)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-supply-power_supply",
+      "sourceTerm": "supply",
+      "canonicalId": "power_supply",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "top_load_functional_alias"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-power-(uc,-9c1,-9c2)",
+      "sourceTerm": "\u00a75-3: Power (UC, 9C1, 9C2)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-unbalance-(ub)",
+      "sourceTerm": "\u00a75-2: Unbalance (UB)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-wash_heater",
+      "sourceTerm": "wash_heater",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-wash_ntc-temperature_sensor",
+      "sourceTerm": "wash_ntc",
+      "canonicalId": "temperature_sensor",
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [
+        "top_load_functional_alias"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-wash-heater-(hc,-hc1)",
+      "sourceTerm": "\u00a75-3: Wash heater (HC, HC1)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "map-SAMSUNG-TL-A50-WASHER-compound-temperature-sensors-(tc1\u2013tc4)",
+      "sourceTerm": "\u00a75-3: Temperature sensors (TC1\u2013TC4)",
+      "canonicalId": null,
+      "canonicalTestTarget": null,
+      "componentIds": [],
+      "bucket": "unresolved_procedural_noise",
+      "matcherLayers": [
+        "compound:unresolved"
+      ],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    }
+  ],
+  "overlaySample": [
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-lid_lock_test",
+      "sourceTerm": "samsungtla50-door-lock",
+      "canonicalId": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "componentIds": [
+        "door_lock"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorReedOhms",
+      "sourceTerm": "samsungtla50-door-lock",
+      "canonicalId": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockMotorOhms",
+      "sourceTerm": "samsungtla50-door-lock",
+      "canonicalId": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockContactOhms",
+      "sourceTerm": "samsungtla50-door-lock",
+      "canonicalId": null,
+      "canonicalTestTarget": "lid_lock_test",
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-drain-pump-drain_test",
+      "sourceTerm": "samsungtla50-drain-pump",
+      "canonicalId": null,
+      "canonicalTestTarget": "drain_test",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-drain-pump-meas-samsungTlA50WasherDrainPumpOhms",
+      "sourceTerm": "samsungtla50-drain-pump",
+      "canonicalId": null,
+      "canonicalTestTarget": "drain_test",
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-leak-check-drain_test",
+      "sourceTerm": "samsungtla50-leak-check",
+      "canonicalId": null,
+      "canonicalTestTarget": "drain_test",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-motor-circuit-motor_output_test",
+      "sourceTerm": "samsungtla50-motor-circuit",
+      "canonicalId": null,
+      "canonicalTestTarget": "motor_output_test",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-motor-circuit-meas-samsungTlA50WasherMotorOhms",
+      "sourceTerm": "samsungtla50-motor-circuit",
+      "canonicalId": null,
+      "canonicalTestTarget": "motor_output_test",
+      "componentIds": [],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-overflow-drain_test",
+      "sourceTerm": "samsungtla50-overflow",
+      "canonicalId": null,
+      "canonicalTestTarget": "drain_test",
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-power-supply-motor_command_test",
+      "sourceTerm": "samsungtla50-power-supply",
+      "canonicalId": null,
+      "canonicalTestTarget": "motor_command_test",
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "bucket": "samsung_knowledge_creation",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-unbalance-motor_output_test",
+      "sourceTerm": "samsungtla50-unbalance",
+      "canonicalId": null,
+      "canonicalTestTarget": "motor_output_test",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    },
+    {
+      "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-water-level-sensor-drain_test",
+      "sourceTerm": "samsungtla50-water-level-sensor",
+      "canonicalId": null,
+      "canonicalTestTarget": "drain_test",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "bucket": "canonical_inheritance",
+      "matcherLayers": [],
+      "whirlpoolOverlayDependent": false,
+      "crossFamilyLeaks": {
+        "whirlpoolTl": [],
+        "whirlpoolFl": [],
+        "samsungFl": []
+      },
+      "wouldRequireWhirlpoolTlOverlay": false
+    }
+  ],
+  "hardGates": {
+    "topLoadWasherRev1Unchanged": true,
+    "noGateTable": true,
+    "noPromotion": true,
+    "noWhirlpoolTlOverlayImport": true,
+    "autoPublish": false,
+    "autoApprove": false
+  },
+  "primaryMeasurement": "How much Samsung TL knowledge resolves against frozen rev1 functional ontology without borrowing Whirlpool knowledge?",
+  "focusAreaReview": {
+    "driveClutchPath": {
+      "procedure": "samsungtla50-clutch",
+      "seedComponent": "clutch",
+      "functionalCanonical": "transmission_or_shifter",
+      "observation": "Clutch/hall is Samsung platform implementation \u2014 not canonical expansion."
+    },
+    "motorCircuit": {
+      "procedure": "samsungtla50-motor-circuit",
+      "seedComponent": "drive_motor",
+      "functionalCanonical": "drive_motor",
+      "observation": "Direct rev1 inheritance."
+    },
+    "doorLockAuthorization": {
+      "procedure": "samsungtla50-door-lock",
+      "seedComponent": "door_lock",
+      "functionalCanonicalMapping": "door_lock seed \u2192 lid_lock via top_load_functional_alias",
+      "overlayTestTarget": "lid_lock_test",
+      "observation": "WP1.1 routes door-lock procedure to lid_lock_test (not FL door_lock_test). Gate must still split reed/closed authorization (lid_switch) from lock-motor spin-safety (lid_lock) from procedure evidence \u2014 no fabricated matcher alias."
+    },
+    "samsungOnlySurfaces": {
+      "procedures": [
+        "samsungtla50-mems-sensor",
+        "samsungtla50-leak-check",
+        "samsungtla50-overflow",
+        "samsungtla50-unbalance"
+      ],
+      "observation": "Platform/model knowledge \u2014 not rev1 canonical expansion."
+    }
+  },
+  "nextDecisionPoint": [
+    "Human review Samsung platform vocabulary (clutch, MEMS, leak, overflow, PBA)",
+    "Functional lid authorization split from procedure evidence",
+    "Drive path: transmission_or_shifter functional + Samsung clutch overlay",
+    "WP1.1 matcher routing complete \u2014 review clean re-observation before WP2 gate design"
+  ],
+  "artifacts": {
+    "candidatesDir": "normalization/candidates/SAMSUNG-TL-A50-WASHER/",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md"
+  },
+  "wp1BeforeAfterComparison": {
+    "before": {
+      "workPackage": "WP1_fresh_observation_only",
+      "threeMetrics": {
+        "canonicalInheritance": 17,
+        "samsungKnowledgeCreation": 1,
+        "canonicalExpansionCandidates": 0,
+        "unresolvedProceduralNoise": 10,
+        "pipelineFlOntologyPollution": 6,
+        "pipelineFlTestTargetPollution": 4,
+        "forbiddenWhirlpoolDependent": 0
+      },
+      "classificationBuckets": {
+        "samsung_knowledge_creation": 1,
+        "unresolved_procedural_noise": 10,
+        "canonical_inheritance": 17,
+        "pipeline_fl_ontology_pollution": 6,
+        "pipeline_fl_test_target_pollution": 4
+      },
+      "matcherLayers": {
+        "compound:unresolved": 10,
+        "canonical_component_id": 8,
+        "compound:canonical_alias_suffix": 5,
+        "unresolved": 2,
+        "platform_overlay:samsung_fl_washer_wf6000r": 1,
+        "seed_component_registry": 1
+      },
+      "manufacturerIsolation": {
+        "whirlpoolTlLeakCount": 0,
+        "whirlpoolFlLeakCount": 4,
+        "samsungFlLeakCount": 1,
+        "whirlpoolOverlayDependentCount": 0,
+        "whirlpoolOverlayDependent": [],
+        "crossLeaks": {
+          "whirlpoolTl": [],
+          "whirlpoolFl": [
+            {
+              "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-door_lock_test",
+              "patterns": [
+                "door_lock_test"
+              ]
+            },
+            {
+              "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorReedOhms",
+              "patterns": [
+                "door_lock_test"
+              ]
+            },
+            {
+              "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockMotorOhms",
+              "patterns": [
+                "door_lock_test"
+              ]
+            },
+            {
+              "id": "overlay-SAMSUNG-TL-A50-WASHER-samsungtla50-door-lock-meas-samsungTlA50WasherDoorLockContactOhms",
+              "patterns": [
+                "door_lock_test"
+              ]
+            }
+          ],
+          "samsungFl": [
+            {
+              "id": "map-SAMSUNG-TL-A50-WASHER-main_control-control_board",
+              "patterns": [
+                "samsung_fl_washer"
+              ]
+            }
+          ]
+        },
+        "verdict": "clean"
+      },
+      "generatedAt": "2026-09-15T20:22:37.788059+00:00"
+    },
+    "after": {
+      "threeMetrics": {
+        "canonicalInheritance": 23,
+        "samsungKnowledgeCreation": 2,
+        "canonicalExpansionCandidates": 0,
+        "unresolvedProceduralNoise": 14,
+        "pipelineFlOntologyPollution": 0,
+        "pipelineFlTestTargetPollution": 0,
+        "forbiddenWhirlpoolDependent": 0
+      },
+      "classificationBuckets": {
+        "samsung_knowledge_creation": 2,
+        "unresolved_procedural_noise": 14,
+        "canonical_inheritance": 23
+      },
+      "matcherLayers": {
+        "compound:unresolved": 14,
+        "canonical_component_id": 4,
+        "top_load_functional_alias": 3,
+        "unresolved": 2,
+        "compound:canonical_alias_suffix": 2,
+        "component_aliases": 1,
+        "canonical_ontology_alias": 1
+      },
+      "manufacturerIsolation": {
+        "whirlpoolTlLeakCount": 0,
+        "whirlpoolFlLeakCount": 0,
+        "samsungFlLeakCount": 0,
+        "whirlpoolOverlayDependentCount": 0,
+        "whirlpoolOverlayDependent": [],
+        "crossLeaks": {
+          "whirlpoolTl": [],
+          "whirlpoolFl": [],
+          "samsungFl": []
+        },
+        "verdict": "clean"
+      },
+      "generatedAt": "2026-09-15T21:54:17.166072+00:00"
+    },
+    "deltas": {
+      "canonicalExpansionCandidates": 0,
+      "canonicalInheritance": 6,
+      "forbiddenWhirlpoolDependent": 0,
+      "pipelineFlOntologyPollution": -6,
+      "pipelineFlTestTargetPollution": -4,
+      "samsungKnowledgeCreation": 1,
+      "unresolvedProceduralNoise": 4
+    },
+    "successCriteria": {
+      "canonicalInheritancePreserved": true,
+      "flOntologyPollutionZero": true,
+      "flTestTargetPollutionZero": true,
+      "whirlpoolDependencyZero": true,
+      "samsungFlDependencyZero": true
+    }
+  }
+}

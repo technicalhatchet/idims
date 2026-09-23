@@ -1,0 +1,91 @@
+{
+  "manualId": "W11416395",
+  "platformId": "whirlpool_mvw6200",
+  "templateId": "washer",
+  "label": "Maytag 4.8 cu ft PSC top-load washer (MVW6200, W11416395)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T00:50:22.250859+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 10,
+    "mappingCandidates": 19,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 11
+  },
+  "extractionFilters": {
+    "proceduralNoise": 11,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 11,
+    "samples": [
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-01-acu-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-02-valves",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "pre-test",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-03a-shifter",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-03b-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-04-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-05-temp-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-06-water-level",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-07-drain-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11416395-test-08-lid-lock",
+        "source": "title_token"
+      }
+    ]
+  }
+}

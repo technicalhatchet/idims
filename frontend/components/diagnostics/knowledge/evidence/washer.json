@@ -101,6 +101,16 @@
         "dry_heat",
         "no_heat"
       ]
+    },
+    {
+      "id": "mechanical",
+      "label": "Mechanical / Suspension",
+      "dmaTags": [
+        "motor_check",
+        "noisy",
+        "spin_issue",
+        "agitate_issue"
+      ]
     }
   ],
   "components": [
@@ -254,6 +264,71 @@
       "dmaTags": [
         "vent_fan_check",
         "noisy"
+      ]
+    },
+    {
+      "id": "motor_controller",
+      "label": "Motor controller / inverter",
+      "categoryId": "drive_motor",
+      "dmaTags": [
+        "motor_check",
+        "control_board",
+        "error_code"
+      ]
+    },
+    {
+      "id": "recirc_pump",
+      "label": "Recirculation pump",
+      "categoryId": "drain_pump",
+      "dmaTags": [
+        "pump_check",
+        "recirc_issue"
+      ]
+    },
+    {
+      "id": "pressure_hose",
+      "label": "Pressure hose / air path",
+      "categoryId": "water_level",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "pressure_chamber",
+      "label": "Pressure chamber / air dome",
+      "categoryId": "water_level",
+      "dmaTags": [
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "drum_bearing",
+      "label": "Drum / tub bearing",
+      "categoryId": "mechanical",
+      "dmaTags": [
+        "motor_check",
+        "noisy"
+      ]
+    },
+    {
+      "id": "suspension",
+      "label": "Suspension (shocks / rods)",
+      "categoryId": "mechanical",
+      "dmaTags": [
+        "motor_check",
+        "noisy",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "drive_belt",
+      "label": "Drive belt",
+      "categoryId": "mechanical",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue",
+        "agitate_issue"
       ]
     }
   ],
@@ -1595,8 +1670,8 @@
           "equals": "bad"
         }
       ],
-      "target": "drive_motor",
-      "targetLayer": "category",
+      "target": "suspension",
+      "targetLayer": "component",
       "effect": {
         "effect": "increase",
         "value": 22
@@ -1712,7 +1787,7 @@
           "equals": "bad"
         }
       ],
-      "target": "drive_motor",
+      "target": "mechanical",
       "targetLayer": "category",
       "effect": {
         "effect": "increase",
@@ -1737,7 +1812,7 @@
           "equals": "bad"
         }
       ],
-      "target": "drive_motor",
+      "target": "drum_bearing",
       "targetLayer": "component",
       "effect": {
         "effect": "increase",
@@ -1758,11 +1833,10 @@
           "equals": "bad"
         }
       ],
-      "target": "drive_motor",
-      "targetLayer": "category",
+      "target": "suspension",
+      "targetLayer": "component",
       "effect": {
-        "effect": "increase",
-        "value": 20
+        "effect": "confirm"
       },
       "explanation": "Noisy with failed suspension \u2014 banging on spin or agitate.",
       "recommendStepKey": "visual",
@@ -1783,11 +1857,10 @@
           "equals": "bad"
         }
       ],
-      "target": "drive_motor",
+      "target": "drive_belt",
       "targetLayer": "component",
       "effect": {
-        "effect": "increase",
-        "value": 16
+        "effect": "confirm"
       },
       "explanation": "Noisy with worn belt or pulley \u2014 squeal or slap common.",
       "recommendStepKey": "visual",
@@ -2181,8 +2254,8 @@
           "match": "f28"
         }
       ],
-      "target": "drive_motor",
-      "targetLayer": "category",
+      "target": "motor_controller",
+      "targetLayer": "component",
       "effect": {
         "effect": "confirm"
       },
@@ -2980,6 +3053,235 @@
         "effect": "eliminate"
       },
       "explanation": "dry blower OK ruled out by OEM procedure measurement."
+    },
+    {
+      "id": "confirm_recirc_pump_ol_recirc_pump_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherRecircPumpOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "recirc_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Recirc pump open or out of spec \u2014 poor wash performance or no recirculation.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "pump_check",
+        "recirc_issue"
+      ]
+    },
+    {
+      "id": "eliminate_recirc_pump_normal_recirc_pump_ok",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "whirlpoolFlWasherRecircPumpOhms",
+          "statusIn": [
+            "normal"
+          ]
+        }
+      ],
+      "target": "recirc_pump",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "eliminate"
+      },
+      "explanation": "Recirc pump resistance in spec \u2014 internal pump failure less likely."
+    },
+    {
+      "id": "confirm_samsung_motor_ol_drive_motor_failed",
+      "when": [
+        {
+          "type": "measurement",
+          "knowledgeId": "samsungFlWf6000rWasherMotorOhms",
+          "statusIn": [
+            "critical"
+          ]
+        }
+      ],
+      "target": "drive_motor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Samsung WF6000R motor out of ~6 \u03a9 spec \u2014 3C/3E path.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "motor_check"
+      ]
+    },
+    {
+      "id": "kw_samsung_ac_comm_motor_controller",
+      "when": [
+        {
+          "type": "keyword",
+          "match": "ac3"
+        }
+      ],
+      "target": "motor_controller",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Samsung AC3 \u2014 main PCB to inverter communication fault.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "control_board",
+        "motor_check"
+      ]
+    },
+    {
+      "id": "kw_samsung_ac6_comm_motor_controller",
+      "when": [
+        {
+          "type": "keyword",
+          "match": "ac6"
+        }
+      ],
+      "target": "motor_controller",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Samsung AC6 \u2014 inverter communication fault.",
+      "recommendStepKey": "electrical",
+      "dmaTags": [
+        "control_board",
+        "motor_check"
+      ]
+    },
+    {
+      "id": "kw_unbalance_suspension",
+      "when": [
+        {
+          "type": "keyword",
+          "match": "unbalance"
+        }
+      ],
+      "target": "suspension",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 20
+      },
+      "explanation": "Unbalance fault \u2014 level, load, suspension, and bearing path.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "chip_vibration_suspension",
+      "when": [
+        {
+          "type": "chip",
+          "id": "vibration"
+        }
+      ],
+      "target": "suspension",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 16
+      },
+      "explanation": "Vibration complaint \u2014 check level, shipping bolts, suspension, and load balance.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "pressure_path_bad_pressure_hose",
+      "when": [
+        {
+          "type": "field",
+          "path": "mechanical_controls.pressure_switch",
+          "equals": "bad"
+        }
+      ],
+      "target": "pressure_hose",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Pressure hose or air dome path fault \u2014 verify before condemning level sensor.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": [
+        "fill_issue",
+        "water_valve_check"
+      ]
+    },
+    {
+      "id": "pressure_path_bad_water_level_sensor_suspect",
+      "when": [
+        {
+          "type": "field",
+          "path": "mechanical_controls.pressure_switch",
+          "equals": "bad"
+        }
+      ],
+      "target": "water_level_sensor",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "increase",
+        "value": 12
+      },
+      "explanation": "Pressure path issue \u2014 level sensor only after hose and air dome verified.",
+      "recommendStepKey": "mechanical",
+      "dmaTags": [
+        "fill_issue"
+      ]
+    },
+    {
+      "id": "drive_belt_visual_bad",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.drive_belt",
+          "equals": "bad"
+        }
+      ],
+      "target": "drive_belt",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Worn or damaged drive belt observed \u2014 check pulleys and drum free spin.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "motor_check",
+        "spin_issue"
+      ]
+    },
+    {
+      "id": "suspension_visual_bad",
+      "when": [
+        {
+          "type": "field",
+          "path": "visual_inspection.suspension",
+          "equals": "bad"
+        }
+      ],
+      "target": "suspension",
+      "targetLayer": "component",
+      "effect": {
+        "effect": "confirm"
+      },
+      "explanation": "Failed suspension rods or shocks observed.",
+      "recommendStepKey": "visual",
+      "dmaTags": [
+        "motor_check",
+        "noisy"
+      ]
     }
   ]
 }

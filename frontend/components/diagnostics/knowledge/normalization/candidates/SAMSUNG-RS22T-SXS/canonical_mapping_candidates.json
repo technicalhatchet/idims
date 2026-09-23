@@ -1,0 +1,1701 @@
+{
+  "manualId": "SAMSUNG-RS22T-SXS",
+  "candidates": [
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-ambient-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ambient-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ambient-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ambient-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Ambient sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ambient",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ambient-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ambient-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ambient",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Ambient sensor"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-evap_fan",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "evap_fan",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-c-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-c-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-c-fan-feedback",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: C fan feedback",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-c-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-c-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "C fan feedback"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-damper_motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "damper_motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "damper",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-damper-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-r-room-damper-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: R-room damper heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "r room damper",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-damper-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-damper-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "r room damper",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "R-room damper heater"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-dispenser_panel",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "dispenser_panel",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "dispenser",
+        "component": "panel",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": "panel",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-main_control",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "main_control",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "control",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "main",
+              "component": "control",
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-dispenser-panel-communication-(47er)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Dispenser panel communication (47Er)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "dispenser",
+        "component": "panel communication 47er",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-dispenser-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-dispenser-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "dispenser",
+              "component": "panel communication 47er",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Dispenser panel communication (47Er)"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-f-def-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-def-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-def-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-freezer-defrost-sensor-(f-def-sensor)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Freezer defrost sensor (F-DEF-Sensor)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer defrost sensor f def",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-def-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-def-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost sensor f def",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Freezer defrost sensor (F-DEF-Sensor)"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-f-defrost-heater-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "heater",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-defrost-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-freezer-defrost-heater-(f-def)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Freezer defrost heater (F-DEF)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer defrost",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-defrost-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-defrost-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Freezer defrost heater (F-DEF)"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-f-fan-feedback",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: F fan feedback",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-fan",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-fan",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "F fan feedback"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-f-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-freezer-cabinet-sensor-(f-sensor)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Freezer cabinet sensor (F-Sensor)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "freezer cabinet sensor f",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-f-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-f-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "freezer cabinet sensor f",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Freezer cabinet sensor (F-Sensor)"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-humidity-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-humidity-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-humidity-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-humidity-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Humidity sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "humidity",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-humidity-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-humidity-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "humidity",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Humidity sensor"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ice_maker_module",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_maker_module",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker",
+        "actuator": "module"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-function",
+        "pages": [
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-function",
+            "pages": [
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "module"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ice-maker-function",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Ice maker function",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-function",
+        "pages": [
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-function",
+            "pages": [
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Ice maker function"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-ice-maker-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ice-maker-sensor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Ice maker sensor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice maker",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-maker-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-maker-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice maker",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Ice maker sensor"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ice_pipe_heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ice_pipe_heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice pipe",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-pipe-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-ice-pipe-heater",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Ice pipe heater",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "ice pipe",
+        "actuator": "heater"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-ice-pipe-heater",
+        "pages": [
+          68,
+          101
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-ice-pipe-heater",
+            "pages": [
+              68,
+              101
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "ice pipe",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Ice pipe heater"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-inverter_board",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inverter_board",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "inverter",
+        "actuator": "board"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-inverter-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "inverter",
+              "actuator": "board"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-inverter-communication-(44er)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Inverter communication (44Er)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-inverter-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-inverter-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Inverter communication (44Er)"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-i/o-expander-communication-(46er)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: I/O expander communication (46Er)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-io-expander-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-io-expander-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "I/O expander communication (46Er)"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-display_panel",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "display_panel",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-panel-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-panel-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-panel-communication-(41er)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Panel communication (41Er)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-panel-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-panel-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Panel communication (41Er)"
+    },
+    {
+      "id": "map-samsung-rs22t-sxs-unresolved-samsungrs28-r-sensor-thermistor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "thermistor",
+      "extractedTerm": null,
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-r-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-r-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-fresh-food-cabinet-sensor-(r-sensor)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Fresh-food cabinet sensor (R-Sensor)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "fresh food cabinet sensor r",
+        "actuator": "sensor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-r-sensor",
+        "pages": [
+          67,
+          68
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-r-sensor",
+            "pages": [
+              67,
+              68
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "fresh food cabinet sensor r",
+              "actuator": "sensor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Fresh-food cabinet sensor (R-Sensor)"
+    },
+    {
+      "id": "map-SAMSUNG-RS22T-SXS-compound-wi-fi-communication-(52er)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "\u00a74-2: Wi-Fi communication (52Er)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "SAMSUNG-RS22T-SXS",
+        "platformId": "samsung_sxs",
+        "procedureId": "samsungrs28-wifi-communication",
+        "pages": [
+          69
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-RS22T-SXS",
+            "platformId": "samsung_sxs"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungrs28-wifi-communication",
+            "pages": [
+              69
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Wi-Fi communication (52Er)"
+    }
+  ]
+}

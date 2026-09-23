@@ -1,0 +1,87 @@
+{
+  "manualId": "W11499711",
+  "priorManualIds": [
+    "W11633848",
+    "W11480208"
+  ],
+  "promotionId": "promo-W11499711-20260915074133",
+  "publishedAt": "2026-09-15T12:34:22.540089+00:00",
+  "equivalent": true,
+  "equivalenceChecks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true
+  },
+  "publicationChecks": {
+    "dishwasherFrozenRev1": true,
+    "dishwasherSemanticallyUnchanged": true,
+    "priorSemanticsPreserved": true,
+    "equivalentPromotion": true,
+    "oneNativeProcedureBinding": true,
+    "nativeProcedureSsmImplementation": true,
+    "nativeProcedureCirculationTest": true,
+    "oneNativeMeasurementBinding": true,
+    "nativeMeasurementSsmImplementation": true,
+    "noNewAliases": true,
+    "noNewPlatformComponents": true,
+    "ssmAnchorIntact": true,
+    "vsmWashMotorIntact": true,
+    "vsmDrainMotorIntact": true,
+    "noDiverterValveCanonical": true
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+  },
+  "tscExitCode": 2,
+  "compoundingMetrics": {
+    "cohortRole": "narrow_post_publication_inheritance_validation",
+    "priorManualIds": [
+      "W11633848",
+      "W11480208"
+    ],
+    "newHumanSemanticDecisions": 0,
+    "mechanicalRegistrations": 1,
+    "inheritedSsmPath": true,
+    "vsmContaminationAvoided": true,
+    "newCanonicalConcepts": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 0,
+    "inheritanceValidation": "Published VSM knowledge did not contaminate SSM implementation.",
+    "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation."
+  },
+  "teachingCostCurve": {
+    "W11633848": 11,
+    "W11480208": 5,
+    "W11499711": 0
+  },
+  "evidenceKinds": {
+    "W11633848": {
+      "role": "establishes_dishwasher_functional_vocabulary",
+      "newHumanSemanticDecisions": 11
+    },
+    "W11480208": {
+      "role": "establishes_platform_compounding",
+      "subtitle": "VSM / diverter / ProDry",
+      "newHumanSemanticDecisions": 5
+    },
+    "W11499711": {
+      "role": "validates_downstream_inheritance",
+      "subtitle": "SSM correctly distinguished from VSM",
+      "newHumanSemanticDecisions": 0,
+      "documentation": "W11499711 provides narrow post-publication inheritance validation: its sole native diagnostic delta was semantically inherited with zero new human decisions, while correctly selecting the published SSM path rather than the subsequently published VSM implementation.",
+      "scopeLimit": "Not a third full-manual validation \u2014 one native procedure only. Broader dishwasher compounding evidence remains open."
+    }
+  },
+  "overlayFile": "whirlpool_dishwasher.json",
+  "publishMode": "mechanical_only",
+  "publicationDelta": {
+    "procedureBindingsAdded": 1,
+    "measurementBindingsAdded": 1,
+    "oemAliasesAdded": 0,
+    "platformComponentsAdded": 0,
+    "canonicalChanges": 0
+  }
+}

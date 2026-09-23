@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_compounding_observation",
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "platformId": "lg_microwave_otr",
+  "compoundingPhase": "CG-MICROWAVE-COMPOUNDING",
+  "compoundingSequence": 1,
+  "observedAt": "2026-09-17T11:45:00+00:00",
+  "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "verdict": {
+    "canonicalInheritances": 7,
+    "conditionalBindings": 1,
+    "overlayImplementationComponents": 15,
+    "proceduresBound": 12,
+    "measurementsBound": 12,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 13,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "flatFactDumpAvoided": true,
+    "staleMagnetronRealizesNotPropagated": true
+  },
+  "hierarchyObservation": "Compounding produced inheritance chains (hv_generation → hv_transformer/capacitor/diode/fuse; rf_cavity → magnetron filament Ω / turntable; door_interlock_chain → multi-switch chain) rather than undifferentiated LG hardware list.",
+  "precedenceObservation": "Magnetron compounded under rf_cavity with explicit rejection of stale overlayOnlyConcepts.realizes=hv_generation — Branch A exception applied at overlay publish.",
+  "hvHardwareRemainsOverlay": [
+    "hv_transformer",
+    "hv_capacitor",
+    "hv_diode",
+    "hv_fuse",
+    "magnetron",
+    "relay_2",
+    "primary_switch",
+    "secondary_switch",
+    "monitor_switch",
+    "pcb_thermistor",
+    "humidity_sensor"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg95_refrigerator_family_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-16T14:00:00+00:00",
+  "phase": "CG-9.5",
+  "verdict": "CLOSED / FAMILY_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Refrigerator family architecture is closed. CG-7 discovery, CG-8 french-door compounding, CG-9 SxS configuration boundary, and CG-9.5 SxS production compounding demonstrate that one frozen functional contract absorbs manufacturer and configuration variation with zero canonical expansion. Additional refrigerator manuals are coverage work, not architecture validation.",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T04:30:00+00:00",
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "hashUnchangedThroughClosure": true,
+    "file": "frontend/components/diagnostics/knowledge/canonical/french_door_refrigerator.json",
+    "operationalRole": "generic_refrigerator_functional_contract",
+    "discoveryLock": "CG7_FRENCH_DOOR_REFRIGERATOR_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "manufacturersInProofMatrix": 3,
+    "configurationsInProofMatrix": 2,
+    "architecturalProofOverlays": 6,
+    "productionRuntimeOverlays": 7,
+    "canonicalExpansionCumulative": 0,
+    "canonicalHashMutations": 0,
+    "sideBySideOntologyCreated": false,
+    "configurationBoundaryClosed": true
+  },
+  "proofMatrix": {
+    "description": "3 manufacturers × 2 configurations on one frozen contract — architectural closure point",
+    "configurations": [
+      {
+        "id": "french_door",
+        "phase": "CG-8",
+        "contract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+        "overlays": [
+          {
+            "manufacturer": "Whirlpool",
+            "platformId": "whirlpool_jazz_french_door",
+            "overlayFile": "whirlpool_jazz_french_door.json",
+            "manualId": "W10322959",
+            "promotionId": "promo-WHIRLPOOL-JAZZ-FD-CG8-20260916061509"
+          },
+          {
+            "manufacturer": "Samsung",
+            "platformId": "samsung_fridge_bespoke",
+            "overlayFile": "samsung_fridge_bespoke.json",
+            "manualId": "SAMSUNG-RF23BB-FRIDGE",
+            "promotionId": "promo-SAMSUNG-RF23BB-FD-CG8-20260916062503"
+          },
+          {
+            "manufacturer": "LG",
+            "platformId": "lg_lrmvs",
+            "overlayFile": "lg_lrmvs.json",
+            "manualId": "LG-LRMVS-FRIDGE",
+            "promotionId": "promo-LG-LRMVS-FD-CG8-20260916064619"
+          }
+        ]
+      },
+      {
+        "id": "side_by_side",
+        "phase": "CG-9.5",
+        "contract": "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json",
+        "boundaryEvidence": "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json",
+        "overlays": [
+          {
+            "manufacturer": "Samsung",
+            "platformId": "samsung_sxs",
+            "overlayFile": "samsung_sxs.json",
+            "manualId": "SAMSUNG-RS28-SXS",
+            "promotionId": "promo-SAMSUNG-RS28-SXS-CG95-20260916131919",
+            "workPackage": "WP1"
+          },
+          {
+            "manufacturer": "Whirlpool",
+            "platformId": "whirlpool_sxs_w11296289",
+            "overlayFile": "whirlpool_sxs_w11296289.json",
+            "manualId": "W11296289",
+            "promotionId": "promo-W11296289-SXS-CG95-20260916132511",
+            "workPackage": "WP2"
+          },
+          {
+            "manufacturer": "LG",
+            "platformId": "lg_sxs",
+            "overlayFile": "lg_sxs.json",
+            "manualId": "LG-LSC27926-SXS",
+            "promotionId": "promo-LG-LSC27926-SXS-CG95-20260916134648",
+            "workPackage": "WP3"
+          }
+        ]
+      }
+    ]
+  },
+  "coverageExpansion": {
+    "note": "Post-proof coverage overlay — not required for architectural closure matrix",
+    "overlays": [
+      {
+        "manufacturer": "Midea/Insignia",
+        "platformId": "midea_rss",
+        "overlayFile": "midea_rss.json",
+        "manualId": "MIDEA-RSS-FRIDGE",
+        "promotionId": "promo-MIDEA-RSS-FRIDGE-CG95-20260916135205",
+        "workPackage": "WP4",
+        "classification": "coverage_expansion"
+      }
+    ]
+  },
+  "byteStabilityProof": {
+    "policy": "Each CG-9.5 publish dry-run verified prior overlays byte-stable; CG-8 overlays unchanged through all SxS publications",
+    "canonicalHashBefore": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "canonicalHashAfter": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "overlayHashesAtClosure": {
+      "whirlpool_jazz_french_door.json": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+      "samsung_fridge_bespoke.json": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c",
+      "lg_lrmvs.json": "89624805c0b5805baedd7123f9a209ca4fe641db90c17fd34d9f6113b04d2b9b",
+      "samsung_sxs.json": "4461b920a2d346ffb5b673d556229d277e11d3d10dbcf4dd835a6a38a47b4cf7",
+      "whirlpool_sxs_w11296289.json": "e2c827f7f0a16a053dffe2c2db1526e75762b1e793e7a469c2ec2d777b14479e",
+      "lg_sxs.json": "4a81860197c05742292ad7749a85f12971774739b1a2973eb7d5d16311eaea60",
+      "midea_rss.json": "2dfda8185f8bf6d8aae3eed7db4396b970335bcee1bbdc53560cb06ea37b931c"
+    },
+    "regressionArtifact": "CG95_REFRIGERATOR_REGRESSION_PROOF_v1.json"
+  },
+  "demonstratedProperties": [
+    "configuration_agnostic_contract — french_door_refrigerator rev1 operates as generic refrigerator functional ontology across french-door and SxS",
+    "zero_canonical_expansion — CG-7 freeze through CG-9.5 WP4: canonicalExpansion cumulative = 0",
+    "manufacturer_independence — seven overlays platform-isolated; no cross-manufacturer procedure binding leakage",
+    "compressor_functional_conditional — inverter (Samsung), relay-drive (Whirlpool/LG), VFD (Midea) remain conditional/platform; no canonical compressor node",
+    "fan_instance_variation — evaporator/condenser fan arrangements differ by platform; canonical evaporator_fan with conditional condenser_fan where gated",
+    "damper_implementation_overlay — stepper, heater, OptiChill, convertible C-FAN vocabulary stays overlay-only",
+    "sensor_connector_architecture_overlay — CON7/CON8/CN20-style harness naming does not create canonical components",
+    "display_micom_architecture_overlay — main↔panel communication paths differ; canonical control_board + user_interface relationship holds",
+    "ice_dispenser_conditional — optional feature domains bound as conditionalConcept only",
+    "no_sxs_ontology — side_by_side_refrigerator.json deliberately not created; configuration is overlay scope",
+    "prior_overlay_byte_stability — CG-8 overlays verified stable through each CG-9.5 publication dry-run"
+  ],
+  "phasesClosed": [
+    {
+      "phase": "CG-7",
+      "verdict": "discovery_closed_canonical_frozen",
+      "lockArtifact": "CG7_FRENCH_DOOR_REFRIGERATOR_LOCK_v1.json"
+    },
+    {
+      "phase": "CG-8",
+      "verdict": "french_door_compounding_complete",
+      "contract": "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json"
+    },
+    {
+      "phase": "CG-9",
+      "verdict": "family_boundary_closed_sxs_maps_to_frozen_refrigerator_contract",
+      "evidence": "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json"
+    },
+    {
+      "phase": "CG-9.5",
+      "verdict": "sxs_production_compounding_complete",
+      "contract": "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json"
+    }
+  ],
+  "deferredOrganizational": {
+    "rename": "french_door_refrigerator → refrigerator",
+    "classification": "canonical_re_freeze_refactor",
+    "blocks": "nothing — naming debt only; do not touch during family closure",
+    "explicitlyNotRequired": "continued refrigerator compounding or runtime coverage"
+  },
+  "futureWorkPolicy": {
+    "refrigeratorManuals": "coverage_expansion_when_useful — run existing gate pipeline; no new canonical discovery expected",
+    "ingestionWorkbenchUi": "deferred_until_additional_families_proven — build UI around stable CLI pipeline, not in parallel with ontology discovery",
+    "nextFamilyDiscovery": "CG-10 electric range/oven canonical boundary — active; see CG10_ELECTRIC_RANGE_ONTOLOGY_DISCOVERY_CONTRACT_v1.json"
+  },
+  "evidenceArtifacts": [
+    "CG7_FRENCH_DOOR_REFRIGERATOR_LOCK_v1.json",
+    "CG8_FRENCH_DOOR_COMPOUNDING_CONTRACT_v1.json",
+    "CG9_SXS_REFRIGERATOR_FAMILY_BOUNDARY_R2_TRIANGULATION_v1.json",
+    "CG9_5_SXS_REFRIGERATOR_COMPOUNDING_CONTRACT_v1.json",
+    "CG95_REFRIGERATOR_REGRESSION_PROOF_v1.json",
+    "publication_WHIRLPOOL_JAZZ_FD_CG8.json",
+    "publication_SAMSUNG_RF23BB_FD_CG8.json",
+    "publication_LG_LRMVS_FD_CG8.json",
+    "publication_SAMSUNG_RS28_SXS_CG95.json",
+    "publication_W11296289_SXS_CG95.json",
+    "publication_LG_LSC27926_SXS_CG95.json",
+    "publication_MIDEA_RSS_SXS_CG95.json"
+  ],
+  "closureTests": [
+    "components/diagnostics/session/__tests__/scenarios/cg95-refrigerator-family-closure.test.ts"
+  ]
+}

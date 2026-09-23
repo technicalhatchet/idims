@@ -1,0 +1,980 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_batch_cohort",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-BATCH",
+  "contract": "CG_PRODUCTION_NORMALIZATION_BATCH_CONTRACT_v1.json",
+  "status": "defined_not_executed",
+  "generatedAt": "2026-09-18T01:36:51.673410+00:00",
+  "sourceOfTruth": "frontend/components/diagnostics/procedures/procedureManualManifest.json",
+  "cohortSize": 72,
+  "historicalTargetLabel": "70-manual production corpus",
+  "note": "Manifest currently lists 72 manuals; cohort is manifest-complete. Batch execution NOT authorized by contract definition gate.",
+  "entries": [
+    {
+      "manualId": "W11169652",
+      "platformId": "whirlpool_fl_dd",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool & Maytag 27 in. front-load direct drive",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169652_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_fl_dd"
+      },
+      "specialHandling": {
+        "pilotSlot": "P01"
+      }
+    },
+    {
+      "manualId": "W8178558",
+      "platformId": "whirlpool_duet_sport",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Duet Sport CCU/MCU belt-drive washer (Job Aid 8178558)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178558_EXTRACTION.md",
+        "seedDir": "whirlpool_duet_sport"
+      }
+    },
+    {
+      "manualId": "W8178559",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Duet Sport MCE dryer (Job Aid 8178559)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DUET_SPORT_8178559_EXTRACTION.md",
+        "seedDir": "whirlpool_duet_sport_dryer"
+      }
+    },
+    {
+      "manualId": "W10864849",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool & Maytag 6.2 cu ft direct-drive top-load washer",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10864849_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_dd"
+      }
+    },
+    {
+      "manualId": "W11416787",
+      "platformId": "whirlpool_tl_dd_5100",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag 4.7/5.3 cu ft top-load washer (W11416787, direct drive)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_dd_5100"
+      }
+    },
+    {
+      "manualId": "W11800233",
+      "platformId": "whirlpool_tl_dd_4100",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag 4.0\u00e2\u20ac\u201c4.3 cu ft ACU belt-drive top-load washer (WTW4100)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11800233_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_dd_4100"
+      }
+    },
+    {
+      "manualId": "W11697231",
+      "platformId": "whirlpool_tl_dd",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool 3.8 cu ft PSC top-load washer (WTW4950, W11697231)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11697231_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_dd"
+      }
+    },
+    {
+      "manualId": "W10680150",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag CCU electric & gas dryer (tech sheet W10680150)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md",
+        "seedDir": "whirlpool_ccu_dryer"
+      }
+    },
+    {
+      "manualId": "W10410465",
+      "platformId": "whirlpool_ccu_tl_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag CCU top-load dryer (tech sheet W10410465)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10410465_TL_CCU_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_ccu_tl_dryer"
+      }
+    },
+    {
+      "manualId": "W10881701",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag 9.2 cu ft steam dryer (W10881701 WED9500)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10881701_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_ccu_dryer"
+      }
+    },
+    {
+      "manualId": "W11169659",
+      "platformId": "whirlpool_ccu_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag 27 in FL dryer (W11169659 WED5620/WED7*/WED96*)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11169659_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_ccu_dryer"
+      }
+    },
+    {
+      "manualId": "W11633848",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Amana & Whirlpool 24\" ACU dishwasher (W11633848)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11633848_DISHWASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_acu"
+      }
+    },
+    {
+      "manualId": "W11480208",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool filtration dishwasher WDT740 (W11480208)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_acu"
+      }
+    },
+    {
+      "manualId": "W11499711",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "KitchenAid/Maytag microfiltration dishwasher WDT750 (W11499711)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11499711_DISHWASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_acu"
+      }
+    },
+    {
+      "manualId": "W11794121",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "JennAir 24\" Filtration dishwasher (W11794121)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_acu"
+      }
+    },
+    {
+      "manualId": "W11366142",
+      "platformId": "whirlpool_dishwasher_acu",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "KitchenAid premium dishwasher KDTM404/604/804 (W11366142)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/KITCHENAID_KDTM404KPS_DISHWASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_acu"
+      }
+    },
+    {
+      "manualId": "W11416805",
+      "platformId": "whirlpool_acu_tl_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag ACU top-load dryer (WED5100/WGD5100, W11416805)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416805_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_acu_tl_dryer"
+      }
+    },
+    {
+      "manualId": "W11798430",
+      "platformId": "whirlpool_acu_tl_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool 7.0 cu. ft. ACU top-load dryer (WED4100/WGD4100, W11798430)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11798430_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_acu_tl_dryer"
+      }
+    },
+    {
+      "manualId": "NS-TDRE75W1",
+      "platformId": "insignia_dryer_tdre",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Insignia NS-TDRE75W1 / NS-TDRG75W1 vented dryer",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md",
+        "seedDir": "insignia_dryer_tdre"
+      }
+    },
+    {
+      "manualId": "W8178629",
+      "platformId": "whirlpool_centennial_dryer",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Maytag Centennial electric & gas dryer (Job Aid 8178629)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_CENTENNIAL_8178629_DRYER_EXTRACTION.md",
+        "seedDir": "whirlpool_centennial_dryer"
+      }
+    },
+    {
+      "manualId": "W11455152",
+      "platformId": "whirlpool_tl_dd_6157",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag 5.3 cu ft PSC top-load washer (WTW6157, W11455152)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11455152_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_dd_6157"
+      }
+    },
+    {
+      "manualId": "W11416395",
+      "platformId": "whirlpool_mvw6200",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Maytag 4.8 cu ft PSC top-load washer (MVW6200, W11416395)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416395_MWV6200_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_mvw6200"
+      }
+    },
+    {
+      "manualId": "W11428632",
+      "platformId": "whirlpool_tl_psc_washer",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Multimedia Enhanced PSC top-load washer (W11428632)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11428632_TL_WASHER_EXTRACTION.md",
+        "seedDir": "whirlpool_tl_psc_washer"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "platformId": "samsung_fl_washer_wf6000r",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung FL washer WF6000R (WF45T/WF45R/WF22R)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_WF6000R_WASHER_EXTRACTION.md",
+        "seedDir": "samsung_fl_washer_wf6000r"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-BB8700-WASHER",
+      "platformId": "samsung_fl_washer_bb8700",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung FL washer BB8700 (WF50/53BB, WF51CG)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_WASHER_EXTRACTION.md",
+        "seedDir": "samsung_fl_washer_bb8700"
+      },
+      "specialHandling": {
+        "pilotSlot": "P02"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-BB8700-DRYER",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung FL dryer BB8700 (DVE/DVG 53/50BB)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md",
+        "seedDir": "samsung_fl_dryer_bb8700"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-A50-WASHER",
+      "platformId": "samsung_tl_washer_a50",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung TL washer A50 (WA50R5200, WA51D, WF45A)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_A50_WASHER_EXTRACTION.md",
+        "seedDir": "samsung_tl_washer_a50"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-CG71-WASHER",
+      "platformId": "samsung_tl_washer_cg71",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung TL washer CG71 (WA55CG7100, WA54CG)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_WASHER_EXTRACTION.md",
+        "seedDir": "samsung_tl_washer_cg71"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-DV50-DRYER",
+      "platformId": "samsung_tl_dryer_dv50",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung TL dryer DV50 (DV50R5200, DVE/DVG50)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_DV50_DRYER_EXTRACTION.md",
+        "seedDir": "samsung_tl_dryer_dv50"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-TL-CG71-DRYER",
+      "platformId": "samsung_tl_dryer_cg71",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung TL dryer CG71 (DVE55CG7100, DVG55CG)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_TL_CG71_DRYER_EXTRACTION.md",
+        "seedDir": "samsung_tl_dryer_cg71"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FL-DV6000-DRYER",
+      "platformId": "samsung_fl_dryer_dv6000",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "vented_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung FL dryer DV6000T (DVE45T6000/6005/6200)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md",
+        "seedDir": "samsung_fl_dryer_dv6000"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF260B-FRIDGE",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung RF260B/RF261B side-by-side refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF260B_FRIDGE_EXTRACTION.md",
+        "seedDir": "samsung_sxs"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RS28-SXS",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung RS28/RS23 SpaceMax side-by-side refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS28_FRIDGE_EXTRACTION.md",
+        "seedDir": "samsung_sxs"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RS22T-SXS",
+      "platformId": "samsung_sxs",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung RS22T/RS27T/RS28T5B RS5300TC side-by-side refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RS22T_SXS_EXTRACTION.md",
+        "seedDir": "samsung_sxs"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-ICE-MAKER-BULLETIN",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung French-door direct cool ice maker frozen (ASC20170602002)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ICE_MAKER_BULLETIN_EXTRACTION.md",
+        "seedDir": "samsung_fridge_rf28"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF28-FRIDGE",
+      "platformId": "samsung_fridge_rf28",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung RF28 French-door refrigerator (RF28R)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF28_FRIDGE_EXTRACTION.md",
+        "seedDir": "samsung_fridge_rf28"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung Bespoke 4-door RF23BB/RF24BB/RF29BB/RF30BB",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF23BB_BESPOKE_FRIDGE_EXTRACTION.md",
+        "seedDir": "samsung_fridge_bespoke"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-RF32CG-FRIDGE",
+      "platformId": "samsung_fridge_bespoke",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung Bespoke 4-door RF32CG/RF31CG/RF26CG",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_RF32CG_BESPOKE_FRIDGE_EXTRACTION.md",
+        "seedDir": "samsung_fridge_bespoke"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "platformId": "samsung_range_nx60",
+      "templateId": "gas_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung NX60T8311S / NE63 slide-in range",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NX60_RANGE_EXTRACTION.md",
+        "seedDir": "samsung_range_nx60"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-NE58-RANGE",
+      "platformId": "samsung_range_ne58",
+      "templateId": "electric_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung NE58F9710WS Flex Duo electric range",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58_RANGE_EXTRACTION.md",
+        "seedDir": "samsung_range_ne58"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+      "platformId": "samsung_range_ne58",
+      "templateId": "induction_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung NE58R9560WS slide-in induction range",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md",
+        "seedDir": "samsung_range_ne58h_induction"
+      },
+      "specialHandling": {
+        "pilotSlot": "P05"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-HP-DRYER-DV22N",
+      "platformId": "samsung_hp_dryer_dv22n",
+      "templateId": "electric_dryer",
+      "expectedFrozenOntologyId": "heat_pump_dryer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung DV22N6850 heat-pump dryer",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_HP_DRYER_DV22N_EXTRACTION.md",
+        "seedDir": "samsung_hp_dryer_dv22n"
+      },
+      "specialHandling": {
+        "pilotSlot": "P07"
+      }
+    },
+    {
+      "manualId": "LG-FL-WASHER",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG WM4000H*A front-load washer (WM3400\u00e2\u20ac\u201cWM4000)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md",
+        "seedDir": "lg_fl_washer_wm4000"
+      },
+      "specialHandling": {
+        "pilotSlot": "P03"
+      }
+    },
+    {
+      "manualId": "W11746350",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag freestanding range (W11746350 Copernicus ACU)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md",
+        "seedDir": "whirlpool_freestanding_range"
+      },
+      "specialHandling": {
+        "pilotSlot": "P04"
+      }
+    },
+    {
+      "manualId": "W11174426",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag/Amana freestanding range (W11174426 LCX/LCC)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md",
+        "seedDir": "whirlpool_freestanding_range"
+      }
+    },
+    {
+      "manualId": "W11174814",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag/KitchenAid/Kenmore/JennAir/IKEA/Amana freestanding range (W11174814)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174814_FREESTANDING_RANGE_EXTRACTION.md",
+        "seedDir": "whirlpool_freestanding_range"
+      }
+    },
+    {
+      "manualId": "W11509412",
+      "platformId": "whirlpool_ka_french_door",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/KitchenAid ACU French door refrigerator (W11509412, ~27 cu ft)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_KITCHENAID_FRENCH_DOOR_PLATFORM_EXTRACTION.md",
+        "seedDir": "whirlpool_ka_french_door"
+      }
+    },
+    {
+      "manualId": "W10322959",
+      "platformId": "whirlpool_jazz_french_door",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Jazz French door refrigerator (W10322959, 19\u00e2\u20ac\u201c22 cu ft)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md",
+        "seedDir": "whirlpool_jazz_french_door"
+      }
+    },
+    {
+      "manualId": "W10901168",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Orion+GF2 French door (W10901168 Bella + W11366204 WRF954 family)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md",
+        "seedDir": "whirlpool_bella_french_door"
+      }
+    },
+    {
+      "manualId": "W11819775",
+      "platformId": "whirlpool_acu_fd_inverter",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool ACU inverter French door 31 cu ft (W11819775)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11819775_ACU_FD_INVERTER_EXTRACTION.md",
+        "seedDir": "whirlpool_acu_fd_inverter"
+      }
+    },
+    {
+      "manualId": "W11803249",
+      "platformId": "whirlpool_theseus_cdfd",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Theseus counter-depth French door 24 cu ft (W11803249)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11803249_THESEUS_CDFD_EXTRACTION.md",
+        "seedDir": "whirlpool_theseus_cdfd"
+      }
+    },
+    {
+      "manualId": "W11296289",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool/Maytag/Amana/IKEA SxS refrigerator (W11296289)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md",
+        "seedDir": "whirlpool_sxs_w11296289"
+      }
+    },
+    {
+      "manualId": "W10785366A",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool Connected Smart Appliances Gen III (W10785366A smart layer)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md",
+        "seedDir": "whirlpool_connected_smart_gen3"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-FLEXWASH-WASHER",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "expectedFrozenOntologyId": "front_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung FlexWash WV55M9600 dual-load washer",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md",
+        "seedDir": "samsung_flexwash"
+      },
+      "specialHandling": {
+        "batchHandling": "architecture_exception_expected",
+        "pilotSlot": "P08",
+        "note": "Frozen integration boundary; production pipeline must STOP \u2014 separate FlexWash normalization workstream"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+      "platformId": "samsung_laundry_combo",
+      "templateId": "aio_laundry",
+      "expectedFrozenOntologyId": "aio_laundry_combo",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung all-in-one laundry combo WD53/WD80 (WD53DBA900HZA1)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md",
+        "seedDir": "samsung_laundry_combo"
+      },
+      "specialHandling": {
+        "batchHandling": "frozen_aio_composition",
+        "note": "aio_laundry_combo frozen \u2014 composition reference only"
+      }
+    },
+    {
+      "manualId": "LG-LDT7808-DISHWASHER",
+      "platformId": "lg_dishwasher_ldt7808",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG LDT7808 top-control dishwasher (QuadWash / Vario)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LDT7808ST_DISHWASHER_EXTRACTION.md",
+        "seedDir": "lg_dishwasher_ldt7808"
+      }
+    },
+    {
+      "manualId": "W11187658",
+      "platformId": "whirlpool_dishwasher_ada",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool ADA built-in dishwasher (18\"/24\")",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md",
+        "seedDir": "whirlpool_dishwasher_ada"
+      }
+    },
+    {
+      "manualId": "INSIGNIA-DWR3-DISHWASHER",
+      "platformId": "insignia_dishwasher",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Insignia NS-DWR3SS1 top-control dishwasher",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_DWR3SS1_DISHWASHER_EXTRACTION.md",
+        "seedDir": "insignia_dishwasher"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-DISHWASHER",
+      "platformId": "samsung_dishwasher",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung DW80/DW82 dishwasher (DW80R5060, DW80R5061, DW80T5040)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_EXTRACTION.md",
+        "seedDir": "samsung_dishwasher"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-DISHWASHER-M9",
+      "platformId": "samsung_dishwasher_m9",
+      "templateId": "dishwasher",
+      "expectedFrozenOntologyId": "dishwasher",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung premium dishwasher DW80M9 (DW80M9960, DW80M9550, DW80M9990)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_DISHWASHER_M9_EXTRACTION.md",
+        "seedDir": "samsung_dishwasher_m9"
+      }
+    },
+    {
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Midea/Insignia NS-RSS26 side-by-side refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
+        "seedDir": "midea_rss"
+      }
+    },
+    {
+      "manualId": "INSIGNIA-RTM18-FRIDGE",
+      "platformId": "midea_rss",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Insignia NS-RTM18 top-freezer refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_RTM18SS2_REFRIGERATOR_EXTRACTION.md",
+        "seedDir": "midea_rss"
+      }
+    },
+    {
+      "manualId": "MIDEA-UZ21-FREEZER",
+      "platformId": "midea_uz21",
+      "templateId": "standalone_freezer",
+      "expectedFrozenOntologyId": null,
+      "expectedFrozenOntologyConfidence": "unknown",
+      "label": "Midea/Insignia NS-UZ upright freezer",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MIDEA_INSIGNIA_REFRIGERATOR_FREEZER_EXTRACTION.md",
+        "seedDir": "midea_uz21"
+      }
+    },
+    {
+      "manualId": "LG-LRMVS-FRIDGE",
+      "platformId": "lg_lrmvs",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG LRMVS3006 InstaView 4-door refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRMVS3006S_EXTRACTION.md",
+        "seedDir": "lg_lrmvs"
+      }
+    },
+    {
+      "manualId": "LG-LSC27926-SXS",
+      "platformId": "lg_sxs",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG LSC27926 side-by-side refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LSC27926_SXS_EXTRACTION.md",
+        "seedDir": "lg_sxs"
+      }
+    },
+    {
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "platformId": "lg_microwave_otr",
+      "templateId": "microwave",
+      "expectedFrozenOntologyId": "microwave",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG LMHM2237BD over-the-range microwave",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md",
+        "seedDir": "lg_microwave_otr"
+      },
+      "specialHandling": {
+        "pilotSlot": "P06"
+      }
+    },
+    {
+      "manualId": "LG-LRE-RANGE",
+      "platformId": "lg_freestanding_range",
+      "templateId": "electric_range",
+      "expectedFrozenOntologyId": "range_oven",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "LG freestanding & slide-in range (LRE/LRGL/LSG)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_LRE_RANGE_EXTRACTION.md",
+        "seedDir": "lg_freestanding_range"
+      }
+    },
+    {
+      "manualId": "SAMSUNG-ME11-MICROWAVE",
+      "platformId": "samsung_microwave_otr",
+      "templateId": "microwave",
+      "expectedFrozenOntologyId": "microwave",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Samsung ME11/ME21 over-the-range microwave",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+        "seedDir": "samsung_microwave_otr"
+      }
+    },
+    {
+      "manualId": "W10330404",
+      "platformId": "whirlpool_wrt_top_mount",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "top_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool / Maytag / Amana WRT top-mount refrigerator (Job Aid W10330404)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_WRT_TOP_MOUNT_EXTRACTION.md",
+        "seedDir": "whirlpool_wrt_top_mount"
+      }
+    },
+    {
+      "manualId": "W10674984",
+      "platformId": "whirlpool_wrt311_adc",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "top_load_washer",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool WRT311 ADC 2000 wiring sheet (W10674984)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md",
+        "seedDir": "whirlpool_wrt311_adc"
+      }
+    },
+    {
+      "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+      "platformId": "whirlpool_modular_ice_maker",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Whirlpool modular ice maker (2225623)",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_MODULAR_ICE_MAKER_2225623_EXTRACTION.md",
+        "seedDir": "whirlpool_modular_ice_maker"
+      }
+    },
+    {
+      "manualId": "FRIGIDAIRE-PRMC-FRIDGE",
+      "platformId": "frigidaire_prmc_french_door",
+      "templateId": "refrigerator",
+      "expectedFrozenOntologyId": "french_door_refrigerator",
+      "expectedFrozenOntologyConfidence": "high",
+      "label": "Frigidaire Professional PRMC French-door refrigerator",
+      "provenance": {
+        "manifestSource": "procedureManualManifest.json",
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/FRIGIDAIRE_PRMC2285AF_EXTRACTION.md",
+        "seedDir": "frigidaire_prmc_french_door"
+      }
+    }
+  ]
+}

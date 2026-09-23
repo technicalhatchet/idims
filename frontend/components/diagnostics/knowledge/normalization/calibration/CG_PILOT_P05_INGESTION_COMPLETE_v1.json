@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_pilot_prerequisite_ingestion_complete",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "slotId": "P05",
+  "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+  "status": "ingestion_complete",
+  "completedAt": "2026-09-17T22:00:00+00:00",
+  "contract": "CG_PILOT_PREREQUISITE_INGESTION_CONTRACT_v1.json",
+  "artifacts": {
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_NE58H_INDUCTION_RANGE_EXTRACTION.md",
+    "generator": "backend/scripts/generate_samsung_ne58h_induction_range_procedure_seeds.py",
+    "seedDir": "frontend/components/diagnostics/procedures/seed/samsung_range_ne58h_induction",
+    "candidatesDir": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-NE58H-INDUCTION-RANGE"
+  },
+  "ingestionSummary": {
+    "procedures": 11,
+    "mappingCandidates": 21,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "frozenOntologyId": "range_oven",
+    "implementationTemplateId": "induction_range",
+    "implementationTermsCaptured": ["assy_inverter_module", "igbt_sensor", "pan_detection", "glass_touch_pcb"]
+  },
+  "pilotNote": "Evidence acquisition only — does not close pilot or resolve P08.",
+  "doesNotModifyPilotOutcomeArtifacts": true
+}

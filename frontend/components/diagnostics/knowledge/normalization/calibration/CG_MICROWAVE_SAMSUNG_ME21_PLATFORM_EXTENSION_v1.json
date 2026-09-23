@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_platform_extension_normalization",
+  "workstream": "CG-MICROWAVE-NORMALIZATION",
+  "extensionType": "platform_model_coverage",
+  "status": "approved",
+  "normalizedAt": "2026-09-17T13:15:00+00:00",
+  "parentWorkstream": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+  "witnessNormalization": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "canonicalOntologyId": "microwave",
+  "platformId": "samsung_microwave_otr",
+  "coreConstraint": "ME21 model-family coverage inherits ME11 witness normalization. No new canonical mappings, no separate compounding sequence, no LG evidence borrowing.",
+  "sourceMetadata": {
+    "manualId": "SAMSUNG-ME21-MICROWAVE",
+    "manufacturer": "Samsung",
+    "smokeModel": "ME21A706BQN",
+    "sourceHtml": "backend/docs/manuals/ME21A706BQN Service Manual.html",
+    "extractedText": "backend/docs/manuals/samsung me21-extracted.txt",
+    "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_ME11_MICROWAVE_EXTRACTION.md",
+    "witnessManualId": "SAMSUNG-ME11-MICROWAVE",
+    "witnessNote": "ME21 HTML has poor font encoding; ME11 PDF remains authoritative procedure source"
+  },
+  "modelPatterns": ["/ME21/i", "/ME21K/i", "/ME21A/i"],
+  "inheritancePolicy": {
+    "inheritsAllFunctionalMappings": true,
+    "inheritsCompoundedOverlay": "samsung_microwave_otr.json",
+    "requiresSeparateCompounding": false,
+    "canonicalPromotionCount": 0,
+    "deltaFunctionalMappings": 0
+  },
+  "corroborationChecks": [
+    {
+      "id": "same_platform_registry",
+      "result": "pass",
+      "evidence": "platformRegistry.ts SAMSUNG_MICROWAVE_OTR modelPatterns include ME21*"
+    },
+    {
+      "id": "same_c_star_family",
+      "result": "pass",
+      "evidence": "ME21 extracted text confirms C-10/C-20/C-F0/C-F1/C-F2 family alignment with ME11 §5"
+    },
+    {
+      "id": "no_canonical_divergence",
+      "result": "pass",
+      "note": "Zero new frozen-function bindings — witness normalization authoritative"
+    }
+  ],
+  "deferredItems": [
+    {
+      "item": "Dedicated ME21 procedure seed delta",
+      "reason": "No material TEST divergence from ME11 witness; HTML manual corroborates same architecture",
+      "scope": "platform_only"
+    }
+  ],
+  "nextDisciplinedStep": "None — extension closed under ME11 witness; family closure planning uses combined LG + Samsung overlays"
+}

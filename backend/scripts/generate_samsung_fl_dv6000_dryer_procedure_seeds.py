@@ -302,41 +302,6 @@ PROCEDURES = [
             outcome("power_ok", 7, "Power path OK", "Supply and PCB communication verified."),
         ],
     ),
-    proc(
-        "samsungdv6000-heat-pump-compressor",
-        "§1-1 / §4-4: Heat-pump HE/HC and compressor wiring",
-        "4-4",
-        "Heat-pump compressor path",
-        [3, 26],
-        ["compressor", "heating_element"],
-        ["HE", "HC", "heat_pump_check", "no_heat"],
-        [
-            instr("smart_install_hc", 2, "Smart Install motor/heater check", "Enter Smart Install (Adjust Time Up + Temp 7 s → SC). Press Start — note OK vs HC.", "compressor_wiring"),
-            instr(
-                "compressor_wiring",
-                3,
-                "Compressor terminal wiring",
-                "On heat-pump models, inspect compressor harness terminals for loose pins or desorption. Reseat and tighten per §1-1 safety note.",
-                "post_service_run",
-            ),
-            instr(
-                "post_service_run",
-                4,
-                "Post-service Time Dry 20 min",
-                "Run Time Dry 20 minutes after repair. Verify HE does not return and HC clears.",
-                "heat_pump_result",
-            ),
-            visual(
-                "heat_pump_result",
-                5,
-                "Heat-pump cycle stable?",
-                "Drum heats and tumbles through 20 min without HE/HC?",
-                cp_yes_no("hp_ok", "heat_pump_ok", "escalate_compressor", "escalate_compressor_out", "Replace compressor module or main PCB per Samsung heat-pump service guide."),
-            ),
-            outcome("escalate_compressor_out", 6, "Escalate heat-pump repair", "Compressor or sealed-system fault — follow Samsung heat-pump service procedure."),
-            outcome("heat_pump_ok", 7, "Heat-pump path OK", "Smart Install and post-service run passed without HE/HC."),
-        ],
-    ),
 ]
 
 

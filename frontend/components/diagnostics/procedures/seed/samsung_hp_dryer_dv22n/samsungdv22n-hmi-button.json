@@ -1,0 +1,65 @@
+{
+  "id": "samsungdv22n-hmi-button",
+  "version": "1.0.0",
+  "title": "\u00a74-1: Button stuck (bC2)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "display_panel"
+  ],
+  "tags": [
+    "bC2",
+    "hmi_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Display PCB key circuit",
+    "pages": [
+      25
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "keypad_check"
+    },
+    {
+      "id": "keypad_check",
+      "order": 2,
+      "type": "instruction",
+      "title": "Display PCB keys",
+      "body": "Check display PCB key circuit for short.",
+      "sourceExcerpt": "Check display PCB key circuit for short.",
+      "requiresInput": false,
+      "defaultNextStepId": "hmi_ok"
+    },
+    {
+      "id": "replace_display",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace display PCB",
+      "oemOutcome": "Replace display PCB when key short confirmed.",
+      "requiresInput": false
+    },
+    {
+      "id": "hmi_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "HMI OK",
+      "oemOutcome": "Button circuit verified.",
+      "requiresInput": false
+    }
+  ]
+}

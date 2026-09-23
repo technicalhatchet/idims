@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "reportType": "candidate_review_wave_audit",
+  "waveId": "wave3-new-canonical-knowledge",
+  "status": "READY_FOR_HUMAN_REVIEW",
+  "generatedAt": "2026-09-21T05:32:43.960589+00:00",
+  "candidateCount": 0,
+  "expectedCandidateCount": 0,
+  "inventoryReviewClassCount": 0,
+  "manualCountRepresented": 0,
+  "platformIdsRepresented": [],
+  "preflightChecks": {
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "Wave 3 pool is empty in current index; gate is ready but human review queue has no candidates."
+    ],
+    "frozenHashesValid": true,
+    "wave1ClosureIntact": true,
+    "wave2ClosureIntact": true,
+    "duplicateCandidateIds": false,
+    "reviewClassExact": "newCanonicalKnowledge",
+    "crossWaveContamination": false
+  },
+  "mutationChecks": {
+    "promotionExcluded": true,
+    "canonicalMutationAllowed": false,
+    "canonicalMutationDetected": false,
+    "candidateMutationDetected": false,
+    "promotionPerformed": false,
+    "decisionsGenerated": false,
+    "wave3DecisionCount": 0,
+    "existingDecisionCount": 796,
+    "batchAuthorizationChanged": false
+  },
+  "orderingRule": {
+    "keys": [
+      "manualId",
+      "procedureId",
+      "candidateId"
+    ]
+  },
+  "allowedDecisions": [
+    "accepted",
+    "rejected",
+    "deferred"
+  ],
+  "priorWaves": [
+    {
+      "waveId": "wave1-existing-canonical-mapping",
+      "status": "WAVE1_CLOSED"
+    },
+    {
+      "waveId": "wave2-new-platform-knowledge",
+      "status": "WAVE2_CLOSED"
+    }
+  ]
+}

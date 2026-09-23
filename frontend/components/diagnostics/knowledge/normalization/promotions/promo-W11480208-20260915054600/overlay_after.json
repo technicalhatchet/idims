@@ -1,0 +1,649 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "dishwasher",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool dishwasher family overlays",
+  "gateArtifact": "W11480208_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_dishwasher_acu",
+      "platformId": "whirlpool_dishwasher_acu",
+      "manualId": "W11633848",
+      "label": "Whirlpool/Maytag/KitchenAid/JennAir ACU dishwasher (W11633848 base + W11480208 filtration/VSM)",
+      "appliesTo": {
+        "templateId": "dishwasher",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "KitchenAid",
+          "JennAir",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "JDP*",
+          "KDTM*",
+          "MDB*",
+          "WDT74*",
+          "WDT75*",
+          "WDTA74*",
+          "WDTA75*"
+        ],
+        "platformIds": [
+          "whirlpool_dishwasher_acu"
+        ]
+      },
+      "oemTermAliases": {
+        "ACU": "control_board",
+        "acu": "control_board",
+        "dispenser solenoid": "detergent_dispenser",
+        "diverter motor": "circulation_pump",
+        "drain motor": "drain_pump",
+        "dc fan motor": "drying_system",
+        "dc fan": "drying_system",
+        "door switch": "door_switch",
+        "fill valve": "inlet_valve",
+        "float switch": "water_level_sensor",
+        "overfill float switch": "water_level_sensor",
+        "wash motor": "circulation_pump",
+        "heater": "heat_source",
+        "supply": "power_supply",
+        "f500 triac load fuse": "thermal_protection",
+        "triac fuse": "thermal_protection"
+      },
+      "displayTerms": {
+        "control_board": "ACU (Appliance Control Unit)",
+        "circulation_pump": "Wash / diverter motor path",
+        "detergent_dispenser": "Dispenser solenoid",
+        "drying_system": "DC fan motor (heat-dry)",
+        "heat_source": "Wash heater element",
+        "inlet_valve": "Fill valve circuit",
+        "thermal_protection": "F500 triac load fuse",
+        "water_level_sensor": "Float switch (overfill)"
+      },
+      "deferredConcepts": {
+        "platform": [
+          "diverter_position_sensor",
+          "owi_sensor"
+        ],
+        "model": [
+          "door_gasket"
+        ],
+        "rejectedProceduralTitles": [
+          "\u00a73-6: ACU Power & DC Supplies",
+          "\u00a73-10: Water Heating / Heat Dry"
+        ]
+      },
+      "add": {
+        "components": [
+          {
+            "id": "diverter_motor",
+            "name": "Diverter motor",
+            "aliases": [
+              "diverter motor"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "ACU circulation-path switching \u2014 implements canonical circulation_pump; OEM alias maps to circulation_pump, not this id."
+          },
+          {
+            "id": "ssm_wash_motor",
+            "name": "Split-phase wash motor (SSM)",
+            "aliases": [
+              "ssm wash motor",
+              "wash motor (ssm)"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "SSM wash motor architecture \u2014 implements canonical circulation_pump."
+          },
+          {
+            "id": "diverter_position_sensor",
+            "name": "Diverter position sensor",
+            "aliases": [
+              "diverter position sensor",
+              "diverter sensor"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "sensor",
+            "note": "Platform-only position feedback \u2014 not diverter_valve canonical; deferred from oemTermAliases."
+          },
+          {
+            "id": "owi_sensor",
+            "name": "Optical water indicator (OWI)",
+            "aliases": [
+              "owi",
+              "owi thermistor",
+              "owi / thermistor"
+            ],
+            "systemId": "water_level",
+            "categoryId": "fill_supply",
+            "type": "sensor",
+            "dualRoleCanonicalIds": [
+              "water_level_sensor",
+              "temperature_sensor"
+            ],
+            "diagnosticRoleBindings": [
+              {
+                "canonicalComponentId": "water_level_sensor",
+                "testTargetId": "water_level_test",
+                "procedureId": "w11633848-owi-sensor"
+              },
+              {
+                "canonicalComponentId": "temperature_sensor",
+                "testTargetId": "temperature_response_test",
+                "procedureId": "w11633848-owi-sensor"
+              }
+            ],
+            "note": "One physical OWI participates in fill-level and temperature diagnostics \u2014 no forced canonical alias."
+          },
+          {
+            "id": "dc_fan_motor",
+            "name": "DC drying fan motor",
+            "aliases": [
+              "dc fan motor",
+              "dc fan"
+            ],
+            "systemId": "drying",
+            "categoryId": "heat_dry",
+            "type": "actuator",
+            "note": "Heat-dry airflow implementation \u2014 implements canonical drying_system."
+          },
+          {
+            "id": "f500_triac_fuse",
+            "name": "F500 triac load fuse",
+            "aliases": [
+              "f500",
+              "f500 triac fuse",
+              "triac load fuse"
+            ],
+            "systemId": "heating",
+            "categoryId": "heat_dry",
+            "type": "protective",
+            "note": "ACU load-side thermal protection \u2014 implements canonical thermal_protection."
+          },
+          {
+            "id": "vsm_wash_motor",
+            "name": "Variable-speed wash motor (VSM)",
+            "aliases": [
+              "vsm wash motor",
+              "wash motor (variable speed)"
+            ],
+            "systemId": "circulation",
+            "categoryId": "wash_circuit",
+            "type": "actuator",
+            "note": "W11480208 \u00a73-17 \u2014 VSM wash motor implements canonical circulation_pump (P5 pins 1&2)."
+          },
+          {
+            "id": "vsm_drain_motor",
+            "name": "Variable-speed drain motor (VSM)",
+            "aliases": [
+              "vsm drain motor",
+              "drain motor (variable speed)"
+            ],
+            "systemId": "drain",
+            "categoryId": "drain_circuit",
+            "type": "actuator",
+            "note": "W11480208 \u00a73-19 \u2014 VSM drain motor implements canonical drain_pump (P5 pins 5&6)."
+          }
+        ],
+        "relationships": [
+          {
+            "from": "diverter_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11633848 \u00a73-13 \u2014 diverter motor switches circulation path; canonical function is circulation_pump."
+          },
+          {
+            "from": "ssm_wash_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11633848 \u00a73-15 \u2014 SSM wash motor implements canonical circulation_pump."
+          },
+          {
+            "from": "diverter_position_sensor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11633848 \u00a73-14 \u2014 position feedback for diverter path; platform-only, not diverter_valve canonical."
+          },
+          {
+            "from": "diverter_position_sensor",
+            "to": "control_board",
+            "type": "provides_feedback_to",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "owi_sensor",
+            "to": "water_level_sensor",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "OWI fill-level diagnostic role \u2014 physical implementation, not canonical alias promotion."
+          },
+          {
+            "from": "owi_sensor",
+            "to": "temperature_sensor",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "OWI temperature diagnostic role \u2014 same physical part, separate canonical function."
+          },
+          {
+            "from": "owi_sensor",
+            "to": "control_board",
+            "type": "provides_feedback_to",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "dc_fan_motor",
+            "to": "drying_system",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11633848 \u00a73-17 \u2014 DC fan implements canonical drying_system; distinct from heat_source water heating."
+          },
+          {
+            "from": "f500_triac_fuse",
+            "to": "thermal_protection",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11633848 \u00a73-3 \u2014 F500 load fuse implements canonical thermal_protection."
+          },
+          {
+            "from": "control_board",
+            "to": "diverter_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "ssm_wash_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "dc_fan_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "vsm_wash_motor",
+            "to": "circulation_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11480208 filtration-platform VSM wash motor architecture."
+          },
+          {
+            "from": "vsm_drain_motor",
+            "to": "drain_pump",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W11480208 filtration-platform VSM drain motor architecture."
+          },
+          {
+            "from": "control_board",
+            "to": "vsm_wash_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "from": "control_board",
+            "to": "vsm_drain_motor",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "w11633848-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a73-7: Door Switch Circuit",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "w11633848-fill-valve",
+          "testTargetId": "fill_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a73-8: Fill Valve Circuit",
+          "canonicalComponents": [
+            "inlet_valve"
+          ]
+        },
+        {
+          "procedureId": "w11633848-overfill-switch",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a73-12: Overfill Float Switch",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ]
+        },
+        {
+          "procedureId": "w11633848-owi-sensor",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure",
+            "temperature_sensing_failure"
+          ],
+          "displayTitle": "\u00a73-11: OWI / Thermistor",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "implementationComponent": "owi_sensor",
+          "platformNote": "Dual-role OWI \u2014 temperature_response_test via platform diagnosticRoleBindings."
+        },
+        {
+          "procedureId": "w11633848-wash-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-15: Wash Motor (SSM)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "ssm_wash_motor"
+        },
+        {
+          "procedureId": "w11633848-diverter-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-13: Diverter Motor",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "diverter_motor"
+        },
+        {
+          "procedureId": "w11633848-diverter-sensor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-14: Diverter Position Sensor",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "diverter_position_sensor"
+        },
+        {
+          "procedureId": "w11633848-drain-motor",
+          "testTargetId": "drain_test",
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "\u00a73-16: Drain Motor",
+          "canonicalComponents": [
+            "drain_pump"
+          ]
+        },
+        {
+          "procedureId": "w11633848-heater",
+          "testTargetId": "heater_command_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a73-10: Water Heating (element)",
+          "canonicalComponents": [
+            "heat_source"
+          ],
+          "platformNote": "Water heating path only \u2014 \u00a73-10 compound title rejected; drying via dc-fan procedure."
+        },
+        {
+          "procedureId": "w11633848-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "failureDomains": [
+            "drying_failure"
+          ],
+          "displayTitle": "\u00a73-17: DC Fan Motor",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "dc_fan_motor"
+        },
+        {
+          "procedureId": "w11633848-dispenser",
+          "testTargetId": "detergent_dispenser_test",
+          "failureDomains": [
+            "dispensing_failure"
+          ],
+          "displayTitle": "\u00a73-9: Dispenser Solenoid",
+          "canonicalComponents": [
+            "detergent_dispenser"
+          ]
+        },
+        {
+          "procedureId": "w11633848-triac-fuse",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a73-3: F500 Triac Load Fuse",
+          "canonicalComponents": [
+            "thermal_protection"
+          ],
+          "implementationComponent": "f500_triac_fuse"
+        },
+        {
+          "procedureId": "w11633848-acu-power",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "power_failure",
+            "control_failure"
+          ],
+          "displayTitle": "\u00a73-6: ACU Power & DC Supplies",
+          "canonicalComponents": [
+            "control_board",
+            "power_supply"
+          ],
+          "platformNote": "Interim binding \u2014 procedural title not promoted to oemTermAlias."
+        },
+        {
+          "procedureId": "w11480208-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "\u00a73-8: Door Switch Circuit (P12)",
+          "canonicalComponents": [
+            "door_switch"
+          ]
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "testTargetId": "water_level_test",
+          "failureDomains": [
+            "fill_failure"
+          ],
+          "displayTitle": "\u00a73-13: Overfill Float Switch (P11)",
+          "canonicalComponents": [
+            "water_level_sensor"
+          ],
+          "platformNote": "Gate correction: fill_test \u2192 water_level_test"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "testTargetId": "heater_command_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "\u00a73-11: Water Heating / Heat Dry",
+          "canonicalComponents": [
+            "heat_source"
+          ]
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-14: Diverter Motor (P6)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "diverter_motor"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "testTargetId": "drain_test",
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)",
+          "canonicalComponents": [
+            "drain_pump"
+          ],
+          "implementationComponent": "vsm_drain_motor"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "testTargetId": "circulation_test",
+          "failureDomains": [
+            "circulation_failure"
+          ],
+          "displayTitle": "\u00a73-17: Wash Motor (Variable Speed)",
+          "canonicalComponents": [
+            "circulation_pump"
+          ],
+          "implementationComponent": "vsm_wash_motor"
+        },
+        {
+          "procedureId": "w11480208-dc-fan",
+          "testTargetId": "drying_airflow_test",
+          "failureDomains": [
+            "drying_failure"
+          ],
+          "displayTitle": "\u00a73-20: DC Fan Motor (ProDry)",
+          "canonicalComponents": [
+            "drying_system"
+          ],
+          "implementationComponent": "dc_fan_motor",
+          "platformNote": "Gate correction: heater_command_test \u2192 drying_airflow_test"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w11633848-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11633848-fill-valve",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testTargetId": "fill_test"
+        },
+        {
+          "procedureId": "w11633848-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11633848-owi-sensor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuOwiThermistorOhms",
+          "testTargetId": "water_level_test",
+          "implementationComponent": "owi_sensor"
+        },
+        {
+          "procedureId": "w11633848-wash-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuWashMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "ssm_wash_motor"
+        },
+        {
+          "procedureId": "w11633848-drain-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+          "testTargetId": "drain_test"
+        },
+        {
+          "procedureId": "w11633848-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "w11480208-door-switch",
+          "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+          "testTargetId": "door_switch_test"
+        },
+        {
+          "procedureId": "w11480208-overfill-switch",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testTargetId": "water_level_test"
+        },
+        {
+          "procedureId": "w11480208-heater",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+          "testTargetId": "heater_command_test"
+        },
+        {
+          "procedureId": "w11480208-diverter-motor",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "diverter_motor"
+        },
+        {
+          "procedureId": "w11480208-drain-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+          "testTargetId": "drain_test",
+          "implementationComponent": "vsm_drain_motor"
+        },
+        {
+          "procedureId": "w11480208-wash-motor-vsm",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+          "testTargetId": "circulation_test",
+          "implementationComponent": "vsm_wash_motor"
+        },
+        {
+          "procedureId": "w11480208-dc-fan",
+          "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+          "testTargetId": "drying_airflow_test",
+          "implementationComponent": "dc_fan_motor"
+        }
+      ],
+      "compoundingManualIds": [
+        "W11633848",
+        "W11480208"
+      ]
+    }
+  ],
+  "priorGateArtifact": "W11633848_overlay_mapping_table_v1.json",
+  "publishedManualIds": [
+    "W11633848",
+    "W11480208"
+  ],
+  "publishedAt": "2026-09-15T05:46:00.578368+00:00",
+  "_publishSanitizedAliases": []
+}

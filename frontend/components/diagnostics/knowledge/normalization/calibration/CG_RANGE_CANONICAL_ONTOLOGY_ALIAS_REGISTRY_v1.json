@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_canonical_ontology_alias_registry",
+  "workstream": "CG-RANGE-IMPLEMENTATION-GATE",
+  "status": "closed",
+  "approvedAt": "2026-09-16T21:57:00+00:00",
+  "sourceClosure": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+  "primaryCanonicalId": "range_oven",
+  "legacyAliases": [
+    {
+      "aliasId": "electric_range",
+      "resolvesTo": "range_oven",
+      "semantics": "explicit compatibility and CG-10 historical record — not a second ontology",
+      "frozenHistoricalFile": "electric_range.json",
+      "frozenHistoricalHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+      "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+    }
+  ],
+  "implementationTemplates": {
+    "resolveTo": "range_oven",
+    "templateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+    "doesNotCreate": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"]
+  },
+  "resolverPolicy": "explicit authoritative mapping in canonicalRegistry.ts — WO-text heuristic is fallback only for unknown subtype",
+  "historicalArtifactsImmutable": true,
+  "codeTargets": [
+    "canonicalOntologyAliases.ts",
+    "canonicalRegistry.ts",
+    "diagnosticTemplates.js",
+    "wizardRegistry.ts",
+    "platformRegistry.ts"
+  ]
+}

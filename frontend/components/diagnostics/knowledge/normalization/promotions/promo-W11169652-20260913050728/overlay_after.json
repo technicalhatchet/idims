@@ -1,0 +1,332 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "front_load_washer",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool front-load washer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_duet_sport_ccu_mcu",
+      "platformId": "whirlpool_duet_sport",
+      "manualId": "W8178558",
+      "label": "Duet Sport CCU/MCU belt-drive FL washer",
+      "appliesTo": {
+        "templateId": "washer",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WFW83*",
+          "WFW85*",
+          "MHW*"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport"
+        ]
+      },
+      "oemTermAliases": {
+        "CCU": "control_board",
+        "Central Control Unit": "control_board",
+        "Main Control": "control_board",
+        "Machine Control": "control_board",
+        "MCU": "motor_controller",
+        "Machine Control Unit": "motor_controller",
+        "Inverter Board": "motor_controller",
+        "Door Lock Assembly": "door_lock",
+        "Door Latch": "door_lock",
+        "Door Interlock": "door_lock",
+        "Pressure Switch": "water_level_sensor",
+        "PR6": "water_level_sensor",
+        "MS2": "drive_motor",
+        "DP2": "drain_pump",
+        "dosing_pump": "dosing_pump",
+        "\u00a75-4: Detergent Dispenser Motor": "dosing_pump",
+        "door_lock": "door_lock",
+        "\u00a75-5: Door Lock / Switch Circuit": "door_lock",
+        "drain_pump": "drain_pump",
+        "\u00a75-6: Drain Pump Circuit": "drain_pump",
+        "inlet_valve": "inlet_valve",
+        "\u00a75-1: Water Inlet Valve Solenoids": "inlet_valve",
+        "supply": "supply",
+        "drive_motor": "drive_motor",
+        "\u00a75-8: Drive Motor Circuit": "drive_motor",
+        "water_level_sensor": "water_level_sensor",
+        "\u00a75-2: Pressure Switch (F20)": "water_level_sensor",
+        "wash_heater": "wash_heater",
+        "\u00a75-7: Wash Heater (Ht models)": "wash_heater",
+        "wash_ntc": "wash_ntc"
+      },
+      "displayTerms": {
+        "control_board": "CCU (Central Control Unit)",
+        "motor_controller": "MCU (Machine Control Unit)",
+        "door_lock": "Door Lock Assembly",
+        "water_level_sensor": "Pressure Switch (PR6)",
+        "drive_motor": "Drive Motor (MS2)",
+        "drain_pump": "Drain Pump (DP2)"
+      },
+      "add": {
+        "establishedFactSources": [
+          {
+            "factId": "door_lock_authorized",
+            "fromBranches": [
+              "lock_energizes_yes",
+              "door_lock_path_verified"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "drain_completion",
+            "fromBranches": [
+              "pump_runs_yes",
+              "pump_verified",
+              "pump_comp_pass",
+              "pump_ccu_pass"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_command_present",
+            "fromBranches": [
+              "motor_runs_yes",
+              "ms2_skip"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_output_abnormal",
+            "fromBranches": [
+              "motor_open",
+              "motor_voltage_abnormal"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "control_board",
+            "to": "motor_controller",
+            "type": "commands",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W8178558 \u2014 CCU commands MCU for motor path"
+          }
+        ]
+      },
+      "overrides": [
+        {
+          "layer": "relationship",
+          "action": "remove",
+          "match": {
+            "from": "control_board",
+            "to": "drive_motor",
+            "type": "controls"
+          },
+          "reason": "Duet Sport routes motor drive through MCU \u2014 CCU does not directly switch motor load"
+        },
+        {
+          "layer": "functionalDependency",
+          "action": "merge",
+          "match": {
+            "id": "drive_operation"
+          },
+          "value": {
+            "requires": [
+              "motor_controller"
+            ]
+          },
+          "reason": "W8178558 belt-drive architecture requires MCU in motor path"
+        }
+      ],
+      "procedureBindings": [
+        {
+          "procedureId": "w8178558-door-lock",
+          "testTargetId": "door_lock_test",
+          "establishesFacts": [
+            "door_lock_authorized"
+          ],
+          "failureDomains": [
+            "door_interlock_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #5 \u2014 Door Lock",
+          "oemTestNumber": "5"
+        },
+        {
+          "procedureId": "w8178558-drain-pump",
+          "testTargetId": "drain_test",
+          "establishesFacts": [
+            "drain_completion"
+          ],
+          "failureDomains": [
+            "drain_failure"
+          ],
+          "displayTitle": "TEST #6 \u2014 Drain Pump",
+          "oemTestNumber": "6"
+        },
+        {
+          "procedureId": "w8178558-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "establishesFacts": [
+            "motor_output_abnormal"
+          ],
+          "failureDomains": [
+            "drive_failure",
+            "control_failure",
+            "communication_failure"
+          ],
+          "displayTitle": "TEST #8 \u2014 Motor Circuit",
+          "oemTestNumber": "8"
+        },
+        {
+          "procedureId": "w8178558-interlock-switch",
+          "testTargetId": "door_lock_test",
+          "failureDomains": [
+            "door_interlock_failure",
+            "wiring_connection"
+          ],
+          "displayTitle": "TEST #5a \u2014 NC Ground Interlock",
+          "oemTestNumber": "5a"
+        },
+        {
+          "procedureId": "w8178558-pressure-switch",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a75-2: Pressure Switch (F20)"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w8178558-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherMotorOhms",
+          "testTargetId": "motor_winding_test",
+          "establishesFacts": [
+            "motor_output_abnormal"
+          ],
+          "displayLabel": "Motor windings at MS2",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178558-door-lock",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "testTargetId": "door_lock_test",
+          "displayLabel": "Door lock solenoid",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178558-drain-pump",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDrainPumpOhms",
+          "testTargetId": "drain_test",
+          "displayLabel": "Drain pump windings at DP2",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    },
+    {
+      "platformFamilyId": "whirlpool_fl_dd_direct_drive",
+      "platformId": "whirlpool_fl_dd",
+      "manualId": "W11169652",
+      "label": "Whirlpool/Maytag 27 in. FL direct-drive washer (combo vent/dry)",
+      "appliesTo": {
+        "templateId": "washer",
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WFW56*",
+          "MHW56*",
+          "MVW56*"
+        ],
+        "platformIds": [
+          "whirlpool_fl_dd"
+        ]
+      },
+      "oemTermAliases": {
+        "ACU": "control_board",
+        "hmi_control": "hmi_control",
+        "drive_motor": "drive_motor",
+        "door_lock": "door_lock",
+        "inlet_valve": "inlet_valve",
+        "water_level_sensor": "water_level_sensor",
+        "TEST #7: Water Level Sensor": "water_level_sensor",
+        "drain_pump": "drain_pump",
+        "wash_heater": "wash_heater",
+        "wash_ntc": "wash_ntc",
+        "TEST #10: Wash Temperature Sensor": "wash_ntc",
+        "dosing_pump": "dosing_pump"
+      },
+      "displayTerms": {
+        "control_board": "ACU (Appliance Control Unit)",
+        "drive_motor": "Drive Motor (J6)"
+      },
+      "add": {
+        "establishedFactSources": [
+          {
+            "factId": "door_lock_authorized",
+            "fromBranches": [
+              "door_locks_yes",
+              "lock_switch_pass",
+              "solenoid_pass"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "drain_completion",
+            "fromBranches": [
+              "drain_runs_yes",
+              "pump_terminals_pass"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_command_present",
+            "fromBranches": [
+              "motor_moves_yes"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_output_abnormal",
+            "fromBranches": [
+              "j6_12_open",
+              "j6_23_open",
+              "j6_13_open",
+              "j6_12_critical",
+              "j6_23_critical",
+              "j6_13_critical"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": []
+      },
+      "overrides": [],
+      "procedureBindings": [],
+      "measurementBindings": []
+    }
+  ]
+}

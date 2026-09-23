@@ -1,0 +1,37 @@
+{
+  "manualId": "WHIRLPOOL-2225623-ICE-MAKER",
+  "platformId": "whirlpool_modular_ice_maker",
+  "templateId": "refrigerator",
+  "label": "Whirlpool modular ice maker (2225623)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:06.100877+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 8,
+    "mappingCandidates": 13,
+    "overlayCandidates": 2,
+    "conflicts": 0,
+    "extractionFiltered": 2
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 2,
+    "invalidExtraction": 0,
+    "totalFiltered": 2,
+    "samples": [
+      {
+        "rawTerm": "IME2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w2225623-ime-errors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "IME5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w2225623-ime-errors",
+        "source": "title_token"
+      }
+    ]
+  }
+}

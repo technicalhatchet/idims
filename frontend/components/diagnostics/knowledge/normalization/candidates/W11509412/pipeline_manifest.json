@@ -1,0 +1,115 @@
+{
+  "manualId": "W11509412",
+  "platformId": "whirlpool_ka_french_door",
+  "templateId": "refrigerator",
+  "label": "Whirlpool/KitchenAid ACU French door refrigerator (W11509412, ~27 cu ft)",
+  "status": "candidate",
+  "ontologyId": null,
+  "generatedAt": "2026-09-12T22:21:05.761377+00:00",
+  "topologySignature": "unknown",
+  "counts": {
+    "procedures": 13,
+    "mappingCandidates": 22,
+    "overlayCandidates": 1,
+    "conflicts": 0,
+    "extractionFiltered": 15
+  },
+  "extractionFilters": {
+    "proceduralNoise": 13,
+    "structuralNoise": 2,
+    "invalidExtraction": 0,
+    "totalFiltered": 15,
+    "samples": [
+      {
+        "rawTerm": "Service Test 1",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-01-fc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 2",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-02-rc-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 3",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-03-evap-fan-damper",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 4",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-04-compressor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 6",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-06-defrost",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 19",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-19-fill-tube-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 36",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-36-ice-box-fan",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 37",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-37-ice-box-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 45",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-45-ice-water-fill",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 56",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E0",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "E5",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w11509412-test-56-ice-maker-errors",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 57",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-57-ice-harvest",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 58",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-58-ice-heater-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "Service Test 59",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11509412-test-59-ice-motor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

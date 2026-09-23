@@ -1,0 +1,153 @@
+{
+  "manualId": "SAMSUNG-FL-DV6000-DRYER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-belt-cutoff-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdv6000-belt-cutoff",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-6: Belt cut-off switch",
+      "componentIds": [
+        "belt_switch"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-belt-cutoff",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-belt-cutoff",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungdv6000-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-6: Motor windings and relay (3C)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_DV6000_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-meas-samsungFlDv6000DryerMotorWinding34Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungdv6000-motor-circuit",
+      "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding34Ohms",
+            "stepTitle": "Motor winding pin 3\u20134"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-DV6000-DRYER-samsungdv6000-motor-circuit-meas-samsungFlDv6000DryerMotorWinding45Ohms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungdv6000-motor-circuit",
+      "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-FL-DV6000-DRYER",
+        "platformId": "samsung_fl_dryer_dv6000",
+        "procedureId": "samsungdv6000-motor-circuit",
+        "pages": [
+          30
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-DV6000-DRYER",
+            "platformId": "samsung_fl_dryer_dv6000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungdv6000-motor-circuit",
+            "pages": [
+              30
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungFlDv6000DryerMotorWinding45Ohms",
+            "stepTitle": "Motor winding pin 4\u20135"
+          }
+        ]
+      }
+    }
+  ]
+}

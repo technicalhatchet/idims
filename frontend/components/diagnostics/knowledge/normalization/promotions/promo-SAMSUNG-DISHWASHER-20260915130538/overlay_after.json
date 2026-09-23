@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "dishwasher",
+  "manufacturer": "Samsung",
+  "label": "Samsung dishwasher family overlays",
+  "status": "skeleton",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_dishwasher",
+      "platformId": "samsung_dishwasher",
+      "manualId": "SAMSUNG-DISHWASHER",
+      "label": "Samsung DW80/DW82 dishwasher (DW80R5060, DW80R5061, DW80T5040)",
+      "appliesTo": {
+        "templateId": "dishwasher",
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "DW80R506*",
+          "DW80R507*",
+          "DW80T504*",
+          "DW82*"
+        ],
+        "platformIds": [
+          "samsung_dishwasher"
+        ]
+      },
+      "oemTermAliases": {
+        "wash_motor": "circulation_pump",
+        "main_control": "control_board",
+        "dispenser": "detergent_dispenser",
+        "door_latch": "door_switch",
+        "drain_pump": "drain_pump",
+        "vent": "drying_system",
+        "inlet_valve": "inlet_valve",
+        "heater": "heat_source",
+        "user_interface": "hmi_control",
+        "float_switch": "water_level_sensor",
+        "thermistor": "temperature_sensor"
+      },
+      "displayTerms": {},
+      "deferredConcepts": {
+        "platform": [
+          "leak_sensor",
+          "main_pba_power"
+        ],
+        "rejectedProceduralTitles": []
+      },
+      "add": {
+        "components": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "testTargetId": "circulation_test",
+          "displayTitle": "\u00a74-1: Circulation Motor & Nozzle"
+        },
+        {
+          "procedureId": "samsungdw-door-switch",
+          "testTargetId": "door_switch_test",
+          "displayTitle": "\u00a74-1: Door Sensing Switch"
+        },
+        {
+          "procedureId": "samsungdw-drain-pump",
+          "testTargetId": "drain_test",
+          "displayTitle": "\u00a74-1: Drain Pump (5C)"
+        },
+        {
+          "procedureId": "samsungdw-fill-valve",
+          "testTargetId": "fill_test",
+          "displayTitle": "\u00a74-1: Fill Valve & Flow Meter (4C)"
+        },
+        {
+          "procedureId": "samsungdw-heater",
+          "testTargetId": "heater_command_test",
+          "displayTitle": "\u00a74-1: Heater Operation (HC / HC1)"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "samsungdw-circulation-motor",
+          "measurementKnowledgeId": "samsungDishwasherCirculationMotorOhms",
+          "testTargetId": "circulation_test"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_audit",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "sequence": 2,
+  "targetId": "samsung_ne58r9560ws_induction",
+  "status": "closed",
+  "verdict": "GREEN / NE58_COMPOUNDING_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T05:00:00+00:00",
+  "compoundingArtifact": "CG_RANGE_NE58R9560WS_COMPOUNDING_v1.json",
+  "priorSequenceAudit": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json",
+  "normalizationSource": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+  "overlayFile": "samsung_range_ne58.json",
+  "summary": {
+    "proceduresBound": "24/24",
+    "measurementsBound": "25/25",
+    "decisionBranchesExecutable": "11/11",
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "hierarchicalInheritance": true,
+    "flatFactDump": false,
+    "nx60OverlayIsolated": true
+  },
+  "integrityChecks": {
+    "canonicalOntologyId": "range_oven",
+    "electric_range.jsonHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "electricRangeRev1Unchanged": true,
+    "range_oven.jsonHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenUnchanged": true,
+    "nx60OverlayUnmodified": true,
+    "noInductionCanonicalGraphCreated": true,
+    "inductionHardwareInOverlayOnly": true
+  },
+  "provenanceChecks": {
+    "normalizationToCompoundingLineage": true,
+    "cg12FitRecordNotReopened": true,
+    "everyProcedureRetainsSourcePages": true,
+    "everyMeasurementRetainsUnitsAndConditions": true,
+    "decisionBranchesRetainConditionalLogic": true,
+    "functionalRealizationsHaveProvenance": true
+  },
+  "hierarchyChecks": {
+    "canonicalFunctionToImplementationToEvidence": true,
+    "surfaceHeatingAbsorbsInductionNotCanonicalPromotion": true,
+    "instanceScopesNotPromotedToComponents": true,
+    "examples": [
+      "surface_heating_system → top_sensor → A/D thresholds / >482°F",
+      "surface_heating_system → igbt_sensor → 10 kΩ",
+      "surface_heating_system → inverter_pcb → CN101 5V/12V + IGBT terminal check",
+      "surface_heating_system → pan_detection → suitable cookware",
+      "bake_heating_element → heater_bake → 17–19 Ω",
+      "temperature_sensor → oven_sensor → 1080 Ω @ room"
+    ]
+  },
+  "auditChecks": [
+    { "id": "twenty_four_procedures_bound_with_source", "status": "green" },
+    { "id": "twenty_four_measurements_with_provenance", "status": "green" },
+    { "id": "eleven_decision_branches_executable", "status": "green" },
+    { "id": "functional_realization_hierarchy", "status": "green" },
+    { "id": "canonical_contract_unchanged", "status": "green" },
+    { "id": "induction_hardware_overlay_only", "status": "green" },
+    { "id": "no_canonical_expansion", "status": "green" },
+    { "id": "nx60_sequence_isolation", "status": "green" },
+    { "id": "provenance_chain_complete", "status": "green" }
+  ],
+  "gateStatus": {
+    "ny63CompoundingBlocked": true,
+    "nextSequence": 3,
+    "nextTarget": "samsung_ny63t8751ss_dual_fuel",
+    "openOnlyAfter": "NE58 audit green — satisfied"
+  },
+  "nextDisciplinedStep": "STOP — NY63 dual-fuel compounding remains blocked until explicit sequence 3 open"
+}

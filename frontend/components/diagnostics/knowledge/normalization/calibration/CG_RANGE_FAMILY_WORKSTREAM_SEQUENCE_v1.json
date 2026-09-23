@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_family_workstream_sequence",
+  "status": "closed",
+  "verdict": "CLOSED / RANGE_FAMILY_ARCHITECTURE_COMPLETE",
+  "closedAt": "2026-09-17T07:00:00+00:00",
+  "authoredAt": "2026-09-16T16:14:00+00:00",
+  "frozenContract": {
+    "historicalId": "electric_range",
+    "organizationalPrimaryId": "range_oven",
+    "legacyAliasIds": ["electric_range"],
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "organizationalRenameApprovedAt": "2026-09-16T21:57:00+00:00",
+    "implementationStatus": "complete"
+  },
+  "coreDistinction": {
+    "fitTests": "Establish what the frozen ontology is capable of representing — architecture boundary, not implementation knowledge ingestion",
+    "normalizationCompounding": "Establish what Solomon knows about implementations — manual → CG-3 normalization → mapping/overlay candidates → human gate → manufacturer/platform/model overlay → production compounding",
+    "policy": "Fit test compatibility does not authorize immediate gas knowledge extraction or canonical promotion of implementation hardware"
+  },
+  "cg11FitResultSummary": {
+    "status": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+    "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+    "canonicalComponentsInherit": [
+      "power_supply",
+      "control_board",
+      "user_interface",
+      "temperature_sensor",
+      "surface_heating_system"
+    ],
+    "instanceScopesInherit": ["bake_heating_element", "broil_heating_element"],
+    "conditionalConcepts": {
+      "INHERITS": ["convection_fan"],
+      "CONDITIONAL": ["thermal_protection", "oven_door_switch"],
+      "NO_EVIDENCE": ["convection_heating_element"]
+    },
+    "platformImplementationOnly": [
+      "hsi",
+      "gas_valve",
+      "igniter",
+      "burner",
+      "safety_valve",
+      "spark_module",
+      "relay_to_hsi_path",
+      "valve_current_tests",
+      "ignition_sequence"
+    ],
+    "diverges": 0,
+    "solomonMessage": "Do not create another ontology just because the physical implementation is different.",
+    "notYetDelivered": "NX60 gas-specific diagnostic procedures are not yet in Solomon's usable knowledge base — fit proved compatibility only"
+  },
+  "disciplinedSequence": [
+    {
+      "phase": "CG-11",
+      "label": "Gas fit test",
+      "status": "closed",
+      "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+      "verdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT"
+    },
+    {
+      "phase": "CG-12",
+      "label": "Induction range fit test",
+      "status": "closed",
+      "contract": "CG12_INDUCTION_FIT_TEST_CONTRACT_v1.json",
+      "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+      "verdict": "CLOSED / INDUCTION_FITS_ELECTRIC_CONTRACT",
+      "crossManufacturerMatrix": "PENDING",
+      "purpose": "Does frozen electric_range rev1 survive radically different range implementation (induction)?"
+    },
+    {
+      "phase": "CG-13",
+      "label": "Dual-fuel range fit test",
+      "status": "closed",
+      "contract": "CG13_DUAL_FUEL_FIT_TEST_CONTRACT_v1.json",
+      "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+      "verdict": "CLOSED / DUAL_FUEL_FITS_ELECTRIC_CONTRACT",
+      "crossManufacturerMatrix": "PENDING",
+      "purpose": "Does frozen electric_range rev1 represent gas surface + electric oven without canonical divergence?"
+    },
+    {
+      "phase": "CG-RANGE-FAMILY-REVIEW",
+      "label": "Family boundary review",
+      "status": "closed",
+      "reviewArtifact": "CG_RANGE_FAMILY_REVIEW_v1.json",
+      "closureArtifact": "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+      "verdict": "CLOSED / THREE_ORGANIZATIONAL_DECISIONS_APPROVED",
+      "approvedDecisions": {
+        "canonicalNaming": "RENAME_TO_RANGE_OVEN",
+        "templateRouting": "ROUTE_ALL_RANGE_IMPLEMENTATIONS_TO_SHARED_CONTRACT",
+        "historicalReferencePolicy": "APPROVE_RECOMMENDED_POLICY"
+      }
+    },
+    {
+      "phase": "CG-RANGE-IMPLEMENTATION-GATE",
+      "label": "Organizational implementation gate",
+      "status": "closed",
+      "gateArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json",
+      "closureArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json",
+      "purpose": "Non-destructive range_oven identity + electric_range alias + resolver + template routing — before normalization unlock"
+    },
+    {
+      "phase": "CG-RANGE-NORMALIZATION",
+      "label": "Range corpus normalization",
+      "status": "closed",
+      "gateArtifact": "CG_RANGE_NORMALIZATION_v1.json",
+      "closureArtifact": "CG_RANGE_NORMALIZATION_AUDIT_v1.json",
+      "verdict": "GREEN / NORMALIZATION_AUDIT_PASSED",
+      "purpose": "CG-3 normalization for range manuals — populates knowledge hierarchy beneath approved range_oven decision; not for rename validation",
+      "coreConstraint": "Normalization consumes already-proven fit evidence; it does not reopen or reinterpret CG-11/12/13 architecture decisions",
+      "targetOrder": ["Samsung NX60 gas", "Samsung NE58R9560WS induction", "Samsung NY63T8751SS dual-fuel", "Whirlpool W11174814 corroboration"],
+      "firstTarget": "SAMSUNG-NX60-RANGE"
+    },
+    {
+      "phase": "CG-RANGE-COMPOUNDING",
+      "label": "Range implementation compounding",
+      "status": "closed",
+      "gateArtifact": "CG_RANGE_COMPOUNDING_v1.json",
+      "closureArtifact": "CG_RANGE_W11174814_COMPOUNDING_AUDIT_v1.json",
+      "verdict": "GREEN / RANGE_COMPOUNDING_COMPLETE",
+      "purpose": "Manufacturer/platform/model overlays bound to range_oven contract via resolver — populate frozen canonical contract from normalized evidence without ontology redesign"
+    },
+    {
+      "phase": "CG-RANGE-FAMILY-CLOSURE",
+      "label": "Range family closure",
+      "status": "closed",
+      "gateArtifact": "CG_RANGE_FAMILY_CLOSURE_v1.json",
+      "closureArtifact": "CG_RANGE_FAMILY_CLOSURE_AUDIT_v1.json",
+      "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json",
+      "verdict": "GREEN / RANGE_FAMILY_CLOSURE_COMPLETE",
+      "purpose": "Inventory/organizational closure gate — provenance, resolver discoverability, immutability locks; not ontology redesign"
+    }
+  ],
+  "nx60CompoundingTarget": {
+    "when": "After family boundary review — not as immediate post-CG-11 gas extraction phase",
+    "canonicalGraph": "range_oven rev1 (adopted from electric_range rev1 — CG-10 freeze hash unchanged)",
+    "overlayHierarchy": {
+      "manufacturer": "Samsung manufacturer knowledge",
+      "platform": "Samsung NX60 platform/model knowledge",
+      "platformVocabularyExamples": [
+        "HSI",
+        "gas_valve",
+        "burner",
+        "ignition_sequence",
+        "gas-specific measurements",
+        "relay_to_hsi_path",
+        "valve_current_tests"
+      ]
+    },
+    "singleManualRule": "CG-5.3 — gas_valve appearing in NX60 does not authorize canonical promotion; preserve as platform knowledge until recurrence demonstrated across manuals"
+  },
+  "pragmaticException": {
+    "allowed": "Normalization pipeline may ingest a manual before all fit tests complete when there is a practical operational reason",
+    "constraint": "Gas-specific concepts must be explicitly classified as platform/model knowledge — never auto-promoted to canonical from single-manual evidence"
+  },
+  "deferredActions": [
+    "Immediate NX60 gas knowledge compounding before implementation gate",
+    "Creating gas_range.json / induction_range.json / dual_fuel_range.json canonical ontologies",
+    "Promoting HSI, gas_valve, igniter, burner to canonical components[]",
+    "Destructive in-place rename of electric_range.json before alias registry",
+    "CG-RANGE-NORMALIZATION before implementation gate is green"
+  ],
+  "familyReviewSummary": {
+    "status": "CLOSED / THREE_ORGANIZATIONAL_DECISIONS_APPROVED",
+    "organizationalPrimaryId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "templateRouting": "all range implementation templates → shared range_oven contract"
+  },
+  "cg12FitResultSummary": {
+    "status": "CLOSED / INDUCTION_FITS_ELECTRIC_CONTRACT",
+    "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+    "crossManufacturerMatrix": "PENDING",
+    "diverges": 0,
+    "criticalFinding": "surface_heating_system absorbs induction inverter/coil architecture as platform vocabulary"
+  },
+  "cg13FitResultSummary": {
+    "status": "CLOSED / DUAL_FUEL_FITS_ELECTRIC_CONTRACT",
+    "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+    "crossManufacturerMatrix": "PENDING",
+    "diverges": 0,
+    "criticalFinding": "Gas surface + electric oven remain independently addressable under control_board — zero canonical mutation across four implementation families"
+  },
+  "cumulativeFitExperiment": {
+    "frozenContract": "electric_range rev1",
+    "canonicalHashMutations": 0,
+    "fitTestsClosed": ["CG-11 gas", "CG-12 induction", "CG-13 dual-fuel"],
+    "discoveryOrigin": "CG-10 electric"
+  },
+  "whirlpoolFamilyWitnessCorpus": {
+    "manualId": "W11174814",
+    "sourcePdf": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges.pdf",
+    "inRepo": true,
+    "covers": ["electric_radiant", "induction", "gas", "dual_fuel"],
+    "familyReviewUse": "Matrix population and normalization routing after organizational gate — not retroactive R1 for closed fit tests",
+    "note": "WFI505 (CG-12 planned R2) not in W11174814 wiring index — verify separate manual if needed"
+  },
+  "nextDisciplinedStep": "STOP — range family architecture closed; additional range manuals are coverage work only"
+}

@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_return_analysis",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-RETURN",
+  "status": "complete",
+  "generatedAt": "2026-09-17T16:40:00+00:00",
+  "contract": "CG_AIO_LAUNDRY_COMBO_RETURN_CONTRACT_v1.json",
+  "triangulation": "CG_AIO_LAUNDRY_COMBO_RETURN_TRIANGULATION_v1.json",
+  "hardOutcome": "candidate_ready_for_freeze",
+  "analysisSummary": "With heat_pump_dryer frozen, the minimum stable AIO contract is composition-based: front_load_washer (wash) + frozen heat_pump_dryer references (HP thermal + shared moisture rejection) + one new AIO-owned thermal sibling (condenser_resistive_dry_heat) + one AIO-only integration function (integrated_laundry_orchestration). sealed_ventless_drying parent REJECTED — descriptive umbrella without independent diagnostic responsibility. sealed_heat_pump_drying SUPERSEDED — must not generalize Whirlpool resistive condenser path.",
+  "drySideQuestionAnswers": {
+    "A_sealed_moisture_rejection_path_shared": {
+      "answer": "yes",
+      "classification": "cross_manufacturer_convergent",
+      "reuse": "composition_reference to frozen heat_pump_dryer.sealed_moisture_rejection_path",
+      "rationale": "Both W1 and W2 reject vented_dryer exhaust_path terminal; both use sealed ventless condensation-based moisture rejection. Function was frozen in HP dryer as modality-neutral moisture domain — not HP-exclusive."
+    },
+    "B_sealed_ventless_drying_parent_necessary": {
+      "answer": "no",
+      "classification": "rejected",
+      "rationale": "Parent adds no diagnostic responsibility beyond union of (a) modality-specific thermal functions and (b) shared moisture path. Fault families already split: no-heat localizes to heat_pump_thermal_system OR condenser_resistive_dry_heat; condensate/float localizes to sealed_moisture_rejection_path. Parent would be organizational only."
+    },
+    "C_condenser_resistive_sufficiently_neutral": {
+      "answer": "yes_as_functional_modality_not_component",
+      "proposedId": "condenser_resistive_dry_heat",
+      "classification": "cross_manufacturer_convergent_functional_class",
+      "rationale": "Names heat-generation responsibility (resistive dry heat on sealed condenser/recirculating air path) — distinct from vented_dryer heat_source primary contract and from heat_pump_thermal_system. Whirlpool W2 is witness; naming describes mechanism class not OEM topology.",
+      "w1DoesNotUse": true,
+      "platformScope": "condenser_resistive_aio_platforms"
+    },
+    "D_reference_frozen_hp_without_duplication": {
+      "answer": "yes",
+      "mechanism": "composition_by_reference",
+      "referencedFunctions": [
+        "heat_pump_dryer.heat_pump_thermal_system",
+        "heat_pump_dryer.sealed_moisture_rejection_path"
+      ],
+      "w1UsesBoth": true,
+      "w2UsesMoistureOnly": true,
+      "w2UsesHpThermal": false,
+      "noDuplicationInAioGraph": true
+    },
+    "E_minimum_aio_specific_addition": {
+      "answer": "two_aio_owned_functions",
+      "functions": [
+        {
+          "id": "integrated_laundry_orchestration",
+          "role": "AIO-only integration",
+          "corroboration": "independently_corroborated W1+W2"
+        },
+        {
+          "id": "condenser_resistive_dry_heat",
+          "role": "AIO-owned thermal sibling for non-HP ventless dry",
+          "corroboration": "W2 witness; W1 platform scope excludes"
+        }
+      ],
+      "notAioOwned": "HP thermal and shared moisture path — frozen heat_pump_dryer reference"
+    }
+  },
+  "composedArchitecture": {
+    "wash": {
+      "source": "front_load_washer",
+      "mode": "composition_by_reference"
+    },
+    "dryThermal": {
+      "mode": "platform_conditional_composition",
+      "heat_pump_platforms": {
+        "reference": "heat_pump_dryer.heat_pump_thermal_system",
+        "witness": "W1 Samsung WD53"
+      },
+      "condenser_resistive_platforms": {
+        "reference": "aio_laundry_combo.condenser_resistive_dry_heat",
+        "witness": "W2 Whirlpool WFW9620"
+      }
+    },
+    "dryMoisture": {
+      "reference": "heat_pump_dryer.sealed_moisture_rejection_path",
+      "witnesses": ["W1", "W2"]
+    },
+    "integration": {
+      "reference": "aio_laundry_combo.integrated_laundry_orchestration",
+      "witnesses": ["W1", "W2"]
+    }
+  },
+  "whyHeatPumpDryerCannotBeGenericAioDry": {
+    "reason": "Whirlpool WFW9620 establishes ventless sealed dry with resistive element + condenser duct — zero refrigerant loop. Mapping W2 to heat_pump_thermal_system would violate frozen HP semantic boundary and misroute no-heat diagnostics.",
+    "hpDryerRemainsClean": "Frozen as standalone HP family; AIO composes by reference for HP platforms only"
+  },
+  "whyWhirlpoolIsGenuineSibling": {
+    "reason": "W2 fails vented_dryer AND fails heat_pump_thermal_system — yet shares sealed_moisture_rejection_path with W1. Requires distinct thermal function, not HP generalization.",
+    "evidence": "CG_AIO_WFW9620_CORROBORATION_OBSERVATION_v1.json dryingArchitecture"
+  },
+  "integratedLaundryOrchestration": {
+    "disposition": "retained",
+    "classification": "independently_corroborated",
+    "scopePreserved": [
+      "unified wash/dry lifecycle",
+      "shared drum/motor/control coordination",
+      "mode transition without load transfer",
+      "cross-mode sequencing/interlocks"
+    ],
+    "notDumpingGroundFor": ["dry thermal", "moisture rejection", "refrigeration hardware"]
+  },
+  "rejectedAlternatives": [
+    {
+      "alternative": "Retain sealed_heat_pump_drying as generic AIO dry function",
+      "rejected": true,
+      "reason": "Whirlpool contradicts; duplicates frozen HP dryer; corroboration partially_corroborated only"
+    },
+    {
+      "alternative": "sealed_ventless_drying parent canonical node",
+      "rejected": true,
+      "reason": "No independent diagnostic responsibility — organizational umbrella"
+    },
+    {
+      "alternative": "Force Whirlpool into heat_pump_dryer via vented_dryer heat_source",
+      "rejected": true,
+      "reason": "Violates ventless architecture; mutates semantics of frozen families"
+    },
+    {
+      "alternative": "Blind union FL washer + HP dryer graphs",
+      "rejected": true,
+      "reason": "Misses condenser-resistive modality and AIO orchestration"
+    },
+    {
+      "alternative": "No new AIO family — extend front_load_washer",
+      "rejected": true,
+      "reason": "Dry divergence and integration coupling not representable without AIO contract"
+    }
+  ],
+  "candidateRevision": {
+    "required": true,
+    "artifact": "aio_laundry_combo_functional_contract_candidate_v1.json",
+    "revision": "return_v1_post_hp_freeze",
+    "supersedes": "sealed_heat_pump_drying single-witness dry abstraction"
+  },
+  "governance": {
+    "canonicalExpansion": 0,
+    "frozenGraphMutations": 0,
+    "aioJsonCreated": false,
+    "freezeExecuted": false,
+    "normalizationExecuted": false,
+    "compoundingExecuted": false,
+    "overlaysCreated": false
+  },
+  "frozenHashVerification": {
+    "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "allUnchanged": true
+  }
+}

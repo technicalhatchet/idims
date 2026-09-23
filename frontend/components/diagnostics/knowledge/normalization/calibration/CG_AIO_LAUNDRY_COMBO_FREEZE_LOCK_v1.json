@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_freeze_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T17:00:00+00:00",
+  "phase": "CG-AIO-LAUNDRY-COMBO-FREEZE",
+  "verdict": "CLOSED / AIO_LAUNDRY_COMBO_ARCHITECTURE_COMPLETE",
+  "closureStatement": "AIO laundry combo canonical architecture frozen at rev1. Two AIO-owned functions (integrated_laundry_orchestration, condenser_resistive_dry_heat) plus composition-by-reference to frozen front_load_washer and heat_pump_dryer (sealed_moisture_rejection_path + heat_pump_thermal_system). sealed_ventless_drying rejected. sealed_heat_pump_drying superseded. Zero hardware promotion.",
+  "canonicalOntology": {
+    "id": "aio_laundry_combo",
+    "file": "frontend/components/diagnostics/knowledge/canonical/aio_laundry_combo.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-17T17:00:00+00:00",
+    "hash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "returnLock": "CG_AIO_LAUNDRY_COMBO_RETURN_CLOSURE_v1.json",
+    "familyLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 1,
+    "canonicalExpansionNote": "condenser_resistive_dry_heat only — integrated_laundry_orchestration retained from discovery, not counted as expansion",
+    "componentPromotionCount": 0,
+    "aioOwnedFunctions": 2,
+    "compositionReferences": 3,
+    "returnWitnessCount": 2,
+    "referencePlatformOverlays": 0,
+    "rejectedParentUmbrellas": 1,
+    "supersededFunctions": 1
+  },
+  "ontologyLayers": {
+    "aioOwnedComponents": {
+      "layer": "components[]",
+      "description": "2 AIO-owned core functions — not duplicated from composed families",
+      "count": 2,
+      "ids": ["integrated_laundry_orchestration", "condenser_resistive_dry_heat"]
+    },
+    "compositionReferences": {
+      "count": 3,
+      "references": [
+        {
+          "qualifiedId": "front_load_washer",
+          "scope": "wash_mode_domains",
+          "witnesses": ["W1", "W2"]
+        },
+        {
+          "qualifiedId": "heat_pump_dryer.sealed_moisture_rejection_path",
+          "scope": "all_aio_ventless",
+          "notHpExclusive": true,
+          "witnesses": ["W1", "W2"]
+        },
+        {
+          "qualifiedId": "heat_pump_dryer.heat_pump_thermal_system",
+          "scope": "heat_pump_aio_only",
+          "witnesses": ["W1"],
+          "explicitlyNotFor": ["W2 Whirlpool WFW9620"]
+        }
+      ]
+    },
+    "platformOnlyConcepts": {
+      "count": 9,
+      "ids": [
+        "compressor",
+        "evaporator",
+        "condenser",
+        "dry_heater_element",
+        "dry_blower",
+        "vent_fan",
+        "condensate_pump",
+        "vent_baffle_solenoid",
+        "condenser_duct_assembly"
+      ]
+    },
+    "explicitlyRejected": ["sealed_ventless_drying"],
+    "explicitlySuperseded": ["sealed_heat_pump_drying"]
+  },
+  "platformRealizationScopes": [
+    {
+      "platformId": "samsung_laundry_combo",
+      "witness": "W1 Samsung WD53DBA900HZA1",
+      "requires": ["front_load_washer", "heat_pump_dryer.heat_pump_thermal_system", "heat_pump_dryer.sealed_moisture_rejection_path", "integrated_laundry_orchestration"],
+      "doesNotRequire": ["condenser_resistive_dry_heat"]
+    },
+    {
+      "platformId": "whirlpool_fl_dd_aio",
+      "witness": "W2 Whirlpool WFW9620HC0 / W11169652",
+      "requires": ["front_load_washer", "condenser_resistive_dry_heat", "heat_pump_dryer.sealed_moisture_rejection_path", "integrated_laundry_orchestration"],
+      "doesNotRequire": ["heat_pump_dryer.heat_pump_thermal_system"]
+    }
+  ],
+  "immutableFrozenReferences": {
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+    "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "semanticBoundaries": {
+    "condenser_resistive_dry_heat": "Functional resistive dry heat for sealed condenser AIO — NOT heater element, blower, duct, or Whirlpool-specific component as canonical node. AIO-scoped thermal sibling; not a generic family for blind reuse.",
+    "integrated_laundry_orchestration": "Unified wash/dry lifecycle coordination — NOT a container for ordinary washer or dryer functions.",
+    "sealed_moisture_rejection_path": "Composed reference from heat_pump_dryer — presence in HP graph does NOT make it HP-exclusive.",
+    "heat_pump_thermal_system": "Composed reference for HP AIO platforms only — Whirlpool condenser-resistive must NOT instantiate."
+  },
+  "freezeGateConstraints": {
+    "noNormalization": true,
+    "noCompounding": true,
+    "noManufacturerOverlays": true,
+    "noFrozenGraphMutation": true,
+    "noCorpusProcessing": true
+  }
+}

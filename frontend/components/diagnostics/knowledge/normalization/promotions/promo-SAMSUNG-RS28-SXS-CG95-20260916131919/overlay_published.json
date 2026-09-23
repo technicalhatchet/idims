@@ -1,0 +1,653 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "Samsung",
+  "label": "Samsung side-by-side refrigerator (RS28 / RF260B)",
+  "gateArtifact": "SAMSUNG_RS28_SXS_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "samsung_sxs",
+      "platformId": "samsung_sxs",
+      "manualId": "SAMSUNG-RS28-SXS",
+      "label": "Samsung SxS RS28/RS23 SpaceMax + RF260B platform",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "Samsung"
+        ],
+        "modelPatterns": [
+          "RS28A*",
+          "RS23A*",
+          "RS22T*",
+          "RS27T*",
+          "RS28T5B*",
+          "RS5300*",
+          "RF260B*",
+          "RF261B*"
+        ],
+        "platformIds": [
+          "samsung_sxs"
+        ]
+      },
+      "oemTermAliases": {
+        "main pcb": "control_board",
+        "main pba": "control_board",
+        "engineer mode": "control_board",
+        "self diagnosis": "control_board",
+        "display panel": "user_interface",
+        "display_panel": "user_interface",
+        "inverter board": "inverter_board",
+        "inverter_board": "inverter_board",
+        "io expander": "io_expander",
+        "evap_fan": "evaporator_fan",
+        "f-fan": "evaporator_fan",
+        "fz fan": "evaporator_fan",
+        "ff fan": "evaporator_fan",
+        "c-fan": "c_fan_convertible",
+        "damper_motor": "damper_motor",
+        "thermistor": "temperature_sensor",
+        "compressor": "compressor",
+        "ice maker": "ice_maker",
+        "dispenser panel": "dispenser_panel",
+        "wifi modem": "wifi_modem"
+      },
+      "displayTerms": {
+        "control_board": "Main PBA (engineer mode / self-diagnosis orchestration)",
+        "user_interface": "Display panel (41Er main\u2194panel communication)",
+        "evaporator_fan": "Multi-compartment fans (F/FZ/FF + C-FAN platform)",
+        "air_damper": "R-room damper heater (CN40)",
+        "defrost_heater": "F-DEF / FZ-DEF / FF-DEF defrost heaters",
+        "temperature_sensor": "Compartment NTCs (F/R/ambient/pantry \u2014 conditional scopes)",
+        "compressor": "Inverter PBA-mediated compressor (conditional)",
+        "inverter_board": "Inverter PBA / IPM (platform compressor_controller)",
+        "ice_maker": "In-door ice subsystem (conditional optional feature)",
+        "water_dispenser": "Through-door dispenser (47Er \u2014 conditional optional feature)",
+        "io_expander": "IO expander (46Er harness)",
+        "wifi_modem": "WiFi modem (52Er \u2014 platform connectivity)"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "inverter_pba_mediated",
+          "procedureIds": [
+            "samsungrs28-inverter-communication"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "samsungrs28-f-sensor",
+            "samsungrf260b-fz-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "samsungrs28-r-sensor",
+            "samsungrf260b-ff-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "ambient",
+          "procedureIds": [
+            "samsungrs28-ambient-sensor",
+            "samsungrf260b-ambient-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "pantry",
+          "procedureIds": [
+            "samsungrf260b-pantry-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "samsungrs28-ice-maker-sensor",
+            "samsungrs28-ice-maker-function",
+            "samsungrs28-ice-pipe-heater",
+            "samsungrf260b-ice-maker-sensor",
+            "samsungrf260b-ice-maker-function"
+          ]
+        },
+        {
+          "conditionalConceptId": "water_dispenser",
+          "procedureIds": [
+            "samsungrs28-dispenser-communication"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "inverter_board",
+            "name": "Compressor inverter PBA",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "inverter PBA"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "44Er/84C inverter-mediated drive \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "io_expander",
+            "name": "IO expander board",
+            "aliases": [
+              "io expander",
+              "io_expander",
+              "I/O expander"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsPlatformId": "io_expander",
+            "note": "46Er main\u2194IO expander \u2014 platform comm path, not canonical control_board."
+          },
+          {
+            "id": "damper_motor",
+            "name": "R-room damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Damper heater \u03a9 on damper_motor seed \u2014 Samsung SxS air_damper implementation."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F-DEF)",
+            "aliases": [
+              "f-def",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (FF-DEF)",
+            "aliases": [
+              "ff-def",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "RF260B FF-DEF NTC \u2014 platform defrost_sensor on samsung_sxs sibling topology."
+          },
+          {
+            "id": "ice_pipe_heater",
+            "name": "Ice pipe heater",
+            "aliases": [
+              "ice pipe heater",
+              "ice_pipe_heater"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "33E ice pipe \u2014 conditional ice_maker implementation only."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "In-door ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 not components[] promotion."
+          },
+          {
+            "id": "c_fan_convertible",
+            "name": "C-FAN (convertible path)",
+            "aliases": [
+              "c-fan",
+              "c fan",
+              "C-FAN"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "convertible",
+            "note": "22C C-FAN \u2014 platform under evaporator_fan. Role ambiguity vs condenser_fan documented; NOT condenser_fan conditional binding."
+          },
+          {
+            "id": "wifi_modem",
+            "name": "WiFi modem",
+            "aliases": [
+              "wifi modem",
+              "wifi_modem",
+              "ThinQ modem"
+            ],
+            "systemId": "connectivity",
+            "type": "controller",
+            "note": "52Er WiFi comm \u2014 connectivity platform adjunct, not canonical user_interface."
+          },
+          {
+            "id": "dispenser_panel",
+            "name": "Through-door dispenser panel",
+            "aliases": [
+              "dispenser panel",
+              "dispenser_panel"
+            ],
+            "systemId": "water_dispenser",
+            "type": "controller",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "47Er dispenser comm \u2014 implements conditional water_dispenser."
+          },
+          {
+            "id": "inverter_board",
+            "name": "Compressor inverter PBA",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "inverter PBA"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "44Er/84C inverter-mediated drive \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "io_expander",
+            "name": "IO expander board",
+            "aliases": [
+              "io expander",
+              "io_expander",
+              "I/O expander"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsPlatformId": "io_expander",
+            "note": "46Er main\u2194IO expander \u2014 platform comm path, not canonical control_board."
+          },
+          {
+            "id": "damper_motor",
+            "name": "R-room damper motor",
+            "aliases": [
+              "damper motor",
+              "damper_motor"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "air_damper",
+            "note": "Damper heater \u03a9 on damper_motor seed \u2014 Samsung SxS air_damper implementation."
+          },
+          {
+            "id": "freezer_defrost_ntc",
+            "name": "Freezer defrost NTC (F-DEF)",
+            "aliases": [
+              "f-def",
+              "freezer defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary \u2014 not cabinet temperature_sensor."
+          },
+          {
+            "id": "fridge_defrost_ntc",
+            "name": "Fridge defrost NTC (FF-DEF)",
+            "aliases": [
+              "ff-def",
+              "fridge defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "RF260B FF-DEF NTC \u2014 platform defrost_sensor on samsung_sxs sibling topology."
+          },
+          {
+            "id": "ice_pipe_heater",
+            "name": "Ice pipe heater",
+            "aliases": [
+              "ice pipe heater",
+              "ice_pipe_heater"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "33E ice pipe \u2014 conditional ice_maker implementation only."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "In-door ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "Optional ice_maker feature domain \u2014 not components[] promotion."
+          },
+          {
+            "id": "c_fan_convertible",
+            "name": "C-FAN (convertible path)",
+            "aliases": [
+              "c-fan",
+              "c fan",
+              "C-FAN"
+            ],
+            "systemId": "airflow",
+            "type": "actuator",
+            "implementsCanonicalId": "evaporator_fan",
+            "instanceScope": "convertible",
+            "note": "22C C-FAN \u2014 platform under evaporator_fan. Role ambiguity vs condenser_fan documented; NOT condenser_fan conditional binding."
+          },
+          {
+            "id": "wifi_modem",
+            "name": "WiFi modem",
+            "aliases": [
+              "wifi modem",
+              "wifi_modem",
+              "ThinQ modem"
+            ],
+            "systemId": "connectivity",
+            "type": "controller",
+            "note": "52Er WiFi comm \u2014 connectivity platform adjunct, not canonical user_interface."
+          },
+          {
+            "id": "dispenser_panel",
+            "name": "Through-door dispenser panel",
+            "aliases": [
+              "dispenser panel",
+              "dispenser_panel"
+            ],
+            "systemId": "water_dispenser",
+            "type": "controller",
+            "implementsConditionalConceptId": "water_dispenser",
+            "note": "47Er dispenser comm \u2014 implements conditional water_dispenser."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "samsungrs28-engineer-test-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-self-diagnostic-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-led-test-mode-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-panel-communication",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "samsungrf260b-panel-communication",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-f-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrf260b-fz-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrf260b-ff-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungrs28-f-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrf260b-fz-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrf260b-ff-fan",
+          "canonicalComponents": [
+            "evaporator_fan"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungrs28-damper-heater",
+          "canonicalComponents": [
+            "air_damper"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-inverter-communication",
+          "conditionalConcepts": [
+            "compressor"
+          ],
+          "instanceScope": "inverter_pba_mediated"
+        },
+        {
+          "procedureId": "samsungrs28-f-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrf260b-fz-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "samsungrs28-r-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungrf260b-ff-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "samsungrs28-ambient-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "ambient"
+        },
+        {
+          "procedureId": "samsungrf260b-ambient-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "ambient"
+        },
+        {
+          "procedureId": "samsungrf260b-pantry-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "pantry"
+        },
+        {
+          "procedureId": "samsungrs28-ice-maker-sensor",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-ice-maker-function",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-ice-pipe-heater",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungrf260b-ice-maker-sensor",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungrf260b-ice-maker-function",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "samsungrs28-dispenser-communication",
+          "conditionalConcepts": [
+            "water_dispenser"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "samsung-rs28-door-switch-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_insufficient_procedure_evidence",
+          "note": "No standalone RS28 door-switch procedure \u2014 svc manual flowchart only."
+        },
+        {
+          "teachingId": "samsung-rs28-condenser-fan-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_role_ambiguity",
+          "procedureIds": [
+            "samsungrs28-c-fan",
+            "samsungrf260b-c-fan"
+          ],
+          "note": "C-FAN bound to evaporator_fan platform \u2014 condenser_fan conditional withheld."
+        },
+        {
+          "teachingId": "samsung-rs28-humidity-abstention",
+          "procedureIds": [
+            "samsungrs28-humidity-sensor",
+            "samsungrf260b-humidity-sensor"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_single_manufacturer_feature"
+        },
+        {
+          "teachingId": "samsung-rs28-wifi-canonical-abstention",
+          "procedureIds": [
+            "samsungrs28-wifi-communication"
+          ],
+          "disposition": "intentional_abstention",
+          "layer": "defer_connectivity_not_hmi"
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "samsung-rs28-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Self-diagnostic checklist decomposes to members \u2014 aggregate remains dead."
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "samsung-rs28-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Inverter/PBA vocabulary does not resurrect cooling_system aggregate."
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "samsung-rs28-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "Multi-fan topology stays under evaporator_fan + platform instances."
+        },
+        {
+          "conceptId": "condenser_fan",
+          "teachingId": "samsung-rs28-condenser-fan-abstention",
+          "verdict": "defer_conditional_binding",
+          "note": "C-FAN role ambiguous \u2014 NOT promoted to condenser_fan conditional."
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorOverlayBlocked": "samsung_fridge_bespoke.json",
+        "rf23bbOverlayImportBlocked": true,
+        "cg9BoundaryProbe": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+        "cg9AutoApprovalBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "sxs_production_compounding_samsung",
+  "compoundingEvidence": {
+    "phase": "CG-9.5",
+    "workPackage": "WP1",
+    "manualId": "SAMSUNG-RS28-SXS",
+    "platformId": "samsung_sxs",
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "SAMSUNG_RS28_SXS_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "SAMSUNG_RS28_SXS_gate_decision_ledger_v1.json",
+    "boundaryProbeArtifact": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "accounting": {
+      "canonicalInheritances": 5,
+      "conditionalBindings": 7,
+      "overlayLearningEvents": 10,
+      "intentionalAbstentions": 4,
+      "newOverlaySemanticDecisions": 10,
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "publishedAt": "2026-09-16T13:19:19.070280+00:00"
+  }
+}

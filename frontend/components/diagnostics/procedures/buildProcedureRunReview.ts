@@ -1,10 +1,10 @@
+import { isExplicitFailureEvidenceId } from '../intelligence/componentVerification';
 import { getEvidenceConfig } from '../intelligence/evidenceRegistry';
 import { getPlatformRule } from '../knowledge/platformRegistry';
+import { procedureComponentDisplayLabel } from './procedureComponentAliases';
 import type { MeasurementEvaluation } from '../knowledge/types';
-import {
-  evaluateProcedureMeasurement,
-  matchProcedureBranch,
-} from './evaluateProcedureMeasurement';
+import { matchProcedureBranch } from './evaluateProcedureMeasurement';
+import { resolveProcedureStepMeasurementEvaluation } from './resolveProcedureStepMeasurementEvaluation';
 import { getServiceProcedure } from './procedureRegistry';
 import { getProcedureStep } from './procedureRunner';
 import { resolveProcedureStepTone, type ProcedureStepTone } from './procedureRunPresentation';
@@ -63,13 +63,19 @@ function formatDiagnosticEffect(
   componentLabel: (componentId: string) => string,
 ): string {
   const label = componentLabel(effect.componentId);
-  if (effect.type === 'confirm') return `Confirmed ${label}`;
+  if (effect.type === 'confirm') {
+    return isExplicitFailureEvidenceId(effect.evidenceId)
+      ? `Confirmed ${label}`
+      : `Supported ${label}`;
+  }
   if (effect.type === 'eliminate') return `Eliminated ${label}`;
   return `Suspect ${label}`;
 }
 
 function resolveStepEffects(
+  runState: ProcedureRunState,
   step: ReturnType<typeof getProcedureStep>,
+  stepId: string,
   input?: ProcedureStepInput,
 ): { effects: DiagnosticEffect[]; branchId?: string; branchLabel?: string; branchOutcome?: string } {
   if (!step) return { effects: [] };
@@ -78,7 +84,7 @@ function resolveStepEffects(
   let matchedBranch = null;
 
   if (step.type === 'measurement' && input?.kind === 'measurement') {
-    evaluation = evaluateProcedureMeasurement(step.measurementKnowledgeId, input.value);
+    evaluation = resolveProcedureStepMeasurementEvaluation(runState, step, stepId);
     matchedBranch = matchProcedureBranch(step.branches, evaluation);
   } else if (step.branches?.length) {
     matchedBranch = matchProcedureBranch(step.branches, null, input?.value);
@@ -103,8 +109,11 @@ export function buildProcedureRunReview(
 ): ProcedureRunReview {
   const platformRule = getPlatformRule(procedure.platformId);
   const evidenceConfig = getEvidenceConfig(platformRule?.templateId);
-  const componentLabel = (componentId: string) =>
-    evidenceConfig?.components?.find((item) => item.id === componentId)?.label || componentId;
+  const componentLabel = (componentId: string) => {
+    const seedLabel = procedureComponentDisplayLabel(componentId);
+    if (seedLabel !== componentId) return seedLabel;
+    return evidenceConfig?.components?.find((item) => item.id === componentId)?.label || componentId;
+  };
 
   const effectsByStep = new Map(
     (runState.appliedDiagnosticEffects || []).map((entry) => [entry.stepId, entry]),
@@ -118,12 +127,11 @@ export function buildProcedureRunReview(
 
     const input = runState.stepInputs[stepId];
     const appliedEntry = effectsByStep.get(stepId);
-    const resolved = resolveStepEffects(step, input);
+    const resolved = resolveStepEffects(runState, step, stepId, input);
 
-    let evaluation: MeasurementEvaluation | null = null;
-    if (step.type === 'measurement' && input?.kind === 'measurement') {
-      evaluation = evaluateProcedureMeasurement(step.measurementKnowledgeId, input.value);
-    }
+    const evaluation = step.type === 'measurement' && input?.kind === 'measurement'
+      ? resolveProcedureStepMeasurementEvaluation(runState, step, stepId)
+      : null;
 
     const effects = appliedEntry?.effects?.length
       ? appliedEntry.effects

@@ -1,0 +1,463 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "manufacturer": "Midea",
+  "label": "Midea / Insignia NS-RSS26 side-by-side refrigerator",
+  "gateArtifact": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "midea_rss",
+      "platformId": "midea_rss",
+      "manualId": "MIDEA-RSS-FRIDGE",
+      "label": "Midea RSS26 SxS (VFD compressor, B3839 NTC, E-family)",
+      "appliesTo": {
+        "templateId": "refrigerator",
+        "manufacturers": [
+          "Insignia",
+          "Midea"
+        ],
+        "modelPatterns": [
+          "NS-RSS*",
+          "NS-RTM*"
+        ],
+        "platformIds": [
+          "midea_rss"
+        ]
+      },
+      "oemTermAliases": {
+        "main control": "control_board",
+        "main_control": "main_control",
+        "main board": "control_board",
+        "mandatory mode": "control_board",
+        "display panel": "user_interface",
+        "display_panel": "display_panel",
+        "cn9": "display_panel",
+        "inverter board": "inverter_board",
+        "inverter_board": "inverter_board",
+        "vfd": "inverter_board",
+        "defrost heater": "defrost_heater",
+        "defrost_heater": "defrost_heater",
+        "thermistor": "temperature_sensor",
+        "b3839": "b3839_ntc",
+        "compressor": "compressor",
+        "ice maker": "ice_maker",
+        "e0": "ice_maker",
+        "ee": "ice_maker",
+        "e1": "temperature_sensor",
+        "e2": "temperature_sensor",
+        "e4": "rc_defrost_ntc",
+        "e5": "fz_defrost_ntc",
+        "e6": "display_panel",
+        "e7": "temperature_sensor",
+        "e9": "high_temp_alarm",
+        "sealed system": "sealed_system"
+      },
+      "displayTerms": {
+        "control_board": "Main control (mandatory mode LOCK + FRZ.TEMP entry)",
+        "user_interface": "Display panel (E6 CN9 communication)",
+        "defrost_heater": "Freezer defrost heater 115 V 240 W (~55 \u03a9)",
+        "temperature_sensor": "B3839 NTCs \u2014 RC/FZ/ambient conditional scopes",
+        "compressor": "VFD-mediated compressor (\u00a711.2 \u2014 conditional)",
+        "inverter_board": "VFD inverter board fault LED \u2014 platform compressor_controller",
+        "ice_maker": "Ice maker E0/EE (conditional optional feature)",
+        "rc_defrost_ntc": "RC defrost NTC E4 \u2014 platform defrost_sensor",
+        "fz_defrost_ntc": "FZ defrost NTC E5 \u2014 platform defrost_sensor",
+        "high_temp_alarm": "E9 high-temp routing \u2014 not canonical",
+        "sealed_system": "Sealed-system complaint routing \u2014 not canonical"
+      },
+      "conditionalConceptBindings": [
+        {
+          "conditionalConceptId": "compressor",
+          "instanceScope": "vfd_mediated",
+          "procedureIds": [
+            "midearss-vfd-inverter"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "fresh_food",
+          "procedureIds": [
+            "midearss-rc-temp-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "freezer",
+          "procedureIds": [
+            "midearss-fz-temp-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "temperature_sensor",
+          "instanceScope": "ambient",
+          "procedureIds": [
+            "midearss-ambient-sensor"
+          ]
+        },
+        {
+          "conditionalConceptId": "ice_maker",
+          "procedureIds": [
+            "midearss-ice-maker",
+            "midearss-ice-maker-sensor"
+          ]
+        }
+      ],
+      "add": {
+        "components": [
+          {
+            "id": "inverter_board",
+            "name": "VFD inverter board",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "VFD board",
+              "variable frequency driver"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "\u00a711.2 VFD fault LED \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "main_control",
+            "name": "Main control board",
+            "aliases": [
+              "main control",
+              "main_control",
+              "main board"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsCanonicalId": "control_board",
+            "note": "Mandatory mode orchestration \u2014 canonical control_board implementation."
+          },
+          {
+            "id": "display_panel",
+            "name": "Display panel",
+            "aliases": [
+              "display panel",
+              "display_panel"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsCanonicalId": "user_interface",
+            "note": "CN9 display\u2194main communication \u2014 canonical user_interface implementation."
+          },
+          {
+            "id": "rc_defrost_ntc",
+            "name": "RC defrost NTC (E4)",
+            "aliases": [
+              "rc defrost sensor",
+              "rc_defrost_ntc",
+              "E4 defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "Platform defrost_sensor \u2014 not cabinet temperature_sensor conditional."
+          },
+          {
+            "id": "fz_defrost_ntc",
+            "name": "FZ defrost NTC (E5)",
+            "aliases": [
+              "fz defrost sensor",
+              "fz_defrost_ntc",
+              "E5 defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary for freezer defrost circuit."
+          },
+          {
+            "id": "b3839_ntc",
+            "name": "B3839 NTC thermistor",
+            "aliases": [
+              "b3839 ntc",
+              "b3839_ntc",
+              "B3839 thermistor"
+            ],
+            "systemId": "sensing",
+            "type": "sensor",
+            "implementsConditionalConceptId": "temperature_sensor",
+            "note": "~2.0 k\u03a9 @ 25\u00b0C (mideaB3839ThermistorKohm) \u2014 cabinet/ambient NTC platform spec."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "E0/EE ice maker feature domain \u2014 conditionalConcept implementation only."
+          },
+          {
+            "id": "inverter_board",
+            "name": "VFD inverter board",
+            "aliases": [
+              "inverter board",
+              "inverter_board",
+              "VFD board",
+              "variable frequency driver"
+            ],
+            "systemId": "cooling",
+            "type": "controller",
+            "implementsPlatformId": "compressor_controller",
+            "note": "\u00a711.2 VFD fault LED \u2014 platform layer, not canonical compressor."
+          },
+          {
+            "id": "main_control",
+            "name": "Main control board",
+            "aliases": [
+              "main control",
+              "main_control",
+              "main board"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsCanonicalId": "control_board",
+            "note": "Mandatory mode orchestration \u2014 canonical control_board implementation."
+          },
+          {
+            "id": "display_panel",
+            "name": "Display panel",
+            "aliases": [
+              "display panel",
+              "display_panel"
+            ],
+            "systemId": "control",
+            "type": "controller",
+            "implementsCanonicalId": "user_interface",
+            "note": "CN9 display\u2194main communication \u2014 canonical user_interface implementation."
+          },
+          {
+            "id": "rc_defrost_ntc",
+            "name": "RC defrost NTC (E4)",
+            "aliases": [
+              "rc defrost sensor",
+              "rc_defrost_ntc",
+              "E4 defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "fresh_food",
+            "note": "Platform defrost_sensor \u2014 not cabinet temperature_sensor conditional."
+          },
+          {
+            "id": "fz_defrost_ntc",
+            "name": "FZ defrost NTC (E5)",
+            "aliases": [
+              "fz defrost sensor",
+              "fz_defrost_ntc",
+              "E5 defrost sensor"
+            ],
+            "systemId": "defrost",
+            "type": "sensor",
+            "implementsPlatformId": "defrost_sensor",
+            "instanceScope": "freezer",
+            "note": "Platform defrost_sensor vocabulary for freezer defrost circuit."
+          },
+          {
+            "id": "b3839_ntc",
+            "name": "B3839 NTC thermistor",
+            "aliases": [
+              "b3839 ntc",
+              "b3839_ntc",
+              "B3839 thermistor"
+            ],
+            "systemId": "sensing",
+            "type": "sensor",
+            "implementsConditionalConceptId": "temperature_sensor",
+            "note": "~2.0 k\u03a9 @ 25\u00b0C (mideaB3839ThermistorKohm) \u2014 cabinet/ambient NTC platform spec."
+          },
+          {
+            "id": "ice_maker_module",
+            "name": "Ice maker module",
+            "aliases": [
+              "ice maker module",
+              "ice_maker_module"
+            ],
+            "systemId": "ice_maker",
+            "type": "actuator",
+            "implementsConditionalConceptId": "ice_maker",
+            "note": "E0/EE ice maker feature domain \u2014 conditionalConcept implementation only."
+          }
+        ],
+        "relationships": []
+      },
+      "procedureBindings": [
+        {
+          "procedureId": "midearss-mandatory-mode-entry",
+          "canonicalComponents": [
+            "control_board"
+          ]
+        },
+        {
+          "procedureId": "midearss-communication",
+          "canonicalComponents": [
+            "user_interface"
+          ]
+        },
+        {
+          "procedureId": "midearss-fz-defrost-heater",
+          "canonicalComponents": [
+            "defrost_heater"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "midearss-vfd-inverter",
+          "conditionalConcepts": [
+            "compressor"
+          ],
+          "instanceScope": "vfd_mediated"
+        },
+        {
+          "procedureId": "midearss-rc-temp-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "fresh_food"
+        },
+        {
+          "procedureId": "midearss-fz-temp-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "freezer"
+        },
+        {
+          "procedureId": "midearss-ambient-sensor",
+          "conditionalConcepts": [
+            "temperature_sensor"
+          ],
+          "instanceScope": "ambient"
+        },
+        {
+          "procedureId": "midearss-ice-maker",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        },
+        {
+          "procedureId": "midearss-ice-maker-sensor",
+          "conditionalConcepts": [
+            "ice_maker"
+          ]
+        }
+      ],
+      "procedureRoleEvidence": [],
+      "deferredArtifacts": [
+        {
+          "teachingId": "midearss-door-switch-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_insufficient_procedure_evidence",
+          "note": "E9 references door switches \u2014 no standalone door-switch procedure seed."
+        },
+        {
+          "teachingId": "midearss-evaporator-fan-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed"
+        },
+        {
+          "teachingId": "midearss-air-damper-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed"
+        },
+        {
+          "teachingId": "midearss-condenser-fan-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_no_procedure_seed"
+        },
+        {
+          "teachingId": "midearss-water-dispenser-abstention",
+          "disposition": "intentional_abstention",
+          "layer": "defer_not_on_manual",
+          "note": "EH/EF/CA/EP dispenser codes \u2014 no procedure seed on RSS26."
+        }
+      ],
+      "routingRejections": [
+        {
+          "conceptId": "defrost_system",
+          "teachingId": "midearss-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "E-family steps decompose to members \u2014 aggregate remains dead."
+        },
+        {
+          "conceptId": "cooling_system",
+          "teachingId": "midearss-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "VFD compressor vocabulary does not resurrect cooling_system aggregate."
+        },
+        {
+          "conceptId": "airflow_path",
+          "teachingId": "midearss-aggregate-resurrection-blocked",
+          "verdict": "reject_aggregate_resurrection",
+          "note": "No evap-fan seed \u2014 airflow stays deferred, aggregate dead."
+        },
+        {
+          "conceptId": "high_temp_alarm",
+          "teachingId": "midearss-high-temp-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "E9 routes to compressor/thermistor checks \u2014 not door_switch canonical."
+        },
+        {
+          "conceptId": "sealed_system",
+          "teachingId": "midearss-high-temp-routing",
+          "verdict": "reject_canonical_promotion",
+          "note": "Complaint routing only \u2014 routes to compressor conditional + NTC scopes."
+        }
+      ],
+      "manufacturerIsolation": {
+        "priorOverlaysBlocked": [
+          "lg_lrmvs.json",
+          "samsung_sxs.json",
+          "whirlpool_sxs_w11296289.json",
+          "lg_sxs.json"
+        ],
+        "lrmvsOverlayImportBlocked": true,
+        "samsungSxsOverlayImportBlocked": true,
+        "whirlpoolSxsOverlayImportBlocked": true,
+        "lgSxsOverlayImportBlocked": true,
+        "cg9BoundaryProbe": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+        "cg9AutoApprovalBlocked": true
+      }
+    }
+  ],
+  "status": "published",
+  "gateKind": "sxs_production_compounding_midea",
+  "compoundingEvidence": {
+    "phase": "CG-9.5",
+    "workPackage": "WP4",
+    "manualId": "MIDEA-RSS-FRIDGE",
+    "platformId": "midea_rss",
+    "isLearningEvent": true,
+    "isCertification": false,
+    "gateArtifact": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+    "ledgerArtifact": "MIDEA_RSS_SXS_gate_decision_ledger_v1.json",
+    "boundaryProbeArtifact": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+    "accounting": {
+      "canonicalInheritances": 3,
+      "conditionalBindings": 5,
+      "overlayLearningEvents": 10,
+      "intentionalAbstentions": 5,
+      "newOverlaySemanticDecisions": 10,
+      "canonicalExpansion": 0,
+      "discoveryCorpusInheritance": 0,
+      "freezeReopening": 0,
+      "ontologyMutations": 0,
+      "semanticLearningFromRouting": 0
+    },
+    "headlineMetric": {
+      "canonicalExpansion": 0
+    },
+    "publishedAt": "2026-09-16T13:52:05.535784+00:00"
+  }
+}

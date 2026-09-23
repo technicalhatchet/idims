@@ -1,0 +1,146 @@
+{
+  "id": "samsungne58-oven-sensor",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Oven temperature sensor",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "thermistor"
+  ],
+  "tags": [
+    "E-21",
+    "E-22",
+    "sensor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Oven sensor resistance \u2014 E-21/E-22",
+    "pages": [
+      28,
+      47
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "disconnect_sensor"
+    },
+    {
+      "id": "disconnect_sensor",
+      "order": 2,
+      "type": "instruction",
+      "title": "Disconnect sensor harness",
+      "body": "Power off. Access oven sensor at CN201/CN02 path.",
+      "sourceExcerpt": "Power off. Access oven sensor at CN201/CN02 path.",
+      "requiresInput": false,
+      "defaultNextStepId": "sensor_ohms"
+    },
+    {
+      "id": "sensor_ohms",
+      "order": 3,
+      "type": "measurement",
+      "title": "Oven sensor resistance",
+      "body": "Measure oven sensor at room temperature \u2014 ~1080 \u03a9 nominal.",
+      "sourceExcerpt": "Measure oven sensor at room temperature \u2014 ~1080 \u03a9 nominal.",
+      "measurementKnowledgeId": "samsungNx60OvenSensorOhms",
+      "testPoint": {
+        "connector": "Oven sensor",
+        "pins": "terminals",
+        "label": "Oven sensor resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "rtd_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "confirm_temp_sensor_ol_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "confirm_temp_sensor_ol_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "thermistor",
+              "evidenceId": "confirm_temp_sensor_ol_temp_sensor_failed"
+            }
+          ]
+        },
+        {
+          "id": "rtd_pass",
+          "label": "~1080 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "thermistor",
+              "evidenceId": "eliminate_temp_sensor_ol_temp_sensor_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_sensor",
+      "order": 4,
+      "type": "outcome",
+      "title": "Replace oven sensor or PCB",
+      "oemOutcome": "Replace open/short sensor or main PCB when connectors verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "sensor_ok",
+      "order": 5,
+      "type": "outcome",
+      "title": "Oven sensor OK",
+      "oemOutcome": "Oven temperature sensor verified.",
+      "requiresInput": false
+    }
+  ]
+}

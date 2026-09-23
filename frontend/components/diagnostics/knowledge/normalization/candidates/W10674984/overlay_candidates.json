@@ -1,0 +1,155 @@
+{
+  "manualId": "W10674984",
+  "candidates": [
+    {
+      "id": "overlay-W10674984-w10674984-adc-cooling-voltage-motor_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w10674984-adc-cooling-voltage",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.92,
+      "displayTitle": "ADC 2000 cooling output (P6\u2013P4)",
+      "componentIds": [
+        "control_board",
+        "compressor"
+      ],
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W10674984-w10674984-adc-cooling-voltage-meas-whirlpoolWrt311AdcCoolingOutputVoltage",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w10674984-adc-cooling-voltage",
+      "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-cooling-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-cooling-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolWrt311AdcCoolingOutputVoltage",
+            "stepTitle": "ADC cooling output voltage"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W10674984-w10674984-adc-heater-voltage-motor_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w10674984-adc-heater-voltage",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.92,
+      "displayTitle": "ADC 2000 defrost heater output (P2\u2013P6)",
+      "componentIds": [
+        "defrost_heater",
+        "control_board"
+      ],
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WRT311FDZT00_W10674984_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W10674984-w10674984-adc-heater-voltage-meas-whirlpoolWrt311AdcDefrostHeaterVoltage",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w10674984-adc-heater-voltage",
+      "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+      "canonicalTestTarget": "motor_command_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W10674984",
+        "platformId": "whirlpool_wrt311_adc",
+        "procedureId": "w10674984-adc-heater-voltage",
+        "pages": [
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10674984",
+            "platformId": "whirlpool_wrt311_adc"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10674984-adc-heater-voltage",
+            "pages": [
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolWrt311AdcDefrostHeaterVoltage",
+            "stepTitle": "ADC defrost heater output voltage"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -18,6 +18,7 @@ export default function WizardSuggestedStep({ className = '' }) {
 
   const ctx = context as WizardIntelContext & {
     oemRepairDecisionPending?: boolean;
+    unifiedTopWizardStepKey?: string | null;
   };
   const intelligence = ctx?.intelligence;
   const stepKeyLabels = intelligence?.stepKeyLabels || {};
@@ -38,8 +39,12 @@ export default function WizardSuggestedStep({ className = '' }) {
   if (!jumpKey) return null;
 
   const recommendedKeys = intelligence?.recommendedStepKeys || [];
-  const targetKey = recommendedKeys.find(
-    (key) => key && !(ctx?.visitedStepKeys || []).includes(key),
+  const visitedKeys = ctx?.visitedStepKeys || [];
+  const targetKey = (
+    ctx?.unifiedTopWizardStepKey
+    && !visitedKeys.includes(ctx.unifiedTopWizardStepKey)
+      ? ctx.unifiedTopWizardStepKey
+      : recommendedKeys.find((key) => key && !visitedKeys.includes(key))
   );
   const isPrerequisiteJump = Boolean(targetKey && jumpKey !== targetKey);
 

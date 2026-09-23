@@ -1,0 +1,81 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-DRYER-samsungbb8700-dryer-belt-cutoff-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-dryer-belt-cutoff",
+      "canonicalTestTarget": "motor_run_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-6: Belt cut-off switch",
+      "componentIds": [
+        "belt_switch"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-belt-cutoff",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-FL-BB8700-DRYER-samsungbb8700-dryer-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungbb8700-dryer-motor-circuit",
+      "canonicalTestTarget": "motor_run_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-6: Motor centrifugal switch",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-motor-circuit",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1068 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "vented_dryer",
+  "manufacturer": "Whirlpool",
+  "label": "Whirlpool vented dryer family overlays",
+  "platformFamilies": [
+    {
+      "platformFamilyId": "whirlpool_duet_sport_mce_dryer",
+      "platformId": "whirlpool_duet_sport_dryer",
+      "manualId": "W8178559",
+      "label": "Whirlpool Duet Sport MCE vented dryer (Job Aid 8178559)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer",
+          "gas_dryer"
+        ],
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WED83*",
+          "WED85*",
+          "WGD83*",
+          "WGD85*",
+          "MED83*",
+          "MED85*",
+          "MGD83*",
+          "MGD85*"
+        ],
+        "platformIds": [
+          "whirlpool_duet_sport_dryer"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "power_supply",
+        "user_interface": "hmi_control",
+        "heating_element": "heat_source",
+        "exhaust_thermistor": "temperature_sensor",
+        "door_switch": "door_switch",
+        "motor": "drive_motor",
+        "moisture_sensor": "moisture_sensor",
+        "thermal_fuse": "thermal_fuse",
+        "thermal_cutoff": "thermal_cutoff",
+        "gas_valve": "heat_source",
+        "igniter": "heat_source",
+        "MCE": "control_board",
+        "Machine Control Electronics": "control_board",
+        "Primary control": "control_board",
+        "Machine Control": "control_board",
+        "P14": "temperature_sensor",
+        "exhaust thermistor": "temperature_sensor",
+        "P8-3": "door_switch",
+        "P8-4": "door_switch",
+        "TEST #3a: Exhaust Thermistor": "temperature_sensor",
+        "TEST #3 (gas): Ignitor": "heat_source",
+        "TEST #4: Moisture Sensor": "moisture_sensor",
+        "TEST #3b: Thermal Fuse": "thermal_fuse"
+      },
+      "displayTerms": {
+        "control_board": "MCE (Machine Control Electronics)",
+        "temperature_sensor": "Exhaust thermistor (P14)",
+        "heat_source": "Heat source (element or gas path)",
+        "electric_heater": "Heating element (7\u201312 \u03a9)",
+        "gas_valve": "Gas valve coils",
+        "ignitor": "Hot-surface ignitor",
+        "door_switch": "Door switch (P8-3 / P8-4)",
+        "drive_motor": "Drive motor",
+        "power_supply": "Line voltage / supply"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "name": "Electric heating element",
+            "aliases": [
+              "heating element",
+              "heating_element"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "electric_dryer"
+            ]
+          },
+          {
+            "id": "gas_valve",
+            "name": "Gas valve",
+            "aliases": [
+              "gas valve",
+              "gas_valve"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          },
+          {
+            "id": "ignitor",
+            "name": "Hot-surface ignitor",
+            "aliases": [
+              "igniter",
+              "ignitor"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "door_closed_authorized",
+            "fromBranches": [
+              "door_closed_authorized"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_running",
+            "fromBranches": [
+              "motor_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "blower_running",
+            "fromBranches": [
+              "blower_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "airflow_path_clear",
+            "fromBranches": [
+              "airflow_path_clear"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "heat_command_present",
+            "fromBranches": [
+              "heat_command_present"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "electric_heater",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W8178559 \u2014 single 7\u201312 \u03a9 element; platform-scoped electric heat implementation."
+          },
+          {
+            "from": "gas_valve",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W8178559 \u2014 gas valve coil path; platform-scoped gas heat implementation."
+          },
+          {
+            "from": "ignitor",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W8178559 \u2014 50\u2013250 \u03a9 ignitor; gas ignition path."
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "w8178559-supply-connections",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "power_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #1 \u2014 Supply Connections",
+          "oemTestNumber": "1"
+        },
+        {
+          "procedureId": "w8178559-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #2 \u2014 Motor Circuit",
+          "oemTestNumber": "2"
+        },
+        {
+          "procedureId": "w8178559-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3 \u2014 Heater (electric)",
+          "oemTestNumber": "3"
+        },
+        {
+          "procedureId": "w8178559-heater-gas",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3 \u2014 Heater (gas)",
+          "oemTestNumber": "3-gas"
+        },
+        {
+          "procedureId": "w8178559-exhaust-thermistor",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure",
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3a \u2014 Exhaust Thermistor",
+          "oemTestNumber": "3a"
+        },
+        {
+          "procedureId": "w8178559-thermal-fuse",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3b \u2014 Thermal Fuse",
+          "oemTestNumber": "3b"
+        },
+        {
+          "procedureId": "w8178559-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3c \u2014 Thermal Cut-Off",
+          "oemTestNumber": "3c"
+        },
+        {
+          "procedureId": "w8178559-gas-ignitor",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3 (gas) \u2014 Ignitor",
+          "oemTestNumber": "3-gas-ignitor"
+        },
+        {
+          "procedureId": "w8178559-gas-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #3d \u2014 Gas Valve Coils",
+          "oemTestNumber": "3d"
+        },
+        {
+          "procedureId": "w8178559-moisture-sensor",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure"
+          ],
+          "displayTitle": "TEST #4 \u2014 Moisture Sensor",
+          "oemTestNumber": "4"
+        },
+        {
+          "procedureId": "w8178559-dryness-adjust",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #4a \u2014 Customer Drying Mode",
+          "oemTestNumber": "4a"
+        },
+        {
+          "procedureId": "w8178559-button-indicator",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #5 \u2014 Button and Indicator",
+          "oemTestNumber": "5"
+        },
+        {
+          "procedureId": "w8178559-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "TEST #6 \u2014 Door Switch",
+          "oemTestNumber": "6"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w8178559-motor-circuit",
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerMotorOhms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor windings at switch",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178559-heater-electric",
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerHeaterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Heating element",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178559-exhaust-thermistor",
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerExhaustThermistorKohm",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Exhaust thermistor (P14)",
+          "units": "k\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178559-gas-ignitor",
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerIgnitorOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Hot-surface ignitor",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w8178559-gas-valve",
+          "measurementKnowledgeId": "whirlpoolDuetSportDryerGasValveCoilOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    },
+    {
+      "platformFamilyId": "whirlpool_ccu_dryer",
+      "platformId": "whirlpool_ccu_dryer",
+      "manualId": "W10680150",
+      "label": "Whirlpool/Maytag CCU/ACU vented dryer (W10680150 + W10881701 + W11169659 deltas)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer",
+          "gas_dryer"
+        ],
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WED56*",
+          "WED66*",
+          "WGD56*",
+          "WGD66*",
+          "MED56*",
+          "MED66*",
+          "MGD56*",
+          "MGD66*",
+          "WED95*",
+          "MED95*",
+          "WGD95*",
+          "MGDB955*",
+          "WED96*",
+          "MED96*",
+          "WGD96*",
+          "MGD96*"
+        ],
+        "platformIds": [
+          "whirlpool_ccu_dryer"
+        ]
+      },
+      "oemTermAliases": {
+        "supply": "power_supply",
+        "user_interface": "hmi_control",
+        "heating_element": "heat_source",
+        "exhaust_thermistor": "temperature_sensor",
+        "inlet_thermistor": "temperature_sensor",
+        "door_switch": "door_switch",
+        "motor": "drive_motor",
+        "moisture_sensor": "moisture_sensor",
+        "thermal_fuse": "thermal_fuse",
+        "thermal_cutoff": "thermal_cutoff",
+        "gas_valve": "heat_source",
+        "igniter": "heat_source",
+        "ccu": "control_board",
+        "CCU": "control_board",
+        "Central Control Unit": "control_board",
+        "acu": "control_board",
+        "ACU": "control_board",
+        "Appliance Control Unit": "control_board",
+        "drum_light": "hmi_control",
+        "steam_valve": "heat_source",
+        "TEST #5: Moisture Sensor": "moisture_sensor",
+        "TEST #4b: Thermal Fuse": "thermal_fuse",
+        "TEST #10: Service LEDs": "hmi_control"
+      },
+      "displayTerms": {
+        "control_board": "CCU / ACU (Central / Appliance Control Unit)",
+        "temperature_sensor": "Exhaust / inlet thermistor",
+        "heat_source": "Heat source (dual element or gas path)",
+        "electric_heater": "Dual heating element (\u226450 \u03a9)",
+        "gas_valve": "Gas valve coils",
+        "ignitor": "Hot-surface ignitor",
+        "door_switch": "Door switch",
+        "drive_motor": "Drive motor",
+        "power_supply": "Line voltage / supply",
+        "hmi_control": "Console / buttons / drum LED / service LEDs",
+        "steam_valve": "Steam water valve (W10881701)"
+      },
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "name": "Electric heating element (dual)",
+            "aliases": [
+              "heating element",
+              "heating_element"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "electric_dryer"
+            ]
+          },
+          {
+            "id": "gas_valve",
+            "name": "Gas valve",
+            "aliases": [
+              "gas valve",
+              "gas_valve"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          },
+          {
+            "id": "ignitor",
+            "name": "Hot-surface ignitor",
+            "aliases": [
+              "igniter",
+              "ignitor"
+            ],
+            "systemId": "heating",
+            "categoryId": "dry_heating",
+            "type": "actuator",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          }
+        ],
+        "establishedFactSources": [
+          {
+            "factId": "door_closed_authorized",
+            "fromBranches": [
+              "door_closed_authorized"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "motor_running",
+            "fromBranches": [
+              "motor_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "blower_running",
+            "fromBranches": [
+              "blower_running"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "airflow_path_clear",
+            "fromBranches": [
+              "airflow_path_clear"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          },
+          {
+            "factId": "heat_command_present",
+            "fromBranches": [
+              "heat_command_present"
+            ],
+            "source": "service_manual",
+            "confidence": "high"
+          }
+        ],
+        "relationships": [
+          {
+            "from": "electric_heater",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W10680150 \u2014 dual element \u226450 \u03a9; CCU platform electric heat implementation."
+          },
+          {
+            "from": "gas_valve",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W10680150 \u2014 gas valve coil path."
+          },
+          {
+            "from": "ignitor",
+            "to": "heat_source",
+            "type": "implements",
+            "source": "service_manual",
+            "confidence": "high",
+            "note": "W10680150 \u2014 hot-surface ignitor on gas valve procedure."
+          }
+        ]
+      },
+      "overrides": [],
+      "procedureBindings": [
+        {
+          "procedureId": "w10680150-ccu-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "TEST #1 \u2014 CCU Power Check",
+          "oemTestNumber": "1"
+        },
+        {
+          "procedureId": "w10680150-supply-connections",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "supply_issue"
+          ],
+          "displayTitle": "TEST #2 \u2014 Supply Connections",
+          "oemTestNumber": "2"
+        },
+        {
+          "procedureId": "w10680150-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "TEST #3 \u2014 Motor Circuit",
+          "oemTestNumber": "3"
+        },
+        {
+          "procedureId": "w10680150-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #4 \u2014 Heat System (electric)",
+          "oemTestNumber": "4"
+        },
+        {
+          "procedureId": "w10680150-heater-gas",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "TEST #4 \u2014 Heat System (gas)",
+          "oemTestNumber": "4-gas"
+        },
+        {
+          "procedureId": "w10680150-thermistors",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure"
+          ],
+          "displayTitle": "TEST #4a \u2014 Thermistors",
+          "oemTestNumber": "4a"
+        },
+        {
+          "procedureId": "w10680150-thermal-fuse",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "TEST #4b \u2014 Thermal Fuse",
+          "oemTestNumber": "4b"
+        },
+        {
+          "procedureId": "w10680150-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "TEST #4c \u2014 Thermal Cut-Off",
+          "oemTestNumber": "4c"
+        },
+        {
+          "procedureId": "w10680150-gas-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "TEST #4d \u2014 Gas Valve",
+          "oemTestNumber": "4d"
+        },
+        {
+          "procedureId": "w10680150-moisture-sensor",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure"
+          ],
+          "displayTitle": "TEST #5 \u2014 Moisture Sensor",
+          "oemTestNumber": "5"
+        },
+        {
+          "procedureId": "w10680150-dryness-adjust",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #5a \u2014 Customer Dryness Level",
+          "oemTestNumber": "5a"
+        },
+        {
+          "procedureId": "w10680150-button-indicator",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #6 \u2014 Buttons and Indicators",
+          "oemTestNumber": "6"
+        },
+        {
+          "procedureId": "w10680150-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "TEST #7 \u2014 Door Switch",
+          "oemTestNumber": "7"
+        },
+        {
+          "procedureId": "w10881701-acu-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "TEST #1 \u2014 ACU Power Check",
+          "oemTestNumber": "1"
+        },
+        {
+          "procedureId": "w10881701-supply-connections",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "supply_issue"
+          ],
+          "displayTitle": "TEST #2 \u2014 Supply Connections",
+          "oemTestNumber": "2"
+        },
+        {
+          "procedureId": "w10881701-motor-circuit",
+          "testTargetId": "motor_run_test",
+          "failureDomains": [
+            "drive_failure"
+          ],
+          "displayTitle": "TEST #3 \u2014 Motor Circuit",
+          "oemTestNumber": "3"
+        },
+        {
+          "procedureId": "w10881701-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #4 \u2014 Heat System (electric)",
+          "oemTestNumber": "4"
+        },
+        {
+          "procedureId": "w10881701-heater-gas",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "TEST #4 \u2014 Heat System (gas)",
+          "oemTestNumber": "4-gas"
+        },
+        {
+          "procedureId": "w10881701-thermistors",
+          "testTargetId": "exhaust_temperature_test",
+          "failureDomains": [
+            "temperature_sensing_failure"
+          ],
+          "displayTitle": "TEST #4a \u2014 Thermistors",
+          "oemTestNumber": "4a"
+        },
+        {
+          "procedureId": "w10881701-thermal-fuse",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "TEST #4b \u2014 Thermal Fuse",
+          "oemTestNumber": "4b"
+        },
+        {
+          "procedureId": "w10881701-thermal-cutoff",
+          "testTargetId": "thermal_protection_test",
+          "failureDomains": [
+            "heating_failure",
+            "thermal_protection_failure"
+          ],
+          "displayTitle": "TEST #4c \u2014 Thermal Cut-Off",
+          "oemTestNumber": "4c"
+        },
+        {
+          "procedureId": "w10881701-gas-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure",
+            "ignition_issue"
+          ],
+          "displayTitle": "TEST #4d \u2014 Gas Valve",
+          "oemTestNumber": "4d"
+        },
+        {
+          "procedureId": "w10881701-moisture-sensor",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure"
+          ],
+          "displayTitle": "TEST #5 \u2014 Moisture Sensor",
+          "oemTestNumber": "5"
+        },
+        {
+          "procedureId": "w10881701-dryness-adjust",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #5a \u2014 Customer Dryness Level",
+          "oemTestNumber": "5a"
+        },
+        {
+          "procedureId": "w10881701-button-indicator",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #6 \u2014 Buttons and Indicators",
+          "oemTestNumber": "6"
+        },
+        {
+          "procedureId": "w10881701-door-switch",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "door_authorization_failure"
+          ],
+          "displayTitle": "TEST #7 \u2014 Door Switch",
+          "oemTestNumber": "7"
+        },
+        {
+          "procedureId": "w10881701-drum-led",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure"
+          ],
+          "displayTitle": "TEST #8 \u2014 Drum LED",
+          "oemTestNumber": "8"
+        },
+        {
+          "procedureId": "w10881701-water-valve",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #9 \u2014 Water Valve (steam)",
+          "oemTestNumber": "9"
+        },
+        {
+          "procedureId": "w10881701-service-leds",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure",
+            "control_failure"
+          ],
+          "displayTitle": "TEST #10 \u2014 Service LEDs",
+          "oemTestNumber": "10"
+        },
+        {
+          "procedureId": "w11169659-acu-power",
+          "testTargetId": "heat_command_test",
+          "failureDomains": [
+            "control_failure",
+            "supply_issue"
+          ],
+          "displayTitle": "TEST #1 \u2014 ACU Power Check",
+          "oemTestNumber": "1"
+        },
+        {
+          "procedureId": "w11169659-heater-electric",
+          "testTargetId": "heat_output_test",
+          "failureDomains": [
+            "heating_failure"
+          ],
+          "displayTitle": "TEST #4 \u2014 Heat System (electric)",
+          "oemTestNumber": "4"
+        },
+        {
+          "procedureId": "w11169659-moisture-sensor",
+          "testTargetId": "moisture_sensor_test",
+          "failureDomains": [
+            "moisture_sensing_failure"
+          ],
+          "displayTitle": "TEST #5 \u2014 Moisture Sensor",
+          "oemTestNumber": "5"
+        },
+        {
+          "procedureId": "w11169659-drum-led",
+          "testTargetId": "door_switch_test",
+          "failureDomains": [
+            "user_interface_failure"
+          ],
+          "displayTitle": "TEST #8 \u2014 Drum LED",
+          "oemTestNumber": "8"
+        }
+      ],
+      "measurementBindings": [
+        {
+          "procedureId": "w10680150-motor-circuit",
+          "measurementKnowledgeId": "dryerMotorCircuitOhms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor circuit at CCU (optional)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor windings pin 4\u20135 / 4\u20133",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-heater-electric",
+          "measurementKnowledgeId": "whirlpoolCcuDryerHeaterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Dual heating element",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-thermistors",
+          "measurementKnowledgeId": "dryerExhaustThermistorOhms",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Exhaust thermistor",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-thermistors",
+          "measurementKnowledgeId": "dryerInletThermistorOhmsElectric",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Inlet thermistor (electric)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-thermistors",
+          "measurementKnowledgeId": "dryerInletThermistorOhmsGas",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Inlet thermistor (gas)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-gas-valve",
+          "measurementKnowledgeId": "gasValveCoilOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10680150-gas-valve",
+          "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Hot-surface ignitor",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-motor-circuit",
+          "measurementKnowledgeId": "dryerMotorCircuitOhms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor circuit at ACU (optional)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_run_test",
+          "displayLabel": "Motor windings pin 4\u20135 / 4\u20133",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-heater-electric",
+          "measurementKnowledgeId": "whirlpoolCcuDryerHeaterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Dual heating element",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-thermistors",
+          "measurementKnowledgeId": "dryerExhaustThermistorOhms",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Exhaust thermistor",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-thermistors",
+          "measurementKnowledgeId": "dryerInletThermistorOhmsElectric",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Inlet thermistor (electric)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-thermistors",
+          "measurementKnowledgeId": "dryerInletThermistorOhmsGas",
+          "testTargetId": "exhaust_temperature_test",
+          "displayLabel": "Inlet thermistor (gas)",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-gas-valve",
+          "measurementKnowledgeId": "gasValveCoilOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Gas valve coils",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-gas-valve",
+          "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Hot-surface ignitor",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        },
+        {
+          "procedureId": "w10881701-water-valve",
+          "measurementKnowledgeId": "whirlpoolCcuDryerSteamValveOhms",
+          "testTargetId": "heat_output_test",
+          "displayLabel": "Steam water valve",
+          "units": "\u03a9",
+          "abnormalStatuses": [
+            "critical",
+            "warning"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "manualId": "W11187658",
+  "candidates": [
+    {
+      "id": "overlay-W11187658-w11187658-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11187658-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "Drain pump \u2014 25\u201335 \u03a9 (CON2)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11187658-w11187658-drain-pump-meas-insigniaDishwasherDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11187658-drain-pump",
+      "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-drain-pump",
+        "pages": [
+          40,
+          16
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-drain-pump",
+            "pages": [
+              40,
+              16
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "insigniaDishwasherDrainPumpOhms",
+            "stepTitle": "Drain pump winding resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11187658-w11187658-overflow-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11187658-overflow",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "E4 \u2014 Overflow / base pan",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11187658",
+        "platformId": "whirlpool_dishwasher_ada",
+        "procedureId": "w11187658-overflow",
+        "pages": [
+          37,
+          18,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11187658",
+            "platformId": "whirlpool_dishwasher_ada"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11187658-overflow",
+            "pages": [
+              37,
+              18,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_DISHWASHER_PLATFORM_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_stacked_laundry_center_fit_closure",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T17:30:00+00:00",
+  "phase": "CG-STACKED-LAUNDRY-CENTER-FIT-TEST",
+  "verdict": "CLOSED / STACKED_LAUNDRY_DECOMPOSES_TO_EXISTING_CONTRACTS",
+  "closureStatement": "GE GUD27 unitized stacked laundry center fits existing frozen contracts via decomposition — no new canonical graph. Dryer section is proven variant of vented_dryer (mechanical timer as platform overlay on control domains). Washer section deferred pending mechanical-washer corpus; wizard already decomposes sections. Not aio_laundry_combo — separate sections, manual load transfer, no integrated orchestration. stacked_laundry_center.json not authorized.",
+  "approvedFitOutcome": {
+    "outcome": "proven_variant",
+    "label": "decomposition_to_vented_dryer_plus_washer_section",
+    "humanBoundaryApprovedAt": "2026-09-17T17:30:00+00:00"
+  },
+  "governanceConclusion": {
+    "functionalCompatibility": true,
+    "fitsExistingFrozenContracts": true,
+    "newCanonicalGraphRequired": false,
+    "discoveryAuthorized": false,
+    "freezeAuthorized": false,
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "normalizationAuthorized": false,
+    "compoundingAuthorized": false
+  },
+  "architecturalDisposition": {
+    "categoryId": "stacked_laundry_center",
+    "inventoryClassificationUpdate": "variant_of_existing_graph — proven via decomposition",
+    "drySectionHost": "vented_dryer",
+    "washSectionHost": "deferred — mechanical washer; likely top_load_washer platform overlay when manual ingested",
+    "explicitlyNot": "aio_laundry_combo"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "stackedLaundryCenterJsonCreated": false,
+    "witnessCount": 1,
+    "procedureCount": 6,
+    "ventedDryerMappedProcedures": 5,
+    "implementationOverlayProcedures": 1,
+    "frozenGraphMutations": 0
+  },
+  "frozenContractsPreserved": {
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+    "top_load_washer": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "heat_pump_dryer": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "aio_laundry_combo": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183",
+    "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+  },
+  "evidenceChain": {
+    "inventory": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+    "fitContract": "CG_STACKED_LAUNDRY_CENTER_FIT_TEST_CONTRACT_v1.json",
+    "observation": "CG_GUD27_FIT_OBSERVATION_v1.json",
+    "triangulation": "CG_STACKED_LAUNDRY_CENTER_FIT_TRIANGULATION_v1.json",
+    "fitAnalysis": "CG_STACKED_LAUNDRY_CENTER_FIT_ANALYSIS_v1.json"
+  },
+  "immutableFitArtifacts": [
+    "CG_GUD27_FIT_OBSERVATION_v1.json",
+    "CG_STACKED_LAUNDRY_CENTER_FIT_TRIANGULATION_v1.json",
+    "CG_STACKED_LAUNDRY_CENTER_FIT_ANALYSIS_v1.json"
+  ],
+  "authorizedNextWorkstream": null,
+  "nextDisciplinedStep": "Update inventory disposition at architecture-complete gate. Remaining fit gates: standalone freezer, wall oven, cooktop. No normalization until architecture-complete STOP."
+}

@@ -1,0 +1,1267 @@
+{
+  "manualId": "LG-FL-WASHER",
+  "procedures": [
+    {
+      "procedureId": "lgwm4000-circulation-pump",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Circulation pump",
+      "purpose": "CIRCULATION PUMP (WM3900/WM4000)",
+      "prerequisites": [],
+      "componentIds": [
+        "recirc_pump"
+      ],
+      "tags": [
+        "recirc_failure"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "circ_pump_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Circulation pump harness",
+          "body": "Verify CIRCULATION PUMP at MAIN PWB \u2014 LG implementation label.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify CIRCULATION PUMP at MAIN PWB \u2014 LG implementation label."
+        },
+        {
+          "id": "replace_circ_pump",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace circulation pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "circ_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Circulation pump OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "CIRCULATION PUMP (WM3900/WM4000)",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-circulation-pump",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-circulation-pump",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-display-comm",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: DISPLAY PWB \u2194 MAIN PWB",
+      "purpose": "Display board communication",
+      "prerequisites": [],
+      "componentIds": [
+        "hmi_control",
+        "control_board"
+      ],
+      "tags": [
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "display_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "DISPLAY PWB harness",
+          "body": "Verify DISPLAY PWB 10-pin harness to MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify DISPLAY PWB 10-pin harness to MAIN PWB."
+        },
+        {
+          "id": "replace_display_pwb",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace DISPLAY PWB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "display_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Display comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Display board communication",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-display-comm",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-display-comm",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-door-lock",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Door lock",
+      "purpose": "Door lock component test",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "lock_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Door lock harness",
+          "body": "Verify DOOR LOCK harness at MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify DOOR LOCK harness at MAIN PWB."
+        },
+        {
+          "id": "replace_lock",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace door lock",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "lock_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Door lock OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Door lock component test",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-door-lock",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-door-lock",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-drain-pump",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Drain pump",
+      "purpose": "Drain pump component test",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "drain_failure"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "pump_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Drain pump connector",
+          "body": "Verify DRAIN PUMP harness and impeller.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify DRAIN PUMP harness and impeller."
+        },
+        {
+          "id": "replace_pump",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pump_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Drain pump OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Drain pump component test",
+        "pages": [
+          33,
+          48,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-drain-pump",
+        "pages": [
+          33,
+          48,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-drain-pump",
+            "pages": [
+              33,
+              48,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-inlet-valves",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Inlet and dispenser valves",
+      "purpose": "Inlet / bleach / pre-wash valves",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve",
+        "dosing_pump"
+      ],
+      "tags": [
+        "fill_failure"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "valve_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Valve harnesses",
+          "body": "Check VALVE HOT, INLET, PRE, and BLEACH solenoids at MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check VALVE HOT, INLET, PRE, and BLEACH solenoids at MAIN PWB."
+        },
+        {
+          "id": "replace_valve",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valves_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Inlet valves OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Inlet / bleach / pre-wash valves",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-inlet-valves",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-inlet-valves",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-motor-circuit",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Direct-drive motor",
+      "purpose": "Motor circuit (U/V/W)",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "motor_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Motor U/V/W harness",
+          "body": "Verify MOTOR connector at MAIN PWB \u2014 Direct Drive System.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify MOTOR connector at MAIN PWB \u2014 Direct Drive System."
+        },
+        {
+          "id": "replace_motor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace stator/motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Motor circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "Motor circuit (U/V/W)",
+        "pages": [
+          4,
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-motor-circuit",
+        "pages": [
+          4,
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-motor-circuit",
+            "pages": [
+              4,
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-power",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a74: Power / MAIN PWB supply",
+      "purpose": "Installation and power",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "control_board"
+      ],
+      "tags": [
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "check_outlet",
+          "order": 2,
+          "type": "instruction",
+          "title": "Outlet and cord",
+          "body": "Verify 120 VAC at outlet and power cord to MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 120 VAC at outlet and power cord to MAIN PWB."
+        },
+        {
+          "id": "main_pwb_check",
+          "order": 3,
+          "type": "instruction",
+          "title": "MAIN PWB supply",
+          "body": "Check MAIN PWB power input and noise filter path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check MAIN PWB power input and noise filter path."
+        },
+        {
+          "id": "replace_main_pwb",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace MAIN PWB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "4",
+        "oemTestTitle": "Installation and power",
+        "pages": [
+          8,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-power",
+        "pages": [
+          8,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-power",
+            "pages": [
+              8,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-pressure-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Pressure sensor",
+      "purpose": "PRESSURE SENSOR",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor",
+        "pressure_hose"
+      ],
+      "tags": [
+        "water_level_failure"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "sensor_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Pressure sensor harness",
+          "body": "Verify PRESSURE SENSOR connector and hose.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify PRESSURE SENSOR connector and hose."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace pressure sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Pressure sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "PRESSURE SENSOR",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-pressure-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-pressure-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-smart-diagnosis",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a72: Smart Diagnosis / ThinQ",
+      "purpose": "SMART DIAGNOSIS and Wi-Fi",
+      "prerequisites": [],
+      "componentIds": [
+        "hmi_control"
+      ],
+      "tags": [
+        "hmi_check",
+        "smart_diagnosis"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "wifi_check",
+          "order": 2,
+          "type": "instruction",
+          "title": "Wi-Fi and ThinQ",
+          "body": "Verify 2.4 GHz Wi-Fi connection and ThinQ registration.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify 2.4 GHz Wi-Fi connection and ThinQ registration."
+        },
+        {
+          "id": "smart_diag",
+          "order": 3,
+          "type": "instruction",
+          "title": "Smart Diagnosis",
+          "body": "Run Smart Diagnosis from control panel or ThinQ app.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run Smart Diagnosis from control panel or ThinQ app."
+        },
+        {
+          "id": "replace_wifi",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace Wi-Fi module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "diag_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Smart Diagnosis OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "2",
+        "oemTestTitle": "SMART DIAGNOSIS and Wi-Fi",
+        "pages": [
+          4,
+          6,
+          15
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-smart-diagnosis",
+        "pages": [
+          4,
+          6,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-smart-diagnosis",
+            "pages": [
+              4,
+              6,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-vibration-sensor",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Vibration sensor",
+      "purpose": "VIBRATION SENSOR (WM3600/WM4000)",
+      "prerequisites": [],
+      "componentIds": [
+        "suspension"
+      ],
+      "tags": [
+        "vibration_unbalance",
+        "UB"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "vib_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Vibration sensor harness",
+          "body": "Verify VIBRATION SENSOR at MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify VIBRATION SENSOR at MAIN PWB."
+        },
+        {
+          "id": "replace_vib_sensor",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace vibration sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vib_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Vibration sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "VIBRATION SENSOR (WM3600/WM4000)",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-vibration-sensor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-vibration-sensor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-wash-heater",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Washer heater",
+      "purpose": "WASHER HEATER (WM3900/WM4000)",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_heater"
+      ],
+      "tags": [
+        "heating_failure",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "heater_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Washer heater harness",
+          "body": "Verify WASHER HEATER at MAIN PWB \u2014 WM3900/WM4000 only.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify WASHER HEATER at MAIN PWB \u2014 WM3900/WM4000 only."
+        },
+        {
+          "id": "replace_heater",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace wash heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Wash heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "WASHER HEATER (WM3900/WM4000)",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-heater",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-heater",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "lgwm4000-wash-thermistor",
+      "manufacturer": "LG",
+      "platformId": "lg_fl_washer_wm4000",
+      "templateId": "washer",
+      "title": "\u00a78: Wash thermistor",
+      "purpose": "WASH THERMISTOR",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "heating_failure"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing the unit."
+        },
+        {
+          "id": "ntc_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Wash thermistor harness",
+          "body": "Disconnect WASH THERMISTOR at MAIN PWB.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect WASH THERMISTOR at MAIN PWB."
+        },
+        {
+          "id": "replace_ntc",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace wash thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ntc_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Wash thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [],
+      "source": {
+        "manualId": "LG-FL-WASHER",
+        "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+        "oemTestNumber": "8",
+        "oemTestTitle": "WASH THERMISTOR",
+        "pages": [
+          33,
+          53
+        ],
+        "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "LG-FL-WASHER",
+        "platformId": "lg_fl_washer_wm4000",
+        "procedureId": "lgwm4000-wash-thermistor",
+        "pages": [
+          33,
+          53
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-FL-WASHER",
+            "platformId": "lg_fl_washer_wm4000"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgwm4000-wash-thermistor",
+            "pages": [
+              33,
+              53
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/LG_FL_WM4000H_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

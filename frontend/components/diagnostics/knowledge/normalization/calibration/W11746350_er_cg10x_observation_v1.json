@@ -1,0 +1,560 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_r1_observation",
+  "experiment": "CG-10 R1 \u2014 first Whirlpool electric range manual (W11746350 Copernicus) vs unfrozen electric_range_oven candidate graph. No cross-manual inference.",
+  "workstream": "CG-10",
+  "stage": "R1_observation",
+  "manualId": "W11746350",
+  "platformId": "whirlpool_freestanding_range",
+  "fuelFilter": "electric_range",
+  "ontologyId": "electric_range_oven_candidate",
+  "ontologyFrozen": false,
+  "generatedAt": "2026-09-16T14:05:36.067746+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "canonicalDirectoryMutable": false,
+  "crossManualInference": false,
+  "discoveryContract": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\CG10_ELECTRIC_RANGE_ONTOLOGY_DISCOVERY_CONTRACT_v1.json",
+  "graphArtifacts": {
+    "cg10xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\electric_range_oven_cg10x_candidate_v1.json",
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\WHIRLPOOL_W11746350_FREESTANDING_RANGE_EXTRACTION.md",
+    "extractedText": "backend\\docs\\manuals\\technical-manual-w11746350-revf-extracted.txt",
+    "procedureSeedDir": "frontend\\components\\diagnostics\\knowledge\\procedures\\seed\\whirlpool_freestanding_range"
+  },
+  "pipelineCounts": {
+    "procedures": 12,
+    "mappingCandidates": 30,
+    "overlayCandidates": 0,
+    "conflicts": 0,
+    "extractionFiltered": 0
+  },
+  "normalizeRun": {
+    "manualId": "W11746350",
+    "generatedAt": null
+  },
+  "conflicts": 0,
+  "mappingSummary": {
+    "total": 30,
+    "unresolved": 30,
+    "uniqueSourceTerms": 20,
+    "overlayBindings": 0
+  },
+  "matcherHygiene": {
+    "falseRefrigeratorTemplateHits": 0,
+    "note": "Refrigerator/compressor template leakage on range manual is infrastructure \u2014 not R1 semantic learning.",
+    "classification": "infrastructure_not_canonical_discovery"
+  },
+  "componentTestIndex": {
+    "acu_power": {
+      "procedureId": "w11746350-acu-power",
+      "title": "ACU power & communication",
+      "seedComponents": [
+        "control_board"
+      ]
+    },
+    "hmi": {
+      "procedureId": "w11746350-hmi",
+      "title": "Touch HMI",
+      "seedComponents": [
+        "display_panel"
+      ]
+    },
+    "oven_sensor": {
+      "procedureId": "w11746350-oven-sensor",
+      "title": "Main oven RTD",
+      "seedComponents": [
+        "thermistor"
+      ]
+    },
+    "bake": {
+      "procedureId": "w11746350-bake-element",
+      "title": "Hidden bake element",
+      "seedComponents": [
+        "heater"
+      ],
+      "fuel": "electric_range"
+    },
+    "broil": {
+      "procedureId": "w11746350-broil-element",
+      "title": "Broil element",
+      "seedComponents": [
+        "heater"
+      ],
+      "fuel": "electric_range"
+    },
+    "vent_fan": {
+      "procedureId": "w11746350-vent-fan",
+      "title": "Vent / convection fan",
+      "seedComponents": [
+        "fan"
+      ]
+    },
+    "door_latch": {
+      "procedureId": "w11746350-door-latch",
+      "title": "Rear door latch motor",
+      "seedComponents": [
+        "door_latch"
+      ]
+    },
+    "bridge_surface": {
+      "procedureId": "w11746350-bridge-element",
+      "title": "Bridge / surface element",
+      "seedComponents": [
+        "heater"
+      ],
+      "fuel": "electric_range"
+    },
+    "thermal_fuse": {
+      "procedureId": "w11746350-thermal-fuse",
+      "title": "Thermal fuse / hi-limit",
+      "seedComponents": [
+        "thermal_fuse"
+      ]
+    }
+  },
+  "componentTestCoverage": {
+    "acu_power": {
+      "procedureId": "w11746350-acu-power",
+      "seedComponents": [
+        "control_board"
+      ],
+      "conceptHits": [
+        "power_supply",
+        "control_board"
+      ]
+    },
+    "hmi": {
+      "procedureId": "w11746350-hmi",
+      "seedComponents": [
+        "display_panel"
+      ],
+      "conceptHits": [
+        "user_interface"
+      ]
+    },
+    "oven_sensor": {
+      "procedureId": "w11746350-oven-sensor",
+      "seedComponents": [
+        "thermistor"
+      ],
+      "conceptHits": [
+        "temperature_sensor"
+      ]
+    },
+    "bake": {
+      "procedureId": "w11746350-bake-element",
+      "seedComponents": [
+        "heater"
+      ],
+      "conceptHits": [
+        "oven_heating_system",
+        "bake_heating_element"
+      ]
+    },
+    "broil": {
+      "procedureId": "w11746350-broil-element",
+      "seedComponents": [
+        "heater"
+      ],
+      "conceptHits": [
+        "oven_heating_system",
+        "broil_heating_element"
+      ]
+    },
+    "vent_fan": {
+      "procedureId": "w11746350-vent-fan",
+      "seedComponents": [
+        "fan"
+      ],
+      "conceptHits": [
+        "convection_fan",
+        "cooling_fan"
+      ]
+    },
+    "door_latch": {
+      "procedureId": "w11746350-door-latch",
+      "seedComponents": [
+        "door_latch"
+      ],
+      "conceptHits": [
+        "oven_door_switch",
+        "door_latch_motor"
+      ]
+    },
+    "bridge_surface": {
+      "procedureId": "w11746350-bridge-element",
+      "seedComponents": [
+        "heater"
+      ],
+      "conceptHits": [
+        "surface_heating_system",
+        "surface_heating_element"
+      ]
+    },
+    "thermal_fuse": {
+      "procedureId": "w11746350-thermal-fuse",
+      "seedComponents": [
+        "thermal_fuse"
+      ],
+      "conceptHits": [
+        "thermal_protection"
+      ]
+    }
+  },
+  "conceptEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "verdict": "canonical_functional",
+      "rationale": "120/240 VAC supply checks are prerequisite on every diagnostic path (pre-service + ACU power). Functional power input distinct from control orchestration on R1.",
+      "componentTests": [
+        "acu_power"
+      ],
+      "procedureIds": [
+        "w11746350-acu-power"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": null,
+      "manualPhraseHits": []
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "verdict": "canonical_functional",
+      "rationale": "Copernicus ACU orchestrates component activation, relay drive, F1E1/F6E1 comm faults, and service diagnostics entry. Independent control functional role on R1.",
+      "componentTests": [
+        "acu_power"
+      ],
+      "procedureIds": [
+        "w11746350-acu-power"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "boundaryQuestion": null,
+      "manualPhraseHits": [
+        "acu",
+        "relay"
+      ]
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "verdict": "canonical_functional",
+      "rationale": "Touch HMI with service diagnostics entry (111111111), stuck-key F2E1/F2E2, and P3 12 VDC feed. User command surface distinct from ACU on R1.",
+      "componentTests": [
+        "hmi"
+      ],
+      "procedureIds": [
+        "w11746350-hmi"
+      ],
+      "seedComponentIds": [
+        "display_panel"
+      ],
+      "boundaryQuestion": null,
+      "manualPhraseHits": [
+        "touch",
+        "hmi",
+        "service diagnostics"
+      ]
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "verdict": "needs_second_manual",
+      "rationale": "Main oven RTD 1000\u20131200 \u03a9 with dedicated F3E0 procedure. Functional temperature feedback evidenced but single-sensor scope \u2014 R2 LG must confirm cross-manufacturer abstraction.",
+      "componentTests": [
+        "oven_sensor"
+      ],
+      "procedureIds": [
+        "w11746350-oven-sensor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "boundaryQuestion": "temperature_feedback_unification",
+      "manualPhraseHits": [
+        "oven sensor",
+        "f3e0"
+      ]
+    },
+    "oven_heating_system": {
+      "conceptId": "oven_heating_system",
+      "verdict": "needs_second_manual",
+      "rationale": "Manual decomposes oven heat into separate bake (FEE6) and broil (FEE7) element tests with distinct \u03a9 specs \u2014 aggregate may be orchestration-only. R2/R3 must decide bake/broil instance semantics vs separate canonical nodes.",
+      "componentTests": [
+        "bake",
+        "broil"
+      ],
+      "procedureIds": [
+        "w11746350-bake-element",
+        "w11746350-broil-element"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": "oven_heating_abstraction",
+      "manualPhraseHits": [
+        "bake element",
+        "broil element",
+        "hidden bake"
+      ]
+    },
+    "bake_heating_element": {
+      "conceptId": "bake_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "Hidden bake 23.3 \u03a9 P4 with FEE6 \u2014 strong instance-level procedure evidence. Likely instance of oven_heating_system rather than independent canonical node pending R2/R3.",
+      "componentTests": [
+        "bake"
+      ],
+      "procedureIds": [
+        "w11746350-bake-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "boundaryQuestion": "oven_element_decomposition",
+      "manualPhraseHits": []
+    },
+    "broil_heating_element": {
+      "conceptId": "broil_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "Broil 10\u201340 \u03a9 P80 with FEE7 \u2014 separate procedure from bake. Supports instance decomposition hypothesis; canonical promotion deferred.",
+      "componentTests": [
+        "broil"
+      ],
+      "procedureIds": [
+        "w11746350-broil-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "boundaryQuestion": "oven_element_decomposition",
+      "manualPhraseHits": []
+    },
+    "convection_heating_element": {
+      "conceptId": "convection_heating_element",
+      "verdict": "deferred",
+      "rationale": "W11746350 convect-element procedure is gas_range templateIds only. Electric convection on this manual is fan-mediated (F7E5/F7E6) \u2014 element path not evidenced for electric R1.",
+      "componentTests": [],
+      "procedureIds": [
+        "w11746350-convect-element"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": null,
+      "manualPhraseHits": [
+        "convection",
+        "convect"
+      ]
+    },
+    "surface_heating_system": {
+      "conceptId": "surface_heating_system",
+      "verdict": "needs_second_manual",
+      "rationale": "Bridge/single/warming surface element \u03a9 procedures exist but cooktop control is ACU-relay mediated on Copernicus. surface_heating_system vs per-element canonical split needs LG + LCX infinite-switch contrast (R2/R3).",
+      "componentTests": [
+        "bridge_surface"
+      ],
+      "procedureIds": [
+        "w11746350-bridge-element"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": "surface_heating_abstraction",
+      "manualPhraseHits": [
+        "bridge element",
+        "cooktop"
+      ]
+    },
+    "surface_heating_element": {
+      "conceptId": "surface_heating_element",
+      "verdict": "platform_implementation",
+      "rationale": "Bridge element procedure with distinct \u03a9 \u2014 physical element instance. Diagnostic routing through ACU relays \u2014 platform implementation candidate.",
+      "componentTests": [
+        "bridge_surface"
+      ],
+      "procedureIds": [
+        "w11746350-bridge-element"
+      ],
+      "seedComponentIds": [
+        "heater"
+      ],
+      "boundaryQuestion": null,
+      "manualPhraseHits": []
+    },
+    "surface_control": {
+      "conceptId": "surface_control",
+      "verdict": "deferred",
+      "rationale": "Copernicus uses ACU relay drive for surface elements \u2014 no infinite-switch procedure on W11746350. LCX manual (R3) required to test surface_control as functional vs platform.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "boundaryQuestion": "surface_architecture_granularity",
+      "manualPhraseHits": []
+    },
+    "oven_cavity": {
+      "conceptId": "oven_cavity",
+      "verdict": "deferred",
+      "rationale": "Cavity referenced in complaint routing but no standalone cavity test \u2014 likely routing vocabulary only unless R2/R3 show independent diagnostic role.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "boundaryQuestion": "oven_cavity_aggregate",
+      "manualPhraseHits": [
+        "cavity"
+      ]
+    },
+    "convection_fan": {
+      "conceptId": "convection_fan",
+      "verdict": "needs_second_manual",
+      "rationale": "Vent/convection fan 85 \u03a9 + 12 VDC P6 with F7E5/F7E6. Functional air circulation evidenced but relationship to oven heating mode needs cross-manufacturer confirmation.",
+      "componentTests": [
+        "vent_fan"
+      ],
+      "procedureIds": [
+        "w11746350-vent-fan"
+      ],
+      "seedComponentIds": [
+        "fan"
+      ],
+      "boundaryQuestion": "convection_canonical_role",
+      "manualPhraseHits": [
+        "convection fan",
+        "f7e5"
+      ]
+    },
+    "oven_door_switch": {
+      "conceptId": "oven_door_switch",
+      "verdict": "needs_second_manual",
+      "rationale": "F5E0/F5E1 door/latch switch disagree codes reference switch logic but primary procedure targets latch motor \u03a9. door_switch vs latch motor functional split needs R2/R3.",
+      "componentTests": [
+        "door_latch"
+      ],
+      "procedureIds": [
+        "w11746350-door-latch"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": "door_switch_vs_latch",
+      "manualPhraseHits": [
+        "door switch",
+        "f5e0",
+        "latch switch"
+      ]
+    },
+    "door_latch_motor": {
+      "conceptId": "door_latch_motor",
+      "verdict": "platform_implementation",
+      "rationale": "Self-clean latch motor 500\u20133000 \u03a9 P8 \u2014 actuator implementation of door authorization. Platform layer unless R2/R3 elevate latch to canonical functional node.",
+      "componentTests": [
+        "door_latch"
+      ],
+      "procedureIds": [
+        "w11746350-door-latch"
+      ],
+      "seedComponentIds": [
+        "door_latch"
+      ],
+      "boundaryQuestion": null,
+      "manualPhraseHits": []
+    },
+    "thermal_protection": {
+      "conceptId": "thermal_protection",
+      "verdict": "needs_second_manual",
+      "rationale": "Thermal fuse / hi-limit continuity procedure exists for overheat complaints. Functional safety role evidenced but fuse vs hi-limit vs cutout naming varies by platform \u2014 R2/R3.",
+      "componentTests": [
+        "thermal_fuse"
+      ],
+      "procedureIds": [
+        "w11746350-thermal-fuse"
+      ],
+      "seedComponentIds": [
+        "thermal_fuse"
+      ],
+      "boundaryQuestion": "thermal_protection_abstraction",
+      "manualPhraseHits": [
+        "thermal fuse"
+      ]
+    },
+    "cooling_fan": {
+      "conceptId": "cooling_fan",
+      "verdict": "needs_second_manual",
+      "rationale": "Vent fan procedure may serve convection and/or electronics cooling \u2014 same motor on R1. Must determine if cooling_fan and convection_fan are one functional role or two.",
+      "componentTests": [
+        "vent_fan"
+      ],
+      "procedureIds": [
+        "w11746350-vent-fan"
+      ],
+      "seedComponentIds": [],
+      "boundaryQuestion": "convection_fan_vs_cooling_fan",
+      "manualPhraseHits": []
+    },
+    "oven_lamp": {
+      "conceptId": "oven_lamp",
+      "verdict": "deferred",
+      "rationale": "No oven lamp procedure on W11746350 electric seeds \u2014 deferred until multi-manual evidence.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "boundaryQuestion": null,
+      "manualPhraseHits": []
+    },
+    "warming_drawer": {
+      "conceptId": "warming_drawer",
+      "verdict": "deferred",
+      "rationale": "Warming drawer not in W11746350 procedure catalog \u2014 deferred.",
+      "componentTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "boundaryQuestion": null,
+      "manualPhraseHits": []
+    }
+  },
+  "verdictHistogram": {
+    "canonical_functional": 3,
+    "needs_second_manual": 7,
+    "platform_implementation": 4,
+    "deferred": 5
+  },
+  "boundaryQuestionHits": {
+    "oven_heating_abstraction": [
+      "oven_heating_system"
+    ],
+    "surface_heating_abstraction": [
+      "surface_heating_system"
+    ],
+    "temperature_feedback_unification": [
+      "temperature_sensor"
+    ],
+    "convection_canonical_role": [
+      "convection_fan"
+    ],
+    "thermal_protection_abstraction": [
+      "thermal_protection"
+    ],
+    "range_wide_contract": []
+  },
+  "candidateGraphCrossCheck": {
+    "candidateConceptCount": 19,
+    "evaluatedConceptCount": 19,
+    "componentsInCandidateGraph": 0,
+    "componentsCanonical": 0,
+    "note": "Candidate graph has zero canonical components by design."
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "R1 Copernicus manual supports functional decomposition via component tests but cannot freeze electric range ontology. Bake/broil instance split, surface architecture, and fan-role ambiguity require R2 LG-LRE electric then R3 W11174426 LCX falsification.",
+    "nextManual": "LG-LRE-RANGE",
+    "nextStage": "R2_manufacturer_boundary_test"
+  },
+  "pipelineDiscipline": {
+    "flow": [
+      "MANUAL_EVIDENCE",
+      "R1_OBSERVATION",
+      "CANDIDATE_GRAPH",
+      "R2_MANUFACTURER_BOUNDARY",
+      "R3_ARCHITECTURE_FALSIFICATION",
+      "HUMAN_FREEZE_GATE",
+      "CANONICAL_REV1"
+    ],
+    "blockedUntilFreeze": [
+      "overlay_compounding",
+      "runtime_overlay_publish",
+      "canonical_directory_writes"
+    ]
+  }
+}

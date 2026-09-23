@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_evidence",
+  "manualId": "MIDEA-RSS-FRIDGE",
+  "platformId": "midea_rss",
+  "compoundingPhase": "CG-9.5",
+  "workPackage": "WP4",
+  "compoundingSequence": 4,
+  "generatedAt": "2026-09-16T13:51:59.290786+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  },
+  "gateArtifact": "MIDEA_RSS_SXS_overlay_mapping_table_v1.json",
+  "boundaryProbeArtifact": "MIDEA_RSS_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "compoundingCurve": {
+    "framing": "contract_teaching_rows",
+    "canonicalInheritance": 3,
+    "conditionalBinding": 5,
+    "overlayKnowledge": 10,
+    "intentionalAbstention": 5,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "note": "Fourth SxS production compounding \u2014 VFD-mediated compressor, B3839 NTC platform, E-family defrost sensors, mandatory mode entry. Door_switch abstained (no seed). Seven refrigerator overlays on one contract."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "conditionalAbsorbsArchitecture": true,
+    "platformAbsorbsImplementation": true,
+    "manufacturerIsolationEnforced": true,
+    "cg9CalibrationNotAutoPromoted": true,
+    "verdict": "NS-RSS26 SxS compounds VFD compressor, B3839 NTC scopes, E4/E5 defrost-sensor platform vocabulary, and mandatory-mode control without canonical expansion."
+  },
+  "comparisonToWP1WP2WP3": {
+    "samsungRs28": {
+      "canonicalInheritance": 5,
+      "doorSwitchWithheld": true,
+      "compressorScope": "inverter_pba_mediated"
+    },
+    "whirlpoolW11296289": {
+      "canonicalInheritance": 6,
+      "doorSwitchWithheld": false
+    },
+    "lgLsc27926": {
+      "canonicalInheritance": 6,
+      "compressorScope": "relay_drive_conventional"
+    },
+    "mideaRss": {
+      "canonicalInheritance": 3,
+      "doorSwitchWithheld": true,
+      "compressorScope": "vfd_mediated",
+      "vfdInverterPlatform": true
+    }
+  }
+}

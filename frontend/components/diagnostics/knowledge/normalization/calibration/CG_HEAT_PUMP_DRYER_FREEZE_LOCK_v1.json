@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_freeze_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T16:00:00+00:00",
+  "phase": "CG-HEAT-PUMP-DRYER-FREEZE",
+  "verdict": "CLOSED / HEAT_PUMP_DRYER_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Heat-pump dryer canonical architecture frozen at rev1. Two HP-specific functional domains (heat_pump_thermal_system, sealed_moisture_rejection_path) plus seven vented_dryer reuse references. Zero refrigeration hardware promoted. routed_through thermal→moisture edge omitted — functional coupling only. AIO workstream remains PAUSED.",
+  "canonicalOntology": {
+    "id": "heat_pump_dryer",
+    "file": "frontend/components/diagnostics/knowledge/canonical/heat_pump_dryer.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-17T16:00:00+00:00",
+    "hash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb",
+    "discoveryLock": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "familyLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "newCoreFunctions": 2,
+    "reusedVentedDryerFunctions": 7,
+    "fitWitnessManuals": 3,
+    "referencePlatformOverlays": 0,
+    "deferredRoutedThroughEdges": 1
+  },
+  "ontologyLayers": {
+    "canonicalComponents": {
+      "layer": "components[]",
+      "description": "2 HP-specific core functions + 7 vented_dryer reuse references",
+      "count": 9,
+      "hpSpecificIds": ["heat_pump_thermal_system", "sealed_moisture_rejection_path"],
+      "reusedFromVentedDryer": [
+        "door_switch",
+        "drive_motor",
+        "moisture_sensor",
+        "lint_filter",
+        "control_board",
+        "hmi_control",
+        "power_supply"
+      ]
+    },
+    "platformOnlyConcepts": {
+      "count": 9,
+      "ids": [
+        "compressor",
+        "evaporator",
+        "condenser",
+        "expansion_valve",
+        "capillary_tube",
+        "refrigerant_thermistor",
+        "condensate_pump",
+        "ipm_inverter",
+        "auxiliary_fan"
+      ]
+    },
+    "explicitlyNotReusedFromVentedDryer": [
+      "heat_source",
+      "exhaust_path",
+      "heated_airflow_path",
+      "thermal_fuse"
+    ]
+  },
+  "relationshipFreezeDecisions": {
+    "approved": [
+      "control_board → commands → heat_pump_thermal_system",
+      "control_board → commands → sealed_moisture_rejection_path",
+      "door_switch → enables → drive_motor",
+      "door_switch → enables → heat_pump_thermal_system",
+      "door_switch → enables → sealed_moisture_rejection_path"
+    ],
+    "omitted": [
+      {
+        "edge": "heat_pump_thermal_system → routed_through → sealed_moisture_rejection_path",
+        "reason": "routed_through carries physical air topology semantics in vented_dryer — not appropriate for functional-only HP coupling",
+        "alternative": "functionalDependencies.thermal_moisture_functional_coupling"
+      }
+    ]
+  },
+  "semanticBoundaries": {
+    "heat_pump_thermal_system": "Dry heat and loop protection via sealed refrigerant heat-pump cycle — not refrigeration hardware diagram.",
+    "sealed_moisture_rejection_path": "Ventless moisture rejection — not external exhaust terminal.",
+    "thermalMoistureSplit": true,
+    "notVentedDryerVariant": true
+  },
+  "aioDownstreamCompatibility": {
+    "note": "Compatibility fact only — AIO not modified; workstream PAUSED",
+    "samsungWd53": "maps to heat_pump_thermal_system + sealed_moisture_rejection_path",
+    "whirlpoolWfw9620": "maps to sealed_moisture_rejection_path only — NOT heat_pump_thermal_system"
+  },
+  "humanApproval": {
+    "humanFreezeApprovedAt": "2026-09-17T16:00:00+00:00",
+    "verdict": "GREEN — FREEZE APPROVED",
+    "transcriptionFidelityConfirmed": true
+  },
+  "evidenceChain": {
+    "fitDivergencePackage": "CG_HEAT_PUMP_DRYER_FIT_DIVERGENCE_PACKAGE_v1.json",
+    "discoveryClosure": "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json",
+    "functionalContract": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "witnesses": [
+      { "manufacturer": "Samsung", "model": "DV22N6850" },
+      { "manufacturer": "LG", "model": "DLHC1455" },
+      { "manufacturer": "Whirlpool", "model": "HybridCare W10764068" }
+    ]
+  },
+  "validationProof": {
+    "canonicalGraphValidation": {
+      "tool": "backend/scripts/validate_canonical_graph.py",
+      "result": "pass"
+    },
+    "priorFrozenHashesUnchanged": {
+      "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714",
+      "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+      "top_load_washer": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+      "microwave": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d"
+    }
+  },
+  "postFreezeInvariants": [
+    "components[] contains exactly 2 HP-specific + 7 reused functions — no refrigeration hardware nodes",
+    "heat_pump_thermal_system and sealed_moisture_rejection_path remain separate canonical functions",
+    "vented_dryer heat_source/exhaust_path/heated_airflow_path/thermal_fuse NOT imported as primary HP architecture",
+    "routed_through edge between thermal and moisture domains NOT frozen — functional coupling in functionalDependencies only",
+    "vented_dryer hash unchanged",
+    "AIO candidate artifacts unchanged — workstream PAUSED",
+    "rev1 in-place mutation prohibited — conflicting evidence enters new fit/change process"
+  ],
+  "futureWorkPolicy": {
+    "normalizationCompounding": "STOP — deferred until explicitly authorized",
+    "aioWorkstream": "PAUSED — do not auto-resume after HP freeze",
+    "canonicalMutation": "prohibited without new evidence/fit/change workstream"
+  },
+  "hierarchy": {
+    "frozen": "heat_pump_dryer rev1",
+    "discoveryClosure": "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json",
+    "freezeContract": "CG_HEAT_PUMP_DRYER_FREEZE_CONTRACT_v1.json",
+    "freezeClosure": "CG_HEAT_PUMP_DRYER_FREEZE_CLOSURE_v1.json"
+  }
+}

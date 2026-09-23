@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_frozen_metadata_determination",
+  "workstream": "CG-MICROWAVE-FROZEN-METADATA-GOVERNANCE",
+  "governanceContract": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CONTRACT_v1.json",
+  "status": "closed",
+  "humanApprovedBranch": "A_non_authoritative_metadata",
+  "humanApprovedAt": "2026-09-17T11:30:00+00:00",
+  "closureArtifact": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+  "determinedAt": "2026-09-17T10:30:00+00:00",
+  "question": "Is overlayOnlyConcepts[id=magnetron].realizes authoritative for implementation mapping, or stale non-authoritative metadata superseded by normalization?",
+  "recommendedBranch": "A_non_authoritative_metadata",
+  "recommendationRationale": "The realizes field on overlayOnlyConcepts is illustrative transcription metadata — not consumed by runtime diagnostic code, not validated by canonical graph tooling, and contradicted by higher-precedence frozen architectural semantics already locked in rev1.",
+  "evidence": {
+    "runtimeConsumption": {
+      "overlayOnlyConceptsReadByDiagnosticEngine": false,
+      "realizesFieldReadByDiagnosticEngine": false,
+      "note": "canonicalRegistry.ts loads microwave.json components and microwave.reference.json overlays — not overlayOnlyConcepts.realizes"
+    },
+    "crossFamilyPattern": {
+      "range_ovenOverlayOnlyConceptsHaveRealizesField": false,
+      "electric_rangeOverlayOnlyConceptsHaveRealizesField": false,
+      "french_door_refrigeratorOverlayOnlyConceptsHaveRealizesField": false,
+      "pattern": "Other frozen families document overlay-only vocabulary with reason text only; realizes is microwave-specific transcription extension"
+    },
+    "frozenArchitecturalSemantics": {
+      "designPrinciple": "hv_generation describes generation/conditioning of electrical energy — not magnetron as canonical node",
+      "semanticBoundary": "hv_generation vs rf_cavity split with causal chain control_board → hv_generation → rf_cavity",
+      "freezeLockCausalChain": ["control_board", "hv_generation", "rf_cavity"],
+      "contradiction": "overlayOnlyConcepts.magnetron.realizes=hv_generation conflicts with designPrinciples and approved HV→RF causal boundary"
+    },
+    "approvedNormalizationLayer": {
+      "contract": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+      "mapping": { "magnetron": "rf_cavity" },
+      "humanApproved": true,
+      "targets": [
+        "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+        "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"
+      ]
+    },
+    "referenceOverlay": {
+      "file": "platform_overlays/microwave.reference.json",
+      "magnetronAlias": "rf_cavity",
+      "procedureBindings": ["lgotrmw-magnetron", "samsungotrmw-magnetron"],
+      "note": "Reference overlay updated in normalization rev 1.1 — this is the compounding-consumable mapping surface"
+    },
+    "discoveryDraftWitness": {
+      "artifact": "microwave_functional_contract_candidate_v1.json",
+      "staleTree": "implementationRealizationTrees.hv_generation included magnetron",
+      "status": "historical discovery draft — superseded by freeze semantic boundaries and normalization audit",
+      "notAuthoritativeForCompounding": true
+    },
+    "transcriptionErrorTheory": {
+      "hypothesis": "Freeze transcription copied discovery-draft implementation tree placement of magnetron under hv_generation into overlayOnlyConcepts.realizes",
+      "doesNotInvalidateFreeze": true,
+      "freezeLockAuthoritativeLayers": ["components[]", "conditionalConcepts[]", "designPrinciples", "ontologyContract.semanticBoundaries"]
+    }
+  },
+  "authoritativePrecedenceOrder": [
+    {
+      "rank": 1,
+      "layer": "normalization_contract",
+      "artifact": "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json",
+      "governs": "implementationRealizationPolicy"
+    },
+    {
+      "rank": 2,
+      "layer": "reference_overlay",
+      "artifact": "platform_overlays/microwave.reference.json",
+      "governs": "componentAliases + procedure canonicalComponents"
+    },
+    {
+      "rank": 3,
+      "layer": "normalization_targets",
+      "artifacts": ["CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json"],
+      "governs": "per-platform implementation realization trees"
+    },
+    {
+      "rank": 4,
+      "layer": "frozen_architecture",
+      "artifact": "microwave.json designPrinciples + ontologyContract + components[]",
+      "governs": "canonical function semantics and HV/RF split"
+    },
+    {
+      "rank": 5,
+      "layer": "overlay_only_illustration",
+      "artifact": "microwave.json overlayOnlyConcepts[].realizes",
+      "governs": "nothing at runtime — illustrative vocabulary placement only",
+      "staleField": "magnetron.realizes=hv_generation"
+    }
+  ],
+  "branchA": {
+    "id": "A_non_authoritative_metadata",
+    "verdict": "RECOMMENDED",
+    "resolution": "Treat overlayOnlyConcepts.magnetron.realizes as stale non-authoritative metadata retained in frozen rev1 byte-stable artifact",
+    "exceptionDocumented": true,
+    "authoritativeMappingForCompounding": "magnetron → rf_cavity via normalization contract + reference overlay",
+    "microwaveJsonChangeRequired": false,
+    "compoundingMayProceedAfterHumanApproval": true,
+    "optionalHygiene": "Future metadata-only relock may correct realizes=rf_cavity for human readability — not a compounding prerequisite if branch A approved"
+  },
+  "branchB": {
+    "id": "B_authoritative_frozen_field",
+    "verdict": "NOT_RECOMMENDED",
+    "resolution": "Would require formal rev2 or metadata-only relock to change realizes to rf_cavity",
+    "triggerIfSelected": "Human determines realizes field is part of frozen contract semantics, not illustrative metadata",
+    "requiredBeforeCompounding": ["microwave.json update", "rehash", "relock artifact", "regression proof"]
+  },
+  "humanReviewQuestions": [
+    "Accept branch A — overlayOnlyConcepts.magnetron.realizes is non-authoritative; normalization + reference overlay govern compounding?",
+    "Or select branch B — requires formal microwave rev2/metadata relock before compounding?"
+  ],
+  "regressionProof": {
+    "governanceContractExists": true,
+    "microwaveJsonHashUnchanged": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "referenceOverlayMagnetronMapsRfCavity": true
+  }
+}

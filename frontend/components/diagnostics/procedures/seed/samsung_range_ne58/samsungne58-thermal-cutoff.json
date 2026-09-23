@@ -1,0 +1,134 @@
+{
+  "id": "samsungne58-thermal-cutoff",
+  "version": "1.0.0",
+  "title": "\u00a74-2: Thermostat / thermal fuse",
+  "platformId": "samsung_range_ne58",
+  "componentIds": [
+    "thermal_fuse"
+  ],
+  "tags": [
+    "overheat",
+    "E-08"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58-RANGE",
+    "manualTitle": "Samsung NE58F9710WS Flex Duo Electric Range (FER710DRS)",
+    "extractedTextFile": "backend/docs/manuals/samsung ne58f9710ws-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "cg10-r4-assisted-extraction",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Thermostat continuity \u2014 E-08 over-temp",
+    "pages": [
+      39
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating. 240 VAC present at terminal block when energized.",
+      "sourceExcerpt": "Disconnect power before servicing the range. Replace all panels before operating range.",
+      "requiresInput": false,
+      "defaultNextStepId": "thermostat_ohms"
+    },
+    {
+      "id": "thermostat_ohms",
+      "order": 2,
+      "type": "measurement",
+      "title": "Thermostat resistance",
+      "body": "Measure both ends of thermostat terminals \u2014 normal 0 \u03a9. Thermal fuse out if open.",
+      "sourceExcerpt": "Measure both ends of thermostat terminals \u2014 normal 0 \u03a9. Thermal fuse out if open.",
+      "measurementKnowledgeId": "bakeElementOhms",
+      "testPoint": {
+        "connector": "Thermostat",
+        "pins": "both terminals",
+        "label": "Thermostat resistance"
+      },
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "therm_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_therm",
+          "terminal": true,
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "bake_element",
+              "evidenceId": "confirm_bake_element_ol_bake_element_failed"
+            }
+          ]
+        },
+        {
+          "id": "therm_pass",
+          "label": "0 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "therm_ok",
+          "diagnosticEffects": [
+            {
+              "type": "eliminate",
+              "componentId": "bake_element",
+              "evidenceId": "eliminate_bake_element_ol_bake_element_ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "replace_therm",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace thermostat",
+      "oemOutcome": "Replace thermostat / thermal fuse when open.",
+      "requiresInput": false
+    },
+    {
+      "id": "therm_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Thermal protection OK",
+      "oemOutcome": "Thermostat continuity verified \u2014 also verify oven sensor for E-08.",
+      "requiresInput": false
+    }
+  ]
+}

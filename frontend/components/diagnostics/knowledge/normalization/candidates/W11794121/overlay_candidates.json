@@ -1,0 +1,501 @@
+{
+  "manualId": "W11794121",
+  "candidates": [
+    {
+      "id": "overlay-W11794121-w11366142-drain-motor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11366142-drain-motor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "Drain Motor (SSM, 27.4\u201332.2 \u03a9)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11366142-drain-motor-meas-whirlpoolDishwasherPremiumDrainMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11366142-drain-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherPremiumDrainMotorOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11366142-drain-motor",
+        "pages": [
+          1,
+          2
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11366142-drain-motor",
+            "pages": [
+              1,
+              2
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherPremiumDrainMotorOhms",
+            "stepTitle": "Drain motor \u2014 P5 pins 3 & 4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11480208-door-switch-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-door-switch",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-8: Door Switch Circuit (P12)",
+      "componentIds": [
+        "door_gasket"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P12 pins 9 & 11"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P12 pins 9 & 11"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11480208-drain-motor-vsm-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-drain-motor-vsm",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11480208-drain-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-drain-motor-vsm",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+            "stepTitle": "VSM drain motor \u2014 P5 pins 5 & 6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11633848-door-switch-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11633848-door-switch",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-7: Door Switch Circuit",
+      "componentIds": [
+        "door_gasket"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11633848-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P9 pins 5 & 6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11633848-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11633848-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-door-switch",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-door-switch",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P9 pins 5 & 6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11633848-drain-motor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11633848-drain-motor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-16: Drain Motor",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11633848-drain-motor-meas-whirlpoolDishwasherAcuDrainMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11633848-drain-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11633848-drain-motor",
+        "pages": [
+          50
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11633848-drain-motor",
+            "pages": [
+              50
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuDrainMotorOhms",
+            "stepTitle": "Drain motor \u2014 P5 pins 3 & 4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11794121-w11794121-door-opening-system-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11794121-door-opening-system",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-19: Door Opening System (D.O.S.)",
+      "componentIds": [
+        "door_gasket"
+      ],
+      "provenance": {
+        "manualId": "W11794121",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11794121-door-opening-system",
+        "pages": [
+          139,
+          140
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11794121",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11794121-door-opening-system",
+            "pages": [
+              139,
+              140
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11794121_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

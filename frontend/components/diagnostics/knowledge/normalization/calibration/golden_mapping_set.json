@@ -1,0 +1,671 @@
+{
+  "schemaVersion": "1.0.0",
+  "description": "CG-5 golden mapping regression — representative OEM terms with expected matcher outcomes. Precision over recall.",
+  "matcherNotes": "Run via: python backend/scripts/run_golden_mapping_tests.py",
+  "cases": [
+    {
+      "id": "alias-mcu",
+      "sourceTerm": "MCU",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-ccu",
+      "sourceTerm": "CCU",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-acu",
+      "sourceTerm": "ACU",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-mcu-lower",
+      "sourceTerm": "mcu",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-central-control-unit",
+      "sourceTerm": "Central Control Unit",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-machine-control-unit",
+      "sourceTerm": "Machine Control Unit",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-inverter-board",
+      "sourceTerm": "Inverter Board",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-door-lock-assembly",
+      "sourceTerm": "Door Lock Assembly",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-door-latch",
+      "sourceTerm": "Door Latch",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-pressure-switch",
+      "sourceTerm": "Pressure Switch",
+      "templateId": "washer",
+      "expectedCanonicalId": "water_level_sensor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-drain-pump",
+      "sourceTerm": "Drain Pump",
+      "templateId": "washer",
+      "expectedCanonicalId": "drain_pump",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-drive-motor",
+      "sourceTerm": "Drive Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "drive_motor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-wash-motor",
+      "sourceTerm": "Wash Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "drive_motor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-heating-element",
+      "sourceTerm": "Heating Element",
+      "templateId": "washer",
+      "expectedCanonicalId": "wash_heater",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-thermistor",
+      "sourceTerm": "Thermistor",
+      "templateId": "washer",
+      "expectedCanonicalId": "wash_ntc",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-inlet-valve",
+      "sourceTerm": "Inlet Valve",
+      "templateId": "washer",
+      "expectedCanonicalId": "inlet_valve",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-fill-valve",
+      "sourceTerm": "Fill Valve",
+      "templateId": "washer",
+      "expectedCanonicalId": "inlet_valve",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-water-valve",
+      "sourceTerm": "Water Valve",
+      "templateId": "washer",
+      "expectedCanonicalId": "inlet_valve",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-console",
+      "sourceTerm": "Console",
+      "templateId": "washer",
+      "expectedCanonicalId": "hmi_control",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-dispenser-motor-short",
+      "sourceTerm": "Dispenser Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "dosing_pump",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "compound-detergent-dispenser-motor",
+      "sourceTerm": "Detergent Dispenser Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "dosing_pump",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "expectedMatchedPhrase": "dispenser motor",
+      "minConfidence": 0.8,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "compound-bulk-dispenser-switch",
+      "sourceTerm": "Bulk Dispenser Switch",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "compound_alias",
+      "expectedDecision": "needs_review"
+    },
+    {
+      "id": "compound-hot-water-inlet-valve",
+      "sourceTerm": "Hot Water Inlet Valve",
+      "templateId": "washer",
+      "expectedCanonicalId": "inlet_valve",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "minConfidence": 0.75,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "compound-door-lock-switch-assembly",
+      "sourceTerm": "Door Lock Switch Assembly",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "minConfidence": 0.75,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "unresolved-duet-sport",
+      "sourceTerm": "Duet Sport",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "compound_alias",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "unresolved-front-load",
+      "sourceTerm": "Front Load",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "compound_alias",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-test-number",
+      "sourceTerm": "TEST",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-ohms",
+      "sourceTerm": "Ohms",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-component",
+      "sourceTerm": "Component",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-service",
+      "sourceTerm": "Service",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-manual",
+      "sourceTerm": "Manual",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-check",
+      "sourceTerm": "Check",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-circuit",
+      "sourceTerm": "Circuit",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-voltage",
+      "sourceTerm": "Voltage",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-resistance",
+      "sourceTerm": "Resistance",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "canonical-id-door-lock",
+      "sourceTerm": "door_lock",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 1.0,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "canonical-id-motor-controller",
+      "sourceTerm": "motor_controller",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 1.0,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "canonical-id-control-board",
+      "sourceTerm": "control_board",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 1.0,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "seed-alias-main-control",
+      "sourceTerm": "main_control",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.95,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "seed-alias-inverter",
+      "sourceTerm": "inverter",
+      "templateId": "washer",
+      "expectedCanonicalId": "motor_controller",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.95,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-drum-motor",
+      "sourceTerm": "Drum Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "drive_motor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-ntc",
+      "sourceTerm": "NTC",
+      "templateId": "washer",
+      "expectedCanonicalId": "wash_ntc",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-th2",
+      "sourceTerm": "TH2",
+      "templateId": "washer",
+      "expectedCanonicalId": "wash_ntc",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-aps",
+      "sourceTerm": "APS",
+      "templateId": "washer",
+      "expectedCanonicalId": "water_level_sensor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-water-level-sensor",
+      "sourceTerm": "Water Level Sensor",
+      "templateId": "washer",
+      "expectedCanonicalId": "water_level_sensor",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-door-interlock",
+      "sourceTerm": "Door Interlock",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.9,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-main-pcb",
+      "sourceTerm": "Main PCB",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "alias-main-control",
+      "sourceTerm": "Main Control",
+      "templateId": "washer",
+      "expectedCanonicalId": "control_board",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "minConfidence": 0.85,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "title-test-prefix-door-lock",
+      "sourceTerm": "TEST #5 — Door Lock",
+      "templateId": "washer",
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "alias",
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "title-section-dispenser-motor",
+      "sourceTerm": "\u00a75-4: Detergent Dispenser Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "dosing_pump",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "minConfidence": 0.8,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "title-motor-test-suffix",
+      "sourceTerm": "\u00a75-4 MOTOR TEST",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "alias",
+      "expectedBlockedReason": "AMBIGUOUS_COMPONENT",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "ambiguous-motor-alone",
+      "sourceTerm": "Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "alias",
+      "expectedBlockedReason": "AMBIGUOUS_COMPONENT",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "ambiguous-board-alone",
+      "sourceTerm": "Board",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "alias",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "ambiguous-valve-alone",
+      "sourceTerm": "Valve",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "alias",
+      "expectedBlockedReason": "AMBIGUOUS_COMPONENT",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "ambiguous-pump-alone",
+      "sourceTerm": "Pump",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "UNRESOLVED_TERM",
+      "expectedMappingType": "alias",
+      "expectedBlockedReason": "AMBIGUOUS_COMPONENT",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "compound-wash-motor-circuit",
+      "sourceTerm": "Wash Motor Circuit",
+      "templateId": "washer",
+      "expectedCanonicalId": "drive_motor",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "minConfidence": 0.75,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "compound-drain-pump-motor",
+      "sourceTerm": "Drain Pump Motor",
+      "templateId": "washer",
+      "expectedCanonicalId": "drain_pump",
+      "expectedStatus": "COMPOUND_TERM_CANDIDATE",
+      "expectedMappingType": "compound_alias",
+      "minConfidence": 0.75,
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "filtered-pin-number",
+      "sourceTerm": "Pin",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-connector",
+      "sourceTerm": "Connector",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-harness",
+      "sourceTerm": "Harness",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-terminal",
+      "sourceTerm": "Terminal",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-mode",
+      "sourceTerm": "Mode",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "filtered-diagnostic",
+      "sourceTerm": "Diagnostic",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "PROCEDURAL_NOISE",
+      "expectedDecision": "reject"
+    },
+    {
+      "id": "seed-heater-washer",
+      "sourceTerm": "heater",
+      "templateId": "washer",
+      "asSeedComponentId": true,
+      "expectedCanonicalId": "wash_heater",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "seed_component_id",
+      "minConfidence": 0.95,
+      "expectedDecision": "approve"
+    },
+    {
+      "id": "seed-door-switch-careful",
+      "sourceTerm": "door_switch",
+      "templateId": "washer",
+      "asSeedComponentId": true,
+      "expectedCanonicalId": "door_lock",
+      "expectedStatus": "candidate",
+      "expectedMappingType": "seed_component_id",
+      "maxConfidence": 0.9,
+      "expectedDecision": "careful_review"
+    },
+    {
+      "id": "filtered-structural-c2",
+      "sourceTerm": "C2",
+      "templateId": "washer",
+      "expectedCanonicalId": null,
+      "expectedStatus": "FILTERED_NOISE",
+      "expectedMappingType": "filtered",
+      "expectedBlockedReason": "STRUCTURAL_TOKEN",
+      "expectedDecision": "reject"
+    }
+  ]
+}

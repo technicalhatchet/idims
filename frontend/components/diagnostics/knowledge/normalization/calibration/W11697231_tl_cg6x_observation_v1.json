@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg6x_tl_washer_cg3_observation",
+  "experiment": "Whirlpool TL manual #2 (PSC WTW4950) \u2014 fresh CG-3 vs unchanged top_load_washer_cg6x_candidate_v1.json",
+  "manualId": "W11697231",
+  "priorManualId": "W10864849",
+  "platformId": "whirlpool_tl_dd",
+  "ontologyId": "top_load_washer",
+  "ontologyFrozen": false,
+  "candidateGraphUnchanged": true,
+  "generatedAt": "2026-09-15T18:42:26.077045+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "baselineObservation": "W10864849_tl_cg6x_observation_v1.json",
+  "graphArtifact": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\top_load_washer_cg6x_candidate_v1.json",
+  "nativeCohortFilter": "procedureId.startsWith('w11697231-')",
+  "pipelineCounts": {
+    "proceduresNative": 10,
+    "mappingCandidatesNative": 18,
+    "mappingCandidatesTotal": 18,
+    "overlayCandidatesNative": 12,
+    "overlayCandidatesTotal": 12,
+    "conflicts": 0,
+    "extractionFiltered": 11
+  },
+  "normalizeRun": {
+    "manualId": "W11697231"
+  },
+  "canonicalExpansion": {
+    "newCanonicalConcepts": 0,
+    "ids": []
+  },
+  "nativeCanonicalTargetHistogram": {
+    "drain_pump": 2,
+    "supply": 1,
+    "control_board": 1,
+    "inlet_valve": 1,
+    "drive_motor": 1,
+    "hmi_control": 1,
+    "wash_ntc": 1,
+    "water_level_sensor": 1,
+    "door_lock": 1
+  },
+  "unresolvedNativeMappings": 8,
+  "watchAreas": {
+    "drive_system": {
+      "verdict": "not_earned_collapses_to_drive_motor",
+      "nativeDriveMotorMappingHits": 1,
+      "nativeDriveSystemCandidateHits": 0,
+      "nativeDriveOverlayBindings": 4,
+      "driveProcedureChain": [
+        "w11697231-test-03-drive-system",
+        "w11697231-test-03a-shifter",
+        "w11697231-test-03b-motor"
+      ],
+      "evidence": "W11697231 drive path resolves control_board \u2192 drive_motor \u2192 motor_output_test. No independent canonical evidence for drive_system node.",
+      "freezeRecommendation": "provisional_remove_unless_W11416787_contradicts"
+    },
+    "transmission_or_shifter": {
+      "verdict": "cross_platform_functional_supported",
+      "nativeShifterMappingHits": 1,
+      "nativeShifterOverlayBindings": 2,
+      "shifterTestTarget": [
+        "motor_output_test"
+      ],
+      "shifterComponentIds": [
+        "drive_motor"
+      ],
+      "canonicalBoundary": {
+        "canonical": "mode_selection / wash-spin mode transition (transmission_or_shifter)",
+        "overlay": [
+          "shifter",
+          "splutch",
+          "clutch",
+          "gearcase",
+          "actuator"
+        ]
+      },
+      "crossManualReinforcement": "W10864849 and W11697231 both expose TEST #3a shifter procedures on whirlpool_tl_dd \u2014 functional vocabulary, not Whirlpool-only implementation pattern.",
+      "freezeRecommendation": "keep_if_W11416787_reinforces"
+    },
+    "lid_switch_vs_lid_lock": {
+      "verdict": "provisional_positive \u2014 procedure distinguishes lid switch vs lock switch; CG-3 still collapses to door_lock/lid_lock",
+      "nativeLidMappingHits": 2,
+      "nativeLidOverlayBindings": 2,
+      "procedureRoleEvidence": {
+        "procedureId": "w11697231-test-08-lid-lock",
+        "lidSwitchMentioned": true,
+        "lockSwitchMentioned": true,
+        "solenoidMentioned": true,
+        "distinctRolesInProcedureText": true
+      },
+      "matcherCanonicalTargets": [
+        "door_lock"
+      ],
+      "overlayTestTargets": [
+        "door_lock_test"
+      ],
+      "freezeRecommendation": "provisional_lid_switch \u2014 do not promote split on plausibility alone"
+    }
+  },
+  "procedureEvidence": {
+    "nativeProcedureCount": 10,
+    "lidAuthorization": [
+      {
+        "procedureId": "w11697231-test-08-lid-lock",
+        "lidSwitchMentioned": true,
+        "lockSwitchMentioned": true,
+        "solenoidMentioned": true,
+        "distinctRolesInProcedureText": true
+      }
+    ],
+    "drivePath": [
+      {
+        "procedureId": "w11697231-test-03-drive-system",
+        "mentionsDriveSystem": true,
+        "mentionsShifter": true,
+        "mentionsMotor": true
+      },
+      {
+        "procedureId": "w11697231-test-03a-shifter",
+        "mentionsDriveSystem": false,
+        "mentionsShifter": true,
+        "mentionsMotor": true
+      },
+      {
+        "procedureId": "w11697231-test-03b-motor",
+        "mentionsDriveSystem": false,
+        "mentionsShifter": false,
+        "mentionsMotor": true
+      }
+    ],
+    "shifterPath": [
+      {
+        "procedureId": "w11697231-test-03a-shifter",
+        "hasShifterMeasurement": true,
+        "overlayMechanismTerms": [
+          "splutch"
+        ]
+      }
+    ]
+  },
+  "crossManualComparison": {
+    "priorManual": "W10864849",
+    "priorOpenQuestions": {
+      "transmission_or_shifter_canonical": {
+        "verdict": "candidate_supported_with_overlay_implementation",
+        "evidence": "W10864849 maps 1 shifter-related terms to mode_shifter (legacy) / transmission_or_shifter (candidate). Platform overlay teaches splutch/clutch implementation \u2014 not canonical.",
+        "w10864849ShifterMappings": 1,
+        "overlayUsesModeShifter": true
+      },
+      "lid_switch_vs_lid_lock": {
+        "verdict": "split_supported_candidate_not_observed_in_w10864849",
+        "evidence": "W10864849 maps 1 terms to lid_lock only (door_lock seed). No separate lid_switch mapping in first manual \u2014 split remains candidate hypothesis for multi-platform evidence, not contradicted.",
+        "w10864849LidLockMappings": 1,
+        "candidateHasLidSwitch": true
+      },
+      "drive_system_abstraction": {
+        "verdict": "scrutinize_hardest_abstraction",
+        "evidence": "W10864849 has 4 drive-system-related mappings targeting drive_motor at canonical layer. Candidate drive_system node has no direct matcher hits \u2014 functional aggregate may be overlay/orchestration only.",
+        "w10864849DriveMappings": 4,
+        "candidateDriveSystemDirectHits": 0,
+        "recommendation": "Keep drive_system as candidate-only until a second TL manual requires it at canonical layer; procedure orchestration may suffice."
+      }
+    },
+    "convergence": {
+      "transmission_or_shifter": "reinforced \u2014 second manual exposes same TEST #3a shifter functional split",
+      "drive_system": "weakened \u2014 second manual also collapses to drive_motor; abstraction not earning place",
+      "lid_switch_vs_lid_lock": "strengthened provisionally \u2014 W11697231 procedure text distinguishes lid switch vs lock switch; matcher still maps door_lock only"
+    }
+  },
+  "freezeConvergence": {
+    "keepAfterTwoManuals": [
+      "lid_lock",
+      "inlet_valve",
+      "water_level_sensor",
+      "drain_pump",
+      "drain_path",
+      "drive_motor",
+      "agitator_or_impeller",
+      "spin_system",
+      "suspension_system",
+      "transmission_or_shifter"
+    ],
+    "provisionalAfterTwoManuals": [
+      "lid_switch"
+    ],
+    "overlayOnlyExplicit": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "specific_shifter_mechanisms"
+    ],
+    "awaitingThirdManual": "W11416787",
+    "freezeRev1Ready": false
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "Two-manual convergence supports transmission_or_shifter and weakens drive_system. lid_switch split has procedure-level evidence but not matcher-level evidence. Run W11416787 as adversarial third manual before freezing rev1.",
+    "nextManual": "W11416787",
+    "doNotChangeCandidateDuringObservation": true
+  }
+}

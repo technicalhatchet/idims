@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_improvement_review_audit",
+  "gateId": "matcher-improvement-wave1",
+  "status": "READY_FOR_HUMAN_MATCHER_IMPROVEMENT_REVIEW",
+  "generatedAt": "2026-09-21T12:34:06.583131+00:00",
+  "reviewArtifact": "CG_MATCHER_IMPROVEMENT_REVIEW_v1.json",
+  "preflightChecks": {
+    "passed": true,
+    "errors": [],
+    "warnings": [
+      "matcher improvement decisions artifact already has 17 decisions"
+    ],
+    "expectedReviewItemCount": 17,
+    "actualReviewItemCount": 17
+  },
+  "integrityChecks": {
+    "passed": true,
+    "errors": [],
+    "reviewItemCount": 17,
+    "unresolvedCount": 1100,
+    "canonicalMappingGapCount": 1078,
+    "productionReviewDecisionCount": 796,
+    "matcherReviewDecisionCount": 17,
+    "frozenCanonicalHashesValid": true,
+    "wave1ClosureIntact": true,
+    "wave2ClosureIntact": true,
+    "wave3Empty": true,
+    "aliasesAdded": false,
+    "matcherChanged": false,
+    "normalizationMutated": false,
+    "batchAuthorizationChanged": false,
+    "drilldownAnalyzedMissedCount": 374
+  },
+  "allowedDecisions": [
+    "approve",
+    "defer",
+    "reject",
+    "no_change"
+  ],
+  "mutationChecks": {
+    "matcherImplementationAllowed": false,
+    "matcherChanged": false,
+    "aliasesAdded": false,
+    "canonicalMutationAllowed": false,
+    "productionDecisionCount": 796,
+    "matcherReviewDecisionCount": 17
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "samsung_fl_gate_preview",
+  "experiment": "CG-5.6 Samsung FL #2 — platform compounding (gate-preview only, no compiler changes)",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformId": "samsung_fl_washer_wf6000r",
+  "model": "WF45T6000",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+  "generatedAt": "2026-09-13T19:10:00+00:00",
+  "metricsSource": "gate_preview",
+  "killerMetricTable": {
+    "columns": ["Samsung FL #1 BB8700", "Samsung FL #2 WF6000R"],
+    "rows": {
+      "inheritedCorpusKnowledge": [14, 0],
+      "inheritedPlatformFamilyKnowledge": [0, 16],
+      "inheritedWhirlpoolPlatform": [0, 0],
+      "newPlatformKnowledge": [1, 0],
+      "newModelSpecificKnowledge": [0, 7],
+      "newCanonicalKnowledge": [0, 0],
+      "newGateDecisions": [6, 7],
+      "newDecisionRate": [0.2069, 0.1944]
+    },
+    "bucketNote": "FL #2 inheritedCorpusKnowledge=0 is platform-priority bucketing — 14 records also match Whirlpool FL corpus (both=14, platform_only=2)."
+  },
+  "primaryKiller": {
+    "question": "Does inverter_board inherit from Samsung FL #1?",
+    "autoInheritAtGate": false,
+    "reason": "OEM term mismatch — BB8700 '§4-3: Power / current sense (9C5)' vs WF6000R '§4-1: Power / voltage (9C1, 9C2)'. Concept reuse expected at human review (inherited_platform_family), not new platform knowledge.",
+    "wf6000rGateTerm": "§4-1: Power / voltage (9C1, 9C2)",
+    "bb8700PlatformAlias": "§4-3: Power / current sense (9C5) → inverter_board"
+  },
+  "gateDecisions": {
+    "totalBlocked": 9,
+    "autoInheritedPlatformExactMatch": 2,
+    "newHumanDecisions": 7,
+    "blockedItems": [
+      {
+        "oemTerm": "§4-3: PBA communication (AC, AC3–AC6)",
+        "autoInherit": false,
+        "expectedHumanClass": "inherited_corpus_knowledge",
+        "expectedCanonical": "control_board",
+        "note": "BB8700 variant AC/AC6 — corpus concept, new OEM alias"
+      },
+      {
+        "oemTerm": "§4-3: Drain / leakage (LC, 5C)",
+        "autoInherit": false,
+        "expectedHumanClass": "inherited_corpus_knowledge",
+        "expectedCanonical": "drain_pump"
+      },
+      {
+        "oemTerm": "§4-1: Switch error (BC2)",
+        "autoInherit": false,
+        "expectedHumanClass": "new_model_specific",
+        "note": "WF6000R HMI switch error — model-line surface"
+      },
+      {
+        "oemTerm": "§4-3: Inlet valves (4C, Co/Ho manual check)",
+        "autoInherit": false,
+        "expectedHumanClass": "inherited_corpus_knowledge",
+        "expectedCanonical": "inlet_valve"
+      },
+      {
+        "oemTerm": "§4-1: MEMS PBA (8C, 8C1, 8C2)",
+        "autoInherit": false,
+        "expectedHumanClass": "new_platform_knowledge",
+        "note": "Genuinely WF6000R Samsung platform vocabulary — not in BB8700"
+      },
+      {
+        "oemTerm": "§4-3: Washing motor (3C)",
+        "autoInherit": true,
+        "inheritanceLayer": "samsung_platform_family",
+        "expectedCanonical": "drive_motor"
+      },
+      {
+        "oemTerm": "§4-3: Overflow (OC)",
+        "autoInherit": true,
+        "inheritanceLayer": "samsung_platform_family",
+        "expectedCanonical": "water_level_sensor"
+      },
+      {
+        "oemTerm": "§4-1: Power / voltage (9C1, 9C2)",
+        "autoInherit": false,
+        "expectedHumanClass": "inherited_platform_family",
+        "expectedCanonical": "inverter_board",
+        "note": "Platform concept from BB8700 — new OEM alias, not new platform knowledge"
+      },
+      {
+        "oemTerm": "§4-3: Unbalance (UV, UB)",
+        "autoInherit": false,
+        "expectedHumanClass": "new_model_specific",
+        "note": "Unbalance codes — model-line diagnostic surface"
+      }
+    ]
+  },
+  "interpretation": {
+    "verdict": "Strong Samsung platform compounding signal — 16 inheritedPlatformFamilyKnowledge at gate with zero Whirlpool platform leakage.",
+    "platformCompounds": "Samsung #2 is not a manually populated overlay illusion — BB8700 vocabulary auto-resolves 16 records including exact-match 3C/OC gate terms.",
+    "inverterBoardLesson": "Platform concepts do not auto-inherit across OEM title variants; human gate must classify concept reuse vs new platform knowledge.",
+    "expectedPostHumanGate": {
+      "inheritedPlatformFamily": "≥3 gate terms (3C, OC, 9C1/9C2→inverter_board)",
+      "newPlatformKnowledge": "1 (MEMS PBA)",
+      "newModelSpecificKnowledge": "2 (BC2, unbalance)",
+      "newCanonicalKnowledge": 0
+    }
+  },
+  "pipelineReport": "compounding_pipeline_SAMSUNG-FL-WF6000R-WASHER.json",
+  "frozenBaselineFl1": "compounding_baseline_v1_samsung_fl1.json",
+  "publishBlockedUntil": [
+    "Human term-resolution review of 7 gate decisions",
+    "samsung_fl_wf6000r_direct_drive overlay family creation",
+    "Equivalence + architecture boundary re-run"
+  ]
+}

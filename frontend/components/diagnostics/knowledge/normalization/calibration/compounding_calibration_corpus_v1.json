@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "compounding_calibration_corpus",
+  "version": "v1",
+  "frozen": true,
+  "frozenAt": "2026-09-13T22:05:00+00:00",
+  "description": "CG-6 calibration benchmark — 7 promoted washer manuals used to measure compounding efficiency. Do not expand without explicit CG-6 decision.",
+  "purpose": "Measure human-review burden, semantic vs exact inheritance, and leakage — not to prove hierarchy (CG-5 closed that).",
+  "primaryMetric": "newHumanDecisionCount per manual at gate-preview (authoritative)",
+  "efficiencyReport": "compounding_efficiency_v1.json",
+  "efficiencyReportScript": "backend/scripts/run_compounding_efficiency_report.py",
+  "secondaryMetrics": [
+    "exact_inheritance_rate",
+    "semantic_inheritance_human_burden",
+    "false_inheritance",
+    "platform_leakage",
+    "canonical_leakage",
+    "model_leakage"
+  ],
+  "promotionOrder": [
+    "W8178558",
+    "W11169652",
+    "W10864849",
+    "W11697231",
+    "W11416787",
+    "SAMSUNG-FL-BB8700-WASHER",
+    "SAMSUNG-FL-WF6000R-WASHER"
+  ],
+  "cohorts": {
+    "whirlpool_fl": {
+      "label": "Whirlpool FL corpus establishment",
+      "manuals": [
+        {
+          "manualId": "W8178558",
+          "platformId": "whirlpool_duet_sport",
+          "role": "fl_corpus_seed",
+          "gateNewHumanDecisions": 10,
+          "gateNewDecisionRate": 0.2439,
+          "baseline": "compounding_baseline_v1_whirlpool_fl.json"
+        },
+        {
+          "manualId": "W11169652",
+          "platformId": "whirlpool_fl_dd",
+          "role": "fl_corpus_compound",
+          "gateNewHumanDecisions": 9,
+          "gateNewDecisionRate": 0.1837,
+          "baseline": "compounding_baseline_v1_whirlpool_fl.json"
+        }
+      ]
+    },
+    "whirlpool_tl": {
+      "label": "Whirlpool TL platform compounding",
+      "manuals": [
+        {
+          "manualId": "W10864849",
+          "platformId": "whirlpool_tl_dd",
+          "role": "tl_platform_establish",
+          "gateNewHumanDecisions": 14,
+          "gateNewDecisionRate": 0.264,
+          "baseline": "compounding_baseline_v1_whirlpool_tl.json"
+        },
+        {
+          "manualId": "W11697231",
+          "platformId": "whirlpool_tl_dd",
+          "role": "tl_platform_reproduce",
+          "gateNewHumanDecisions": 0,
+          "gateNewDecisionRate": 0.0,
+          "baseline": "compounding_baseline_v1_whirlpool_tl2.json"
+        },
+        {
+          "manualId": "W11416787",
+          "platformId": "whirlpool_tl_dd_5100",
+          "role": "tl_platform_replicate_seed_boundary",
+          "gateNewHumanDecisions": 2,
+          "gateNewDecisionRate": 0.061,
+          "baseline": "compounding_baseline_v1_whirlpool_tl3.json"
+        }
+      ],
+      "killerCurve": {
+        "newPlatformKnowledge": [14, 0, 0],
+        "newHumanDecisions": [14, 0, 2]
+      }
+    },
+    "samsung_fl": {
+      "label": "Cross-manufacturer + Samsung platform compounding",
+      "manuals": [
+        {
+          "manualId": "SAMSUNG-FL-BB8700-WASHER",
+          "platformId": "samsung_fl_washer_bb8700",
+          "role": "cross_manufacturer_canonical + samsung_platform_establish",
+          "gateNewHumanDecisions": 6,
+          "gateNewDecisionRate": 0.2069,
+          "baseline": "compounding_baseline_v1_samsung_fl1.json"
+        },
+        {
+          "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+          "platformId": "samsung_fl_washer_wf6000r",
+          "role": "samsung_platform_compound",
+          "gateNewHumanDecisions": 7,
+          "gateNewDecisionRate": 0.1944,
+          "rawGatePlatformInherited": 16,
+          "semanticInheritanceCase": "inverter_board (9C5 → 9C1/9C2)",
+          "baseline": "compounding_baseline_v1_samsung_fl2.json",
+          "rawGatePreview": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json"
+        }
+      ]
+    }
+  },
+  "observedCompoundingCurves": {
+    "whirlpool_tl_platform": "14 → 0 → 0 new platform; 2 model-specific at seed boundary",
+    "whirlpool_fl_corpus": "10 → 9 gate decisions (corpus compounding, same architecture family)",
+    "samsung_fl_cross_mfr": "6 establish → 7 gate with 16 auto platform inherit at matcher layer",
+    "headlineQuestion": "How much human labor per additional manual as corpus grows?"
+  },
+  "leakageAssertions": {
+    "samsung_to_whirlpool_platform": 0,
+    "whirlpool_to_samsung_platform": 0,
+    "newCanonicalAcrossCohort": 0,
+    "frozenOntologyCandidatesTouched": 0
+  },
+  "nextLightweightManufacturer": {
+    "candidate": "LG FL washer",
+    "mode": "scaffold_boundary → gate_preview → human_exceptions → publish → freeze → compare",
+    "not": "Another prolonged CG-5-style methodology experiment"
+  }
+}

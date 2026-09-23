@@ -1,0 +1,353 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg12_induction_range_r1_fit_observation",
+  "experiment": "CG-12 R1 — Samsung NE58R9560WS induction range fit observation against frozen electric_range rev1. Strictly observational — record manual evidence per probe; fit analysis and family conclusions deferred.",
+  "workstream": "CG-12",
+  "stage": "R1_induction_fit_observation",
+  "status": "r1_observation_complete",
+  "observationMode": "strictly_observational",
+  "ontologyConclusionsDeferred": true,
+  "fitAnalysisDeferred": true,
+  "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+  "platformId": "samsung_range_ne58r9560",
+  "smokeModel": "NE58R9560WS/AA",
+  "manualFamilyCoverage": {
+    "sourceDocument": "samsunginductionne58h.pdf",
+    "basicModel": "NE58H9970WS",
+    "modelPattern": "NE58*9560W*",
+    "modelCodeOnCover": "NE58R9560WG/AA",
+    "witnessNote": "Single Samsung induction family service manual — NE58R9560WS/AA is within documented NE58*9560W* pattern; suffix WG/WS is finish variant."
+  },
+  "fuelFilter": "induction_range",
+  "templateFilter": "induction_range",
+  "ontologyUnderTest": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+    "immutable": true
+  },
+  "contract": "CG12_INDUCTION_FIT_TEST_CONTRACT_v1.json",
+  "fitEligible": false,
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "generatedAt": "2026-09-16T17:30:00+00:00",
+  "r1DecisionGate": {
+    "question": "What does the NE58 induction service manual actually show for each frozen layer — and can that evidence be represented without canonical divergence?",
+    "notAsked": "Does Samsung induction match Whirlpool electric?",
+    "evaluatedAgainst": "frozen_electric_range_rev1_layers",
+    "notCreating": "induction_range.json or parallel induction ontology"
+  },
+  "classificationVocabulary": [
+    "INHERITS",
+    "CONDITIONAL",
+    "DIVERGES",
+    "NO_EVIDENCE",
+    "DEFERRED"
+  ],
+  "probeFieldSchema": {
+    "implementationEvidence": "What the manual actually shows.",
+    "functionalMapping": "Whether evidence can be represented by the frozen layer.",
+    "implementationSpecificAdditions": "Induction hardware/terminology below canonical.",
+    "fitStatus": "INHERITS | CONDITIONAL | NO_EVIDENCE | DIVERGES | DEFERRED",
+    "crossManufacturerConsistency": "PENDING until R2/R3.",
+    "sourceProvenance": "Procedure/section/page evidence."
+  },
+  "graphArtifacts": {
+    "extractionDoc": null,
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedText": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "extractedMeta": "backend/docs/manuals/samsunginductionne58h-extracted-meta.json",
+    "procedureSeedDir": null,
+    "manualStatus": "in_repo",
+    "fitWitnessOnly": true,
+    "notNormalizationTarget": true,
+    "excludedObservationArtifacts": [
+      {
+        "artifact": "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json",
+        "reason": "CG-10 R4 electric NE58F9710WS — not induction R1 evidence"
+      },
+      {
+        "artifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+        "reason": "CG-11 gas fit — different fuel family"
+      }
+    ]
+  },
+  "boundaryProbes": {
+    "power_supply_induction": {
+      "probeId": "power_supply_induction",
+      "frozenContractNode": "power_supply",
+      "layer": "components[]",
+      "implementationEvidence": "§4-3 Troubleshooting (Power) p.57: terminal block voltage 220–240V 50/60Hz; no-power flow checks wiring, circuit breaker, terminal block connections. §4-1 symptom matrix p.45: measure input voltage 240/120V or 208/120V at terminal block and main PCB L1~N 120V.",
+      "functionalMapping": "Mains supply prerequisite is independently tested before PCB/heater paths — maps to frozen power_supply functional role.",
+      "implementationSpecificAdditions": [],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-3 Troubleshooting (Power) p.57", "§4-1 symptom matrix p.45"]
+    },
+    "control_board_induction": {
+      "probeId": "control_board_induction",
+      "frozenContractNode": "control_board",
+      "layer": "components[]",
+      "implementationEvidence": "Main PCB + Sub PCB architecture; C-F0 Main↔Sub communication fault (p.41); bake/broil/convection/DLB relay checks on Main PCB diagram (p.39); §4-3 PCB failure flow checks SMPS 5V/12V and relay operation (p.58). Cooktop path routes through Assy-Inverter Module and Assy Touch PCB (§4-2-10 Communication p.56–57).",
+      "functionalMapping": "Control/orchestration remains representable as control_board — relay banks and inverter/touch packaging are implementation, not a separate canonical functional domain in this observation.",
+      "implementationSpecificAdditions": [
+        "main_pcb",
+        "sub_pcb",
+        "assy_inverter_module",
+        "assy_touch_pcb",
+        "filter_pcb",
+        "dlb_relay",
+        "bake_relay",
+        "broil_relay",
+        "convection_relay"
+      ],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-F0 p.41", "§4-1 relay diagram p.39", "§4-3 PCB failure p.58", "§4-2-10 Communication p.56–57", "§3-7 Assy-Induction Module p.18–20"],
+      "topologyNotCanonical": "control_board → Assy-Inverter Module → working coil is implementation evidence recorded below surface_heating_system — not promoted to canonical topology."
+    },
+    "user_interface_induction": {
+      "probeId": "user_interface_induction",
+      "frozenContractNode": "user_interface",
+      "layer": "components[]",
+      "implementationEvidence": "C-d0 key short (p.36, flow p.43); C-F2 Main↔Touch PCB communication (p.36, flow p.42); Glass Touch / Assy Touch PCB; keypad cable CN701; Virtual Flame option (p.47).",
+      "functionalMapping": "UI/command interaction domain is separately diagnosed from heater and inverter power paths.",
+      "implementationSpecificAdditions": ["glass_touch_pcb", "assy_touch_pcb", "keypad_cable_cn701", "virtual_flame_led_module"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-d0 p.36", "§4-1 C-F2 p.36", "§4-1 C-d0 flow p.43", "§4-1 C-F2 flow p.42", "§4-3 symptom p.47"]
+    },
+    "temperature_sensor_induction": {
+      "probeId": "temperature_sensor_induction",
+      "frozenContractNode": "temperature_sensor",
+      "layer": "components[]",
+      "implementationEvidence": "C-20 oven sensor open/short (p.37, flow p.38); C-21 abnormal internal temperature with oven sensor 1080Ω at room temp (p.37, flow p.39); §4-3 component test oven sensor ~1080Ω at room temperature (p.62); oven sensor resistance table p.63.",
+      "functionalMapping": "Oven cavity temperature feedback is independently measured and fault-routed — same functional role as frozen temperature_sensor.",
+      "implementationSpecificAdditions": ["oven_sensor", "cn320"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-20/C-21 p.37", "§4-1 C-20 flow p.38", "§4-1 C-21 flow p.39", "§4-3 oven sensor p.62–63"]
+    },
+    "surface_heating_system_induction": {
+      "probeId": "surface_heating_system_induction",
+      "frozenContractNode": "surface_heating_system",
+      "layer": "components[]",
+      "criticalProbe": true,
+      "implementationEvidence": "Induction cooktop: 4 ceramic-glass zones (spec p.8); Assy-Working Coil sizes 160/180/280 (§3-6 p.15–17); Assy-Induction Module replacement (§3-7 p.18–20). Cooktop fault family §4-2: Top Sensor Open/Short (p.48–51), IGBT Sensor Open/Short on Assy-Inverter Module (p.52–53), Over Temperature (p.54), Pan Detection (p.55), DC Motor Locking (p.56), Communication Display↔Inverter UART (p.56–57). §4-3 Heating Failure: IGBT terminal resistance G-E/G-C/E-C, fuse at Filter PCB, Inverter PCB replacement (p.57).",
+      "functionalMapping": "Cooktop heat generation remains an independently diagnosable functional domain — manual decomposes surface problems into sensor/inverter/pan/coil paths without requiring a new canonical component for induction. Frozen surface_heating_system can express 'surface won't heat / cooktop fault' reasoning; coil/inverter/pan detection are implementation bindings.",
+      "implementationSpecificAdditions": [
+        "assy_working_coil",
+        "assy_induction_module",
+        "inverter_pcb",
+        "filter_pcb",
+        "top_sensor",
+        "igbt_sensor",
+        "pan_detection",
+        "uart_communication_display_inverter",
+        "dc_motor_locking",
+        "igbt_terminal_resistance_g_e_g_c_e_c"
+      ],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": [
+        "§2-2 specifications cooktop p.8",
+        "§3-6 Assy-Working Coil p.15–17",
+        "§3-7 Assy-Induction Module p.18–20",
+        "§4-2 cooktop fault table p.48",
+        "§4-2-3 Top Sensor Open p.49",
+        "§4-2-8 Pan Detection p.55",
+        "§4-2-10 Communication p.56–57",
+        "§4-3 Heating Failure IGBT p.57"
+      ],
+      "scrutinyNotes": {
+        "notEquivalentBecause": "Induction surface heating is not equivalent to resistance element heating — manual tests inverter/IGBT/pan/coil paths.",
+        "falsificationQuestion": "Does diagnostic behavior require a functional concept surface_heating_system cannot express?",
+        "observationalAnswer": "Not evidenced on R1 — cooktop faults are addressable as surface heat-generation failures with platform implementation vocabulary.",
+        "topologyNotCanonical": "control_board → inverter module → working coil recorded as implementation — not canonical topology."
+      }
+    },
+    "bake_instance_scope_induction": {
+      "probeId": "bake_instance_scope_induction",
+      "frozenContractNode": "bake_heating_element",
+      "layer": "instanceScopes[]",
+      "implementationEvidence": "§3-10 Heater-Bake removal (p.23); §4-3 Bake Heater component test: resistance ~17–19Ω at room temp, terminal voltage AC 240V when bake keypad pressed >1 min (p.60); bake relay on Main PCB diagram (p.39); C-21 references bake heater resistance check (p.37).",
+      "functionalMapping": "Bake oven heat function is independently testable (separate procedure, separate relay path, separate keypad activation) — maps to bake_heating_element instance scope as functional equivalence; electric bake element is implementation.",
+      "implementationSpecificAdditions": ["heater_bake", "bake_relay", "bake_keypad_activation"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§3-10 p.23", "§4-3 Bake Heater p.60", "§4-1 C-21 p.37", "§4-1 relay diagram p.39"]
+    },
+    "broil_instance_scope_induction": {
+      "probeId": "broil_instance_scope_induction",
+      "frozenContractNode": "broil_heating_element",
+      "layer": "instanceScopes[]",
+      "implementationEvidence": "§3-9 Heater-Broil removal (p.22); §4-3 Broil Heater component test: resistance ~12–14Ω at room temp, terminal voltage AC 240V when broil keypad pressed (p.60); broil relay on Main PCB diagram (p.39).",
+      "functionalMapping": "Broil oven heat function is independently testable — separate from bake — maps to broil_heating_element instance scope.",
+      "implementationSpecificAdditions": ["heater_broil", "broil_relay", "broil_keypad_activation"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§3-9 p.22", "§4-3 Broil Heater p.60", "§4-1 relay diagram p.39"]
+    },
+    "convection_heating_element_induction": {
+      "probeId": "convection_heating_element_induction",
+      "frozenContractNode": "convection_heating_element",
+      "layer": "conditionalInstanceScopes[]",
+      "implementationEvidence": "§3-11 Convection Element removal (p.24); §4-3 Convection Heater component test: resistance ~41–46Ω at room temp, terminal voltage AC 240V on convection bake keypad >1 min (p.60); spec table lists convection element Yes 1250W/240V (p.8–9).",
+      "functionalMapping": "This configuration evidences a dedicated electric convection heating element test path — conditional instance scope binds on this platform (not fan-only convection).",
+      "implementationSpecificAdditions": ["convection_heater", "convection_relay", "convection_bake_keypad"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§2-2 specifications p.8–9", "§3-11 p.24", "§4-3 Convection Heater p.60"],
+      "conditionalScopeNote": "Evidenced on this configuration — distinct from CG-11 gas NO_EVIDENCE case."
+    },
+    "convection_fan_induction": {
+      "probeId": "convection_fan_induction",
+      "frozenContractNode": "convection_fan",
+      "layer": "conditionalConcepts[]",
+      "implementationEvidence": "§4-3 Upper/Lower Convection Fan motor tests: resistance ~20–30Ω, terminal voltage 120V when bake keypad cycles fan (p.61); §4-1 symptom 'Convection fan is not spinning' checks convection fan relay on Sub PCB (p.47).",
+      "functionalMapping": "Convection fan actuator is independently diagnosable — frozen convection_fan conditional concept applies.",
+      "implementationSpecificAdditions": ["upper_convection_fan", "lower_convection_fan", "convection_fan_relay"],
+      "fitStatus": "INHERITS",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-3 Upper/Lower Convection Fan p.61", "§4-1 symptom matrix p.47"]
+    },
+    "thermal_protection_induction": {
+      "probeId": "thermal_protection_induction",
+      "frozenContractNode": "thermal_protection",
+      "layer": "conditionalConcepts[]",
+      "implementationEvidence": "C-21 abnormal high internal temperature (p.37); C-30/C-31 PCB temp sensor faults (p.37); §4-1 thermostat 0Ω normal check (p.45); cooktop Over Temperature when Top sensor sees >482°F ceramic surface (§4-2-7 p.54); C-21 references broil/bake/convection heater and relay checks.",
+      "functionalMapping": "Thermal protection behavior is evidenced through multiple platform-specific paths (oven overtemp, PCB temp, cooktop overtemp, thermostat) — fits frozen CONDITIONAL posture without assuming single implementation.",
+      "implementationSpecificAdditions": [
+        "pcb_temp_sensor_c30_c31",
+        "thermostat",
+        "cooktop_over_temperature_top_sensor",
+        "c21_safety_error_path"
+      ],
+      "fitStatus": "CONDITIONAL",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-21/C-30/C-31 p.37", "§4-1 symptom p.45", "§4-2-7 Over Temperature p.54", "§4-1 C-21 flow p.39"]
+    },
+    "oven_door_switch_induction": {
+      "probeId": "oven_door_switch_induction",
+      "frozenContractNode": "oven_door_switch",
+      "layer": "conditionalConcepts[]",
+      "implementationEvidence": "C-d1 door lock mispositioned: lock motor 2500–2700Ω, 120V at motor, microswitch COM-NO checks (p.36, flow p.40); §4-3 door lock motor test p.61; §4-3 Door plunger switch open 0Ω / close ∞ (p.62); §3-8 Latch-Door & Switch-Door Plunger (p.21).",
+      "functionalMapping": "Door-state authorization evidenced via latch motor + plunger switch packaging — same conditional posture as electric/gas (actuator vs authorization function).",
+      "implementationSpecificAdditions": ["door_lock_motor", "door_plunger_switch", "latch_door", "cn201"],
+      "fitStatus": "CONDITIONAL",
+      "crossManufacturerConsistency": "PENDING",
+      "sourceProvenance": ["§4-1 C-d1 p.36", "§4-1 C-d1 flow p.40", "§4-3 door lock p.61", "§4-3 door plunger p.62", "§3-8 p.21"]
+    }
+  },
+  "platformImplementationEvidence": {
+    "classification": "PLATFORM_ONLY — recorded faithfully; not promoted to canonical",
+    "observed": [
+      {
+        "oemConcept": "assy_working_coil",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-6 p.15–17"]
+      },
+      {
+        "oemConcept": "assy_induction_module",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§3-7 p.18–20"]
+      },
+      {
+        "oemConcept": "inverter_pcb",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system | control_board",
+        "sourceProvenance": ["§4-2-10 p.56–57", "§4-3 p.57"]
+      },
+      {
+        "oemConcept": "igbt_sensor",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§4-2 IGBT Sensor Open/Short p.48", "§4-2-5/4-2-6 p.51–53"]
+      },
+      {
+        "oemConcept": "top_sensor",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§4-2 Top Sensor Open/Short p.48", "§4-2-3/4-2-4 p.49–51"]
+      },
+      {
+        "oemConcept": "pan_detection",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§4-2 Pan Detection p.48", "§4-2-8 p.55"]
+      },
+      {
+        "oemConcept": "igbt_terminal_resistance",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "surface_heating_system",
+        "sourceProvenance": ["§4-3 Heating Failure p.57"]
+      },
+      {
+        "oemConcept": "heater_bake",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "instanceScopes.bake_heating_element",
+        "sourceProvenance": ["§4-3 Bake Heater p.60"]
+      },
+      {
+        "oemConcept": "heater_broil",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "instanceScopes.broil_heating_element",
+        "sourceProvenance": ["§4-3 Broil Heater p.60"]
+      },
+      {
+        "oemConcept": "convection_heater",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "conditionalInstanceScopes.convection_heating_element",
+        "sourceProvenance": ["§4-3 Convection Heater p.60"]
+      },
+      {
+        "oemConcept": "door_lock_motor",
+        "classification": "PLATFORM_ONLY",
+        "bindsToFrozenLayer": "conditionalConcepts.oven_door_switch",
+        "sourceProvenance": ["§4-1 C-d1 p.36", "§4-3 p.61"]
+      }
+    ]
+  },
+  "pipelineCounts": {
+    "boundaryProbes": 11,
+    "probesPopulated": 11,
+    "probesDeferred": 0,
+    "platformHardwareRecorded": 11
+  },
+  "classificationHistogram": {
+    "INHERITS": 9,
+    "CONDITIONAL": 2,
+    "DIVERGES": 0,
+    "NO_EVIDENCE": 0,
+    "DEFERRED": 0
+  },
+  "crossManufacturerMatrixR1Contribution": {
+    "manufacturer": "Samsung",
+    "smokeModel": "NE58R9560WS/AA",
+    "manualDocument": "samsunginductionne58h.pdf",
+    "status": "r1_populated",
+    "allCellsCrossManufacturerConsistency": "PENDING"
+  },
+  "observationalTallyOnly": {
+    "note": "Histogram is probe-level observation tally — not fit analysis verdict. R2/R3 and CG12_INDUCTION_FIT_ANALYSIS_v1.json required before Outcome A/B/C.",
+    "divergenceCount": 0,
+    "allFiveCanonicalComponentsInherit": true,
+    "bothInstanceScopesInherit": true,
+    "inductionHardwarePromotedToCanonical": false
+  },
+  "nextSteps": [
+    "Evaluate R1 evidence against CG-12 falsification contract — author CG12_INDUCTION_FIT_ANALYSIS_v1.json",
+    "Decide whether R2 Whirlpool WFI505 or R3 LG LSIL6334 required for cross_manufacturer_consistency",
+    "Do not compound/normalize until family boundary review after CG-13"
+  ],
+  "explicitlyOmittedUntilFitAnalysis": [
+    "provisionalFitOutcome",
+    "centerpieceQuestionAnswer",
+    "fitTestSummary verdict",
+    "humanBoundaryApproval",
+    "ontology rename or routing conclusions"
+  ]
+}

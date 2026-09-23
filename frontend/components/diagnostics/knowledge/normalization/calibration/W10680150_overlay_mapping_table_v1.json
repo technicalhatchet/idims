@@ -1,0 +1,1094 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W10680150",
+  "platformId": "whirlpool_ccu_dryer",
+  "platformFamilyId": "whirlpool_ccu_dryer",
+  "canonicalOntologyId": "vented_dryer",
+  "proposedOverlayFile": "whirlpool_vented_dryer.json",
+  "proposedOverlayAction": "add_platform_family",
+  "priorPublishedManualId": "W8178559",
+  "priorPublishedPlatformFamilyId": "whirlpool_duet_sport_mce_dryer",
+  "status": "published",
+  "generatedAt": "2026-09-14T05:00:00+00:00",
+  "pipelineManifest": "frontend/components/diagnostics/knowledge/normalization/candidates/W10680150/pipeline_manifest.json",
+  "reviewPackage": "frontend/components/diagnostics/knowledge/normalization/review/W10680150_review.json",
+  "gatePreviewArtifact": "frontend/components/diagnostics/knowledge/normalization/calibration/compounding_dryer2_gate_preview_W10680150.json",
+  "gatePolicy": {
+    "canonicalGraph": "vented_dryer.json rev2 FROZEN \u2014 zero new canonical concepts expected; second dryer manual teaches hierarchy, not ontology expansion.",
+    "implementationRule": "CCU dual-element heater, gas valve, and ignitor live in whirlpool_ccu_dryer platform-family overlay vocabulary (add.components + implements heat_source). They do NOT enter vented_dryer.json.",
+    "proceduralTitleRule": "TEST #\u2026 OEM procedure titles are procedure identifiers \u2014 reject as oemTermAliases unless a distinct knowledge-bearing component phrase is extracted.",
+    "inheritedWhirlpoolDryerRule": "user_interface, supply, gas_valve, and igniter aliases were taught on W8178559 published overlay \u2014 approve as inherited platform knowledge; do not re-litigate canonical mapping.",
+    "matcherHygieneDeferral": "Four inherited aliases may still surface as needs_review without mapsTo \u2014 metrics layer counts them inherited; do not fix matcher materialization during this gate (CG-6.4 compounding experiment).",
+    "dryerTestTargetNote": "Matcher overlay candidates reference motor_output_test (washer id). Dryer canonical uses motor_run_test and door_switch_test \u2014 correct at promotion.",
+    "cohortAccountingRule": "Native w10680150-* cohort is the authoritative CG-6.4 compounding metric. Shared whirlpool_ccu_dryer seeds (w10881701-*, w11169659-*) are supplemental \u2014 track separately."
+  },
+  "compoundingAccounting": {
+    "baselineManualId": "W8178559",
+    "authoritativeCohort": {
+      "label": "Native W10680150 (w10680150-*)",
+      "procedurePrefix": "w10680150-",
+      "procedures": 13,
+      "mappingCandidates": 26,
+      "canonicalAutoResolve": 9,
+      "overlayCandidates": 4,
+      "reviewRecords": 30,
+      "projectedHumanGateApprovals": 15,
+      "projectedHumanGateRejections": 12,
+      "projectedNewHumanDecisions": 13,
+      "projectedInheritedAtGate": 17,
+      "projectedNewHumanDecisionRate": 0.433,
+      "newCanonicalConcepts": 0,
+      "inheritedCorpusConcepts": 7,
+      "inheritedWhirlpoolDryerAliases": 4,
+      "newCcuPlatformConcepts": 1,
+      "carefulThermistorGate": 2,
+      "conflicts": 0,
+      "note": "Authoritative CG-6.4 compounding curve point \u2014 compare to W8178559 baseline (13 procedures, 24 mappings, 25 new decisions at first gate)."
+    },
+    "supplementalPlatformCohort": {
+      "label": "Shared whirlpool_ccu_dryer platform seeds",
+      "procedurePrefixes": [
+        "w10881701-",
+        "w11169659-"
+      ],
+      "procedures": 20,
+      "mappingCandidates": 10,
+      "overlayCandidates": 4,
+      "reviewRecords": 14,
+      "newPlatformDeltaConcepts": [
+        "acu",
+        "drum_light",
+        "steam_valve",
+        "service_leds"
+      ],
+      "note": "W10881701 steam-dryer deltas + W11169659 partial share. Gate after native family promotion or in same ledger pass \u2014 not the primary compounding metric."
+    },
+    "combinedPlatformManifest": {
+      "label": "Full normalization manifest (whirlpool_ccu_dryer platform)",
+      "procedures": 33,
+      "mappingCandidates": 36,
+      "overlayCandidates": 8,
+      "reviewRecords": 44,
+      "newHumanDecisionCount": 19,
+      "inheritedResolvedAutomatically": 25,
+      "newHumanDecisionRate": 0.4318,
+      "inheritedResolutionRate": 0.5682,
+      "note": "Informational only \u2014 do not use for W8178559 baseline comparison."
+    }
+  },
+  "summary": {
+    "canonicalReuseAutoResolved": 7,
+    "inheritedWhirlpoolDryerAliasGate": 4,
+    "newCcuPlatformGate": 1,
+    "carefulThermistorGate": 2,
+    "ccuPlatformImplementationGate": 3,
+    "procedureBindingGate": 13,
+    "measurementBindingGate": 8,
+    "proceduralTitlesRejected": 22,
+    "overlayCandidatesMatcherGenerated": 8,
+    "conflicts": 0
+  },
+  "layerDefinitions": {
+    "inherited_corpus": "Dryer canonical concept established on frozen vented_dryer \u2014 auto-resolve from matcher; no new ontology entry.",
+    "inherited_whirlpool_dryer": "oemTermAlias taught on published W8178559 whirlpool_vented_dryer overlay \u2014 approve as inherited platform knowledge.",
+    "ccu_platform_new": "CCU/ACU control naming or CCU-platform-only feature \u2014 new platform-family vocabulary on whirlpool_ccu_dryer family.",
+    "careful_thermistor": "Compound-term thermistor placement variants \u2014 approve alias to temperature_sensor after human review (same policy as W8178559 exhaust_thermistor).",
+    "platform_implementation": "Overlay add.components entry; implements canonical heat_source (fuel-specific physical part).",
+    "procedure_binding": "procedureBindings \u2192 vented_dryer testTargetId.",
+    "measurement_binding": "measurementBindings \u2192 vented_dryer testTargetId + measurement knowledge id.",
+    "reject_procedural_title": "OEM TEST # title only \u2014 bind procedure by procedureId, not by title alias.",
+    "supplemental_platform": "Shared whirlpool_ccu_dryer seed \u2014 not native W10680150; gate separately from authoritative cohort."
+  },
+  "mappings": [
+    {
+      "cohort": "native",
+      "manualConcept": "door_switch",
+      "layer": "inherited_corpus",
+      "candidate": "door_switch",
+      "seedComponentId": "door_switch",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-door_switch-door_switch"
+      ],
+      "rationale": "Frozen canonical door authorization \u2014 same as W8178559; inherited corpus knowledge."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "motor",
+      "layer": "inherited_corpus",
+      "candidate": "drive_motor",
+      "seedComponentId": "motor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-motor-drive_motor"
+      ],
+      "rationale": "Canonical drive path \u2014 inherited from vented_dryer + W8178559 gate."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "heating_element",
+      "layer": "inherited_corpus",
+      "candidate": "heat_source",
+      "seedComponentId": "heating_element",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-heating_element-heat_source"
+      ],
+      "rationale": "Fuel-agnostic canonical heat \u2014 CCU dual-element is platform implementation, not canonical expansion."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "thermal_fuse",
+      "layer": "inherited_corpus",
+      "candidate": "thermal_fuse",
+      "seedComponentId": "thermal_fuse",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-thermal_fuse-thermal_fuse",
+        "map-W10680150-thermal-fuse-thermal_fuse"
+      ],
+      "rationale": "Hard thermal protection \u2014 canonical component; inherited corpus."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "thermal_cutoff",
+      "layer": "inherited_corpus",
+      "candidate": "thermal_cutoff",
+      "seedComponentId": "thermal_cutoff",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-thermal_cutoff-thermal_cutoff"
+      ],
+      "rationale": "High-limit / cutoff \u2014 canonical protective device; inherited corpus."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "moisture_sensor",
+      "layer": "inherited_corpus",
+      "candidate": "moisture_sensor",
+      "seedComponentId": "moisture_sensor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W10680150-moisture_sensor-moisture_sensor",
+        "map-W10680150-moisture-sensor-moisture_sensor"
+      ],
+      "rationale": "Dryness termination sensor \u2014 canonical component; inherited corpus."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "ccu",
+      "layer": "ccu_platform_new",
+      "candidate": "control_board",
+      "seedComponentId": "ccu",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-ccu-control_board"
+      ],
+      "proposedOemTermAliases": {
+        "ccu": "control_board",
+        "CCU": "control_board",
+        "Central Control Unit": "control_board"
+      },
+      "displayTerm": "CCU (Central Control Unit)",
+      "rationale": "CCU naming for W10680150 tech-sheet era \u2014 new platform-family alias; maps to canonical control_board (not MCE from Duet Sport)."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "supply",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "power_supply",
+      "seedComponentId": "supply",
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559",
+        "publishedOverlay": "whirlpool_vented_dryer.json",
+        "priorAlias": "supply \u2192 power_supply"
+      },
+      "candidateIds": [
+        "map-w10680150-unresolved-w10680150-supply-connections-supply"
+      ],
+      "proposedOemTermAlias": {
+        "supply": "power_supply"
+      },
+      "rationale": "Inherited Whirlpool dryer platform knowledge from W8178559 \u2014 approve without re-teaching canonical mapping."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "user_interface",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "hmi_control",
+      "seedComponentId": "user_interface",
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559",
+        "publishedOverlay": "whirlpool_vented_dryer.json",
+        "priorAlias": "user_interface \u2192 hmi_control"
+      },
+      "candidateIds": [
+        "map-W10680150-compound-user_interface"
+      ],
+      "proposedOemTermAlias": {
+        "user_interface": "hmi_control"
+      },
+      "rationale": "Inherited Whirlpool dryer HMI vocabulary \u2014 may surface needs_review; metrics layer already counts inherited."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "gas_valve",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "gas_valve",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559",
+        "publishedOverlay": "whirlpool_vented_dryer.json",
+        "priorImplementation": "gas_valve implements heat_source"
+      },
+      "candidateIds": [
+        "map-W10680150-compound-gas_valve"
+      ],
+      "seedComponentId": "gas_valve",
+      "rationale": "Inherited gas heat-path implementation from W8178559 overlay family pattern \u2014 CCU TEST #4d binding."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "igniter",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "ignitor",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559",
+        "publishedOverlay": "whirlpool_vented_dryer.json",
+        "priorImplementation": "ignitor implements heat_source"
+      },
+      "candidateIds": [
+        "map-w10680150-unresolved-w10680150-gas-valve-igniter"
+      ],
+      "seedComponentId": "igniter",
+      "rationale": "Inherited hot-surface ignitor vocabulary from W8178559 \u2014 gas valve procedure step term."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "exhaust_thermistor",
+      "layer": "careful_thermistor",
+      "candidate": "temperature_sensor",
+      "seedComponentId": "exhaust_thermistor",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-compound-exhaust_thermistor"
+      ],
+      "proposedOemTermAlias": {
+        "exhaust_thermistor": "temperature_sensor"
+      },
+      "displayTerm": "Exhaust thermistor (CCU P* harness)",
+      "rationale": "COMPOUND_TERM_CANDIDATE \u2014 same careful gate as W8178559; exhaust-side NTC placement variant of canonical temperature_sensor."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "inlet_thermistor",
+      "layer": "careful_thermistor",
+      "candidate": "temperature_sensor",
+      "seedComponentId": "inlet_thermistor",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-compound-inlet_thermistor"
+      ],
+      "proposedOemTermAlias": {
+        "inlet_thermistor": "temperature_sensor"
+      },
+      "displayTerm": "Inlet thermistor (gas / some electric)",
+      "rationale": "COMPOUND_TERM_CANDIDATE \u2014 inlet NTC on CCU platform; alias to canonical temperature_sensor (placement in displayTerms, not new canonical id)."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "electric_heater",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "electric_heater",
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "gateAction": "approve_human",
+      "seedComponentIds": [
+        "heating_element"
+      ],
+      "measurementKnowledgeId": "whirlpoolCcuDryerHeaterOhms",
+      "rationale": "CCU dual-element \u226450 \u03a9 \u2014 distinct implementation spec from Duet Sport MCE single element; reuses overlay component id from W8178559 pattern on new platform family."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "gas_valve_coils",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "gas_valve",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "measurementKnowledgeIds": [
+        "gasValveCoilOhms"
+      ],
+      "rationale": "CCU gas valve coil pairs \u2014 platform implementation; canonical heat_source unchanged."
+    },
+    {
+      "cohort": "native",
+      "manualConcept": "hot_surface_ignitor",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "implementsCanonicalId": "heat_source",
+      "overlayComponentId": "ignitor",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+      "rationale": "CCU ignitor ohms on gas valve procedure \u2014 platform implementation."
+    }
+  ],
+  "supplementalPlatformMappings": [
+    {
+      "cohort": "supplemental",
+      "manualConcept": "acu",
+      "layer": "ccu_platform_new",
+      "candidate": "control_board",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-acu-control_board"
+      ],
+      "proposedOemTermAliases": {
+        "acu": "control_board",
+        "ACU": "control_board",
+        "Appliance Control Unit": "control_board"
+      },
+      "displayTerm": "ACU (Appliance Control Unit \u2014 W10881701 steam dryer)",
+      "rationale": "W10881701 delta \u2014 ACU naming on shared whirlpool_ccu_dryer platform; supplemental cohort."
+    },
+    {
+      "cohort": "supplemental",
+      "manualConcept": "drum_light",
+      "layer": "ccu_platform_new",
+      "candidate": "hmi_control",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-compound-drum_light"
+      ],
+      "proposedOemTermAlias": {
+        "drum_light": "hmi_control"
+      },
+      "displayTerm": "Drum LED / drum light",
+      "rationale": "W10881701 TEST #8 \u2014 cosmetic/UI adjunct; map to hmi_control for routing; no new canonical component."
+    },
+    {
+      "cohort": "supplemental",
+      "manualConcept": "steam_valve",
+      "layer": "ccu_platform_new",
+      "candidate": "heat_source",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-compound-steam_valve"
+      ],
+      "proposedOemTermAlias": {
+        "steam_valve": "heat_source"
+      },
+      "displayTerm": "Steam water valve (W10881701)",
+      "note": "Steam feature is platform-specific; may warrant future overlay component \u2014 v1 alias under heat/auxiliary path.",
+      "rationale": "W10881701 TEST #9 water valve \u2014 supplemental platform delta."
+    },
+    {
+      "cohort": "supplemental",
+      "manualConcept": "service_leds",
+      "layer": "ccu_platform_new",
+      "candidate": "hmi_control",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W10680150-compound-service-leds"
+      ],
+      "extractedTerm": "Service LEDs",
+      "displayTerm": "Service LED diagnostic (TEST #10)",
+      "rationale": "W10881701 service-mode LED check \u2014 HMI/service interface vocabulary; supplemental cohort."
+    },
+    {
+      "cohort": "supplemental",
+      "manualConcept": "supply",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "power_supply",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559",
+        "priorAlias": "supply \u2192 power_supply"
+      },
+      "candidateIds": [
+        "map-w10680150-unresolved-w10881701-supply-connections-supply"
+      ],
+      "rationale": "Inherited Whirlpool dryer alias on W10881701 shared seed \u2014 supplemental."
+    },
+    {
+      "cohort": "supplemental",
+      "manualConcept": "igniter",
+      "layer": "inherited_whirlpool_dryer",
+      "candidate": "heat_source",
+      "overlayComponentId": "ignitor",
+      "procedurePrefix": "w10881701-",
+      "gateAction": "approve_human",
+      "inheritedFrom": {
+        "manualId": "W8178559"
+      },
+      "candidateIds": [
+        "map-w10680150-unresolved-w10881701-gas-valve-igniter"
+      ],
+      "rationale": "Inherited ignitor vocabulary on W10881701 gas valve procedure \u2014 supplemental."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "cohort": "native",
+      "title": "TEST #1: CCU Power Check",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-ccu-power-check"
+      ],
+      "bindVia": "procedureId:w10680150-ccu-power",
+      "rationale": "Procedure identifier \u2014 ccu \u2192 control_board handled separately."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #2: Supply Connections",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-supply-connections"
+      ],
+      "bindVia": "procedureId:w10680150-supply-connections",
+      "rationale": "Procedure identifier \u2014 supply alias inherited from W8178559."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #3: Motor Circuit",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-motor-circuit"
+      ],
+      "bindVia": "procedureId:w10680150-motor-circuit",
+      "rationale": "Procedure identifier \u2014 motor \u2192 drive_motor already resolved."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4: Heat System (electric)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-heat-system-(electric)"
+      ],
+      "bindVia": "procedureId:w10680150-heater-electric",
+      "rationale": "Procedure identifier \u2014 CCU dual-element via electric_heater implementation."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4: Heat System (gas)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-heat-system-(gas)"
+      ],
+      "bindVia": "procedureId:w10680150-heater-gas",
+      "rationale": "Procedure identifier \u2014 gas orchestration procedure."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4a: Thermistors",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-w10680150-unresolved-w10680150-thermistors-test-#4a:-thermistors"
+      ],
+      "bindVia": "procedureId:w10680150-thermistors",
+      "rationale": "Procedure identifier \u2014 approve exhaust_thermistor / inlet_thermistor terms, not TEST title."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4b: Thermal Fuse",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-thermal-fuse-thermal_fuse"
+      ],
+      "note": "Compound auto-resolve candidate exists; reject title string as alias.",
+      "bindVia": "procedureId:w10680150-thermal-fuse",
+      "rationale": "Procedure identifier \u2014 thermal_fuse canonical mapping already approved."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4c: Thermal Cut-Off",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-thermal-cut-off"
+      ],
+      "bindVia": "procedureId:w10680150-thermal-cutoff",
+      "rationale": "Procedure identifier \u2014 thermal_cutoff canonical mapping already approved."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #4d: Gas Valve",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-gas-valve"
+      ],
+      "bindVia": "procedureId:w10680150-gas-valve",
+      "rationale": "Procedure identifier \u2014 gas_valve inherited platform implementation."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #5: Moisture Sensor",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-moisture-sensor-moisture_sensor"
+      ],
+      "bindVia": "procedureId:w10680150-moisture-sensor",
+      "rationale": "Procedure identifier \u2014 moisture_sensor canonical mapping already approved."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #5a: Customer Dryness Level",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-customer-dryness-level"
+      ],
+      "bindVia": "procedureId:w10680150-dryness-adjust",
+      "rationale": "Procedure identifier \u2014 dryness EEPROM / moisture_sensor_test binding."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #6: Buttons and Indicators",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-buttons-and-indicators"
+      ],
+      "bindVia": "procedureId:w10680150-button-indicator",
+      "rationale": "Procedure identifier \u2014 F2E* UI diagnostic; hmi_control via inherited user_interface alias."
+    },
+    {
+      "cohort": "native",
+      "title": "TEST #7: Door Switch",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-door-switch"
+      ],
+      "bindVia": "procedureId:w10680150-door-switch",
+      "rationale": "Procedure identifier \u2014 door_switch_test binding."
+    },
+    {
+      "cohort": "supplemental",
+      "title": "TEST #1: ACU Power Check",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-acu-power-check"
+      ],
+      "bindVia": "procedureId:w10881701-acu-power",
+      "rationale": "Supplemental W10881701 procedure title \u2014 reject alias."
+    },
+    {
+      "cohort": "supplemental",
+      "title": "TEST #8: Drum LED",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-drum-led"
+      ],
+      "bindVia": "procedureId:w10881701-drum-led",
+      "rationale": "Supplemental procedure title \u2014 drum_light handled separately."
+    },
+    {
+      "cohort": "supplemental",
+      "title": "TEST #9: Water Valve",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-water-valve"
+      ],
+      "bindVia": "procedureId:w10881701-water-valve",
+      "rationale": "Supplemental procedure title \u2014 steam_valve handled separately."
+    },
+    {
+      "cohort": "supplemental",
+      "title": "TEST #10: Service LEDs",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W10680150-compound-service-leds"
+      ],
+      "bindVia": "procedureId:w10881701-service-leds",
+      "rationale": "Supplemental procedure title \u2014 service LED vocabulary handled separately."
+    },
+    {
+      "cohort": "supplemental",
+      "title": "TEST #4a: Thermistors",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-w10680150-unresolved-w10881701-thermistors-test-#4a:-thermistors"
+      ],
+      "bindVia": "procedureId:w10881701-thermistors",
+      "rationale": "Supplemental shared thermistor procedure \u2014 reject title alias."
+    }
+  ],
+  "procedureBindings": [
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-ccu-power",
+      "testTargetId": "heat_command_test",
+      "canonicalComponents": [
+        "control_board",
+        "power_supply"
+      ],
+      "failureDomains": [
+        "control_failure",
+        "supply_issue"
+      ],
+      "displayTitle": "TEST #1 \u2014 CCU Power Check",
+      "oemTestNumber": "1",
+      "relatedCodes": [
+        "F1E1",
+        "F6E1",
+        "F6E2"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-supply-connections",
+      "testTargetId": "heat_command_test",
+      "canonicalComponents": [
+        "power_supply"
+      ],
+      "failureDomains": [
+        "supply_issue"
+      ],
+      "displayTitle": "TEST #2 \u2014 Supply Connections",
+      "oemTestNumber": "2",
+      "relatedCodes": [
+        "F4E4"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-motor-circuit",
+      "testTargetId": "motor_run_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "failureDomains": [
+        "drive_failure"
+      ],
+      "displayTitle": "TEST #3 \u2014 Motor Circuit",
+      "oemTestNumber": "3",
+      "gateAction": "approve_human",
+      "matcherCorrection": "Replace motor_output_test \u2192 motor_run_test"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-heater-electric",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "electric_heater",
+      "canonicalComponents": [
+        "heat_source"
+      ],
+      "failureDomains": [
+        "heating_failure"
+      ],
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "displayTitle": "TEST #4 \u2014 Heat System (electric)",
+      "oemTestNumber": "4",
+      "relatedCodes": [
+        "F4E1"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-heater-gas",
+      "testTargetId": "heat_output_test",
+      "canonicalComponents": [
+        "heat_source"
+      ],
+      "failureDomains": [
+        "heating_failure",
+        "ignition_issue"
+      ],
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "displayTitle": "TEST #4 \u2014 Heat System (gas)",
+      "oemTestNumber": "4-gas",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermistors",
+      "testTargetId": "exhaust_temperature_test",
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "failureDomains": [
+        "temperature_sensing_failure"
+      ],
+      "displayTitle": "TEST #4a \u2014 Thermistors",
+      "oemTestNumber": "4a",
+      "relatedCodes": [
+        "F3E1",
+        "F3E2",
+        "F3E3",
+        "F3E4",
+        "F3E5"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermal-fuse",
+      "testTargetId": "thermal_protection_test",
+      "canonicalComponents": [
+        "thermal_fuse",
+        "heat_source"
+      ],
+      "failureDomains": [
+        "heating_failure",
+        "thermal_protection_failure"
+      ],
+      "displayTitle": "TEST #4b \u2014 Thermal Fuse",
+      "oemTestNumber": "4b",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermal-cutoff",
+      "testTargetId": "thermal_protection_test",
+      "canonicalComponents": [
+        "thermal_cutoff",
+        "heat_source"
+      ],
+      "failureDomains": [
+        "heating_failure",
+        "thermal_protection_failure"
+      ],
+      "displayTitle": "TEST #4c \u2014 Thermal Cut-Off",
+      "oemTestNumber": "4c",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-gas-valve",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "gas_valve",
+      "canonicalComponents": [
+        "heat_source"
+      ],
+      "failureDomains": [
+        "heating_failure",
+        "ignition_issue"
+      ],
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "displayTitle": "TEST #4d \u2014 Gas Valve",
+      "oemTestNumber": "4d",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-moisture-sensor",
+      "testTargetId": "moisture_sensor_test",
+      "canonicalComponents": [
+        "moisture_sensor"
+      ],
+      "failureDomains": [
+        "moisture_sensing_failure"
+      ],
+      "displayTitle": "TEST #5 \u2014 Moisture Sensor",
+      "oemTestNumber": "5",
+      "relatedCodes": [
+        "F3E6",
+        "F3E7"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-dryness-adjust",
+      "testTargetId": "moisture_sensor_test",
+      "canonicalComponents": [
+        "moisture_sensor",
+        "control_board"
+      ],
+      "failureDomains": [
+        "moisture_sensing_failure",
+        "control_failure"
+      ],
+      "displayTitle": "TEST #5a \u2014 Customer Dryness Level",
+      "oemTestNumber": "5a",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-button-indicator",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "failureDomains": [
+        "user_interface_failure",
+        "control_failure"
+      ],
+      "displayTitle": "TEST #6 \u2014 Buttons and Indicators",
+      "oemTestNumber": "6",
+      "relatedCodes": [
+        "F2E1",
+        "F2E2",
+        "F2E3"
+      ],
+      "gateAction": "approve_human",
+      "note": "UI diagnostic \u2014 same binding pattern as W8178559 until dedicated hmi_test target exists."
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-door-switch",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": [
+        "door_switch"
+      ],
+      "failureDomains": [
+        "door_authorization_failure"
+      ],
+      "displayTitle": "TEST #7 \u2014 Door Switch",
+      "oemTestNumber": "7",
+      "gateAction": "approve_human"
+    }
+  ],
+  "measurementBindings": [
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-motor-circuit",
+      "measurementKnowledgeId": "dryerMotorCircuitOhms",
+      "testTargetId": "motor_run_test",
+      "displayLabel": "Motor circuit at CCU (optional)",
+      "units": "\u03a9",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "overlay-W10680150-w10680150-motor-circuit-meas-dryerMotorCircuitOhms"
+      ],
+      "matcherCorrection": "motor_output_test \u2192 motor_run_test"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-motor-circuit",
+      "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+      "testTargetId": "motor_run_test",
+      "displayLabel": "Main winding pin 4\u20135",
+      "units": "\u03a9",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "overlay-W10680150-w10680150-motor-circuit-meas-dryerDrumMotorWindingOhms"
+      ]
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-motor-circuit",
+      "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+      "testTargetId": "motor_run_test",
+      "displayLabel": "Start winding pin 4\u20133",
+      "units": "\u03a9",
+      "gateAction": "approve_human",
+      "note": "Duplicate matcher candidate id \u2014 dedupe at promotion."
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-heater-electric",
+      "measurementKnowledgeId": "whirlpoolCcuDryerHeaterOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "electric_heater",
+      "displayLabel": "Dual heating element",
+      "units": "\u03a9",
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermistors",
+      "measurementKnowledgeId": "dryerExhaustThermistorOhms",
+      "testTargetId": "exhaust_temperature_test",
+      "displayLabel": "Exhaust thermistor",
+      "units": "\u03a9",
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermistors",
+      "measurementKnowledgeId": "dryerInletThermistorOhmsElectric",
+      "testTargetId": "exhaust_temperature_test",
+      "displayLabel": "Inlet thermistor (electric)",
+      "units": "\u03a9",
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-thermistors",
+      "measurementKnowledgeId": "dryerInletThermistorOhmsGas",
+      "testTargetId": "exhaust_temperature_test",
+      "displayLabel": "Inlet thermistor (gas)",
+      "units": "\u03a9",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-gas-valve",
+      "measurementKnowledgeId": "gasValveCoilOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "gas_valve",
+      "displayLabel": "Gas valve coils",
+      "units": "\u03a9",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human"
+    },
+    {
+      "cohort": "native",
+      "procedureId": "w10680150-gas-valve",
+      "measurementKnowledgeId": "hotSurfaceIgniterOhms",
+      "testTargetId": "heat_output_test",
+      "implementationComponent": "ignitor",
+      "displayLabel": "Hot-surface ignitor",
+      "units": "\u03a9",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human"
+    }
+  ],
+  "supplementalProcedureBindings": [
+    {
+      "cohort": "supplemental",
+      "procedureId": "w10881701-motor-circuit",
+      "testTargetId": "motor_run_test",
+      "gateAction": "defer",
+      "matcherCorrection": "motor_output_test \u2192 motor_run_test",
+      "rationale": "Shared platform seed \u2014 promote with W10881701 overlay delta pass."
+    }
+  ],
+  "proposedOverlaySkeleton": {
+    "action": "add_platform_family_to_existing_overlay",
+    "overlayFile": "whirlpool_vented_dryer.json",
+    "canonicalOntologyId": "vented_dryer",
+    "newPlatformFamily": {
+      "platformFamilyId": "whirlpool_ccu_dryer",
+      "platformId": "whirlpool_ccu_dryer",
+      "manualId": "W10680150",
+      "label": "Whirlpool/Maytag CCU vented dryer (tech sheet W10680150)",
+      "appliesTo": {
+        "templateIds": [
+          "electric_dryer",
+          "gas_dryer"
+        ],
+        "manufacturers": [
+          "Whirlpool",
+          "Maytag",
+          "Kenmore",
+          "Amana"
+        ],
+        "modelPatterns": [
+          "WED*",
+          "WGD*",
+          "MED*",
+          "MGD*"
+        ],
+        "platformIds": [
+          "whirlpool_ccu_dryer"
+        ],
+        "excludeModelPatterns": [
+          "WED83*",
+          "WED85*",
+          "WGD83*",
+          "WGD85*"
+        ]
+      },
+      "inheritsFromPlatformFamilyId": "whirlpool_duet_sport_mce_dryer",
+      "add": {
+        "components": [
+          {
+            "id": "electric_heater",
+            "implementsCanonicalId": "heat_source",
+            "templateIds": [
+              "electric_dryer"
+            ],
+            "note": "Dual element \u226450 \u03a9 \u2014 CCU spec"
+          },
+          {
+            "id": "gas_valve",
+            "implementsCanonicalId": "heat_source",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          },
+          {
+            "id": "ignitor",
+            "implementsCanonicalId": "heat_source",
+            "templateIds": [
+              "gas_dryer"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "humanGateChecklist": [
+    "Authoritative cohort: native w10680150-* only (30 review records) \u2014 do not mix with supplemental platform counts when comparing to W8178559.",
+    "Approve 7 inherited_corpus mappings \u2014 no vented_dryer.json changes.",
+    "Approve 4 inherited_whirlpool_dryer aliases (supply, user_interface, gas_valve, igniter) \u2014 mark inheritedFrom W8178559.",
+    "Approve ccu \u2192 control_board as new CCU platform vocabulary.",
+    "Approve careful exhaust_thermistor and inlet_thermistor \u2192 temperature_sensor.",
+    "Approve electric_heater / gas_valve / ignitor platform implementation on whirlpool_ccu_dryer family.",
+    "Reject all native TEST #\u2026 title aliases (12 titles).",
+    "Approve native procedureBindings with dryer testTargetIds (motor_run_test, door_switch_test, not motor_output_test).",
+    "Approve native measurementBindings (CCU heater + thermistor + gas knowledge ids).",
+    "Supplemental cohort (w10881701-*): gate acu, drum_light, steam_valve, service LEDs separately \u2014 not authoritative compounding metric.",
+    "Run promotion dry-run after ledger approvals \u2014 add whirlpool_ccu_dryer platform family before publish.",
+    "Do not fix needs_review matcher hygiene during this gate."
+  ],
+  "promotionSequence": [
+    "W10680150 human gate (this table)",
+    "add whirlpool_ccu_dryer platform family to whirlpool_vented_dryer.json",
+    "promotion dry-run",
+    "equivalence check",
+    "validate_canonical_graph.py + validate_normalization_candidates.py --manual W10680150",
+    "dryer regression / vented-dryer-torture.test.ts",
+    "update CG-6.4 evidence with controlled compounding curve (W8178559 vs W10680150 native cohort)"
+  ],
+  "gateAppliedAt": "2026-09-14T04:57:25.457598+00:00",
+  "gateSummary": {
+    "nativeApproved": 15,
+    "nativeRejected": 11,
+    "supplementalDeferred": 0,
+    "authoritativeCohort": "Native W10680150 (w10680150-*)",
+    "supplementalApproved": 6,
+    "supplementalRejected": 4,
+    "supplementalGatedAt": "2026-09-14T05:08:18.542127+00:00",
+    "supplementalPublishedAt": "2026-09-14"
+  }
+}

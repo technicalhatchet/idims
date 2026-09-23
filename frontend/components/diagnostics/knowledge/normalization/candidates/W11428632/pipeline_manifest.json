@@ -1,0 +1,85 @@
+{
+  "manualId": "W11428632",
+  "platformId": "whirlpool_tl_psc_washer",
+  "templateId": "washer",
+  "label": "Whirlpool Multimedia Enhanced PSC top-load washer (W11428632)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T00:50:22.266359+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 9,
+    "mappingCandidates": 17,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 10,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-01-acu-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-02-valves",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "pre-test",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-03a-shifter",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-03b-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-04-hmi",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-05-water-level",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-06-drain-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w11428632-test-07-lid-lock",
+        "source": "title_token"
+      }
+    ]
+  }
+}

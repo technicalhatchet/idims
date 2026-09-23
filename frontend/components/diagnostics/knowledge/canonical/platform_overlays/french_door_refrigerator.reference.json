@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "french_door_refrigerator",
+  "description": "Reference platform overlays for CG-7 French-door refrigerator rev1 discovery corpus. Manufacturer compounding overlays are a separate phase after canonical freeze.",
+  "platforms": [
+    {
+      "platformId": "whirlpool_jazz_french_door",
+      "manualId": "W10322959",
+      "smokeModel": "WRF535SW",
+      "label": "Whirlpool Jazz French-door refrigerator",
+      "componentAliases": {
+        "main_control": "control_board",
+        "display_panel": "user_interface"
+      },
+      "implementationNotes": [
+        "R1 discovery manual — service tests 1-9 map to rev1 KEEP components and conditionalConcepts via overlay binding.",
+        "compressor is conditional — Jazz relay-drive test 2 binds to conditionalConcept compressor, not compressor_controller.",
+        "FF/FZ thermistor tests bind to conditionalConcept temperature_sensor with compartment scope."
+      ],
+      "procedures": [
+        { "procedureId": "w10322959-test-01-defrost", "canonicalComponents": ["defrost_heater"], "failureDomains": ["defrost_failure"] },
+        { "procedureId": "w10322959-test-03-evap-fan", "canonicalComponents": ["evaporator_fan"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "w10322959-test-06-damper", "canonicalComponents": ["air_damper"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "w10322959-programming-mode", "canonicalComponents": ["control_board", "user_interface"], "failureDomains": ["control_failure", "user_interface_failure"] }
+      ],
+      "gaps": [
+        { "canonicalComponent": "door_switch", "confidence": "high", "note": "Door light switch — R1 canonical; procedure binding deferred to compounding phase." }
+      ]
+    },
+    {
+      "platformId": "samsung_fridge_bespoke",
+      "manualId": "SAMSUNG-RF23BB-FRIDGE",
+      "smokeModel": "RF23BB8600",
+      "label": "Samsung Bespoke 4-door French-door refrigerator",
+      "componentAliases": {
+        "main_control": "control_board",
+        "display_panel": "user_interface",
+        "inverter_board": "compressor_controller"
+      },
+      "implementationNotes": [
+        "R2 boundary manual — inverter PBA routes through platform-only compressor_controller.",
+        "Multi-fan topology: freezer-fan, fridge-fan, convertible-fan bind to evaporator_fan instances.",
+        "No standalone condenser_fan procedure — condenser_fan remains conditional 2/3."
+      ],
+      "procedures": [
+        { "procedureId": "samsungbespoke-main-panel-comm", "canonicalComponents": ["control_board", "user_interface"], "failureDomains": ["control_failure", "user_interface_failure"] },
+        { "procedureId": "samsungbespoke-freezer-fan", "canonicalComponents": ["evaporator_fan"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "samsungbespoke-fridge-fan", "canonicalComponents": ["evaporator_fan"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "samsungbespoke-freezer-defrost-heater", "canonicalComponents": ["defrost_heater"], "failureDomains": ["defrost_failure"] }
+      ],
+      "gaps": [
+        { "canonicalComponent": "condenser_fan", "confidence": "conditional", "note": "No condenser fan diagnostic on RF23BB — C-FAN is convertible/evap path." }
+      ]
+    },
+    {
+      "platformId": "lg_lrmvs",
+      "manualId": "LG-LRMVS-FRIDGE",
+      "smokeModel": "LRMVS3006",
+      "label": "LG LRMVS InstaView 4-door refrigerator",
+      "componentAliases": {
+        "main_control": "control_board",
+        "display_panel": "user_interface"
+      },
+      "implementationNotes": [
+        "R3 triangulation manual — linear compressor via conditionalConcept compressor; sealed_system is platform-only.",
+        "Compartment sensors (E rS, E FS, E IS, E CS) bind to conditionalConcept temperature_sensor with instance scope.",
+        "lglrmvs-condenser-fan uses evap_fan seed id — platform tagging quirk; maps to conditionalConcept condenser_fan."
+      ],
+      "procedures": [
+        { "procedureId": "lglrmvs-display-communication", "canonicalComponents": ["control_board", "user_interface"], "failureDomains": ["control_failure", "user_interface_failure"] },
+        { "procedureId": "lglrmvs-ff-fan", "canonicalComponents": ["evaporator_fan"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "lglrmvs-fz-fan", "canonicalComponents": ["evaporator_fan"], "failureDomains": ["airflow_failure"] },
+        { "procedureId": "lglrmvs-ff-defrost-heater", "canonicalComponents": ["defrost_heater"], "failureDomains": ["defrost_failure"] },
+        { "procedureId": "lglrmvs-fz-defrost-heater", "canonicalComponents": ["defrost_heater"], "failureDomains": ["defrost_failure"] },
+        { "procedureId": "lglrmvs-damper-test", "canonicalComponents": ["air_damper"], "failureDomains": ["airflow_failure"] }
+      ],
+      "gaps": [
+        { "canonicalComponent": "sealed_system", "confidence": "platform_only", "note": "E CH/E CL leak cycle — LG platform aggregate, not canonical rev1." }
+      ]
+    }
+  ]
+}

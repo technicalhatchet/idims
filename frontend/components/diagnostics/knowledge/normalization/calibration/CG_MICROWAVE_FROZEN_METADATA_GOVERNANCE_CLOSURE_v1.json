@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_frozen_metadata_governance_closure",
+  "workstream": "CG-MICROWAVE-FROZEN-METADATA-GOVERNANCE",
+  "status": "closed_successful",
+  "verdict": "GREEN / BRANCH_A_APPROVED",
+  "closedAt": "2026-09-17T11:30:00+00:00",
+  "governanceContract": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CONTRACT_v1.json",
+  "determinationArtifact": "CG_MICROWAVE_MAGNETRON_REALIZES_DETERMINATION_v1.json",
+  "humanApproval": {
+    "branch": "A_non_authoritative_metadata",
+    "approvedAt": "2026-09-17T11:30:00+00:00",
+    "verdict": "overlayOnlyConcepts[id=magnetron].realizes is non-authoritative stale illustrative metadata"
+  },
+  "resolution": {
+    "microwaveJsonMutated": false,
+    "frozenHashUnchanged": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d",
+    "rev2Required": false,
+    "discoveryReopened": false,
+    "architectureReopened": false,
+    "authoritativeMappingForCompounding": {
+      "magnetron": "rf_cavity"
+    }
+  },
+  "documentedException": {
+    "staleField": "microwave.json overlayOnlyConcepts[id=magnetron].realizes",
+    "staleValue": "hv_generation",
+    "authoritativeValue": "rf_cavity",
+    "mustNotPropagateToCompoundedKnowledge": true,
+    "authoritativePrecedenceOrder": [
+      "CG_MICROWAVE_NORMALIZATION_CONTRACT_v1.json implementationRealizationPolicy",
+      "platform_overlays/microwave.reference.json componentAliases + procedure bindings",
+      "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+      "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+      "microwave.json designPrinciples + ontologyContract.semanticBoundaries",
+      "overlayOnlyConcepts[].realizes — non-authoritative; do not consume for compounding or validation"
+    ],
+    "validatorGuard": "Future validators and compounding binders must not interpret overlayOnlyConcepts.magnetron.realizes=hv_generation as governing implementation mapping"
+  },
+  "priorPhaseUnblocked": "CG-MICROWAVE-COMPOUNDING",
+  "nextDisciplinedStep": "Open CG_MICROWAVE_COMPOUNDING_v1.json — LG LMHM2237 sequence 1"
+}

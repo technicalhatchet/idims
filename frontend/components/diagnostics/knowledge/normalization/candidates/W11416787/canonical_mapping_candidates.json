@@ -1,0 +1,1012 @@
+{
+  "manualId": "W11416787",
+  "candidates": [
+    {
+      "id": "map-W11416787-supply-power_supply",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "supply",
+      "extractedTerm": null,
+      "canonicalId": "power_supply",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-01-acu-power",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-01-acu-power",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-main-control-(acu)",
+      "status": "COMPOUND_TERM_CANDIDATE",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #1: Main Control (ACU)",
+      "canonicalId": "control_board",
+      "confidence": 0.86,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "main",
+        "component": "control acu",
+        "actuator": null
+      },
+      "matchedPhrase": "main control",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-01-acu-power",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-01-acu-power",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "main control",
+            "decomposition": {
+              "domain": "main",
+              "component": "control acu",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Main Control (ACU)"
+    },
+    {
+      "id": "map-W11416787-acu-control_board",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "ACU",
+      "extractedTerm": null,
+      "canonicalId": "control_board",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-01-acu-power",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-01-acu-power",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-inlet_valve-inlet_valve",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "inlet_valve",
+      "extractedTerm": null,
+      "canonicalId": "inlet_valve",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-02-valves",
+        "pages": [
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-02-valves",
+            "pages": [
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11416787-unresolved-w11416787-test-02-valves-test-#2:-valves",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #2: Valves",
+      "extractedTerm": "Valves",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-02-valves",
+        "pages": [
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-02-valves",
+            "pages": [
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #2: Valves",
+            "extractedTerm": "Valves",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-drive_motor-drive_motor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drive_motor",
+      "extractedTerm": null,
+      "canonicalId": "drive_motor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-03-drive-system",
+        "pages": [
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-03-drive-system",
+            "pages": [
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-drive-system-(pre-test)",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3: Drive System (pre-test)",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-03-drive-system",
+        "pages": [
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-03-drive-system",
+            "pages": [
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System (pre-test)"
+    },
+    {
+      "id": "map-W11416787-compound-drive-system-\u2014-shifter",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-03a-shifter",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-03a-shifter",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System \u2014 Shifter"
+    },
+    {
+      "id": "map-W11416787-compound-drive-system-\u2014-motor",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #3b: Drive System \u2014 Motor",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": "drive system",
+        "actuator": "motor"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-03b-motor",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-03b-motor",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "drive system",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drive System \u2014 Motor"
+    },
+    {
+      "id": "map-W11416787-hmi_control-hmi_control",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "hmi_control",
+      "extractedTerm": null,
+      "canonicalId": "hmi_control",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-04-hmi",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-04-hmi",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-w11416787-unresolved-w11416787-test-04-hmi-test-#4:-hmi",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #4: HMI",
+      "extractedTerm": "HMI",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "alias",
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-04-hmi",
+        "pages": [
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-04-hmi",
+            "pages": [
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4: HMI",
+            "extractedTerm": "HMI",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-wash_ntc-temperature_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "wash_ntc",
+      "extractedTerm": null,
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-05-temp-thermistor",
+        "pages": [
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-05-temp-thermistor",
+            "pages": [
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #5: Temperature Thermistor",
+      "extractedTerm": "Temperature Thermistor",
+      "canonicalId": "temperature_sensor",
+      "confidence": 0.91,
+      "mappingType": "matcher_improvement",
+      "matcherLayer": "matcher_improvement:approved_backlog",
+      "matcherImprovement": {
+        "backlogId": "efmm-615da9433924"
+      },
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-05-temp-thermistor",
+        "pages": [
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-05-temp-thermistor",
+            "pages": [
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #5: Temperature Thermistor",
+            "extractedTerm": "Temperature Thermistor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          },
+          {
+            "type": "matcher_improvement",
+            "gateId": "matcher-improvement-wave1",
+            "backlogId": "efmm-615da9433924",
+            "matchedSurface": "temperature thermistor",
+            "notes": "Human-approved backlog item only; not a category-wide rule."
+          }
+        ]
+      },
+      "matcherReconciledProductionApply": {
+        "waveId": "matcher-reconciled-candidate-review",
+        "reviewGateId": "matcher-reconciled-candidate-review-v1",
+        "applyGateId": "matcher-reconciled-candidate-production-apply-v1",
+        "decision": "accepted",
+        "reviewDecisionId": "W11416787::canonical_mapping::map-W11416787-mig-efmm-615da9433924-test-#5:-temperature-thermistor",
+        "reviewer": "technicalhatchet@gmail.com",
+        "reviewedAt": "2026-09-22T06:11:22.504Z",
+        "canonicalPromotionImplied": false,
+        "appliedAt": "2026-09-22T06:19:41.645023+00:00"
+      }
+    },
+    {
+      "id": "map-W11416787-water_level_sensor-water_level_sensor",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "water_level_sensor",
+      "extractedTerm": null,
+      "canonicalId": "water_level_sensor",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-06-water-level",
+        "pages": [
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-06-water-level",
+            "pages": [
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-water-level",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #6: Water Level",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "water",
+        "component": "level",
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-06-water-level",
+        "pages": [
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-06-water-level",
+            "pages": [
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": "level",
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Water Level"
+    },
+    {
+      "id": "map-W11416787-drain_pump-drain_pump",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "drain_pump",
+      "extractedTerm": null,
+      "canonicalId": "drain_pump",
+      "confidence": 1.0,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-07-drain-recirc-pump",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-07-drain-recirc-pump",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-drain-&-recirculation-pump",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #7: Drain & Recirculation Pump",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "drain",
+        "component": "recirculation",
+        "actuator": "pump"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-07-drain-recirc-pump",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-07-drain-recirc-pump",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "drain",
+              "component": "recirculation",
+              "actuator": "pump"
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Drain & Recirculation Pump"
+    },
+    {
+      "id": "map-W11416787-door_lock-lid_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "door_lock",
+      "extractedTerm": null,
+      "canonicalId": "lid_lock",
+      "confidence": 0.98,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-08-lid-lock",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-08-lid-lock",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_tl_dd_5100_direct_drive"
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-lid-lock-lid_lock",
+      "status": "candidate",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #8: Lid Lock",
+      "extractedTerm": "Lid Lock",
+      "canonicalId": "lid_lock",
+      "confidence": 0.92,
+      "mappingType": "alias",
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-08-lid-lock",
+        "pages": [
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-08-lid-lock",
+            "pages": [
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #8: Lid Lock",
+            "extractedTerm": "Lid Lock",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-bulk_level_switch",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "bulk_level_switch",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": "bulk",
+        "component": "level",
+        "actuator": "switch"
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-09-load-and-go",
+        "pages": [
+          60
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-09-load-and-go",
+            "pages": [
+              60
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "bulk",
+              "component": "level",
+              "actuator": "switch"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "map-W11416787-compound-load-&-go-detergent",
+      "status": "UNRESOLVED_TERM",
+      "candidateType": "canonicalMapping",
+      "sourceTerm": "TEST #9: Load & Go Detergent",
+      "canonicalId": null,
+      "confidence": 0.0,
+      "mappingType": "compound_alias",
+      "decomposition": {
+        "domain": null,
+        "component": null,
+        "actuator": null
+      },
+      "matchedPhrase": null,
+      "provenance": {
+        "manualId": "W11416787",
+        "platformId": "whirlpool_tl_dd_5100",
+        "procedureId": "w11416787-test-09-load-and-go",
+        "pages": [
+          60
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11416787",
+            "platformId": "whirlpool_tl_dd_5100"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11416787-test-09-load-and-go",
+            "pages": [
+              60
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11416787_TL_WASHER_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "extractedTerm": "Load & Go Detergent"
+    }
+  ]
+}

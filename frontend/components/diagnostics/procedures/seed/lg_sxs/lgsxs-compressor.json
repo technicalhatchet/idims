@@ -1,0 +1,130 @@
+{
+  "id": "lgsxs-compressor",
+  "version": "1.0.0",
+  "title": "\u00a72-17: Compressor relay drive (Test Mode 1)",
+  "platformId": "lg_sxs",
+  "componentIds": [
+    "compressor"
+  ],
+  "tags": [
+    "compressor",
+    "not_cooling",
+    "relay"
+  ],
+  "source": {
+    "manualId": "LG-LSC27926-SXS",
+    "manualTitle": "LG LSC27926 Side-by-Side Refrigerator",
+    "extractedTextFile": "backend/docs/manuals/LGSxS-extracted.txt",
+    "verifiedAt": "2026-09-16",
+    "verifiedBy": "manual-extraction",
+    "oemTestNumber": "2-17-comp",
+    "oemTestTitle": "Conventional compressor relay",
+    "pages": [
+      21,
+      24
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the refrigerator before servicing. Wait 3 minutes after unplugging before measuring SMPS terminals (160 Vdc may remain). R-134a sealed-system precautions apply.",
+      "sourceExcerpt": "Disconnect power before servicing electrical parts.",
+      "requiresInput": false,
+      "defaultNextStepId": "test1_comp"
+    },
+    {
+      "id": "test1_comp",
+      "order": 2,
+      "type": "instruction",
+      "title": "Enter Test Mode 1",
+      "body": "Press main PCB test button once \u2014 compressor runs continuously with F-FAN and C-FAN (conventional relay, not linear inverter).",
+      "sourceExcerpt": "Press main PCB test button once \u2014 compressor runs continuously with F-FAN and C-FAN (conventional relay, not linear inverter).",
+      "requiresInput": false,
+      "defaultNextStepId": "comp_running"
+    },
+    {
+      "id": "service_mode_after_test_entry",
+      "type": "instruction",
+      "title": "Continue procedure",
+      "body": "PCB test mode entered. Continue with component-specific checks below.",
+      "sourceExcerpt": "After \u00a72-17 test mode entry, proceed with OEM component tests.",
+      "requiresInput": false,
+      "order": 3,
+      "defaultNextStepId": "comp_running"
+    },
+    {
+      "id": "comp_running",
+      "order": 4,
+      "type": "visual_check",
+      "title": "Compressor running?",
+      "body": "Confirm compressor starts in Test Mode 1 (7-minute delay may apply after recent stop).",
+      "sourceExcerpt": "Confirm compressor starts in Test Mode 1 (7-minute delay may apply after recent stop).",
+      "requiresInput": true,
+      "branches": [
+        {
+          "id": "comp_yes",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comp_ok"
+        },
+        {
+          "id": "comp_no",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_relay",
+          "terminal": true,
+          "oemOutcome": "Compressor did not start in Test Mode 1.",
+          "diagnosticEffects": [
+            {
+              "type": "confirm",
+              "componentId": "compressor",
+              "evidenceId": "ref_ms_014_not_cooling_compressor_no"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "check_relay",
+      "order": 5,
+      "type": "instruction",
+      "title": "Check relay RY2",
+      "body": "Power off. Inspect compressor relay RY2 and AC converting relay per load driving circuit \u00a71-4.",
+      "sourceExcerpt": "Power off. Inspect compressor relay RY2 and AC converting relay per load driving circuit \u00a71-4.",
+      "requiresInput": false,
+      "defaultNextStepId": "replace_relay"
+    },
+    {
+      "id": "replace_relay",
+      "order": 6,
+      "type": "outcome",
+      "title": "Replace relay or PCB",
+      "oemOutcome": "Replace compressor driving relay RY2 or main PCB when relay coil/open fault.",
+      "requiresInput": false
+    },
+    {
+      "id": "comp_ok",
+      "order": 7,
+      "type": "outcome",
+      "title": "Compressor path OK",
+      "oemOutcome": "Compressor relay drive verified in Test Mode 1.",
+      "requiresInput": false
+    }
+  ],
+  "serviceModes": [
+    {
+      "bundleId": "lgsxs-test-mode-entry",
+      "modeKind": "service_diagnostic_entry",
+      "attachAfterStepId": "safety_power_off",
+      "continueToStepId": "service_mode_after_test_entry"
+    }
+  ]
+}

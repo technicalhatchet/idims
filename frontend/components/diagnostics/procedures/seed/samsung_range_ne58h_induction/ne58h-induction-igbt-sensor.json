@@ -1,0 +1,69 @@
+{
+  "id": "ne58h-induction-igbt-sensor",
+  "version": "1.0.0",
+  "title": "Cooktop: IGBT sensor open/short",
+  "platformId": "samsung_range_ne58",
+  "templateIds": [
+    "induction_range"
+  ],
+  "componentIds": [
+    "surface_element"
+  ],
+  "tags": [
+    "igbt_check",
+    "surface_burner"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-NE58H-INDUCTION-RANGE",
+    "manualTitle": "Samsung NE58R9560WS Slide-In Induction Range",
+    "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsunginductionne58h-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-2",
+    "oemTestTitle": "Assy-Inverter Module IGBT sensor",
+    "pages": [
+      41,
+      56
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Disconnect electrical power at breaker before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the range.",
+      "requiresInput": false,
+      "defaultNextStepId": "inverter_access"
+    },
+    {
+      "id": "inverter_access",
+      "order": 2,
+      "type": "instruction",
+      "title": "Assy-Inverter Module",
+      "body": "Access inverter module \u2014 IGBT sensor open/short flows.",
+      "sourceExcerpt": "Access inverter module \u2014 IGBT sensor open/short flows.",
+      "requiresInput": false,
+      "defaultNextStepId": "igbt_ok"
+    },
+    {
+      "id": "replace_inverter",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace Assy-Inverter Module",
+      "oemOutcome": "Replace inverter PCB when IGBT sensor fault confirmed.",
+      "requiresInput": false
+    },
+    {
+      "id": "igbt_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "IGBT sensor OK",
+      "oemOutcome": "IGBT sensor path verified \u2014 platform overlay vocabulary.",
+      "requiresInput": false
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg10_electric_range_freeze_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-16T15:26:00+00:00",
+  "phase": "CG-10",
+  "verdict": "CLOSED / ELECTRIC_RANGE_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Electric range/oven canonical architecture is closed. CG-10 four-manual discovery (R1–R3 corpus + R4 manufacturer-boundary validation) produced rev1 with explicit separation of canonical components[], instanceScopes[], and conditionalConcepts[]. Zero canonical expansion. Instance-scope compounding machinery is deferred until after this immutable contract.",
+  "canonicalOntology": {
+    "id": "electric_range",
+    "file": "frontend/components/diagnostics/knowledge/canonical/electric_range.json",
+    "frozenRevision": "rev1",
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "hashBeforeFreeze": "480802761b32a5d0e23611417f02220d4c9b4384fec5dec04e2c737907689749",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "hashMutationAtFreeze": "metadata_only — frozen:true + frozenAt + frozenNote + freezeProvenance.canonicalFrozenAt",
+    "discoveryLock": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json"
+  },
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutationsDuringDiscoveryAuthoring": 0,
+    "discoveryManuals": 3,
+    "manufacturerBoundaryValidations": 1,
+    "cg10RegressionTestsPassing": 18,
+    "manufacturerOverlaysPublished": 0,
+    "referencePlatformOverlays": 4
+  },
+  "ontologyLayers": {
+    "architecturalNote": "CG-10's major result is the explicit separation of universal canonical components from diagnostic instance scopes — not flattening bake/broil into components[] or oven_heating_system.",
+    "canonicalComponents": {
+      "layer": "components[]",
+      "description": "Triangulated KEEP nodes — universal canonical component types for electric range functional ontology",
+      "count": 5,
+      "ids": [
+        "power_supply",
+        "control_board",
+        "user_interface",
+        "temperature_sensor",
+        "surface_heating_system"
+      ]
+    },
+    "instanceScopes": {
+      "layer": "instanceScopes[]",
+      "description": "Diagnostic instance-scoped oven heat functions — NOT canonical component types; enable 'bake element failed' reasoning without universal promotion",
+      "count": 2,
+      "ids": [
+        "bake_heating_element",
+        "broil_heating_element"
+      ],
+      "domainId": "oven_heat_generation"
+    },
+    "conditionalInstanceScopes": {
+      "layer": "conditionalInstanceScopes[]",
+      "description": "Instance-scoped functions requiring platform electric-convection evidence before binding",
+      "count": 1,
+      "ids": [
+        "convection_heating_element"
+      ],
+      "domainId": "oven_heat_generation",
+      "conditionalRule": "Include when platform manual evidences dedicated electric convection element test"
+    },
+    "conditionalConcepts": {
+      "layer": "conditionalConcepts[]",
+      "description": "Evidence-backed functional roles not universally instantiated or with divergent platform test packaging",
+      "count": 3,
+      "ids": [
+        "convection_fan",
+        "thermal_protection",
+        "oven_door_switch"
+      ]
+    },
+    "removedFromRev1": {
+      "count": 1,
+      "ids": [
+        "oven_heating_system"
+      ]
+    },
+    "platformOnlyConcepts": {
+      "count": 4,
+      "ids": [
+        "surface_control",
+        "surface_heating_element",
+        "door_latch_motor",
+        "oven_lamp"
+      ]
+    },
+    "deferredConcepts": {
+      "count": 3,
+      "ids": [
+        "oven_cavity",
+        "cooling_fan",
+        "warming_drawer"
+      ]
+    }
+  },
+  "humanApproval": {
+    "freezeRecommendationArtifact": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+    "freezeRecommendationHash": "65a576ba6d3cff7836b61305d23ec9402f56dbe9f098f8a544cfb7ff939265ee",
+    "freezeRecommendationHashNote": "Hash includes post-approval freeze metadata (canonicalOntologyFrozen, freezeLockArtifact) — conceptRecommendations and dispositionBuckets unchanged",
+    "humanFreezeApprovedAt": "2026-09-16T15:01:00+00:00",
+    "approvalIsNotCanonicalFreeze": true,
+    "canonicalFrozenAt": "2026-09-16T15:26:00+00:00",
+    "recommendedOutcome": "A",
+    "recommendedOutcomeLabel": "candidate_survives_with_refinement"
+  },
+  "evidenceChain": {
+    "discoveryCorpus": {
+      "R1": {
+        "manualId": "W11746350",
+        "platformId": "whirlpool_freestanding_range",
+        "role": "discovery_first_observation",
+        "observationArtifact": "W11746350_er_cg10x_observation_v1.json"
+      },
+      "R2": {
+        "manualId": "LG-LRE-RANGE",
+        "platformId": "lg_freestanding_range",
+        "role": "discovery_manufacturer_boundary",
+        "observationArtifact": "LG_LRE_RANGE_er_cg10x_observation_v1.json"
+      },
+      "R3": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "role": "discovery_platform_falsification",
+        "observationArtifact": "W11174426_er_cg10x_observation_v1.json"
+      }
+    },
+    "manufacturerBoundaryValidation": {
+      "R4": {
+        "manualId": "SAMSUNG-NE58-RANGE",
+        "platformId": "samsung_range_ne58",
+        "role": "manufacturer_boundary_validation",
+        "excludedFromDiscoveryCorpus": true,
+        "observationArtifact": "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json"
+      }
+    },
+    "candidateSkeleton": "electric_range_oven_cg10x_candidate_v1.json",
+    "candidateSkeletonPolicy": "electric_range_oven_cg10x_candidate_v1.json remains unmodified calibration artifact"
+  },
+  "validationProof": {
+    "canonicalGraphValidation": {
+      "tool": "backend/scripts/validate_canonical_graph.py",
+      "result": "pass",
+      "validatedAt": "2026-09-16T15:26:00+00:00",
+      "summary": "electric_range: 5 components, 8 relationships, 4 reference platforms"
+    },
+    "topologyDependencyValidation": {
+      "result": "pass",
+      "note": "components[], relationships[], functionalDependencies[], failureDomains[], diagnosticEntryPoints[] internally consistent; control_board → surface_heating_system invariant encoded"
+    },
+    "evidenceRegression": {
+      "result": "pass",
+      "testSuites": [
+        "cg10-electric-range-discovery-contract.test.ts",
+        "cg10-electric-range-rev1-ontology.test.ts",
+        "cg10-electric-range-closure.test.ts"
+      ],
+      "testsPassing": 18,
+      "note": "7 discovery + 8 rev1 + 3 closure — R1–R4 dispositions, rev1 layer separation, freeze lock byte stability"
+    }
+  },
+  "byteStabilityProof": {
+    "policy": "Pre-freeze hash captures authored rev1; post-freeze hash captures immutable frozen contract. Recommendation artifact preserved as evidence bridge — not overwritten.",
+    "canonicalHashBeforeFreeze": "480802761b32a5d0e23611417f02220d4c9b4384fec5dec04e2c737907689749",
+    "canonicalHashAfterFreeze": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "referenceOverlayHashAtClosure": {
+      "electric_range.reference.json": "d4ba3be53830955f36edf9f2d0bbb2bb1bfd866bb954afce0b03ddb2c704ffe7"
+    }
+  },
+  "postFreezeInvariants": [
+    "components[] contains exactly five KEEP nodes — no instance scopes, no conditional concepts, no platform-only vocabulary",
+    "instanceScopes[] contains bake_heating_element and broil_heating_element under oven_heat_generation — not promoted to components[]",
+    "conditionalInstanceScopes[] contains convection_heating_element only when platform evidences electric convection element test",
+    "oven_heating_system remains removed — heat generation is a functional domain with instance scopes, not a monolithic node",
+    "control_board → surface_heating_system invariant holds; surface_control (infinite_switch / relay paths) remains PLATFORM_ONLY",
+    "canonicalExpansion remains 0 — manufacturer compounding must not expand canonical components[] without new discovery workstream",
+    "gas_range template does not inherit electric_range ontology — CG-11 fit test required",
+    "Instance-scope compounding machinery is not built until after this freeze"
+  ],
+  "demonstratedProperties": [
+    "aggregate_rejection — oven_heating_system removed; bake/broil/convection decomposed to instance scopes",
+    "implementation_not_ontology — infinite_switch falsified as canonical on R3; Samsung sub_pcb/DLB relay rejected on R4",
+    "functional_domain_invariant — control_board → surface_heating_system survives infinite-switch vs relay platform divergence",
+    "components_vs_instanceScopes — explicit architectural separation preserved in rev1 and freeze lock",
+    "conditional_semantics — convection_fan, thermal_protection, oven_door_switch in conditionalConcepts[] only",
+    "zero_canonical_expansion — four-manual evidence chain produced refinement, not new universal component types"
+  ],
+  "hierarchy": {
+    "frozen": "electric_range rev1",
+    "discoveryContract": "CG10_ELECTRIC_RANGE_ONTOLOGY_DISCOVERY_CONTRACT_v1.json",
+    "freezeRecommendation": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+    "priorPhaseClosed": "CG95_REFRIGERATOR_FAMILY_LOCK_v1.json",
+    "nextPhase": "CG-11_gas_range_fit_test",
+    "nextPhaseContract": "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+    "nextPhaseStatus": "active",
+    "nextPhaseNote": "Fit test against frozen electric contract — not compounding. Instance-scope overlay machinery deferred until CG-11 boundary is understood."
+  },
+  "futureWorkPolicy": {
+    "manufacturerCompounding": "deferred — no published manufacturer overlays at CG-10 closure",
+    "instanceScopeCompounding": "deferred — do not build instance-scope binding machinery before canonical freeze; next architectural question after CG-11",
+    "additionalManualIngest": "coverage work on reference overlay — not architecture validation",
+    "cg11GasRangeFitTest": "Does frozen electric_range contract fit gas range evidence without canonical expansion?"
+  }
+}

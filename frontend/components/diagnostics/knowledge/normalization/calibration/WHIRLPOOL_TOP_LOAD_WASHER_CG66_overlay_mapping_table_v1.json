@@ -1,0 +1,1400 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "whirlpool_tl_corpus_rev1_certification_gate_table",
+  "manualIds": [
+    "W10864849",
+    "W11697231",
+    "W11416787"
+  ],
+  "canonicalOntologyId": "top_load_washer",
+  "proposedOverlayFile": "whirlpool_top_load_washer.json",
+  "status": "published",
+  "generatedAt": "2026-09-15T19:56:27.788551+00:00",
+  "observationArtifacts": [
+    "W10864849_tl_cg6x_observation_v1.json",
+    "W11697231_tl_cg6x_observation_v1.json",
+    "W11416787_tl_cg6x_observation_v1.json"
+  ],
+  "rev1DerivationArtifact": "TOP_LOAD_WASHER_REV1_DERIVATION_v1.json",
+  "freezeRecommendationArtifact": "TOP_LOAD_WASHER_CG6X_FREEZE_RECOMMENDATION_v1.json",
+  "canonicalContract": {
+    "graph": "top_load_washer",
+    "revision": "rev1",
+    "frozen": true,
+    "frozenAt": "2026-09-15T19:45:00+00:00",
+    "allowedCanonicalIds": [
+      "agitator_or_impeller",
+      "basket",
+      "control_board",
+      "drain_path",
+      "drain_pump",
+      "drive_motor",
+      "hmi_control",
+      "inlet_valve",
+      "lid_lock",
+      "lid_switch",
+      "power_supply",
+      "spin_system",
+      "suspension_system",
+      "temperature_sensor",
+      "transmission_or_shifter",
+      "tub",
+      "water_level_sensor"
+    ],
+    "conditionalCanonicalIds": [
+      "lid_switch"
+    ],
+    "forbiddenCanonicalIds": [
+      "drive_system"
+    ],
+    "overlayOnlyIds": [
+      "splutch",
+      "clutch",
+      "gearcase",
+      "capacitor",
+      "stator",
+      "rotor",
+      "manufacturer_motor_controller",
+      "mode_shifter",
+      "pressure_sensor",
+      "recirc_pump",
+      "wash_heater",
+      "bulk_level_switch",
+      "motor_controller",
+      "drum_bearing"
+    ],
+    "contractRule": "canonicalComponents[] lists rev1-permitted canonical targets for each artifact. The overlay may consume the canonical ontology; it cannot mutate or negotiate with it."
+  },
+  "gatePolicy": {
+    "gateKind": "whirlpool_tl_corpus_rev1_certification",
+    "purpose": "Certify already-published Whirlpool TL overlay knowledge against frozen top_load_washer rev1. This is not new compounding.",
+    "canonicalImmutabilityRule": "top_load_washer.json rev1 must remain byte-stable before and after publish.",
+    "promotionAuthorityRule": "Gate table is authoritative; compiler ledger is audit-only.",
+    "isolationRule": "Do not import Whirlpool FL washer overlay vocabulary, topology, or aliases.",
+    "driveRoutingRule": "No drive_system canonical routing. Drive diagnostics route control_board -> drive_motor -> motor_output_test with transmission_or_shifter functional and mode_shifter overlay implementation.",
+    "lidAuthorizationRule": "Matcher-derived door_lock -> lid_lock. Procedure-derived lid switch role may certify lid_switch. Ambiguous general lid-lock language defers; do not fabricate lid_switch matcher aliases.",
+    "overlayOnlyRule": "mode_shifter, splutch, clutch, gearcase, recirc_pump, bulk_level_switch remain overlay implementation \u2014 not canonical expansion.",
+    "publishBlocked": true
+  },
+  "layerDefinitions": {
+    "canonical_functional": "rev1-permitted canonical target(s) for the artifact.",
+    "overlay_implementation": "OEM implementation component implementing a canonical function.",
+    "matcher_derived": "Seed/matcher vocabulary mapped to canonical without procedure-role inference.",
+    "procedure_role_evidence": "Explicit OEM procedure text distinguishes functional roles.",
+    "ambiguous_lid_language": "General lid-lock OEM title without role disambiguation.",
+    "deferred_binding": "Known OEM procedure not yet bound in published overlay.",
+    "forbidden_canonical": "Violates frozen rev1 contract.",
+    "matcher_policy": "Forbidden matcher fabrication policy."
+  },
+  "certificationAccounting": {
+    "newSemanticDecisions": 0,
+    "certificationDecisions": 85,
+    "inheritedKnowledge": 58,
+    "canonicalExpansion": 0,
+    "deferredArtifacts": 17,
+    "contractRejections": 2,
+    "note": "CG-6.6 accounting is certification-only. Historical promotion teaching costs (14 / 0 / 2) are provenance, not CG-6.6 decisions."
+  },
+  "historicalPromotionProvenance": {
+    "note": "Pre-rev1 compounding decisions \u2014 provenance only, not CG-6.6 teaching cost.",
+    "manuals": [
+      {
+        "manualId": "W10864849",
+        "promotionId": "promo-W10864849-20260913070539",
+        "historicalNewDecisions": 14
+      },
+      {
+        "manualId": "W11697231",
+        "promotionId": "promo-W11697231-20260913133238",
+        "historicalNewDecisions": 0
+      },
+      {
+        "manualId": "W11416787",
+        "promotionId": "promo-W11416787-20260913135602",
+        "historicalNewDecisions": 2
+      }
+    ]
+  },
+  "manualCohorts": [
+    {
+      "manualId": "W10864849",
+      "platformId": "whirlpool_tl_dd",
+      "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+      "nativeCohortFilter": "procedureId.startsWith('w10864849-')",
+      "historicalPromotionId": "promo-W10864849-20260913070539"
+    },
+    {
+      "manualId": "W11697231",
+      "platformId": "whirlpool_tl_dd",
+      "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+      "nativeCohortFilter": "procedureId.startsWith('w11697231-')",
+      "historicalPromotionId": "promo-W11697231-20260913133238"
+    },
+    {
+      "manualId": "W11416787",
+      "platformId": "whirlpool_tl_dd_5100",
+      "platformFamilyId": "whirlpool_tl_dd_5100_direct_drive",
+      "nativeCohortFilter": "procedureId.startsWith('w11416787-')",
+      "historicalPromotionId": "promo-W11416787-20260913135602"
+    }
+  ],
+  "mappings": [
+    {
+      "manualId": "W10864849",
+      "oemTerm": "supply",
+      "aliasTarget": "supply",
+      "canonicalComponents": [
+        "power_supply"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "supply"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "aliasTarget": "control_board",
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "ACU",
+      "aliasTarget": "control_board",
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "inlet_valve",
+      "aliasTarget": "inlet_valve",
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #2: Valves",
+      "aliasTarget": "inlet_valve",
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "drive_motor",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "aliasTarget": "mode_shifter",
+      "canonicalComponents": [
+        "transmission_or_shifter"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "mode_shifter"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "hmi_control",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #4: Keys and Encoders",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "wash_ntc",
+      "aliasTarget": "wash_ntc",
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_ntc"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "aliasTarget": "wash_ntc",
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_ntc"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "water_level_sensor",
+      "aliasTarget": "water_level_sensor",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #6: Water Level",
+      "aliasTarget": "pressure_sensor",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "pressure_sensor"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "drain_pump",
+      "aliasTarget": "drain_pump",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "aliasTarget": "drain_pump",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "door_lock",
+      "aliasTarget": "lid_lock",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "layer": "matcher_derived",
+      "gateAction": "certify_matcher_mapping",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #8: Lid Lock",
+      "aliasTarget": "lid_lock",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "layer": "matcher_derived",
+      "gateAction": "certify_matcher_mapping",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "wash_heater",
+      "aliasTarget": "wash_heater",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_heater"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #9: Heater Element",
+      "aliasTarget": "wash_heater",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_heater"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #10: Service LEDs",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #11: Basket Light",
+      "aliasTarget": "supply",
+      "canonicalComponents": [
+        "power_supply"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "supply"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "bulk_level_switch",
+      "aliasTarget": "bulk_level_switch",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "bulk_level_switch"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #12: Bulk Dispense Pump and REX Board",
+      "aliasTarget": "bulk_level_switch",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "bulk_level_switch"
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #1: Main Control",
+      "aliasTarget": "control_board",
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #4: Console and Indicators",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "oemTerm": "TEST #7: Drain Pump",
+      "aliasTarget": "drain_pump",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "supply",
+      "aliasTarget": "supply",
+      "canonicalComponents": [
+        "power_supply"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "supply"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #1: Main Control (ACU)",
+      "aliasTarget": "control_board",
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "ACU",
+      "aliasTarget": "control_board",
+      "canonicalComponents": [
+        "control_board"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "inlet_valve",
+      "aliasTarget": "inlet_valve",
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #2: Valves",
+      "aliasTarget": "inlet_valve",
+      "canonicalComponents": [
+        "inlet_valve"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "drive_motor",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #3: Drive System (pre-test)",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #3a: Drive System \u2014 Shifter",
+      "aliasTarget": "mode_shifter",
+      "canonicalComponents": [
+        "transmission_or_shifter"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "mode_shifter"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #3b: Drive System \u2014 Motor",
+      "aliasTarget": "drive_motor",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "hmi_control",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #4: HMI",
+      "aliasTarget": "hmi_control",
+      "canonicalComponents": [
+        "hmi_control"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "wash_ntc",
+      "aliasTarget": "wash_ntc",
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_ntc"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #5: Temperature Thermistor",
+      "aliasTarget": "wash_ntc",
+      "canonicalComponents": [
+        "temperature_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "wash_ntc"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "water_level_sensor",
+      "aliasTarget": "water_level_sensor",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #6: Water Level",
+      "aliasTarget": "pressure_sensor",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "pressure_sensor"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "drain_pump",
+      "aliasTarget": "drain_pump",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #7: Drain & Recirculation Pump",
+      "aliasTarget": "drain_pump",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "door_lock",
+      "aliasTarget": "lid_lock",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "layer": "matcher_derived",
+      "gateAction": "certify_matcher_mapping",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #8: Lid Lock",
+      "aliasTarget": "lid_lock",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "layer": "matcher_derived",
+      "gateAction": "certify_matcher_mapping",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "bulk_level_switch",
+      "aliasTarget": "bulk_level_switch",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "bulk_level_switch"
+    },
+    {
+      "manualId": "W11416787",
+      "oemTerm": "TEST #9: Load & Go Detergent",
+      "aliasTarget": "bulk_level_switch",
+      "canonicalComponents": [],
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "rationale": "Published Whirlpool TL alias conforms to frozen rev1 contract.",
+      "implementationComponent": "bulk_level_switch"
+    }
+  ],
+  "procedureBindings": [
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-03-drive-system",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "transmission_or_shifter",
+      "displayTitle": "TEST #3: Drive System (pre-test)",
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-03a-shifter",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "transmission_or_shifter"
+      ],
+      "implementationComponent": "mode_shifter",
+      "semanticAnchor": "shifter_test",
+      "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-03b-motor",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "motor_output_test",
+      "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-06-water-level",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "implementationComponent": "pressure_sensor",
+      "semanticAnchor": "drain_test",
+      "displayTitle": "TEST #6: Water Level",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump",
+        "drain_path"
+      ],
+      "implementationComponent": "recirc_pump",
+      "semanticAnchor": "drain_test",
+      "displayTitle": "TEST #7: Drain & Recirculation Pump",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": "recirc_pump is overlay-only; drain canonical path remains drain_pump + drain_path.",
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-08-lid-lock",
+      "testTargetId": "lid_lock_test",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "lid_lock_test",
+      "displayTitle": "TEST #8: Lid Lock",
+      "layer": "canonical_functional",
+      "gateAction": "certify_matcher_mapping",
+      "note": "Matcher seed door_lock maps to lid_lock. Procedure-role lid_switch evidence is separate.",
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-03-drive-system",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "transmission_or_shifter",
+      "displayTitle": "TEST #3: Drive System (pre-test)",
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-03a-shifter",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "transmission_or_shifter"
+      ],
+      "implementationComponent": "mode_shifter",
+      "semanticAnchor": "shifter_test",
+      "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-03b-motor",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "motor_output_test",
+      "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+      "layer": "canonical_functional",
+      "gateAction": "certify_inherited_overlay",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-06-water-level",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "implementationComponent": "pressure_sensor",
+      "semanticAnchor": "drain_test",
+      "displayTitle": "TEST #6: Water Level",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": null,
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-07-drain-recirc-pump",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump",
+        "drain_path"
+      ],
+      "implementationComponent": "recirc_pump",
+      "semanticAnchor": "drain_test",
+      "displayTitle": "TEST #7: Drain & Recirculation Pump",
+      "layer": "overlay_implementation",
+      "gateAction": "certify_overlay_implementation",
+      "note": "recirc_pump is overlay-only; drain canonical path remains drain_pump + drain_path.",
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-08-lid-lock",
+      "testTargetId": "lid_lock_test",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "implementationComponent": null,
+      "semanticAnchor": "lid_lock_test",
+      "displayTitle": "TEST #8: Lid Lock",
+      "layer": "canonical_functional",
+      "gateAction": "certify_matcher_mapping",
+      "note": "Matcher seed door_lock maps to lid_lock. Procedure-role lid_switch evidence is separate.",
+      "rationale": "Published procedure binding certified against rev1 \u2014 not compiler-discovered."
+    }
+  ],
+  "measurementBindings": [
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherRecircPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": "recirc_pump",
+      "gateAction": "certify_inherited_overlay",
+      "layer": "overlay_implementation",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-08-lid-lock",
+      "measurementKnowledgeId": "whirlpoolTlDdWasherLidLockMotorOhms",
+      "testTargetId": "lid_lock_test",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-03a-shifter",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": "mode_shifter",
+      "gateAction": "certify_inherited_overlay",
+      "layer": "overlay_implementation",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-07-drain-pump",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-07-drain-pump",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w11697231-test-08-lid-lock",
+      "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+      "testTargetId": "lid_lock_test",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-03b-motor",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherMotorOhms",
+      "testTargetId": "motor_output_test",
+      "canonicalComponents": [
+        "drive_motor"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherRecircPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": "recirc_pump",
+      "gateAction": "certify_inherited_overlay",
+      "layer": "overlay_implementation",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-07-drain-recirc-pump",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-08-lid-lock",
+      "measurementKnowledgeId": "whirlpoolTlDd5100WasherLidLockSolenoidOhms",
+      "testTargetId": "lid_lock_test",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "implementationComponent": null,
+      "gateAction": "certify_inherited_overlay",
+      "layer": "canonical_functional",
+      "rationale": "Published measurement binding certified against rev1 contract."
+    }
+  ],
+  "procedureRoleEvidence": [
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_switch_authorization",
+      "canonicalComponents": [
+        "lid_switch"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lid switch"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_lock_spin_safety",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lock switch",
+        "home"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_switch_authorization",
+      "canonicalComponents": [
+        "lid_switch"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lid switch"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_lock_spin_safety",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lock switch",
+        "lock solenoid"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_switch_authorization",
+      "canonicalComponents": [
+        "lid_switch"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lid switch"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-08-lid-lock",
+      "stepId": "switch_states",
+      "roleId": "lid_lock_spin_safety",
+      "canonicalComponents": [
+        "lid_lock"
+      ],
+      "evidenceKind": "procedure_role_text",
+      "signalPhrases": [
+        "lock switch",
+        "lock solenoid"
+      ],
+      "gateAction": "certify_procedure_role",
+      "doesNotFabricateMatcherAlias": true,
+      "rationale": "Explicit procedure-role evidence may bind lid_switch without manufacturing a matcher alias. Matcher-derived door_lock remains lid_lock only."
+    }
+  ],
+  "contractRejections": [
+    {
+      "concept": "drive_system",
+      "gateAction": "reject_contract_violation",
+      "layer": "forbidden_canonical",
+      "canonicalComponents": [],
+      "rationale": "rev1 removed drive_system. Any proposed canonical routing to drive_system is a certification failure requiring remediation, not new CG-6.6 knowledge.",
+      "corpusEvidence": "0/3 Whirlpool TL manuals earned drive_system at canonical layer."
+    },
+    {
+      "concept": "lid_switch matcher alias fabrication",
+      "gateAction": "reject_contract_violation",
+      "layer": "matcher_policy",
+      "canonicalComponents": [
+        "lid_switch"
+      ],
+      "rationale": "Do not manufacture lid_switch matcher aliases to simulate discovery. Procedure-role evidence may certify lid_switch; matcher door_lock remains lid_lock."
+    }
+  ],
+  "deferredArtifacts": [
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-01-acu-power",
+      "displayTitle": "TEST #1: Main Control (ACU)",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-02-valves",
+      "displayTitle": "TEST #2: Valves",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-04-keys-encoders",
+      "displayTitle": "TEST #4: Keys and Encoders",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-05-temp-thermistor",
+      "displayTitle": "TEST #5: Temperature Thermistor",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-09-heater",
+      "displayTitle": "TEST #9: Heater Element",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-10-service-leds",
+      "displayTitle": "TEST #10: Service LEDs",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-11-basket-light",
+      "displayTitle": "TEST #11: Basket Light",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W10864849",
+      "procedureId": "w10864849-test-12-bulk-dispense",
+      "displayTitle": "TEST #12: Bulk Dispense",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-01-acu-power",
+      "displayTitle": "TEST #1: Main Control",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-02-valves",
+      "displayTitle": "TEST #2: Valves",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-04-hmi",
+      "displayTitle": "TEST #4: HMI",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11697231",
+      "procedureId": "w11697231-test-05-temp-thermistor",
+      "displayTitle": "TEST #5: Temperature Thermistor",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-01-acu-power",
+      "displayTitle": "TEST #1: Main Control (ACU)",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-02-valves",
+      "displayTitle": "TEST #2: Valves",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-04-hmi",
+      "displayTitle": "TEST #4: HMI",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-05-temp-thermistor",
+      "displayTitle": "TEST #5: Temperature Thermistor",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    },
+    {
+      "manualId": "W11416787",
+      "procedureId": "w11416787-test-09-load-go",
+      "displayTitle": "TEST #9: Load & Go Detergent",
+      "gateAction": "defer_unbound_procedure",
+      "layer": "deferred_binding",
+      "rationale": "Published overlay has OEM alias coverage but no procedureBinding yet \u2014 explicit defer, not certification failure."
+    }
+  ],
+  "expectedPublicationCounts": {
+    "platformFamilies": 2,
+    "procedureBindings": 12,
+    "measurementBindings": 18,
+    "procedureRoleEvidence": 6,
+    "oemAliasMappings": 49
+  },
+  "gateSummary": {
+    "status": "published",
+    "certificationReady": true,
+    "canonicalExpansion": 0,
+    "newSemanticDecisions": 0,
+    "gatedAt": "2026-09-15T19:59:02.456575+00:00",
+    "ledgerArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_gate_decision_ledger_v1.json",
+    "totalLedgerEntries": 104,
+    "totalArtifacts": 104,
+    "byDecisionKind": {
+      "certification": 35,
+      "inherited": 50,
+      "deferred": 17,
+      "contract_rejection": 2
+    },
+    "certificationDecisions": 35,
+    "inheritedKnowledge": 50,
+    "deferredArtifacts": 17,
+    "contractRejections": 2,
+    "publishedAt": "2026-09-15T20:08:07.094569+00:00"
+  },
+  "gatedAt": "2026-09-15T19:59:02.456575+00:00",
+  "ledgerArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_gate_decision_ledger_v1.json",
+  "publishedAt": "2026-09-15T20:08:07.094569+00:00",
+  "certificationPromotionId": "cert-WHIRLPOOL-TL-CG66-20260915200807",
+  "publicationArtifact": "publication_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json",
+  "certificationEvidenceArtifact": "WHIRLPOOL_TOP_LOAD_WASHER_CG66_CERTIFICATION_EVIDENCE_v1.json",
+  "dryRunReportArtifact": "promotion_dry_run_WHIRLPOOL_TOP_LOAD_WASHER_CG66.json"
+}

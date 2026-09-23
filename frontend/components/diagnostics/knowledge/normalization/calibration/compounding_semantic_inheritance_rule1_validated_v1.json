@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_rule_validation",
+  "ruleId": "samsung-fl-inverter-board-power-voltage-codes",
+  "ladder": "R1",
+  "status": "VALIDATED",
+  "validatedAt": "2026-09-14T02:20:00+00:00",
+  "phase": "CG-6.3",
+  "controlBaseline": "compounding_efficiency_v1.json",
+  "benchmarkArtifact": "semantic_inheritance_benchmark_v1.json",
+  "closedLoop": [
+    "Human proves: 9C1/9C2 → inverter_board (inherited_platform_family)",
+    "Freeze provenance (samsung fl2 gate preview + human classification)",
+    "Encode semantic rule (semantic_inheritance_rules_v1.json)",
+    "Matcher applies rule deterministically",
+    "1 fewer human gate decision (48 → 47 projected)",
+    "0 false positives on 7-manual calibration corpus",
+    "0 leakage, 0 ontology promotion, 0 topology inference"
+  ],
+  "evidenceStrength": {
+    "sameManufacturer": true,
+    "sameApplianceFamily": true,
+    "samePlatformFamily": true,
+    "existingPlatformComponent": true,
+    "explicitPriorHumanResolution": true,
+    "clearFunctionalRelationship": true,
+    "singleObservedSemanticVariation": true
+  },
+  "benchmarkResults": {
+    "mappingGateBurden": { "before": 71, "after": 70 },
+    "projectedCohortHumanGateDecisions": { "before": 48, "after": 47 },
+    "semanticInheritsAutoResolved": 1,
+    "abstentions": 0,
+    "regressionFalsePositives": 0,
+    "leakage": 0,
+    "newCanonical": 0
+  },
+  "abstentionsNote": "R1 frozen corpus may show 0 abstentions; metric tracks deliberate refusal on partial evidence for R2+.",
+  "nextRuleGuidance": {
+    "ladder": "R2",
+    "requirement": "Deliberately harder semantic distance than R1; false-positive resistance at least as important as reducing remaining 47 human decisions",
+    "doNot": "Accumulate rules indiscriminately — one validated rule at a time"
+  }
+}

@@ -1,0 +1,590 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_fit_test",
+  "workstream": "CG-P08-FLEXWASH-FIT-TEST",
+  "status": "fit_test_complete",
+  "generatedAt": "2026-09-17T21:45:00+00:00",
+  "gateStatus": {
+    "fitTestAuthorized": true,
+    "freezeAuthorized": false,
+    "pilotClosure": "HOLD",
+    "p08ArchitectureException": "VALID — STOP preserved"
+  },
+  "referenceArtifacts": [
+    "CG_P08_FLEXWASH_INTEGRATION_DISCOVERY_v1.json",
+    "CG_P08_FLEXWASH_ARCHITECTURE_DECISION_PACKAGE_v1.json",
+    "frontend/components/diagnostics/procedures/seed/samsung_flexwash/procedureCatalog.json",
+    "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+  ],
+  "witness": {
+    "id": "W1",
+    "manufacturer": "Samsung",
+    "model": "WV55M9600",
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "procedureCount": 21
+  },
+  "fitModelUnderTest": {
+    "composition": "FL_LOWER (front_load_washer) + FL_UPPER (front_load_washer) + SHARED (supply, hmi_control) + CANDIDATE-DUAL-COMPARTMENT-INTEGRATION",
+    "candidateId": "CANDIDATE-DUAL-COMPARTMENT-INTEGRATION",
+    "candidateStatus": "DISCOVERY_ONLY",
+    "candidateResponsibilities": [
+      "inter_instance_control_communication",
+      "system_supervision",
+      "cross_compartment_coordination"
+    ],
+    "notModifying": "front_load_washer.json — composition by reference only"
+  },
+  "fitSummary": {
+    "fitResult": "partially_fits",
+    "verdict": "2× front_load_washer instances + one minimal integration domain represent 19/21 W1 procedures without distortion. Two procedures require platform-overlay handling (MEMS) or additional W1 compartment-attribution evidence — not integration-domain expansion. No verified behavior requires a third functional subsystem or a FlexWash-shaped ontology blob.",
+    "procedureCounts": {
+      "FITS_EXISTING_INSTANCE": 4,
+      "FITS_MULTI_INSTANCE": 13,
+      "FITS_INTEGRATION_DOMAIN": 2,
+      "DOES_NOT_FIT": 1,
+      "INSUFFICIENT_EVIDENCE": 1
+    },
+    "verifiedW1Coverage": "19/21 procedures fit without distortion under tested model",
+    "unexplainedBehaviors": 0,
+    "distortionRequired": false,
+    "integrationDomainAbsorptionRisk": "low — candidate did not grow to absorb ordinary wash functions"
+  },
+  "minimalityResult": {
+    "verdict": "reducible",
+    "summary": "All three discovery responsibilities are evidenced, but cross_compartment_coordination may reduce to a dependency on inter_instance_communication health plus instance metadata — not a separate orchestration surface at freeze time. System supervision (SF) fits integration domain better than FL_LOWER.control_board alone, but shares diagnostic entry with primary supervisory PCB — one integration domain still sufficient.",
+    "responsibilityAssessment": {
+      "inter_instance_control_communication": {
+        "verdict": "required",
+        "reason": "AC7 cannot fit FL_LOWER or FL_UPPER alone without distortion"
+      },
+      "system_supervision": {
+        "verdict": "required",
+        "reason": "SF is appliance-level System Error — not compartment-local; mapping to single control_board loses system scope"
+      },
+      "cross_compartment_coordination": {
+        "verdict": "partially_required_reducible",
+        "reason": "Independent compartment operation proven; simultaneous active wash not proven; AC7 upper-enable dependency may be modeled as integration comm failure inhibiting FL_UPPER without separate orchestration node"
+      }
+    },
+    "reducibleTo": "inter_instance_communication + system_supervision + instance_scoped_enable_inhibit (facet of integration domain, not second canonical node)"
+  },
+  "freezeReadiness": {
+    "verdict": "ready_for_second_witness_validation",
+    "notReadyForFreeze": true,
+    "rationale": "W1 fit partially passes with no unexplained integration-level behavior, but single-witness discipline prohibits freeze. MEMS platform gap and compartment-attribution gaps on 1 procedure are W1 evidence gaps, not architecture rejection.",
+    "candidateRejected": false,
+    "requiresAdditionalW1Evidence": [
+      "MEMS 8C family platform overlay binding",
+      "Compartment-explicit attribution for wash-thermistor TC1"
+    ]
+  },
+  "humanDecisionRequired": true,
+  "procedureFitMatrix": [
+    {
+      "procedureId": "samsungflexwash-drain-pump",
+      "title": "§4-3: Drain pump (5C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "shared_lower_primary",
+      "canonicalTarget": "FL_LOWER.drain_pump",
+      "relationship": "hydraulically_connects_to (shared drain path)",
+      "sourcePages": [37, 39],
+      "evidence": "Manual 5C in both columns; extraction routes shared drain 'won't drain either'",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-door-lock",
+      "title": "§4-3: Lower door lock (DC, DC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.door_lock",
+      "relationship": "enables (lower cycle authorization)",
+      "sourcePages": [38, 40],
+      "evidence": "Title explicit lower; DC/DC1 lower-column faults",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-motor-circuit",
+      "title": "§4-3: Lower DD motor (3C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.drive_motor",
+      "relationship": "mechanically_drives + motor_controller.communicates_with control_board",
+      "sourcePages": [37, 38],
+      "evidence": "Title explicit lower DD; inverter AC6 on lower path",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-upper-motor",
+      "title": "§4-3: Upper washer motor (3C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "upper",
+      "canonicalTarget": "FL_UPPER.drive_motor",
+      "relationship": "mechanically_drives",
+      "sourcePages": [36, 38],
+      "evidence": "flexwash_upper tag; separate 7.6–8.4 Ω upper motor spec",
+      "distortionRisk": "none with instance scope",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-upper-door",
+      "title": "§4-3: Upper compartment door (DC4, DC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "upper",
+      "canonicalTarget": "FL_UPPER.door_lock",
+      "relationship": "enables (upper cycle authorization)",
+      "sourcePages": [33, 39],
+      "evidence": "DC4 upper-only in manual; upper inner door procedure",
+      "distortionRisk": "none with instance scope",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-inlet-valves",
+      "title": "§4-3: Water supply (4C, 4C2)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.inlet_valve + FL_UPPER.inlet_valve",
+      "relationship": "supplies",
+      "sourcePages": [37, 39],
+      "evidence": "4C both columns; 4C2 upper-column asymmetric (14C2/4C2); extraction 'no fill one compartment'",
+      "distortionRisk": "low",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-wash-heater",
+      "title": "§4-3: Wash heater (HC, HC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.wash_heater + FL_UPPER.wash_heater (HC vs HC1 columns)",
+      "relationship": "depends_on wash_ntc per instance",
+      "sourcePages": [32, 40],
+      "evidence": "Manual HC lower column, HC1 upper column",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-wash-thermistor",
+      "title": "§4-3: Wash temperature sensor (TC1)",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "compartment": "ambiguous",
+      "canonicalTarget": "FL_*.wash_ntc",
+      "relationship": "senses",
+      "sourcePages": [32, 40],
+      "evidence": "TC1 in heater error context; compartment column not explicit in seed",
+      "distortionRisk": "medium if assigned to wrong instance",
+      "confidence": "medium",
+      "note": "Likely FITS_MULTI_INSTANCE once compartment attributed — does not challenge integration model"
+    },
+    {
+      "procedureId": "samsungflexwash-water-level-sensor",
+      "title": "§4-3: Water level sensor (1C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.water_level_sensor + FL_UPPER.water_level_sensor",
+      "relationship": "reports_level_through",
+      "sourcePages": [35, 37],
+      "evidence": "1C appears in both fault-table columns",
+      "distortionRisk": "low",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-overflow",
+      "title": "§4-3: Overflow (OC)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_*.water_level_sensor + FL_*.inlet_valve",
+      "relationship": "senses + supplies per instance",
+      "sourcePages": [33, 40],
+      "evidence": "OC in fault table; per-tub overflow logic standard FL",
+      "distortionRisk": "low",
+      "confidence": "medium"
+    },
+    {
+      "procedureId": "samsungflexwash-unbalance",
+      "title": "§4-3: Unbalance (UB)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_*.drive_motor",
+      "relationship": "mechanically_drives (load distribution per drum)",
+      "sourcePages": [33, 41],
+      "evidence": "UB in both columns; load balance per compartment",
+      "distortionRisk": "low with instance attribution",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-leak-check",
+      "title": "§4-3: Water leakage (LC, LC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.drain_pump path (LC) + FL_UPPER leak paths (LC1)",
+      "relationship": "hydraulically_connects_to",
+      "sourcePages": [32, 40],
+      "evidence": "Procedure body: LC1 upper detergent overflow/exterior; LC lower tub/hose paths",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-power-supply",
+      "title": "§4-3: Power (9C1, 9C2)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.supply",
+      "relationship": "supplies (unit-level)",
+      "sourcePages": [33, 35],
+      "evidence": "9C1/9C2 power error both columns — unit supply",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-hmi-check",
+      "title": "§4-3: Control panel (BC2)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control",
+      "relationship": "communicates_with control_board",
+      "sourcePages": [33, 38],
+      "evidence": "BC2 shared panel; sub PBA mounting noted",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-communication",
+      "title": "§4-3: Inverter PBA communication (AC6)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.motor_controller",
+      "relationship": "communicates_with FL_LOWER.control_board",
+      "sourcePages": [31, 33],
+      "evidence": "AC6 lower-column: inverter PBA ↔ main PBA — intra-lower instance comm",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-thermal",
+      "title": "§4-3: Inverter over-temperature (TC4)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.motor_controller",
+      "relationship": "senses (thermal protection on inverter path)",
+      "sourcePages": [33, 41],
+      "evidence": "TC4 lower inverter cooling",
+      "distortionRisk": "none",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-communication",
+      "title": "§4-3: Sub/main PBA communication (AC)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control ↔ control_board (panel sub/main)",
+      "relationship": "communicates_with",
+      "sourcePages": [31, 38],
+      "evidence": "AC: sub and main PBAs on control panel — NOT upper↔lower interload; both columns show AC",
+      "distortionRisk": "low",
+      "confidence": "high",
+      "notIntegrationDomain": "Distinct from AC7 — intra-panel comm within shared control stack"
+    },
+    {
+      "procedureId": "samsungflexwash-wifi-communication",
+      "title": "§4-3: WiFi module communication (AC4)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control adjunct (platform overlay)",
+      "relationship": "communicates_with control_board",
+      "sourcePages": [31, 33],
+      "evidence": "AC4 WiFi module ↔ main PBA — connectivity adjunct, not dual-load integration",
+      "distortionRisk": "low",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-interload-communication",
+      "title": "§4-3: Upper-lower PBA communication (AC7)",
+      "classification": "FITS_INTEGRATION_DOMAIN",
+      "compartment": "cross-instance",
+      "canonicalTarget": "CANDIDATE.inter_instance_control_communication",
+      "relationship": "FL_UPPER.control_board communicates_with FL_LOWER.control_board (qualified via integration domain)",
+      "sourcePages": [31, 33],
+      "evidence": "CN803 harness TX_OWM/RX_OWM; manual: signals between upper and lower main PBAs not sensed",
+      "distortionRisk": "high if forced to FL_LOWER.control_board only",
+      "confidence": "high"
+    },
+    {
+      "procedureId": "samsungflexwash-system-fault",
+      "title": "§4-3: System fault (SF)",
+      "classification": "FITS_INTEGRATION_DOMAIN",
+      "compartment": "system",
+      "canonicalTarget": "CANDIDATE.system_supervision",
+      "relationship": "depends_on composed control domains; appliance-level failure surface",
+      "sourcePages": [33, 35],
+      "evidence": "Micro Controller Operation Fail; System Error class; SF both columns; replace Assy PCB",
+      "distortionRisk": "medium-high if mapped only to FL_LOWER.control_board without system scope",
+      "confidence": "medium-high"
+    },
+    {
+      "procedureId": "samsungflexwash-mems-sensor",
+      "title": "§4-3: MEMS sensor (8C, 8C1, 8C2)",
+      "classification": "DOES_NOT_FIT",
+      "compartment": "both",
+      "canonicalTarget": null,
+      "relationship": null,
+      "sourcePages": [33, 35],
+      "evidence": "MEMS PBA not in frozen front_load_washer components; 8C/8C1/8C2 dual-column",
+      "distortionRisk": "high if forced into control_board",
+      "confidence": "high",
+      "resolution": "platform_implementation_overlay — not integration domain expansion",
+      "doesNotRejectIntegrationModel": true
+    }
+  ],
+  "instanceFit": {
+    "FL_LOWER": {
+      "verdict": "fits",
+      "procedureCount": 11,
+      "primaryFunctions": ["drain_pump", "door_lock", "drive_motor", "motor_controller", "wash_heater", "wash_ntc", "inlet_valve", "water_level_sensor"],
+      "distortionRisk": "none"
+    },
+    "FL_UPPER": {
+      "verdict": "fits",
+      "procedureCount": 8,
+      "primaryFunctions": ["door_lock", "drive_motor", "wash_heater", "wash_ntc", "inlet_valve", "water_level_sensor"],
+      "distortionRisk": "none with instanceId"
+    },
+    "SHARED": {
+      "verdict": "fits",
+      "functions": ["supply", "hmi_control", "panel_sub_main_comm (AC)", "wifi_adjunct (AC4)"],
+      "distortionRisk": "none"
+    }
+  },
+  "integrationFit": {
+    "verdict": "fits_minimal_domain",
+    "proceduresRequiringIntegration": 2,
+    "proceduresIncorrectlyAssignedToIntegration": 0,
+    "note": "AC and AC4 correctly remain shared-instance comm, not integration domain — fit test did not over-assign"
+  },
+  "ac7Fit": {
+    "responsibility": "inter_instance_control_communication",
+    "verdict": "required",
+    "whoCommunicates": ["FL_UPPER control domain (sub PBA)", "FL_LOWER control domain (main PBA)"],
+    "direction": "bidirectional",
+    "purpose": "Inter-load control signaling required for dual-load coordinated operation; diagnostic detects loss of sensed signals",
+    "controlVsDiagnostic": "Functional communication failure surfaced as AC7 diagnostic code; harness reseat is physical remediation of functional link",
+    "enableInhibit": "Extraction routes 'upper won't run' through AC7 harness — upper operation inhibited when inter-instance comm fails",
+    "communicates_withSufficient": false,
+    "integrationDomainRequired": true,
+    "confidence": "high"
+  },
+  "sfFit": {
+    "responsibility": "system_supervision",
+    "verdict": "required_on_integration_domain",
+    "characterization": "Appliance-level microcontroller operation failure — System Error class",
+    "relationshipToControllers": "Procedure targets main PCB replacement; SF appears in both fault columns — supervisory failure spans composed subsystems",
+    "integrationVsControlBoard": {
+      "FL_LOWER.control_boardAlone": "partial — loses system scope and dual-column semantics",
+      "integrationDomain": "preferred — owns system_supervision diagnostic entry without duplicating control_board"
+    },
+    "monitoredByDependsOnSufficient": false,
+    "confidence": "medium-high"
+  },
+  "coordinationFit": {
+    "responsibility": "cross_compartment_coordination",
+    "verdict": "partially_required_reducible",
+    "independentCompartmentOperation": {
+      "status": "proven",
+      "evidence": [
+        "Complaint routing: upper won't run vs lower won't spin",
+        "Separate motors, doors, heater columns",
+        "Independent 3C procedures per compartment"
+      ]
+    },
+    "simultaneousActiveWash": {
+      "status": "not_proven",
+      "evidence": "No explicit OEM manual statement that both drums actively wash at same time in extracted corpus; Smart Install sequence single-drum oriented",
+      "marketingInferenceRejected": true
+    },
+    "crossCompartmentCoordination": {
+      "status": "proven_limited",
+      "evidence": [
+        "AC7 upper-enable dependency (extraction complaint routing)",
+        "Shared drain path coupling (5C affects both)",
+        "SF may disable entire appliance"
+      ],
+      "reducibleTo": "integration comm health + instance enable/inhibit edges — not full cycle orchestration"
+    },
+    "commandsControlsPlusMultiInstanceSufficient": false,
+    "separateOrchestrationNodeRequired": false,
+    "confidence": "medium"
+  },
+  "faultAttributionFit": {
+    "verdict": "instance_metadata_sufficient",
+    "dualColumnRepresentableBy": ["instanceId: lower|upper", "flex_compartment wizard field", "flexwash_upper chip"],
+    "systemFaultsEscapingInstanceScope": ["SF", "AC7"],
+    "newFaultAttributionFunctionRequired": false,
+    "confidence": "high"
+  },
+  "simultaneousOperationEvidence": {
+    "independentCompartmentOperation": {
+      "proven": true,
+      "source": "Extraction complaint routing + separate compartment procedures"
+    },
+    "simultaneousActiveWashOrchestration": {
+      "proven": false,
+      "source": "No explicit manual evidence in W1 extracted corpus",
+      "inferenceBlocked": true
+    },
+    "crossCompartmentCoordination": {
+      "proven": true,
+      "scope": "limited — AC7 dependency, shared drain, SF system disable",
+      "notEquivalentToSimultaneousWash": true
+    }
+  },
+  "minimalityTest": {
+    "attemptedReductions": [
+      {
+        "reduction": "Drop integration domain; use only 2× FL instances",
+        "result": "FAIL — AC7 and SF unrepresentable"
+      },
+      {
+        "reduction": "Map AC7 to FL_LOWER.control_board self-test",
+        "result": "FAIL — distorts inter-PBA link; loses upper endpoint"
+      },
+      {
+        "reduction": "Map SF to FL_LOWER.control_board only",
+        "result": "FAIL — loses System Error appliance scope"
+      },
+      {
+        "reduction": "Drop cross_compartment_coordination responsibility",
+        "result": "PARTIAL PASS — coordination reducible to comm dependency + instance metadata; independent operation does not need orchestration node"
+      },
+      {
+        "reduction": "Split into 3 canonical integration nodes",
+        "result": "REJECTED — unnecessary proliferation; AC7+SF+limited inhibit fit one domain"
+      }
+    ],
+    "minimalFunctionalContract": {
+      "status": "DISCOVERY_ONLY",
+      "components": [
+        "inter_instance_control_communication (required)",
+        "system_supervision (required)",
+        "instance_enable_inhibit_facets (reducible facet, not separate node)"
+      ]
+    }
+  },
+  "falsificationTests": [
+    {
+      "id": "FALSIFY-THIRD-SUBSYSTEM",
+      "description": "Verified procedure requires third independent functional subsystem beyond FL_LOWER, FL_UPPER, integration",
+      "result": "NOT_TRIGGERED — MEMS is platform overlay gap, not third subsystem"
+    },
+    {
+      "id": "FALSIFY-ORCHESTRATION-BLOB",
+      "description": "Candidate must absorb ordinary wash functions to maintain fit",
+      "result": "NOT_TRIGGERED — 13 procedures fit multi-instance; integration holds 2 only"
+    },
+    {
+      "id": "FALSIFY-NOT-INDEPENDENT-FL",
+      "description": "Upper/lower are not independently composed FL systems",
+      "result": "NOT_TRIGGERED — separate motors, doors, heaters evidenced"
+    },
+    {
+      "id": "FALSIFY-SIMULTANEOUS-ORCH",
+      "description": "Simultaneous active wash requires richer orchestration than candidate",
+      "result": "NOT_TESTABLE — simultaneous wash not proven in W1; cannot falsify or confirm"
+    },
+    {
+      "id": "FALSIFY-AC7-INTRA-LOWER",
+      "description": "AC7 reducible to lower intra-instance comm like AC6",
+      "result": "FAILED_TO_FALSIFY — manual explicitly upper↔lower main PBAs"
+    }
+  ],
+  "rejectedFitModels": [
+    {
+      "model": "Single front_load_washer instance",
+      "rejection": "Upper motor/door collision; AC7/SF distortion"
+    },
+    {
+      "model": "2× FL only — no integration domain",
+      "rejection": "AC7 and SF unrepresentable"
+    },
+    {
+      "model": "Integration domain absorbs all comm (AC, AC4, AC6, AC7)",
+      "rejection": "AC/AC4/AC6 fit shared or lower instance — over-expansion rejected"
+    },
+    {
+      "model": "Separate orchestration canonical node for simultaneous wash",
+      "rejection": "Simultaneous wash not proven; would be marketing-driven blob"
+    }
+  ],
+  "evidenceGaps": [
+    {
+      "id": "GAP-MEMS",
+      "impact": "1 procedure DOES_NOT_FIT FL — platform overlay",
+      "blocksArchitecture": false
+    },
+    {
+      "id": "GAP-TC1-SCOPE",
+      "impact": "wash-thermistor compartment attribution",
+      "blocksArchitecture": false
+    },
+    {
+      "id": "GAP-W2",
+      "impact": "Freeze authorization",
+      "blocksArchitecture": false,
+      "blocksFreeze": true
+    },
+    {
+      "id": "GAP-SIMULTANEOUS",
+      "impact": "Cannot confirm or deny simultaneous orchestration scope",
+      "blocksArchitecture": false,
+      "note": "Independence ≠ simultaneity — kept separate by design"
+    }
+  ],
+  "secondWitnessRequirements": {
+    "purpose": "Corroborate or falsify CANDIDATE-DUAL-COMPARTMENT-INTEGRATION before freeze",
+    "idealProfile": "Dual-compartment wash topology (any manufacturer); inter-compartment comm or coordination evidence",
+    "mustDemonstrate": [
+      "Independent compartment fault partition",
+      "Inter-compartment communication or coordination failure mode",
+      "Whether system-level fault class exists cross-manufacturer"
+    ],
+    "corroborationWouldConfirm": [
+      "One minimal integration domain suffices",
+      "inter_instance_communication + system_supervision responsibilities",
+      "Instance-scoped FL composition without front_load_washer mutation"
+    ],
+    "falsificationWouldReject": [
+      "Peer-less upper slave with no inter-PBA diagnostic → comm responsibility shrinks",
+      "No system fault equivalent → SF Samsung-specific overlay",
+      "Fully independent non-communicating drums → integration domain unnecessary"
+    ],
+    "notRequiredFor": "Discovery or fit-test completion — required for freeze only"
+  },
+  "recommendedNextGate": {
+    "gateId": "CG-P08-FLEXWASH-CORROBORATION-OR-W2-FIT",
+    "description": "Acquire second witness OR document explicit single-witness freeze waiver risk; produce functional contract candidate (DISCOVERY_ONLY label); optional W1 MEMS/TC1 overlay completion",
+    "notAuthorized": ["Freeze", "Canonical file creation", "P08 exception resolution", "Pilot closure"]
+  },
+  "architectureExceptionIntegrity": {
+    "path": "frontend/components/diagnostics/knowledge/normalization/candidates/SAMSUNG-FLEXWASH-WASHER/architecture_exception.json",
+    "modified": false,
+    "generatedAt": "2026-09-17T18:12:51.589261+00:00"
+  },
+  "canonicalMutationCheck": {
+    "modified": false,
+    "frozenHashesVerified": 10
+  },
+  "validationExecuted": {
+    "artifactSchemaValid": true,
+    "validateCanonicalGraph": "OK",
+    "cgProductionNormalizationPilotTest": "11/11 PASS",
+    "noImplementation": true
+  },
+  "explicitlyNotDone": [
+    "Freeze candidate",
+    "Create canonical ontology file",
+    "Resolve P08",
+    "Ingest second witness",
+    "Pilot closure",
+    "Modify disposition classifier"
+  ]
+}

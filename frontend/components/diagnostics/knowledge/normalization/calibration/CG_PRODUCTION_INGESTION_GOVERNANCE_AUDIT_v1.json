@@ -1,0 +1,167 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_ingestion_governance_audit",
+  "workstream": "CG-PRODUCTION-INGESTION-GOVERNANCE",
+  "auditedAt": "2026-09-17T20:00:00+00:00",
+  "verdict": "GREEN / GOVERNANCE_AUDIT_COMPLETE — GAPS_DOCUMENTED_AND_PARTIALLY_CLOSED",
+  "auditMode": "read_only_no_rewrite",
+  "contract": "CG_PRODUCTION_INGESTION_GOVERNANCE_CONTRACT_v1.json",
+  "findings": [
+    {
+      "id": "A1",
+      "question": "What code reads raw manuals?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "backend/docs/manuals/extract_pdf.py — PyMuPDF/pdfplumber extract to *-extracted.txt",
+        "backend/scripts/generate_*_procedure_seeds.py — consume extracted text paths as metadata"
+      ],
+      "gap": "No runtime PDF reader in frontend; ingestion is offline/script-driven"
+    },
+    {
+      "id": "A2",
+      "question": "Where are procedure seeds created?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "backend/scripts/generate_*_procedure_seeds.py → procedures/seed/{platformId}/",
+        "backend/scripts/run_procedure_manual_pipeline.py — manifest orchestration"
+      ]
+    },
+    {
+      "id": "A3",
+      "question": "Where are canonical mappings assigned?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "backend/scripts/normalization/canonical_matcher.py — build_mapping_candidates, resolve_component_id",
+        "backend/scripts/normalization/pipeline.py — writes canonical_mapping_candidates.json to candidates/"
+      ]
+    },
+    {
+      "id": "A4",
+      "question": "Can ingestion create canonical nodes?",
+      "verdict": "gap_partially_closed",
+      "evidence": [
+        "Procedure generators write procedures/seed only — not canonical",
+        "Normalization writes candidates/ only",
+        "publish_promotion writes manufacturer_overlays only",
+        "derive_top_load_washer_rev1.py is explicit freeze derivation exception"
+      ],
+      "gap": "No file-level write interceptor on canonical/*.json; process discipline + hash tests",
+      "remediation": "frozen_canonical_hashes_v1.json + validate_canonical_graph hash gate (this workstream)"
+    },
+    {
+      "id": "A5",
+      "question": "Can normalization mutate frozen graphs?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "pipeline.py output_dir = CANDIDATES_DIR / manual_id only",
+        "normalization/README: never mutates production canonical graphs"
+      ]
+    },
+    {
+      "id": "A6",
+      "question": "Can compounding promote ontology to canonical?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "promotion/publish.py apply_promotion_diff — aliases/bindings only",
+        "gap_analyzer.py reports canonical_ontology_candidate — no auto-write",
+        "human_decision_metrics.py expects newCanonicalKnowledge = 0 during compounding"
+      ]
+    },
+    {
+      "id": "A7",
+      "question": "Can overlays accidentally become canonical?",
+      "verdict": "mostly_enforced",
+      "evidence": [
+        "validate_canonical_graph.py validate_manufacturer_overlay",
+        "knowledge_hierarchy_contract_v1.json overlay ≠ canonical rule"
+      ],
+      "gap": "Gate-publish scripts (e.g. samsung_tl_a50_cg67_gate_publish.py) bypass generic planner — rely on gate tables + post-publish validation"
+    },
+    {
+      "id": "A8",
+      "question": "Unknown component / manual disagreement?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "canonical_matcher.py → UNRESOLVED_TERM",
+        "conflict_detector.py → ALIAS_CONFLICT, RELATIONSHIP_CONFLICT, topology blocks",
+        "planner.py blocks promotion on conflicts",
+        "gap_analyzer.py CG-5.3 single-manual → platform_overlay or unresolved"
+      ]
+    },
+    {
+      "id": "A9",
+      "question": "Is provenance preserved?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "normalization/provenance.py — manualId, platformId, procedureId, pages, sources",
+        "promotion backups overlay_before/overlay_after"
+      ]
+    },
+    {
+      "id": "A10",
+      "question": "Are frozen graph hashes enforced?",
+      "verdict": "gap_closed_by_this_workstream",
+      "evidence": [
+        "Prior: hash pins scattered across TS regression suites only",
+        "Prior: validate_canonical_graph.py structure-only — no hashes"
+      ],
+      "remediation": [
+        "frozen_canonical_hashes_v1.json central registry",
+        "validate_canonical_graph.py hash validation",
+        "cg-production-ingestion-governance.test.ts"
+      ]
+    },
+    {
+      "id": "A11",
+      "question": "Architecture exception handling?",
+      "verdict": "documented_only_gap",
+      "evidence": [
+        "Microwave Branch A metadata governance — closed exception workflow",
+        "Range pragmatic normalization-before-fit note in workstream sequence",
+        "Fit-test contracts forbid frozenGraphMutations"
+      ],
+      "gap": "No generic architecture_exception.json handler module yet",
+      "remediation": "Contract defines exception path; pilot contract will enforce batch STOP"
+    },
+    {
+      "id": "A12",
+      "question": "CG-5.3 / CG-6 rules enforced in code?",
+      "verdict": "both_documented_and_tested",
+      "evidence": [
+        "CG-5.3-corpus-gap-analysis.md + gap_analyzer.py + test_corpus_gap_analyzer.py",
+        "knowledge_hierarchy_contract_v1.json + semantic_inheritance rules",
+        "Architecture boundary tests (cg5-*, cg6-*)",
+        "CG_CANONICAL_ARCHITECTURE_COMPLETE — normalizationAuthorized: false"
+      ],
+      "gap": "Not one unified enforcement module — distributed across matcher, planner, tests"
+    },
+    {
+      "id": "A13",
+      "question": "candidate → needs_review → approved → promoted controls?",
+      "verdict": "enforced_in_code",
+      "evidence": [
+        "normalization/review/*_review.json human gate",
+        "promotion/planner.py blocked plans",
+        "review/ledger.py mark_candidates_promoted"
+      ]
+    },
+    {
+      "id": "A14",
+      "question": "Can production batch continue after unresolved architecture exception?",
+      "verdict": "gap_documented",
+      "evidence": ["No batch orchestrator yet — manual discipline per manual"],
+      "remediation": "Pilot contract will encode fail-closed batch gate"
+    }
+  ],
+  "summaryMatrix": {
+    "enforced_in_code": 8,
+    "mostly_enforced": 1,
+    "gap_closed_by_workstream": 1,
+    "documented_only_gap": 2,
+    "gap_documented": 2
+  },
+  "strongestProperty": "Procedure ingest + normalization are candidate-only; production knowledge changes require human gate → overlay publish → validation.",
+  "weakestPropertyPrior": "Canonical JSON had no centralized hash enforcement in validate_canonical_graph.py",
+  "weakestPropertyAfterRemediation": "Architecture exception batch STOP not yet encoded in pilot orchestrator",
+  "recommendedNextWorkstream": "CG-PRODUCTION-NORMALIZATION-PILOT"
+}

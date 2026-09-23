@@ -1,0 +1,638 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg7_fd_refrigerator_r1_observation",
+  "experiment": "CG-7 R1 \u2014 first Whirlpool French-door manual (W10322959 Jazz) vs unfrozen french_door_refrigerator candidate graph. No cross-manual inference.",
+  "workstream": "CG-7",
+  "stage": "R1_observation",
+  "manualId": "W10322959",
+  "platformId": "whirlpool_jazz_french_door",
+  "ontologyId": "french_door_refrigerator",
+  "ontologyFrozen": false,
+  "generatedAt": "2026-09-16T03:51:24.108802+00:00",
+  "metricsSource": "fresh_cg3_observation",
+  "publishBlocked": true,
+  "gateBlocked": true,
+  "canonicalPromotionBlocked": true,
+  "canonicalDirectoryMutable": false,
+  "crossManualInference": false,
+  "graphArtifacts": {
+    "cg7xCandidate": "frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\french_door_refrigerator_cg7x_candidate_v1.json",
+    "extractionDoc": "frontend\\components\\diagnostics\\knowledge\\pattern-catalog\\WHIRLPOOL_JAZZ_FD_W10322959_EXTRACTION.md",
+    "extractedText": "backend\\docs\\manuals\\techsheet-w10322959-revb whirlpool FD fridge 2013-extracted.txt",
+    "procedureSeedDir": "frontend\\components\\diagnostics\\knowledge\\procedures\\seed\\whirlpool_jazz_french_door"
+  },
+  "pipelineCounts": {
+    "procedures": 10,
+    "mappingCandidates": 19,
+    "overlayCandidates": 4,
+    "conflicts": 0,
+    "extractionFiltered": 9
+  },
+  "normalizeRun": {
+    "manualId": "W10322959",
+    "generatedAt": null
+  },
+  "conflicts": 0,
+  "mappingSummary": {
+    "total": 19,
+    "unresolved": 19,
+    "uniqueSourceTerms": 18,
+    "overlayBindings": 4
+  },
+  "matcherHygiene": {
+    "falseWasherTemplateHits": 0,
+    "note": "thermistor \u2192 wash_ntc is washer-template leakage on refrigerator manual. Routing hygiene correction is infrastructure \u2014 not R1 semantic learning.",
+    "classification": "infrastructure_not_canonical_discovery"
+  },
+  "serviceTestIndex": {
+    "1": {
+      "procedureId": "w10322959-test-01-defrost",
+      "title": "Defrost thermostat & heater",
+      "seedComponents": [
+        "defrost_heater",
+        "defrost_thermostat"
+      ]
+    },
+    "2": {
+      "procedureId": "w10322959-test-02-compressor",
+      "title": "Compressor & condenser fan",
+      "seedComponents": [
+        "compressor",
+        "condenser_fan"
+      ]
+    },
+    "3": {
+      "procedureId": "w10322959-test-03-evap-fan",
+      "title": "Evaporator / freezer fan",
+      "seedComponents": [
+        "evap_fan"
+      ]
+    },
+    "4": {
+      "procedureId": "w10322959-test-04-ff-thermistor",
+      "title": "Fresh food thermistor",
+      "seedComponents": [
+        "thermistor"
+      ]
+    },
+    "5": {
+      "procedureId": "w10322959-test-05-fz-thermistor",
+      "title": "Freezer thermistor",
+      "seedComponents": [
+        "thermistor"
+      ]
+    },
+    "6": {
+      "procedureId": "w10322959-test-06-damper",
+      "title": "Fresh food damper",
+      "seedComponents": [
+        "damper_motor"
+      ]
+    },
+    "7": {
+      "procedureId": "w10322959-test-07-ff-performance",
+      "title": "FF performance offset",
+      "seedComponents": [
+        "control_board"
+      ]
+    },
+    "8": {
+      "procedureId": "w10322959-test-08-fz-performance",
+      "title": "FZ performance offset",
+      "seedComponents": [
+        "control_board"
+      ]
+    },
+    "9": {
+      "procedureId": "w10322959-test-09-defrost-interval",
+      "title": "Defrost interval adaptive/fixed",
+      "seedComponents": [
+        "control_board"
+      ]
+    }
+  },
+  "serviceTestCoverage": {
+    "1": {
+      "procedureId": "w10322959-test-01-defrost",
+      "seedComponents": [
+        "defrost_heater",
+        "defrost_thermostat"
+      ],
+      "conceptHits": [
+        "defrost_system",
+        "defrost_heater",
+        "defrost_sensor"
+      ]
+    },
+    "2": {
+      "procedureId": "w10322959-test-02-compressor",
+      "seedComponents": [
+        "compressor",
+        "condenser_fan"
+      ],
+      "conceptHits": [
+        "compressor",
+        "compressor_controller",
+        "condenser_fan",
+        "cooling_system"
+      ]
+    },
+    "3": {
+      "procedureId": "w10322959-test-03-evap-fan",
+      "seedComponents": [
+        "evap_fan"
+      ],
+      "conceptHits": [
+        "evaporator_fan",
+        "airflow_path",
+        "cooling_system"
+      ]
+    },
+    "4": {
+      "procedureId": "w10322959-test-04-ff-thermistor",
+      "seedComponents": [
+        "thermistor"
+      ],
+      "conceptHits": [
+        "temperature_sensor"
+      ]
+    },
+    "5": {
+      "procedureId": "w10322959-test-05-fz-thermistor",
+      "seedComponents": [
+        "thermistor"
+      ],
+      "conceptHits": [
+        "temperature_sensor"
+      ]
+    },
+    "6": {
+      "procedureId": "w10322959-test-06-damper",
+      "seedComponents": [
+        "damper_motor"
+      ],
+      "conceptHits": [
+        "air_damper",
+        "airflow_path",
+        "cooling_system"
+      ]
+    },
+    "7": {
+      "procedureId": "w10322959-test-07-ff-performance",
+      "seedComponents": [
+        "control_board"
+      ],
+      "conceptHits": [
+        "control_board"
+      ]
+    },
+    "8": {
+      "procedureId": "w10322959-test-08-fz-performance",
+      "seedComponents": [
+        "control_board"
+      ],
+      "conceptHits": [
+        "control_board"
+      ]
+    },
+    "9": {
+      "procedureId": "w10322959-test-09-defrost-interval",
+      "seedComponents": [
+        "control_board"
+      ],
+      "conceptHits": [
+        "control_board",
+        "defrost_system"
+      ]
+    }
+  },
+  "conceptEvaluations": {
+    "power_supply": {
+      "conceptId": "power_supply",
+      "verdict": "needs_second_manual",
+      "rationale": "Manual documents line voltage, wattage, and run-time tables but provides no dedicated service test. Functional supply role implied \u2014 canonical vs overlay TBD.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "115 vac",
+        "120 vac",
+        "disconnect power"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "control_board": {
+      "conceptId": "control_board",
+      "verdict": "canonical_functional",
+      "rationale": "Jazz control board orchestrates programming mode, adaptive defrost, forced defrost, and all service tests (P-E, F-d, S-E). Independent functional control domain on R1 evidence.",
+      "serviceTests": [
+        7,
+        8,
+        9
+      ],
+      "procedureIds": [
+        "w10322959-programming-mode",
+        "w10322959-test-07-ff-performance",
+        "w10322959-test-08-fz-performance",
+        "w10322959-test-09-defrost-interval"
+      ],
+      "seedComponentIds": [
+        "control_board"
+      ],
+      "manualPhrases": [
+        "control board",
+        "programming mode",
+        "adaptive defrost",
+        "software version"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "user_interface": {
+      "conceptId": "user_interface",
+      "verdict": "canonical_functional",
+      "rationale": "All service-mode entry (S-E, F-d, P-E) and test activation use refrigerator display and keypad. Distinct functional HMI surface from control orchestration on R1 evidence.",
+      "serviceTests": [],
+      "procedureIds": [
+        "w10322959-programming-mode"
+      ],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "refrigerator temperature",
+        "freezer temperature",
+        "keypad",
+        "display"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "temperature_sensor": {
+      "conceptId": "temperature_sensor",
+      "verdict": "needs_second_manual",
+      "rationale": "Service tests 4 and 5 provide independent FF and FZ thermistor circuit tests. Compartment split vs single canonical temperature_sensor requires R2/R3 boundary test.",
+      "serviceTests": [
+        4,
+        5
+      ],
+      "procedureIds": [
+        "w10322959-test-04-ff-thermistor",
+        "w10322959-test-05-fz-thermistor"
+      ],
+      "seedComponentIds": [
+        "thermistor"
+      ],
+      "manualPhrases": [
+        "thermistor",
+        "fresh food thermistor",
+        "freezer thermistor"
+      ],
+      "measurementKnowledgeIds": [
+        "whirlpoolJazzFdThermistorOhms"
+      ]
+    },
+    "compressor": {
+      "conceptId": "compressor",
+      "verdict": "needs_second_manual",
+      "rationale": "Service test 2 operates compressor/condenser fan circuit; EM2Y60 run/start specs on sheet. Strong refrigeration actuator evidence \u2014 single-manual cannot freeze canonical vs platform.",
+      "serviceTests": [
+        2
+      ],
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "compressor"
+      ],
+      "manualPhrases": [
+        "compressor",
+        "em2y60",
+        "compressor run"
+      ],
+      "measurementKnowledgeIds": [
+        "whirlpoolJazzFdCompressorRunOhms",
+        "whirlpoolJazzFdCompressorStartOhms"
+      ]
+    },
+    "compressor_controller": {
+      "conceptId": "compressor_controller",
+      "verdict": "platform_implementation",
+      "rationale": "Jazz sheet tests compressor drive via control-board relay circuit (test 2 toggle). No separate inverter/VFD domain on this manual \u2014 likely platform implementation of control_board.",
+      "serviceTests": [
+        2
+      ],
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "compressor drive circuit",
+        "relay",
+        "start winding"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "condenser": {
+      "conceptId": "condenser",
+      "verdict": "deferred",
+      "rationale": "Condenser coil appears in performance/no-load tables only. No independent component test or procedure seed on W10322959 \u2014 physical node not earned at R1.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "condenser"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "evaporator": {
+      "conceptId": "evaporator",
+      "verdict": "deferred",
+      "rationale": "Evaporator inlet/outlet temperature specs on performance table only. No evaporator coil component test \u2014 physical node deferred pending sealed-system evidence in R2/R3.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "evaporator inlet",
+        "evaporator outlet",
+        "evaporator"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "condenser_fan": {
+      "conceptId": "condenser_fan",
+      "verdict": "needs_second_manual",
+      "rationale": "Service test 2 jointly exercises compressor and condenser fan circuit. Independent airflow actuator evidence \u2014 bundled test leaves canonical boundary for R2/R3.",
+      "serviceTests": [
+        2
+      ],
+      "procedureIds": [
+        "w10322959-test-02-compressor"
+      ],
+      "seedComponentIds": [
+        "condenser_fan"
+      ],
+      "manualPhrases": [
+        "condenser fan"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "evaporator_fan": {
+      "conceptId": "evaporator_fan",
+      "verdict": "needs_second_manual",
+      "rationale": "Service test 3 dedicated to evaporator/freezer fan with independent toggle. Strong functional actuator candidate \u2014 triangulation required before freeze.",
+      "serviceTests": [
+        3
+      ],
+      "procedureIds": [
+        "w10322959-test-03-evap-fan"
+      ],
+      "seedComponentIds": [
+        "evap_fan"
+      ],
+      "manualPhrases": [
+        "freezer fan",
+        "evaporator",
+        "fan drive circuit"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "air_damper": {
+      "conceptId": "air_damper",
+      "verdict": "needs_second_manual",
+      "rationale": "Service test 6 exercises fresh-food damper open/close. Seed id damper_motor is platform implementation; functional damper/air-tower role needs Samsung/LG compare.",
+      "serviceTests": [
+        6
+      ],
+      "procedureIds": [
+        "w10322959-test-06-damper"
+      ],
+      "seedComponentIds": [
+        "damper_motor"
+      ],
+      "manualPhrases": [
+        "damper",
+        "open damper"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "airflow_path": {
+      "conceptId": "airflow_path",
+      "verdict": "needs_second_manual",
+      "rationale": "Manual separates evaporator fan and fresh-food damper tests but does not name an airflow_path aggregate. Functional distribution hypothesis only \u2014 scrutinize vs fan+damper nodes.",
+      "serviceTests": [
+        3,
+        6
+      ],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "damper",
+        "fan",
+        "air"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "defrost_system": {
+      "conceptId": "defrost_system",
+      "verdict": "needs_second_manual",
+      "rationale": "Adaptive defrost orchestration documented on control board; tests 1 and 9 cover heater/thermostat and interval. Functional defrost domain vs component trio needs R2/R3.",
+      "serviceTests": [
+        1,
+        9
+      ],
+      "procedureIds": [
+        "w10322959-test-01-defrost",
+        "w10322959-test-09-defrost-interval"
+      ],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "defrost interval",
+        "adaptive defrost",
+        "forced defrost",
+        "defrost cycle"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "defrost_heater": {
+      "conceptId": "defrost_heater",
+      "verdict": "needs_second_manual",
+      "rationale": "Service test 1 energizes defrost heater with \u03a9 specs by cu ft. Distinct actuator from defrost_sensor on R1 \u2014 canonical split plausible but not frozen on one manual.",
+      "serviceTests": [
+        1
+      ],
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_heater"
+      ],
+      "manualPhrases": [
+        "defrost heater"
+      ],
+      "measurementKnowledgeIds": [
+        "whirlpoolJazzFdDefrostHeaterOhms"
+      ]
+    },
+    "defrost_sensor": {
+      "conceptId": "defrost_sensor",
+      "verdict": "platform_implementation",
+      "rationale": "Manual uses defrost thermostat/bimetal terminology with open/short states in test 1. Termination sensor role is functional but Jazz naming and bimetal specs are platform-specific.",
+      "serviceTests": [
+        1
+      ],
+      "procedureIds": [
+        "w10322959-test-01-defrost"
+      ],
+      "seedComponentIds": [
+        "defrost_thermostat"
+      ],
+      "manualPhrases": [
+        "defrost thermostat"
+      ],
+      "measurementKnowledgeIds": [
+        "whirlpoolJazzFdDefrostBimetalOhms"
+      ]
+    },
+    "cooling_system": {
+      "conceptId": "cooling_system",
+      "verdict": "needs_second_manual",
+      "rationale": "Complaint routing references sealed-system path; service tests decompose into compressor, fans, and damper. Cooling aggregate may be orchestration-only \u2014 R2/R3 required.",
+      "serviceTests": [
+        2,
+        3,
+        6
+      ],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "compressor"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "door_switch": {
+      "conceptId": "door_switch",
+      "verdict": "canonical_functional",
+      "rationale": "Refrigerator door light switch is required to enter S-E, F-d, and P-E modes on every diagnostic path. Independent authorization functional role on R1 evidence.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "door light switch",
+        "refrigerator door light switch",
+        "fresh food door light"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "door_heater": {
+      "conceptId": "door_heater",
+      "verdict": "deferred",
+      "rationale": "No door heater, anti-sweat, or mullion heater reference on W10322959 tech sheet.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [],
+      "measurementKnowledgeIds": []
+    },
+    "water_inlet_valve": {
+      "conceptId": "water_inlet_valve",
+      "verdict": "platform_implementation",
+      "rationale": "Dual-coil valve wattages (brown/yellow) on schematic page but no service test or procedure seed. Hardware reference only \u2014 platform implementation, not functional domain.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "brown coil",
+        "yellow coil",
+        "valve"
+      ],
+      "measurementKnowledgeIds": []
+    },
+    "water_dispenser": {
+      "conceptId": "water_dispenser",
+      "verdict": "deferred",
+      "rationale": "Extraction doc notes in-door dispenser specifics absent; no dispenser test on Jazz sheet.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [],
+      "measurementKnowledgeIds": []
+    },
+    "water_level_sensor": {
+      "conceptId": "water_level_sensor",
+      "verdict": "deferred",
+      "rationale": "No reservoir or fill-level sensor evidence on W10322959.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [],
+      "measurementKnowledgeIds": []
+    },
+    "ice_maker": {
+      "conceptId": "ice_maker",
+      "verdict": "deferred",
+      "rationale": "Extraction doc explicitly gaps ice maker diagnostics \u2014 modular IM uses separate 2225623 doc. Not in W10322959 scope.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [],
+      "measurementKnowledgeIds": []
+    },
+    "humidity_control": {
+      "conceptId": "humidity_control",
+      "verdict": "deferred",
+      "rationale": "No humidity, crispers, or moisture-control diagnostics on W10322959.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [],
+      "measurementKnowledgeIds": []
+    },
+    "sealed_system": {
+      "conceptId": "sealed_system",
+      "verdict": "deferred",
+      "rationale": "Complaint routing mentions sealed system path but manual provides no sealed-system component test \u2014 aggregate deferred until multi-manufacturer refrigeration evidence.",
+      "serviceTests": [],
+      "procedureIds": [],
+      "seedComponentIds": [],
+      "manualPhrases": [
+        "suction",
+        "head pressure"
+      ],
+      "measurementKnowledgeIds": []
+    }
+  },
+  "verdictHistogram": {
+    "needs_second_manual": 10,
+    "canonical_functional": 3,
+    "platform_implementation": 3,
+    "deferred": 8
+  },
+  "candidateGraphCrossCheck": {
+    "candidateConceptCount": 24,
+    "evaluatedConceptCount": 24,
+    "componentsInCandidateGraph": 0,
+    "componentsCanonical": 0,
+    "note": "Candidate graph has zero canonical components by design."
+  },
+  "recommendation": {
+    "freezeCandidateNow": false,
+    "rationale": "R1 Whirlpool Jazz manual supports functional decomposition via service tests 1\u20139 but cannot freeze french_door_refrigerator rev1. Run R2 Samsung French-door (RF23BB/RFC bespoke) then R3 LG (LRMVS) before human freeze gate.",
+    "nextManual": "SAMSUNG-RF23BB",
+    "nextStage": "R2_boundary_test"
+  },
+  "pipelineDiscipline": {
+    "flow": [
+      "MANUAL_EVIDENCE",
+      "R1_OBSERVATION",
+      "CANDIDATE_GRAPH",
+      "R2_BOUNDARY_TEST",
+      "R3_TRIANGULATION",
+      "HUMAN_FREEZE_GATE",
+      "CANONICAL_REV1"
+    ],
+    "r1Constraints": [
+      "W10322959 only",
+      "no gate",
+      "no publish",
+      "no canonical/ mutation",
+      "no cross-manual inference"
+    ]
+  }
+}

@@ -1,0 +1,514 @@
+{
+  "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+  "candidates": [
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-auto-open-door-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-auto-open-door",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-2: Auto-open door (DC5)",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-auto-open-door",
+        "pages": [
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-auto-open-door",
+            "pages": [
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-door-lock-door_lock_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-door-lock",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Door lock and switch (DC, DC1, dC1)",
+      "componentIds": [
+        "door_lock"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-door-lock",
+        "pages": [
+          50,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-door-lock",
+            "pages": [
+              50,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-door-lock-meas-samsungLaundryComboDoorSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungwd53-door-lock",
+      "measurementKnowledgeId": "samsungLaundryComboDoorSwitchOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-door-lock",
+        "pages": [
+          50,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-door-lock",
+            "pages": [
+              50,
+              56
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungLaundryComboDoorSwitchOhms",
+            "stepTitle": "TYPE 1 door switch (pins 1\u20133)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-door-lock-meas-samsungLaundryComboDoorLockOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungwd53-door-lock",
+      "measurementKnowledgeId": "samsungLaundryComboDoorLockOhms",
+      "canonicalTestTarget": "door_lock_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-door-lock",
+        "pages": [
+          50,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-door-lock",
+            "pages": [
+              50,
+              56
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungLaundryComboDoorLockOhms",
+            "stepTitle": "TYPE 2/3 lock switch (pins 2\u20133)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-drain-pump-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-drain-pump",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Drain pump (5C) / \u00a74-5 pump motor",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-drain-pump",
+        "pages": [
+          55,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-drain-pump",
+            "pages": [
+              55,
+              59
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-drain-pump-meas-samsungLaundryComboDrainPumpOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungwd53-drain-pump",
+      "measurementKnowledgeId": "samsungLaundryComboDrainPumpOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-drain-pump",
+        "pages": [
+          55,
+          59
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-drain-pump",
+            "pages": [
+              55,
+              59
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungLaundryComboDrainPumpOhms",
+            "stepTitle": "Drain pump resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-leak-check-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-leak-check",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Water leakage (LC)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-leak-check",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-leak-check",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Washing motor (3C)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-motor-circuit",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-motor-circuit",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-motor-circuit-meas-samsungLaundryComboMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungwd53-motor-circuit",
+      "measurementKnowledgeId": "samsungLaundryComboMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-motor-circuit",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-motor-circuit",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungLaundryComboMotorOhms",
+            "stepTitle": "Motor winding resistance"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-overflow-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-overflow",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Overflow (OC)",
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-overflow",
+        "pages": [
+          49,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-overflow",
+            "pages": [
+              49,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-unbalance-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-unbalance",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Unbalance (UB, UB1)",
+      "componentIds": [
+        "drive_motor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-unbalance",
+        "pages": [
+          49,
+          58
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-unbalance",
+            "pages": [
+              49,
+              58
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-water-level-sensor-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "samsungwd53-water-level-sensor",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a74-4: Water level sensor (1C)",
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-water-level-sensor",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-water-level-sensor",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_LAUNDRY_COMBO_WD53_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-SAMSUNG-LAUNDRY-COMBO-WD53-samsungwd53-water-level-sensor-meas-samsungLaundryComboWaterLevelFrequency",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "samsungwd53-water-level-sensor",
+      "measurementKnowledgeId": "samsungLaundryComboWaterLevelFrequency",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+        "platformId": "samsung_laundry_combo",
+        "procedureId": "samsungwd53-water-level-sensor",
+        "pages": [
+          55,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-LAUNDRY-COMBO-WD53",
+            "platformId": "samsung_laundry_combo"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungwd53-water-level-sensor",
+            "pages": [
+              55,
+              57
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "samsungLaundryComboWaterLevelFrequency",
+            "stepTitle": "Level sensor frequency"
+          }
+        ]
+      }
+    }
+  ]
+}

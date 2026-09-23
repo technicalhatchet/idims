@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "electric_range_oven_candidate",
+    "name": "Electric Range / Oven (candidate)",
+    "templateId": "electric_range",
+    "description": "CG-10 candidate functional diagnostic ontology for electric range/oven appliances. NOT frozen. No component earns canonical status from this skeleton; R1–R3 manual evidence required before any rev1 freeze.",
+    "frozen": false,
+    "candidateRevision": "cg10x_v1",
+    "candidateNote": "Functional hypothesis only — manuals may delete, merge, split, or reject these concepts. Physical part counts (4 burners, bake+broil elements) must not drive ontology shape."
+  },
+  "designPrinciples": [
+    "Model functional heating, control, feedback, safety, and user-command behavior — not burner count or element part topology.",
+    "Separate power, control, UI, oven heat generation, surface heat generation, temperature feedback, cavity environment, convection, door state, thermal protection, and electronics cooling diagnostically.",
+    "Bake/broil/convection may be instances of one oven heating function or genuinely distinct diagnostic functions — R1–R3 must decide.",
+    "Surface radiant elements, bridge elements, infinite switches, and warming zones may collapse to surface_heating_system or require finer decomposition — evidence decides.",
+    "Gas igniter/valve, induction power modules, and DSI boards are out of CG-10 electric scope — reserved for CG-11+ fit tests.",
+    "Manufacturer-specific naming (ACU, Copernicus, LCX, Ceran, RTD) belongs in overlays — not canonical expansion by default.",
+    "Nothing in this file modifies frontend/components/diagnostics/knowledge/canonical/ — calibration artifact only."
+  ],
+  "relationshipTypes": [
+    "POWERED_BY",
+    "CONTROLS",
+    "PROVIDES_FEEDBACK_TO",
+    "THERMALLY_CONNECTED_TO",
+    "CIRCULATES",
+    "PROTECTED_BY",
+    "THERMALLY_PROTECTS",
+    "ENABLES",
+    "INHIBITS"
+  ],
+  "systems": [
+    { "id": "power", "name": "Power", "candidateStatus": "unvalidated" },
+    { "id": "control", "name": "Control", "candidateStatus": "unvalidated" },
+    { "id": "user_interface", "name": "User Interface", "candidateStatus": "unvalidated" },
+    { "id": "oven_heating", "name": "Oven Heat Generation", "candidateStatus": "unvalidated" },
+    { "id": "surface_heating", "name": "Surface Heat Generation", "candidateStatus": "unvalidated" },
+    { "id": "temperature_feedback", "name": "Temperature Feedback", "candidateStatus": "unvalidated" },
+    { "id": "air_circulation", "name": "Air Circulation", "candidateStatus": "unvalidated" },
+    { "id": "door_authorization", "name": "Door / Latch Authorization", "candidateStatus": "unvalidated" },
+    { "id": "safety", "name": "Thermal Safety", "candidateStatus": "unvalidated" },
+    { "id": "electronics_cooling", "name": "Electronics Cooling", "candidateStatus": "unvalidated" }
+  ],
+  "components": [],
+  "relationships": [],
+  "candidateConcepts": [
+    { "id": "power_supply", "candidateStatus": "unvalidated", "hypothesis": "Line voltage / mains supply functional input" },
+    { "id": "control_board", "candidateStatus": "unvalidated", "hypothesis": "Primary range/oven control orchestration (ACU, relay board, infinite-switch harness aggregation TBD)" },
+    { "id": "user_interface", "candidateStatus": "unvalidated", "hypothesis": "Touch panel, knobs, keypad, service-mode entry surface" },
+    { "id": "temperature_sensor", "candidateStatus": "unvalidated", "hypothesis": "Oven cavity temperature feedback (RTD/thermistor — may split warming-drawer scope)" },
+    { "id": "oven_heating_system", "candidateStatus": "unvalidated", "hypothesis": "Functional oven heat generation — may decompose to bake/broil/convection instances" },
+    { "id": "bake_heating_element", "candidateStatus": "unvalidated", "hypothesis": "Bake element as instance of oven heating — scrutinize vs separate canonical node" },
+    { "id": "broil_heating_element", "candidateStatus": "unvalidated", "hypothesis": "Broil element as instance — scrutinize vs separate canonical node" },
+    { "id": "convection_heating_element", "candidateStatus": "unvalidated", "hypothesis": "Convection element as instance — may be gas-only on some platforms" },
+    { "id": "surface_heating_system", "candidateStatus": "unvalidated", "hypothesis": "Cooktop heat generation functional domain — may decompose per element/switch architecture" },
+    { "id": "surface_heating_element", "candidateStatus": "unvalidated", "hypothesis": "Individual radiant/ceran element — instance vs canonical TBD" },
+    { "id": "surface_control", "candidateStatus": "unvalidated", "hypothesis": "Infinite switch / electronic surface control path — platform implementation candidate" },
+    { "id": "oven_cavity", "candidateStatus": "unvalidated", "hypothesis": "Thermal environment / cavity functional role — may be routing-only aggregate" },
+    { "id": "convection_fan", "candidateStatus": "unvalidated", "hypothesis": "Oven air circulation actuator (convection mode)" },
+    { "id": "oven_door_switch", "candidateStatus": "unvalidated", "hypothesis": "Door switch / latch authorization for oven operation and self-clean" },
+    { "id": "door_latch_motor", "candidateStatus": "unvalidated", "hypothesis": "Self-clean latch actuator — platform implementation of door authorization" },
+    { "id": "thermal_protection", "candidateStatus": "unvalidated", "hypothesis": "Overtemperature protection (thermal fuse, hi-limit, cutout — functional vs instance TBD)" },
+    { "id": "cooling_fan", "candidateStatus": "unvalidated", "hypothesis": "Electronics / cavity vent cooling fan — distinct from convection_fan TBD" },
+    { "id": "oven_lamp", "candidateStatus": "unvalidated", "hypothesis": "Cavity lamp — accessory vs functional TBD" },
+    { "id": "warming_drawer", "candidateStatus": "unvalidated", "hypothesis": "Optional warming drawer feature domain — defer unless multi-manual evidence" }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "oven_heat_generation",
+      "requires": ["power_supply", "control_board", "oven_heating_system"],
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "oven_temperature_regulation",
+      "requires": ["temperature_sensor", "control_board", "oven_heating_system"],
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "surface_heat_generation",
+      "requires": ["power_supply", "control_board", "surface_heating_system"],
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "convection_operation",
+      "requires": ["control_board", "convection_fan"],
+      "candidateStatus": "unvalidated"
+    },
+    {
+      "id": "oven_safety",
+      "requires": ["control_board", "thermal_protection"],
+      "candidateStatus": "unvalidated"
+    }
+  ],
+  "failureDomains": [
+    "no_power",
+    "control_failure",
+    "ui_failure",
+    "oven_no_heat",
+    "oven_underheat",
+    "oven_overheat",
+    "temperature_feedback_failure",
+    "surface_no_heat",
+    "surface_incorrect_heat",
+    "convection_failure",
+    "door_state_failure",
+    "thermal_protection_open",
+    "control_overheat"
+  ],
+  "openQuestionsBeforeFreeze": [
+    {
+      "id": "oven_element_decomposition",
+      "question": "Single oven_heating_system vs bake/broil/convection canonical split?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "surface_architecture_granularity",
+      "question": "surface_heating_system vs per-element + surface_control canonical model?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "convection_fan_vs_cooling_fan",
+      "question": "Are convection_fan and cooling_fan one functional role or two?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "door_switch_vs_latch",
+      "question": "Is oven_door_switch sufficient, or is latch motor a separate functional authorization path?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    },
+    {
+      "id": "oven_cavity_aggregate",
+      "question": "Does oven_cavity earn a canonical node or remain complaint-routing vocabulary only?",
+      "cg10EvidenceRequired": "R1+R2+R3"
+    }
+  ],
+  "pipelineDiscipline": {
+    "flow": [
+      "MANUAL_EVIDENCE",
+      "R1_OBSERVATION",
+      "CANDIDATE_GRAPH",
+      "R2_MANUFACTURER_BOUNDARY",
+      "R3_ARCHITECTURE_FALSIFICATION",
+      "HUMAN_FREEZE_GATE",
+      "CANONICAL_REV1"
+    ],
+    "blockedUntilFreeze": ["overlay_compounding", "runtime_overlay_publish", "canonical_directory_writes"]
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformFamilyId": "samsung_fl_wf6000r_direct_drive",
+  "ontologyId": "front_load_washer",
+  "architectureBoundary": "Whirlpool FL corpus + Samsung FL #1 platform prior \u2192 Samsung FL #2 (zero Whirlpool platform vocabulary inheritance)",
+  "corpusPriorManualIds": ["W8178558", "W11169652"],
+  "platformFamilyPriorManualIds": ["SAMSUNG-FL-BB8700-WASHER"],
+  "promotionId": "promo-SAMSUNG-FL-WF6000R-WASHER-20260913194211",
+  "rawGatePreviewArtifact": "compounding_samsung_fl2_gate_preview_SAMSUNG-FL-WF6000R-WASHER.json",
+  "rawGatePreviewMetrics": {
+    "metricsSource": "gate_preview",
+    "note": "Automated matcher recognition BEFORE human adjudication \u2014 do not overwrite.",
+    "inheritedCorpusKnowledge": 0,
+    "inheritedPlatformFamilyKnowledge": 16,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 0,
+    "newModelSpecificKnowledge": 7,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 7,
+    "bucketNote": "inheritedCorpusKnowledge=0 is platform-priority bucketing \u2014 14 records also match Whirlpool FL corpus (both=14, platform_only=2)."
+  },
+  "humanResolvedGateMetrics": {
+    "metricsSource": "human_gate_review",
+    "note": "Knowledge hierarchy AFTER human adjudication of 7 blocked gate items.",
+    "inheritedCorpusKnowledge": 3,
+    "inheritedPlatformFamilyKnowledge": 1,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 2,
+    "newCanonicalKnowledge": 0,
+    "newHumanDecisionCount": 7,
+    "gateTermResolutions": {
+      "inherited_corpus_knowledge": 3,
+      "inherited_platform_family": 1,
+      "new_platform_knowledge": 1,
+      "new_model_specific": 2
+    },
+    "killerCase": "inverter_board \u2014 matcher blocked on OEM title (9C5 vs 9C1/9C2); human classified as inherited_platform_family, not new_platform_knowledge."
+  },
+  "summary": {
+    "promotionGateDecisions": 7,
+    "inheritedFlCorpusConcepts": 3,
+    "inheritedSamsungPlatformFamily": 1,
+    "inheritedWhirlpoolPlatform": 0,
+    "newPlatformKnowledge": 1,
+    "newModelSpecificKnowledge": 2,
+    "newCanonicalKnowledge": 0
+  },
+  "classifications": [
+    {
+      "oemTerm": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+      "canonicalId": "control_board",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "\u00a74-3: Drain / leakage (LC, 5C)",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "\u00a74-3: Inlet valves (4C, Co/Ho manual check)",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_corpus_knowledge"
+    },
+    {
+      "oemTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+      "canonicalId": "inverter_board",
+      "classification": "inherited_platform_family",
+      "rationale": "Platform concept from BB8700 \u2014 OEM alias variant, not new platform knowledge."
+    },
+    {
+      "oemTerm": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+      "canonicalId": "mems_sensor",
+      "classification": "new_platform_knowledge",
+      "rationale": "Samsung platform-scoped additive component \u2014 WF6000R MEMS PBA path."
+    },
+    {
+      "oemTerm": "\u00a74-1: Switch error (BC2)",
+      "canonicalId": "hmi_control",
+      "classification": "new_model_specific"
+    },
+    {
+      "oemTerm": "\u00a74-3: Unbalance (UV, UB)",
+      "canonicalId": "suspension",
+      "classification": "new_model_specific"
+    }
+  ],
+  "hierarchyExample": {
+    "inheritedCorpus": ["control_board", "drain_pump", "inlet_valve"],
+    "inheritedSamsungPlatform": ["inverter_board"],
+    "newSamsungPlatform": ["mems_sensor"],
+    "modelSpecific": ["hmi_control (BC2 switch)", "suspension (UV/UB unbalance)"],
+    "newCanonical": []
+  },
+  "notes": [
+    "rawGatePreviewMetrics preserved separately \u2014 demonstrates matcher vs human hierarchy distinction.",
+    "inverter_board killer case: matching limitation exposed by OEM title variant, resolved as platform compounding.",
+    "mems_sensor is platform additive (overlay add.components) \u2014 not promoted to front_load_washer canonical ontology.",
+    "Post-publish pipeline metrics are inflated by term-resolution approvals \u2014 use gate-preview + humanResolvedGateMetrics only.",
+    "Whirlpool frozen baselines unchanged."
+  ]
+}

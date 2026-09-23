@@ -1,0 +1,81 @@
+{
+  "manualId": "NS-TDRE75W1",
+  "candidates": [
+    {
+      "id": "overlay-NS-TDRE75W1-nstdre75w1-belt-safety-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "nstdre75w1-belt-safety",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "Belt safety switch",
+      "componentIds": [
+        "motor"
+      ],
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-belt-safety",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-belt-safety",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-NS-TDRE75W1-nstdre75w1-motor-circuit-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "nstdre75w1-motor-circuit",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "Motor \u2014 belt switch & centrifugal",
+      "componentIds": [
+        "motor"
+      ],
+      "provenance": {
+        "manualId": "NS-TDRE75W1",
+        "platformId": "insignia_dryer_tdre",
+        "procedureId": "nstdre75w1-motor-circuit",
+        "pages": [
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "NS-TDRE75W1",
+            "platformId": "insignia_dryer_tdre"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "nstdre75w1-motor-circuit",
+            "pages": [
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/INSIGNIA_TDRE75W1_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

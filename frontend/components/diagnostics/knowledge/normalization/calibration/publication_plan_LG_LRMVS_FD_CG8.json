@@ -1,0 +1,56 @@
+{
+  "manualId": "LG-LRMVS-FRIDGE",
+  "platformId": "lg_lrmvs",
+  "gateArtifact": "LG_LRMVS_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "LG_LRMVS_FD_gate_decision_ledger_v1.json",
+  "publishMode": "gate_table_authoritative_third_manual_compounding",
+  "gateKind": "lg_lrmvs_third_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "priorPublishedManualIds": [
+    "W10322959",
+    "SAMSUNG-RF23BB-FRIDGE"
+  ],
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  },
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "hardInvariants": {
+    "canonicalHash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9",
+    "canonicalExpansion": 0,
+    "whirlpoolOverlayMutation": 0,
+    "samsungOverlayMutation": 0,
+    "discoveryCorpusInheritance": 0
+  },
+  "dryRunChecks": {
+    "canonicalHashStable": true,
+    "canonicalExpansionZero": true,
+    "discoveryCorpusInheritanceZero": true,
+    "canonicalInheritancesFive": true,
+    "conditionalBindingsSeven": true,
+    "overlayLearningSeven": true,
+    "intentionalAbstentionsFour": true,
+    "jazzOverlayByteStable": true,
+    "samsungOverlayByteStable": true,
+    "noPriorOverlayLeak": true,
+    "noDiscoveryCorpusLeak": true,
+    "overlayStatusDraft": true,
+    "condenserFanConditionalBound": true,
+    "doorSwitchNotInLgProcedureBindings": true
+  },
+  "priorOverlayHashes": {
+    "whirlpool_jazz": "9c06e8ddfe925bbd6a0565d4193b46f4a21384ec88924520ba2684d33c2de2f2",
+    "samsung_rf23bb": "7f75acf87d811d650e3c830ef32a5f72b43e8bae1588d2bed50be6223992bf9c"
+  }
+}

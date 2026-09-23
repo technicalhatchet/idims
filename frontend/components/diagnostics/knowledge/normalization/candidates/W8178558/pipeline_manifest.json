@@ -1,0 +1,31 @@
+{
+  "manualId": "W8178558",
+  "platformId": "whirlpool_duet_sport",
+  "templateId": "washer",
+  "label": "Whirlpool Duet Sport CCU/MCU belt-drive washer (Job Aid 8178558)",
+  "status": "candidate",
+  "ontologyId": "front_load_washer",
+  "generatedAt": "2026-09-13T04:59:19.073340+00:00",
+  "topologySignature": "ccu_mcu_motor",
+  "counts": {
+    "procedures": 9,
+    "mappingCandidates": 31,
+    "overlayCandidates": 10,
+    "conflicts": 0,
+    "extractionFiltered": 1
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 1,
+    "invalidExtraction": 0,
+    "totalFiltered": 1,
+    "samples": [
+      {
+        "rawTerm": "F20",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "w8178558-pressure-switch",
+        "source": "title_token"
+      }
+    ]
+  }
+}

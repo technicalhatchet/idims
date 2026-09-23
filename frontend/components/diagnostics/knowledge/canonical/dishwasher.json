@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "dishwasher",
+    "name": "Dishwasher",
+    "templateId": "dishwasher",
+    "variant": "built_in",
+    "description": "Canonical functional diagnostic ontology for domestic dishwashers. Models functional relationships and diagnostic dependencies; manufacturer, platform, and model-specific implementation belongs in overlays.",
+    "frozen": true,
+    "frozenAt": "2026-09-15T04:15:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-6.5 canonical graph #3 — W11633848 gate + promotion dry-run signed off; implementation architecture converges without canonical expansion."
+  },
+  "designPrinciples": [
+    "Model functional behavior rather than physical wiring topology.",
+    "Keep water delivery, circulation, drainage, heating, drying, sensing, control, and door authorization diagnostically distinct.",
+    "Manufacturer-specific pump architectures, heater implementations, drying systems, diverter systems, and communication topologies belong in overlays.",
+    "Command evidence must remain distinct from load operation evidence.",
+    "Water fill must be established before diagnosing circulation-dependent faults.",
+    "Drain completion must be established before treating residual water as a circulation or heating problem.",
+    "Heating command, heater current, and temperature response are separate evidence stages.",
+    "Normal operation is not proof of component health.",
+    "Ranking does not constitute component verification.",
+    "Do not encode every hose, channel, manifold, check valve, or sump passage in the canonical graph — those emerge in overlays when diagnostically relevant."
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "senses",
+    "provides_feedback_to",
+    "communicates_with",
+    "mechanically_drives",
+    "mechanically_connected_to",
+    "hydraulically_connected_to",
+    "thermally_connected_to",
+    "protected_by",
+    "protects",
+    "routed_through",
+    "depends_on",
+    "enables",
+    "inhibits",
+    "monitors"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": [
+      "verified_good",
+      "verified_failed",
+      "not_applicable"
+    ],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification. verified_good and verified_failed require explicit diagnostic evidence."
+  },
+  "systems": [
+    {
+      "id": "power",
+      "name": "Power",
+      "categoryId": "electrical_supply",
+      "purpose": "Electrical power delivery and protection."
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "categoryId": "electrical_supply",
+      "purpose": "Command, sequencing, monitoring, and decision logic."
+    },
+    {
+      "id": "user_interface",
+      "name": "User Interface",
+      "categoryId": "door_seal",
+      "purpose": "User input, display, status, and cycle selection."
+    },
+    {
+      "id": "door",
+      "name": "Door / Authorization",
+      "categoryId": "door_seal",
+      "purpose": "Door closure and cycle authorization."
+    },
+    {
+      "id": "water_supply",
+      "name": "Water Supply",
+      "categoryId": "fill_supply",
+      "purpose": "Incoming water delivery and fill control."
+    },
+    {
+      "id": "water_level",
+      "name": "Water Level",
+      "categoryId": "fill_supply",
+      "purpose": "Water-level sensing and fill termination."
+    },
+    {
+      "id": "circulation",
+      "name": "Circulation",
+      "categoryId": "wash_circuit",
+      "purpose": "Pump-driven wash water circulation."
+    },
+    {
+      "id": "spray",
+      "name": "Spray",
+      "categoryId": "wash_circuit",
+      "purpose": "Distribution of circulating water through the wash system."
+    },
+    {
+      "id": "drainage",
+      "name": "Drainage",
+      "categoryId": "drain_pump",
+      "purpose": "Removal and routing of wash water."
+    },
+    {
+      "id": "heating",
+      "name": "Heating",
+      "categoryId": "heat_dry",
+      "purpose": "Water and/or air heating."
+    },
+    {
+      "id": "drying",
+      "name": "Drying",
+      "categoryId": "heat_dry",
+      "purpose": "Moisture removal during drying."
+    },
+    {
+      "id": "temperature_sensing",
+      "name": "Temperature Sensing",
+      "categoryId": "heat_dry",
+      "purpose": "Temperature measurement and feedback."
+    },
+    {
+      "id": "detergent",
+      "name": "Detergent / Rinse Aid",
+      "categoryId": "fill_supply",
+      "purpose": "Detergent and rinse-aid dispensing."
+    }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power supply",
+      "aliases": ["supply", "line voltage", "mains"],
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "control_board",
+      "name": "Control board",
+      "aliases": ["main control", "main pcb", "machine control", "control module", "acu"],
+      "systemId": "control",
+      "type": "controller",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "hmi_control",
+      "name": "User interface control",
+      "aliases": ["ui", "console", "control panel", "user interface"],
+      "systemId": "user_interface",
+      "type": "interface",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "door_switch",
+      "name": "Door interlock / switch",
+      "aliases": ["door switch", "door latch", "door interlock", "door sensor"],
+      "systemId": "door",
+      "categoryId": "door_seal",
+      "type": "sensor",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "inlet_valve",
+      "name": "Water inlet valve",
+      "aliases": ["inlet valve", "fill valve", "water valve"],
+      "systemId": "water_supply",
+      "categoryId": "fill_supply",
+      "type": "actuator"
+    },
+    {
+      "id": "water_level_sensor",
+      "name": "Water level sensor",
+      "aliases": ["pressure sensor", "pressure switch", "water level sensor", "float switch"],
+      "systemId": "water_level",
+      "categoryId": "fill_supply",
+      "type": "sensor",
+      "note": "Functional fill-termination concept — pressure switch, float, or OWI implementation belongs in platform overlay.",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "circulation_pump",
+      "name": "Circulation pump",
+      "aliases": ["wash pump", "main pump", "circulation motor", "wash motor"],
+      "systemId": "circulation",
+      "categoryId": "wash_circuit",
+      "type": "actuator",
+      "note": "Integrated wash motor/pump, separate motors, and variable-speed implementations are platform overlay concerns."
+    },
+    {
+      "id": "spray_system",
+      "name": "Spray system",
+      "aliases": ["spray arm", "spray arms", "wash arm"],
+      "systemId": "spray",
+      "categoryId": "wash_circuit",
+      "type": "passive",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "drain_pump",
+      "name": "Drain pump",
+      "aliases": ["drain motor", "drain pump"],
+      "systemId": "drainage",
+      "categoryId": "drain_pump",
+      "type": "actuator"
+    },
+    {
+      "id": "drain_path",
+      "name": "Drain path",
+      "aliases": ["drain hose", "drain line", "sump drain path"],
+      "systemId": "drainage",
+      "categoryId": "drain_pump",
+      "type": "passive",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "heat_source",
+      "name": "Heat source",
+      "aliases": ["heater", "heating element", "heater element"],
+      "systemId": "heating",
+      "categoryId": "heat_dry",
+      "type": "actuator",
+      "note": "Implementation-agnostic — element, flow-through heater, and heat-dry fan-assisted paths belong in overlay.",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "thermal_protection",
+      "name": "Thermal protection",
+      "aliases": ["thermal fuse", "thermal cutoff", "high limit", "triac fuse"],
+      "systemId": "heating",
+      "categoryId": "heat_dry",
+      "type": "protective",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "temperature_sensor",
+      "name": "Temperature sensor",
+      "aliases": ["thermistor", "NTC", "temperature probe"],
+      "systemId": "temperature_sensing",
+      "categoryId": "heat_dry",
+      "type": "sensor",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "drying_system",
+      "name": "Drying system",
+      "aliases": ["drying fan", "vent", "drying assembly", "condensation drying"],
+      "systemId": "drying",
+      "categoryId": "heat_dry",
+      "type": "actuator",
+      "note": "Abstract drying implementation — fan/vent, condensation, mineral/heat-assisted drying taught per platform.",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "moisture_sensor",
+      "name": "Moisture sensor",
+      "aliases": ["humidity sensor", "dryness sensor"],
+      "systemId": "drying",
+      "categoryId": "heat_dry",
+      "type": "sensor",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "sump",
+      "name": "Sump / filtration area",
+      "aliases": ["sump", "filter area", "pump well"],
+      "systemId": "circulation",
+      "categoryId": "wash_circuit",
+      "type": "passive",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "filter_system",
+      "name": "Filter system",
+      "aliases": ["filter", "filters", "fine filter", "coarse filter"],
+      "systemId": "circulation",
+      "categoryId": "wash_circuit",
+      "type": "passive",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "detergent_dispenser",
+      "name": "Detergent dispenser",
+      "aliases": ["dispenser", "detergent dispenser", "soap dispenser"],
+      "systemId": "detergent",
+      "categoryId": "fill_supply",
+      "type": "actuator",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "rinse_aid_dispenser",
+      "name": "Rinse-aid dispenser",
+      "aliases": ["rinse aid dispenser"],
+      "systemId": "detergent",
+      "categoryId": "fill_supply",
+      "type": "actuator",
+      "pendingEvidenceGraph": true
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "hmi_control", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "inlet_valve", "source": "canonical", "confidence": "high" },
+    { "from": "water_level_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "commands", "to": "circulation_pump", "source": "canonical", "confidence": "high" },
+    { "from": "circulation_pump", "type": "hydraulically_connected_to", "to": "sump", "source": "canonical", "confidence": "high" },
+    { "from": "sump", "type": "hydraulically_connected_to", "to": "spray_system", "source": "canonical", "confidence": "high" },
+    { "from": "spray_system", "type": "hydraulically_connected_to", "to": "sump", "source": "canonical", "confidence": "medium", "note": "Functional circulation loop — not a literal hose map." },
+    { "from": "control_board", "type": "commands", "to": "drain_pump", "source": "canonical", "confidence": "high" },
+    { "from": "drain_pump", "type": "routed_through", "to": "drain_path", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "commands", "to": "heat_source", "source": "canonical", "confidence": "high" },
+    { "from": "heat_source", "type": "thermally_connected_to", "to": "sump", "source": "canonical", "confidence": "high", "note": "Wash-water heating path — air/drying heat paths are platform overlay." },
+    { "from": "heat_source", "type": "protected_by", "to": "thermal_protection", "source": "canonical", "confidence": "high" },
+    { "from": "thermal_protection", "type": "protects", "to": "heat_source", "source": "canonical", "confidence": "high" },
+    { "from": "temperature_sensor", "type": "senses", "to": "sump", "source": "canonical", "confidence": "high" },
+    { "from": "temperature_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "monitors", "to": "temperature_sensor", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "drying_system", "source": "canonical", "confidence": "high" },
+    { "from": "drying_system", "type": "depends_on", "to": "heat_source", "source": "canonical", "confidence": "medium", "note": "Some drying implementations are fan-only; platform overlay refines dependency." },
+    { "from": "filter_system", "type": "hydraulically_connected_to", "to": "sump", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "detergent_dispenser", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "rinse_aid_dispenser", "source": "canonical", "confidence": "high" }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "description": "Cycle start requires power, control readiness, UI, and door authorization.",
+      "requires": ["power_supply", "control_board", "hmi_control", "door_switch"],
+      "enables": ["fill_operation", "circulation_operation", "drain_operation", "heating_operation"]
+    },
+    {
+      "id": "fill_operation",
+      "description": "Fill requires authorization and inlet valve operation with level feedback.",
+      "requires": ["control_board", "door_switch", "inlet_valve"],
+      "feedback": ["water_level_sensor"],
+      "enables": ["circulation_operation"]
+    },
+    {
+      "id": "water_level_authorization",
+      "description": "Circulation and heating require established water level.",
+      "requires": ["control_board", "water_level_sensor"],
+      "enables": ["circulation_operation", "heating_operation"]
+    },
+    {
+      "id": "circulation_operation",
+      "description": "Wash circulation requires fill authorization and pump operation.",
+      "requires": ["control_board", "door_switch", "circulation_pump", "sump"],
+      "conditional": ["spray_system", "filter_system"]
+    },
+    {
+      "id": "drain_operation",
+      "description": "Drain requires command and pump operation.",
+      "requires": ["control_board", "drain_pump"],
+      "conditional": ["drain_path", "sump", "filter_system"]
+    },
+    {
+      "id": "heating_operation",
+      "description": "Water heating requires fill/level, circulation context, and heat source.",
+      "requires": ["control_board", "door_switch", "water_level_sensor", "heat_source"],
+      "feedback": ["temperature_sensor"],
+      "conditional": ["thermal_protection", "circulation_pump"]
+    },
+    {
+      "id": "drying_operation",
+      "description": "Drying may use heat, airflow, or condensation — implementation in overlay.",
+      "requires": ["control_board"],
+      "feedback": ["temperature_sensor"],
+      "conditional": ["drying_system", "moisture_sensor", "heat_source"]
+    },
+    {
+      "id": "detergent_dispensing",
+      "description": "Detergent and rinse-aid dispensing.",
+      "requires": ["control_board", "detergent_dispenser"],
+      "conditional": ["rinse_aid_dispenser"]
+    }
+  ],
+  "establishedFactSources": [
+    { "factId": "door_closed_authorized", "label": "Door closed and cycle authorized", "source": "session", "confidence": "high" },
+    { "factId": "fill_command_present", "label": "Fill command active", "source": "session", "confidence": "high" },
+    { "factId": "water_level_reached", "label": "Target water level reached", "source": "session", "confidence": "high" },
+    { "factId": "circulation_command_present", "label": "Circulation command active", "source": "session", "confidence": "high" },
+    { "factId": "circulation_present", "label": "Circulation operation observed", "source": "session", "confidence": "high" },
+    { "factId": "drain_command_present", "label": "Drain command active", "source": "session", "confidence": "high" },
+    { "factId": "drain_completion", "label": "Drain completion observed", "source": "session", "confidence": "high" },
+    { "factId": "heater_command_present", "label": "Heater command active", "source": "session", "confidence": "high" },
+    { "factId": "heater_current_present", "label": "Heater load current present", "source": "session", "confidence": "high" },
+    { "factId": "heater_current_absent", "label": "Heater commanded but load current absent", "source": "session", "confidence": "high" },
+    { "factId": "temperature_rising", "label": "Temperature rising during heat", "source": "session", "confidence": "high" },
+    { "factId": "temperature_not_rising", "label": "Temperature not rising during commanded heat", "source": "session", "confidence": "high" },
+    { "factId": "drying_airflow_present", "label": "Drying airflow or vent operation present", "source": "session", "confidence": "medium" },
+    { "factId": "water_remaining", "label": "Residual water present after drain attempt", "source": "session", "confidence": "high" }
+  ],
+  "testTargets": [
+    {
+      "id": "door_switch_test",
+      "label": "Door switch / authorization",
+      "role": "prerequisite",
+      "testAliasId": "door_switch_test",
+      "establishesFacts": ["door_closed_authorized"],
+      "forGoals": ["cycle_start_authorization"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "fill_test",
+      "label": "Fill valve / water delivery",
+      "role": "prerequisite",
+      "testAliasId": "fill_test",
+      "establishesFacts": ["fill_command_present"],
+      "requires": { "facts": ["door_closed_authorized"] },
+      "forGoals": ["fill_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "water_level_test",
+      "label": "Water level sensor / fill termination",
+      "role": "prerequisite",
+      "testAliasId": "water_level_test",
+      "establishesFacts": ["water_level_reached"],
+      "requires": { "facts": ["fill_command_present"] },
+      "forGoals": ["water_level_authorization", "fill_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "circulation_test",
+      "label": "Circulation pump operation",
+      "role": "prerequisite",
+      "testAliasId": "circulation_test",
+      "establishesFacts": ["circulation_command_present", "circulation_present"],
+      "requires": { "facts": ["water_level_reached", "door_closed_authorized"] },
+      "forGoals": ["circulation_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "spray_pattern_test",
+      "label": "Spray pattern / wash distribution",
+      "role": "discriminator",
+      "testAliasId": "spray_pattern_test",
+      "requires": { "facts": ["circulation_present"] },
+      "forGoals": ["circulation_operation"],
+      "source": "canonical",
+      "confidence": "medium"
+    },
+    {
+      "id": "drain_test",
+      "label": "Drain pump operation",
+      "role": "prerequisite",
+      "testAliasId": "drain_test",
+      "establishesFacts": ["drain_command_present"],
+      "forGoals": ["drain_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drain_path_test",
+      "label": "Drain path / installation restriction",
+      "role": "discriminator",
+      "testAliasId": "drain_path_test",
+      "requires": { "facts": ["drain_command_present"] },
+      "establishesFacts": ["drain_completion"],
+      "forGoals": ["drain_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heater_command_test",
+      "label": "Heat source command / control output",
+      "role": "discriminator",
+      "testAliasId": "heater_command_test",
+      "establishesFacts": ["heater_command_present"],
+      "requires": { "facts": ["water_level_reached", "circulation_present", "door_closed_authorized"] },
+      "forGoals": ["heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heater_current_test",
+      "label": "Heat source load current",
+      "role": "discriminator",
+      "testAliasId": "heater_current_test",
+      "requires": { "facts": ["heater_command_present"] },
+      "forGoals": ["heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "thermal_protection_test",
+      "label": "Thermal protection continuity",
+      "role": "discriminator",
+      "testAliasId": "thermal_protection_test",
+      "requires": { "facts": ["heater_command_present"] },
+      "forGoals": ["heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "temperature_response_test",
+      "label": "Temperature response during heat",
+      "role": "discriminator",
+      "testAliasId": "temperature_response_test",
+      "requires": { "facts": ["heater_command_present"] },
+      "forGoals": ["heating_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drying_airflow_test",
+      "label": "Drying system airflow / vent operation",
+      "role": "discriminator",
+      "testAliasId": "drying_airflow_test",
+      "establishesFacts": ["drying_airflow_present"],
+      "forGoals": ["drying_operation"],
+      "source": "canonical",
+      "confidence": "medium"
+    },
+    {
+      "id": "detergent_dispenser_test",
+      "label": "Detergent dispenser operation",
+      "role": "discriminator",
+      "testAliasId": "detergent_dispenser_test",
+      "forGoals": ["detergent_dispensing"],
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "failureDomains": [
+    { "id": "power_failure", "label": "Power / supply", "components": ["power_supply"] },
+    { "id": "control_failure", "label": "Control", "components": ["control_board"] },
+    { "id": "user_interface_failure", "label": "User interface", "components": ["hmi_control"] },
+    { "id": "door_authorization_failure", "label": "Door / authorization", "components": ["door_switch"] },
+    { "id": "fill_failure", "label": "Fill / water supply", "components": ["inlet_valve", "water_level_sensor"] },
+    { "id": "circulation_failure", "label": "Circulation / wash", "components": ["circulation_pump", "spray_system", "sump", "filter_system"] },
+    { "id": "drain_failure", "label": "Drain", "components": ["drain_pump", "drain_path", "sump", "filter_system"] },
+    { "id": "heating_failure", "label": "Heating", "components": ["heat_source", "thermal_protection"] },
+    { "id": "temperature_sensing_failure", "label": "Temperature sensing", "components": ["temperature_sensor"] },
+    { "id": "drying_failure", "label": "Drying", "components": ["drying_system", "heat_source", "temperature_sensor"] },
+    { "id": "dispensing_failure", "label": "Dispensing", "components": ["detergent_dispenser", "rinse_aid_dispenser"] },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true },
+    { "id": "installation_external", "label": "Installation / external drain restriction", "components": ["drain_path"], "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "upstream_before_downstream", "rule": "Establish authorization and prerequisites before condemning downstream loads." },
+      { "id": "fill_before_circulation", "rule": "Establish correct fill and water level before treating circulation as the primary fault." },
+      { "id": "drain_before_heat", "rule": "Establish appropriate water state before diagnosing heating behavior." },
+      { "id": "command_before_load", "rule": "Separate command evidence from load operation evidence." },
+      { "id": "heater_command_before_current", "rule": "Do not condemn the heat source until command state and load current are distinguished." },
+      { "id": "temperature_response_after_heater", "rule": "Heating current does not by itself prove effective temperature rise." },
+      { "id": "normal_is_not_proof", "rule": "Normal operation supports a hypothesis but does not independently verify component health." },
+      { "id": "preserve_uncertainty", "rule": "Negative or incomplete evidence should reduce candidate support without manufacturing verification." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "wont_start",
+      "symptoms": ["won't start", "no response", "dead", "cycle will not begin"],
+      "initialDomains": ["power_failure", "control_failure", "user_interface_failure", "door_authorization_failure"],
+      "activeGoals": ["cycle_start_authorization"]
+    },
+    {
+      "id": "wont_fill",
+      "symptoms": ["won't fill", "no water", "not filling", "fill failure"],
+      "initialDomains": ["fill_failure", "door_authorization_failure", "control_failure"],
+      "activeGoals": ["fill_operation"]
+    },
+    {
+      "id": "wont_circulate",
+      "symptoms": ["won't wash", "no circulation", "pump not running", "weak wash"],
+      "initialDomains": ["circulation_failure", "fill_failure", "door_authorization_failure"],
+      "activeGoals": ["circulation_operation", "fill_operation"]
+    },
+    {
+      "id": "poor_washing",
+      "symptoms": ["poor wash", "dishes not clean", "weak spray", "debris on dishes"],
+      "initialDomains": ["circulation_failure", "fill_failure"],
+      "activeGoals": ["circulation_operation"]
+    },
+    {
+      "id": "wont_drain",
+      "symptoms": ["won't drain", "standing water", "drain failure", "water in tub"],
+      "initialDomains": ["drain_failure", "control_failure"],
+      "activeGoals": ["drain_operation"]
+    },
+    {
+      "id": "water_remaining",
+      "symptoms": ["water left in tub", "residual water", "not draining completely"],
+      "initialDomains": ["drain_failure", "fill_failure"],
+      "activeGoals": ["drain_operation"]
+    },
+    {
+      "id": "no_heat",
+      "symptoms": ["no heat", "water not heating", "cold water", "not drying hot"],
+      "initialDomains": ["heating_failure", "temperature_sensing_failure", "circulation_failure", "fill_failure"],
+      "activeGoals": ["heating_operation", "circulation_operation"]
+    },
+    {
+      "id": "overheating",
+      "symptoms": ["overheating", "too hot", "scorching", "thermal fault"],
+      "initialDomains": ["heating_failure", "temperature_sensing_failure", "control_failure"],
+      "activeGoals": ["heating_operation"]
+    },
+    {
+      "id": "poor_drying",
+      "symptoms": ["poor drying", "wet dishes", "water on dishes after cycle", "condensation"],
+      "initialDomains": ["drying_failure", "heating_failure", "temperature_sensing_failure"],
+      "activeGoals": ["drying_operation", "heating_operation"]
+    },
+    {
+      "id": "detergent_not_dispensing",
+      "symptoms": ["detergent not dispensing", "soap left in cup", "rinse aid not dispensing"],
+      "initialDomains": ["dispensing_failure", "control_failure"],
+      "activeGoals": ["detergent_dispensing"]
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "manualId": "LG-LMHM2237-MICROWAVE",
+  "candidates": [
+    {
+      "id": "overlay-LG-LMHM2237-MICROWAVE-lgotrmw-turntable-motor_output_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "lgotrmw-turntable",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a710: Turntable Motor",
+      "componentIds": [
+        "magnetron"
+      ],
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-turntable",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-turntable",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/MICROWAVE_OTR_BATCH_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-LG-LMHM2237-MICROWAVE-lgotrmw-turntable-meas-lgMicrowaveOtrTurntableMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "lgotrmw-turntable",
+      "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms",
+      "canonicalTestTarget": "motor_output_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "LG-LMHM2237-MICROWAVE",
+        "platformId": "lg_microwave_otr",
+        "procedureId": "lgotrmw-turntable",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "LG-LMHM2237-MICROWAVE",
+            "platformId": "lg_microwave_otr"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "lgotrmw-turntable",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms",
+            "stepTitle": "Turntable motor resistance"
+          }
+        ]
+      }
+    }
+  ]
+}

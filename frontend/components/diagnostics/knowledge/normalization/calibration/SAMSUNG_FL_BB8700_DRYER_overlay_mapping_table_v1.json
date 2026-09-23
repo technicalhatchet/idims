@@ -1,0 +1,257 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "platformId": "samsung_fl_dryer_bb8700",
+  "platformFamilyId": "samsung_fl_dryer_bb8700",
+  "canonicalOntologyId": "vented_dryer",
+  "proposedOverlayFile": "samsung_vented_dryer.json",
+  "status": "published",
+  "generatedAt": "2026-09-14T05:30:00+00:00",
+  "gatePolicy": {
+    "canonicalGraph": "vented_dryer.json rev2 FROZEN \u2014 first Samsung dryer overlay on frozen ontology.",
+    "implementationRule": "electric_heater, gas_valve, ignitor live in samsung_fl_dryer_bb8700 platform-family overlay vocabulary.",
+    "proceduralTitleRule": "\u00a74-1 / \u00a74-6 OEM procedure titles are procedure identifiers \u2014 reject as oemTermAliases.",
+    "dryerTestTargetNote": "Matcher overlay candidates reference motor_output_test (washer id). Dryer canonical uses motor_run_test."
+  },
+  "mappings": [
+    {
+      "manualConcept": "door_switch",
+      "layer": "canonical_reuse",
+      "candidate": "door_switch",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-door_switch"
+      ]
+    },
+    {
+      "manualConcept": "drive_motor",
+      "layer": "canonical_reuse",
+      "candidate": "drive_motor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-drive_motor"
+      ]
+    },
+    {
+      "manualConcept": "heating_element",
+      "layer": "canonical_reuse",
+      "candidate": "heat_source",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-heating_element"
+      ],
+      "note": "Matcher suggested wash_heater \u2014 dryer maps to heat_source."
+    },
+    {
+      "manualConcept": "thermal_fuse",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_fuse",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-thermal_fuse"
+      ]
+    },
+    {
+      "manualConcept": "high_limit_thermostat",
+      "layer": "canonical_reuse",
+      "candidate": "thermal_cutoff",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-high_limit_thermostat"
+      ]
+    },
+    {
+      "manualConcept": "exhaust_thermistor",
+      "layer": "canonical_reuse",
+      "candidate": "temperature_sensor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-exhaust_thermistor"
+      ]
+    },
+    {
+      "manualConcept": "inlet_thermistor",
+      "layer": "canonical_reuse",
+      "candidate": "temperature_sensor",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-inlet_thermistor"
+      ]
+    },
+    {
+      "manualConcept": "supply",
+      "layer": "samsung_alias",
+      "candidate": "power_supply",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-samsung-fl-bb8700-dryer-unresolved-samsungbb8700-dryer-power-suppl"
+      ]
+    },
+    {
+      "manualConcept": "user_interface",
+      "layer": "samsung_alias",
+      "candidate": "hmi_control",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface"
+      ]
+    },
+    {
+      "manualConcept": "main_control",
+      "layer": "samsung_alias",
+      "candidate": "control_board",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board"
+      ]
+    },
+    {
+      "manualConcept": "gas_valve",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "gas_valve",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-gas_valve"
+      ]
+    },
+    {
+      "manualConcept": "igniter",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "ignitor",
+      "templateIds": [
+        "gas_dryer"
+      ],
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-samsung-fl-bb8700-dryer-unresolved-samsungbb8700-dryer-gas-ignitor"
+      ]
+    },
+    {
+      "manualConcept": "flame_sensor",
+      "layer": "samsung_alias",
+      "candidate": "heat_source",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-flame_sensor"
+      ]
+    },
+    {
+      "manualConcept": "electric_heater",
+      "layer": "platform_implementation",
+      "candidate": "heat_source",
+      "overlayComponentId": "electric_heater",
+      "templateIds": [
+        "electric_dryer"
+      ],
+      "gateAction": "approve_human",
+      "rationale": "5300 W ~11 \u03a9 element \u2014 overlay implementation."
+    },
+    {
+      "manualConcept": "belt_switch",
+      "layer": "platform_model",
+      "candidate": "drive_motor",
+      "gateAction": "defer",
+      "rationale": "Belt cut-off on motor circuit \u2014 bind via procedureId, not canonical belt component."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "title": "\u00a74-6: Belt cut-off switch",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-belt-cut-off-switch"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-belt-cutoff"
+    },
+    {
+      "title": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-/-\u00a74-6:-door-switch-(dc,-df)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-door-switch"
+    },
+    {
+      "title": "\u00a74-6: Radiant flame sensor (10RS)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-radiant-flame-sensor-(10rs)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-gas-flame-sensor"
+    },
+    {
+      "title": "\u00a74-6: Gas igniter (101D)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-gas-igniter-(101d)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-gas-ignitor"
+    },
+    {
+      "title": "\u00a74-6: Gas valve coils (25M01A)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-gas-valve-coils-(25m01a)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-gas-valve"
+    },
+    {
+      "title": "\u00a74-6: Electric heater (5300 W)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-electric-heater-(5300-w)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-heater-electric"
+    },
+    {
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-display-/-buttons-(bc2)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-hmi"
+    },
+    {
+      "title": "\u00a74-6: Motor centrifugal switch",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-motor-centrifugal-switch"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-motor-circuit"
+    },
+    {
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-power-and-communication-(9c1,-fc,-ac)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-power"
+    },
+    {
+      "title": "\u00a74-6: Thermal cutoff and hi-limit",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-thermal-cutoff-and-hi-limit"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-thermal-cutoff"
+    },
+    {
+      "title": "\u00a74-1: Thermistors (tC, tC5, HC)",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-SAMSUNG-FL-BB8700-DRYER-compound-thermistors-(tc,-tc5,-hc)"
+      ],
+      "bindVia": "procedureId:samsungbb8700-dryer-thermistor"
+    }
+  ],
+  "gateSummary": {
+    "approved": 13,
+    "rejected": 11,
+    "gatedAt": "2026-09-14T05:25:18.605123+00:00"
+  }
+}

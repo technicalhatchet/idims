@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_target_compounding",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "sequence": 1,
+  "targetId": "samsung_nx60_gas",
+  "status": "closed",
+  "verdict": "GREEN / NX60_COMPOUNDING_COMPLETE",
+  "compoundedAt": "2026-09-17T04:45:00+00:00",
+  "parentWorkstream": "CG_RANGE_COMPOUNDING_v1.json",
+  "normalizationSource": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+  "gateSequence": [
+    "NX60 normalization",
+    "NX60 compounding",
+    "overlay integrity/provenance audit",
+    "regression",
+    "STOP",
+    "NE58R9560WS compounding (blocked until NX60 audit green)"
+  ],
+  "deliverables": {
+    "overlayFile": "canonical/manufacturer_overlays/samsung_range_nx60.json",
+    "gateTable": "SAMSUNG_NX60_RANGE_overlay_mapping_table_v1.json",
+    "compoundingEvidence": "SAMSUNG_NX60_RANGE_CG_RANGE_COMPOUNDING_EVIDENCE_v1.json",
+    "compoundingObservation": "SAMSUNG_NX60_RANGE_cg_range_compounding_observation_v1.json",
+    "auditArtifact": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json"
+  },
+  "rollup": {
+    "proceduresBound": 14,
+    "measurementsBound": 16,
+    "decisionBranchesExecutable": 11,
+    "functionalRealizations": 11,
+    "canonicalExpansion": 0,
+    "electricRangeRev1HashUnchanged": true,
+    "rangeOvenOntologyUnchanged": true
+  },
+  "exitCriteria": {
+    "overlayPublished": true,
+    "provenanceAuditGreen": true,
+    "compoundingRegressionGreen": true,
+    "canonicalGraphUnchanged": true,
+    "closureArtifact": "CG_RANGE_NX60_COMPOUNDING_AUDIT_v1.json"
+  },
+  "nextDisciplinedStep": "STOP — await NE58R9560WS compounding open (sequence 2) only after NX60 audit regression green"
+}

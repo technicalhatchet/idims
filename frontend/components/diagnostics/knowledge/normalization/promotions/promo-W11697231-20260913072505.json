@@ -1,0 +1,54 @@
+{
+  "promotionId": "promo-W11697231-20260913072505",
+  "manualId": "W11697231",
+  "platformId": "whirlpool_tl_dd",
+  "overlayFile": "whirlpool_top_load_washer.json",
+  "platformFamilyId": "whirlpool_tl_dd_direct_drive",
+  "status": "planned",
+  "blocked": false,
+  "blockReasons": [],
+  "approvedCandidateIds": [
+    "map-W11697231-acu-control_board",
+    "map-W11697231-inlet_valve-inlet_valve",
+    "map-W11697231-drive_motor-drive_motor",
+    "map-W11697231-hmi_control-hmi_control",
+    "map-W11697231-wash_ntc-wash_ntc",
+    "map-W11697231-water_level_sensor-water_level_sensor",
+    "map-W11697231-drain_pump-drain_pump",
+    "map-W11697231-door_lock-door_lock",
+    "map-W11697231-wash_heater-wash_heater",
+    "map-W11697231-main-control-control_board",
+    "map-W11697231-drain-pump-drain_pump"
+  ],
+  "diff": {
+    "oemTermAliases": {
+      "add": {},
+      "skip": {
+        "ACU": "control_board",
+        "inlet_valve": "inlet_valve",
+        "drive_motor": "drive_motor",
+        "hmi_control": "hmi_control",
+        "wash_ntc": "wash_ntc",
+        "water_level_sensor": "water_level_sensor",
+        "drain_pump": "drain_pump",
+        "door_lock": "lid_lock",
+        "wash_heater": "wash_heater",
+        "TEST #1: Main Control": "control_board",
+        "TEST #7: Drain Pump": "drain_pump"
+      }
+    },
+    "displayTerms": {
+      "add": {},
+      "skip": {}
+    },
+    "procedureBindings": {
+      "add": [],
+      "skip": []
+    },
+    "measurementBindings": {
+      "add": [],
+      "skip": []
+    }
+  },
+  "plannedAt": "2026-09-13T07:25:05.368860+00:00"
+}

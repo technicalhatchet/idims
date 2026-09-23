@@ -1,0 +1,2549 @@
+{
+  "manualId": "W11174426",
+  "procedures": [
+    {
+      "procedureId": "w11174426-acu-power",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Control Power & Supply",
+      "purpose": "Oven Control Supply",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "supply_issue",
+        "no_power",
+        "F1E0",
+        "F1E1",
+        "F1E2",
+        "F9E0"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "control_voltage",
+          "order": 2,
+          "type": "measurement",
+          "title": "Control supply P1-1 to P1-3",
+          "body": "Connect meter. Restore power. Confirm 120 VAC at control P1-1 to P1-3 (or terminal block L1\u2013N).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "supplyVoltage120",
+              "testPoint": {
+                "connector": "P1",
+                "pins": "1 & 3",
+                "label": "Control supply P1-1 to P1-3"
+              },
+              "title": "Control supply P1-1 to P1-3"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ctrl_v_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "check_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ctrl_v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "check_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ctrl_v_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "check_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ctrl_v_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "acu_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Connect meter. Restore power. Confirm 120 VAC at control P1-1 to P1-3 (or terminal block L1\u2013N)."
+        },
+        {
+          "id": "check_wiring",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Wiring between control and terminal block",
+          "body": "Power off. Check wires/connectors between control and terminal block \u2014 fully seated?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wire_ok",
+              "label": "Wiring OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "replace_control",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wire_bad",
+              "label": "Damaged wiring",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Check wires/connectors between control and terminal block \u2014 fully seated?"
+        },
+        {
+          "id": "repair_wiring",
+          "order": 4,
+          "type": "instruction",
+          "title": "Repair wiring",
+          "body": "Repair harness/terminal block, restore power, retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair harness/terminal block, restore power, retest."
+        },
+        {
+          "id": "miswire_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "F9E0 terminal block wiring",
+          "body": "For F9E0: verify 240 VAC L1\u2013L2 and 120 VAC L1\u2013N and L2\u2013N at supply; range terminal block wired correctly.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "miswire_ok",
+              "label": "Wiring correct",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "acu_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "miswire_bad",
+              "label": "Miswired",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "correct_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "For F9E0: verify 240 VAC L1\u2013L2 and 120 VAC L1\u2013N and L2\u2013N at supply; range terminal block wired correctly."
+        },
+        {
+          "id": "correct_wiring",
+          "order": 6,
+          "type": "instruction",
+          "title": "Correct terminal block wiring",
+          "body": "Correct miswire per tech sheet, retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Correct miswire per tech sheet, retest."
+        },
+        {
+          "id": "replace_control",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace oven control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "acu_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Control supply verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "P1",
+            "pins": "1 & 3",
+            "label": "Control supply P1-1 to P1-3"
+          },
+          "title": "Control supply P1-1 to P1-3"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ctrl_v_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "check_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "control_voltage"
+        },
+        {
+          "id": "ctrl_v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "check_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "control_voltage"
+        },
+        {
+          "id": "ctrl_v_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "check_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "control_voltage"
+        },
+        {
+          "id": "ctrl_v_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "acu_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "control_voltage"
+        },
+        {
+          "id": "wire_ok",
+          "label": "Wiring OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "replace_control",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_wiring"
+        },
+        {
+          "id": "wire_bad",
+          "label": "Damaged wiring",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "check_wiring"
+        },
+        {
+          "id": "miswire_ok",
+          "label": "Wiring correct",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "acu_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "miswire_check"
+        },
+        {
+          "id": "miswire_bad",
+          "label": "Miswired",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "correct_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "miswire_check"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Power",
+        "oemTestTitle": "Oven Control Supply",
+        "pages": [
+          2,
+          3,
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-acu-power",
+        "pages": [
+          2,
+          3,
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-acu-power",
+            "pages": [
+              2,
+              3,
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-bake-element",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Bake Element",
+      "purpose": "Bake Element",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "heating_element_check",
+        "no_bake_heat_issue",
+        "F3E0"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "bake_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Bake element resistance",
+          "body": "Power off. LCX: P4-3 to P5-4; LCC: Con 2-7 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "bakeElementOhms",
+              "testPoint": {
+                "connector": "P4 / Con2",
+                "pins": "bake terminals",
+                "label": "Bake element resistance"
+              },
+              "title": "Bake element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "bake_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_bake",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bake_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "bake_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. LCX: P4-3 to P5-4; LCC: Con 2-7 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal."
+        },
+        {
+          "id": "bake_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Bake mode voltage",
+          "body": "In Bake mode verify 240 VAC at element when energized (may cycle with broil on some models).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bv_ok",
+              "label": "Voltage when bake on",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bake_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bv_bad",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_bake",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Bake mode verify 240 VAC at element when energized (may cycle with broil on some models)."
+        },
+        {
+          "id": "replace_bake",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace bake element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_control_bake",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace oven control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "bake_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Bake element verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "bakeElementOhms",
+          "testPoint": {
+            "connector": "P4 / Con2",
+            "pins": "bake terminals",
+            "label": "Bake element resistance"
+          },
+          "title": "Bake element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "bake_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_bake",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "bake_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_ohms"
+        },
+        {
+          "id": "bv_ok",
+          "label": "Voltage when bake on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bake_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_voltage"
+        },
+        {
+          "id": "bv_bad",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_bake",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "bake_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Bake",
+        "oemTestTitle": "Bake Element",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-bake-element",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-bake-element",
+            "pages": [
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-broil-element",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Broil Element",
+      "purpose": "Broil Element",
+      "prerequisites": [],
+      "componentIds": [
+        "broil_element"
+      ],
+      "tags": [
+        "heating_element_check",
+        "no_broil_heat_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "broil_ohms",
+          "order": 2,
+          "type": "measurement",
+          "title": "Broil element resistance",
+          "body": "Power off. LCX: P5-1 to P5-4 WH; LCC: Con 2-1 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "broilElementOhms",
+              "testPoint": {
+                "connector": "P5 / Con2",
+                "pins": "broil terminals",
+                "label": "Broil element resistance"
+              },
+              "title": "Broil element resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "broil_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_broil",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "broil_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. LCX: P5-1 to P5-4 WH; LCC: Con 2-1 to Con 4-3 \u2014 expect 10\u201340 \u03a9 nominal."
+        },
+        {
+          "id": "broil_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Broil mode voltage",
+          "body": "In Broil mode only broil element energized \u2014 verify 240 VAC at element.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "broil_v_ok",
+              "label": "Voltage OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "broil_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "broil_v_bad",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_broil",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Broil mode only broil element energized \u2014 verify 240 VAC at element."
+        },
+        {
+          "id": "replace_broil",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace broil element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_control_broil",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace oven control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "broil_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Broil element verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "broilElementOhms",
+          "testPoint": {
+            "connector": "P5 / Con2",
+            "pins": "broil terminals",
+            "label": "Broil element resistance"
+          },
+          "title": "Broil element resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "broil_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_broil",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "broil_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_ohms"
+        },
+        {
+          "id": "broil_v_ok",
+          "label": "Voltage OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "broil_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_voltage"
+        },
+        {
+          "id": "broil_v_bad",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_broil",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "broil_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Broil",
+        "oemTestTitle": "Broil Element",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-broil-element",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-broil-element",
+            "pages": [
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-door-latch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Door Latch (Clean Mode)",
+      "purpose": "Door Latch Motor",
+      "prerequisites": [],
+      "componentIds": [
+        "temp_sensor"
+      ],
+      "tags": [
+        "door_latch_check",
+        "F5E1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "clean_latch_test",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Clean keypad latch test in Diagnostics",
+          "body": "In Diagnostics press CLEAN to run lock motor. Follow F5E1 tree: latch icon vs door state.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "mech_ok",
+              "label": "Latch cycles, icon matches",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "latch_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "mech_fail",
+              "label": "Motor/switch fault path",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "latch_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Diagnostics press CLEAN to run lock motor. Follow F5E1 tree: latch icon vs door state."
+        },
+        {
+          "id": "latch_voltage",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Latch motor voltage P2-3 to N",
+          "body": "When latch should run (within 20 sec of CLEAN), verify 120 VAC at P2-3 to N (LCX).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "v120",
+              "label": "120 VAC present",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "latch_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "no_v",
+              "label": "No voltage",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_control_latch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "When latch should run (within 20 sec of CLEAN), verify 120 VAC at P2-3 to N (LCX)."
+        },
+        {
+          "id": "latch_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Latch motor resistance",
+          "body": "Power off. LCX: P2-3 to P1-3 WH; LCC: Con 1-4 to Con 1-1 W \u2014 expect 500\u20133000 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolFreestandingRangeDoorLatchOhms",
+              "testPoint": {
+                "connector": "P2 / Con1",
+                "pins": "latch motor",
+                "label": "Latch motor resistance"
+              },
+              "title": "Latch motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "latch_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_latch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "latch_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "latch_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. LCX: P2-3 to P1-3 WH; LCC: Con 1-4 to Con 1-1 W \u2014 expect 500\u20133000 \u03a9."
+        },
+        {
+          "id": "replace_control_latch",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace oven control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_latch",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace latch motor assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "latch_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Door latch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolFreestandingRangeDoorLatchOhms",
+          "testPoint": {
+            "connector": "P2 / Con1",
+            "pins": "latch motor",
+            "label": "Latch motor resistance"
+          },
+          "title": "Latch motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "mech_ok",
+          "label": "Latch cycles, icon matches",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "clean_latch_test"
+        },
+        {
+          "id": "mech_fail",
+          "label": "Motor/switch fault path",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "latch_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "clean_latch_test"
+        },
+        {
+          "id": "v120",
+          "label": "120 VAC present",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "latch_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_voltage"
+        },
+        {
+          "id": "no_v",
+          "label": "No voltage",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_control_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_voltage"
+        },
+        {
+          "id": "latch_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_ohms"
+        },
+        {
+          "id": "latch_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_ohms"
+        },
+        {
+          "id": "latch_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_latch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_ohms"
+        },
+        {
+          "id": "latch_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "latch_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "latch_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Latch",
+        "oemTestTitle": "Door Latch Motor",
+        "pages": [
+          26,
+          27,
+          45,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-door-latch",
+        "pages": [
+          26,
+          27,
+          45,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-door-latch",
+            "pages": [
+              26,
+              27,
+              45,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-dsi-board",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "DSI Board (Gas Oven)",
+      "purpose": "DSI Board",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "gas_valve_check",
+        "ignition_issue",
+        "no_bake_heat_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "dsi_bake_coil",
+          "order": 2,
+          "type": "measurement",
+          "title": "DSI bake valve J1-1 to J1-2",
+          "body": "In Bake mode with burner operation attempted, measure valve coil \u2014 216 \u03a9 nominal at J1-1 to J1-2.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+              "testPoint": {
+                "connector": "J1",
+                "pins": "1 & 2",
+                "label": "DSI bake valve J1-1 to J1-2"
+              },
+              "title": "DSI bake valve J1-1 to J1-2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dsi_bake_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_bake_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_bake_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_bake_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "dsi_broil_coil",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Bake mode with burner operation attempted, measure valve coil \u2014 216 \u03a9 nominal at J1-1 to J1-2."
+        },
+        {
+          "id": "dsi_broil_coil",
+          "order": 3,
+          "type": "measurement",
+          "title": "DSI broil valve J1-3 to J1-2",
+          "body": "In Broil mode measure J1-3 to J1-2 \u2014 216 \u03a9 nominal.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+              "testPoint": {
+                "connector": "J1",
+                "pins": "3 & 2",
+                "label": "DSI broil valve J1-3 to J1-2"
+              },
+              "title": "DSI broil valve J1-3 to J1-2"
+            }
+          ],
+          "branches": [
+            {
+              "id": "dsi_broil_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_broil_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_broil_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_dsi_valve",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_broil_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "dsi_voltage",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "In Broil mode measure J1-3 to J1-2 \u2014 216 \u03a9 nominal."
+        },
+        {
+          "id": "dsi_voltage",
+          "order": 4,
+          "type": "visual_check",
+          "title": "DSI supply and flame sense",
+          "body": "Verify 120 VAC J1-4 to J1-6 (bake) and J1-4 to J1-10. When lit, flame sense 8\u201318 VDC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dsi_ok",
+              "label": "Voltage and flame OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dsi_ok_outcome",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dsi_bad",
+              "label": "No voltage / no flame",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_dsi_board",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Verify 120 VAC J1-4 to J1-6 (bake) and J1-4 to J1-10. When lit, flame sense 8\u201318 VDC."
+        },
+        {
+          "id": "replace_dsi_valve",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace gas valve coil",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_dsi_board",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace DSI board",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dsi_ok_outcome",
+          "order": 7,
+          "type": "outcome",
+          "title": "DSI verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+          "testPoint": {
+            "connector": "J1",
+            "pins": "1 & 2",
+            "label": "DSI bake valve J1-1 to J1-2"
+          },
+          "title": "DSI bake valve J1-1 to J1-2"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolFreestandingRangeDsiValveOhms",
+          "testPoint": {
+            "connector": "J1",
+            "pins": "3 & 2",
+            "label": "DSI broil valve J1-3 to J1-2"
+          },
+          "title": "DSI broil valve J1-3 to J1-2"
+        }
+      ],
+      "branches": [
+        {
+          "id": "dsi_bake_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_bake_coil"
+        },
+        {
+          "id": "dsi_bake_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_bake_coil"
+        },
+        {
+          "id": "dsi_bake_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_bake_coil"
+        },
+        {
+          "id": "dsi_bake_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dsi_broil_coil",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_bake_coil"
+        },
+        {
+          "id": "dsi_broil_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_broil_coil"
+        },
+        {
+          "id": "dsi_broil_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_broil_coil"
+        },
+        {
+          "id": "dsi_broil_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_dsi_valve",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_broil_coil"
+        },
+        {
+          "id": "dsi_broil_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "dsi_voltage",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_broil_coil"
+        },
+        {
+          "id": "dsi_ok",
+          "label": "Voltage and flame OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dsi_ok_outcome",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_voltage"
+        },
+        {
+          "id": "dsi_bad",
+          "label": "No voltage / no flame",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_dsi_board",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dsi_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "DSI",
+        "oemTestTitle": "DSI Board",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-dsi-board",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-dsi-board",
+            "pages": [
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-hmi",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Keypad / HMI (F2E1)",
+      "purpose": "Keypad Connection",
+      "prerequisites": [],
+      "componentIds": [
+        "supply"
+      ],
+      "tags": [
+        "hmi_check",
+        "F2E1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "keypad_p11",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Keypad connector P11",
+          "body": "Power off. Inspect keypad connection to main control (P11). Reseat if loose.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "p11_ok",
+              "label": "P11 OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "keypad_retest",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "p11_bad",
+              "label": "Loose or damaged P11",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_p11",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Inspect keypad connection to main control (P11). Reseat if loose."
+        },
+        {
+          "id": "repair_p11",
+          "order": 3,
+          "type": "instruction",
+          "title": "Repair P11 harness",
+          "body": "Repair connector/harness, restore power, wait 60 sec.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair connector/harness, restore power, wait 60 sec."
+        },
+        {
+          "id": "keypad_retest",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Retest after reconnect",
+          "body": "Does F2E1 clear after reconnect? If reappears, replace keypad then control.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "f2e1_clear",
+              "label": "Error cleared",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "f2e1_stuck",
+              "label": "F2E1 persists",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_keypad",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Does F2E1 clear after reconnect? If reappears, replace keypad then control."
+        },
+        {
+          "id": "replace_keypad",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace keypad / control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Keypad verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "p11_ok",
+          "label": "P11 OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "keypad_retest",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_p11"
+        },
+        {
+          "id": "p11_bad",
+          "label": "Loose or damaged P11",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_p11",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_p11"
+        },
+        {
+          "id": "f2e1_clear",
+          "label": "Error cleared",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_retest"
+        },
+        {
+          "id": "f2e1_stuck",
+          "label": "F2E1 persists",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_keypad",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "keypad_retest"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "HMI",
+        "oemTestTitle": "Keypad Connection",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-hmi",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-hmi",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-infinite-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Cooktop Infinite Switches",
+      "purpose": "Infinite Switches",
+      "prerequisites": [],
+      "componentIds": [
+        "bake_element"
+      ],
+      "tags": [
+        "heating_element_check",
+        "surface_burner"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "cooktop_indicator",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Cooktop On indicator",
+          "body": "Turn any cooktop element ON \u2014 does Cooktop On indicator light?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ind_on",
+              "label": "Indicator on",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "element_heats",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ind_off",
+              "label": "No indicator",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_switch_wiring",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Turn any cooktop element ON \u2014 does Cooktop On indicator light?"
+        },
+        {
+          "id": "element_heats",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Element cycles hot",
+          "body": "At high setting, does infinite switch cycle element on/off to maintain temperature?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cycles",
+              "label": "Cycles normally",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "switch_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "no_heat",
+              "label": "No heat / stuck on",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_switch",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "At high setting, does infinite switch cycle element on/off to maintain temperature?"
+        },
+        {
+          "id": "check_switch_wiring",
+          "order": 4,
+          "type": "instruction",
+          "title": "Check infinite switch wiring",
+          "body": "Inspect switch terminals and supply to affected burner.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect switch terminals and supply to affected burner."
+        },
+        {
+          "id": "replace_switch",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace infinite switch or element",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "switch_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Infinite switches verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ind_on",
+          "label": "Indicator on",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "element_heats",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cooktop_indicator"
+        },
+        {
+          "id": "ind_off",
+          "label": "No indicator",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_switch_wiring",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cooktop_indicator"
+        },
+        {
+          "id": "cycles",
+          "label": "Cycles normally",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "switch_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_heats"
+        },
+        {
+          "id": "no_heat",
+          "label": "No heat / stuck on",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "element_heats"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Switch",
+        "oemTestTitle": "Infinite Switches",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-infinite-switch",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-infinite-switch",
+            "pages": [
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-oven-sensor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Oven Temperature Sensor",
+      "purpose": "Oven Temp Sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "temp_sensor"
+      ],
+      "tags": [
+        "sensor_check",
+        "temp_accuracy_issue",
+        "F3E0",
+        "F6E1"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "diag_f3e0",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Confirm F3E0 / room temp in Diagnostics",
+          "body": "Enter Diagnostics (CANCEL\u00d72+START). Verify sensor at room temp and failure code matches.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "match",
+              "label": "Code matches",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_harness",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "nomatch",
+              "label": "Does not match",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Enter Diagnostics (CANCEL\u00d72+START). Verify sensor at room temp and failure code matches."
+        },
+        {
+          "id": "sensor_harness",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Sensor harness connections",
+          "body": "Power off. Check sensor connections on harness and board (P3 or Con 3).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "h_ok",
+              "label": "OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sensor_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "h_bad",
+              "label": "Damaged",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_harness",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Power off. Check sensor connections on harness and board (P3 or Con 3)."
+        },
+        {
+          "id": "repair_harness",
+          "order": 4,
+          "type": "instruction",
+          "title": "Repair sensor harness",
+          "body": "Repair harness, retest.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Repair harness, retest."
+        },
+        {
+          "id": "sensor_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "RTD resistance at sensor connector",
+          "body": "Disconnect sensor. Measure pins \u2014 1000\u20131200 \u03a9 at room temp. LCX: P3-4 to P3-5; LCC: Con 3-9 to Con 3-10. Check short to casing.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenSensorOhms",
+              "testPoint": {
+                "connector": "P3 / Con3",
+                "pins": "RTD pins",
+                "label": "RTD resistance at sensor connector"
+              },
+              "title": "RTD resistance at sensor connector"
+            }
+          ],
+          "branches": [
+            {
+              "id": "rtd_open",
+              "label": "Open circuit (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rtd_pass",
+              "label": "In range",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect sensor. Measure pins \u2014 1000\u20131200 \u03a9 at room temp. LCX: P3-4 to P3-5; LCC: Con 3-9 to Con 3-10. Check short to casing."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace oven sensor or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Oven sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolFreestandingRangeOvenSensorOhms",
+          "testPoint": {
+            "connector": "P3 / Con3",
+            "pins": "RTD pins",
+            "label": "RTD resistance at sensor connector"
+          },
+          "title": "RTD resistance at sensor connector"
+        }
+      ],
+      "branches": [
+        {
+          "id": "match",
+          "label": "Code matches",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diag_f3e0"
+        },
+        {
+          "id": "nomatch",
+          "label": "Does not match",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "diag_f3e0"
+        },
+        {
+          "id": "h_ok",
+          "label": "OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sensor_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_harness"
+        },
+        {
+          "id": "h_bad",
+          "label": "Damaged",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_harness",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_harness"
+        },
+        {
+          "id": "rtd_open",
+          "label": "Open circuit (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        },
+        {
+          "id": "rtd_pass",
+          "label": "In range",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "RTD",
+        "oemTestTitle": "Oven Temp Sensor",
+        "pages": [
+          25,
+          26,
+          45,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-oven-sensor",
+        "pages": [
+          25,
+          26,
+          45,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-oven-sensor",
+            "pages": [
+              25,
+              26,
+              45,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11174426-surface-spark",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_freestanding_range",
+      "templateId": "electric_range",
+      "title": "Surface Spark Module",
+      "purpose": "Surface Burner Spark Module",
+      "prerequisites": [],
+      "componentIds": [
+        "surface_ignition"
+      ],
+      "tags": [
+        "ignition_issue",
+        "surface_burner"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the range or disconnect power before servicing. Resistance checks require power off. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug range or disconnect power before resistance measurements."
+        },
+        {
+          "id": "surface_spark",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Surface burner spark test",
+          "body": "Turn one cooktop knob to LITE. Verify burner sparks. Expect 120 VAC L to N at spark module.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "spark_yes",
+              "label": "Sparks at all burners",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "spark_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "spark_no",
+              "label": "No spark",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_module",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Turn one cooktop knob to LITE. Verify burner sparks. Expect 120 VAC L to N at spark module."
+        },
+        {
+          "id": "replace_module",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace surface spark module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "spark_ok",
+          "order": 4,
+          "type": "outcome",
+          "title": "Surface spark verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "spark_yes",
+          "label": "Sparks at all burners",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "spark_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "surface_spark"
+        },
+        {
+          "id": "spark_no",
+          "label": "No spark",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_module",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "surface_spark"
+        }
+      ],
+      "source": {
+        "manualId": "W11174426",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Ranges (W11174426 Rev B)",
+        "oemTestNumber": "Spark",
+        "oemTestTitle": "Surface Burner Spark Module",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/technical-manual-w11174426-revb whirlpool maytag amana ranges-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11174426",
+        "platformId": "whirlpool_freestanding_range",
+        "procedureId": "w11174426-surface-spark",
+        "pages": [
+          45,
+          46,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11174426",
+            "platformId": "whirlpool_freestanding_range"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11174426-surface-spark",
+            "pages": [
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11174426_FREESTANDING_RANGE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

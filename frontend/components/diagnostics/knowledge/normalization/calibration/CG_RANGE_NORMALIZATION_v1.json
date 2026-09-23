@@ -1,0 +1,312 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_normalization_workstream",
+  "workstream": "CG-RANGE-NORMALIZATION",
+  "status": "closed",
+  "openedAt": "2026-09-16T23:22:00+00:00",
+  "priorPhaseClosed": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_CLOSURE_v1.json",
+  "implementationGateArtifact": "CG_RANGE_ORGANIZATIONAL_IMPLEMENTATION_GATE_v1.json",
+  "targetCanonicalIdentity": {
+    "primaryId": "range_oven",
+    "legacyAliasId": "electric_range",
+    "adoptedFrom": "CG-10 electric_range rev1",
+    "aliasRegistry": "CG_RANGE_CANONICAL_ONTOLOGY_ALIAS_REGISTRY_v1.json"
+  },
+  "coreConstraint": "Normalization consumes already-proven fit evidence; it does not reopen or reinterpret CG-11/12/13 architecture decisions.",
+  "coreDistinction": {
+    "fitTests": "CG-10–13 proved architecture boundary — frozen experimental record",
+    "normalization": "CG-3 procedure/measurement/decision extraction into Solomon knowledge hierarchy beneath range_oven",
+    "compounding": "Bind normalized knowledge into range_oven contract + implementation overlays (next phase)"
+  },
+  "frozenFitEvidence": {
+    "immutable": true,
+    "doNotRewrite": [
+      "CG11_GAS_RANGE_FIT_TEST_CONTRACT_v1.json",
+      "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+      "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+      "CG12_INDUCTION_FIT_TEST_CONTRACT_v1.json",
+      "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+      "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+      "CG13_DUAL_FUEL_FIT_TEST_CONTRACT_v1.json",
+      "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+      "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json",
+      "CG_RANGE_FAMILY_REVIEW_v1.json",
+      "CG_RANGE_FAMILY_REVIEW_CLOSURE_v1.json",
+      "electric_range.json"
+    ],
+    "consumesAsInput": [
+      "fit closure verdicts",
+      "R1 observation classifications (INHERITS / CONDITIONAL / PLATFORM_ONLY)",
+      "platform vocabulary guardrails from fit contracts"
+    ],
+    "doesNotReopen": [
+      "CG-11 gas fits electric contract verdict",
+      "CG-12 induction fits electric contract verdict",
+      "CG-13 dual-fuel fits electric contract verdict",
+      "cross-manufacturer matrix PENDING status at CG-12/CG-13 closure"
+    ]
+  },
+  "normalizationRules": [
+    {
+      "id": "range_oven_target_identity",
+      "rule": "range_oven is the target canonical identity for all normalized bindings",
+      "doesNotCreate": ["gas_range.json", "induction_range.json", "dual_fuel_range.json"]
+    },
+    {
+      "id": "preserve_implementation_vocabulary",
+      "rule": "Fuel-specific hardware terms remain platform/implementation knowledge — not automatic canonical component promotion",
+      "vocabularyByImplementation": {
+        "gas": ["gas_valve", "igniter", "spark_module", "electrode", "burner", "hsi", "flame_sensor", "manifold"],
+        "induction": ["inverter", "igbt", "induction_coil", "pan_detection", "coil_temperature_sensor", "bridge_rectifier"],
+        "dual_fuel": ["gas_valve", "igniter", "spark_module", "electrode", "burner", "bake_element", "broil_element"]
+      }
+    },
+    {
+      "id": "procedures_independent_from_ontology_promotion",
+      "rule": "Normalize procedures, measurements, and decision branches without promoting every procedure noun to a canonical component",
+      "example": "Measure bake element resistance → 19 Ω → expected range X–Y → if open → element fault path — binds to instanceScopes.bake_heating_element via overlay, not new canonical node"
+    },
+    {
+      "id": "provenance_on_everything",
+      "rule": "Each normalized procedure, measurement, and decision retains full provenance and its relationship to range_oven",
+      "requiredFields": [
+        "manufacturer",
+        "platformId",
+        "modelOrFamily",
+        "sourceManual",
+        "pageOrSection",
+        "sourceType",
+        "canonicalOntologyId"
+      ]
+    },
+    {
+      "id": "w11174814_corroboration_only",
+      "rule": "W11174814 enriches the normalized range corpus as corroboration — it does not retroactively become fit evidence for closed CG-10–13 records",
+      "notRetroactiveFitEvidence": true
+    }
+  ],
+  "provenanceContract": {
+    "canonicalOntologyId": "range_oven",
+    "implementationTemplateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+    "sourceTypes": ["service_manual", "extraction_doc", "procedure_seed", "measurement_spec", "fit_observation_reference"],
+    "minimumFields": {
+      "manufacturer": "string — OEM brand",
+      "platformId": "string — platformRegistry id",
+      "modelOrFamily": "string — smoke model or documented family pattern",
+      "sourceManual": "string — manualId (e.g. SAMSUNG-NX60-RANGE, W11174814)",
+      "pageOrSection": "string | number[] — OEM page or section reference",
+      "sourceType": "one of sourceTypes",
+      "canonicalOntologyId": "range_oven",
+      "fitObservationRef": "optional — links to frozen CG-11/12/13 observation artifact when target was fit witness"
+    },
+    "outputStaging": "frontend/components/diagnostics/knowledge/normalization/candidates/{manualId}/"
+  },
+  "normalizationOrder": [
+    {
+      "sequence": 1,
+      "targetId": "samsung_nx60_gas",
+      "label": "Samsung NX60 gas range",
+      "implementationFamily": "gas"
+    },
+    {
+      "sequence": 2,
+      "targetId": "samsung_ne58r9560ws_induction",
+      "label": "Samsung NE58R9560WS induction range",
+      "implementationFamily": "induction"
+    },
+    {
+      "sequence": 3,
+      "targetId": "samsung_ny63t8751ss_dual_fuel",
+      "label": "Samsung NY63T8751SS dual-fuel range",
+      "implementationFamily": "dual_fuel"
+    },
+    {
+      "sequence": 4,
+      "targetId": "whirlpool_w11174814_corpus",
+      "label": "Whirlpool W11174814 cross-family corroborating corpus",
+      "implementationFamily": "multi_fuel_corroboration"
+    }
+  ],
+  "targets": [
+    {
+      "targetId": "samsung_nx60_gas",
+      "sequence": 1,
+      "status": "normalized",
+      "normalizationArtifact": "CG_RANGE_NX60_NORMALIZATION_v1.json",
+      "normalizedAt": "2026-09-16T23:45:00+00:00",
+      "label": "Samsung NX60 — gas range",
+      "manufacturer": "Samsung",
+      "implementationTemplateId": "gas_range",
+      "platformId": "samsung_range_nx60",
+      "smokeModel": "NX60T8311SS",
+      "manualId": "SAMSUNG-NX60-RANGE",
+      "sourcePdf": "backend/docs/manuals/samsung range nx60t8311s.pdf",
+      "extractedText": "backend/docs/manuals/samsung range nx60t8311s-extracted.txt",
+      "fitWitness": {
+        "workstream": "CG-11",
+        "closureArtifact": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json",
+        "observationArtifact": "SAMSUNG_NX60_RANGE_gr_cg11x_observation_v1.json",
+        "verdict": "CLOSED / GAS_FITS_ELECTRIC_CONTRACT",
+        "diverges": 0,
+        "historicalOntologyUnderTest": "electric_range rev1 — frozen record only"
+      },
+      "normalizationDeliverables": [
+        "extraction doc or update SAMSUNG_NX60_RANGE_EXTRACTION.md",
+        "normalized procedure candidates",
+        "measurement/decision structures with Ω specs",
+        "platform implementation vocabulary (gas_valve, igniter, HSI, burner)",
+        "range_oven binding map — no canonical promotion from procedure nouns"
+      ],
+      "expectedOutputArtifacts": {
+        "baseline": "calibration/SAMSUNG_NX60_RANGE_normalization_baseline_v1.json",
+        "candidatesDir": "normalization/candidates/SAMSUNG-NX60-RANGE/"
+      }
+    },
+    {
+      "targetId": "samsung_ne58r9560ws_induction",
+      "sequence": 2,
+      "status": "normalized",
+      "normalizationArtifact": "CG_RANGE_NE58R9560WS_NORMALIZATION_v1.json",
+      "normalizedAt": "2026-09-16T23:55:00+00:00",
+      "label": "Samsung NE58R9560WS — induction range",
+      "manufacturer": "Samsung",
+      "implementationTemplateId": "induction_range",
+      "platformId": "samsung_range_ne58",
+      "platformIdFitObservation": "samsung_range_ne58r9560",
+      "platformIdNote": "Fit observation used samsung_range_ne58r9560; platformRegistry routes NE58R via samsung_range_ne58 + induction_range template — align during normalization",
+      "smokeModel": "NE58R9560WS/AA",
+      "manualId": "SAMSUNG-NE58R9560-INDUCTION",
+      "sourcePdf": "backend/docs/manuals/samsunginductionne58h.pdf",
+      "modelPattern": "NE58*9560W*",
+      "fitWitness": {
+        "workstream": "CG-12",
+        "closureArtifact": "CG12_INDUCTION_FIT_CLOSURE_v1.json",
+        "observationArtifact": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+        "verdict": "CLOSED / INDUCTION_FITS_ELECTRIC_CONTRACT",
+        "diverges": 0,
+        "historicalOntologyUnderTest": "electric_range rev1 — frozen record only"
+      },
+      "implementationVocabularyFocus": ["inverter", "igbt", "induction_coil", "pan_detection", "coil_temperature_sensor"],
+      "normalizationDeliverables": [
+        "extraction doc for NE58 induction family",
+        "normalized induction cooktop + electric oven procedures",
+        "inverter/IGBT measurements as platform knowledge",
+        "range_oven binding for surface_heating_system and oven instance scopes"
+      ],
+      "expectedOutputArtifacts": {
+        "baseline": "calibration/SAMSUNG_NE58R9560WS_normalization_baseline_v1.json",
+        "candidatesDir": "normalization/candidates/SAMSUNG-NE58R9560-INDUCTION/"
+      }
+    },
+    {
+      "targetId": "samsung_ny63t8751ss_dual_fuel",
+      "sequence": 3,
+      "status": "normalized",
+      "normalizationArtifact": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+      "normalizedAt": "2026-09-17T02:00:00+00:00",
+      "label": "Samsung NY63T8751SS — dual-fuel range",
+      "manufacturer": "Samsung",
+      "implementationTemplateId": "dual_fuel_range",
+      "platformId": "samsung_range_ny63",
+      "smokeModel": "NY63T8751SS/AA",
+      "manualId": "SAMSUNG-NY63-DUAL-FUEL",
+      "sourcePdf": "backend/docs/manuals/samsungny64dualfuel.pdf",
+      "extractedText": "backend/docs/manuals/samsungny64dualfuel-extracted.txt",
+      "modelPattern": "NY63T8751*",
+      "fitWitness": {
+        "workstream": "CG-13",
+        "closureArtifact": "CG13_DUAL_FUEL_FIT_CLOSURE_v1.json",
+        "observationArtifact": "SAMSUNG_NY63T8751SS_DF_CG13X_OBSERVATION_v1.json",
+        "verdict": "CLOSED / DUAL_FUEL_FITS_ELECTRIC_CONTRACT",
+        "diverges": 0,
+        "criticalFinding": "Gas surface + electric oven independently addressable under control_board",
+        "historicalOntologyUnderTest": "electric_range rev1 — frozen record only"
+      },
+      "implementationVocabularyFocus": {
+        "surface": ["gas_valve", "spark_module", "electrode", "burner"],
+        "oven": ["bake_element", "broil_element", "convection_heating_element"]
+      },
+      "normalizationDeliverables": [
+        "extraction doc for NY63 dual-fuel family",
+        "separate gas cooktop and electric oven procedure normalization",
+        "dual-energy-domain measurements with provenance",
+        "range_oven bindings — no dual_fuel_range.json canonical graph"
+      ],
+      "expectedOutputArtifacts": {
+        "baseline": "calibration/SAMSUNG_NY63T8751SS_normalization_baseline_v1.json",
+        "candidatesDir": "normalization/candidates/SAMSUNG-NY63-DUAL-FUEL/"
+      }
+    },
+    {
+      "targetId": "whirlpool_w11174814_corpus",
+      "sequence": 4,
+      "status": "normalized",
+      "normalizationArtifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+      "normalizedAt": "2026-09-17T02:30:00+00:00",
+      "label": "Whirlpool W11174814 — cross-family corroborating corpus",
+      "manufacturer": "Whirlpool",
+      "manufacturerFamily": ["Whirlpool", "Maytag", "KitchenAid", "Kenmore", "JennAir", "IKEA", "Amana"],
+      "implementationTemplateIds": ["electric_range", "gas_range", "induction_range", "dual_fuel_range"],
+      "platformId": "whirlpool_freestanding_range",
+      "manualId": "W11174814",
+      "sourcePdf": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges.pdf",
+      "extractedText": "backend/docs/manuals/service-manual-w11174814-revb whirlpool maytag kitchenaid kenmore jennair amana ranges-extracted.txt",
+      "role": "corroboration",
+      "notRetroactiveFitEvidence": true,
+      "covers": ["electric_radiant", "induction", "gas", "dual_fuel"],
+      "fitWitness": null,
+      "corroborationPolicy": "Enrich normalized range corpus after Samsung fit witnesses are normalized — do not rewrite CG-10–13 historical R1 records or use as retroactive fit closure evidence",
+      "caveats": [
+        "WFI505S0JZ (CG-12 planned R2) not in W11174814 wiring index — separate manual if needed",
+        "Multi-platform manual — normalize per fuel/implementation slice with explicit platform bindings"
+      ],
+      "normalizationDeliverables": [
+        "fuel-sliced extraction index (gas / induction / dual-fuel / electric radiant)",
+        "normalized procedures with Whirlpool-family platform vocabulary",
+        "cross-manufacturer recurrence evidence for implementation overlays",
+        "range_oven bindings — corroboration pass, not fit re-validation"
+      ],
+      "expectedOutputArtifacts": {
+        "baseline": "calibration/W11174814_range_normalization_baseline_v1.json",
+        "candidatesDir": "normalization/candidates/W11174814/"
+      }
+    }
+  ],
+  "pipelineFlow": {
+    "stages": [
+      "NORMALIZATION — normalize four targets in sequence",
+      "all four targets normalized",
+      "normalization regression / provenance audit",
+      "CG-RANGE-COMPOUNDING",
+      "range_oven + implementation overlays",
+      "range family closure"
+    ],
+    "currentStage": "CG-RANGE-FAMILY-CLOSURE GREEN — range family architecture closed"
+  },
+  "exitCriteria": {
+    "allTargetsNormalized": true,
+    "provenanceAuditGreen": true,
+    "normalizationRegressionGreen": true,
+    "noCanonicalGraphExpansion": true,
+    "rangeOvenUnchanged": true,
+    "fitArtifactsUnmodified": true,
+    "closureArtifact": "CG_RANGE_NORMALIZATION_AUDIT_v1.json"
+  },
+  "unlockOnSuccess": {
+    "compounding": "CG-RANGE-COMPOUNDING",
+    "familyClosure": "CG-RANGE-FAMILY-CLOSURE",
+    "remainingFamilyInventory": "deferred until range normalization + compounding complete"
+  },
+  "compoundingBlockedUntil": null,
+  "compoundingUnlockedAt": "2026-09-17T04:10:00+00:00",
+  "compoundingWorkstream": "CG_RANGE_COMPOUNDING_v1.json",
+  "explicitNonGoals": [
+    "Reopen CG-11/12/13 architecture decisions",
+    "Rewrite fit-test or family-review artifacts",
+    "Create fuel-specific canonical ontology files",
+    "Promote procedure nouns to canonical components without triangulation discipline",
+    "Use W11174814 as retroactive R1 fit evidence",
+    "Remaining-appliance-family inventory before range compounding closure"
+  ],
+  "nextDisciplinedStep": "CG-RANGE-COMPOUNDING — populate range_oven canonical functional knowledge and platform/model overlays from normalized evidence"
+}

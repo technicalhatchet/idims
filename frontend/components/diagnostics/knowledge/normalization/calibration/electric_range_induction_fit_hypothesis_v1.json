@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "electric_range_induction_fit_hypothesis",
+  "workstream": "CG-12",
+  "status": "r1_observation_complete",
+  "generatedAt": "2026-09-16T16:23:00+00:00",
+  "contract": "CG12_INDUCTION_FIT_TEST_CONTRACT_v1.json",
+  "frozenContract": {
+    "id": "electric_range",
+    "revision": "rev1",
+    "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json"
+  },
+  "centerpieceHypothesis": {
+    "question": "Can frozen electric_range rev1 represent induction-range implementation without canonical divergence?",
+    "nullHypothesis": "electric_range is resistance-electric-only at functional layer — induction will expose genuine functional divergence",
+    "alternateHypothesis": "electric_range is implementation-agnostic at functional layer — induction maps to same components[] and instanceScopes[] with platform induction vocabulary"
+  },
+  "criticalInductionHypothesis": {
+    "question": "Does induction introduce a new functional dependency, or merely a radically different implementation of surface_heating_system?",
+    "nullHypothesis": "surface_heating_system cannot represent induction without conflating coil/inverter implementation with canonical role",
+    "alternateHypothesis": "surface_heating_system remains canonical functional role; induction_coil, resonant_inverter, IGBT, pan_detection remain platform vocabulary",
+    "notBecauseBothProduceHeat": "Equivalence is not established merely because induction and resistance both produce cooktop heat"
+  },
+  "frozenLayersUnderTest": {
+    "canonicalComponents": {
+      "layer": "components[]",
+      "count": 5,
+      "nodes": [
+        {
+          "id": "power_supply",
+          "inductionFitPrior": "likely_fits",
+          "rationale": "Mains/branch prerequisite recurs on induction manuals — high-voltage cooktop supply is implementation detail"
+        },
+        {
+          "id": "control_board",
+          "inductionFitPrior": "likely_fits_with_platform_vocabulary",
+          "rationale": "Orchestration/inverter control may package as sub-PCB or power module — same CG-10 posture as relay/sub PCB divergence",
+          "platformVocabulary": ["inverter_board", "power_module", "sub_pcb"]
+        },
+        {
+          "id": "user_interface",
+          "inductionFitPrior": "likely_fits",
+          "rationale": "Touch/key diagnostic domain distinct from power electronics"
+        },
+        {
+          "id": "temperature_sensor",
+          "inductionFitPrior": "likely_fits",
+          "rationale": "Oven cavity RTD/thermistor procedures expected on induction ranges with conventional oven"
+        },
+        {
+          "id": "surface_heating_system",
+          "inductionFitPrior": "uncertain_primary_probe",
+          "rationale": "Centerpiece CG-12 probe — cooktop heat generation function vs coil/inverter/pan-detection implementation",
+          "platformVocabulary": [
+            "induction_coil",
+            "resonant_inverter",
+            "igbt_module",
+            "pan_detection",
+            "coil_temperature_sensor"
+          ]
+        }
+      ]
+    },
+    "instanceScopes": {
+      "layer": "instanceScopes[]",
+      "count": 2,
+      "nodes": [
+        {
+          "id": "bake_heating_element",
+          "inductionFitPrior": "likely_fits_if_conventional_oven",
+          "rationale": "Many induction ranges retain conventional electric oven bake element — test independent addressability",
+          "possibleClassifications": [
+            "functional_equivalent_instance_scope",
+            "instance_scope_needs_induction_specific_binding",
+            "contract_boundary"
+          ]
+        },
+        {
+          "id": "broil_heating_element",
+          "inductionFitPrior": "uncertain",
+          "rationale": "Broil may remain separate electric element path — probe independent addressability"
+        }
+      ]
+    },
+    "conditionalInstanceScopes": {
+      "layer": "conditionalInstanceScopes[]",
+      "nodes": [
+        {
+          "id": "convection_heating_element",
+          "inductionFitPrior": "evidence_or_no_evidence",
+          "rationale": "Apply CG-11 NO_EVIDENCE semantics — fan-only or absent convection element is not invalidation"
+        }
+      ]
+    },
+    "conditionalConcepts": {
+      "layer": "conditionalConcepts[]",
+      "nodes": [
+        {
+          "id": "convection_fan",
+          "inductionFitPrior": "likely_fits_conditional",
+          "rationale": "Convection fan proc expected on premium induction ranges"
+        },
+        {
+          "id": "thermal_protection",
+          "inductionFitPrior": "likely_fits_conditional",
+          "rationale": "Cooling/thermal cutout packaging varies — conditional concept holds without assuming implementation"
+        },
+        {
+          "id": "oven_door_switch",
+          "inductionFitPrior": "uncertain",
+          "rationale": "Door latch vs door authorization packaging — same posture as CG-10/CG-11"
+        }
+      ]
+    }
+  },
+  "rejectedAutoPromotions": {
+    "note": "These OEM concepts must NOT become canonical without fit-test classification across witnesses",
+    "candidates": [
+      "induction_coil",
+      "resonant_inverter",
+      "igbt_module",
+      "power_module",
+      "inverter_board",
+      "induction_sensor",
+      "pan_detection",
+      "pan_sensor",
+      "coil_temperature_sensor"
+    ]
+  },
+  "crossManufacturerWitnessPlan": {
+    "dimensions": ["implementation_fit", "cross_manufacturer_consistency"],
+    "witnesses": [
+      {
+        "rank": "R1",
+        "manufacturer": "Samsung",
+        "smokeModel": "NE58R9560WS/AA",
+        "plannedManualId": "SAMSUNG-NE58R9560-INDUCTION",
+        "status": "acquire_for_fit_test"
+      },
+      {
+        "rank": "R2",
+        "manufacturer": "Whirlpool",
+        "smokeModel": "WFI505S0JZ",
+        "plannedManualId": "WHIRLPOOL-WFI505-INDUCTION",
+        "status": "planned"
+      },
+      {
+        "rank": "R3",
+        "manufacturer": "LG",
+        "smokeModel": "LSIL6334F",
+        "plannedManualId": "LG-LSIL6334-INDUCTION",
+        "status": "planned"
+      }
+    ],
+    "openingRule": "One strong R1 manual sufficient to begin observation — R2/R3 escalation defined, not required to open CG-12"
+  },
+  "r1ObservationPlan": {
+    "minimumWitness": "Samsung NE58R9560WS/AA or first available strong induction service manual",
+    "fuelFilter": "induction_range",
+    "outputArtifact": "SAMSUNG_NE58R9560WS_IR_CG12X_OBSERVATION_v1.json",
+    "probeOrder": [
+      "power_supply_induction",
+      "control_board_induction",
+      "user_interface_induction",
+      "temperature_sensor_induction",
+      "surface_heating_system_induction",
+      "bake_instance_scope_induction",
+      "broil_instance_scope_induction",
+      "convection_heating_element_induction",
+      "convection_fan_induction",
+      "thermal_protection_induction",
+      "oven_door_switch_induction"
+    ]
+  },
+  "fitTestNotDiscovery": {
+    "rule": "CG-12 does not re-run CG-10 discovery — it evaluates induction evidence against immutable frozen layers",
+    "cg10CandidateSkeleton": "electric_range_oven_cg10x_candidate_v1.json remains unmodified calibration artifact",
+    "cg11Closure": "CG11_GAS_RANGE_FIT_CLOSURE_v1.json — gas fit does not substitute for induction evidence"
+  }
+}

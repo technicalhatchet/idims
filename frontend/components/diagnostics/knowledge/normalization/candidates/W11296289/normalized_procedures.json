@@ -1,0 +1,3791 @@
+{
+  "manualId": "W11296289",
+  "procedures": [
+    {
+      "procedureId": "w11296289-athena-fail-display",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Athena service mode: Display fail message decode",
+      "purpose": "Display Fail Message State",
+      "prerequisites": [],
+      "componentIds": [
+        "control_board",
+        "thermistor"
+      ],
+      "tags": [
+        "hmi_check",
+        "sensor_fault",
+        "control_board",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "enter_athena_service",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Athena service mode",
+          "body": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 (3 s between presses) to step 6.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Within 30 s of power-up, set TEMP to minimum. Hold door switch closed and press RC TEMP 5 s. Advance with SW1 (3 s between presses) to step 6."
+        },
+        {
+          "id": "read_fail_leds",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Fail LED pattern at step 6",
+          "body": "Which fail pattern is displayed? (D9/D8/D7/D6) All blank = drivers and sensors OK. D6 only = main board driver; D7 = RC sensor; D8 = defrost sensor; D7+D8 = both sensors; D6+D7 or D6+D8 = board + sensor; all on = multiple failures.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "all_blank",
+              "label": "All blank \u2014 no fault",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "athena_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_sensor",
+              "label": "D7 \u2014 RC sensor",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_rc_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "def_sensor",
+              "label": "D8 \u2014 defrost sensor",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_def_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "board_fault",
+              "label": "D6 \u2014 main board driver",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_board",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "multi",
+              "label": "Multiple LEDs / combined",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "route_multi",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Which fail pattern is displayed? (D9/D8/D7/D6) All blank = drivers and sensors OK. D6 only = main board driver; D7 = RC sensor; D8 = defrost sensor; D7+D8 = both sensors; D6+D7 or D6+D8 = board + sensor; all on = multiple failures."
+        },
+        {
+          "id": "route_rc_sensor",
+          "order": 4,
+          "type": "instruction",
+          "title": "RC sensor follow-up",
+          "body": "Run w11296289-test-03-rc-thermistor or measure ATHENA J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run w11296289-test-03-rc-thermistor or measure ATHENA J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C."
+        },
+        {
+          "id": "route_def_sensor",
+          "order": 5,
+          "type": "instruction",
+          "title": "Defrost sensor follow-up",
+          "body": "Run w11296289-test-05-defrost-thermistor or measure evaporator thermistor circuit.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run w11296289-test-05-defrost-thermistor or measure evaporator thermistor circuit."
+        },
+        {
+          "id": "route_board",
+          "order": 6,
+          "type": "instruction",
+          "title": "Main board driver fault",
+          "body": "Verify heater and compressor outputs at JP1 before replacing ATHENA control.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify heater and compressor outputs at JP1 before replacing ATHENA control."
+        },
+        {
+          "id": "route_multi",
+          "order": 7,
+          "type": "instruction",
+          "title": "Multiple failures",
+          "body": "Address sensor faults first, then retest step 6. Replace board if sensors verified good.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Address sensor faults first, then retest step 6. Replace board if sensors verified good."
+        },
+        {
+          "id": "athena_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Athena diagnostics clear",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "athena_sensor_out",
+          "order": 9,
+          "type": "outcome",
+          "title": "Service sensor circuit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "athena_board_out",
+          "order": 10,
+          "type": "outcome",
+          "title": "Service main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "all_blank",
+          "label": "All blank \u2014 no fault",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "athena_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_fail_leds"
+        },
+        {
+          "id": "rc_sensor",
+          "label": "D7 \u2014 RC sensor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_rc_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_fail_leds"
+        },
+        {
+          "id": "def_sensor",
+          "label": "D8 \u2014 defrost sensor",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_def_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_fail_leds"
+        },
+        {
+          "id": "board_fault",
+          "label": "D6 \u2014 main board driver",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_board",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_fail_leds"
+        },
+        {
+          "id": "multi",
+          "label": "Multiple LEDs / combined",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "route_multi",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read_fail_leds"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "6",
+        "oemTestTitle": "Display Fail Message State",
+        "pages": [
+          26,
+          27
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-athena-fail-display",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-athena-fail-display",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-01-fc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 1: Freezer (FC) thermistor",
+      "purpose": "FC sensor check",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_1",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 1",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 1 (FC). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 1 \u2014 FC"
+        },
+        {
+          "id": "read_sensor_leds",
+          "order": 4,
+          "type": "instruction",
+          "title": "Read sensor LED feedback",
+          "body": "At step 1, board reads FC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 1, board reads FC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading."
+        },
+        {
+          "id": "sensor_led_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "FC sensor service result",
+          "body": "What does the refrigeration TEMP LED pattern show?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pass_leds",
+              "label": "Pass (LED6\u20138 on)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "open_leds",
+              "label": "Open (LED6+7)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_leds",
+              "label": "Short (LED8)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "What does the refrigeration TEMP LED pattern show?"
+        },
+        {
+          "id": "bench_ohms",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for bench ohms",
+          "body": "Unplug unit. Measure thermistor at harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Measure thermistor at harness."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "FC thermistor resistance",
+          "body": "THESEUS P5 P5-3 \u2194 P5-4 or ATHENA J2 J2-1 \u2194 J2-2 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-3 \u2194 P5-4 / J2 J2-1 \u2194 J2-2",
+                "label": "FC thermistor resistance"
+              },
+              "title": "FC thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.7 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "THESEUS P5 P5-3 \u2194 P5-4 or ATHENA J2 J2-1 \u2194 J2-2 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace FC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "FC sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-3 \u2194 P5-4 / J2 J2-1 \u2194 J2-2",
+            "label": "FC thermistor resistance"
+          },
+          "title": "FC thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pass_leds",
+          "label": "Pass (LED6\u20138 on)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "open_leds",
+          "label": "Open (LED6+7)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "short_leds",
+          "label": "Short (LED8)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "1",
+        "oemTestTitle": "FC sensor check",
+        "pages": [
+          22,
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-01-fc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-01-fc-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-03-rc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 3: Refrigerator (RC) thermistor",
+      "purpose": "RC sensor check",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_3",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 3",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 3 (RC). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 3 \u2014 RC"
+        },
+        {
+          "id": "read_sensor_leds",
+          "order": 4,
+          "type": "instruction",
+          "title": "Read sensor LED feedback",
+          "body": "At step 3, board reads RC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 3, board reads RC thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading."
+        },
+        {
+          "id": "sensor_led_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "RC sensor service result",
+          "body": "What does the refrigeration TEMP LED pattern show?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pass_leds",
+              "label": "Pass (LED6\u20138 on)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "open_leds",
+              "label": "Open (LED6+7)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_leds",
+              "label": "Short (LED8)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "What does the refrigeration TEMP LED pattern show?"
+        },
+        {
+          "id": "bench_ohms",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for bench ohms",
+          "body": "Unplug unit. Measure thermistor at harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Measure thermistor at harness."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "RC thermistor resistance",
+          "body": "THESEUS P5 P5-1 \u2194 P5-2 or ATHENA J2 J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+              "testPoint": {
+                "connector": "P5",
+                "pins": "P5-1 \u2194 P5-2 / J2 J2-3 \u2194 J2-4",
+                "label": "RC thermistor resistance"
+              },
+              "title": "RC thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.7 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "THESEUS P5 P5-1 \u2194 P5-2 or ATHENA J2 J2-3 \u2194 J2-4 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace RC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "RC sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+          "testPoint": {
+            "connector": "P5",
+            "pins": "P5-1 \u2194 P5-2 / J2 J2-3 \u2194 J2-4",
+            "label": "RC thermistor resistance"
+          },
+          "title": "RC thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pass_leds",
+          "label": "Pass (LED6\u20138 on)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "open_leds",
+          "label": "Open (LED6+7)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "short_leds",
+          "label": "Short (LED8)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "3",
+        "oemTestTitle": "RC sensor check",
+        "pages": [
+          22,
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-03-rc-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-03-rc-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-05-defrost-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 5: Defrost thermistor",
+      "purpose": "Defrost sensor check",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "defrost",
+        "frost_buildup",
+        "sensor_fault"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_5",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 5",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 5 (Defrost). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 5 \u2014 Defrost"
+        },
+        {
+          "id": "read_sensor_leds",
+          "order": 4,
+          "type": "instruction",
+          "title": "Read sensor LED feedback",
+          "body": "At step 5, board reads Defrost thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 5, board reads Defrost thermistor. Refrigeration TEMP LEDs: Open = LED6+7 on; Short = LED8 on; Pass = LED6\u20138 on; Blank = awaiting valid reading."
+        },
+        {
+          "id": "sensor_led_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost sensor service result",
+          "body": "What does the refrigeration TEMP LED pattern show?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pass_leds",
+              "label": "Pass (LED6\u20138 on)",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "open_leds",
+              "label": "Open (LED6+7)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "short_leds",
+              "label": "Short (LED8)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "What does the refrigeration TEMP LED pattern show?"
+        },
+        {
+          "id": "bench_ohms",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for bench ohms",
+          "body": "Unplug unit. Measure thermistor at harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Measure thermistor at harness."
+        },
+        {
+          "id": "ntc_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Defrost thermistor resistance",
+          "body": "THESEUS P8 P8-1 \u2194 P8-2 or ATHENA J2 J2-1 \u2194 J2-2 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+              "testPoint": {
+                "connector": "P8",
+                "pins": "P8-1 \u2194 P8-2 / J2 J2-1 \u2194 J2-2",
+                "label": "Defrost thermistor resistance"
+              },
+              "title": "Defrost thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ntc_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ntc_pass",
+              "label": "~2.7 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "sensor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "THESEUS P8 P8-1 \u2194 P8-2 or ATHENA J2 J2-1 \u2194 J2-2 \u2014 2.7 k\u03a9 @ 25\u00b0C (5 VDC input circuit)."
+        },
+        {
+          "id": "replace_sensor",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace Defrost thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sensor_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Defrost sensor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+          "testPoint": {
+            "connector": "P8",
+            "pins": "P8-1 \u2194 P8-2 / J2 J2-1 \u2194 J2-2",
+            "label": "Defrost thermistor resistance"
+          },
+          "title": "Defrost thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pass_leds",
+          "label": "Pass (LED6\u20138 on)",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "open_leds",
+          "label": "Open (LED6+7)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "short_leds",
+          "label": "Short (LED8)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sensor_led_result"
+        },
+        {
+          "id": "ntc_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        },
+        {
+          "id": "ntc_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "sensor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ntc_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "5",
+        "oemTestTitle": "Defrost sensor check",
+        "pages": [
+          22,
+          23
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-05-defrost-thermistor",
+        "pages": [
+          22,
+          23
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-05-defrost-thermistor",
+            "pages": [
+              22,
+              23
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-07-compressor-cond-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 7: Compressor & condenser fan",
+      "purpose": "Compressor & Condenser Fan",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor",
+        "condenser_fan"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "condenser_fan",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_7",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 7",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 7 (Compressor & cond fan). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 7 \u2014 Compressor & cond fan"
+        },
+        {
+          "id": "activate_step_7",
+          "order": 4,
+          "type": "instruction",
+          "title": "Monitor compressor and condenser fan",
+          "body": "At step 7, condenser fan turns on. Use RC TEMP key (SW5) to toggle load ON/OFF. Monitor compressor and condenser fan operation.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 7, condenser fan turns on. Use RC TEMP key (SW5) to toggle load ON/OFF. Monitor compressor and condenser fan operation."
+        },
+        {
+          "id": "comp_runs",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Compressor and condenser fan run",
+          "body": "With load ON, do compressor and condenser fan operate normally?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comp_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "deactivate_step_7",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "comp_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_compressor",
+              "terminal": true,
+              "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings."
+            }
+          ],
+          "sourceExcerpt": "With load ON, do compressor and condenser fan operate normally?"
+        },
+        {
+          "id": "deactivate_step_7",
+          "order": 6,
+          "type": "instruction",
+          "title": "Deactivate step 7",
+          "body": "Toggle load OFF with RC TEMP key before leaving step.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Toggle load OFF with RC TEMP key before leaving step."
+        },
+        {
+          "id": "bench_compressor",
+          "order": 7,
+          "type": "instruction",
+          "title": "Disconnect power for ohms",
+          "body": "Unplug unit. Access compressor terminals and fan motors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Access compressor terminals and fan motors."
+        },
+        {
+          "id": "run_winding_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "Compressor run windings",
+          "body": "EGX60HLC / EM3Y60HLP run windings 1\u20135 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289CompressorRunOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "run \u2194 common",
+                "label": "Compressor run windings"
+              },
+              "title": "Compressor run windings"
+            }
+          ],
+          "branches": [
+            {
+              "id": "run_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_compressor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "run_pass",
+              "label": "1\u20135 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "cond_fan_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "EGX60HLC / EM3Y60HLP run windings 1\u20135 \u03a9."
+        },
+        {
+          "id": "cond_fan_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Condenser fan motor",
+          "body": "Condenser fan motor 3\u201312 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289CondenserFanOhms",
+              "testPoint": {
+                "connector": "cond_fan",
+                "pins": "motor terminals",
+                "label": "Condenser fan motor"
+              },
+              "title": "Condenser fan motor"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cond_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_cond_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cond_pass",
+              "label": "3\u201312 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Condenser fan motor 3\u201312 \u03a9."
+        },
+        {
+          "id": "live_comp_voltage",
+          "order": 10,
+          "type": "instruction",
+          "title": "Optional: compressor voltage",
+          "body": "Restore power at step 7. THESEUS P1-2 \u2194 P1-4 or ATHENA JP1-4 \u2194 JP1-6 \u2014 120 VAC when cooling.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Restore power at step 7. THESEUS P1-2 \u2194 P1-4 or ATHENA JP1-4 \u2194 JP1-6 \u2014 120 VAC when cooling."
+        },
+        {
+          "id": "comp_voltage",
+          "order": 11,
+          "type": "measurement",
+          "title": "Compressor supply voltage",
+          "body": "120 VAC at compressor output when load commanded.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+              "testPoint": {
+                "connector": "P1 / JP1",
+                "pins": "P1-2\u2194P1-4 / JP1-4\u2194JP1-6",
+                "label": "Compressor supply voltage"
+              },
+              "title": "Compressor supply voltage"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_board",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_board",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cv_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_board",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "cv_pass",
+              "label": "108\u2013132 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "comp_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "120 VAC at compressor output when load commanded."
+        },
+        {
+          "id": "replace_compressor",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace compressor or start device",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_cond_fan",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace condenser fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_board",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_verified",
+          "order": 15,
+          "type": "outcome",
+          "title": "Compressor path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comp_path_ok",
+          "order": 16,
+          "type": "outcome",
+          "title": "Compressor circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289CompressorRunOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "run \u2194 common",
+            "label": "Compressor run windings"
+          },
+          "title": "Compressor run windings"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289CondenserFanOhms",
+          "testPoint": {
+            "connector": "cond_fan",
+            "pins": "motor terminals",
+            "label": "Condenser fan motor"
+          },
+          "title": "Condenser fan motor"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+          "testPoint": {
+            "connector": "P1 / JP1",
+            "pins": "P1-2\u2194P1-4 / JP1-4\u2194JP1-6",
+            "label": "Compressor supply voltage"
+          },
+          "title": "Compressor supply voltage"
+        }
+      ],
+      "branches": [
+        {
+          "id": "comp_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "deactivate_step_7",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "comp_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_compressor",
+          "terminal": true,
+          "oemOutcome": "Compressor or condenser fan does not run \u2014 bench test windings.",
+          "stepId": "comp_runs"
+        },
+        {
+          "id": "run_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_compressor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "run_pass",
+          "label": "1\u20135 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "cond_fan_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "run_winding_ohms"
+        },
+        {
+          "id": "cond_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_cond_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cond_pass",
+          "label": "3\u201312 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cond_fan_ohms"
+        },
+        {
+          "id": "cv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_board",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_voltage"
+        },
+        {
+          "id": "cv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_board",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_voltage"
+        },
+        {
+          "id": "cv_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_board",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_voltage"
+        },
+        {
+          "id": "cv_pass",
+          "label": "108\u2013132 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "comp_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "7",
+        "oemTestTitle": "Compressor & Condenser Fan",
+        "pages": [
+          22,
+          24
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-07-compressor-cond-fan",
+        "pages": [
+          22,
+          24
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-07-compressor-cond-fan",
+            "pages": [
+              22,
+              24
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-09-damper-open",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 9: Damper open",
+      "purpose": "Damper Open",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_check",
+        "weak_cooling_ff",
+        "airflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_9",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 9",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 9 (Damper open). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 9 \u2014 Damper open"
+        },
+        {
+          "id": "damper_open_check",
+          "order": 4,
+          "type": "instruction",
+          "title": "Monitor damper open",
+          "body": "At step 9, damper opens. Verify cold air baffle/damper moves to open position. Step 10 closes damper automatically.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 9, damper opens. Verify cold air baffle/damper moves to open position. Step 10 closes damper automatically."
+        },
+        {
+          "id": "damper_moves",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Damper opens",
+          "body": "Does damper move to fully open position?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "damper_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "damper_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "damper_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "damper_fail_out",
+              "terminal": true,
+              "oemOutcome": "Damper stuck \u2014 check stepper motor P70/P11 or linkage."
+            }
+          ],
+          "sourceExcerpt": "Does damper move to fully open position?"
+        },
+        {
+          "id": "damper_fail_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace damper assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Damper verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "damper_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_moves"
+        },
+        {
+          "id": "damper_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_fail_out",
+          "terminal": true,
+          "oemOutcome": "Damper stuck \u2014 check stepper motor P70/P11 or linkage.",
+          "stepId": "damper_moves"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "9",
+        "oemTestTitle": "Damper Open",
+        "pages": [
+          24,
+          25
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-09-damper-open",
+        "pages": [
+          24,
+          25
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-09-damper-open",
+            "pages": [
+              24,
+              25
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-11-damper-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 11: Damper heater",
+      "purpose": "Damper Heater ON",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor",
+        "heater"
+      ],
+      "tags": [
+        "damper_check",
+        "frost_buildup",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_11",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 11",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 11 (Damper heater). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 11 \u2014 Damper heater"
+        },
+        {
+          "id": "damper_heater_on",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Damper heater energizes",
+          "body": "At step 11, damper heater turns on. Can you verify heat at damper housing?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "damper_heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "damper_heater_fail",
+              "terminal": true,
+              "oemOutcome": "No heat \u2014 check P11-3 \u2194 P11-4 (12 VDC) or damper heater element."
+            }
+          ],
+          "sourceExcerpt": "At step 11, damper heater turns on. Can you verify heat at damper housing?"
+        },
+        {
+          "id": "damper_heater_fail",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace damper heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "damper_heater_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Damper heater verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "heater_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "damper_heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "damper_heater_on"
+        },
+        {
+          "id": "heater_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "damper_heater_fail",
+          "terminal": true,
+          "oemOutcome": "No heat \u2014 check P11-3 \u2194 P11-4 (12 VDC) or damper heater element.",
+          "stepId": "damper_heater_on"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "11",
+        "oemTestTitle": "Damper Heater ON",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-11-damper-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-11-damper-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-13-defrost-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 13: Defrost heater",
+      "purpose": "Defrost Heater ON",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup",
+        "no_defrost"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_13",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 13",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 13 (Defrost heater). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 13 \u2014 Defrost heater"
+        },
+        {
+          "id": "activate_defrost",
+          "order": 4,
+          "type": "instruction",
+          "title": "Energize defrost heater",
+          "body": "At step 13, defrost heater turns on. Monitor heat at evaporator heater.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 13, defrost heater turns on. Monitor heat at evaporator heater."
+        },
+        {
+          "id": "heater_heat",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost heater heat",
+          "body": "Does defrost heater produce heat at evaporator?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heat_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_off_heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "no_heat",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "power_off_heater_ohms",
+              "terminal": true,
+              "oemOutcome": "No heat in step 13 \u2014 bench test heater ohms and ACU output."
+            }
+          ],
+          "sourceExcerpt": "Does defrost heater produce heat at evaporator?"
+        },
+        {
+          "id": "power_off_heater_ohms",
+          "order": 6,
+          "type": "instruction",
+          "title": "Disconnect power for ohms",
+          "body": "Unplug refrigerator for resistance checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug refrigerator for resistance checks."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Defrost heater resistance",
+          "body": "550\u2013650 \u03a9 @ 115 VAC. THESEUS P2-7 or ATHENA JP1-2 when defrosting outputs 120 VAC.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289DefrostHeaterOhms",
+              "testPoint": {
+                "connector": "defrost_heater",
+                "pins": "heater terminals",
+                "label": "Defrost heater resistance"
+              },
+              "title": "Defrost heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "550\u2013650 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "defrost_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "550\u2013650 \u03a9 @ 115 VAC. THESEUS P2-7 or ATHENA JP1-2 when defrosting outputs 120 VAC."
+        },
+        {
+          "id": "heater_voltage",
+          "order": 8,
+          "type": "measurement",
+          "title": "Defrost heater voltage (optional)",
+          "body": "At step 13 with power on: THESEUS P2-7 \u2194 P1-2 or ATHENA JP1-2 \u2194 JP1-6 \u2014 120 VAC.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+              "testPoint": {
+                "connector": "P2 / JP1",
+                "pins": "P2-7\u2194P1-2 / JP1-2\u2194JP1-6",
+                "label": "Defrost heater voltage (optional)"
+              },
+              "title": "Defrost heater voltage (optional)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hv_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_board_defrost",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_board_defrost",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_board_defrost",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hv_pass",
+              "label": "108\u2013132 VAC",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "defrost_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "At step 13 with power on: THESEUS P2-7 \u2194 P1-2 or ATHENA JP1-2 \u2194 JP1-6 \u2014 120 VAC."
+        },
+        {
+          "id": "replace_heater",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace defrost heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_board_defrost",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace main control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "defrost_ok",
+          "order": 11,
+          "type": "outcome",
+          "title": "Defrost circuit verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289DefrostHeaterOhms",
+          "testPoint": {
+            "connector": "defrost_heater",
+            "pins": "heater terminals",
+            "label": "Defrost heater resistance"
+          },
+          "title": "Defrost heater resistance"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289LineVoltage120",
+          "testPoint": {
+            "connector": "P2 / JP1",
+            "pins": "P2-7\u2194P1-2 / JP1-2\u2194JP1-6",
+            "label": "Defrost heater voltage (optional)"
+          },
+          "title": "Defrost heater voltage (optional)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heat_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_off_heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_heat"
+        },
+        {
+          "id": "no_heat",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "power_off_heater_ohms",
+          "terminal": true,
+          "oemOutcome": "No heat in step 13 \u2014 bench test heater ohms and ACU output.",
+          "stepId": "heater_heat"
+        },
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "550\u2013650 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "hv_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_board_defrost",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "hv_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_board_defrost",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "hv_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_board_defrost",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        },
+        {
+          "id": "hv_pass",
+          "label": "108\u2013132 VAC",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "defrost_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_voltage"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "13",
+        "oemTestTitle": "Defrost Heater ON",
+        "pages": [
+          25,
+          26
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-13-defrost-heater",
+        "pages": [
+          25,
+          26
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-13-defrost-heater",
+            "pages": [
+              25,
+              26
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-15-evap-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 15: Evaporator fan",
+      "purpose": "Evaporator Fan ON",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "airflow",
+        "not_cooling",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_15",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 15",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 15 (Evaporator fan). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 15 \u2014 Evaporator fan"
+        },
+        {
+          "id": "fan_on",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Evaporator fan runs",
+          "body": "At step 15, evaporator fan turns on. Verify rotation and airflow at evaporator.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fan_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fan_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_fan",
+              "terminal": true,
+              "oemOutcome": "Fan does not run \u2014 bench test motor and harness."
+            }
+          ],
+          "sourceExcerpt": "At step 15, evaporator fan turns on. Verify rotation and airflow at evaporator."
+        },
+        {
+          "id": "bench_fan",
+          "order": 5,
+          "type": "instruction",
+          "title": "Disconnect power for fan ohms",
+          "body": "Unplug unit. Measure evaporator fan motor.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug unit. Measure evaporator fan motor."
+        },
+        {
+          "id": "fan_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Evaporator fan motor resistance",
+          "body": "2\u20139 \u03a9. THESEUS P2-6 outputs 120 VAC to fan when cooling.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289EvapFanOhms",
+              "testPoint": {
+                "connector": "evap_fan",
+                "pins": "motor terminals",
+                "label": "Evaporator fan motor resistance"
+              },
+              "title": "Evaporator fan motor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "fan_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_fan",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fan_pass",
+              "label": "2\u20139 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "fan_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2\u20139 \u03a9. THESEUS P2-6 outputs 120 VAC to fan when cooling."
+        },
+        {
+          "id": "replace_fan",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace evaporator fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Evaporator fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fan_path_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Fan circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289EvapFanOhms",
+          "testPoint": {
+            "connector": "evap_fan",
+            "pins": "motor terminals",
+            "label": "Evaporator fan motor resistance"
+          },
+          "title": "Evaporator fan motor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "fan_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fan_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_on"
+        },
+        {
+          "id": "fan_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_fan",
+          "terminal": true,
+          "oemOutcome": "Fan does not run \u2014 bench test motor and harness.",
+          "stepId": "fan_on"
+        },
+        {
+          "id": "fan_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_fan",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        },
+        {
+          "id": "fan_pass",
+          "label": "2\u20139 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "fan_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "15",
+        "oemTestTitle": "Evaporator Fan ON",
+        "pages": [
+          26,
+          27
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-15-evap-fan",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-15-evap-fan",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-19-water-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 19: Water dispenser valve",
+      "purpose": "Water Dispenser Valve",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve"
+      ],
+      "tags": [
+        "water_dispenser",
+        "no_water",
+        "leak"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_19",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 19",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 19 (Water valve). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 19 \u2014 Water valve"
+        },
+        {
+          "id": "water_valve_test",
+          "order": 4,
+          "type": "instruction",
+          "title": "Activate water valve",
+          "body": "At step 19, press water paddle to activate valve. Valve stays on after paddle release \u2014 press Light key (SW2) to exit.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "At step 19, press water paddle to activate valve. Valve stays on after paddle release \u2014 press Light key (SW2) to exit."
+        },
+        {
+          "id": "valve_flows",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Water valve flows",
+          "body": "Does water valve open and dispense when paddle pressed?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "valve_fail_out",
+              "terminal": true,
+              "oemOutcome": "No flow \u2014 check P3-4 120 VAC output, valve, or filter."
+            }
+          ],
+          "sourceExcerpt": "Does water valve open and dispense when paddle pressed?"
+        },
+        {
+          "id": "valve_fail_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace water valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Water valve verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_flows"
+        },
+        {
+          "id": "valve_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "valve_fail_out",
+          "terminal": true,
+          "oemOutcome": "No flow \u2014 check P3-4 120 VAC output, valve, or filter.",
+          "stepId": "valve_flows"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "19",
+        "oemTestTitle": "Water Dispenser Valve",
+        "pages": [
+          27,
+          28
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-19-water-valve",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-19-water-valve",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-21-rc-door-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 21: RC door switch",
+      "purpose": "RC Door Switch Input",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check",
+        "lighting"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_21",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 21",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 21 (RC door switch). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 21 \u2014 RC door switch"
+        },
+        {
+          "id": "rc_door_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC compartment lights",
+          "body": "At step 21: Door open = RC lights ON; Door closed = RC lights OFF.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "rc_door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "rc_door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "rc_door_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "rc_door_fail_out",
+              "terminal": true,
+              "oemOutcome": "RC lights do not respond to door \u2014 check door switch and harness."
+            }
+          ],
+          "sourceExcerpt": "At step 21: Door open = RC lights ON; Door closed = RC lights OFF."
+        },
+        {
+          "id": "rc_door_fail_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace RC door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "rc_door_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "RC door switch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "rc_door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "rc_door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "rc_door_test"
+        },
+        {
+          "id": "rc_door_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "rc_door_fail_out",
+          "terminal": true,
+          "oemOutcome": "RC lights do not respond to door \u2014 check door switch and harness.",
+          "stepId": "rc_door_test"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "21",
+        "oemTestTitle": "RC Door Switch Input",
+        "pages": [
+          27,
+          28
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-21-rc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-21-rc-door-switch",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-23-fc-door-switch",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 23: FC door switch",
+      "purpose": "FC Door Switch Input",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "door_switch_check",
+        "lighting",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_23",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 23",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 23 (FC door switch). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 23 \u2014 FC door switch"
+        },
+        {
+          "id": "fc_door_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC compartment lights",
+          "body": "At step 23: Door open = FC lights ON; Door closed = FC lights OFF. THESEUS P3-5 FC door switch.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "fc_door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fc_door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fc_door_fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fc_door_fail_out",
+              "terminal": true,
+              "oemOutcome": "FC lights do not respond \u2014 check P3-5 door switch."
+            }
+          ],
+          "sourceExcerpt": "At step 23: Door open = FC lights ON; Door closed = FC lights OFF. THESEUS P3-5 FC door switch."
+        },
+        {
+          "id": "fc_door_fail_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace FC door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fc_door_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "FC door switch verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "fc_door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fc_door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fc_door_test"
+        },
+        {
+          "id": "fc_door_fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fc_door_fail_out",
+          "terminal": true,
+          "oemOutcome": "FC lights do not respond \u2014 check P3-5 door switch.",
+          "stepId": "fc_door_test"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "23",
+        "oemTestTitle": "FC Door Switch Input",
+        "pages": [
+          27,
+          28
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-23-fc-door-switch",
+        "pages": [
+          27,
+          28
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-23-fc-door-switch",
+            "pages": [
+              27,
+              28
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w11296289-test-33-im-tray-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_sxs_w11296289",
+      "templateId": "refrigerator",
+      "title": "Service step 33: IDI ice tray thermistor (SANKYO)",
+      "purpose": "Ice Tray Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor",
+        "ice_maker_module"
+      ],
+      "tags": [
+        "ice_maker",
+        "no_ice",
+        "thermistor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the refrigerator or disconnect power before servicing. For live voltage checks, use proper PPE and disconnect power after measurements.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing. Replace all parts and panels before operating."
+        },
+        {
+          "id": "service_mode_after_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in service mode",
+          "body": "Service mode entered. Use Light key (SW2) to navigate to the step for this procedure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use SW2 to advance steps; SW5 toggles loads."
+        },
+        {
+          "id": "navigate_step_33",
+          "order": 3,
+          "type": "instruction",
+          "title": "Navigate to service step 33",
+          "body": "Use Light key (SW2) to advance until Freezer TEMP LEDs show step 33 (Ice tray thermistor). Wait at least 1 second between key presses.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service step 33 \u2014 Ice tray thermistor"
+        },
+        {
+          "id": "tray_ntc_read",
+          "order": 4,
+          "type": "instruction",
+          "title": "Read tray thermistor",
+          "body": "Step 33 for twist-tray door ice maker only. Board reads tray thermistor \u2014 same open/short/pass LED pattern as cabinet sensors.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Step 33 for twist-tray door ice maker only. Board reads tray thermistor \u2014 same open/short/pass LED pattern as cabinet sensors."
+        },
+        {
+          "id": "tray_led_result",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Tray thermistor LED result",
+          "body": "Open = LED6+7; Short = LED8; Pass = LED6\u20138. Models without twist tray read open.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tray_pass",
+              "label": "Pass",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tray_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tray_fault",
+              "label": "Open / short / N/A",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "tray_bench",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Open = LED6+7; Short = LED8; Pass = LED6\u20138. Models without twist tray read open."
+        },
+        {
+          "id": "tray_bench",
+          "order": 6,
+          "type": "instruction",
+          "title": "Bench tray thermistor",
+          "body": "Disconnect power. Measure ice maker tray thermistor \u2014 2.7 k\u03a9 @ 25\u00b0C if equipped.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure ice maker tray thermistor \u2014 2.7 k\u03a9 @ 25\u00b0C if equipped."
+        },
+        {
+          "id": "tray_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Tray thermistor resistance",
+          "body": "2.7 k\u03a9 @ 25\u00b0C at ice maker harness.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+              "testPoint": {
+                "connector": "ice_maker",
+                "pins": "tray NTC",
+                "label": "Tray thermistor resistance"
+              },
+              "title": "Tray thermistor resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "tray_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_im",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tray_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_im",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tray_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_im",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "tray_pass",
+              "label": "~2.7 k\u03a9 @ 25\u00b0C",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "tray_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "2.7 k\u03a9 @ 25\u00b0C at ice maker harness."
+        },
+        {
+          "id": "replace_im",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tray_ok",
+          "order": 9,
+          "type": "outcome",
+          "title": "Tray thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolSxsW11296289ThermistorOhms",
+          "testPoint": {
+            "connector": "ice_maker",
+            "pins": "tray NTC",
+            "label": "Tray thermistor resistance"
+          },
+          "title": "Tray thermistor resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "tray_pass",
+          "label": "Pass",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tray_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_led_result"
+        },
+        {
+          "id": "tray_fault",
+          "label": "Open / short / N/A",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "tray_bench",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_led_result"
+        },
+        {
+          "id": "tray_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_im",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_ohms"
+        },
+        {
+          "id": "tray_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_im",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_ohms"
+        },
+        {
+          "id": "tray_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_im",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_ohms"
+        },
+        {
+          "id": "tray_pass",
+          "label": "~2.7 k\u03a9 @ 25\u00b0C",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "tray_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tray_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W11296289",
+        "manualTitle": "Whirlpool/Maytag/Amana/IKEA Side-by-Side Refrigerator (W11296289)",
+        "oemTestNumber": "33",
+        "oemTestTitle": "Ice Tray Thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "extractedTextFile": "backend/docs/manuals/Service-Manual-W11296289-Side-X-Side-Refrigerator-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W11296289",
+        "platformId": "whirlpool_sxs_w11296289",
+        "procedureId": "w11296289-test-33-im-tray-thermistor",
+        "pages": [
+          28,
+          29
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11296289",
+            "platformId": "whirlpool_sxs_w11296289"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11296289-test-33-im-tray-thermistor",
+            "pages": [
+              28,
+              29
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11296289_SXS_REFRIGERATOR_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

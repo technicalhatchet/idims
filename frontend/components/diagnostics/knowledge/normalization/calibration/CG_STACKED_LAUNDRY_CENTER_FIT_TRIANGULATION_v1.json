@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_stacked_laundry_center_fit_triangulation",
+  "workstream": "CG-STACKED-LAUNDRY-CENTER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T17:25:00+00:00",
+  "contract": "CG_STACKED_LAUNDRY_CENTER_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 1,
+  "crossManufacturerTriangulation": false,
+  "witnesses": [
+    {
+      "id": "W1",
+      "manufacturer": "GE",
+      "model": "GUD27ESSMWW / GUD27GSSMWW",
+      "platformId": "ge_gud27_stacked",
+      "dryerArchitecture": "vented_mechanical_timer",
+      "observation": "CG_GUD27_FIT_OBSERVATION_v1.json"
+    }
+  ],
+  "limitation": {
+    "statement": "Only one unitized stacked laundry manual ingested (GE GUD27). Cross-manufacturer recurrence not demonstrated at fit phase.",
+    "impactOnProvenVariant": "Low for decomposition conclusion — vented dryer functional contract is manufacturer-neutral; mechanical timer is known implementation class across unitized platforms",
+    "deferredWitnesses": [
+      "Whirlpool/Maytag unitized stacked — not ingested",
+      "Frigidaire FFLG stacked — not ingested"
+    ]
+  },
+  "drySectionTriangulation": {
+    "classification": "convergent_on_vented_dryer",
+    "procedureCount": 6,
+    "ventedDryerMapped": 5,
+    "implementationSpecific": 1,
+    "unresolved": 0,
+    "functionalDomainsRecurrent": [
+      "vented_heat_electric_gas",
+      "drum_drive",
+      "exhaust_vent_restriction",
+      "thermal_protection",
+      "mechanical_timer_drying_control"
+    ]
+  },
+  "washerSectionTriangulation": {
+    "classification": "insufficient_ingested_corpus",
+    "ingestedProcedures": 0,
+    "wizardAlreadyDecomposes": true,
+    "note": "Washer section not blocking dryer-side fit — template-level section split exists"
+  },
+  "integrationTriangulation": {
+    "vsAioLaundryCombo": {
+      "integratedOrchestration": false,
+      "singleDrum": false,
+      "manualLoadTransfer": true,
+      "sharedPowerOnly": true,
+      "conclusion": "Does not implicate aio_laundry_combo"
+    },
+    "crossSectionCoupling": {
+      "beyondSharedPower": false,
+      "blocksDecomposition": false
+    }
+  },
+  "triangulationVerdict": {
+    "recommendAnalysisOutcome": "proven_variant",
+    "rationale": "Dryer section consistently maps to vented_dryer; no integrated orchestration; cabinet coupling is shared power/physical packaging only",
+    "discoveryNotRequired": true
+  }
+}

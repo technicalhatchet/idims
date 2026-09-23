@@ -1,0 +1,56 @@
+{
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "promotionId": "promo-SAMSUNG-FL-WF6000R-WASHER-20260913194211",
+  "published": true,
+  "equivalence": {
+    "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+    "equivalent": true,
+    "checks": {
+      "canonicalAliases": true,
+      "procedureBindings": true,
+      "measurementBindings": true,
+      "topologyOverrides": true
+    },
+    "aliasComparison": {
+      "equivalent": true,
+      "referenceCount": 21,
+      "generatedCount": 24,
+      "mismatches": [],
+      "extraGenerated": [
+        "\u00a74-3: door lock and switch (dc, dc1)",
+        "\u00a74-3: wash heater (hc, hc1)",
+        "\u00a74-3: wash temperature sensor (tc1)"
+      ]
+    },
+    "procedureBindingComparison": {
+      "label": "procedureBindings",
+      "equivalent": true,
+      "referenceCount": 6,
+      "generatedCount": 6,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "measurementBindingComparison": {
+      "label": "measurementBindings",
+      "equivalent": true,
+      "referenceCount": 6,
+      "generatedCount": 6,
+      "mismatches": [],
+      "extraGenerated": []
+    },
+    "provenance": "generated",
+    "notes": [
+      "Semantic equivalence: reference CG-2 mappings must be preserved.",
+      "Extra generated aliases/bindings are allowed.",
+      "Topology overrides remain hand-authored and must not drift."
+    ],
+    "promotionId": "promo-SAMSUNG-FL-WF6000R-WASHER-20260913194211",
+    "approvedCandidateCount": 4
+  },
+  "approvedCandidateIds": [
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-door-lock-and-switch-(dc,-dc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-heater-(hc,-hc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-wash-temperature-sensor-(tc1)",
+    "map-SAMSUNG-FL-WF6000R-WASHER-compound-water-level-sensor-(1c)"
+  ]
+}

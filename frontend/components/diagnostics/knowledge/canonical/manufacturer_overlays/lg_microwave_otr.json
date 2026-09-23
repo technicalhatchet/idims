@@ -1,0 +1,331 @@
+{
+  "schemaVersion": "1.0.0",
+  "overlayKind": "manufacturer",
+  "canonicalOntologyId": "microwave",
+  "manufacturer": "LG",
+  "label": "LG LMHM2237 over-the-range microwave (LMHM2237BD*)",
+  "gateArtifact": "LG_LMHM2237_MICROWAVE_overlay_mapping_table_v1.json",
+  "normalizationSource": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+  "implementationRealizationPrecedence": {
+    "governanceClosure": "CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json",
+    "authoritativeMapping": { "magnetron": "rf_cavity" },
+    "staleMetadataGuard": "Do not read microwave.json overlayOnlyConcepts.magnetron.realizes=hv_generation — non-authoritative per Branch A"
+  },
+  "platformFamilies": [
+    {
+      "platformFamilyId": "lg_microwave_otr",
+      "platformId": "lg_microwave_otr",
+      "manualId": "LG-LMHM2237-MICROWAVE",
+      "label": "LG LMHM2237BD over-the-range microwave",
+      "appliesTo": {
+        "templateIds": ["microwave"],
+        "manufacturers": ["LG"],
+        "modelPatterns": ["LMHM2237*"],
+        "platformIds": ["lg_microwave_otr"]
+      },
+      "oemTermAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "touch_panel": "user_interface",
+        "keypad": "user_interface",
+        "membrane": "user_interface",
+        "primary_switch": "door_interlock_chain",
+        "secondary_switch": "door_interlock_chain",
+        "monitor_switch": "door_interlock_chain",
+        "relay_2": "control_board",
+        "power_relay": "control_board",
+        "line_fuse": "power_supply",
+        "noise_filter_coil": "power_supply",
+        "hv_transformer": "hv_generation",
+        "hv_capacitor": "hv_generation",
+        "hv_diode": "hv_generation",
+        "hv_fuse": "hv_generation",
+        "magnetron": "rf_cavity",
+        "turntable_motor": "rf_cavity",
+        "waveguide_cover": "rf_cavity",
+        "waveguide": "rf_cavity",
+        "pcb_thermistor": "thermal_protection",
+        "magnetron_tco": "thermal_protection",
+        "cavity_tco": "thermal_protection",
+        "thermal_cutout": "thermal_protection",
+        "humidity_sensor": "control_and_sensing"
+      },
+      "displayTerms": {
+        "power_supply": "120 VAC line fuse + noise filter coil",
+        "control_board": "Main/sub PCB + Relay 2 HV enable (>8 V)",
+        "user_interface": "Touch membrane keypad",
+        "door_interlock_chain": "Primary / secondary / monitor switch chain (§9-2)",
+        "hv_generation": "HV transformer → capacitor → diode → HV fuse cascade (§10)",
+        "rf_cavity": "Magnetron RF generation + turntable field uniformity",
+        "thermal_protection": "PCB thermistor + magnetron/cavity TCO network",
+        "control_and_sensing": "Humidity sensor (F-4) — conditional"
+      },
+      "functionalRealizations": [
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "line_fuse", "displayLabel": "Line fuse" },
+          "diagnosticEvidence": {
+            "spec": "Continuity — open indicates line fuse failure",
+            "measurementIds": ["lgotr-line-fuse-ohms"],
+            "procedureIds": ["lgotrmw-line-power"],
+            "branchIds": ["lgotr-line-fuse-open", "lgotr-line-fuse-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "6-4", "pages": [18] }
+        },
+        {
+          "canonicalLayer": "power_supply",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "noise_filter_coil", "displayLabel": "Noise filter coil" },
+          "diagnosticEvidence": {
+            "spec": "LG OTR noise filter coil Ω per service manual",
+            "measurementIds": ["lgotr-noise-filter-ohms"],
+            "procedureIds": ["lgotrmw-line-power"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "6-4", "pages": [18] }
+        },
+        {
+          "canonicalLayer": "control_board",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "relay_2", "displayLabel": "Relay 2 HV enable" },
+          "diagnosticEvidence": {
+            "spec": ">8 V at relay enable before HV cascade condemnation",
+            "procedureIds": ["lgotrmw-no-heat", "lgotrmw-hv-transformer"],
+            "branchIds": ["lgotr-relay2-enable-fail"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10", "pages": [21, 30] }
+        },
+        {
+          "canonicalLayer": "user_interface",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "keypad", "displayLabel": "Touch membrane keypad" },
+          "diagnosticEvidence": {
+            "procedureIds": ["lgotrmw-keypad"],
+            "branchIds": ["lgotr-keypad-fail", "lgotr-keypad-pass"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "6-4", "pages": [18] }
+        },
+        {
+          "canonicalLayer": "door_interlock_chain",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "interlock_switch_chain", "displayLabel": "Primary / secondary / monitor switches" },
+          "diagnosticEvidence": {
+            "spec": "COM–NO continuity per door state — §9-2 sequencing",
+            "measurementIds": ["lgotr-door-primary-open", "lgotr-door-primary-closed", "lgotr-door-monitor-closed"],
+            "procedureIds": ["lgotrmw-door-interlock", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-door-primary-fail", "lgotr-door-monitor-fail"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "9-2", "pages": [27, 28] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_transformer", "displayLabel": "High-voltage transformer" },
+          "diagnosticEvidence": {
+            "measurementIds": ["lgotr-hv-xfmr-primary-ohms", "lgotr-hv-xfmr-secondary-ohms"],
+            "procedureIds": ["lgotrmw-hv-transformer", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-hv-xfmr-primary-open", "lgotr-hv-xfmr-secondary-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10", "pages": [30] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_capacitor", "displayLabel": "High-voltage capacitor" },
+          "diagnosticEvidence": {
+            "procedureIds": ["lgotrmw-hv-capacitor", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-hv-cap-short", "lgotr-hv-cap-open"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10", "pages": [30] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_diode", "displayLabel": "High-voltage diode" },
+          "diagnosticEvidence": {
+            "measurementIds": ["lgotr-hv-diode-check"],
+            "procedureIds": ["lgotrmw-hv-diode", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-hv-diode-open", "lgotr-hv-diode-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10", "pages": [30] }
+        },
+        {
+          "canonicalLayer": "hv_generation",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "hv_fuse", "displayLabel": "High-voltage fuse" },
+          "diagnosticEvidence": {
+            "measurementIds": ["lgotr-hv-fuse-ohms"],
+            "procedureIds": ["lgotrmw-hv-fuse", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-hv-fuse-open", "lgotr-hv-fuse-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10", "pages": [30] }
+        },
+        {
+          "canonicalLayer": "rf_cavity",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "magnetron", "displayLabel": "Magnetron (RF generation)" },
+          "diagnosticEvidence": {
+            "spec": "Filament Ω — RF device downstream of HV cascade; realizes rf_cavity not hv_generation",
+            "measurementIds": ["lgotr-magnetron-filament-ohms"],
+            "procedureIds": ["lgotrmw-magnetron", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-mag-filament-open", "lgotr-mag-filament-normal"],
+            "precedenceNote": "Authoritative mapping magnetron→rf_cavity per CG_MICROWAVE_FROZEN_METADATA_GOVERNANCE_CLOSURE_v1.json"
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10-magnetron", "pages": [30, 31] }
+        },
+        {
+          "canonicalLayer": "rf_cavity",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "turntable_motor", "displayLabel": "Turntable motor" },
+          "diagnosticEvidence": {
+            "spec": "2.5–3.5 kΩ turntable motor",
+            "measurementIds": ["lgotr-turntable-motor-ohms"],
+            "procedureIds": ["lgotrmw-turntable"],
+            "branchIds": ["lgotr-turntable-open", "lgotr-turntable-normal"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "10-turntable", "pages": [31] }
+        },
+        {
+          "canonicalLayer": "thermal_protection",
+          "canonicalLayerKind": "component",
+          "implementation": { "platformTerm": "pcb_thermistor", "displayLabel": "PCB thermistor / TCO network" },
+          "diagnosticEvidence": {
+            "spec": "F-1/F-2 service test — protective primary; dual sensing cross-ref",
+            "procedureIds": ["lgotrmw-pcb-thermistor", "lgotrmw-no-heat"],
+            "branchIds": ["lgotr-pcb-thermistor-fault", "lgotr-no-heat-tco-open"],
+            "errorCodes": ["F-1", "F-2"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "6-3", "pages": [16, 21] }
+        },
+        {
+          "canonicalLayer": "control_and_sensing",
+          "canonicalLayerKind": "conditionalConcept",
+          "implementation": { "platformTerm": "humidity_sensor", "displayLabel": "Humidity sensor (sensor-cook)" },
+          "diagnosticEvidence": {
+            "procedureIds": ["lgotrmw-humidity-sensor"],
+            "branchIds": ["lgotr-humidity-sensor-fault"],
+            "errorCodes": ["F-4"]
+          },
+          "provenance": { "normalizationRef": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json", "sourceManual": "LG-LMHM2237-MICROWAVE", "section": "6-3", "pages": [16] }
+        }
+      ],
+      "conditionalBindings": [
+        {
+          "conditionalConceptId": "control_and_sensing",
+          "implementationTerms": ["humidity_sensor", "pcb_thermistor_sensing_crossref"],
+          "procedureIds": ["lgotrmw-humidity-sensor", "lgotrmw-pcb-thermistor"]
+        }
+      ],
+      "add": {
+        "components": [
+          { "id": "line_fuse", "name": "Line fuse", "aliases": ["line_fuse", "fuse"], "systemId": "power", "type": "protective", "implementsCanonicalId": "power_supply" },
+          { "id": "noise_filter_coil", "name": "Noise filter coil", "aliases": ["noise_filter_coil"], "systemId": "power", "type": "passive", "implementsCanonicalId": "power_supply" },
+          { "id": "relay_2", "name": "Relay 2 (HV enable)", "aliases": ["relay_2", "power_relay"], "systemId": "control", "type": "actuator", "implementsCanonicalId": "control_board" },
+          { "id": "hv_transformer", "name": "High-voltage transformer", "aliases": ["hv_transformer"], "systemId": "hv_excitation", "type": "actuator", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_capacitor", "name": "High-voltage capacitor", "aliases": ["hv_capacitor"], "systemId": "hv_excitation", "type": "passive", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_diode", "name": "High-voltage diode", "aliases": ["hv_diode"], "systemId": "hv_excitation", "type": "passive", "implementsCanonicalId": "hv_generation" },
+          { "id": "hv_fuse", "name": "High-voltage fuse", "aliases": ["hv_fuse"], "systemId": "hv_excitation", "type": "protective", "implementsCanonicalId": "hv_generation" },
+          {
+            "id": "magnetron",
+            "name": "Magnetron",
+            "aliases": ["magnetron"],
+            "systemId": "rf_delivery",
+            "type": "actuator",
+            "implementsCanonicalId": "rf_cavity",
+            "note": "RF generation downstream of HV cascade — realizes rf_cavity per normalization precedence; NOT hv_generation."
+          },
+          { "id": "turntable_motor", "name": "Turntable motor", "aliases": ["turntable_motor"], "systemId": "rf_delivery", "type": "actuator", "implementsCanonicalId": "rf_cavity" },
+          { "id": "waveguide_cover", "name": "Waveguide cover", "aliases": ["waveguide_cover", "waveguide"], "systemId": "rf_delivery", "type": "passive", "implementsCanonicalId": "rf_cavity" },
+          { "id": "primary_switch", "name": "Primary interlock switch", "aliases": ["primary_switch"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "secondary_switch", "name": "Secondary interlock switch", "aliases": ["secondary_switch"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "monitor_switch", "name": "Monitor interlock switch", "aliases": ["monitor_switch"], "systemId": "safety", "type": "sensor", "implementsCanonicalId": "door_interlock_chain" },
+          { "id": "pcb_thermistor", "name": "PCB thermistor", "aliases": ["pcb_thermistor"], "systemId": "thermal", "type": "sensor", "implementsCanonicalId": "thermal_protection" },
+          { "id": "humidity_sensor", "name": "Humidity sensor", "aliases": ["humidity_sensor"], "systemId": "control", "type": "sensor", "implementsConditionalConceptId": "control_and_sensing" }
+        ],
+        "relationships": [
+          { "from": "relay_2", "to": "hv_generation", "type": "enables", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_transformer", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_capacitor", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_diode", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "hv_fuse", "to": "hv_generation", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "magnetron", "to": "rf_cavity", "type": "implements", "source": "service_manual", "confidence": "high", "note": "Downstream RF device — precedence exception documented" },
+          { "from": "turntable_motor", "to": "rf_cavity", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "primary_switch", "to": "door_interlock_chain", "type": "implements", "source": "service_manual", "confidence": "high" },
+          { "from": "monitor_switch", "to": "door_interlock_chain", "type": "monitors", "source": "service_manual", "confidence": "high" },
+          { "from": "door_interlock_chain", "to": "hv_generation", "type": "inhibits", "source": "service_manual", "confidence": "high" }
+        ]
+      },
+      "procedureBindings": [
+        { "procedureId": "lgotrmw-line-power", "canonicalComponents": ["power_supply", "control_board"], "displayTitle": "§6-4: No display / dead unit", "oemSection": "6-4-dead", "sourcePages": [18] },
+        { "procedureId": "lgotrmw-keypad", "canonicalComponents": ["user_interface", "control_board"], "displayTitle": "§6-4: Keypad failure", "oemSection": "6-4-keypad", "sourcePages": [18] },
+        { "procedureId": "lgotrmw-door-interlock", "canonicalComponents": ["door_interlock_chain"], "displayTitle": "§9-2: Door interlock switches", "oemSection": "9-2", "sourcePages": [27, 28] },
+        { "procedureId": "lgotrmw-hv-transformer", "canonicalComponents": ["hv_generation"], "displayTitle": "§10: High-voltage transformer", "oemSection": "10-transformer", "sourcePages": [30] },
+        { "procedureId": "lgotrmw-hv-capacitor", "canonicalComponents": ["hv_generation"], "displayTitle": "§10: High-voltage capacitor", "oemSection": "10-capacitor", "sourcePages": [30] },
+        { "procedureId": "lgotrmw-hv-diode", "canonicalComponents": ["hv_generation"], "displayTitle": "§10: High-voltage diode", "oemSection": "10-diode", "sourcePages": [30] },
+        { "procedureId": "lgotrmw-hv-fuse", "canonicalComponents": ["hv_generation"], "displayTitle": "§10: High-voltage fuse", "oemSection": "10-hv-fuse", "sourcePages": [30] },
+        { "procedureId": "lgotrmw-magnetron", "canonicalComponents": ["rf_cavity"], "displayTitle": "§10: Magnetron", "oemSection": "10-magnetron", "sourcePages": [30, 31], "note": "magnetron→rf_cavity per precedence exception" },
+        { "procedureId": "lgotrmw-turntable", "canonicalComponents": ["rf_cavity"], "displayTitle": "§10: Turntable motor", "oemSection": "10-turntable", "sourcePages": [31] },
+        { "procedureId": "lgotrmw-no-heat", "canonicalComponents": ["hv_generation", "rf_cavity", "door_interlock_chain", "thermal_protection"], "displayTitle": "§6-4: No heat / no cook", "oemSection": "6-4-no-heat", "sourcePages": [18, 21] },
+        { "procedureId": "lgotrmw-pcb-thermistor", "canonicalComponents": ["thermal_protection"], "displayTitle": "§6-3: PCB thermistor (F-1 / F-2)", "oemSection": "6-3-thermistor", "sourcePages": [16] },
+        { "procedureId": "lgotrmw-humidity-sensor", "conditionalConcepts": ["control_and_sensing"], "displayTitle": "§6-3: Humidity sensor (F-4)", "oemSection": "6-3-humidity", "sourcePages": [16] }
+      ],
+      "measurementBindings": [
+        { "normalizationId": "lgotr-line-fuse-ohms", "measurementKnowledgeId": "microwaveLineFuseOhms", "procedureId": "lgotrmw-line-power", "canonicalLayer": "power_supply" },
+        { "normalizationId": "lgotr-noise-filter-ohms", "measurementKnowledgeId": "lgMicrowaveOtrNoiseFilterCoilOhms", "procedureId": "lgotrmw-line-power", "canonicalLayer": "power_supply" },
+        { "normalizationId": "lgotr-door-primary-open", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "lgotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Primary COM-NO door open" },
+        { "normalizationId": "lgotr-door-primary-closed", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "lgotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Primary COM-NO door closed" },
+        { "normalizationId": "lgotr-door-monitor-closed", "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms", "procedureId": "lgotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "testPoint": "Monitor COM-NO door closed" },
+        { "normalizationId": "lgotr-no-heat-tco-ohms", "measurementKnowledgeId": "microwaveThermalCutoutOhms", "procedureId": "lgotrmw-no-heat", "canonicalLayer": "thermal_protection" },
+        { "normalizationId": "lgotr-hv-xfmr-primary-ohms", "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerPrimaryOhms", "procedureId": "lgotrmw-hv-transformer", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "lgotr-hv-xfmr-secondary-ohms", "measurementKnowledgeId": "lgMicrowaveOtrHvTransformerSecondaryOhms", "procedureId": "lgotrmw-hv-transformer", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "lgotr-hv-diode-check", "measurementKnowledgeId": "microwaveHVDiodeCheck", "procedureId": "lgotrmw-hv-diode", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "lgotr-hv-fuse-ohms", "measurementKnowledgeId": "lgMicrowaveOtrHvFuseOhms", "procedureId": "lgotrmw-hv-fuse", "canonicalLayer": "hv_generation" },
+        { "normalizationId": "lgotr-magnetron-filament-ohms", "measurementKnowledgeId": "microwaveMagnetronFilamentOhms", "procedureId": "lgotrmw-magnetron", "canonicalLayer": "rf_cavity" },
+        { "normalizationId": "lgotr-turntable-motor-ohms", "measurementKnowledgeId": "lgMicrowaveOtrTurntableMotorOhms", "procedureId": "lgotrmw-turntable", "canonicalLayer": "rf_cavity" }
+      ],
+      "decisionBranchBindings": [
+        { "branchId": "lgotr-line-fuse-open", "procedureId": "lgotrmw-line-power", "canonicalLayer": "power_supply", "executable": true },
+        { "branchId": "lgotr-door-primary-fail", "procedureId": "lgotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "executable": true },
+        { "branchId": "lgotr-door-monitor-fail", "procedureId": "lgotrmw-door-interlock", "canonicalLayer": "door_interlock_chain", "executable": true },
+        { "branchId": "lgotr-hv-xfmr-primary-open", "procedureId": "lgotrmw-hv-transformer", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "lgotr-hv-diode-open", "procedureId": "lgotrmw-hv-diode", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "lgotr-hv-fuse-open", "procedureId": "lgotrmw-hv-fuse", "canonicalLayer": "hv_generation", "executable": true },
+        { "branchId": "lgotr-mag-filament-open", "procedureId": "lgotrmw-magnetron", "canonicalLayer": "rf_cavity", "executable": true },
+        { "branchId": "lgotr-mag-filament-normal", "procedureId": "lgotrmw-magnetron", "canonicalLayer": "rf_cavity", "executable": true },
+        { "branchId": "lgotr-turntable-open", "procedureId": "lgotrmw-turntable", "canonicalLayer": "rf_cavity", "executable": true },
+        { "branchId": "lgotr-no-heat-tco-open", "procedureId": "lgotrmw-no-heat", "canonicalLayer": "thermal_protection", "executable": true },
+        { "branchId": "lgotr-pcb-thermistor-fault", "procedureId": "lgotrmw-pcb-thermistor", "canonicalLayer": "thermal_protection", "executable": true },
+        { "branchId": "lgotr-humidity-sensor-fault", "procedureId": "lgotrmw-humidity-sensor", "conditionalConcept": "control_and_sensing", "executable": true }
+      ],
+      "routingRejections": [
+        { "conceptId": "magnetron", "verdict": "reject_hv_generation_realization", "note": "Stale overlayOnlyConcepts.realizes=hv_generation rejected — magnetron binds rf_cavity only." },
+        { "conceptId": "ventilation_otr", "verdict": "deferred_insufficient_evidence", "note": "LG vent path deferred per normalization — no manufactured conditional." },
+        { "conceptId": "magnetron", "verdict": "reject_canonical_promotion", "note": "Platform vocabulary only — not components[]." }
+      ]
+    }
+  ],
+  "status": "published",
+  "gateKind": "lg_lmhm2237_first_microwave_compounding",
+  "compoundingEvidence": {
+    "phase": "CG-MICROWAVE-COMPOUNDING",
+    "sequence": 1,
+    "manualId": "LG-LMHM2237-MICROWAVE",
+    "platformId": "lg_microwave_otr",
+    "normalizationArtifact": "CG_MICROWAVE_LG_LMHM2237_NORMALIZATION_v1.json",
+    "gateArtifact": "LG_LMHM2237_MICROWAVE_overlay_mapping_table_v1.json",
+    "auditArtifact": "CG_MICROWAVE_LG_LMHM2237_COMPOUNDING_AUDIT_v1.json",
+    "accounting": {
+      "canonicalInheritances": 7,
+      "conditionalBindings": 1,
+      "overlayImplementationComponents": 15,
+      "proceduresBound": 12,
+      "measurementsBound": 12,
+      "decisionBranchesExecutable": 12,
+      "functionalRealizations": 13,
+      "canonicalExpansion": 0,
+      "ontologyMutations": 0,
+      "staleMagnetronRealizesNotPropagated": true
+    },
+    "publishedAt": "2026-09-17T11:45:00+00:00"
+  }
+}

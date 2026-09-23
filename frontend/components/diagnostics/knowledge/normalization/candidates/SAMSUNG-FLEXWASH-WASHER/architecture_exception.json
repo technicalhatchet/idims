@@ -1,0 +1,14 @@
+{
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "exceptionType": "architecture_conflict",
+  "reason": "Dual-load FlexWash diagnostic partition cannot bind to frozen front_load_washer single-drum ontology without distortion.",
+  "triggers": [
+    "flexwash",
+    "interload"
+  ],
+  "unresolvedEvidenceCount": 15,
+  "requiredRoute": "fit \u2192 discovery \u2192 freeze (architecture gate only)",
+  "batchDisposition": "STOP",
+  "generatedAt": "2026-09-17T18:12:51.589261+00:00",
+  "forbiddenShortcut": "Map dual-load orchestration to front_load_washer canonical nodes and continue batch"
+}

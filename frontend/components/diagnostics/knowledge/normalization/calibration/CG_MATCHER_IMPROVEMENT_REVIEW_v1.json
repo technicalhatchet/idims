@@ -1,0 +1,1859 @@
+{
+  "schemaVersion": 1,
+  "reportType": "matcher_improvement_review",
+  "gateId": "matcher-improvement-wave1",
+  "label": "Matcher improvement review \u2014 Wave 1 (smallest safe backlog)",
+  "status": "READY_FOR_HUMAN_MATCHER_IMPROVEMENT_REVIEW",
+  "generatedAt": "2026-09-21T12:34:06.425132+00:00",
+  "batchRunId": "batch-20260918-5d213986",
+  "sourceDrilldown": "CG_EXISTING_FROZEN_MAPPING_MISSED_DRILLDOWN_v1.json",
+  "expectedReviewItemCount": 17,
+  "reviewItemCount": 17,
+  "allowedDecisions": [
+    "approve",
+    "defer",
+    "reject",
+    "no_change"
+  ],
+  "decisionSemantics": {
+    "approve": "Evidence supports implementing this specific matcher/alias/decomposition/context improvement for this backlogId only.",
+    "defer": "Pattern is plausible but requires additional evidence or a narrower rule.",
+    "reject": "The pattern should not be generalized into matcher behavior.",
+    "no_change": "Sibling evidence is valid, but no matcher change should be made for this item."
+  },
+  "decisionsArtifact": "normalization/review/CG_MATCHER_IMPROVEMENT_REVIEW_DECISIONS_v1.json",
+  "decisionsArtifactFile": "CG_MATCHER_IMPROVEMENT_REVIEW_DECISIONS_v1.json",
+  "promotionExcluded": true,
+  "canonicalMutationAllowed": false,
+  "matcherImplementationAllowed": false,
+  "implementationAuthorized": false,
+  "governanceNote": "APPROVE authorizes only the specific backlog item, not category-wide or source-term-only rules. SOURCE TERM ALONE IS NEVER SUFFICIENT. No matcher or alias changes are applied by this gate.",
+  "reviewItems": [
+    {
+      "backlogId": "efmm-cda9def45dce",
+      "category": "ALIAS_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "hmi_control",
+      "affectedRecordCount": 13,
+      "affectedManualCount": 13,
+      "affectedPlatformCount": 11,
+      "affectedManufacturerCount": 3,
+      "crossManufacturer": true,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "user interface",
+      "terminologySourceExamples": [
+        "user_interface"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-acu-control_board",
+          "sourceTerm": "acu",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+          "sourceTerm": "user_interface",
+          "proposedCanonicalId": "hmi_control"
+        }
+      ],
+      "observedFailureMode": "ALIAS_RECOGNITION_GAP",
+      "confidence": "high",
+      "reason": "Terminology normalization issue; accepted sibling uses different surface form for same function.",
+      "proposedMatcherOrAliasImprovement": "Review alias coverage for source terms vs frozen canonical (no auto-alias).",
+      "provenanceRecordIds": [
+        "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-compound-user_interface",
+        "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
+        "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-user_interface",
+        "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-user_interface",
+        "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-user_interface",
+        "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
+        "W10410465::canonical_mapping::map-W10410465-compound-user_interface",
+        "W10680150::canonical_mapping::map-W10680150-compound-user_interface",
+        "W10881701::canonical_mapping::map-W10881701-compound-user_interface",
+        "W11416805::canonical_mapping::map-W11416805-compound-user_interface",
+        "W11798430::canonical_mapping::map-W11798430-compound-user_interface",
+        "W8178559::canonical_mapping::map-W8178559-compound-user_interface",
+        "W8178629::canonical_mapping::map-W8178629-compound-user_interface"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-cda9def45dce",
+      "procedureFamilies": [
+        "nstdre75w1-communication",
+        "samsungbb8700-dryer",
+        "samsungdv6000-hmi",
+        "samsungtlcg71d-hmi",
+        "samsungtldv50-hmi",
+        "samsungwd53-hmi",
+        "w10410465-button",
+        "w10680150-button",
+        "w10881701-button",
+        "w11416805-hmi",
+        "w11798430-hmi",
+        "w8178559-button",
+        "w8178629-timer"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "hmi_control",
+        "affectedTerminology": {
+          "clusterKey": "user interface",
+          "sourceExamples": [
+            "user_interface"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-acu-control_board",
+            "sourceTerm": "acu",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-seed-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-user_interface-hmi_control",
+            "sourceTerm": "user_interface",
+            "proposedCanonicalId": "hmi_control"
+          }
+        ],
+        "coverage": {
+          "manualCount": 13,
+          "platformCount": 11,
+          "manufacturerCount": 3,
+          "crossManufacturer": true
+        },
+        "procedureFamilies": [
+          "nstdre75w1-communication",
+          "samsungbb8700-dryer",
+          "samsungdv6000-hmi",
+          "samsungtlcg71d-hmi",
+          "samsungtldv50-hmi",
+          "samsungwd53-hmi",
+          "w10410465-button",
+          "w10680150-button",
+          "w10881701-button",
+          "w11416805-hmi",
+          "w11798430-hmi",
+          "w8178559-button",
+          "w8178629-timer"
+        ],
+        "matchingFailureMode": "ALIAS_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=ALIAS_IMPROVEMENT_CANDIDATE, confidence=high, affectedRecordCount=13, frozenCanonicalId=hmi_control, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 cross-manufacturer evidence helps, but rule must stay procedure/context bounded.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: when accepted sibling evidence and procedure/decomposition context align, map specific terminology variants (e.g. user_interface) to existing frozen 'hmi_control' \u2014 not broad substring rules on 'interface' or similar.",
+        "provenanceRecordIds": [
+          "NS-TDRE75W1::canonical_mapping::map-NS-TDRE75W1-compound-user_interface",
+          "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-compound-user_interface",
+          "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-user_interface",
+          "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-user_interface",
+          "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-user_interface",
+          "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-user_interface",
+          "W10410465::canonical_mapping::map-W10410465-compound-user_interface",
+          "W10680150::canonical_mapping::map-W10680150-compound-user_interface",
+          "W10881701::canonical_mapping::map-W10881701-compound-user_interface",
+          "W11416805::canonical_mapping::map-W11416805-compound-user_interface",
+          "W11798430::canonical_mapping::map-W11798430-compound-user_interface",
+          "W8178559::canonical_mapping::map-W8178559-compound-user_interface",
+          "W8178629::canonical_mapping::map-W8178629-compound-user_interface"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-247b16052823",
+      "category": "ALIAS_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "user_interface",
+      "affectedRecordCount": 10,
+      "affectedManualCount": 10,
+      "affectedPlatformCount": 9,
+      "affectedManufacturerCount": 4,
+      "crossManufacturer": true,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "display panel",
+      "terminologySourceExamples": [
+        "display_panel"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        },
+        {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+          "sourceTerm": "display_panel",
+          "proposedCanonicalId": "user_interface"
+        }
+      ],
+      "observedFailureMode": "ALIAS_RECOGNITION_GAP",
+      "confidence": "high",
+      "reason": "Terminology normalization issue; accepted sibling uses different surface form for same function.",
+      "proposedMatcherOrAliasImprovement": "Review alias coverage for source terms vs frozen canonical (no auto-alias).",
+      "provenanceRecordIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-compound-display_panel",
+        "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-compound-display_panel",
+        "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-compound-display_panel",
+        "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-compound-display_panel",
+        "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-compound-display_panel",
+        "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-compound-display_panel",
+        "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-compound-display_panel",
+        "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-compound-display_panel",
+        "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-compound-display_panel",
+        "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-compound-display_panel"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-247b16052823",
+      "procedureFamilies": [
+        "frigidaireprmc-ui",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungbespoke-main",
+        "samsungdv22n-hmi",
+        "samsungrf260b-option",
+        "samsungrf28-dispenser",
+        "samsungrs28-panel"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "user_interface",
+        "affectedTerminology": {
+          "clusterKey": "display panel",
+          "sourceExamples": [
+            "display_panel"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58H-INDUCTION-RANGE::canonical_mapping::map-SAMSUNG-NE58H-INDUCTION-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          },
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-display_panel-user_interface",
+            "sourceTerm": "display_panel",
+            "proposedCanonicalId": "user_interface"
+          }
+        ],
+        "coverage": {
+          "manualCount": 10,
+          "platformCount": 9,
+          "manufacturerCount": 4,
+          "crossManufacturer": true
+        },
+        "procedureFamilies": [
+          "frigidaireprmc-ui",
+          "lglrmvs-display",
+          "lgsxs-display",
+          "midearss-communication",
+          "mideauz21-communication",
+          "samsungbespoke-main",
+          "samsungdv22n-hmi",
+          "samsungrf260b-option",
+          "samsungrf28-dispenser",
+          "samsungrs28-panel"
+        ],
+        "matchingFailureMode": "ALIAS_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=ALIAS_IMPROVEMENT_CANDIDATE, confidence=high, affectedRecordCount=10, frozenCanonicalId=user_interface, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 cross-manufacturer evidence helps, but rule must stay procedure/context bounded.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: when accepted sibling evidence and procedure/decomposition context align, map specific terminology variants (e.g. display_panel) to existing frozen 'user_interface' \u2014 not broad substring rules on 'interface' or similar.",
+        "provenanceRecordIds": [
+          "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-compound-display_panel",
+          "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-compound-display_panel",
+          "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-compound-display_panel",
+          "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-compound-display_panel",
+          "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-compound-display_panel",
+          "SAMSUNG-HP-DRYER-DV22N::canonical_mapping::map-SAMSUNG-HP-DRYER-DV22N-compound-display_panel",
+          "SAMSUNG-RF23BB-FRIDGE::canonical_mapping::map-SAMSUNG-RF23BB-FRIDGE-compound-display_panel",
+          "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-compound-display_panel",
+          "SAMSUNG-RF28-FRIDGE::canonical_mapping::map-SAMSUNG-RF28-FRIDGE-compound-display_panel",
+          "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-compound-display_panel"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-ccfd232a7378",
+      "category": "ALIAS_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "control_board",
+      "affectedRecordCount": 8,
+      "affectedManualCount": 8,
+      "affectedPlatformCount": 7,
+      "affectedManufacturerCount": 4,
+      "crossManufacturer": true,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "main control",
+      "terminologySourceExamples": [
+        "main_control"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+          "sourceTerm": "main_control",
+          "proposedCanonicalId": "control_board"
+        }
+      ],
+      "observedFailureMode": "ALIAS_RECOGNITION_GAP",
+      "confidence": "high",
+      "reason": "Terminology normalization issue; accepted sibling uses different surface form for same function.",
+      "proposedMatcherOrAliasImprovement": "Review alias coverage for source terms vs frozen canonical (no auto-alias).",
+      "provenanceRecordIds": [
+        "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-compound-main_control",
+        "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-compound-main_control",
+        "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-compound-main_control",
+        "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-compound-main_control",
+        "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-compound-main_control",
+        "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-main_control",
+        "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-compound-main_control",
+        "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-compound-main_control"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-ccfd232a7378",
+      "procedureFamilies": [
+        "frigidaireprmc-manual",
+        "lglrmvs-display",
+        "lgsxs-display",
+        "midearss-communication",
+        "mideauz21-communication",
+        "samsungrf260b-option",
+        "samsungrs28-dispenser",
+        "samsungwd53-communication"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "control_board",
+        "affectedTerminology": {
+          "clusterKey": "main control",
+          "sourceExamples": [
+            "main_control"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-FLEXWASH-WASHER::canonical_mapping::map-SAMSUNG-FLEXWASH-WASHER-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "LG-LRE-RANGE::canonical_mapping::map-LG-LRE-RANGE-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-main_control-control_board",
+            "sourceTerm": "main_control",
+            "proposedCanonicalId": "control_board"
+          }
+        ],
+        "coverage": {
+          "manualCount": 8,
+          "platformCount": 7,
+          "manufacturerCount": 4,
+          "crossManufacturer": true
+        },
+        "procedureFamilies": [
+          "frigidaireprmc-manual",
+          "lglrmvs-display",
+          "lgsxs-display",
+          "midearss-communication",
+          "mideauz21-communication",
+          "samsungrf260b-option",
+          "samsungrs28-dispenser",
+          "samsungwd53-communication"
+        ],
+        "matchingFailureMode": "ALIAS_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=ALIAS_IMPROVEMENT_CANDIDATE, confidence=high, affectedRecordCount=8, frozenCanonicalId=control_board, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 cross-manufacturer evidence helps, but rule must stay procedure/context bounded.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: when accepted sibling evidence and procedure/decomposition context align, map specific terminology variants (e.g. main_control) to existing frozen 'control_board' \u2014 not broad substring rules on 'interface' or similar.",
+        "provenanceRecordIds": [
+          "FRIGIDAIRE-PRMC-FRIDGE::canonical_mapping::map-FRIGIDAIRE-PRMC-FRIDGE-compound-main_control",
+          "LG-LRMVS-FRIDGE::canonical_mapping::map-LG-LRMVS-FRIDGE-compound-main_control",
+          "LG-LSC27926-SXS::canonical_mapping::map-LG-LSC27926-SXS-compound-main_control",
+          "MIDEA-RSS-FRIDGE::canonical_mapping::map-MIDEA-RSS-FRIDGE-compound-main_control",
+          "MIDEA-UZ21-FREEZER::canonical_mapping::map-MIDEA-UZ21-FREEZER-compound-main_control",
+          "SAMSUNG-LAUNDRY-COMBO-WD53::canonical_mapping::map-SAMSUNG-LAUNDRY-COMBO-WD53-compound-main_control",
+          "SAMSUNG-RF260B-FRIDGE::canonical_mapping::map-SAMSUNG-RF260B-FRIDGE-compound-main_control",
+          "SAMSUNG-RS28-SXS::canonical_mapping::map-SAMSUNG-RS28-SXS-compound-main_control"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-2d18236ad40d",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "drive_motor",
+      "affectedRecordCount": 4,
+      "affectedManualCount": 4,
+      "affectedPlatformCount": 4,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "washing motor (3c)",
+      "terminologySourceExamples": [
+        "\u00a74-3: Washing motor (3C)",
+        "\u00a75-3: Washing motor (3C)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-compound-washing-motor-(3c)",
+        "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-compound-washing-motor-(3c)",
+        "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-washing-motor-(3c)",
+        "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-washing-motor-(3c)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-2d18236ad40d",
+      "procedureFamilies": [
+        "samsungbb8700-motor",
+        "samsungtla50-motor",
+        "samsungtlcg71-motor",
+        "samsungwf6000r-motor"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "drive_motor",
+        "affectedTerminology": {
+          "clusterKey": "washing motor (3c)",
+          "sourceExamples": [
+            "\u00a74-3: Washing motor (3C)",
+            "\u00a75-3: Washing motor (3C)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          }
+        ],
+        "coverage": {
+          "manualCount": 4,
+          "platformCount": 4,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungbb8700-motor",
+          "samsungtla50-motor",
+          "samsungtlcg71-motor",
+          "samsungwf6000r-motor"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=4, frozenCanonicalId=drive_motor, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'drive_motor' when siblings already do \u2014 scoped to backlogId efmm-2d18236ad40d.",
+        "provenanceRecordIds": [
+          "SAMSUNG-FL-BB8700-WASHER::canonical_mapping::map-SAMSUNG-FL-BB8700-WASHER-compound-washing-motor-(3c)",
+          "SAMSUNG-FL-WF6000R-WASHER::canonical_mapping::map-SAMSUNG-FL-WF6000R-WASHER-compound-washing-motor-(3c)",
+          "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-washing-motor-(3c)",
+          "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-washing-motor-(3c)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-3a835ca66cc4",
+      "category": "ALIAS_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "thermal_fuse",
+      "affectedRecordCount": 4,
+      "affectedManualCount": 4,
+      "affectedPlatformCount": 4,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "high limit thermostat",
+      "terminologySourceExamples": [
+        "high_limit_thermostat"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-thermal_fuse-thermal_fuse",
+          "sourceTerm": "thermal_fuse",
+          "proposedCanonicalId": "thermal_fuse"
+        },
+        {
+          "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-thermal_fuse-thermal_fuse",
+          "sourceTerm": "thermal_fuse",
+          "proposedCanonicalId": "thermal_fuse"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-thermal_fuse-thermal_fuse",
+          "sourceTerm": "thermal_fuse",
+          "proposedCanonicalId": "thermal_fuse"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-thermal_fuse-thermal_fuse",
+          "sourceTerm": "thermal_fuse",
+          "proposedCanonicalId": "thermal_fuse"
+        }
+      ],
+      "observedFailureMode": "ALIAS_RECOGNITION_GAP",
+      "confidence": "high",
+      "reason": "Terminology normalization issue; accepted sibling uses different surface form for same function.",
+      "proposedMatcherOrAliasImprovement": "Review alias coverage for source terms vs frozen canonical (no auto-alias).",
+      "provenanceRecordIds": [
+        "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-compound-high_limit_thermostat",
+        "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-high_limit_thermostat",
+        "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-high_limit_thermostat",
+        "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-high_limit_thermostat"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-3a835ca66cc4",
+      "procedureFamilies": [
+        "samsungbb8700-dryer",
+        "samsungdv6000-thermal",
+        "samsungtlcg71d-thermal",
+        "samsungtldv50-thermal"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "thermal_fuse",
+        "affectedTerminology": {
+          "clusterKey": "high limit thermostat",
+          "sourceExamples": [
+            "high_limit_thermostat"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-thermal_fuse-thermal_fuse",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse"
+          },
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-thermal_fuse-thermal_fuse",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-thermal_fuse-thermal_fuse",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-thermal_fuse-thermal_fuse",
+            "sourceTerm": "thermal_fuse",
+            "proposedCanonicalId": "thermal_fuse"
+          }
+        ],
+        "coverage": {
+          "manualCount": 4,
+          "platformCount": 4,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungbb8700-dryer",
+          "samsungdv6000-thermal",
+          "samsungtlcg71d-thermal",
+          "samsungtldv50-thermal"
+        ],
+        "matchingFailureMode": "ALIAS_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=ALIAS_IMPROVEMENT_CANDIDATE, confidence=high, affectedRecordCount=4, frozenCanonicalId=thermal_fuse, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: when accepted sibling evidence and procedure/decomposition context align, map specific terminology variants (e.g. high_limit_thermostat) to existing frozen 'thermal_fuse' \u2014 not broad substring rules on 'interface' or similar.",
+        "provenanceRecordIds": [
+          "SAMSUNG-FL-BB8700-DRYER::canonical_mapping::map-SAMSUNG-FL-BB8700-DRYER-compound-high_limit_thermostat",
+          "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-high_limit_thermostat",
+          "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-high_limit_thermostat",
+          "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-high_limit_thermostat"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-615da9433924",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "temperature_sensor",
+      "affectedRecordCount": 4,
+      "affectedManualCount": 4,
+      "affectedPlatformCount": 3,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "temperature thermistor",
+      "terminologySourceExamples": [
+        "TEST #5: Temperature Thermistor"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "W10864849::canonical_mapping::map-W10864849-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        },
+        {
+          "candidateId": "W11416395::canonical_mapping::map-W11416395-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        },
+        {
+          "candidateId": "W11416787::canonical_mapping::map-W11416787-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        },
+        {
+          "candidateId": "W11697231::canonical_mapping::map-W11697231-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "W10864849::canonical_mapping::map-W10864849-compound-temperature-thermistor",
+        "W11416395::canonical_mapping::map-W11416395-compound-temperature-thermistor",
+        "W11416787::canonical_mapping::map-W11416787-compound-temperature-thermistor",
+        "W11697231::canonical_mapping::map-W11697231-compound-temperature-thermistor"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-615da9433924",
+      "procedureFamilies": [
+        "w10864849-test",
+        "w11416395-test",
+        "w11416787-test",
+        "w11697231-test"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "temperature_sensor",
+        "affectedTerminology": {
+          "clusterKey": "temperature thermistor",
+          "sourceExamples": [
+            "TEST #5: Temperature Thermistor"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          },
+          {
+            "candidateId": "W11416395::canonical_mapping::map-W11416395-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          },
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          },
+          {
+            "candidateId": "W11697231::canonical_mapping::map-W11697231-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          }
+        ],
+        "coverage": {
+          "manualCount": 4,
+          "platformCount": 3,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "w10864849-test",
+          "w11416395-test",
+          "w11416787-test",
+          "w11697231-test"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=4, frozenCanonicalId=temperature_sensor, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'temperature_sensor' when siblings already do \u2014 scoped to backlogId efmm-615da9433924.",
+        "provenanceRecordIds": [
+          "W10864849::canonical_mapping::map-W10864849-compound-temperature-thermistor",
+          "W11416395::canonical_mapping::map-W11416395-compound-temperature-thermistor",
+          "W11416787::canonical_mapping::map-W11416787-compound-temperature-thermistor",
+          "W11697231::canonical_mapping::map-W11697231-compound-temperature-thermistor"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-bbf103ee2826",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "drive_motor",
+      "affectedRecordCount": 3,
+      "affectedManualCount": 3,
+      "affectedPlatformCount": 3,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "motor windings and",
+      "terminologySourceExamples": [
+        "\u00a74-6: Motor windings and relay (3C)",
+        "\u00a74-4: Motor windings and centrifugal switch"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-drive_motor-drive_motor",
+          "sourceTerm": "drive_motor",
+          "proposedCanonicalId": "drive_motor"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-motor-windings-and-relay-(3c)",
+        "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-motor-windings-and-centrifugal-switch",
+        "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-motor-windings-and-centrifugal-switch"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-bbf103ee2826",
+      "procedureFamilies": [
+        "samsungdv6000-motor",
+        "samsungtlcg71d-motor",
+        "samsungtldv50-motor"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "drive_motor",
+        "affectedTerminology": {
+          "clusterKey": "motor windings and",
+          "sourceExamples": [
+            "\u00a74-6: Motor windings and relay (3C)",
+            "\u00a74-4: Motor windings and centrifugal switch"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-drive_motor-drive_motor",
+            "sourceTerm": "drive_motor",
+            "proposedCanonicalId": "drive_motor"
+          }
+        ],
+        "coverage": {
+          "manualCount": 3,
+          "platformCount": 3,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungdv6000-motor",
+          "samsungtlcg71d-motor",
+          "samsungtldv50-motor"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=3, frozenCanonicalId=drive_motor, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'drive_motor' when siblings already do \u2014 scoped to backlogId efmm-bbf103ee2826.",
+        "provenanceRecordIds": [
+          "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-motor-windings-and-relay-(3c)",
+          "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-motor-windings-and-centrifugal-switch",
+          "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-motor-windings-and-centrifugal-switch"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-ce66fe78ffd3",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "heat_source",
+      "affectedRecordCount": 3,
+      "affectedManualCount": 3,
+      "affectedPlatformCount": 3,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "electric heater",
+      "terminologySourceExamples": [
+        "\u00a74-6: Electric heater",
+        "\u00a74-4: Electric heater"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-heating_element-heat_source",
+          "sourceTerm": "heating_element",
+          "proposedCanonicalId": "heat_source"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-heating_element-heat_source",
+          "sourceTerm": "heating_element",
+          "proposedCanonicalId": "heat_source"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-heating_element-heat_source",
+          "sourceTerm": "heating_element",
+          "proposedCanonicalId": "heat_source"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-electric-heater",
+        "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-electric-heater",
+        "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-electric-heater"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-ce66fe78ffd3",
+      "procedureFamilies": [
+        "samsungdv6000-heater",
+        "samsungtlcg71d-heater",
+        "samsungtldv50-heater"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "heat_source",
+        "affectedTerminology": {
+          "clusterKey": "electric heater",
+          "sourceExamples": [
+            "\u00a74-6: Electric heater",
+            "\u00a74-4: Electric heater"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-heating_element-heat_source",
+            "sourceTerm": "heating_element",
+            "proposedCanonicalId": "heat_source"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-heating_element-heat_source",
+            "sourceTerm": "heating_element",
+            "proposedCanonicalId": "heat_source"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-heating_element-heat_source",
+            "sourceTerm": "heating_element",
+            "proposedCanonicalId": "heat_source"
+          }
+        ],
+        "coverage": {
+          "manualCount": 3,
+          "platformCount": 3,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungdv6000-heater",
+          "samsungtlcg71d-heater",
+          "samsungtldv50-heater"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=3, frozenCanonicalId=heat_source, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'heat_source' when siblings already do \u2014 scoped to backlogId efmm-ce66fe78ffd3.",
+        "provenanceRecordIds": [
+          "SAMSUNG-FL-DV6000-DRYER::canonical_mapping::map-SAMSUNG-FL-DV6000-DRYER-compound-electric-heater",
+          "SAMSUNG-TL-CG71-DRYER::canonical_mapping::map-SAMSUNG-TL-CG71-DRYER-compound-electric-heater",
+          "SAMSUNG-TL-DV50-DRYER::canonical_mapping::map-SAMSUNG-TL-DV50-DRYER-compound-electric-heater"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-13733bc34a3b",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "drain_pump",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "drain & recirculation",
+      "terminologySourceExamples": [
+        "TEST #7: Drain & Recirculation Pump"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "W10864849::canonical_mapping::map-W10864849-drain_pump-drain_pump",
+          "sourceTerm": "drain_pump",
+          "proposedCanonicalId": "drain_pump"
+        },
+        {
+          "candidateId": "W11416787::canonical_mapping::map-W11416787-drain_pump-drain_pump",
+          "sourceTerm": "drain_pump",
+          "proposedCanonicalId": "drain_pump"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "W10864849::canonical_mapping::map-W10864849-compound-drain-&-recirculation-pump",
+        "W11416787::canonical_mapping::map-W11416787-compound-drain-&-recirculation-pump"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-13733bc34a3b",
+      "procedureFamilies": [
+        "w10864849-test",
+        "w11416787-test"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "drain_pump",
+        "affectedTerminology": {
+          "clusterKey": "drain & recirculation",
+          "sourceExamples": [
+            "TEST #7: Drain & Recirculation Pump"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "W10864849::canonical_mapping::map-W10864849-drain_pump-drain_pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump"
+          },
+          {
+            "candidateId": "W11416787::canonical_mapping::map-W11416787-drain_pump-drain_pump",
+            "sourceTerm": "drain_pump",
+            "proposedCanonicalId": "drain_pump"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "w10864849-test",
+          "w11416787-test"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=drain_pump, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'drain_pump' when siblings already do \u2014 scoped to backlogId efmm-13733bc34a3b.",
+        "provenanceRecordIds": [
+          "W10864849::canonical_mapping::map-W10864849-compound-drain-&-recirculation-pump",
+          "W11416787::canonical_mapping::map-W11416787-compound-drain-&-recirculation-pump"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-24a4f5a7ce08",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "oven_door_switch",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "door lock motor",
+      "terminologySourceExamples": [
+        "\u00a74-2: Door lock motor",
+        "\u00a74-1: Door lock motor (C-d1)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-door_lock-oven_door_switch",
+          "sourceTerm": "door_lock",
+          "proposedCanonicalId": "oven_door_switch"
+        },
+        {
+          "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-door_lock-oven_door_switch",
+          "sourceTerm": "door_lock",
+          "proposedCanonicalId": "oven_door_switch"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-compound-door-lock-motor",
+        "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-compound-door-lock-motor-(c-d1)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-24a4f5a7ce08",
+      "procedureFamilies": [
+        "samsungne58-door",
+        "samsungnx60-door"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "oven_door_switch",
+        "affectedTerminology": {
+          "clusterKey": "door lock motor",
+          "sourceExamples": [
+            "\u00a74-2: Door lock motor",
+            "\u00a74-1: Door lock motor (C-d1)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-door_lock-oven_door_switch",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "oven_door_switch"
+          },
+          {
+            "candidateId": "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-door_lock-oven_door_switch",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "oven_door_switch"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungne58-door",
+          "samsungnx60-door"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=oven_door_switch, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'oven_door_switch' when siblings already do \u2014 scoped to backlogId efmm-24a4f5a7ce08.",
+        "provenanceRecordIds": [
+          "SAMSUNG-NE58-RANGE::canonical_mapping::map-SAMSUNG-NE58-RANGE-compound-door-lock-motor",
+          "SAMSUNG-NX60-RANGE::canonical_mapping::map-SAMSUNG-NX60-RANGE-compound-door-lock-motor-(c-d1)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-3fff71334287",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "heat_source",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "heater operation (hc",
+      "terminologySourceExamples": [
+        "\u00a74-1: Heater Operation (HC / HC1)",
+        "\u00a74-3: Heater Operation (HC / HC1)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-heater-heat_source",
+          "sourceTerm": "heater",
+          "proposedCanonicalId": "heat_source"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-heater-heat_source",
+          "sourceTerm": "heater",
+          "proposedCanonicalId": "heat_source"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)",
+        "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-heater-operation-(hc-/-hc1)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-3fff71334287",
+      "procedureFamilies": [
+        "samsungdw-heater",
+        "samsungdwm9-heater"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "heat_source",
+        "affectedTerminology": {
+          "clusterKey": "heater operation (hc",
+          "sourceExamples": [
+            "\u00a74-1: Heater Operation (HC / HC1)",
+            "\u00a74-3: Heater Operation (HC / HC1)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-heater-heat_source",
+            "sourceTerm": "heater",
+            "proposedCanonicalId": "heat_source"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-heater-heat_source",
+            "sourceTerm": "heater",
+            "proposedCanonicalId": "heat_source"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungdw-heater",
+          "samsungdwm9-heater"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=heat_source, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'heat_source' when siblings already do \u2014 scoped to backlogId efmm-3fff71334287.",
+        "provenanceRecordIds": [
+          "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-heater-operation-(hc-/-hc1)",
+          "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-heater-operation-(hc-/-hc1)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-5edc6b1da575",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "inlet_valve",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "water supply (4c)",
+      "terminologySourceExamples": [
+        "\u00a75-3: Water supply (4C)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+          "sourceTerm": "inlet_valve",
+          "proposedCanonicalId": "inlet_valve"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+          "sourceTerm": "inlet_valve",
+          "proposedCanonicalId": "inlet_valve"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-water-supply-(4c)",
+        "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-water-supply-(4c)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-5edc6b1da575",
+      "procedureFamilies": [
+        "samsungtla50-inlet",
+        "samsungtlcg71-inlet"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "inlet_valve",
+        "affectedTerminology": {
+          "clusterKey": "water supply (4c)",
+          "sourceExamples": [
+            "\u00a75-3: Water supply (4C)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-inlet_valve-inlet_valve",
+            "sourceTerm": "inlet_valve",
+            "proposedCanonicalId": "inlet_valve"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-inlet_valve-inlet_valve",
+            "sourceTerm": "inlet_valve",
+            "proposedCanonicalId": "inlet_valve"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungtla50-inlet",
+          "samsungtlcg71-inlet"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=inlet_valve, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'inlet_valve' when siblings already do \u2014 scoped to backlogId efmm-5edc6b1da575.",
+        "provenanceRecordIds": [
+          "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-water-supply-(4c)",
+          "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-water-supply-(4c)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-62ec837ed0fc",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "lid_lock",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "door lock (dc,",
+      "terminologySourceExamples": [
+        "\u00a75-3: Door lock (DC, DC1, DC2)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-door_lock-lid_lock",
+          "sourceTerm": "door_lock",
+          "proposedCanonicalId": "lid_lock"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-door_lock-lid_lock",
+          "sourceTerm": "door_lock",
+          "proposedCanonicalId": "lid_lock"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
+        "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-door-lock-(dc,-dc1,-dc2)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-62ec837ed0fc",
+      "procedureFamilies": [
+        "samsungtla50-door",
+        "samsungtlcg71-door"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "lid_lock",
+        "affectedTerminology": {
+          "clusterKey": "door lock (dc,",
+          "sourceExamples": [
+            "\u00a75-3: Door lock (DC, DC1, DC2)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-door_lock-lid_lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-door_lock-lid_lock",
+            "sourceTerm": "door_lock",
+            "proposedCanonicalId": "lid_lock"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungtla50-door",
+          "samsungtlcg71-door"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=lid_lock, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'lid_lock' when siblings already do \u2014 scoped to backlogId efmm-62ec837ed0fc.",
+        "provenanceRecordIds": [
+          "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-door-lock-(dc,-dc1,-dc2)",
+          "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-door-lock-(dc,-dc1,-dc2)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-64d66fbb30c3",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "temperature_sensor",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "wash heater (hc,",
+      "terminologySourceExamples": [
+        "\u00a75-3: Wash heater (HC, HC1)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        },
+        {
+          "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-wash_ntc-temperature_sensor",
+          "sourceTerm": "wash_ntc",
+          "proposedCanonicalId": "temperature_sensor"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-wash-heater-(hc,-hc1)",
+        "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-wash-heater-(hc,-hc1)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-64d66fbb30c3",
+      "procedureFamilies": [
+        "samsungtla50-wash",
+        "samsungtlcg71-wash"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "temperature_sensor",
+        "affectedTerminology": {
+          "clusterKey": "wash heater (hc,",
+          "sourceExamples": [
+            "\u00a75-3: Wash heater (HC, HC1)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          },
+          {
+            "candidateId": "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-wash_ntc-temperature_sensor",
+            "sourceTerm": "wash_ntc",
+            "proposedCanonicalId": "temperature_sensor"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungtla50-wash",
+          "samsungtlcg71-wash"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=temperature_sensor, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'temperature_sensor' when siblings already do \u2014 scoped to backlogId efmm-64d66fbb30c3.",
+        "provenanceRecordIds": [
+          "SAMSUNG-TL-A50-WASHER::canonical_mapping::map-SAMSUNG-TL-A50-WASHER-compound-wash-heater-(hc,-hc1)",
+          "SAMSUNG-TL-CG71-WASHER::canonical_mapping::map-SAMSUNG-TL-CG71-WASHER-compound-wash-heater-(hc,-hc1)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-712ac97b8ae5",
+      "category": "ALIAS_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "drying_system",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "fan motor",
+      "terminologySourceExamples": [
+        "fan_motor"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-vent-drying_system",
+          "sourceTerm": "vent",
+          "proposedCanonicalId": "drying_system"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-vent-drying_system",
+          "sourceTerm": "vent",
+          "proposedCanonicalId": "drying_system"
+        }
+      ],
+      "observedFailureMode": "ALIAS_RECOGNITION_GAP",
+      "confidence": "high",
+      "reason": "Terminology normalization issue; accepted sibling uses different surface form for same function.",
+      "proposedMatcherOrAliasImprovement": "Review alias coverage for source terms vs frozen canonical (no auto-alias).",
+      "provenanceRecordIds": [
+        "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-fan_motor",
+        "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-fan_motor"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-712ac97b8ae5",
+      "procedureFamilies": [
+        "samsungdw-dry",
+        "samsungdwm9-dry"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "drying_system",
+        "affectedTerminology": {
+          "clusterKey": "fan motor",
+          "sourceExamples": [
+            "fan_motor"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-vent-drying_system",
+            "sourceTerm": "vent",
+            "proposedCanonicalId": "drying_system"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-vent-drying_system",
+            "sourceTerm": "vent",
+            "proposedCanonicalId": "drying_system"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungdw-dry",
+          "samsungdwm9-dry"
+        ],
+        "matchingFailureMode": "ALIAS_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=ALIAS_IMPROVEMENT_CANDIDATE, confidence=high, affectedRecordCount=2, frozenCanonicalId=drying_system, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: when accepted sibling evidence and procedure/decomposition context align, map specific terminology variants (e.g. fan_motor) to existing frozen 'drying_system' \u2014 not broad substring rules on 'interface' or similar.",
+        "provenanceRecordIds": [
+          "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-fan_motor",
+          "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-fan_motor"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-c01495a054b4",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "temperature_sensor",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 1,
+      "crossManufacturer": false,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "water thermistor (tc)",
+      "terminologySourceExamples": [
+        "\u00a74-1: Water Thermistor (tC)",
+        "\u00a74-3: Water Thermistor (tC)"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-thermistor-temperature_sensor",
+          "sourceTerm": "thermistor",
+          "proposedCanonicalId": "temperature_sensor"
+        },
+        {
+          "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-thermistor-temperature_sensor",
+          "sourceTerm": "thermistor",
+          "proposedCanonicalId": "temperature_sensor"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)",
+        "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-water-thermistor-(tc)"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-c01495a054b4",
+      "procedureFamilies": [
+        "samsungdw-thermistor",
+        "samsungdwm9-thermistor"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "temperature_sensor",
+        "affectedTerminology": {
+          "clusterKey": "water thermistor (tc)",
+          "sourceExamples": [
+            "\u00a74-1: Water Thermistor (tC)",
+            "\u00a74-3: Water Thermistor (tC)"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-thermistor-temperature_sensor",
+            "sourceTerm": "thermistor",
+            "proposedCanonicalId": "temperature_sensor"
+          },
+          {
+            "candidateId": "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-thermistor-temperature_sensor",
+            "sourceTerm": "thermistor",
+            "proposedCanonicalId": "temperature_sensor"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 1,
+          "crossManufacturer": false
+        },
+        "procedureFamilies": [
+          "samsungdw-thermistor",
+          "samsungdwm9-thermistor"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=temperature_sensor, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 review sibling functional equivalence before any matcher change.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'temperature_sensor' when siblings already do \u2014 scoped to backlogId efmm-c01495a054b4.",
+        "provenanceRecordIds": [
+          "SAMSUNG-DISHWASHER::canonical_mapping::map-SAMSUNG-DISHWASHER-compound-water-thermistor-(tc)",
+          "SAMSUNG-DISHWASHER-M9::canonical_mapping::map-SAMSUNG-DISHWASHER-M9-compound-water-thermistor-(tc)"
+        ]
+      }
+    },
+    {
+      "backlogId": "efmm-e859af7c0c65",
+      "category": "DECOMPOSITION_IMPROVEMENT_CANDIDATE",
+      "frozenCanonicalId": "heat_source",
+      "affectedRecordCount": 2,
+      "affectedManualCount": 2,
+      "affectedPlatformCount": 2,
+      "affectedManufacturerCount": 2,
+      "crossManufacturer": true,
+      "isolatedToSinglePlatform": false,
+      "terminologyClusterKey": "e3 \u2014 tub",
+      "terminologySourceExamples": [
+        "E3 \u2014 Tub heater 10\u201315 \u03a9",
+        "E3 \u2014 Tub heater ~14 \u03a9"
+      ],
+      "acceptedSiblingEvidenceExamples": [
+        {
+          "candidateId": "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-heater-heat_source",
+          "sourceTerm": "heater",
+          "proposedCanonicalId": "heat_source"
+        },
+        {
+          "candidateId": "W11187658::canonical_mapping::map-W11187658-heater-heat_source",
+          "sourceTerm": "heater",
+          "proposedCanonicalId": "heat_source"
+        }
+      ],
+      "observedFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+      "confidence": "medium",
+      "reason": "Same manual/procedure as sibling but decomposition alignment differs.",
+      "proposedMatcherOrAliasImprovement": "Review decomposition/parser exposure of canonical function (no auto-change).",
+      "provenanceRecordIds": [
+        "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-compound-e3-\u2014-tub-heater-10\u201315-\u03c9",
+        "W11187658::canonical_mapping::map-W11187658-compound-e3-\u2014-tub-heater-~14-\u03c9"
+      ],
+      "implementationAuthorized": false,
+      "reviewItemId": "efmm-e859af7c0c65",
+      "procedureFamilies": [
+        "nsdwr3ss1-heater",
+        "w11187658-heater"
+      ],
+      "reviewerBrief": {
+        "frozenCanonicalTarget": "heat_source",
+        "affectedTerminology": {
+          "clusterKey": "e3 \u2014 tub",
+          "sourceExamples": [
+            "E3 \u2014 Tub heater 10\u201315 \u03a9",
+            "E3 \u2014 Tub heater ~14 \u03a9"
+          ]
+        },
+        "acceptedSiblingExamples": [
+          {
+            "candidateId": "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-heater-heat_source",
+            "sourceTerm": "heater",
+            "proposedCanonicalId": "heat_source"
+          },
+          {
+            "candidateId": "W11187658::canonical_mapping::map-W11187658-heater-heat_source",
+            "sourceTerm": "heater",
+            "proposedCanonicalId": "heat_source"
+          }
+        ],
+        "coverage": {
+          "manualCount": 2,
+          "platformCount": 2,
+          "manufacturerCount": 2,
+          "crossManufacturer": true
+        },
+        "procedureFamilies": [
+          "nsdwr3ss1-heater",
+          "w11187658-heater"
+        ],
+        "matchingFailureMode": "DECOMPOSITION_RECOGNITION_GAP",
+        "whyConsideredSafe": "Drill-down smallestSafeMatcherAliasBacklog: category=DECOMPOSITION_IMPROVEMENT_CANDIDATE, confidence=medium, affectedRecordCount=2, frozenCanonicalId=heat_source, implementationAuthorized=false. Meets >=2 records, high/medium confidence, alias/decomposition/context category, anchored frozen target.",
+        "falsePositiveRisk": "medium \u2014 cross-manufacturer evidence helps, but rule must stay procedure/context bounded.",
+        "proposedNarrowMatcherOrAliasBehavior": "Governance-only proposal: improve decomposition exposure so component/function context resolves to frozen 'heat_source' when siblings already do \u2014 scoped to backlogId efmm-e859af7c0c65.",
+        "provenanceRecordIds": [
+          "INSIGNIA-DWR3-DISHWASHER::canonical_mapping::map-INSIGNIA-DWR3-DISHWASHER-compound-e3-\u2014-tub-heater-10\u201315-\u03c9",
+          "W11187658::canonical_mapping::map-W11187658-compound-e3-\u2014-tub-heater-~14-\u03c9"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,482 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "W11480208",
+  "platformId": "whirlpool_dishwasher_acu",
+  "platformFamilyId": "whirlpool_dishwasher_acu",
+  "canonicalOntologyId": "dishwasher",
+  "proposedOverlayFile": "whirlpool_dishwasher.json",
+  "priorPublishedManualId": "W11633848",
+  "priorPublishedPlatformFamilyId": "whirlpool_dishwasher_acu",
+  "status": "published",
+  "generatedAt": "2026-09-15T04:20:00+00:00",
+  "pipelineManifest": "frontend/components/diagnostics/knowledge/normalization/candidates/W11480208/pipeline_manifest.json",
+  "compoundingPreviewArtifact": "frontend/components/diagnostics/knowledge/normalization/calibration/W11480208_compounding_preview_v1.json",
+  "priorGateArtifact": "frontend/components/diagnostics/knowledge/normalization/calibration/W11633848_overlay_mapping_table_v1.json",
+  "gatePolicy": {
+    "canonicalGraph": "dishwasher.json rev1 FROZEN \u2014 zero new canonical concepts; second manual teaches platform compounding only.",
+    "cohortRule": "Native W11480208 only (source.manualId === W11480208; 8 procedures).",
+    "inheritanceRule": "Approve W11633848 gated Whirlpool dishwasher vocabulary where OEM function is unchanged.",
+    "implementationRule": "VSM wash/drain motors, filtration pinouts, and ProDry DC fan are platform add.components \u2014 implement circulation_pump, drain_pump, drying_system.",
+    "hierarchyRoutingRule": "ACU \u2192 control_board via whirlpool_dishwasher.json \u2014 not whirlpool_fl_dd washer overlay path.",
+    "matcherCorrectionRule": "Preserve matcher stupid outputs in candidates; correct at gate: dc-fan \u2192 drying_airflow_test, overfill \u2192 water_level_test, interior-led \u2192 reject.",
+    "proceduralTitleRule": "\u00a73-11 Water Heating / Heat Dry remains rejected \u2014 same heat_source vs drying_system boundary as W11633848.",
+    "publishBlocked": true
+  },
+  "compoundingAccounting": {
+    "baselineManualId": "W11633848",
+    "baselineNewHumanSemanticDecisions": 11,
+    "authoritativeCohort": {
+      "label": "Native W11480208 (w11480208-*)",
+      "procedurePrefix": "w11480208-",
+      "procedures": 8,
+      "mappingCandidates": 14,
+      "overlayCandidates": 17,
+      "projectedMappingApprovals": 11,
+      "projectedMappingRejections": 1,
+      "projectedMappingDeferred": 2,
+      "projectedProcedureBindingsApproved": 7,
+      "projectedMeasurementBindingsApproved": 9,
+      "note": "9 measurement review records (7 unique overlay candidate ids \u2014 door/overfill duplicate step ids)",
+      "projectedOverlayRejections": 1,
+      "projectedNewHumanSemanticDecisions": 5,
+      "projectedInheritedReuseAtGate": 6,
+      "projectedInheritedWhirlpoolDishwasherAliases": 6,
+      "projectedNewPlatformKnowledge": 4,
+      "projectedNewModelSpecificKnowledge": 2,
+      "projectedInheritedMatcherCorrections": 2,
+      "newCanonicalConcepts": 0
+    },
+    "teachingCostCurve": {
+      "W11633848": {
+        "role": "first_manual_baseline",
+        "newHumanSemanticDecisions": 11,
+        "questionMix": "what functional thing is this?"
+      },
+      "W11480208": {
+        "role": "second_manual_compounding",
+        "projectedNewHumanSemanticDecisions": 5,
+        "questionMix": "what Whirlpool-specific implementation detail is this?",
+        "reductionVsBaseline": 0.545
+      }
+    }
+  },
+  "gateSummary": {
+    "mappingCandidatesTotal": 14,
+    "approved": 11,
+    "rejected": 2,
+    "deferred": 2,
+    "procedureBindingsApproved": 7,
+    "measurementBindingsApproved": 9,
+    "overlayBindingsRejected": 1,
+    "newHumanSemanticDecisions": 5,
+    "inheritedReuseAtGate": 6,
+    "inheritedWhirlpoolDishwasherAliases": 6,
+    "newPlatformKnowledge": 4,
+    "newModelSpecificKnowledge": 2,
+    "inheritedMatcherCorrections": 2,
+    "newCanonicalConcepts": 0,
+    "gatedAt": "2026-09-15T05:47:23.743593+00:00"
+  },
+  "layerDefinitions": {
+    "canonical_reuse": "Seed componentId maps directly to frozen dishwasher rev1 \u2014 no new semantic decision.",
+    "inherited_whirlpool_dishwasher": "oemTermAlias or compound phrase already taught on W11633848 gated whirlpool_dishwasher.json.",
+    "hierarchy_routing": "Correct canonical target with explicit dishwasher manufacturer hierarchy routing.",
+    "platform_implementation_new": "New W11480208 platform component or filtration pinout under existing canonical function.",
+    "matcher_binding_correction": "Procedure/measurement binding correction \u2014 policy inherited from W11633848 gate.",
+    "model_specific": "Model/installation surface \u2014 defer, not manufacturer vocabulary.",
+    "reject_procedural_title": "OEM \u00a7 title only \u2014 bind by procedureId.",
+    "reject_overlay_binding": "Matcher-generated overlay binding rejected at gate."
+  },
+  "mappings": [
+    {
+      "manualConcept": "circulation_pump",
+      "layer": "canonical_reuse",
+      "candidate": "circulation_pump",
+      "seedComponentId": "circulation_pump",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11480208-circulation_pump-circulation_pump"
+      ],
+      "rationale": "Frozen canonical circulation function on diverter-motor procedure."
+    },
+    {
+      "manualConcept": "drain_pump",
+      "layer": "canonical_reuse",
+      "candidate": "drain_pump",
+      "seedComponentId": "drain_pump",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11480208-drain_pump-drain_pump"
+      ],
+      "rationale": "Frozen canonical drain function on VSM drain procedure."
+    },
+    {
+      "manualConcept": "inlet_valve",
+      "layer": "canonical_reuse",
+      "candidate": "inlet_valve",
+      "seedComponentId": "inlet_valve",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11480208-inlet_valve-inlet_valve"
+      ],
+      "rationale": "Seed tag on overfill procedure \u2014 canonical inlet_valve unchanged."
+    },
+    {
+      "manualConcept": "heater",
+      "layer": "canonical_reuse",
+      "candidate": "heat_source",
+      "gateAction": "approve_auto",
+      "candidateIds": [
+        "map-W11480208-heater-heat_source"
+      ],
+      "rationale": "Canonical heat_source alias \u2014 extracted from dc-fan seed tag noise; alias still valid."
+    },
+    {
+      "manualConcept": "ACU",
+      "layer": "hierarchy_routing",
+      "candidate": "control_board",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-acu-control_board"
+      ],
+      "proposedOemTermAlias": {
+        "ACU": "control_board",
+        "acu": "control_board"
+      },
+      "matcherNote": "Matcher surfaced whirlpool_fl_dd_direct_drive layer \u2014 gate routes via whirlpool_dishwasher.json.",
+      "rationale": "Correct target, dishwasher hierarchy path \u2014 semantic answer vs routing are separable."
+    },
+    {
+      "manualConcept": "\u00a73-8: Door Switch Circuit (P12)",
+      "layer": "inherited_whirlpool_dishwasher",
+      "candidate": "door_switch",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-door-switch-circuit-(p12)"
+      ],
+      "proposedOemTermAlias": {
+        "door switch": "door_switch"
+      },
+      "rationale": "Inherited from W11633848 gate \u2014 door authorization canonical."
+    },
+    {
+      "manualConcept": "\u00a73-13: Overfill Float Switch (P11)",
+      "layer": "inherited_whirlpool_dishwasher",
+      "candidate": "water_level_sensor",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-overfill-float-switch-(p11)"
+      ],
+      "proposedOemTermAlias": {
+        "float switch": "water_level_sensor",
+        "overfill float switch": "water_level_sensor"
+      },
+      "rationale": "Inherited from W11633848 gate \u2014 float/overfill \u2192 water_level_sensor."
+    },
+    {
+      "manualConcept": "\u00a73-14: Diverter Motor (P6)",
+      "layer": "inherited_whirlpool_dishwasher",
+      "candidate": "circulation_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-diverter-motor-(p6)"
+      ],
+      "proposedOemTermAlias": {
+        "diverter motor": "circulation_pump"
+      },
+      "platformNote": "W11480208 adds P6 1100\u20131400 \u03a9 pinout \u2014 strengthens diverter_motor platform topology.",
+      "rationale": "Inherited alias \u2014 NOT diverter_valve canonical."
+    },
+    {
+      "manualConcept": "\u00a73-19: Drain Motor (Variable Speed platform)",
+      "layer": "platform_implementation_new",
+      "candidate": "drain_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-drain-motor-(variable-speed-platform)"
+      ],
+      "proposedOemTermAlias": {
+        "drain motor": "drain_pump"
+      },
+      "platformNote": "vsm_drain_motor implements drain_pump \u2014 P5 5&6 vs W11633848 SSM P5 3&4.",
+      "rationale": "Inherited drain motor alias + new VSM platform implementation."
+    },
+    {
+      "manualConcept": "\u00a73-17: Wash Motor (Variable Speed)",
+      "layer": "platform_implementation_new",
+      "candidate": "circulation_pump",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-wash-motor-(variable-speed)"
+      ],
+      "proposedOemTermAlias": {
+        "wash motor": "circulation_pump"
+      },
+      "platformNote": "vsm_wash_motor implements circulation_pump \u2014 replaces SSM architecture on filtration models.",
+      "rationale": "Inherited wash motor alias + new VSM platform implementation."
+    },
+    {
+      "manualConcept": "\u00a73-20: DC Fan Motor (ProDry)",
+      "layer": "platform_implementation_new",
+      "candidate": "drying_system",
+      "gateAction": "approve_human",
+      "candidateIds": [
+        "map-W11480208-compound-dc-fan-motor-(prodry)"
+      ],
+      "proposedOemTermAlias": {
+        "dc fan motor": "drying_system",
+        "dc fan": "drying_system"
+      },
+      "platformNote": "dc_fan_motor implements drying_system \u2014 W11480208 ProDry P14 pinout.",
+      "rationale": "Inherited DC fan alias + filtration ProDry implementation detail."
+    }
+  ],
+  "deferredMappings": [
+    {
+      "manualConcept": "door_gasket",
+      "layer": "model_specific",
+      "gateAction": "defer_model",
+      "candidateIds": [
+        "map-W11480208-compound-door_gasket"
+      ],
+      "rationale": "Inherited defer from W11633848 \u2014 installation/leak surface, not manufacturer vocabulary."
+    },
+    {
+      "manualConcept": "\u00a73-21: Interior LED Lighting",
+      "layer": "model_specific",
+      "gateAction": "defer_model",
+      "candidateIds": [
+        "map-W11480208-compound-interior-led-lighting"
+      ],
+      "rationale": "Model/feature lighting surface \u2014 no canonical target; do not map to heater."
+    }
+  ],
+  "rejectedProceduralTitles": [
+    {
+      "sourceTerm": "\u00a73-11: Water Heating / Heat Dry",
+      "gateAction": "reject_alias",
+      "candidateIds": [
+        "map-W11480208-compound-water-heating-/-heat-dry"
+      ],
+      "rationale": "Inherited boundary from W11633848 \u2014 compound spans heat_source and drying_system; procedure binding splits."
+    }
+  ],
+  "rejectedOverlayBindings": [
+    {
+      "procedureId": "w11480208-interior-led",
+      "matcherTarget": "heater_command_test",
+      "gateAction": "reject_binding",
+      "candidateIds": [
+        "overlay-W11480208-w11480208-interior-led-heater_command_test"
+      ],
+      "rationale": "Interior LED is model-specific \u2014 reject matcher binding to heater_command_test."
+    }
+  ],
+  "procedureBindings": [
+    {
+      "procedureId": "w11480208-door-switch",
+      "testTargetId": "door_switch_test",
+      "canonicalComponents": [
+        "door_switch"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-door-switch-door_switch_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "inherited_whirlpool_dishwasher"
+    },
+    {
+      "procedureId": "w11480208-overfill-switch",
+      "testTargetId": "water_level_test",
+      "canonicalComponents": [
+        "water_level_sensor"
+      ],
+      "matcherCorrection": "fill_test \u2192 water_level_test",
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-overfill-switch-fill_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "matcher_binding_correction"
+    },
+    {
+      "procedureId": "w11480208-heater",
+      "testTargetId": "heater_command_test",
+      "canonicalComponents": [
+        "heat_source"
+      ],
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-heater-heater_command_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "inherited_whirlpool_dishwasher"
+    },
+    {
+      "procedureId": "w11480208-diverter-motor",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "implementationComponent": "diverter_motor",
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-diverter-motor-circulation_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-drain-motor-vsm",
+      "testTargetId": "drain_test",
+      "canonicalComponents": [
+        "drain_pump"
+      ],
+      "implementationComponent": "vsm_drain_motor",
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-drain-motor-vsm-drain_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-wash-motor-vsm",
+      "testTargetId": "circulation_test",
+      "canonicalComponents": [
+        "circulation_pump"
+      ],
+      "implementationComponent": "vsm_wash_motor",
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-wash-motor-vsm-circulation_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-dc-fan",
+      "testTargetId": "drying_airflow_test",
+      "canonicalComponents": [
+        "drying_system"
+      ],
+      "implementationComponent": "dc_fan_motor",
+      "matcherCorrection": "heater_command_test \u2192 drying_airflow_test",
+      "overlayCandidateIds": [
+        "overlay-W11480208-w11480208-dc-fan-heater_command_test"
+      ],
+      "gateAction": "approve_human",
+      "layer": "matcher_binding_correction"
+    }
+  ],
+  "measurementBindings": [
+    {
+      "procedureId": "w11480208-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "testTargetId": "door_switch_test",
+      "gateAction": "approve_human",
+      "layer": "inherited_whirlpool_dishwasher"
+    },
+    {
+      "procedureId": "w11480208-overfill-switch",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "testTargetId": "water_level_test",
+      "matcherCorrection": "fill_test \u2192 water_level_test",
+      "gateAction": "approve_human",
+      "layer": "matcher_binding_correction"
+    },
+    {
+      "procedureId": "w11480208-heater",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+      "testTargetId": "heater_command_test",
+      "gateAction": "approve_human",
+      "layer": "inherited_whirlpool_dishwasher"
+    },
+    {
+      "procedureId": "w11480208-diverter-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+      "testTargetId": "circulation_test",
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-drain-motor-vsm",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "testTargetId": "drain_test",
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-wash-motor-vsm",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+      "testTargetId": "circulation_test",
+      "gateAction": "approve_human",
+      "layer": "platform_implementation_new"
+    },
+    {
+      "procedureId": "w11480208-dc-fan",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+      "testTargetId": "drying_airflow_test",
+      "matcherCorrection": "heater_command_test \u2192 drying_airflow_test",
+      "gateAction": "approve_human",
+      "layer": "matcher_binding_correction"
+    }
+  ],
+  "proposedPlatformDelta": {
+    "add": {
+      "components": [
+        {
+          "id": "vsm_wash_motor",
+          "implementsCanonicalId": "circulation_pump",
+          "note": "W11480208 \u00a73-17 VSM wash motor \u2014 P5 1&2; replaces SSM on filtration models."
+        },
+        {
+          "id": "vsm_drain_motor",
+          "implementsCanonicalId": "drain_pump",
+          "note": "W11480208 \u00a73-19 VSM drain motor \u2014 P5 5&6."
+        }
+      ],
+      "relationships": [
+        {
+          "from": "vsm_wash_motor",
+          "to": "circulation_pump",
+          "type": "implements",
+          "note": "Filtration-platform VSM architecture."
+        },
+        {
+          "from": "vsm_drain_motor",
+          "to": "drain_pump",
+          "type": "implements",
+          "note": "Filtration-platform VSM drain architecture."
+        }
+      ]
+    },
+    "strengthenExisting": [
+      "diverter_motor",
+      "dc_fan_motor"
+    ]
+  },
+  "compoundingEvidence": {
+    "cohortRole": "second_manual_compounding",
+    "priorManualId": "W11633848",
+    "newHumanSemanticDecisions": 5,
+    "inheritedReuseAtGate": 6,
+    "inheritedWhirlpoolDishwasherAliases": 6,
+    "newPlatformKnowledge": 4,
+    "newModelSpecificKnowledge": 2,
+    "inheritedMatcherCorrections": 2,
+    "canonicalAutoReuse": 4,
+    "newCanonicalConcepts": 0,
+    "deferredModelConcepts": 2,
+    "rejectedProceduralTitles": 1,
+    "rejectedOverlayBindings": 1,
+    "teachingCostReduction": "5 vs 11 baseline (\u221245%) \u2014 decisions shift to implementation detail"
+  },
+  "humanGateChecklist": [
+    "Confirm 4 canonical_reuse auto mappings \u2014 dishwasher.json rev1 unchanged.",
+    "Approve 6 inherited Whirlpool dishwasher aliases from W11633848 gate.",
+    "Approve ACU hierarchy routing \u2014 dishwasher overlay path, not FL washer matcher layer.",
+    "Approve 4 new platform implementation mappings (VSM wash/drain, ProDry DC fan, diverter pinout).",
+    "Apply inherited matcher corrections: dc-fan \u2192 drying_airflow_test, overfill \u2192 water_level_test.",
+    "Defer door_gasket and interior LED \u2014 model surface only.",
+    "Reject \u00a73-11 title and interior-led overlay binding.",
+    "Do not publish overlay \u2014 dry-run promotion diff only."
+  ],
+  "publishedAt": "2026-09-15T05:47:33.040669+00:00",
+  "promotionId": "promo-W11480208-20260915054723"
+}

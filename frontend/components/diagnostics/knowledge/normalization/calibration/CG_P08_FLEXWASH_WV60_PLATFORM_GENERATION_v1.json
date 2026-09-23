@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_wv60_platform_generation",
+  "workstream": "CG-P08-FLEXWASH-FREEZE",
+  "status": "registered",
+  "registeredAt": "2026-09-17T22:30:00+00:00",
+  "purpose": "Register WV60 as a second Samsung FlexWash platform generation — registry and metadata only. No canonical ontology mutation.",
+  "platformId": "samsung_flexwash",
+  "generation": {
+    "id": "wv60",
+    "label": "WV60 generation (WV60M9900 / WV60A9900)",
+    "models": ["WV60M9900AV/A5", "WV60A9900AV/A5"],
+    "basicModelReference": "WF50K7500AV/A2",
+    "manualSource": "backend/docs/manuals/samsungflexwv60.pdf",
+    "extractedText": "backend/docs/manuals/samsungflexwv60-extracted.txt",
+    "witnessRole": "W2",
+    "procedureSeeds": false,
+    "modelPatterns": ["/WV60/i"]
+  },
+  "priorGeneration": {
+    "id": "wv55",
+    "label": "WV55 generation (WV55M9600)",
+    "models": ["WV55M9600*"],
+    "manualId": "SAMSUNG-FLEXWASH-WASHER",
+    "witnessRole": "W1",
+    "procedureSeeds": true,
+    "procedureCount": 21,
+    "modelPatterns": ["/WV55/i"]
+  },
+  "registryChanges": {
+    "canonicalMutation": false,
+    "newCanonicalFamilyFile": false,
+    "platformRegistryFile": "frontend/components/diagnostics/knowledge/platformRegistry.ts",
+    "change": "Extended samsung_flexwash modelPatterns to include /WV60/i; updated platform label"
+  },
+  "integrationBoundaryApplies": "flexwash_integration_boundary_functional_contract_frozen_v1.json",
+  "wv60Ac7InManual": "UNDOCUMENTED — not absent"
+}

@@ -1,0 +1,965 @@
+{
+  "manualId": "W10864849",
+  "platformId": "whirlpool_tl_dd",
+  "ontologyId": "top_load_washer",
+  "generatedAt": "2026-09-13T07:04:49.981872+00:00",
+  "summary": {
+    "total": 53,
+    "needsHuman": 0,
+    "termResolutions": 0,
+    "procedureBindings": 0,
+    "easyAliases": 0,
+    "alreadyDone": 53,
+    "byStatus": {
+      "approved": 53
+    },
+    "byLevel": {
+      "easy": 12,
+      "careful": 2,
+      "blocked": 14,
+      "normal": 25
+    }
+  },
+  "buckets": {
+    "term_resolution": [],
+    "procedure_binding": [],
+    "easy_alias": [],
+    "other": [],
+    "no_action": [
+      {
+        "candidateId": "map-W10864849-supply-supply",
+        "what": "supply",
+        "mapsTo": "supply",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: supply \u2192 supply",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "supply": "supply"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-main-control-(acu)",
+        "what": "TEST #1: Main Control (ACU)",
+        "mapsTo": "control_board",
+        "status": "approved",
+        "approvalLevel": "careful",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #1: Main Control (ACU) \u2192 control_board",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #1: Main Control (ACU)": "control_board"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-acu-control_board",
+        "what": "ACU",
+        "mapsTo": "control_board",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: ACU \u2192 control_board",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "ACU": "control_board"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-inlet_valve-inlet_valve",
+        "what": "inlet_valve",
+        "mapsTo": "inlet_valve",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: inlet_valve \u2192 inlet_valve",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "inlet_valve": "inlet_valve"
+          }
+        }
+      },
+      {
+        "candidateId": "map-w10864849-unresolved-w10864849-test-02-valves-test-#2:-valves",
+        "what": "TEST #2: Valves",
+        "mapsTo": "inlet_valve",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #2: Valves \u2192 inlet_valve",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #2: Valves": "inlet_valve"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-drive_motor-drive_motor",
+        "what": "drive_motor",
+        "mapsTo": "drive_motor",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: drive_motor \u2192 drive_motor",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "drive_motor": "drive_motor"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-drive-system-(pre-test)",
+        "what": "TEST #3: Drive System (pre-test)",
+        "mapsTo": "drive_motor",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #3: Drive System (pre-test) \u2192 drive_motor",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #3: Drive System (pre-test)": "drive_motor"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-drive-system-\u2014-shifter",
+        "what": "TEST #3a: Drive System \u2014 Shifter",
+        "mapsTo": "mode_shifter",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #3a: Drive System \u2014 Shifter \u2192 mode_shifter",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #3a: Drive System \u2014 Shifter": "mode_shifter"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-drive-system-\u2014-motor",
+        "what": "TEST #3b: Drive System \u2014 Motor",
+        "mapsTo": "drive_motor",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #3b: Drive System \u2014 Motor \u2192 drive_motor",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #3b: Drive System \u2014 Motor": "drive_motor"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-hmi_control-hmi_control",
+        "what": "hmi_control",
+        "mapsTo": "hmi_control",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: hmi_control \u2192 hmi_control",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "hmi_control": "hmi_control"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-keys-and-encoders",
+        "what": "TEST #4: Keys and Encoders",
+        "mapsTo": "hmi_control",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #4: Keys and Encoders \u2192 hmi_control",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #4: Keys and Encoders": "hmi_control"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-wash_ntc-wash_ntc",
+        "what": "wash_ntc",
+        "mapsTo": "wash_ntc",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: wash_ntc \u2192 wash_ntc",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "wash_ntc": "wash_ntc"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-temperature-thermistor",
+        "what": "TEST #5: Temperature Thermistor",
+        "mapsTo": "wash_ntc",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #5: Temperature Thermistor \u2192 wash_ntc",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #5: Temperature Thermistor": "wash_ntc"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-water_level_sensor-water_level_sensor",
+        "what": "water_level_sensor",
+        "mapsTo": "water_level_sensor",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: water_level_sensor \u2192 water_level_sensor",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "water_level_sensor": "water_level_sensor"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-water-level",
+        "what": "TEST #6: Water Level",
+        "mapsTo": "pressure_sensor",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #6: Water Level \u2192 pressure_sensor",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #6: Water Level": "pressure_sensor"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-drain_pump-drain_pump",
+        "what": "drain_pump",
+        "mapsTo": "drain_pump",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: drain_pump \u2192 drain_pump",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "drain_pump": "drain_pump"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-drain-&-recirculation-pump",
+        "what": "TEST #7: Drain & Recirculation Pump",
+        "mapsTo": "drain_pump",
+        "status": "approved",
+        "approvalLevel": "careful",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #7: Drain & Recirculation Pump \u2192 drain_pump",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #7: Drain & Recirculation Pump": "drain_pump"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-door_lock-door_lock",
+        "what": "door_lock",
+        "mapsTo": "door_lock",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: door_lock \u2192 door_lock",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "door_lock": "door_lock"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-lid-lock",
+        "what": "TEST #8: Lid Lock",
+        "mapsTo": "lid_lock",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #8: Lid Lock \u2192 lid_lock",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #8: Lid Lock": "lid_lock"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-wash_heater-wash_heater",
+        "what": "wash_heater",
+        "mapsTo": "wash_heater",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: wash_heater \u2192 wash_heater",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "wash_heater": "wash_heater"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-heater-element",
+        "what": "TEST #9: Heater Element",
+        "mapsTo": "wash_heater",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #9: Heater Element \u2192 wash_heater",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #9: Heater Element": "wash_heater"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-service-leds",
+        "what": "TEST #10: Service LEDs",
+        "mapsTo": "hmi_control",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #10: Service LEDs \u2192 hmi_control",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #10: Service LEDs": "hmi_control"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-basket-light",
+        "what": "TEST #11: Basket Light",
+        "mapsTo": "supply",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #11: Basket Light \u2192 supply",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #11: Basket Light": "supply"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-bulk_level_switch-bulk_level_switch",
+        "what": "bulk_level_switch",
+        "mapsTo": "bulk_level_switch",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: bulk_level_switch \u2192 bulk_level_switch",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "bulk_level_switch": "bulk_level_switch"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-bulk-dispense-pump-and-rex-board",
+        "what": "TEST #12: Bulk Dispense Pump and REX Board",
+        "mapsTo": "bulk_level_switch",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #12: Bulk Dispense Pump and REX Board \u2192 bulk_level_switch",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #12: Bulk Dispense Pump and REX Board": "bulk_level_switch"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-main-control-control_board",
+        "what": "TEST #1: Main Control",
+        "mapsTo": "control_board",
+        "status": "approved",
+        "approvalLevel": "easy",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #1: Main Control \u2192 control_board",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #1: Main Control": "control_board"
+          }
+        }
+      },
+      {
+        "candidateId": "map-w10864849-unresolved-w11697231-test-02-valves-test-#2:-valves",
+        "what": "TEST #2: Valves",
+        "mapsTo": "inlet_valve",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #2: Valves \u2192 inlet_valve",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #2: Valves": "inlet_valve"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-compound-console-and-indicators",
+        "what": "TEST #4: Console and Indicators",
+        "mapsTo": "hmi_control",
+        "status": "approved",
+        "approvalLevel": "blocked",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #4: Console and Indicators \u2192 hmi_control",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #4: Console and Indicators": "hmi_control"
+          }
+        }
+      },
+      {
+        "candidateId": "map-W10864849-drain-pump-drain_pump",
+        "what": "TEST #7: Drain Pump",
+        "mapsTo": "drain_pump",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "canonicalMapping",
+        "why": "alias: TEST #7: Drain Pump \u2192 drain_pump",
+        "proposedChange": {
+          "overlaySection": "oemTermAliases",
+          "operation": "add",
+          "value": {
+            "TEST #7: Drain Pump": "drain_pump"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-03-drive-system-motor_output_test",
+        "what": "w10864849-test-03-drive-system",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-03-drive-system \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-03-drive-system",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3: Drive System (pre-test)",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-03a-shifter-motor_output_test",
+        "what": "w10864849-test-03a-shifter",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-03a-shifter \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-03a-shifter",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-03b-motor-motor_output_test",
+        "what": "w10864849-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-03b-motor \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-03b-motor",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-03b-motor-meas-whirlpoolTlDdWasherMotorOhms",
+        "what": "w10864849-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherMotorOhms \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-03b-motor",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+            "testTargetId": "motor_output_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-03b-motor-meas-whirlpoolTlDdWasherMotorOhms",
+        "what": "w10864849-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherMotorOhms \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-03b-motor",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherMotorOhms",
+            "testTargetId": "motor_output_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-06-water-level-drain_test",
+        "what": "w10864849-test-06-water-level",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-06-water-level \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-06-water-level",
+            "testTargetId": "drain_test",
+            "displayTitle": "TEST #6: Water Level",
+            "componentIds": [
+              "water_level_sensor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-07-drain-recirc-pump-drain_test",
+        "what": "w10864849-test-07-drain-recirc-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-07-drain-recirc-pump \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-07-drain-recirc-pump",
+            "testTargetId": "drain_test",
+            "displayTitle": "TEST #7: Drain & Recirculation Pump",
+            "componentIds": [
+              "drain_pump"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherDrainPumpOhms",
+        "what": "w10864849-test-07-drain-recirc-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherDrainPumpOhms \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-07-drain-recirc-pump",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+            "testTargetId": "drain_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherRecircPumpOhms",
+        "what": "w10864849-test-07-drain-recirc-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherRecircPumpOhms \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-07-drain-recirc-pump",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherRecircPumpOhms",
+            "testTargetId": "drain_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-07-drain-recirc-pump-meas-whirlpoolTlDdWasherDrainPumpOhms",
+        "what": "w10864849-test-07-drain-recirc-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherDrainPumpOhms \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-07-drain-recirc-pump",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+            "testTargetId": "drain_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-08-lid-lock-door_lock_test",
+        "what": "w10864849-test-08-lid-lock",
+        "mapsTo": "door_lock_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w10864849-test-08-lid-lock \u2192 door_lock_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-08-lid-lock",
+            "testTargetId": "door_lock_test",
+            "displayTitle": "TEST #8: Lid Lock",
+            "componentIds": [
+              "door_lock"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w10864849-test-08-lid-lock-meas-whirlpoolTlDdWasherLidLockMotorOhms",
+        "what": "w10864849-test-08-lid-lock",
+        "mapsTo": "door_lock_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolTlDdWasherLidLockMotorOhms \u2192 door_lock_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w10864849-test-08-lid-lock",
+            "measurementKnowledgeId": "whirlpoolTlDdWasherLidLockMotorOhms",
+            "testTargetId": "door_lock_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03-drive-system-motor_output_test",
+        "what": "w11697231-test-03-drive-system",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-03-drive-system \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03-drive-system",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3: Drive System (pre-test)",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03a-shifter-motor_output_test",
+        "what": "w11697231-test-03a-shifter",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-03a-shifter \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03a-shifter",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3a: Drive System \u2014 Shifter",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03a-shifter-meas-whirlpoolWtw4950WasherShifterOhms",
+        "what": "w11697231-test-03a-shifter",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherShifterOhms \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03a-shifter",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherShifterOhms",
+            "testTargetId": "motor_output_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03b-motor-motor_output_test",
+        "what": "w11697231-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-03b-motor \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03b-motor",
+            "testTargetId": "motor_output_test",
+            "displayTitle": "TEST #3b: Drive System \u2014 Motor",
+            "componentIds": [
+              "drive_motor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03b-motor-meas-whirlpoolWtw4950WasherMotorWindingOhms",
+        "what": "w11697231-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherMotorWindingOhms \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03b-motor",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+            "testTargetId": "motor_output_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-03b-motor-meas-whirlpoolWtw4950WasherMotorWindingOhms",
+        "what": "w11697231-test-03b-motor",
+        "mapsTo": "motor_output_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherMotorWindingOhms \u2192 motor_output_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-03b-motor",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherMotorWindingOhms",
+            "testTargetId": "motor_output_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-06-water-level-drain_test",
+        "what": "w11697231-test-06-water-level",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-06-water-level \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-06-water-level",
+            "testTargetId": "drain_test",
+            "displayTitle": "TEST #6: Water Level",
+            "componentIds": [
+              "water_level_sensor"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-07-drain-pump-drain_test",
+        "what": "w11697231-test-07-drain-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-07-drain-pump \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-07-drain-pump",
+            "testTargetId": "drain_test",
+            "displayTitle": "TEST #7: Drain Pump",
+            "componentIds": [
+              "drain_pump"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-07-drain-pump-meas-whirlpoolWtw4950WasherDrainPumpOhms",
+        "what": "w11697231-test-07-drain-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherDrainPumpOhms \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-07-drain-pump",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+            "testTargetId": "drain_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-07-drain-pump-meas-whirlpoolWtw4950WasherDrainPumpOhms",
+        "what": "w11697231-test-07-drain-pump",
+        "mapsTo": "drain_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherDrainPumpOhms \u2192 drain_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-07-drain-pump",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherDrainPumpOhms",
+            "testTargetId": "drain_test"
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-08-lid-lock-door_lock_test",
+        "what": "w11697231-test-08-lid-lock",
+        "mapsTo": "door_lock_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "procedureTestBinding",
+        "why": "procedureTestBinding: w11697231-test-08-lid-lock \u2192 door_lock_test",
+        "proposedChange": {
+          "overlaySection": "procedureBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-08-lid-lock",
+            "testTargetId": "door_lock_test",
+            "displayTitle": "TEST #8: Lid Lock",
+            "componentIds": [
+              "door_lock"
+            ]
+          }
+        }
+      },
+      {
+        "candidateId": "overlay-W10864849-w11697231-test-08-lid-lock-meas-whirlpoolWtw4950WasherLidLockSolenoidOhms",
+        "what": "w11697231-test-08-lid-lock",
+        "mapsTo": "door_lock_test",
+        "status": "approved",
+        "approvalLevel": "normal",
+        "candidateType": "measurementBinding",
+        "why": "measurementBinding: whirlpoolWtw4950WasherLidLockSolenoidOhms \u2192 door_lock_test",
+        "proposedChange": {
+          "overlaySection": "measurementBindings",
+          "operation": "add",
+          "value": {
+            "procedureId": "w11697231-test-08-lid-lock",
+            "measurementKnowledgeId": "whirlpoolWtw4950WasherLidLockSolenoidOhms",
+            "testTargetId": "door_lock_test"
+          }
+        }
+      }
+    ]
+  },
+  "termManifest": "C:\\Users\\chee3\\IdeaProjects\\idims\\frontend\\components\\diagnostics\\knowledge\\normalization\\calibration\\w10864849_term_resolutions.json",
+  "hasTermManifest": true
+}

@@ -1,0 +1,41 @@
+{
+  "manualId": "SAMSUNG-RF23BB-FRIDGE",
+  "platformId": "samsung_fridge_bespoke",
+  "gateArtifact": "SAMSUNG_RF23BB_FD_overlay_mapping_table_v1.json",
+  "ledgerArtifact": "SAMSUNG_RF23BB_FD_gate_decision_ledger_v1.json",
+  "publishMode": "gate_table_authoritative_second_manual_compounding",
+  "gateKind": "samsung_rf23bb_second_manual_compounding",
+  "isLearningEvent": true,
+  "isCertification": false,
+  "priorPublishedManualIds": [
+    "W10322959"
+  ],
+  "accounting": {
+    "canonicalInheritances": 5,
+    "conditionalBindings": 7,
+    "overlayLearningEvents": 7,
+    "intentionalAbstentions": 4,
+    "newOverlaySemanticDecisions": 7,
+    "canonicalExpansion": 0,
+    "freezeReopening": 0,
+    "ontologyMutations": 0,
+    "semanticLearningFromRouting": 0
+  },
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "dryRunChecks": {
+    "canonicalHashStable": true,
+    "canonicalExpansionZero": true,
+    "canonicalInheritancesFive": true,
+    "conditionalBindingsSeven": true,
+    "overlayLearningSeven": true,
+    "intentionalAbstentionsFour": true,
+    "jazzOverlayByteStable": true,
+    "noJazzLeakInSamsungOverlay": true,
+    "overlayStatusDraft": true,
+    "conditionalBindingsInOverlay": true,
+    "doorSwitchNotInProcedureBindings": true,
+    "platformComponentsOnlyInAdd": true
+  }
+}

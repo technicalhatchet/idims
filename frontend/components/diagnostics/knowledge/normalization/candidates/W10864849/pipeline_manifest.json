@@ -1,0 +1,115 @@
+{
+  "manualId": "W10864849",
+  "platformId": "whirlpool_tl_dd",
+  "templateId": "washer",
+  "label": "Whirlpool & Maytag 6.2 cu ft direct-drive top-load washer",
+  "status": "candidate",
+  "ontologyId": "top_load_washer",
+  "generatedAt": "2026-09-15T18:38:40.956595+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 14,
+    "mappingCandidates": 25,
+    "overlayCandidates": 12,
+    "conflicts": 0,
+    "extractionFiltered": 15
+  },
+  "extractionFilters": {
+    "proceduralNoise": 15,
+    "structuralNoise": 0,
+    "invalidExtraction": 0,
+    "totalFiltered": 15,
+    "samples": [
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-01-acu-power",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-02-valves",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "pre-test",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-03-drive-system",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-03a-shifter",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-03b-motor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-04-keys-encoders",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-05-temp-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-06-water-level",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-07-drain-recirc-pump",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-08-lid-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-09-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-10-service-leds",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-11-basket-light",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TEST",
+        "blockedReason": "PROCEDURAL_NOISE",
+        "procedureId": "w10864849-test-12-bulk-dispense",
+        "source": "title_token"
+      }
+    ]
+  }
+}

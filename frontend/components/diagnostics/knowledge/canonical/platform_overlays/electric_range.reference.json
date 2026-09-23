@@ -1,0 +1,149 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "electric_range",
+  "description": "Reference platform overlays for CG-10 electric range rev1 discovery corpus. Bake/broil/convection element procedures bind to instanceScopes[] — not canonical components[]. Manufacturer compounding overlays are a separate phase after canonical freeze.",
+  "platforms": [
+    {
+      "platformId": "whirlpool_freestanding_range",
+      "manualId": "W11746350",
+      "smokeModel": "WFE550S0",
+      "label": "Whirlpool Copernicus freestanding electric range (R1 discovery)",
+      "componentAliases": {
+        "acu": "control_board",
+        "main_control": "control_board",
+        "display_panel": "user_interface",
+        "oven_sensor": "temperature_sensor",
+        "temp_sensor": "temperature_sensor",
+        "supply": "power_supply",
+        "bake_element": "control_board",
+        "broil_element": "control_board"
+      },
+      "implementationNotes": [
+        "R1 discovery manual — exposed monolithic oven_heating_system problem; bake/broil relay path is platform implementation.",
+        "Bake/broil element procedures bind to instanceScopes (bake_heating_element, broil_heating_element) — not canonical components[].",
+        "surface_control (ACU relay surface path) is PLATFORM_ONLY — do not promote to canonical.",
+        "thermal_protection: dedicated thermal-fuse proc — conditional/platform vocabulary."
+      ],
+      "procedures": [
+        { "procedureId": "w11746350-acu-power", "canonicalComponents": ["power_supply", "control_board"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "w11746350-hmi", "canonicalComponents": ["user_interface", "control_board"], "failureDomains": ["user_interface_failure", "control_failure"] },
+        { "procedureId": "w11746350-oven-sensor", "canonicalComponents": ["temperature_sensor"], "failureDomains": ["temperature_sensing_failure"] },
+        { "procedureId": "w11746350-thermal-fuse", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "thermal_protection conditional — platform fuse vocabulary" }
+      ],
+      "gaps": [
+        { "canonicalComponent": "surface_heating_system", "confidence": "high", "note": "Copernicus surface relay path — R3 LCX infinite-switch probe provides surface_heating_system invariant evidence." },
+        { "instanceScope": "bake_heating_element", "confidence": "high", "note": "w11746350-bake-element — instance scope binding deferred to compounding phase." },
+        { "instanceScope": "broil_heating_element", "confidence": "high", "note": "w11746350-broil-element — instance scope binding deferred to compounding phase." }
+      ]
+    },
+    {
+      "platformId": "whirlpool_freestanding_range",
+      "manualId": "W11174426",
+      "smokeModel": "WFE515S0",
+      "label": "Whirlpool LCX/LCC freestanding electric range (R3 platform falsification)",
+      "componentAliases": {
+        "control_board": "control_board",
+        "main_control": "control_board",
+        "display_panel": "user_interface",
+        "oven_sensor": "temperature_sensor",
+        "temp_sensor": "temperature_sensor",
+        "supply": "power_supply",
+        "bake_element": "control_board",
+        "broil_element": "control_board"
+      },
+      "implementationNotes": [
+        "R3 platform probe — infinite_switch falsified as canonical; control_board → surface_heating_system invariant holds.",
+        "w11174426-infinite-switch maps to PLATFORM_ONLY surface_control — rejected from canonical promotion.",
+        "Bake/broil element procedures bind to instanceScopes[] on LCX."
+      ],
+      "procedures": [
+        { "procedureId": "w11174426-acu-power", "canonicalComponents": ["power_supply", "control_board"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "w11174426-hmi", "canonicalComponents": ["user_interface", "control_board"], "failureDomains": ["user_interface_failure"] },
+        { "procedureId": "w11174426-oven-sensor", "canonicalComponents": ["temperature_sensor"], "failureDomains": ["temperature_sensing_failure"] },
+        { "procedureId": "w11174426-bake-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.bake_heating_element — element load test, not separate canonical node" },
+        { "procedureId": "w11174426-broil-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.broil_heating_element" }
+      ],
+      "gaps": [
+        { "canonicalComponent": "surface_heating_system", "confidence": "high", "note": "Infinite-switch surface path — functional domain confirmed; switching is platform-only." },
+        { "conditionalConcept": "convection_fan", "confidence": "conditional", "note": "LCX documents fan behavior — no dedicated fan procedure seed on R3." }
+      ]
+    },
+    {
+      "platformId": "lg_freestanding_range",
+      "manualId": "LG-LRE-RANGE",
+      "smokeModel": "LRE30755",
+      "label": "LG LRE freestanding electric range (R2 manufacturer boundary)",
+      "componentAliases": {
+        "main_pcb": "control_board",
+        "main_control": "control_board",
+        "display": "user_interface",
+        "oven_rtd": "temperature_sensor",
+        "temp_sensor": "temperature_sensor",
+        "supply": "power_supply",
+        "bake_element": "control_board",
+        "broil_element": "control_board",
+        "convection_element": "control_board",
+        "convection_fan": "control_board",
+        "door_switch": "control_board",
+        "surface_element": "surface_heating_system"
+      },
+      "implementationNotes": [
+        "R2 boundary manual — independently confirmed bake/broil/convection as distinct testable functions.",
+        "Per-zone cooktop element procedures are PLATFORM_ONLY surface_heating_element overlay scope.",
+        "convection_fan and convection_heating_element have dedicated LG procedures — conditional/instance scope binding."
+      ],
+      "procedures": [
+        { "procedureId": "lg-range-no-power", "canonicalComponents": ["power_supply", "control_board"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "lg-range-oven-sensor", "canonicalComponents": ["temperature_sensor"], "failureDomains": ["temperature_sensing_failure"] },
+        { "procedureId": "lg-range-bake-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.bake_heating_element" },
+        { "procedureId": "lg-range-broil-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.broil_heating_element" },
+        { "procedureId": "lg-range-convection-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalInstanceScopes.convection_heating_element" },
+        { "procedureId": "lg-range-convection-motor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalConcept.convection_fan" },
+        { "procedureId": "lg-range-door-switch", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalConcept.oven_door_switch" }
+      ],
+      "gaps": [
+        { "canonicalComponent": "surface_heating_system", "confidence": "high", "note": "lg-range-cooktop-single per-zone tests — overlay granularity under surface_heating_system." }
+      ]
+    },
+    {
+      "platformId": "samsung_range_ne58",
+      "manualId": "SAMSUNG-NE58-RANGE",
+      "smokeModel": "NE58F9710WS",
+      "label": "Samsung NE58 Flex Duo electric range (R4 manufacturer boundary validation)",
+      "componentAliases": {
+        "main_pcb": "control_board",
+        "sub_pcb": "control_board",
+        "main_control": "control_board",
+        "display": "user_interface",
+        "display_panel": "user_interface",
+        "oven_sensor": "temperature_sensor",
+        "thermistor": "temperature_sensor",
+        "supply": "power_supply",
+        "bake_element": "control_board",
+        "broil_element": "control_board",
+        "convection_element": "control_board",
+        "convection_fan": "control_board",
+        "door_switch": "control_board",
+        "surface_element": "surface_heating_system",
+        "radiant_element": "surface_heating_system"
+      },
+      "implementationNotes": [
+        "R4 boundary validation — excluded from discovery corpus; confirms post-R3 hypothesis.",
+        "sub_pcb, infinite_switch, dlb_relay rejected from canonical promotion (Samsung hardware guard).",
+        "Bake/broil/convection element seed ids alias to control_board for overlay validation — instance scope binding in mappingNote."
+      ],
+      "procedures": [
+        { "procedureId": "samsungne58-power", "canonicalComponents": ["power_supply", "control_board"], "failureDomains": ["power_failure", "control_failure"] },
+        { "procedureId": "samsungne58-hmi-touch", "canonicalComponents": ["user_interface", "control_board"], "failureDomains": ["user_interface_failure"] },
+        { "procedureId": "samsungne58-oven-sensor", "canonicalComponents": ["temperature_sensor"], "failureDomains": ["temperature_sensing_failure"] },
+        { "procedureId": "samsungne58-bake-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.bake_heating_element" },
+        { "procedureId": "samsungne58-broil-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "instanceScopes.broil_heating_element" },
+        { "procedureId": "samsungne58-convection-element", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalInstanceScopes.convection_heating_element" },
+        { "procedureId": "samsungne58-convection-fan", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalConcept.convection_fan" },
+        { "procedureId": "samsungne58-surface-radiant", "canonicalComponents": ["surface_heating_system"], "failureDomains": ["surface_heat_failure"] },
+        { "procedureId": "samsungne58-door-switch", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure"], "mappingNote": "conditionalConcept.oven_door_switch" }
+      ],
+      "gaps": []
+    }
+  ]
+}

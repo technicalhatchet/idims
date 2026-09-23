@@ -1,0 +1,99 @@
+{
+  "manualIds": [
+    "W10864849",
+    "W11697231",
+    "W11416787"
+  ],
+  "gateKind": "whirlpool_tl_corpus_rev1_certification",
+  "promotionId": "promo-WHIRLPOOL-TL-CG66-gate-table-dry-run",
+  "publish": false,
+  "publishMode": "gate_table_certification",
+  "certificationAccounting": {
+    "newSemanticDecisions": 0,
+    "certificationDecisions": 35,
+    "inheritedKnowledge": 50,
+    "deferredArtifacts": 17,
+    "contractRejections": 2,
+    "canonicalExpansion": 0,
+    "note": "Every entry has newSemanticDecision=false. Contract rejections are policy guardrails, not negative teaching cost. Historical promotion decisions (14/0/2) remain in gate table provenance only."
+  },
+  "expectedPublicationCounts": {
+    "platformFamilies": 2,
+    "procedureBindings": 12,
+    "measurementBindings": 18,
+    "procedureRoleEvidence": 6,
+    "oemAliasMappings": 49
+  },
+  "appliedCounts": {
+    "metadataFields": 7,
+    "procedureBindings": 12,
+    "measurementBindings": 18,
+    "procedureRoleEvidence": 6,
+    "oemAliasMappings": 49,
+    "canonicalMutations": 0,
+    "newSemanticDecisions": 0
+  },
+  "summary": {
+    "gateIntentTotal": 85,
+    "publisherAppliedTotal": 85,
+    "representationFailures": 0,
+    "publishBlocked": false,
+    "newSemanticDecisions": 0,
+    "canonicalMutations": 0
+  },
+  "checks": {
+    "canonicalHashMatch": true,
+    "canonicalFrozenRev1": true,
+    "canonicalComponentSet17": true,
+    "driveSystemAbsent": true,
+    "lidSwitchConditionalNoMatcherAlias": true,
+    "overlaySemanticUnchanged": true,
+    "whirlpoolTlKnowledgePreserved": true,
+    "flOverlayByteStable": true,
+    "samsungFlOverlayByteStable": true,
+    "flLeakageZero": true,
+    "samsungLeakageZero": true,
+    "gateTableFullyApplied": true,
+    "gatePublicationDriftZero": true,
+    "newSemanticDecisionsZero": true,
+    "canonicalExpansionZero": true,
+    "canonicalMutationsZero": true,
+    "procedureBindingsMatchExpected": true,
+    "measurementBindingsMatchExpected": true,
+    "procedureRoleEvidenceMatchExpected": true,
+    "oemAliasMappingsMatchExpected": true,
+    "ledgerCertificationAccounting": true
+  },
+  "contractChecks": {
+    "frozen": true,
+    "frozenRevisionRev1": true,
+    "componentCount17": true,
+    "componentSetMatchesContract": true,
+    "driveSystemAbsent": true,
+    "lidSwitchPresent": true,
+    "lidSwitchConditional": true,
+    "noDriveSystemInRelationships": true
+  },
+  "canonicalHash": {
+    "before": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "after": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "match": true
+  },
+  "flPreservation": {
+    "byteStable": true,
+    "leakage": []
+  },
+  "samsungPreservation": {
+    "byteStable": true,
+    "leakage": []
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg5-tl-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/tl-washer-torture.test.ts": 0
+  },
+  "notes": [
+    "CG-6.6 certification \u2014 metadata-only publisher; semantic overlay unchanged.",
+    "Gate table authoritative; ledger audit-only.",
+    "Any canonical mutation would fail closed \u2014 not auto-fixed."
+  ]
+}

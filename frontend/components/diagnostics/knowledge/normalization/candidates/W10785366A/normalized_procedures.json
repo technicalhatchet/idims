@@ -1,0 +1,1798 @@
+{
+  "manualId": "W10785366A",
+  "procedures": [
+    {
+      "procedureId": "w10785366a-connectivity-console",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a74-7\u20134-11: Console connectivity indicators",
+      "purpose": "Connectivity status troubleshooting",
+      "prerequisites": [],
+      "componentIds": [
+        "hmi_control",
+        "wifi_module"
+      ],
+      "tags": [
+        "connectivity_issue",
+        "wifi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "power_and_connect",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Power on before CONNECT",
+          "body": "Appliance ON (POWER pressed). Press CONNECT \u2014 does WiFi console icon light or blink?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "icon_blinks",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "recycle_power",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "icon_dead",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "wifi_module_path",
+              "terminal": true,
+              "oemOutcome": "WiFi icon dead \u2014 run WiFi module procedure."
+            }
+          ],
+          "sourceExcerpt": "Appliance ON (POWER pressed). Press CONNECT \u2014 does WiFi console icon light or blink?"
+        },
+        {
+          "id": "recycle_power",
+          "order": 3,
+          "type": "instruction",
+          "title": "Recycle power",
+          "body": "Unplug 60 seconds. Restore power and repeat connect. If still failing and appliance otherwise OK, check software versions.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug 60 seconds. Restore power and repeat connect. If still failing and appliance otherwise OK, check software versions."
+        },
+        {
+          "id": "version_or_wifi",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Software versions or WiFi LED?",
+          "body": "Can you read WiFi (n) version in Service Diagnostic? If no, inspect WiFi module LED during connect.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "versions_ok",
+              "label": "n version OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "han_issue",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "versions_bad",
+              "label": "n-- or cannot enter diag",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "wifi_module_path",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Can you read WiFi (n) version in Service Diagnostic? If no, inspect WiFi module LED during connect."
+        },
+        {
+          "id": "han_issue",
+          "order": 5,
+          "type": "outcome",
+          "title": "Home network / WISE / registration",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wifi_module_path",
+          "order": 6,
+          "type": "outcome",
+          "title": "Run WiFi module test",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "icon_blinks",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "recycle_power",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "power_and_connect"
+        },
+        {
+          "id": "icon_dead",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_module_path",
+          "terminal": true,
+          "oemOutcome": "WiFi icon dead \u2014 run WiFi module procedure.",
+          "stepId": "power_and_connect"
+        },
+        {
+          "id": "versions_ok",
+          "label": "n version OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "han_issue",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "version_or_wifi"
+        },
+        {
+          "id": "versions_bad",
+          "label": "n-- or cannot enter diag",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_module_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "version_or_wifi"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "4-7",
+        "oemTestTitle": "Connectivity status troubleshooting",
+        "pages": [
+          43,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-connectivity-console",
+        "pages": [
+          43,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-connectivity-console",
+            "pages": [
+              43,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10785366a-dishwasher-wifi",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a77: Clean-connect dishwasher WiFi",
+      "purpose": "Clean-connect dishwasher smart components",
+      "prerequisites": [],
+      "componentIds": [
+        "wifi_module",
+        "hmi_control"
+      ],
+      "tags": [
+        "wifi_check",
+        "connectivity_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "dw_access_wifi",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access rear WiFi module",
+          "body": "Dishwasher smart delta: HMI + WiFi only (no PM board). WiFi module at rear bottom; SAID/MAC on enclosure.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Dishwasher smart delta: HMI + WiFi only (no PM board). WiFi module at rear bottom; SAID/MAC on enclosure."
+        },
+        {
+          "id": "dw_wifi_led",
+          "order": 3,
+          "type": "visual_check",
+          "title": "WiFi LED during CONNECT",
+          "body": "Run connect process. Observe LED through plastic enclosure (no window). Green fast blink = module active.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "dw_led_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "dw_wifi_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "dw_wifi_fault",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "dw_wifi_fault_out",
+              "terminal": true,
+              "oemOutcome": "Replace WiFi module or check antennas after harness inspection."
+            }
+          ],
+          "sourceExcerpt": "Run connect process. Observe LED through plastic enclosure (no window). Green fast blink = module active."
+        },
+        {
+          "id": "dw_antenna_check",
+          "order": 4,
+          "type": "instruction",
+          "title": "Check dual antennas",
+          "body": "Verify internal radio antenna and external tub antenna routed to UI area per \u00a77-3.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify internal radio antenna and external tub antenna routed to UI area per \u00a77-3."
+        },
+        {
+          "id": "dw_service_diag",
+          "order": 5,
+          "type": "instruction",
+          "title": "Service Diagnostics cycle",
+          "body": "Standby: press 1-2-3-1-2-3-1-2-3 within 1 sec between keys. Close door to start cycle. Note: WiFi fault sends error to ACU but no WiFi status step in diagnostics.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Standby: press 1-2-3-1-2-3-1-2-3 within 1 sec between keys. Close door to start cycle. Note: WiFi fault sends error to ACU but no WiFi status step in diagnostics."
+        },
+        {
+          "id": "dw_wifi_ok",
+          "order": 6,
+          "type": "outcome",
+          "title": "Dishwasher WiFi path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "dw_wifi_fault_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace WiFi module or HMI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "dw_led_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "dw_wifi_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "dw_wifi_led"
+        },
+        {
+          "id": "dw_wifi_fault",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "dw_wifi_fault_out",
+          "terminal": true,
+          "oemOutcome": "Replace WiFi module or check antennas after harness inspection.",
+          "stepId": "dw_wifi_led"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "7",
+        "oemTestTitle": "Clean-connect dishwasher smart components",
+        "pages": [
+          70,
+          72
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-dishwasher-wifi",
+        "pages": [
+          70,
+          72
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-dishwasher-wifi",
+            "pages": [
+              70,
+              72
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10785366a-fridge-wifi-service",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a78-4: Smart refrigerator WiFi service tests",
+      "purpose": "WiFi link and antenna service tests",
+      "prerequisites": [],
+      "componentIds": [
+        "wifi_module",
+        "hmi_control"
+      ],
+      "tags": [
+        "wifi_check",
+        "connectivity_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "fridge_service_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter refrigerator service mode",
+          "body": "Hold Recommended + Drawer buttons simultaneously 5 seconds (chime). Use Icemaker2 = Enter; Up/Down navigate; Fast Cool = Back.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Hold Recommended + Drawer buttons simultaneously 5 seconds (chime). Use Icemaker2 = Enter; Up/Down navigate; Fast Cool = Back."
+        },
+        {
+          "id": "fridge_wifi_test_106",
+          "order": 3,
+          "type": "instruction",
+          "title": "Test 106 \u2014 WiFi link self-test",
+          "body": "Hold Up arrow to advance to WiFi Service Test 106. Display shows 00 while testing, then 01/02/03 result.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Hold Up arrow to advance to WiFi Service Test 106. Display shows 00 while testing, then 01/02/03 result."
+        },
+        {
+          "id": "fridge_link_result",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Link test result code",
+          "body": "01 = cannot link AP/WISE; 02 = AP OK but not WISE; 03 = connected to AP and WISE.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "code_03",
+              "label": "03 \u2014 fully connected",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fridge_antenna_tests",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "code_01_02",
+              "label": "01 or 02",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fridge_han_path",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "01 = cannot link AP/WISE; 02 = AP OK but not WISE; 03 = connected to AP and WISE."
+        },
+        {
+          "id": "fridge_antenna_tests",
+          "order": 5,
+          "type": "instruction",
+          "title": "Tests 108\u2013109 antenna signal",
+          "body": "Navigate to tests 108 and 109. Record antenna 1 and 2 signal strength (0\u2013100%).",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Navigate to tests 108 and 109. Record antenna 1 and 2 signal strength (0\u2013100%)."
+        },
+        {
+          "id": "fridge_han_path",
+          "order": 6,
+          "type": "instruction",
+          "title": "Check 12.7 VDC WiFi supply",
+          "body": "WiFi board fed from Orion P16-1 to WiFi J3-1. Verify board seating and antenna coupler under right hinge cover.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "WiFi board fed from Orion P16-1 to WiFi J3-1. Verify board seating and antenna coupler under right hinge cover."
+        },
+        {
+          "id": "fridge_wifi_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Refrigerator WiFi verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "fridge_replace_wifi",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace WiFi board or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "code_03",
+          "label": "03 \u2014 fully connected",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fridge_antenna_tests",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fridge_link_result"
+        },
+        {
+          "id": "code_01_02",
+          "label": "01 or 02",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fridge_han_path",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fridge_link_result"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "8-4",
+        "oemTestTitle": "WiFi link and antenna service tests",
+        "pages": [
+          78,
+          79
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-fridge-wifi-service",
+        "pages": [
+          78,
+          79
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-fridge-wifi-service",
+            "pages": [
+              78,
+              79
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10785366a-hmi-wifi-comm",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a74-10: HMI \u2194 WiFi communication",
+      "purpose": "Software version communication check",
+      "prerequisites": [],
+      "componentIds": [
+        "hmi_control",
+        "wifi_module"
+      ],
+      "tags": [
+        "F6E2",
+        "hmi_check",
+        "connectivity_issue",
+        "wifi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "enter_service_diag",
+          "order": 2,
+          "type": "instruction",
+          "title": "Enter Service Diagnostic mode",
+          "body": "Use laundry 3-button \u00d7 3 entry (washer \u00a75-5 / dryer \u00a76-5) or dishwasher 1-2-3 cycle entry as applicable.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Use laundry 3-button \u00d7 3 entry (washer \u00a75-5 / dryer \u00a76-5) or dishwasher 1-2-3 cycle entry as applicable."
+        },
+        {
+          "id": "software_version_display",
+          "order": 3,
+          "type": "instruction",
+          "title": "Open Software Version Display",
+          "body": "Laundry: hold 2nd button used for diagnostic entry 5 seconds. Display cycles UI, ACU, WiFi (n), and PMM (p) revision codes.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Laundry: hold 2nd button used for diagnostic entry 5 seconds. Display cycles UI, ACU, WiFi (n), and PMM (p) revision codes."
+        },
+        {
+          "id": "wifi_version_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "WiFi software version (n label)",
+          "body": "Does display show WiFi revision (n major.minor.test) \u2014 not n--?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "n_ok",
+              "label": "n version shown",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "n_dash",
+              "label": "n-- (dashes)",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "wifi_comm_fault",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "n-- means UI and WiFi module are not communicating."
+        },
+        {
+          "id": "all_dash_check",
+          "order": 5,
+          "type": "visual_check",
+          "title": "All versions show -- ?",
+          "body": "If every software version is --, UI or harness fault; F6E2 should also be present.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "all_dash",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ui_harness_fault",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "partial_comm",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "inspect_wifi_harness",
+              "terminal": true,
+              "oemOutcome": "Only WiFi n-- \u2014 harness or WiFi module."
+            }
+          ],
+          "sourceExcerpt": "If every software version is --, UI or harness fault; F6E2 should also be present."
+        },
+        {
+          "id": "inspect_wifi_harness",
+          "order": 6,
+          "type": "instruction",
+          "title": "Inspect WiFi harness",
+          "body": "Unplug power. Verify WiFi module connector and WIDE/WIN harness. Restore power and retest version display.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug power. Verify WiFi module connector and WIDE/WIN harness. Restore power and retest version display."
+        },
+        {
+          "id": "comm_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "HMI \u2194 WiFi communicating",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wifi_comm_fault",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace WiFi module or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ui_harness_fault",
+          "order": 9,
+          "type": "outcome",
+          "title": "Repair UI harness or replace HMI",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "n_ok",
+          "label": "n version shown",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_version_check"
+        },
+        {
+          "id": "n_dash",
+          "label": "n-- (dashes)",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "wifi_comm_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_version_check"
+        },
+        {
+          "id": "all_dash",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ui_harness_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "all_dash_check"
+        },
+        {
+          "id": "partial_comm",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "inspect_wifi_harness",
+          "terminal": true,
+          "oemOutcome": "Only WiFi n-- \u2014 harness or WiFi module.",
+          "stepId": "all_dash_check"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "4-10",
+        "oemTestTitle": "Software version communication check",
+        "pages": [
+          45,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-hmi-wifi-comm",
+        "pages": [
+          45,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-hmi-wifi-comm",
+            "pages": [
+              45,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10785366a-pmm-ct",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a74-17: Power Management board & CT",
+      "purpose": "Troubleshooting Power Management Board",
+      "prerequisites": [],
+      "componentIds": [
+        "power_management",
+        "current_transformer"
+      ],
+      "tags": [
+        "connectivity_issue",
+        "energy_monitoring"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "access_pm_board",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access PM board",
+          "body": "Unplug appliance. Access Power Management board under console (washer/dryer). Confirm J4 CT, J1 AC sense, and J2/J3 WIDE/WIN seated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug appliance. Access Power Management board under console (washer/dryer). Confirm J4 CT, J1 AC sense, and J2/J3 WIDE/WIN seated."
+        },
+        {
+          "id": "ct1_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "CT1 resistance (J4 pins 1 & 2)",
+          "body": "Remove J4. Measure CT1 across pins 1 & 2 \u2014 135 \u03a9 \u00b15%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+              "testPoint": {
+                "connector": "PM J4",
+                "pins": "1 & 2",
+                "label": "CT1 resistance (J4 pins 1 & 2)",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "CT1+",
+                    "wireColor": "W",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "2",
+                    "signal": "CT1-",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "CT1 resistance (J4 pins 1 & 2)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ct1_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ct1",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct1_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ct1",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct1_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ct1",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct1_pass",
+              "label": "135 \u03a9 \u00b15%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ct2_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Remove J4. Measure CT1 across pins 1 & 2 \u2014 135 \u03a9 \u00b15%."
+        },
+        {
+          "id": "ct2_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Appliance uses L2 (CT2)?",
+          "body": "Electric dryers use two CTs at terminal block. Gas dryer and smart washer typically CT1 only.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "uses_l2",
+              "label": "Yes \u2014 check CT2",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ct2_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct1_only",
+              "label": "No \u2014 CT1 only",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "reconnect_j4",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Electric dryers use two CTs at terminal block. Gas dryer and smart washer typically CT1 only."
+        },
+        {
+          "id": "ct2_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "CT2 resistance (J4 pins 3 & 4)",
+          "body": "Measure CT2 across pins 3 & 4 \u2014 135 \u03a9 \u00b15%.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+              "testPoint": {
+                "connector": "PM J4",
+                "pins": "3 & 4",
+                "label": "CT2 resistance (J4 pins 3 & 4)",
+                "pinDetails": [
+                  {
+                    "pin": "3",
+                    "signal": "CT2+",
+                    "wireColor": "W",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "4",
+                    "signal": "CT2-",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "CT2 resistance (J4 pins 3 & 4)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ct2_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ct2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct2_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ct2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct2_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ct2",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ct2_pass",
+              "label": "135 \u03a9 \u00b15%",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_j4",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure CT2 across pins 3 & 4 \u2014 135 \u03a9 \u00b15%."
+        },
+        {
+          "id": "reconnect_j4",
+          "order": 6,
+          "type": "instruction",
+          "title": "Reconnect J4 \u2014 restore power",
+          "body": "Reconnect J4. Restore power for live PM board supply check.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect J4. Restore power for live PM board supply check."
+        },
+        {
+          "id": "pmm_5vdc",
+          "order": 7,
+          "type": "measurement",
+          "title": "PM board +5 VDC (J2-1 to J2-3)",
+          "body": "Live DC check at J2 pins 1 & 3 (J3 interchangeable). Expect 5 VDC.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolConnectedSmartGen3Pmm5Vdc",
+              "testPoint": {
+                "connector": "PM J2",
+                "pins": "1 & 3",
+                "label": "PM board +5 VDC (J2-1 to J2-3)",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "+5 VDC",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "3",
+                    "signal": "GND",
+                    "wireColor": "R",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "PM board +5 VDC (J2-1 to J2-3)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pmm5v_low",
+              "label": "Below range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "pmm_supply_fault",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pmm5v_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "pmm_supply_fault",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "pmm5v_pass",
+              "label": "~5 VDC present",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pmm_ok",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Live DC check at J2 pins 1 & 3 (J3 interchangeable). Expect 5 VDC."
+        },
+        {
+          "id": "replace_ct1",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace CT1 or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_ct2",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace CT2 or harness",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pmm_supply_fault",
+          "order": 10,
+          "type": "outcome",
+          "title": "Repair PM harness or control",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "pmm_ok",
+          "order": 11,
+          "type": "outcome",
+          "title": "PM/CT path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+          "testPoint": {
+            "connector": "PM J4",
+            "pins": "1 & 2",
+            "label": "CT1 resistance (J4 pins 1 & 2)",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "CT1+",
+                "wireColor": "W",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "CT1-",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "CT1 resistance (J4 pins 1 & 2)"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolConnectedSmartGen3CtOhms",
+          "testPoint": {
+            "connector": "PM J4",
+            "pins": "3 & 4",
+            "label": "CT2 resistance (J4 pins 3 & 4)",
+            "pinDetails": [
+              {
+                "pin": "3",
+                "signal": "CT2+",
+                "wireColor": "W",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "4",
+                "signal": "CT2-",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "CT2 resistance (J4 pins 3 & 4)"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolConnectedSmartGen3Pmm5Vdc",
+          "testPoint": {
+            "connector": "PM J2",
+            "pins": "1 & 3",
+            "label": "PM board +5 VDC (J2-1 to J2-3)",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "+5 VDC",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "3",
+                "signal": "GND",
+                "wireColor": "R",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "PM board +5 VDC (J2-1 to J2-3)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ct1_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ct1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct1_ohms"
+        },
+        {
+          "id": "ct1_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ct1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct1_ohms"
+        },
+        {
+          "id": "ct1_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ct1",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct1_ohms"
+        },
+        {
+          "id": "ct1_pass",
+          "label": "135 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ct2_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct1_ohms"
+        },
+        {
+          "id": "uses_l2",
+          "label": "Yes \u2014 check CT2",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ct2_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_check"
+        },
+        {
+          "id": "ct1_only",
+          "label": "No \u2014 CT1 only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "reconnect_j4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_check"
+        },
+        {
+          "id": "ct2_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ct2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_ohms"
+        },
+        {
+          "id": "ct2_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ct2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_ohms"
+        },
+        {
+          "id": "ct2_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ct2",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_ohms"
+        },
+        {
+          "id": "ct2_pass",
+          "label": "135 \u03a9 \u00b15%",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_j4",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ct2_ohms"
+        },
+        {
+          "id": "pmm5v_low",
+          "label": "Below range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "pmm_supply_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pmm_5vdc"
+        },
+        {
+          "id": "pmm5v_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "pmm_supply_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pmm_5vdc"
+        },
+        {
+          "id": "pmm5v_pass",
+          "label": "~5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pmm_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pmm_5vdc"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "4-17",
+        "oemTestTitle": "Troubleshooting Power Management Board",
+        "pages": [
+          51,
+          52
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-pmm-ct",
+        "pages": [
+          51,
+          52
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-pmm-ct",
+            "pages": [
+              51,
+              52
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10785366a-wifi-module",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_connected_smart_gen3",
+      "templateId": "washer",
+      "title": "\u00a74-14: WiFi module diagnostics",
+      "purpose": "Troubleshooting the WiFi Module",
+      "prerequisites": [],
+      "componentIds": [
+        "wifi_module"
+      ],
+      "tags": [
+        "wifi_check",
+        "connectivity_issue",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the appliance or disconnect power before resistance checks and board access. Live voltage steps require controls off and safe access. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "customer_connect",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Customer connectivity attempt",
+          "body": "Have customer run Whirlpool app or WPS connect. After process, is console WiFi icon steady ON?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wifi_icon_on",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wifi_module_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "no_wifi_icon",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "access_wifi_module",
+              "terminal": true,
+              "oemOutcome": "WiFi icon off \u2014 appliance-side fault path."
+            }
+          ],
+          "sourceExcerpt": "After connectivity process, does appliance connect? WiFi icon on steady."
+        },
+        {
+          "id": "access_wifi_module",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access WiFi module",
+          "body": "Unplug appliance. Remove console/control to expose WiFi module. Verify J4 WIDE/WIN and antenna connectors fully seated.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Unplug appliance. Remove console/control to expose WiFi module. Verify J4 WIDE/WIN and antenna connectors fully seated."
+        },
+        {
+          "id": "restore_power_wifi",
+          "order": 4,
+          "type": "instruction",
+          "title": "Restore power \u2014 allow initialize",
+          "body": "Plug in appliance. Allow ~1 minute for boards to initialize before live checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Plug in appliance. Allow ~1 minute for boards to initialize before live checks."
+        },
+        {
+          "id": "wifi_5vdc",
+          "order": 5,
+          "type": "measurement",
+          "title": "WiFi module +5 VDC (J4-1 to J4-6)",
+          "body": "Set meter to DC. Red to J4-1, black to J4-6. Expect ~5 VDC (may read higher per tech sheet).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolConnectedSmartGen3WifiModule5Vdc",
+              "testPoint": {
+                "connector": "WiFi J4",
+                "pins": "1 & 6",
+                "label": "WiFi module +5 VDC (J4-1 to J4-6)",
+                "pinDetails": [
+                  {
+                    "pin": "1",
+                    "signal": "+5 VDC",
+                    "wireColor": "BK",
+                    "wireColorConfidence": "verified"
+                  },
+                  {
+                    "pin": "6",
+                    "signal": "GND",
+                    "wireColor": "Y",
+                    "wireColorConfidence": "verified"
+                  }
+                ]
+              },
+              "title": "WiFi module +5 VDC (J4-1 to J4-6)"
+            }
+          ],
+          "branches": [
+            {
+              "id": "wifi5v_low",
+              "label": "Below range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "wifi_supply_fault",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wifi5v_warn",
+              "label": "Marginal",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "wifi_supply_fault",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "wifi5v_pass",
+              "label": "~5 VDC present",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "wifi_led_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Set meter to DC. Red to J4-1, black to J4-6. Expect ~5 VDC (may read higher per tech sheet)."
+        },
+        {
+          "id": "wifi_led_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "WiFi status LED during connect",
+          "body": "Press CONNECT and observe module LED window. Green fast blink (10 Hz) during connect = module good. Off/amber only after connect attempt = replace module after harness check.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "led_active",
+              "label": "Green fast blink or steady green",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wifi_module_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "led_fault",
+              "label": "Off or amber only",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_wifi_module",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Green fast blinking = trying to connect; green on = connected to router."
+        },
+        {
+          "id": "wifi_supply_fault",
+          "order": 7,
+          "type": "outcome",
+          "title": "Repair harness or control supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wifi_module_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "WiFi module verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_wifi_module",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace WiFi module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolConnectedSmartGen3WifiModule5Vdc",
+          "testPoint": {
+            "connector": "WiFi J4",
+            "pins": "1 & 6",
+            "label": "WiFi module +5 VDC (J4-1 to J4-6)",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "+5 VDC",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "6",
+                "signal": "GND",
+                "wireColor": "Y",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "title": "WiFi module +5 VDC (J4-1 to J4-6)"
+        }
+      ],
+      "branches": [
+        {
+          "id": "wifi_icon_on",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wifi_module_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "customer_connect"
+        },
+        {
+          "id": "no_wifi_icon",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "access_wifi_module",
+          "terminal": true,
+          "oemOutcome": "WiFi icon off \u2014 appliance-side fault path.",
+          "stepId": "customer_connect"
+        },
+        {
+          "id": "wifi5v_low",
+          "label": "Below range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "wifi_supply_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_5vdc"
+        },
+        {
+          "id": "wifi5v_warn",
+          "label": "Marginal",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "wifi_supply_fault",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_5vdc"
+        },
+        {
+          "id": "wifi5v_pass",
+          "label": "~5 VDC present",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "wifi_led_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_5vdc"
+        },
+        {
+          "id": "led_active",
+          "label": "Green fast blink or steady green",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wifi_module_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_led_check"
+        },
+        {
+          "id": "led_fault",
+          "label": "Off or amber only",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wifi_module",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "wifi_led_check"
+        }
+      ],
+      "source": {
+        "manualId": "W10785366A",
+        "manualTitle": "Whirlpool Connected Smart Appliances \u2014 Third Generation (Job Aid W10785366A)",
+        "oemTestNumber": "4-14",
+        "oemTestTitle": "Troubleshooting the WiFi Module",
+        "pages": [
+          48,
+          49
+        ],
+        "extractedTextFile": "backend/docs/manuals/Job Aid - W10785366A (CA-02) smart appliances-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10785366A",
+        "platformId": "whirlpool_connected_smart_gen3",
+        "procedureId": "w10785366a-wifi-module",
+        "pages": [
+          48,
+          49
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10785366A",
+            "platformId": "whirlpool_connected_smart_gen3"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10785366a-wifi-module",
+            "pages": [
+              48,
+              49
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10785366A_SMART_APPLIANCE_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

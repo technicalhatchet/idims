@@ -1,0 +1,3819 @@
+{
+  "manualId": "W10680150",
+  "platformId": "whirlpool_ccu_dryer",
+  "templateId": "electric_dryer",
+  "ontologyId": "vented_dryer",
+  "materializedAt": "2026-09-14T05:08:29.115621+00:00",
+  "records": [
+    {
+      "candidateId": "map-W10680150-compound-user_interface",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "user_interface",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: user_interface \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-button-indicator",
+        "pages": [
+          19,
+          20
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "user_interface": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-button-indicator",
+        "pages": [
+          19,
+          20
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-button-indicator",
+            "pages": [
+              19,
+              20
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.225100+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_whirlpool_dryer)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-buttons-and-indicators",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #6: Buttons and Indicators",
+      "extractedTerm": "Buttons and Indicators",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #6: Buttons and Indicators \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-button-indicator",
+        "pages": [
+          19,
+          20
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #6: Buttons and Indicators": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-button-indicator",
+        "pages": [
+          19,
+          20
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-button-indicator",
+            "pages": [
+              19,
+              20
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.340097+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-ccu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "ccu",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: ccu \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-ccu-power",
+        "pages": [
+          9,
+          10
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ccu": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-ccu-power",
+        "pages": [
+          9,
+          10
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-ccu-power",
+            "pages": [
+              9,
+              10
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_duet_sport_ccu_mcu"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.185097+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (ccu_platform_new)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-ccu-power-check",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #1: CCU Power Check",
+      "extractedTerm": "CCU Power Check",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #1: CCU Power Check \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-ccu-power",
+        "pages": [
+          9,
+          10
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #1: CCU Power Check": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-ccu-power",
+        "pages": [
+          9,
+          10
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-ccu-power",
+            "pages": [
+              9,
+              10
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.350097+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-door_switch-door_switch",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "door_switch",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "door_switch",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: door_switch \u2192 door_switch"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-door-switch",
+        "pages": [
+          20
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "door_switch": "door_switch"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-door-switch",
+        "pages": [
+          20
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-door-switch",
+            "pages": [
+              20
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.234597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-door-switch",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #7: Door Switch",
+      "extractedTerm": "Door Switch",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "door",
+          "component": null,
+          "actuator": "switch"
+        },
+        "summary": "alias: TEST #7: Door Switch \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-door-switch",
+        "pages": [
+          20
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #7: Door Switch": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-door-switch",
+        "pages": [
+          20
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-door-switch",
+            "pages": [
+              20
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "door",
+              "component": null,
+              "actuator": "switch"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.371597+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-moisture_sensor-moisture_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "moisture_sensor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "moisture_sensor",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: moisture_sensor \u2192 moisture_sensor"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-dryness-adjust",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "moisture_sensor": "moisture_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-dryness-adjust",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-dryness-adjust",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.265596+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-customer-dryness-level",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #5a: Customer Dryness Level",
+      "extractedTerm": "Customer Dryness Level",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #5a: Customer Dryness Level \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-dryness-adjust",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #5a: Customer Dryness Level": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-dryness-adjust",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-dryness-adjust",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.361597+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-compound-gas_valve",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "gas_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: gas_valve \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "gas_valve": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-gas-valve",
+            "pages": [
+              17,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.204597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_whirlpool_dryer)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10680150-gas-valve-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "igniter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-gas-valve",
+            "pages": [
+              17,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.318598+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_whirlpool_dryer)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-gas-valve",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4d: Gas Valve",
+      "extractedTerm": "Gas Valve",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "gas",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: TEST #4d: Gas Valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4d: Gas Valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-gas-valve",
+            "pages": [
+              17,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "gas",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.381598+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-heating_element-heat_source",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "heating_element",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: heating_element \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-electric",
+        "pages": [
+          14,
+          15
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "heating_element": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-electric",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-heater-electric",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.245097+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-heat-system-(electric)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4: Heat System (electric)",
+      "extractedTerm": "Heat System (electric)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #4: Heat System (electric) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-electric",
+        "pages": [
+          14,
+          15
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4: Heat System (electric)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-electric",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-heater-electric",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.391598+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-thermal_fuse-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "thermal_fuse",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_fuse",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermal_fuse \u2192 thermal_fuse"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-gas",
+        "pages": [
+          14,
+          15
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_fuse": "thermal_fuse"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-gas",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-heater-gas",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.308097+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-heat-system-(gas)",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4: Heat System (gas)",
+      "extractedTerm": "Heat System (gas)",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #4: Heat System (gas) \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-gas",
+        "pages": [
+          14,
+          15
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4: Heat System (gas)": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-heater-gas",
+        "pages": [
+          14,
+          15
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-heater-gas",
+            "pages": [
+              14,
+              15
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.401597+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-moisture-sensor-moisture_sensor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "TEST #5: Moisture Sensor",
+      "extractedTerm": "Moisture Sensor",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "moisture_sensor",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #5: Moisture Sensor \u2192 moisture_sensor"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-moisture-sensor",
+        "pages": [
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #5: Moisture Sensor": "moisture_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-moisture-sensor",
+        "pages": [
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-moisture-sensor",
+            "pages": [
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #5: Moisture Sensor",
+            "extractedTerm": "Moisture Sensor",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.255097+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-motor-drive_motor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "motor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "drive_motor",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: motor \u2192 drive_motor"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "motor": "drive_motor"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.275597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-motor-circuit",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #3: Motor Circuit",
+      "extractedTerm": "Motor Circuit",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": "motor"
+        },
+        "summary": "alias: TEST #3: Motor Circuit \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #3: Motor Circuit": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.412097+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10680150-supply-connections-supply",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": "power_supply",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 power_supply"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "power_supply"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-supply-connections",
+            "pages": [
+              10,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.329098+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_whirlpool_dryer)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-supply-connections",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #2: Supply Connections",
+      "extractedTerm": "Supply Connections",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #2: Supply Connections \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #2: Supply Connections": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-supply-connections",
+            "pages": [
+              10,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.423597+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-thermal_cutoff-thermal_cutoff",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 1.0,
+      "what": "thermal_cutoff",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_cutoff",
+      "why": {
+        "confidence": 1.0,
+        "matcherLayer": "canonical_component_id",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermal_cutoff \u2192 thermal_cutoff"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-cutoff",
+        "pages": [
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermal_cutoff": "thermal_cutoff"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-cutoff",
+        "pages": [
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermal-cutoff",
+            "pages": [
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_component_id"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.296597+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-thermal-cut-off",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4c: Thermal Cut-Off",
+      "extractedTerm": "Thermal Cut-Off",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #4c: Thermal Cut-Off \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-cutoff",
+        "pages": [
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4c: Thermal Cut-Off": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-cutoff",
+        "pages": [
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermal-cutoff",
+            "pages": [
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.435097+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-thermal-fuse-thermal_fuse",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "TEST #4b: Thermal Fuse",
+      "extractedTerm": "Thermal Fuse",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "thermal_fuse",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": "canonical_ontology_alias",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #4b: Thermal Fuse \u2192 thermal_fuse"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-fuse",
+        "pages": [
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4b: Thermal Fuse": "thermal_fuse"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermal-fuse",
+        "pages": [
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermal-fuse",
+            "pages": [
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "canonical_ontology_alias"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4b: Thermal Fuse",
+            "extractedTerm": "Thermal Fuse",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.285096+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (inherited_corpus)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-exhaust_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "exhaust_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "exhaust thermistor",
+        "decomposition": {
+          "domain": null,
+          "component": "exhaust",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: exhaust_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "exhaust_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermistors",
+            "pages": [
+              16,
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "exhaust thermistor",
+            "decomposition": {
+              "domain": null,
+              "component": "exhaust",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.195098+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (careful_thermistor)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-inlet_thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "promoted",
+      "rawCandidateStatus": "COMPOUND_TERM_CANDIDATE",
+      "approvalLevel": "careful",
+      "confidence": 0.9,
+      "what": "inlet_thermistor",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "temperature_sensor",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:canonical_alias_suffix",
+        "mappingType": "compound_alias",
+        "matchedPhrase": "inlet thermistor",
+        "decomposition": {
+          "domain": "inlet",
+          "component": null,
+          "actuator": "thermistor"
+        },
+        "summary": "alias: inlet_thermistor \u2192 temperature_sensor"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "inlet_thermistor": "temperature_sensor"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermistors",
+            "pages": [
+              16,
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:canonical_alias_suffix",
+            "matchedPhrase": "inlet thermistor",
+            "decomposition": {
+              "domain": "inlet",
+              "component": null,
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.215178+00:00",
+          "status": "approved",
+          "reviewer": "human_gate",
+          "reason": "W10680150 overlay mapping table v1 (careful_thermistor)"
+        },
+        {
+          "at": "2026-09-14T04:58:15.633097+00:00",
+          "status": "promoted",
+          "promotionId": "promo-W10680150-20260914045815"
+        }
+      ],
+      "reviewer": "human_gate",
+      "promotedAt": "2026-09-14T04:58:15.633097+00:00",
+      "resolutionClassification": "human_gate_approved"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10680150-thermistors-test-#4a:-thermistors",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4a: Thermistors",
+      "extractedTerm": "Thermistors",
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #4a: Thermistors \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4a: Thermistors": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-thermistors",
+            "pages": [
+              16,
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4a: Thermistors",
+            "extractedTerm": "Thermistors",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T04:57:25.445598+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate",
+          "reason": "TEST title / procedural identifier \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate"
+    },
+    {
+      "candidateId": "map-W10680150-acu-control_board",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "easy",
+      "confidence": 0.98,
+      "what": "acu",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "control_board",
+      "why": {
+        "confidence": 0.98,
+        "matcherLayer": "manufacturer_overlay:whirlpool_fl_dd_direct_drive",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: acu \u2192 control_board"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-acu-power",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "acu": "control_board"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-acu-power",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-acu-power",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "manufacturer_overlay:whirlpool_fl_dd_direct_drive"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.425125+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (ccu_platform_new)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-acu-power-check",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #1: ACU Power Check",
+      "extractedTerm": "ACU Power Check",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #1: ACU Power Check \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-acu-power",
+        "pages": [
+          26,
+          27
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #1: ACU Power Check": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-acu-power",
+        "pages": [
+          26,
+          27
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-acu-power",
+            "pages": [
+              26,
+              27
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.490625+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate_supplemental",
+          "reason": "Supplemental TEST title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate_supplemental"
+    },
+    {
+      "candidateId": "map-W10680150-compound-drum_light",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "drum_light",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: drum_light \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-drum-led",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "drum_light": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-drum-led",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-drum-led",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.436125+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (ccu_platform_new)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-drum-led",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #8: Drum LED",
+      "extractedTerm": "Drum LED",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #8: Drum LED \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-drum-led",
+        "pages": [
+          43
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #8: Drum LED": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-drum-led",
+        "pages": [
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-drum-led",
+            "pages": [
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.501127+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate_supplemental",
+          "reason": "Supplemental TEST title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate_supplemental"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10881701-gas-valve-igniter",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "igniter",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: igniter \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "igniter": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-gas-valve",
+        "pages": [
+          17,
+          18
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-gas-valve",
+            "pages": [
+              17,
+              18
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.470125+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (inherited_whirlpool_dryer)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-service-leds",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "TEST #10: Service LEDs",
+      "extractedTerm": "Service LEDs",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "hmi_control",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: TEST #10: Service LEDs \u2192 hmi_control"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-service-leds",
+        "pages": [
+          45
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #10: Service LEDs": "hmi_control"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-service-leds",
+        "pages": [
+          45
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-service-leds",
+            "pages": [
+              45
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.448125+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (ccu_platform_new)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10881701-supply-connections-supply",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "supply",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": "AMBIGUOUS_COMPONENT",
+      "mapsTo": "power_supply",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: supply \u2192 power_supply"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "supply": "power_supply"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-supply-connections",
+        "pages": [
+          10,
+          11
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-supply-connections",
+            "pages": [
+              10,
+              11
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.480625+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (inherited_whirlpool_dryer)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-w10680150-unresolved-w10881701-thermistors-test-#4a:-thermistors",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #4a: Thermistors",
+      "extractedTerm": "Thermistors",
+      "seedComponentId": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: TEST #4a: Thermistors \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #4a: Thermistors": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-thermistors",
+        "pages": [
+          16,
+          17
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-thermistors",
+            "pages": [
+              16,
+              17
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "preprocessor",
+            "rawTerm": "TEST #4a: Thermistors",
+            "extractedTerm": "Thermistors",
+            "notes": [
+              "stripped_structural_prefix"
+            ]
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.524125+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate_supplemental",
+          "reason": "Supplemental TEST title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate_supplemental"
+    },
+    {
+      "candidateId": "map-W10680150-compound-steam_valve",
+      "candidateType": "canonicalMapping",
+      "status": "approved",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.9,
+      "what": "steam_valve",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "heat_source",
+      "why": {
+        "confidence": 0.9,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "steam",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: steam_valve \u2192 heat_source"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-water-valve",
+        "pages": [
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "steam_valve": "heat_source"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-water-valve",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-water-valve",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "steam",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.458625+00:00",
+          "status": "approved",
+          "reviewer": "human_gate_supplemental",
+          "reason": "W10680150 supplemental cohort (ccu_platform_new)"
+        }
+      ],
+      "reviewer": "human_gate_supplemental",
+      "resolutionClassification": "human_gate_supplemental_approved"
+    },
+    {
+      "candidateId": "map-W10680150-compound-water-valve",
+      "candidateType": "canonicalMapping",
+      "status": "rejected",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "TEST #9: Water Valve",
+      "extractedTerm": "Water Valve",
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: TEST #9: Water Valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-water-valve",
+        "pages": [
+          44
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "TEST #9: Water Valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-water-valve",
+        "pages": [
+          44
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-water-valve",
+            "pages": [
+              44
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": [
+        {
+          "at": "2026-09-14T05:08:18.513125+00:00",
+          "status": "rejected",
+          "reviewer": "human_gate_supplemental",
+          "reason": "Supplemental TEST title \u2014 bind by procedureId only"
+        }
+      ],
+      "reviewer": "human_gate_supplemental"
+    },
+    {
+      "candidateId": "overlay-W10680150-w10680150-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w10680150-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w10680150-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10680150-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Motor Circuit",
+          "componentIds": [
+            "motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10680150-motor-circuit-meas-dryerMotorCircuitOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10680150-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerMotorCircuitOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10680150-motor-circuit",
+          "measurementKnowledgeId": "dryerMotorCircuitOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerMotorCircuitOhms",
+            "stepTitle": "Motor circuit at CCU (optional)"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10680150-motor-circuit-meas-dryerDrumMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10680150-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerDrumMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10680150-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+            "stepTitle": "Main winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10680150-motor-circuit-meas-dryerDrumMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10680150-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerDrumMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10680150-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10680150-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10680150-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+            "stepTitle": "Start winding pin 4\u20133"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10881701-motor-circuit-motor_output_test",
+      "candidateType": "procedureTestBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.92,
+      "what": "w10881701-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.92,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "procedureTestBinding: w10881701-motor-circuit \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "procedureBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10881701-motor-circuit",
+          "testTargetId": "motor_output_test",
+          "displayTitle": "TEST #3: Motor Circuit",
+          "componentIds": [
+            "motor"
+          ]
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/DRYER_SERVICE_MANUAL_EXTRACTION.md"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10881701-motor-circuit-meas-dryerMotorCircuitOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10881701-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerMotorCircuitOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10881701-motor-circuit",
+          "measurementKnowledgeId": "dryerMotorCircuitOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerMotorCircuitOhms",
+            "stepTitle": "Motor circuit at ACU (optional)"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10881701-motor-circuit-meas-dryerDrumMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10881701-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerDrumMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10881701-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+            "stepTitle": "Main winding pin 4\u20135"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "overlay-W10680150-w10881701-motor-circuit-meas-dryerDrumMotorWindingOhms",
+      "candidateType": "measurementBinding",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.94,
+      "what": "w10881701-motor-circuit",
+      "extractedTerm": null,
+      "seedComponentId": null,
+      "blockedReason": null,
+      "mapsTo": "motor_output_test",
+      "why": {
+        "confidence": 0.94,
+        "matcherLayer": null,
+        "mappingType": null,
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "measurementBinding: dryerDrumMotorWindingOhms \u2192 motor_output_test"
+      },
+      "source": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "extractionDoc": null
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "measurementBindings",
+        "operation": "add",
+        "value": {
+          "procedureId": "w10881701-motor-circuit",
+          "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+          "testTargetId": "motor_output_test"
+        }
+      },
+      "provenance": {
+        "manualId": "W10680150",
+        "platformId": "whirlpool_ccu_dryer",
+        "procedureId": "w10881701-motor-circuit",
+        "pages": [
+          12,
+          13
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10680150",
+            "platformId": "whirlpool_ccu_dryer"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10881701-motor-circuit",
+            "pages": [
+              12,
+              13
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dryerDrumMotorWindingOhms",
+            "stepTitle": "Start winding pin 4\u20133"
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 44,
+    "byStatus": {
+      "promoted": 15,
+      "rejected": 15,
+      "approved": 6,
+      "candidate": 8
+    },
+    "byApprovalLevel": {
+      "blocked": 24,
+      "easy": 6,
+      "normal": 12,
+      "careful": 2
+    },
+    "byType": {
+      "canonicalMapping": 36,
+      "procedureTestBinding": 2,
+      "measurementBinding": 6
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 6,
+      "medium_0.80_0.94": 14,
+      "low_lt_0.80": 0,
+      "unresolved": 24
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 4,
+      "AMBIGUOUS_COMPONENT": 2
+    }
+  }
+}

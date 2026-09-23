@@ -1,0 +1,2684 @@
+{
+  "manualId": "W10901168",
+  "procedures": [
+    {
+      "procedureId": "w10901168-test-01-rc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 01: RC thermistor",
+      "purpose": "RC Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_01",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 01",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 01. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 01 \u2014 RC thermistor"
+        },
+        {
+          "id": "read",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC thermistor",
+          "body": "Ensure not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace RC thermistor."
+            }
+          ],
+          "sourceExcerpt": "Ensure not OP (open) or SH (short)."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace RC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "RC verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace RC thermistor.",
+          "stepId": "read"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "01",
+        "oemTestTitle": "RC Thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-01-rc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-01-rc-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-02-fc-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 02: FC thermistor",
+      "purpose": "FC Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_02",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 02",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 02. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 02 \u2014 FC thermistor"
+        },
+        {
+          "id": "read",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC thermistor",
+          "body": "Ensure not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace FC thermistor."
+            }
+          ],
+          "sourceExcerpt": "Ensure not OP (open) or SH (short)."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace FC thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "FC verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace FC thermistor.",
+          "stepId": "read"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "02",
+        "oemTestTitle": "FC Thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-02-fc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-02-fc-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-05-pantry-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 05: Pantry thermistor",
+      "purpose": "Pantry Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_05",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 05",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 05. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 05 \u2014 Pantry thermistor"
+        },
+        {
+          "id": "read",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pantry thermistor",
+          "body": "Ensure not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace Pantry thermistor."
+            }
+          ],
+          "sourceExcerpt": "Ensure not OP (open) or SH (short)."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace Pantry thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Pantry verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace Pantry thermistor.",
+          "stepId": "read"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "05",
+        "oemTestTitle": "Pantry Thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-05-pantry-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-05-pantry-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-120-121-im-harvest",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 120/121: Ice maker harvest",
+      "purpose": "Check Door Ice Maker Harvest",
+      "prerequisites": [],
+      "componentIds": [
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_120",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 120",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 120. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 120 \u2014 Door IM harvest (or 121 freezer)"
+        },
+        {
+          "id": "harvest",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Harvest result",
+          "body": "Errors E1\u2013E4 = replace IM. IB = bin full (verify bin). 00/01 on test 79 bin switch?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Harvest OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "err",
+              "label": "E1\u2013E4 error",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_im",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ib",
+              "label": "IB bin full",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "check_bin",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Errors E1\u2013E4 = replace IM. IB = bin full (verify bin). 00/01 on test 79 bin switch?"
+        },
+        {
+          "id": "check_bin",
+          "order": 5,
+          "type": "instruction",
+          "title": "Ice bin switch",
+          "body": "Test 79: 00 no bin, 01 bin installed.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test 79: 00 no bin, 01 bin installed."
+        },
+        {
+          "id": "replace_im",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace ice maker",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Harvest verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Harvest OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harvest"
+        },
+        {
+          "id": "err",
+          "label": "E1\u2013E4 error",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_im",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harvest"
+        },
+        {
+          "id": "ib",
+          "label": "IB bin full",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "check_bin",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "harvest"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "120",
+        "oemTestTitle": "Check Door Ice Maker Harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-120-121-im-harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-120-121-im-harvest",
+            "pages": [
+              19,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-14-ice-box-thermistor",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 14: Door ice box thermistor",
+      "purpose": "Door ice box Thermistor",
+      "prerequisites": [],
+      "componentIds": [
+        "thermistor"
+      ],
+      "tags": [
+        "thermistor_check",
+        "no_ice"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_14",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 14",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 14. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 14 \u2014 Door ice box thermistor"
+        },
+        {
+          "id": "read",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Door ice box thermistor",
+          "body": "Ensure not OP (open) or SH (short).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "bad",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace Door ice box thermistor."
+            }
+          ],
+          "sourceExcerpt": "Ensure not OP (open) or SH (short)."
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace Door ice box thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Door ice box verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "read"
+        },
+        {
+          "id": "bad",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace Door ice box thermistor.",
+          "stepId": "read"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "14",
+        "oemTestTitle": "Door ice box Thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-14-ice-box-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-14-ice-box-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-40-compressor-sealed-system",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 40: Compressor & sealed system",
+      "purpose": "Compressor and Compartment Freezing Cooling Test",
+      "prerequisites": [],
+      "componentIds": [
+        "compressor"
+      ],
+      "tags": [
+        "not_cooling",
+        "compressor_check",
+        "sealed_system"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_40",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 40",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 40. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 40 \u2014 Compressor cooling"
+        },
+        {
+          "id": "st40",
+          "order": 4,
+          "type": "instruction",
+          "title": "Run test 40 steps",
+          "body": "Steps 01\u201305: 3-way valve chatter, compressor on, RC/FC fans. Time compressor run.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Steps 01\u201305: 3-way valve chatter, compressor on, RC/FC fans. Time compressor run."
+        },
+        {
+          "id": "analyze",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Test 40 results",
+          "body": "3-way repositions? Compressor runs sustained? RC/FC fans blow cold air?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "bench_comp",
+              "terminal": true,
+              "oemOutcome": "Path 1A\u20131D troubleshooting per manual."
+            }
+          ],
+          "sourceExcerpt": "3-way repositions? Compressor runs sustained? RC/FC fans blow cold air?"
+        },
+        {
+          "id": "bench_comp",
+          "order": 6,
+          "type": "instruction",
+          "title": "Compressor resistances",
+          "body": "Power off. Common-sensor 14\u201319 \u03a9; line-common 7\u201313 \u03a9; line-sensor 21\u201332 \u03a9.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Power off. Common-sensor 14\u201319 \u03a9; line-common 7\u201313 \u03a9; line-sensor 21\u201332 \u03a9."
+        },
+        {
+          "id": "comp_ohms",
+          "order": 7,
+          "type": "measurement",
+          "title": "Compressor sensor winding",
+          "body": "Sensor winding 14\u201319 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolBellaFdCompressorSensorOhms",
+              "testPoint": {
+                "connector": "compressor",
+                "pins": "common \u2194 sensor",
+                "label": "Compressor sensor winding"
+              },
+              "title": "Compressor sensor winding"
+            }
+          ],
+          "branches": [
+            {
+              "id": "cs_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cs_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cs_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_comp",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "cs_pass",
+              "label": "14\u201319 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Sensor winding 14\u201319 \u03a9."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 8,
+          "type": "measurement",
+          "title": "3-way valve coil",
+          "body": "43\u201349 \u03a9 center to each outer pin.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "whirlpoolBellaFdThreeWayValveOhms",
+              "testPoint": {
+                "connector": "3-way valve",
+                "pins": "coil pins",
+                "label": "3-way valve coil"
+              },
+              "title": "3-way valve coil"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v_crit",
+              "label": "Critical out of range",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v_pass",
+              "label": "43\u201349 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "43\u201349 \u03a9 center to each outer pin."
+        },
+        {
+          "id": "replace_comp",
+          "order": 9,
+          "type": "outcome",
+          "title": "Replace compressor & Orion",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_valve",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace 3-way valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Sealed system path verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "whirlpoolBellaFdCompressorSensorOhms",
+          "testPoint": {
+            "connector": "compressor",
+            "pins": "common \u2194 sensor",
+            "label": "Compressor sensor winding"
+          },
+          "title": "Compressor sensor winding"
+        },
+        {
+          "measurementKnowledgeId": "whirlpoolBellaFdThreeWayValveOhms",
+          "testPoint": {
+            "connector": "3-way valve",
+            "pins": "coil pins",
+            "label": "3-way valve coil"
+          },
+          "title": "3-way valve coil"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "analyze"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "bench_comp",
+          "terminal": true,
+          "oemOutcome": "Path 1A\u20131D troubleshooting per manual.",
+          "stepId": "analyze"
+        },
+        {
+          "id": "cs_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "cs_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "cs_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_comp",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "cs_pass",
+          "label": "14\u201319 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comp_ohms"
+        },
+        {
+          "id": "v_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "v_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "v_crit",
+          "label": "Critical out of range",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "v_pass",
+          "label": "43\u201349 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "40",
+        "oemTestTitle": "Compressor and Compartment Freezing Cooling Test",
+        "pages": [
+          19,
+          34
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-40-compressor-sealed-system",
+        "pages": [
+          19,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-40-compressor-sealed-system",
+            "pages": [
+              19,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-42-pantry-baffle",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 42: Pantry air baffle",
+      "purpose": "Main Pantry Air Baffle State",
+      "prerequisites": [],
+      "componentIds": [
+        "damper_motor"
+      ],
+      "tags": [
+        "damper_check",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_42",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 42",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 42. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 42 \u2014 Pantry baffle"
+        },
+        {
+          "id": "baffle",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Baffle state",
+          "body": "Baffle opens/closes per test?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace pantry baffle motor."
+            }
+          ],
+          "sourceExcerpt": "Baffle opens/closes per test?"
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace pantry baffle",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Pantry baffle verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "baffle"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace pantry baffle motor.",
+          "stepId": "baffle"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "42",
+        "oemTestTitle": "Main Pantry Air Baffle State",
+        "pages": [
+          19
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-42-pantry-baffle",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-42-pantry-baffle",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-56-fc-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 56: FC fan",
+      "purpose": "FC Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_56",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 56",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 56. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 56 \u2014 FC fan"
+        },
+        {
+          "id": "fan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "FC fan on",
+          "body": "Display on and fan operates?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace FC fan or GF2."
+            }
+          ],
+          "sourceExcerpt": "Display on and fan operates?"
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace FC fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "FC fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace FC fan or GF2.",
+          "stepId": "fan"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "56",
+        "oemTestTitle": "FC Fan Test",
+        "pages": [
+          19
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-56-fc-fan",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-56-fc-fan",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-57-rc-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 57: RC fan",
+      "purpose": "RC Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan"
+      ],
+      "tags": [
+        "evap_fan",
+        "weak_cooling_ff"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_57",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 57",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 57. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 57 \u2014 RC fan"
+        },
+        {
+          "id": "fan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "RC fan on",
+          "body": "Display on and fan operates?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace RC fan or GF2."
+            }
+          ],
+          "sourceExcerpt": "Display on and fan operates?"
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace RC fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "RC fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace RC fan or GF2.",
+          "stepId": "fan"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "57",
+        "oemTestTitle": "RC Fan Test",
+        "pages": [
+          19
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-57-rc-fan",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-57-rc-fan",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-58-condenser-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 58: Condenser fan",
+      "purpose": "Condenser Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "condenser_fan"
+      ],
+      "tags": [
+        "condenser_fan",
+        "not_cooling"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_58",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 58",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 58. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 58 \u2014 Condenser fan"
+        },
+        {
+          "id": "cfan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Display on & fan runs",
+          "body": "LED shows on. Orion P16-4/P16-5 to GF2 P8-7 \u2014 12.7 VDC PWM.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_gf2",
+              "terminal": true,
+              "oemOutcome": "Replace GF2 board if no on display; fan if no run with voltage."
+            }
+          ],
+          "sourceExcerpt": "LED shows on. Orion P16-4/P16-5 to GF2 P8-7 \u2014 12.7 VDC PWM."
+        },
+        {
+          "id": "replace_gf2",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace GF2 or fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Condenser fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "cfan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_gf2",
+          "terminal": true,
+          "oemOutcome": "Replace GF2 board if no on display; fan if no run with voltage.",
+          "stepId": "cfan"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "58",
+        "oemTestTitle": "Condenser Fan Test",
+        "pages": [
+          19,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-58-condenser-fan",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-58-condenser-fan",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-59-ice-box-fan",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 59: Ice box fan",
+      "purpose": "Ice Box Fan Test",
+      "prerequisites": [],
+      "componentIds": [
+        "evap_fan",
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "evap_fan"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_59",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 59",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 59. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 59 \u2014 Ice box fan"
+        },
+        {
+          "id": "fan",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Ice box fan on",
+          "body": "Display on and airflow from ice box?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Replace ice box fan or GF2."
+            }
+          ],
+          "sourceExcerpt": "Display on and airflow from ice box?"
+        },
+        {
+          "id": "replace",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace ice box fan",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Ice box fan verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fan"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Replace ice box fan or GF2.",
+          "stepId": "fan"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "59",
+        "oemTestTitle": "Ice Box Fan Test",
+        "pages": [
+          19,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-59-ice-box-fan",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-59-ice-box-fan",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-89-defrost-heater",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 89/91: FC defrost",
+      "purpose": "Run FC Defrost Heater",
+      "prerequisites": [],
+      "componentIds": [
+        "defrost_heater"
+      ],
+      "tags": [
+        "defrost_heater",
+        "frost_buildup"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_89",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 89",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 89. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 89 \u2014 FC defrost heater"
+        },
+        {
+          "id": "defrost",
+          "order": 4,
+          "type": "instruction",
+          "title": "Forced defrost option",
+          "body": "Test 91 forced defrost ON if heavy frost \u2014 exit diagnostics to execute.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Test 91 forced defrost ON if heavy frost \u2014 exit diagnostics to execute."
+        },
+        {
+          "id": "heat",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Defrost heater on",
+          "body": "Test 89 energizes FC defrost heater?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace",
+              "terminal": true,
+              "oemOutcome": "Defrost heater or GF2 fault."
+            }
+          ],
+          "sourceExcerpt": "Test 89 energizes FC defrost heater?"
+        },
+        {
+          "id": "replace",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace defrost components",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Defrost verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heat"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace",
+          "terminal": true,
+          "oemOutcome": "Defrost heater or GF2 fault.",
+          "stepId": "heat"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "89",
+        "oemTestTitle": "Run FC Defrost Heater",
+        "pages": [
+          19
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-89-defrost-heater",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-89-defrost-heater",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-96-water-valve",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 96: Water valve general",
+      "purpose": "Water Valve General Test",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve"
+      ],
+      "tags": [
+        "no_water",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_96",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 96",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 96. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 96 \u2014 Water valve"
+        },
+        {
+          "id": "valve",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Water dispenses",
+          "body": "Display on ~5 s \u2014 water from dispenser? Test 93 paddle = 1.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ui",
+              "terminal": true,
+              "oemOutcome": "Dispenser UI or valve fault."
+            }
+          ],
+          "sourceExcerpt": "Display on ~5 s \u2014 water from dispenser? Test 93 paddle = 1."
+        },
+        {
+          "id": "replace_ui",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace UI or valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Water valve verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ui",
+          "terminal": true,
+          "oemOutcome": "Dispenser UI or valve fault.",
+          "stepId": "valve"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "96",
+        "oemTestTitle": "Water Valve General Test",
+        "pages": [
+          19,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-96-water-valve",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-96-water-valve",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "w10901168-test-97-98-im-water-fill",
+      "manufacturer": "Whirlpool",
+      "platformId": "whirlpool_bella_french_door",
+      "templateId": "refrigerator",
+      "title": "Service Test 97/98: Ice maker water fill",
+      "purpose": "Door Ice Maker Valve General Test",
+      "prerequisites": [],
+      "componentIds": [
+        "water_valve",
+        "ice_maker"
+      ],
+      "tags": [
+        "no_ice",
+        "E4",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Disconnect power before servicing. Replace all parts and panels before operating.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power before servicing."
+        },
+        {
+          "id": "service_mode_after_diag_entry",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue in Bella Diagnostics",
+          "body": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Diagnostics active. Use Up/Down to navigate; Icemaker2 to select test."
+        },
+        {
+          "id": "select_test_97",
+          "order": 3,
+          "type": "instruction",
+          "title": "Select Service Test 97",
+          "body": "In Diagnostics (Recommended+Drawer hold 5 s), use Up/Down to test 97. Press Icemaker2 to select. Fast Cool backs out.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Service Test 97 \u2014 Door IM valve (or 98 freezer)"
+        },
+        {
+          "id": "fill",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Water fills tray",
+          "body": "Display on ~5 s then oFF. Water in door IM tray? Also runs isolation valve.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "fill_tube",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fail",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fill_tube",
+              "terminal": true,
+              "oemOutcome": "No fill \u2014 valve or supply."
+            }
+          ],
+          "sourceExcerpt": "Display on ~5 s then oFF. Water in door IM tray? Also runs isolation valve."
+        },
+        {
+          "id": "fill_tube",
+          "order": 5,
+          "type": "instruction",
+          "title": "Fill tube heater",
+          "body": "Run test 66 (door) or 67 (freezer) \u2014 display on 15 min, re-test 97/98.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Run test 66 (door) or 67 (freezer) \u2014 display on 15 min, re-test 97/98."
+        },
+        {
+          "id": "fail",
+          "order": 6,
+          "type": "outcome",
+          "title": "Check valves & tubing",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "IM water fill verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "fill_tube",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "fill"
+        },
+        {
+          "id": "fail",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fill_tube",
+          "terminal": true,
+          "oemOutcome": "No fill \u2014 valve or supply.",
+          "stepId": "fill"
+        }
+      ],
+      "source": {
+        "manualId": "W10901168",
+        "manualTitle": "Whirlpool Bella 32 cu ft French Door Refrigerator (W10901168, WRF992/993/995)",
+        "oemTestNumber": "97",
+        "oemTestTitle": "Door Ice Maker Valve General Test",
+        "pages": [
+          19,
+          46
+        ],
+        "extractedTextFile": "backend/docs/manuals/service-manual-w10901168-bella-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-97-98-im-water-fill",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-97-98-im-water-fill",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

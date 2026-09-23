@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_triangulation",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:55:00+00:00",
+  "contract": "CG_HEAT_PUMP_DRYER_FIT_TEST_CONTRACT_v1.json",
+  "witnessCount": 2,
+  "triangulationWitnessCount": 3,
+  "crossManufacturerTriangulation": true,
+  "witnesses": [
+    { "witnessId": "W1", "manufacturer": "Samsung", "model": "DV22N6850", "observation": "CG_HPD_DV22N8650_FIT_OBSERVATION_v1.json" },
+    { "witnessId": "W2", "manufacturer": "LG", "model": "DLHC1455", "observation": "CG_HPD_DLHC1455_FIT_OBSERVATION_v1.json" },
+    { "witnessId": "W3", "manufacturer": "Whirlpool", "model": "HybridCare", "manualId": "W10764068", "role": "triangulation_support" }
+  ],
+  "recurringFunctionalDomains": [
+    {
+      "domain": "refrigerant_cycle_primary_heat_transfer",
+      "recurrence": "cross_manufacturer",
+      "w1": "Compressor inverter 3CA; HC overheat; condenser cover",
+      "w2": "Inverter compressor 750W; discharge pipe thermistor",
+      "w3": "TEST #4B heat pump; sealed R134a loop; compressor replaces one heater",
+      "conflictsWithVentedDryer": true
+    },
+    {
+      "domain": "condensation_moisture_rejection",
+      "recurrence": "cross_manufacturer",
+      "w1": "5C overflow/drain pump/water tank",
+      "w2": "Condensate container; sump electrode; water full indicator",
+      "w3": "TEST #9 drain system; ventless design",
+      "conflictsWithVentedDryer": true
+    },
+    {
+      "domain": "sealed_ventless_process_airflow",
+      "recurrence": "cross_manufacturer",
+      "w1": "Condenser check; case filter — no primary exhaust terminal",
+      "w2": "Explicit prohibition on external exhaust duct connection",
+      "w3": "§1-3 VENTLESS DESIGN; longer heating phase vs vented",
+      "conflictsWithVentedDryer": true
+    },
+    {
+      "domain": "refrigerant_loop_thermal_protection",
+      "recurrence": "cross_manufacturer",
+      "w1": "HC + multi thermistor tC family",
+      "w2": "Compressor IPM/hidden error; discharge pipe temp",
+      "w3": "TEST #4c thermistors on heat pump circuit",
+      "conflictsWithVentedDryer": true
+    },
+    {
+      "domain": "drum_door_moisture_baseline",
+      "recurrence": "cross_manufacturer",
+      "mapsToVentedDryer": "superficial_overlap_only",
+      "note": "Door, drive, moisture sensing overlap does not salvage heated_airflow_path contract"
+    }
+  ],
+  "manufacturerSpecificImplementation": [
+    "Samsung 3CA/9CA inverter fault families",
+    "LG Condenser Care cycle",
+    "LG humidity electrode vs Samsung touch sensor",
+    "Whirlpool auxiliary fan + capillary tube + supplemental heater element (TEST #4a)"
+  ],
+  "aioDependencyReference": {
+    "samsungWd53": "CG_AIO_WD53DBA900_FIT_OBSERVATION_v1.json",
+    "usage": "Architectural dependency evidence only — confirms Samsung HP dry path recurs in standalone dryer",
+    "notCountedAsWitness": true
+  },
+  "triangulationVerdict": {
+    "crossManufacturerRecurrenceProven": true,
+    "recommendAnalysisOutcome": "architectural_divergence",
+    "ventedDryerVariantHypothesisRejected": true
+  }
+}

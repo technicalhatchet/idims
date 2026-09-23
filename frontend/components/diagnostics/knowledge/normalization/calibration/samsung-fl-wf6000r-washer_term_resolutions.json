@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "1.0.0",
+  "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+  "platformFamilyId": "samsung_fl_wf6000r_direct_drive",
+  "ontologyId": "front_load_washer",
+  "description": "CG-5.6 Samsung FL #2 — 7 gate term resolutions (3 corpus + 1 inherited platform + 1 new platform + 2 model-specific).",
+  "resolutions": [
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-pba-communication-(ac,-ac3\u2013ac6)",
+      "oemTerm": "\u00a74-3: PBA communication (AC, AC3\u2013AC6)",
+      "canonicalId": "control_board",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "Main \u2194 inverter PBA comm faults (AC3\u2013AC6) \u2014 inherited FL washer corpus concept; BB8700 variant AC/AC6."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-drain-/-leakage-(lc,-5c)",
+      "oemTerm": "\u00a74-3: Drain / leakage (LC, 5C)",
+      "canonicalId": "drain_pump",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "LC/5C drain path \u2014 inherited FL washer corpus concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-inlet-valves-(4c,-co/ho-manual-check)",
+      "oemTerm": "\u00a74-3: Inlet valves (4C, Co/Ho manual check)",
+      "canonicalId": "inlet_valve",
+      "classification": "inherited_corpus_knowledge",
+      "rationale": "Smart Install Co/Ho manual check \u2014 inherited FL inlet valve concept."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-power-/-voltage-(9c1,-9c2)",
+      "oemTerm": "\u00a74-1: Power / voltage (9C1, 9C2)",
+      "canonicalId": "inverter_board",
+      "classification": "inherited_platform_family",
+      "rationale": "9C1/9C2 power/voltage path reuses inverter_board from Samsung FL #1 (BB8700 9C5). OEM title mismatch is a matcher limitation, not new platform knowledge."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-mems-pba-(8c,-8c1,-8c2)",
+      "oemTerm": "\u00a74-1: MEMS PBA (8C, 8C1, 8C2)",
+      "canonicalId": "mems_sensor",
+      "classification": "new_platform_knowledge",
+      "rationale": "MEMS vibration/tilt PBA on WF6000R \u2014 genuinely new Samsung FL platform vocabulary (not in BB8700)."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-switch-error-(bc2)",
+      "oemTerm": "\u00a74-1: Switch error (BC2)",
+      "canonicalId": "hmi_control",
+      "classification": "new_model_specific",
+      "rationale": "WF6000R HMI switch error BC2 \u2014 model-line OEM surface; canonical hmi_control unchanged."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-unbalance-(uv,-ub)",
+      "oemTerm": "\u00a74-3: Unbalance (UV, UB)",
+      "canonicalId": "suspension",
+      "classification": "new_model_specific",
+      "rationale": "UV/UB unbalance codes \u2014 WF6000R model-line diagnostic surface tied to suspension/vibration path."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-washing-motor-(3c)",
+      "oemTerm": "\u00a74-3: Washing motor (3C)",
+      "canonicalId": "drive_motor",
+      "classification": "inherited_platform_family",
+      "rationale": "Exact OEM match to BB8700 platform alias \u2014 auto-inherited at gate, not a new human gate decision."
+    },
+    {
+      "candidateId": "map-SAMSUNG-FL-WF6000R-WASHER-compound-overflow-(oc)",
+      "oemTerm": "\u00a74-3: Overflow (OC)",
+      "canonicalId": "water_level_sensor",
+      "classification": "inherited_platform_family",
+      "rationale": "Exact OEM match to BB8700 platform alias \u2014 auto-inherited at gate, not a new human gate decision."
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_overlay_mapping_gate_table",
+  "manualId": "W11174814",
+  "platformId": "whirlpool_freestanding_range",
+  "platformFamilyId": "whirlpool_freestanding_range_w11174814",
+  "canonicalOntologyId": "range_oven",
+  "compoundingRole": "corroboration",
+  "notRetroactiveFitEvidence": true,
+  "proposedOverlayFile": "whirlpool_freestanding_range_w11174814.json",
+  "normalizationArtifact": "CG_RANGE_W11174814_NORMALIZATION_v1.json",
+  "compoundingContract": "CG_RANGE_COMPOUNDING_v1.json",
+  "compoundingSequence": 4,
+  "priorSequenceClosed": "CG_RANGE_NY63T8751SS_COMPOUNDING_AUDIT_v1.json",
+  "status": "published",
+  "generatedAt": "2026-09-17T06:30:00+00:00",
+  "gateFraming": {
+    "question": "Can W11174814 cross-family evidence corroborate range_oven without retroactive fit rewriting or canonical expansion?",
+    "not": "Does W11174814 fit a new canonical graph?",
+    "validOutcomes": [
+      "canonical_inheritance",
+      "instance_scope_binding",
+      "conditional_instance_scope_binding",
+      "conditional_binding",
+      "overlay_implementation",
+      "platform_only",
+      "corroboration_witness"
+    ]
+  },
+  "gatePolicy": {
+    "gateKind": "whirlpool_w11174814_range_corroboration_compounding",
+    "compoundingPhase": "CG-RANGE-COMPOUNDING",
+    "canonicalGraph": "range_oven.json rev1 FROZEN",
+    "freezeReopenBlocked": true,
+    "cg10Through13ReopenBlocked": true,
+    "notRetroactiveFitEvidence": true,
+    "publishBlocked": false,
+    "isolatedFromSamsungSequences": true
+  },
+  "accounting": {
+    "canonicalInheritance": 5,
+    "instanceScopeBinding": 2,
+    "conditionalInstanceScopeBinding": 1,
+    "conditionalBinding": 3,
+    "overlayImplementation": 16,
+    "proceduresBound": 26,
+    "measurementsBound": 17,
+    "decisionBranchesExecutable": 12,
+    "functionalRealizations": 15,
+    "platformOnlyProcedures": 3,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "fitArtifactsReopened": 0
+  },
+  "contractTeachingRows": [
+    {
+      "teachingId": "w11174814-corroboration-not-fit-rewrite",
+      "gateQuestion": "What is W11174814 allowed to change?",
+      "outcome": "corroboration_witness",
+      "gateAction": "approve_compounded",
+      "rationale": "Enriches implementation/platform knowledge only — notRetroactiveFitEvidence true; CG-10–13 closure artifacts immutable."
+    },
+    {
+      "teachingId": "w11174814-multi-fuel-surface-realizations",
+      "gateQuestion": "How do four fuel slices bind to surface_heating_system?",
+      "outcome": "canonical_inheritance",
+      "canonicalTarget": "surface_heating_system",
+      "implementationTerms": ["infinite_switch", "ceran_element", "ipc_induction_power_control", "surface_spark_module"],
+      "gateAction": "approve_compounded",
+      "rationale": "Cross-manufacturer recurrence confirms surface_heating_system absorbs radiant/induction/gas implementations."
+    }
+  ]
+}

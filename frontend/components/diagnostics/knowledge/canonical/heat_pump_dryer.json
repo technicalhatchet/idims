@@ -1,0 +1,466 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "heat_pump_dryer",
+    "name": "Heat-Pump Dryer",
+    "templateId": "electric_dryer",
+    "variant": "heat_pump",
+    "description": "Canonical functional diagnostic ontology for ventless heat-pump clothes dryers. Models manufacturer-neutral functional responsibilities — not refrigeration hardware topology. Compressor, evaporator, condenser, expansion device, and condensate pump are platform overlay vocabulary.",
+    "frozen": true,
+    "frozenAt": "2026-09-17T16:00:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-HEAT-PUMP-DRYER-FREEZE rev1 — Samsung DV22N + LG DLHC1455 + Whirlpool HybridCare witnesses. 2 HP-specific functions + 7 vented_dryer reuse references. Locked by CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json."
+  },
+  "designPrinciples": [
+    "Model functional heat-pump thermal transfer and sealed moisture rejection — not individual refrigeration components.",
+    "heat_pump_thermal_system is dry heat via sealed refrigerant heat-pump cycle with loop thermal protection — not compressor, evaporator, condenser, or expansion device as canonical nodes.",
+    "sealed_moisture_rejection_path is ventless recirculating airflow with condensation and condensate rejection — not drain pump or water tank as canonical nodes.",
+    "Reuse vented_dryer functional domains (door, drive, moisture sense, lint restriction, control, UI, power) by reference — do not import heat_source, exhaust_path, heated_airflow_path, or thermal_fuse as primary HP architecture.",
+    "Functional coupling between heat_pump_thermal_system and sealed_moisture_rejection_path is encoded in functionalDependencies — not routed_through (physical air topology semantics in vented_dryer).",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "ontologyContract": {
+    "canonicalComponentRule": "components[] lists 2 HP-specific core functions + 7 vented_dryer reuse references from CG-HEAT-PUMP-DRYER-DISCOVERY closure.",
+    "implementationNotOntology": "Compressor, evaporator, condenser, capillary tube, expansion valve, refrigerant thermistors, IPM/inverter, condensate pump, auxiliary fan, and supplemental resistive heater are platform vocabulary — never canonical nodes.",
+    "reusedFromVentedDryer": {
+      "mode": "functional_reuse_reference",
+      "ontologyId": "vented_dryer",
+      "componentIds": [
+        "door_switch",
+        "drive_motor",
+        "moisture_sensor",
+        "lint_filter",
+        "control_board",
+        "hmi_control",
+        "power_supply"
+      ],
+      "note": "Same functional responsibility IDs as vented_dryer — not duplicated ontology definitions."
+    },
+    "explicitlyNotReusedAsPrimaryArchitecture": [
+      "heat_source",
+      "exhaust_path",
+      "heated_airflow_path",
+      "thermal_fuse"
+    ],
+    "semanticBoundaries": {
+      "heat_pump_thermal_system": "Dry heat and loop protection via sealed refrigerant heat-pump cycle — not refrigeration hardware diagram.",
+      "sealed_moisture_rejection_path": "Ventless moisture rejection via recirculation, condensation, and condensate — not external exhaust terminal.",
+      "thermalMoistureCoupling": "Functional dependency only — routed_through edge intentionally omitted (physical topology semantics)."
+    },
+    "discoveryInput": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "discoveryClosure": "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json"
+  },
+  "overlayOnlyConcepts": [
+    { "id": "compressor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "evaporator", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "sealed_moisture_rejection_path" },
+    { "id": "condenser", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "expansion_valve", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "capillary_tube", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "refrigerant_thermistor", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "condensate_pump", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "sealed_moisture_rejection_path" },
+    { "id": "ipm_inverter", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "heat_pump_thermal_system" },
+    { "id": "auxiliary_fan", "freezeRecommendation": "PLATFORM_ONLY", "realizes": "sealed_moisture_rejection_path" }
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "communicates_with",
+    "senses",
+    "monitors",
+    "provides_feedback_to",
+    "enables",
+    "inhibits",
+    "depends_on"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": ["verified_good", "verified_failed", "not_applicable"],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification."
+  },
+  "systems": [
+    { "id": "power", "name": "Power", "categoryId": "electrical_supply", "purpose": "Provides and distributes electrical power to control and load circuits." },
+    { "id": "control", "name": "Control", "categoryId": "control", "purpose": "Coordinates dry cycle, interprets sensors, and commands motor, heat-pump, and moisture-rejection loads." },
+    { "id": "user_interface", "name": "User Interface", "categoryId": "control", "purpose": "Accepts user commands and displays appliance state." },
+    { "id": "door", "name": "Door / Authorization", "categoryId": "motor", "purpose": "Confirms door closure and authorizes drive and dry operation." },
+    { "id": "drive", "name": "Drive", "categoryId": "motor", "purpose": "Rotates the drum for tumbling." },
+    { "id": "heat_pump_thermal", "name": "Heat-Pump Thermal", "categoryId": "heat_circuit", "purpose": "Sealed refrigerant-cycle dry heat generation and loop thermal protection." },
+    { "id": "moisture_rejection", "name": "Moisture Rejection", "categoryId": "airflow", "purpose": "Ventless recirculating process airflow, condensation dehumidification, and condensate rejection." },
+    { "id": "moisture_sensing", "name": "Moisture Sensing", "categoryId": "airflow", "purpose": "Detects load dryness for cycle termination." },
+    { "id": "lint_management", "name": "Lint Management", "categoryId": "airflow", "purpose": "In-appliance lint restriction domain (including evaporator-filter interlocks as platform scope)." }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power supply / line voltage",
+      "aliases": ["supply", "line voltage", "mains"],
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input",
+      "pendingEvidenceGraph": true,
+      "reuseReference": "vented_dryer.power_supply"
+    },
+    {
+      "id": "control_board",
+      "name": "Main control board",
+      "aliases": ["main control", "main pcb", "machine control", "ccu", "micom"],
+      "systemId": "control",
+      "categoryId": "control",
+      "type": "controller",
+      "pendingEvidenceGraph": true,
+      "reuseReference": "vented_dryer.control_board"
+    },
+    {
+      "id": "hmi_control",
+      "name": "HMI / UI control",
+      "aliases": ["ui", "console", "control panel", "display"],
+      "systemId": "user_interface",
+      "categoryId": "control",
+      "type": "interface",
+      "pendingEvidenceGraph": true,
+      "reuseReference": "vented_dryer.hmi_control"
+    },
+    {
+      "id": "door_switch",
+      "name": "Door switch / interlock",
+      "aliases": ["door interlock", "door sensor"],
+      "systemId": "door",
+      "categoryId": "motor",
+      "type": "sensor",
+      "reuseReference": "vented_dryer.door_switch"
+    },
+    {
+      "id": "drive_motor",
+      "name": "Drive motor",
+      "aliases": ["drum motor", "motor", "bldc motor"],
+      "systemId": "drive",
+      "categoryId": "motor",
+      "type": "actuator",
+      "pendingEvidenceGraph": true,
+      "reuseReference": "vented_dryer.drive_motor"
+    },
+    {
+      "id": "moisture_sensor",
+      "name": "Moisture sensor",
+      "aliases": ["humidity sensor", "dryness sensor", "touch sensor"],
+      "systemId": "moisture_sensing",
+      "categoryId": "airflow",
+      "type": "sensor",
+      "reuseReference": "vented_dryer.moisture_sensor"
+    },
+    {
+      "id": "lint_filter",
+      "name": "Lint filter / restriction path",
+      "aliases": ["lint screen", "lint trap", "evaporator filter"],
+      "systemId": "lint_management",
+      "categoryId": "airflow",
+      "type": "passive",
+      "pendingEvidenceGraph": true,
+      "reuseReference": "vented_dryer.lint_filter",
+      "note": "Restriction domain without exhaust_path terminal — evaporator/reed lint interlocks are platform implementation."
+    },
+    {
+      "id": "heat_pump_thermal_system",
+      "name": "Heat-pump thermal system",
+      "aliases": ["heat pump system", "refrigerant heat path", "compressor system"],
+      "systemId": "heat_pump_thermal",
+      "categoryId": "heat_circuit",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Dry heat via sealed refrigerant heat-pump cycle with loop thermal protection — not individual refrigeration hardware nodes."
+    },
+    {
+      "id": "sealed_moisture_rejection_path",
+      "name": "Sealed moisture rejection path",
+      "aliases": ["ventless dry path", "condensate path", "dehumidification path"],
+      "systemId": "moisture_rejection",
+      "categoryId": "airflow",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Recirculating process airflow, condensation dehumidification, and condensate rejection — not external exhaust terminal."
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "hmi_control", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "commands", "to": "heat_pump_thermal_system", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "commands", "to": "sealed_moisture_rejection_path", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "drive_motor", "source": "canonical", "confidence": "high" },
+    { "from": "door_switch", "type": "enables", "to": "drive_motor", "source": "canonical", "confidence": "high", "note": "Door authorization — diagnostic gate before tumble" },
+    { "from": "door_switch", "type": "enables", "to": "heat_pump_thermal_system", "source": "canonical", "confidence": "high", "note": "Door authorization for dry heat operation" },
+    { "from": "door_switch", "type": "enables", "to": "sealed_moisture_rejection_path", "source": "canonical", "confidence": "high", "note": "Door authorization for ventless dry operation" },
+    { "from": "moisture_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "drive_motor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "medium" }
+  ],
+  "deferredRelationships": [
+    {
+      "id": "thermal_to_moisture_routed_through",
+      "from": "heat_pump_thermal_system",
+      "proposedType": "routed_through",
+      "to": "sealed_moisture_rejection_path",
+      "status": "omitted_at_freeze",
+      "rationale": "routed_through in vented_dryer encodes physical air-path topology (heat_source→drum→lint→blower→exhaust). HP thermal→moisture coupling is functional only — encoded via functionalDependencies, not a canonical routed_through edge."
+    }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "cycle_start_authorization",
+      "description": "Dry cycle start requires valid user input, control readiness, and acceptable door state.",
+      "requires": ["hmi_control", "control_board", "door_switch", "power_supply"],
+      "enables": ["drive_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "door_authorization",
+      "description": "Drive and dry loads require closed-door authorization feedback.",
+      "requires": ["door_switch", "control_board"],
+      "enables": ["drive_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "drive_operation",
+      "description": "Tumble requires door authorization, motor command, and mechanical drive path.",
+      "requires": ["control_board", "door_switch", "drive_motor"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "dry_operation",
+      "description": "Ventless heat-pump drying requires authorized door, control command, thermal system, and sealed moisture rejection path.",
+      "requires": ["control_board", "door_switch", "heat_pump_thermal_system", "sealed_moisture_rejection_path"],
+      "enables": ["heat_pump_thermal_operation", "moisture_rejection_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heat_pump_thermal_operation",
+      "description": "Heat-pump dry heat requires control command, intact heat_pump_thermal_system, and door authorization.",
+      "requires": ["control_board", "door_switch", "heat_pump_thermal_system"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Loop thermal protection is within heat_pump_thermal_system — not vented_dryer thermal_fuse primary path."
+    },
+    {
+      "id": "moisture_rejection_operation",
+      "description": "Ventless moisture rejection requires control command, sealed_moisture_rejection_path, and unobstructed lint restriction domain.",
+      "requires": ["control_board", "sealed_moisture_rejection_path", "lint_filter"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "thermal_moisture_functional_coupling",
+      "description": "Functional coupling — heat_pump_thermal_system supports sealed_moisture_rejection_path dehumidification. Not a physical routing/topology claim.",
+      "requires": ["heat_pump_thermal_system"],
+      "enables": ["moisture_rejection_operation"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Replaces deferred routed_through edge — domains remain independently diagnosable (no-heat vs condensate faults)."
+    },
+    {
+      "id": "dry_termination",
+      "description": "Automatic cycle end uses moisture feedback depending on platform.",
+      "requires": ["control_board"],
+      "feedback": ["moisture_sensor"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "establishedFactSources": [
+    { "factId": "door_closed_authorized", "label": "Door closed and authorized for cycle", "fromComponents": ["door_switch"], "source": "canonical", "confidence": "high" },
+    { "factId": "motor_running", "label": "Drum motor confirmed running", "fromComponents": ["drive_motor"], "source": "canonical", "confidence": "high" },
+    { "factId": "heat_pump_command_present", "label": "Heat-pump thermal system commanded on", "fromComponents": ["control_board", "heat_pump_thermal_system"], "source": "canonical", "confidence": "high" },
+    { "factId": "moisture_path_command_present", "label": "Sealed moisture rejection path commanded active", "fromComponents": ["control_board", "sealed_moisture_rejection_path"], "source": "canonical", "confidence": "high" },
+    { "factId": "lint_filter_restricted", "label": "Lint filter / restriction path obstructed", "fromComponents": ["lint_filter"], "source": "canonical", "confidence": "high" }
+  ],
+  "testTargets": [
+    {
+      "id": "door_switch_test",
+      "label": "Door switch / authorization",
+      "role": "prerequisite",
+      "testAliasId": "door_switch_test",
+      "establishesFacts": ["door_closed_authorized"],
+      "forGoals": ["cycle_start_authorization", "drive_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "motor_run_test",
+      "label": "Motor run verification",
+      "role": "prerequisite",
+      "testAliasId": "motor_run_test",
+      "establishesFacts": ["motor_running"],
+      "requires": { "facts": ["door_closed_authorized"] },
+      "forGoals": ["drive_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "heat_pump_thermal_test",
+      "label": "Heat-pump thermal system",
+      "role": "discriminator",
+      "testAliasId": "heat_pump_thermal_test",
+      "establishesFacts": ["heat_pump_command_present"],
+      "requires": { "facts": ["door_closed_authorized"], "dependencies": ["heat_pump_thermal_operation"] },
+      "forGoals": ["heat_pump_thermal_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "moisture_rejection_test",
+      "label": "Sealed moisture rejection path",
+      "role": "discriminator",
+      "testAliasId": "moisture_rejection_test",
+      "establishesFacts": ["moisture_path_command_present"],
+      "requires": { "facts": ["door_closed_authorized"], "dependencies": ["moisture_rejection_operation"] },
+      "forGoals": ["moisture_rejection_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "lint_filter_test",
+      "label": "Lint filter / restriction path",
+      "role": "prerequisite",
+      "testAliasId": "lint_filter_test",
+      "forGoals": ["moisture_rejection_operation", "dry_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "moisture_sensor_test",
+      "label": "Moisture sensor response",
+      "role": "discriminator",
+      "testAliasId": "moisture_sensor_test",
+      "forGoals": ["dry_termination", "dry_operation"],
+      "source": "canonical",
+      "confidence": "medium"
+    }
+  ],
+  "failureDomains": [
+    { "id": "power_failure", "label": "Power / supply", "components": ["power_supply", "control_board"] },
+    { "id": "control_failure", "label": "Control", "components": ["control_board"] },
+    { "id": "user_interface_failure", "label": "User interface", "components": ["hmi_control"] },
+    { "id": "door_authorization_failure", "label": "Door / authorization", "components": ["door_switch"] },
+    { "id": "drive_failure", "label": "Drive / motor", "components": ["drive_motor"] },
+    { "id": "heat_pump_thermal_failure", "label": "Heat-pump thermal system", "components": ["heat_pump_thermal_system", "control_board"] },
+    { "id": "moisture_rejection_failure", "label": "Sealed moisture rejection path", "components": ["sealed_moisture_rejection_path", "control_board"] },
+    { "id": "lint_filter_failure", "label": "Lint filter / restriction path", "components": ["lint_filter"] },
+    { "id": "moisture_sensing_failure", "label": "Moisture sensing", "components": ["moisture_sensor"] },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "upstream_before_downstream", "rule": "Establish door authorization and motor run before condemning heat-pump thermal or moisture-rejection paths." },
+      { "id": "thermal_moisture_independent", "rule": "heat_pump_thermal_system and sealed_moisture_rejection_path are independently diagnosable — functional coupling is not a merge authorization." },
+      { "id": "no_exhaust_path_assumption", "rule": "Do not route HP ventless faults through vented_dryer exhaust_path — moisture exits via condensate rejection." },
+      { "id": "no_heat_source_assumption", "rule": "Do not diagnose primary HP no-heat through vented_dryer heat_source or thermal_fuse element path." },
+      { "id": "implementation_not_ontology", "rule": "Refrigeration hardware and condensate pump are platform vocabulary — never canonical nodes." },
+      { "id": "preserve_uncertainty", "rule": "Unknown, inaccessible, and unverified states must remain distinct from verified_good." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "wont_start",
+      "symptoms": ["won't start", "no response", "pressing start does nothing", "cycle will not begin"],
+      "initialDomains": ["power_failure", "user_interface_failure", "control_failure", "door_authorization_failure"],
+      "activeGoals": ["cycle_start_authorization"]
+    },
+    {
+      "id": "wont_tumble",
+      "symptoms": ["won't tumble", "drum does not turn", "no rotation", "motor does not run"],
+      "initialDomains": ["drive_failure", "door_authorization_failure", "control_failure"],
+      "activeGoals": ["drive_operation", "door_authorization"]
+    },
+    {
+      "id": "no_heat",
+      "symptoms": ["no heat", "not heating", "clothes stay cold", "heat pump not running"],
+      "initialDomains": ["heat_pump_thermal_failure", "control_failure", "door_authorization_failure"],
+      "activeGoals": ["heat_pump_thermal_operation", "dry_operation"],
+      "note": "Route compressor/inverter/thermistor procedures to heat_pump_thermal_system overlay — not heat_source."
+    },
+    {
+      "id": "condensate_issue",
+      "symptoms": ["water in drum", "condensate overflow", "drain error", "water tank full", "F9E1", "5C"],
+      "initialDomains": ["moisture_rejection_failure", "lint_filter_failure", "control_failure"],
+      "activeGoals": ["moisture_rejection_operation"]
+    },
+    {
+      "id": "long_dry",
+      "symptoms": ["takes too long", "long dry times", "still damp", "extended cycle"],
+      "initialDomains": ["heat_pump_thermal_failure", "moisture_rejection_failure", "lint_filter_failure", "moisture_sensing_failure"],
+      "activeGoals": ["dry_operation", "dry_termination"]
+    }
+  ],
+  "aioDownstreamCompatibility": {
+    "note": "Freeze-time compatibility fact only — AIO workstream remains PAUSED.",
+    "samsungWd53HpAio": {
+      "mapsTo": ["heat_pump_thermal_system", "sealed_moisture_rejection_path"],
+      "compatibility": "full_for_hp_aio_dry_portion"
+    },
+    "whirlpoolWfw9620CondenserResistiveAio": {
+      "mapsTo": ["sealed_moisture_rejection_path"],
+      "doesNotMapTo": ["heat_pump_thermal_system"],
+      "compatibility": "partial"
+    }
+  },
+  "freezeProvenance": {
+    "workstream": "CG-HEAT-PUMP-DRYER-FREEZE",
+    "sourceCandidate": "heat_pump_dryer_functional_contract_candidate_v1.json",
+    "discoveryClosure": "CG_HEAT_PUMP_DRYER_DISCOVERY_CLOSURE_v1.json",
+    "freezeLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json",
+    "evidenceWitnesses": [
+      { "manufacturer": "Samsung", "model": "DV22N6850", "manualId": "SAMSUNG-HP-DRYER-DV22N" },
+      { "manufacturer": "LG", "model": "DLHC1455", "manualId": "LG-DLHC1455-HP-DRYER" },
+      { "manufacturer": "Whirlpool", "model": "HybridCare", "manualId": "W10764068" }
+    ],
+    "hpSpecificCore": ["heat_pump_thermal_system", "sealed_moisture_rejection_path"],
+    "reusedFromVentedDryer": [
+      "door_switch",
+      "drive_motor",
+      "moisture_sensor",
+      "lint_filter",
+      "control_board",
+      "hmi_control",
+      "power_supply"
+    ],
+    "explicitlyNotReused": ["heat_source", "exhaust_path", "heated_airflow_path", "thermal_fuse"],
+    "platformOnly": [
+      "compressor",
+      "evaporator",
+      "condenser",
+      "expansion_valve",
+      "capillary_tube",
+      "refrigerant_thermistor",
+      "condensate_pump",
+      "ipm_inverter",
+      "auxiliary_fan"
+    ],
+    "deferredRoutedThroughEdge": {
+      "omitted": true,
+      "rationale": "routed_through encodes physical air topology in vented_dryer — HP thermal→moisture coupling is functional only via functionalDependencies"
+    },
+    "canonicalExpansion": 0,
+    "componentPromotionCount": 0,
+    "humanFreezeReview": {
+      "status": "approved",
+      "approvedAt": "2026-09-17T16:00:00+00:00",
+      "verdict": "GREEN — FREEZE APPROVED"
+    }
+  }
+}

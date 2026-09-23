@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg9_5_sxs_compounding_evidence",
+  "manualId": "SAMSUNG-RS28-SXS",
+  "platformId": "samsung_sxs",
+  "compoundingPhase": "CG-9.5",
+  "workPackage": "WP1",
+  "compoundingSequence": 1,
+  "generatedAt": "2026-09-16T13:18:50.316780+00:00",
+  "canonicalOntology": {
+    "id": "french_door_refrigerator",
+    "revision": "rev1",
+    "immutable": true,
+    "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9"
+  },
+  "gateArtifact": "SAMSUNG_RS28_SXS_overlay_mapping_table_v1.json",
+  "boundaryProbeArtifact": "SAMSUNG_RS28_SXS_REFRIGERATOR_FAMILY_BOUNDARY_OBSERVATION_v1.json",
+  "headlineMetric": {
+    "canonicalExpansion": 0
+  },
+  "compoundingCurve": {
+    "framing": "contract_teaching_rows",
+    "canonicalInheritance": 5,
+    "conditionalBinding": 7,
+    "overlayKnowledge": 10,
+    "intentionalAbstention": 4,
+    "canonicalExpansion": 0,
+    "discoveryCorpusInheritance": 0,
+    "note": "First SxS production compounding \u2014 frozen refrigerator contract, samsung_sxs platform overlay. CG-9 boundary closed; this is runtime knowledge."
+  },
+  "hierarchyTest": {
+    "frozenKeepStable": true,
+    "conditionalAbsorbsArchitecture": true,
+    "platformAbsorbsImplementation": true,
+    "manufacturerIsolationEnforced": true,
+    "cg9CalibrationNotAutoPromoted": true,
+    "verdict": "RS28 SxS separates reusable functional knowledge (5 KEEP inheritance paths with door_switch withheld) from inverter PBA / multi-NTC / C-fan ambiguity (conditional + platform) without canonical expansion."
+  }
+}

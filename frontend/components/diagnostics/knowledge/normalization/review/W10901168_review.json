@@ -1,0 +1,1777 @@
+{
+  "manualId": "W10901168",
+  "platformId": "whirlpool_bella_french_door",
+  "templateId": "refrigerator",
+  "ontologyId": null,
+  "materializedAt": "2026-09-12T22:21:16.963426+00:00",
+  "records": [
+    {
+      "candidateId": "map-W10901168-thermistor-wash_ntc",
+      "candidateType": "canonicalMapping",
+      "status": "candidate",
+      "rawCandidateStatus": "candidate",
+      "approvalLevel": "normal",
+      "confidence": 0.85,
+      "what": "thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": "wash_ntc",
+      "why": {
+        "confidence": 0.85,
+        "matcherLayer": "global_hint",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: thermistor \u2192 wash_ntc"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-01-rc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "thermistor": "wash_ntc"
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-01-rc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-01-rc-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "global_hint"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-01:-rc-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 01: RC thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 01 rc",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 01: RC thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-01-rc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 01: RC thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-01-rc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-01-rc-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 01 rc",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-02:-fc-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 02: FC thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 02 fc",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 02: FC thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-02-fc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 02: FC thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-02-fc-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-02-fc-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 02 fc",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-05:-pantry-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 05: Pantry thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 05 pantry",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 05: Pantry thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-05-pantry-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 05: Pantry thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-05-pantry-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-05-pantry-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 05 pantry",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-ice_maker",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "ice_maker",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: ice_maker \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-120-121-im-harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "ice_maker": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-120-121-im-harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-120-121-im-harvest",
+            "pages": [
+              19,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-120/121:-ice-maker-harvest",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 120/121: Ice maker harvest",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 120/121: Ice maker harvest \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-120-121-im-harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 120/121: Ice maker harvest": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-120-121-im-harvest",
+        "pages": [
+          19,
+          47
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-120-121-im-harvest",
+            "pages": [
+              19,
+              47
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-14:-door-ice-box-thermistor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 14: Door ice box thermistor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 14 door ice box",
+          "actuator": "thermistor"
+        },
+        "summary": "alias: Service Test 14: Door ice box thermistor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-14-ice-box-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 14: Door ice box thermistor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-14-ice-box-thermistor",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-14-ice-box-thermistor",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 14 door ice box",
+              "actuator": "thermistor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-w10901168-unresolved-w10901168-test-40-compressor-sealed-system-compressor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "compressor",
+      "extractedTerm": null,
+      "blockedReason": "UNRESOLVED_COMPONENT",
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "unresolved",
+        "mappingType": "alias",
+        "matchedPhrase": null,
+        "decomposition": null,
+        "summary": "alias: compressor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-40-compressor-sealed-system",
+        "pages": [
+          19,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "compressor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-40-compressor-sealed-system",
+        "pages": [
+          19,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-40-compressor-sealed-system",
+            "pages": [
+              19,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          },
+          {
+            "type": "matcher",
+            "layer": "unresolved"
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-40:-compressor-&-sealed-system",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 40: Compressor & sealed system",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 40: Compressor & sealed system \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-40-compressor-sealed-system",
+        "pages": [
+          19,
+          34
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 40: Compressor & sealed system": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-40-compressor-sealed-system",
+        "pages": [
+          19,
+          34
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-40-compressor-sealed-system",
+            "pages": [
+              19,
+              34
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-damper_motor",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "damper_motor",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "damper",
+          "actuator": "motor"
+        },
+        "summary": "alias: damper_motor \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-42-pantry-baffle",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "damper_motor": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-42-pantry-baffle",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-42-pantry-baffle",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "damper",
+              "actuator": "motor"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-42:-pantry-air-baffle",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 42: Pantry air baffle",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 42: Pantry air baffle \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-42-pantry-baffle",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 42: Pantry air baffle": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-42-pantry-baffle",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-42-pantry-baffle",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-evap_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "evap_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: evap_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-56-fc-fan",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "evap_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-56-fc-fan",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-56-fc-fan",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-56:-fc-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 56: FC fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 56: FC fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-56-fc-fan",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 56: FC fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-56-fc-fan",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-56-fc-fan",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-57:-rc-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 57: RC fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 57: RC fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-57-rc-fan",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 57: RC fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-57-rc-fan",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-57-rc-fan",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-condenser_fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "condenser_fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: condenser_fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-58-condenser-fan",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "condenser_fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-58-condenser-fan",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-58-condenser-fan",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-58:-condenser-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 58: Condenser fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 58: Condenser fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-58-condenser-fan",
+        "pages": [
+          19,
+          33
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 58: Condenser fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-58-condenser-fan",
+        "pages": [
+          19,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-58-condenser-fan",
+            "pages": [
+              19,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-59:-ice-box-fan",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 59: Ice box fan",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 59: Ice box fan \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-59-ice-box-fan",
+        "pages": [
+          19,
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 59: Ice box fan": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-59-ice-box-fan",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-59-ice-box-fan",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-defrost_heater",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "defrost_heater",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "defrost",
+          "actuator": "heater"
+        },
+        "summary": "alias: defrost_heater \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-89-defrost-heater",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "defrost_heater": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-89-defrost-heater",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-89-defrost-heater",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "defrost",
+              "actuator": "heater"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-89/91:-fc-defrost",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 89/91: FC defrost",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 89/91: FC defrost \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-89-defrost-heater",
+        "pages": [
+          19
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 89/91: FC defrost": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-89-defrost-heater",
+        "pages": [
+          19
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-89-defrost-heater",
+            "pages": [
+              19
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-water_valve",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "water_valve",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": "water",
+          "component": null,
+          "actuator": "valve"
+        },
+        "summary": "alias: water_valve \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-96-water-valve",
+        "pages": [
+          19,
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "water_valve": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-96-water-valve",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-96-water-valve",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": "water",
+              "component": null,
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-96:-water-valve-general",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 96: Water valve general",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": "service test 96 water",
+          "actuator": "valve"
+        },
+        "summary": "alias: Service Test 96: Water valve general \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-96-water-valve",
+        "pages": [
+          19,
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 96: Water valve general": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-96-water-valve",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-96-water-valve",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": "service test 96 water",
+              "actuator": "valve"
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    },
+    {
+      "candidateId": "map-W10901168-compound-service-test-97/98:-ice-maker-water-fill",
+      "candidateType": "canonicalMapping",
+      "status": "needs_review",
+      "rawCandidateStatus": "UNRESOLVED_TERM",
+      "approvalLevel": "blocked",
+      "confidence": 0.0,
+      "what": "Service Test 97/98: Ice maker water fill",
+      "extractedTerm": null,
+      "blockedReason": null,
+      "mapsTo": null,
+      "why": {
+        "confidence": 0.0,
+        "matcherLayer": "compound:unresolved",
+        "mappingType": "compound_alias",
+        "matchedPhrase": null,
+        "decomposition": {
+          "domain": null,
+          "component": null,
+          "actuator": null
+        },
+        "summary": "alias: Service Test 97/98: Ice maker water fill \u2192 None"
+      },
+      "source": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-97-98-im-water-fill",
+        "pages": [
+          19,
+          46
+        ],
+        "extractionDoc": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+      },
+      "conflicts": [],
+      "proposedChange": {
+        "overlaySection": "oemTermAliases",
+        "operation": "add",
+        "value": {
+          "Service Test 97/98: Ice maker water fill": null
+        }
+      },
+      "provenance": {
+        "manualId": "W10901168",
+        "platformId": "whirlpool_bella_french_door",
+        "procedureId": "w10901168-test-97-98-im-water-fill",
+        "pages": [
+          19,
+          46
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W10901168",
+            "platformId": "whirlpool_bella_french_door"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w10901168-test-97-98-im-water-fill",
+            "pages": [
+              19,
+              46
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W10901168_BELLA_FD_EXTRACTION.md"
+          },
+          {
+            "type": "matcher",
+            "layer": "compound:unresolved",
+            "matchedPhrase": "",
+            "decomposition": {
+              "domain": null,
+              "component": null,
+              "actuator": null
+            }
+          }
+        ]
+      },
+      "reviewHistory": []
+    }
+  ],
+  "summary": {
+    "total": 22,
+    "byStatus": {
+      "candidate": 1,
+      "needs_review": 21
+    },
+    "byApprovalLevel": {
+      "normal": 1,
+      "blocked": 21
+    },
+    "byType": {
+      "canonicalMapping": 22
+    },
+    "byConfidenceBucket": {
+      "high_gte_0.95": 0,
+      "medium_0.80_0.94": 1,
+      "low_lt_0.80": 0,
+      "unresolved": 21
+    },
+    "byBlockedReason": {
+      "UNRESOLVED_COMPONENT": 1
+    }
+  }
+}

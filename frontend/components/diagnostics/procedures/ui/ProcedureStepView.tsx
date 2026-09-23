@@ -24,7 +24,7 @@ const STATUS_CLASS: Record<string, string> = {
 interface ProcedureStepViewProps {
   step: ProcedureStep;
   stepIndex: number;
-  stepTotal: number;
+  stepTotal?: number;
   measurementDraft: string;
   onMeasurementDraftChange: (value: string) => void;
   onContinue: () => void;
@@ -33,12 +33,15 @@ interface ProcedureStepViewProps {
   lastEvaluation?: MeasurementEvaluation | null;
   matchedBranch?: DecisionBranch | null;
   disabled?: boolean;
+  highlightPrimaryAction?: boolean;
 }
+
+const PRIMARY_ACTION_NUDGE_CLASS =
+  'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent animate-pulse shadow-lg shadow-amber-500/25';
 
 export default function ProcedureStepView({
   step,
   stepIndex,
-  stepTotal,
   measurementDraft,
   onMeasurementDraftChange,
   onContinue,
@@ -47,7 +50,9 @@ export default function ProcedureStepView({
   lastEvaluation,
   matchedBranch,
   disabled = false,
+  highlightPrimaryAction = false,
 }: ProcedureStepViewProps) {
+  const primaryActionClass = highlightPrimaryAction ? PRIMARY_ACTION_NUDGE_CLASS : '';
   const knowledge = useMemo(
     () => getMeasurementKnowledge(step.measurementKnowledgeId),
     [step.measurementKnowledgeId],
@@ -67,9 +72,11 @@ export default function ProcedureStepView({
         <span className="text-[10px] uppercase tracking-[0.14em] text-[color:var(--solomon-status-reference)]/90">
           {STEP_TYPE_LABELS[step.type] || step.type}
         </span>
-        <span className="text-xs text-[var(--solomon-text-secondary)]">
-          Step {stepIndex} of {stepTotal}
-        </span>
+        {stepIndex > 0 ? (
+          <span className="text-xs text-[var(--solomon-text-secondary)]">
+            Step {stepIndex}
+          </span>
+        ) : null}
       </div>
 
       <div>
@@ -126,7 +133,8 @@ export default function ProcedureStepView({
             type="button"
             onClick={onSubmitMeasurement}
             disabled={disabled || !measurementDraft.trim()}
-            className="rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+            className={`rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 ${primaryActionClass}`}
+            data-oem-procedure-primary-action
           >
             Submit
           </button>
@@ -139,7 +147,8 @@ export default function ProcedureStepView({
             type="button"
             onClick={() => onCheckpoint('yes')}
             disabled={disabled}
-            className="flex-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-300 disabled:opacity-50"
+            className={`flex-1 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-sm font-medium text-emerald-300 disabled:opacity-50 ${primaryActionClass}`}
+            data-oem-procedure-primary-action
           >
             Yes
           </button>
@@ -147,7 +156,8 @@ export default function ProcedureStepView({
             type="button"
             onClick={() => onCheckpoint('no')}
             disabled={disabled}
-            className="flex-1 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-300 disabled:opacity-50"
+            className={`flex-1 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-300 disabled:opacity-50 ${primaryActionClass}`}
+            data-oem-procedure-primary-action
           >
             No
           </button>
@@ -159,7 +169,8 @@ export default function ProcedureStepView({
           type="button"
           onClick={onContinue}
           disabled={disabled}
-          className="w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50"
+          className={`w-full rounded-lg border border-[color:var(--solomon-primary-border)] bg-gradient-to-br from-[var(--solomon-primary-from)] to-[var(--solomon-primary-to)] px-4 py-2.5 text-sm font-medium text-white disabled:opacity-50 ${primaryActionClass}`}
+          data-oem-procedure-primary-action
         >
           Continue
         </button>

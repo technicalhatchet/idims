@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_canonical_architecture_complete_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T19:40:00+00:00",
+  "humanAuthorizedAt": "2026-09-17T19:40:00+00:00",
+  "verdict": "CLOSED / CANONICAL_ARCHITECTURE_COMPLETE",
+  "closureStatement": "Canonical graph architecture phase is complete. All inventory requires_fit_test categories are resolved via fit gates without unresolved architectural divergence. Frozen canonical families stand at nine ontology graphs (range_oven, microwave, french_door_refrigerator, vented_dryer, heat_pump_dryer, aio_laundry_combo, dishwasher, front_load_washer, top_load_washer) plus electric_range legacy alias. Product-configuration categories (wall_oven, cooktop_only, standalone_freezer, stacked_laundry_center, gas_dryer) compose into or decompose to frozen hosts — no cooktop.json, wall_oven.json, standalone_freezer.json, or stacked_laundry_center.json authorized. Zero canonical expansion at architecture-complete gate. Normalization, compounding, and manufacturer overlays are NOT authorized by this gate — they require explicit next-phase authorization.",
+  "architecturePhase": {
+    "phase": "architecture_discovery",
+    "status": "COMPLETE",
+    "successorPhase": "production_normalization",
+    "successorPhaseAuthorized": false,
+    "note": "Formal handoff marker — production corpus normalization pass may be opened as a separate authorized workstream"
+  },
+  "headlineMetrics": {
+    "fitGatesExecuted": 8,
+    "fitGatesClosedGreen": 8,
+    "architecturalDivergenceGates": 1,
+    "architecturalDivergenceOutcome": "microwave_new_family_frozen",
+    "compositionGates": 4,
+    "provenVariantGates": 2,
+    "insufficientEvidenceGates": 0,
+    "newCanonicalGraphsFrozen": 3,
+    "productConfigurationCompositions": 4,
+    "canonicalExpansionAtArchitectureComplete": 0,
+    "canonicalHashMutations": 0
+  },
+  "frozenCanonicalOntologies": [
+    { "id": "range_oven", "hash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5", "familyLock": "CG_RANGE_FAMILY_LOCK_v1.json" },
+    { "id": "electric_range", "hash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54", "note": "legacy alias only" },
+    { "id": "microwave", "hash": "3c9ef98e07c0b87d5f3ea9e313deb21892d75fd563bff397a0cc33aba55e533d", "familyLock": "CG_MICROWAVE_FAMILY_LOCK_v1.json" },
+    { "id": "french_door_refrigerator", "hash": "adc2614e10d27f2462a95ccb372b5dff5017a77fb6ff72f58561df5dd8fb4cf9" },
+    { "id": "vented_dryer", "hash": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714" },
+    { "id": "heat_pump_dryer", "hash": "d7a98c826d011a9fdef4b8c91ebd4d66ff88629f7d7b91357d43fee42c32d3bb", "familyLock": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json" },
+    { "id": "aio_laundry_combo", "hash": "be3799a991b3d778b62e60a7ec3d91dfd6fe82432e3f9ac8663d607008081183", "familyLock": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json" },
+    { "id": "front_load_washer", "hash": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05" },
+    { "id": "top_load_washer", "hash": null, "note": "frozen — hash pinned in regression suites" },
+    { "id": "dishwasher", "hash": null, "note": "frozen — hash pinned in CG65 lock" }
+  ],
+  "inventoryFitGateResolutions": [
+    { "categoryId": "microwave", "outcome": "new_canonical_family_frozen", "closure": "CG_MICROWAVE_FAMILY_LOCK_v1.json" },
+    { "categoryId": "aio_laundry_combo", "outcome": "new_canonical_family_frozen", "closure": "CG_AIO_LAUNDRY_COMBO_FREEZE_LOCK_v1.json" },
+    { "categoryId": "heat_pump_dryer", "outcome": "new_canonical_family_frozen", "closure": "CG_HEAT_PUMP_DRYER_FREEZE_LOCK_v1.json" },
+    { "categoryId": "stacked_laundry_center", "outcome": "proven_variant", "host": "vented_dryer", "closure": "CG_STACKED_LAUNDRY_CENTER_FIT_CLOSURE_v1.json" },
+    { "categoryId": "standalone_freezer", "outcome": "composition", "host": "french_door_refrigerator", "closure": "CG_STANDALONE_FREEZER_FIT_CLOSURE_v1.json" },
+    { "categoryId": "wall_oven", "outcome": "composition", "host": "range_oven", "closure": "CG_WALL_OVEN_FIT_CLOSURE_v1.json" },
+    { "categoryId": "cooktop_only", "outcome": "composition", "host": "range_oven", "closure": "CG_COOKTOP_FIT_CLOSURE_v1.json" },
+    { "categoryId": "gas_dryer", "outcome": "proven_variant", "host": "vented_dryer", "note": "pre-fit inventory classification" }
+  ],
+  "explicitNonGoals": [
+    "Production corpus normalization",
+    "Manufacturer overlay compounding",
+    "Procedure seed ingestion expansion",
+    "Reopen any frozen canonical graph",
+    "Create product-configuration canonical graphs (wall_oven, cooktop, standalone_freezer, stacked_laundry_center)"
+  ],
+  "authorizedNextWorkstream": null,
+  "nextDisciplinedStep": "STOP — architecture phase complete. Production normalization pass requires explicit human authorization as separate workstream."
+}

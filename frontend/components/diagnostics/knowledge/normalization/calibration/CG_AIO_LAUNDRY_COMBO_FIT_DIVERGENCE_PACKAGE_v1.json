@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_aio_laundry_combo_fit_divergence_package",
+  "workstream": "CG-AIO-LAUNDRY-COMBO-FIT-TEST",
+  "status": "awaiting_human_authorization",
+  "generatedAt": "2026-09-17T13:55:00+00:00",
+  "fitOutcome": "architectural_divergence",
+  "analysisArtifact": "CG_AIO_LAUNDRY_COMBO_FIT_ANALYSIS_v1.json",
+  "authorizationRequestedFor": "CG-AIO-LAUNDRY-COMBO-DISCOVERY",
+  "stopCondition": "Do not proceed to discovery, normalization, compounding, freeze, or closure without human gate",
+  "exactFunctionalDivergences": [
+    {
+      "id": "sealed_heat_pump_moisture_rejection",
+      "description": "Moisture removal via heat-pump condensation and dehumidifying-kit sealed path — not exhaust-vent rejection",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer heated_airflow_path and airflow_operation require lint_filter and exhaust_path as functional terminals. WD53 has no external exhaust-path diagnostic domain; NC codes monitor dehumidifying kit magnet presence.",
+      "independentEvidence": {
+        "manual": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+        "sections": ["§2-1 Heat Pump / Auto Condenser features p.5", "§4-2 NC/ULC/3CA/HC dry codes p.50–55", "§4-5 refrigerant thermistors p.59"],
+        "procedures": ["samsungwd53-compressor", "samsungwd53-heat-pump-thermistors", "samsungwd53-filter-check", "samsungwd53-foam-detection"]
+      }
+    },
+    {
+      "id": "refrigerant_loop_heat_generation",
+      "description": "Primary dry heat via BLDC compressor and refrigerant loop — not vented_dryer heat_source on air stream",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer heat_source is fuel-agnostic element/burner with thermal_fuse/cutoff protection on heating path. Compressor 3CA + EVA thermistors are a different heat-generation and overheat contract (HC compressor overheat checks EVA IN/OUT).",
+      "independentEvidence": {
+        "manual": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+        "sections": ["§4-2 3CA compressor codes", "§4-5 #1–#4 thermistor specs"],
+        "procedures": ["samsungwd53-compressor", "samsungwd53-heat-pump-thermistors", "samsungwd53-dry-heater"]
+      }
+    },
+    {
+      "id": "integrated_wash_dry_orchestration",
+      "description": "Single controller, drum, and motor execute sequential wash→dry without load transfer; cross-mode failure modes",
+      "affectedFrozenContract": "front_load_washer + vented_dryer (composed hypothesis)",
+      "whyCannotRepresent": "Neither frozen family models integrated mode orchestration or wash-residue impact on dry sealed path (ULC). Smart Install manual check unifies wash and dry steps under one service mode.",
+      "independentEvidence": {
+        "manual": "backend/docs/manuals/samsung aio wd53dba900hza1.pdf",
+        "sections": ["§4-3 Smart Install manual check steps 1–10 p.52", "§4-2 ULC foam p.50"],
+        "procedures": ["samsungwd53-foam-detection", "samsungwd53-motor-circuit", "samsungwd53-communication"]
+      }
+    },
+    {
+      "id": "dry_exit_auto_open_door",
+      "description": "Auto-open door mechanism for dry-cycle completion (DC5) — dry-specific mechanical authorization",
+      "affectedFrozenContract": "vented_dryer",
+      "whyCannotRepresent": "vented_dryer door_switch authorizes operation; no auto-open exit functional domain",
+      "independentEvidence": {
+        "sections": ["§4-2 DC5"],
+        "procedures": ["samsungwd53-auto-open-door"]
+      }
+    }
+  ],
+  "partialFitPreserved": {
+    "front_load_washer_wash_portion": {
+      "fitsAsVariant": true,
+      "note": "Wash-domain representation does not require FL washer mutation — but does not salvage whole-appliance proven_variant because dry fails vented_dryer"
+    }
+  },
+  "unresolvedQuestions": [
+    "Cross-manufacturer recurrence of AIO integration patterns — corpus lacks second AIO witness",
+    "Whether condenser (non-heat-pump) AIO combos would share divergence or partially fit vented_dryer",
+    "Relationship to standalone heat_pump_dryer fit-test candidate — may share dry architecture class"
+  ],
+  "evidenceThatWouldInvalidateConclusion": [
+    "Architectural decision to broaden vented_dryer contract to abstract all dryers including sealed heat-pump (would be canonical mutation — not fit-test variant)",
+    "Second AIO witness using primary vented exhaust dry path",
+    "Documentation that WD53 has undocumented external vent making heat-pump secondary only"
+  ],
+  "canonicalExpansionCount": 0,
+  "frozenHashesUnchanged": {
+    "front_load_washer": "9fed1c36b985f32da8107382cb0cab8e65c509f8cdea7ac72631718b82f99c05",
+    "top_load_washer": "dee6b0c7128706eb78ac0e290090cd3d79d98dad579f41d6fa0a36ea3fdbf2b5",
+    "vented_dryer": "db48a9a1271843fc63d871330c633f468c537fc14242c8d537e611375992b714"
+  },
+  "humanGateRequest": {
+    "action": "Authorize or reject CG-AIO-LAUNDRY-COMBO-DISCOVERY",
+    "ifAuthorized": "Separate discovery workstream may propose minimal functional contract for AIO / heat-pump combo laundry — still no aio_laundry_combo.json until freeze gate",
+    "ifRejected": "Defer; ingest second AIO witness or revisit vented_dryer abstraction policy"
+  }
+}

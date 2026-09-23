@@ -17,7 +17,6 @@ PROCEDURE_COMPONENT = {
     "samsungdv6000-heater-electric": "heating_element",
     "samsungdv6000-thermal-cutoff": "thermal_fuse",
     "samsungdv6000-motor-circuit": "drive_motor",
-    "samsungdv6000-heat-pump-compressor": "compressor",
 }
 
 KNOWLEDGE_EVIDENCE = {

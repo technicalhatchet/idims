@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "semantic_inheritance_rule_validation",
+  "ruleId": "samsung-fl-drain-leakage-drain-pump",
+  "ladder": "R3",
+  "status": "VALIDATED",
+  "validatedAt": "2026-09-14T02:45:00+00:00",
+  "phase": "CG-6.3",
+  "controlBaseline": "compounding_efficiency_v1.json",
+  "benchmarkArtifact": "semantic_inheritance_benchmark_v1.json",
+  "problemClass": "OEM diagnostic-title variation — canonical concept name not present in OEM words (leakage is not drain_pump)",
+  "closedLoop": [
+    "Human proves: Drain / leakage (LC/LC1 → LC/5C) → drain_pump (inherited_corpus_knowledge)",
+    "Freeze provenance (BB8700 term resolution + WF6000R human classification)",
+    "Encode compound rule — require drain + leakage; exclude water/inlet/door leakage paths",
+    "Matcher applies on WF6000R only with BB8700 drain_pump prior",
+    "1 additional human gate decision eliminated (cumulative 48 → 45 with R1–R3)",
+    "0 false positives on 7-manual calibration corpus",
+    "leakage-alone and water/inlet/door leakage abstain — door leakage → drain_pump would be failure",
+    "0 leakage, 0 ontology promotion, 0 topology inference"
+  ],
+  "nastyRegressionMatrix": {
+    "Drain / leakage (LC, LC1)": "match → drain_pump",
+    "Drain / leakage (LC, 5C)": "match → drain_pump",
+    "Drain / leakage": "match → drain_pump",
+    "leakage": "abstain",
+    "water leakage": "abstain",
+    "inlet leakage": "abstain",
+    "door leakage": "abstain",
+    "drain pump": "no match (not leakage OEM title)",
+    "Whirlpool equivalent": "no Samsung semantic inheritance"
+  },
+  "benchmarkResults": {
+    "mappingGateBurden": { "before": 71, "after": 68, "deltaWithR1R2R3": 3 },
+    "projectedCohortHumanGateDecisions": { "before": 48, "after": 45 },
+    "semanticInheritsAutoResolved": 3,
+    "abstentions": 1,
+    "regressionFalsePositives": 0,
+    "leakage": 0,
+    "newCanonical": 0
+  },
+  "nextRuleGuidance": {
+    "ladder": "R4",
+    "candidate": "Overflow → water_level_sensor — functional diagnostic inference",
+    "requirement": "Demonstrate restraint — greater semantic distance than R3; abstentions at least as important as auto-resolve count"
+  }
+}

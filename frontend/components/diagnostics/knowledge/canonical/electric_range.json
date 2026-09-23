@@ -1,0 +1,424 @@
+{
+  "schemaVersion": "1.0.0",
+  "ontology": {
+    "id": "electric_range",
+    "name": "Electric Range / Oven",
+    "templateId": "electric_range",
+    "variant": "freestanding",
+    "description": "Canonical functional diagnostic ontology for electric freestanding ranges and ovens. Models functional relationships and diagnostic dependencies; switching mechanisms, zone elements, and manufacturer PCB architectures belong in platform overlays.",
+    "frozen": true,
+    "frozenAt": "2026-09-16T15:26:00+00:00",
+    "frozenRevision": "rev1",
+    "frozenNote": "CG-10 rev1 — four-manual discovery (W11746350, LG-LRE-RANGE, W11174426, SAMSUNG-NE58-RANGE boundary). Five KEEP components; two instance scopes; one conditional instance scope; three conditional concepts; oven_heating_system removed. Locked by CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json."
+  },
+  "designPrinciples": [
+    "Model functional heat generation and control behavior — not infinite switches, relay PCBs, sub-PCBs, or per-zone radiant element hardware.",
+    "Separate power, control, user interface, cavity temperature feedback, surface heat generation, and oven heat generation diagnostically.",
+    "Oven heat generation is a functional domain with instance-scoped diagnostic functions (bake, broil, convection) — not one opaque oven_heating_system node and not three universal canonical component types.",
+    "surface_heating_system is the cooktop functional domain; control_board → surface_heating_system is invariant across infinite-switch, relay, and knob implementations.",
+    "INSTANCE_SCOPE concepts live in instanceScopes[] — they enable reasoning like 'bake element failed' without promoting bake_heating_element to a universal canonical component type.",
+    "CONDITIONAL concepts require platform procedure evidence before graph participation — do not blindly promote convection_fan, thermal_protection, or oven_door_switch.",
+    "Platform-only vocabulary (surface_control, surface_heating_element, door_latch_motor, oven_lamp) must not auto-promote from overlay exposure.",
+    "Tests produce evidence; evidence changes component and hypothesis state (handled in procedure + intelligence layers).",
+    "Do not condemn downstream heat actuators until required upstream control and authorization conditions are established.",
+    "Unknown information must remain unknown — never infer good or bad without evidence.",
+    "Procedure branch logic and test definitions stay in service procedure seeds, not in this file."
+  ],
+  "ontologyContract": {
+    "canonicalComponentRule": "components[] lists only triangulated KEEP nodes with cross-manufacturer functional recurrence within the electric range family.",
+    "instanceScopeRule": "instanceScopes[] lists diagnostic functions under a functional domain — NOT separate canonical component types. Solomon may reason about instance-scoped failures without universal canonical promotion.",
+    "conditionalConceptRule": "Evidence-backed functional role that is not universally instantiated or requires platform-specific test packaging — encoded in conditionalConcepts[], not components[].",
+    "componentsVsInstanceScopes": "The distinction between components[] and instanceScopes[] is load-bearing CG-10 architecture — preserve in all rev1 consumers.",
+    "implementationNotOntology": "Switching mechanisms (infinite_switch, relay PCB, sub PCB relay bank) are platform knowledge — never canonical nodes."
+  },
+  "instanceScopes": [
+    {
+      "id": "bake_heating_element",
+      "name": "Bake heating function",
+      "domainId": "oven_heat_generation",
+      "canonicalStatus": "instance_scope",
+      "freezeRecommendation": "INSTANCE_SCOPE",
+      "binding": "oven_heat_generation.bake",
+      "freezeRationale": "Dedicated bake procedure on LG, LCX, and Samsung; instance-scoped diagnostic function — not a universal canonical component type.",
+      "discoveryManuals": ["LG-LRE-RANGE", "W11174426", "SAMSUNG-NE58-RANGE"]
+    },
+    {
+      "id": "broil_heating_element",
+      "name": "Broil heating function",
+      "domainId": "oven_heat_generation",
+      "canonicalStatus": "instance_scope",
+      "freezeRecommendation": "INSTANCE_SCOPE",
+      "binding": "oven_heat_generation.broil",
+      "freezeRationale": "Independent broil test on R2/R3/R4 — instance scope under oven heat generation domain.",
+      "discoveryManuals": ["LG-LRE-RANGE", "W11174426", "SAMSUNG-NE58-RANGE"]
+    }
+  ],
+  "conditionalInstanceScopes": [
+    {
+      "id": "convection_heating_element",
+      "name": "Convection heating function",
+      "domainId": "oven_heat_generation",
+      "canonicalStatus": "conditional_instance_scope",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeSecondaryDisposition": "INSTANCE_SCOPE",
+      "binding": "oven_heat_generation.convection",
+      "conditionalRule": "Include when platform manual evidences dedicated electric convection element test; omit on platforms without convection heat path (e.g. LCX R3).",
+      "conditionalFlags": [
+        "electric_convection_platform_required",
+        "absent_on_lcx_r3",
+        "absent_gas_only_platforms"
+      ],
+      "discoveryManuals": ["LG-LRE-RANGE", "SAMSUNG-NE58-RANGE"]
+    }
+  ],
+  "conditionalConcepts": [
+    {
+      "id": "convection_fan",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "requiresDedicatedFanProcedure": true,
+      "freezeRationale": "LG R2 and Samsung R4 provide dedicated convection fan motor tests; R3 LCX documents fan behavior without fan procedure; R1 vent/convection ambiguity.",
+      "triangulationResult": "functional_role_3_of_4_with_procedure_gap",
+      "discoveryManuals": ["LG-LRE-RANGE", "SAMSUNG-NE58-RANGE"]
+    },
+    {
+      "id": "thermal_protection",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "freezeSecondaryDisposition": "PLATFORM_ONLY",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "implementationVariants": ["thermal_fuse", "hi_limit", "thermostat", "overtemp_sensor_route"],
+      "freezeRationale": "Protection behavior is real but implementation paths diverge across fuse proc, sensor route, and thermostat continuity — platform vocabulary, not one canonical component.",
+      "triangulationResult": "implementation_diverges_functional_vocabulary_only",
+      "discoveryManuals": ["W11746350", "LG-LRE-RANGE", "W11174426", "SAMSUNG-NE58-RANGE"]
+    },
+    {
+      "id": "oven_door_switch",
+      "canonicalStatus": "conditional",
+      "freezeRecommendation": "CONDITIONAL",
+      "evidenceBackedFunctionalRole": true,
+      "universallyInstantiated": false,
+      "requiresOverlayBinding": true,
+      "freezeRationale": "Door authorization function recurs; test packaging varies (standalone switch vs latch-embedded logic).",
+      "triangulationResult": "functional_role_holds_test_style_varies",
+      "relatedPlatformOnly": ["door_latch_motor"],
+      "discoveryManuals": ["LG-LRE-RANGE", "W11174426", "SAMSUNG-NE58-RANGE"]
+    }
+  ],
+  "removedFromRev1": [
+    {
+      "id": "oven_heating_system",
+      "freezeRecommendation": "REMOVE",
+      "reason": "Monolithic aggregate rejected R2–R4 — heat generation is a functional domain with instance-scoped functions, not one opaque canonical node."
+    }
+  ],
+  "overlayOnlyConcepts": [
+    {
+      "id": "surface_control",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Infinite switch, ACU relay, cooktop relay PCB, sub PCB relay — implementation switching paths; invariant is control_board → surface_heating_system."
+    },
+    {
+      "id": "surface_heating_element",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Physical radiant/bridge/ceran elements and per-zone Ω tests — overlay scope under surface_heating_system."
+    },
+    {
+      "id": "door_latch_motor",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Self-clean latch motor/micro-switch actuator — platform knowledge; door authorization may bind via conditional oven_door_switch."
+    },
+    {
+      "id": "oven_lamp",
+      "freezeRecommendation": "PLATFORM_ONLY",
+      "reason": "Accessory lamp test — platform overlay only."
+    }
+  ],
+  "deferredConcepts": [
+    { "id": "cooling_fan", "freezeRecommendation": "DEFER", "reason": "No dedicated electronics cooling fan procedure distinct from convection fan across R1–R4." },
+    { "id": "oven_cavity", "freezeRecommendation": "DEFER", "reason": "No standalone cavity diagnostic procedure on any discovery manual." },
+    { "id": "warming_drawer", "freezeRecommendation": "DEFER", "reason": "Optional LG feature — insufficient cross-manufacturer triangulation for rev1." }
+  ],
+  "relationshipTypes": [
+    "supplies",
+    "controls",
+    "commands",
+    "communicates_with",
+    "senses",
+    "provides_feedback_to",
+    "thermally_connected_to",
+    "protected_by",
+    "protects",
+    "depends_on",
+    "enables",
+    "inhibits",
+    "monitors"
+  ],
+  "componentStateModel": {
+    "description": "Component verification states for this ontology. Distinct from intelligence-engine hypothesis ranking.",
+    "states": [
+      "unknown",
+      "unverified",
+      "suspected",
+      "supported",
+      "conditionally_supported",
+      "contradicted",
+      "verified_good",
+      "verified_failed",
+      "not_applicable",
+      "inaccessible"
+    ],
+    "terminalStates": ["verified_good", "verified_failed", "not_applicable"],
+    "engineSeparationNote": "Diagnostic ranking, candidate support, and routing effects do not constitute component verification. verified_good and verified_failed require explicit diagnostic evidence."
+  },
+  "systems": [
+    { "id": "power", "name": "Power", "categoryId": "electrical_supply", "purpose": "Mains supply prerequisite for control and heat loads." },
+    { "id": "control", "name": "Control", "categoryId": "control_board", "purpose": "Oven and cooktop sequencing, relay/switch orchestration, and safety logic." },
+    { "id": "user_interface", "name": "User Interface", "categoryId": "control_hmi", "purpose": "Touch/keypad input, display, and service-mode entry." },
+    { "id": "oven_sensing", "name": "Oven Temperature Sensing", "categoryId": "dry_heating", "purpose": "Cavity temperature feedback for bake/broil/convection control." },
+    { "id": "surface_heat", "name": "Surface Heat Generation", "categoryId": "dry_heating", "purpose": "Cooktop heat generation functional domain — zone elements are platform overlay." },
+    { "id": "oven_heat_generation", "name": "Oven Heat Generation", "categoryId": "dry_heating", "purpose": "Functional domain for bake/broil/convection instance-scoped diagnostic functions — not a monolithic component." }
+  ],
+  "components": [
+    {
+      "id": "power_supply",
+      "name": "Power supply / line voltage",
+      "aliases": ["supply", "line voltage", "mains", "terminal block"],
+      "systemId": "power",
+      "categoryId": "electrical_supply",
+      "type": "external_input",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "control_board",
+      "name": "Control board",
+      "aliases": ["main control", "acu", "main pcb", "relay board", "sub pcb"],
+      "systemId": "control",
+      "categoryId": "control_board",
+      "type": "controller",
+      "note": "Functional orchestration node — relay/sub-PCB hardware names are platform overlay vocabulary, not separate canonical components."
+    },
+    {
+      "id": "user_interface",
+      "name": "User interface",
+      "aliases": ["display_panel", "hmi", "touch panel", "keypad"],
+      "systemId": "user_interface",
+      "categoryId": "control_hmi",
+      "type": "interface",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "temperature_sensor",
+      "name": "Oven temperature sensor",
+      "aliases": ["oven sensor", "rtd", "thermistor", "oven probe"],
+      "systemId": "oven_sensing",
+      "categoryId": "dry_heating",
+      "type": "sensor",
+      "pendingEvidenceGraph": true
+    },
+    {
+      "id": "surface_heating_system",
+      "name": "Surface heating system",
+      "aliases": ["cooktop heat", "radiant surface", "surface heat"],
+      "systemId": "surface_heat",
+      "categoryId": "dry_heating",
+      "type": "functional_domain",
+      "pendingEvidenceGraph": true,
+      "note": "Cooktop functional domain — per-zone radiant elements and infinite-switch paths are platform overlay scope."
+    }
+  ],
+  "relationships": [
+    { "from": "power_supply", "type": "supplies", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "power_supply", "type": "supplies", "to": "surface_heating_system", "source": "canonical", "confidence": "high", "note": "Line voltage to cooktop loads — switching path is platform overlay." },
+    { "from": "user_interface", "type": "communicates_with", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "user_interface", "type": "commands", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "control_board", "type": "controls", "to": "surface_heating_system", "source": "canonical", "confidence": "high", "note": "R3+R4 invariant — implementation switching (infinite_switch, relay) stays platform-only." },
+    { "from": "control_board", "type": "monitors", "to": "temperature_sensor", "source": "canonical", "confidence": "high" },
+    { "from": "temperature_sensor", "type": "provides_feedback_to", "to": "control_board", "source": "canonical", "confidence": "high" },
+    { "from": "temperature_sensor", "type": "senses", "to": "control_board", "source": "canonical", "confidence": "medium", "note": "Cavity temperature feedback — oven heat instance scopes bind in overlay, not as separate canonical nodes." }
+  ],
+  "functionalDependencies": [
+    {
+      "id": "power_prerequisite",
+      "description": "Control and heat loads require verified mains supply.",
+      "requires": ["power_supply"],
+      "enables": ["control_ready"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "control_ready",
+      "description": "Control board responsive and able to command loads.",
+      "requires": ["power_supply", "control_board"],
+      "enables": ["surface_heat_operation", "oven_heat_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "surface_heat_operation",
+      "description": "Cooktop heat generation requires control command to surface_heating_system functional domain.",
+      "requires": ["control_board", "surface_heating_system"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Zone element and infinite-switch diagnostics bind in platform overlay — not canonical component expansion."
+    },
+    {
+      "id": "oven_heat_operation",
+      "description": "Oven heat generation requires control readiness; bake/broil/convection are instance-scoped functions under oven_heat_generation domain.",
+      "requires": ["control_board", "temperature_sensor"],
+      "source": "canonical",
+      "confidence": "high",
+      "note": "Instance scopes bake_heating_element, broil_heating_element, convection_heating_element bind in instanceScopes[] — not components[]. oven_door_switch is conditional — bind when platform provides distinct door authorization test."
+    },
+    {
+      "id": "temperature_feedback",
+      "description": "Cavity temperature control requires oven RTD/thermistor feedback.",
+      "requires": ["control_board", "temperature_sensor"],
+      "enables": ["oven_heat_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "establishedFactSources": [
+    { "factId": "supply_verified", "label": "Line voltage / supply verified", "fromComponents": ["power_supply"], "source": "canonical", "confidence": "high" },
+    { "factId": "control_ready", "label": "Control board responsive", "source": "session", "confidence": "high" },
+    { "factId": "display_responsive", "label": "User interface responsive", "source": "session", "confidence": "high" },
+    { "factId": "oven_sensor_reading_valid", "label": "Oven temperature sensor reading valid", "fromComponents": ["temperature_sensor"], "source": "canonical", "confidence": "high" },
+    { "factId": "surface_heat_command_present", "label": "Surface heat command active", "source": "session", "confidence": "high" },
+    { "factId": "surface_heat_verified", "label": "Surface heat operation verified", "source": "session", "confidence": "high" },
+    { "factId": "oven_heat_verified", "label": "Oven heat operation verified", "source": "session", "confidence": "high" }
+  ],
+  "testTargets": [
+    {
+      "id": "supply_test",
+      "label": "Line voltage / supply",
+      "role": "prerequisite",
+      "testAliasId": "supply_test",
+      "establishesFacts": ["supply_verified"],
+      "forGoals": ["power_prerequisite"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "display_communication_test",
+      "label": "User interface / display communication",
+      "role": "prerequisite",
+      "testAliasId": "display_communication_test",
+      "establishesFacts": ["display_responsive"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["control_ready"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "oven_sensor_test",
+      "label": "Oven temperature sensor",
+      "role": "prerequisite",
+      "testAliasId": "oven_sensor_test",
+      "establishesFacts": ["oven_sensor_reading_valid"],
+      "requires": { "facts": ["control_ready"] },
+      "forGoals": ["temperature_feedback", "oven_heat_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    },
+    {
+      "id": "surface_heat_test",
+      "label": "Surface heating system",
+      "role": "discriminator",
+      "testAliasId": "surface_heat_test",
+      "establishesFacts": ["surface_heat_command_present", "surface_heat_verified"],
+      "requires": { "facts": ["control_ready"], "dependencies": ["surface_heat_operation"] },
+      "forGoals": ["surface_heat_operation"],
+      "source": "canonical",
+      "confidence": "high"
+    }
+  ],
+  "failureDomains": [
+    { "id": "power_failure", "label": "Power / supply", "components": ["power_supply"] },
+    { "id": "control_failure", "label": "Control", "components": ["control_board"] },
+    { "id": "user_interface_failure", "label": "User interface", "components": ["user_interface"] },
+    { "id": "temperature_sensing_failure", "label": "Oven temperature sensing", "components": ["temperature_sensor"] },
+    { "id": "surface_heat_failure", "label": "Surface heat", "components": ["surface_heating_system"] },
+    { "id": "wiring_connection", "label": "Wiring / connection", "crossCutting": true }
+  ],
+  "diagnosticPrinciples": {
+    "general": [
+      { "id": "supply_before_control", "rule": "Establish mains supply before condemning control or heat paths." },
+      { "id": "control_before_heat", "rule": "Establish control readiness before condemning surface or oven heat actuators." },
+      { "id": "instance_scope_not_canonical", "rule": "Bake/broil/convection failures bind to instanceScopes[] — do not promote to universal canonical components." },
+      { "id": "implementation_not_ontology", "rule": "Infinite switches, relay PCBs, and sub-PCB hardware are platform knowledge — never canonical nodes." },
+      { "id": "conditional_requires_overlay", "rule": "Do not instantiate conditional concepts as verified components without platform overlay scope." },
+      { "id": "preserve_uncertainty", "rule": "Negative or incomplete evidence should reduce candidate support without manufacturing verification." }
+    ]
+  },
+  "diagnosticEntryPoints": [
+    {
+      "id": "no_power",
+      "symptoms": ["no power", "dead", "no display", "won't turn on"],
+      "initialDomains": ["power_failure", "control_failure", "user_interface_failure"],
+      "activeGoals": ["power_prerequisite", "control_ready"]
+    },
+    {
+      "id": "no_bake_heat",
+      "symptoms": ["no bake", "won't bake", "no bake heat", "bake not working"],
+      "initialDomains": ["control_failure", "temperature_sensing_failure"],
+      "activeGoals": ["oven_heat_operation", "temperature_feedback"],
+      "note": "Route to instanceScopes.bake_heating_element via platform overlay — not oven_heating_system aggregate."
+    },
+    {
+      "id": "no_broil_heat",
+      "symptoms": ["no broil", "won't broil", "no broil heat"],
+      "initialDomains": ["control_failure", "temperature_sensing_failure"],
+      "activeGoals": ["oven_heat_operation"],
+      "note": "Route to instanceScopes.broil_heating_element via platform overlay."
+    },
+    {
+      "id": "no_surface_heat",
+      "symptoms": ["burner not heating", "cooktop not heating", "element not heating", "surface not hot"],
+      "initialDomains": ["surface_heat_failure", "control_failure"],
+      "activeGoals": ["surface_heat_operation"]
+    },
+    {
+      "id": "hmi_issue",
+      "symptoms": ["display error", "touch not working", "keypad", "F2E1", "SE", "hmi"],
+      "initialDomains": ["user_interface_failure", "control_failure"],
+      "activeGoals": ["control_ready"]
+    }
+  ],
+  "freezeProvenance": {
+    "workstream": "CG-10",
+    "sourceCandidate": "electric_range_oven_cg10x_candidate_v1.json",
+    "freezeRecommendation": "CG10_ELECTRIC_RANGE_FREEZE_RECOMMENDATION_v1.json",
+    "humanFreezeApprovedAt": "2026-09-16T15:01:00+00:00",
+    "evidenceManuals": ["W11746350", "LG-LRE-RANGE", "W11174426", "SAMSUNG-NE58-RANGE"],
+    "observationArtifacts": [
+      "W11746350_er_cg10x_observation_v1.json",
+      "LG_LRE_RANGE_er_cg10x_observation_v1.json",
+      "W11174426_er_cg10x_observation_v1.json",
+      "SAMSUNG_NE58_RANGE_er_cg10x_observation_v1.json"
+    ],
+    "keep": ["power_supply", "control_board", "user_interface", "temperature_sensor", "surface_heating_system"],
+    "instanceScope": ["bake_heating_element", "broil_heating_element"],
+    "conditionalInstanceScope": ["convection_heating_element"],
+    "conditional": ["convection_fan", "thermal_protection", "oven_door_switch"],
+    "remove": ["oven_heating_system"],
+    "platformOnly": ["surface_control", "surface_heating_element", "door_latch_motor", "oven_lamp"],
+    "defer": ["oven_cavity", "cooling_fan", "warming_drawer"],
+    "canonicalExpansion": 0,
+    "componentsVsInstanceScopesPreserved": true,
+    "humanFreezeReview": {
+      "approvedAt": "2026-09-16T15:01:00+00:00",
+      "approvalIsNotCanonicalFreeze": true,
+      "canonicalFrozenAt": "2026-09-16T15:26:00+00:00",
+      "freezeLock": "CG10_ELECTRIC_RANGE_FREEZE_LOCK_v1.json",
+      "bucketCounts": { "KEEP": 5, "INSTANCE_SCOPE": 2, "CONDITIONAL": 4, "PLATFORM_ONLY": 4, "REMOVE": 1, "DEFER": 3 },
+      "conditionalNotInComponents": true,
+      "instanceScopesNotInComponents": true
+    }
+  }
+}

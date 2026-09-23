@@ -1,0 +1,131 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_wall_oven_fit_observation",
+  "workstream": "CG-WALL-OVEN-FIT-TEST",
+  "witnessId": "W2",
+  "status": "complete",
+  "generatedAt": "2026-09-17T19:10:00+00:00",
+  "contract": "CG_WALL_OVEN_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Samsung",
+  "model": "NV51K6650D / NV51K7770S (built-in electric wall oven)",
+  "manualId": "SAMSUNG-NV51-WALL-OVEN",
+  "templateId": "wall_oven",
+  "productConfigurations": {
+    "singleWallOven": true,
+    "doubleWallOven": false,
+    "partitionedSingleCavity": true,
+    "fuelTypesDocumented": ["electric"]
+  },
+  "canonicalPromotionBlocked": true,
+  "canonicalMutationBlocked": true,
+  "classificationVocabulary": [
+    "range_oven",
+    "shared_function",
+    "implementation_specific",
+    "unresolved"
+  ],
+  "graphArtifacts": {
+    "sourcePdf": "backend/docs/manuals/samsungwallovennv51k6650d.pdf",
+    "extractedText": "backend/docs/manuals/samsungwallovennv51k6650d-extracted.txt",
+    "procedureSeedDir": null,
+    "note": "No procedure seeds ingested — classifications from failure display codes and component disassembly/troubleshooting paths"
+  },
+  "functionalArchitectureSummary": {
+    "ovenCavity": "Built-in electric wall oven — bake, broil, convection element/fan/motor; optional steam subsystem on some SKUs",
+    "control": "Main PCB + Sub PCB + touch UI; FLEX UPPER/LOWER error display service mode",
+    "sensing": "Oven sensor ~1080 Ω room temp (C-21); meat probe optional (C-23)",
+    "door": "Door lock motor 1600–2200 Ω, latch switch (C-d1)",
+    "cooling": "C-A2 cooling motor abnormal — cavity ventilation distinct from convection fan",
+    "surfaceHeatingAbsent": "No cooktop surface heating vocabulary"
+  },
+  "classificationHistogram": {
+    "range_oven": 5,
+    "shared_function": 0,
+    "implementation_specific": 3,
+    "unresolved": 0
+  },
+  "diagnosticPathClassifications": [
+    {
+      "pathId": "nv51-main-sub-comm",
+      "oemSection": "§4-1 C-F0 / C-F2",
+      "pages": [33, 34],
+      "classification": "range_oven",
+      "functionalDomain": "control_board",
+      "provenance": "Main↔Sub PCB and touch PCB communication faults — maps to control_board orchestration (sub-PCB is platform overlay alias).",
+      "frozenContractFit": "range_oven.control_board"
+    },
+    {
+      "pathId": "nv51-keypad-ui",
+      "oemSection": "§4-1 C-d0",
+      "pages": [33],
+      "classification": "range_oven",
+      "functionalDomain": "oven_ui_control",
+      "provenance": "Shorted keypad on Sub PCB — user_interface fault packaging.",
+      "frozenContractFit": "range_oven.user_interface"
+    },
+    {
+      "pathId": "nv51-door-lock",
+      "oemSection": "§4-1 C-d1",
+      "pages": [33],
+      "classification": "range_oven",
+      "functionalDomain": "door_latch_safety",
+      "provenance": "Door lock motor Ω and latch switch check — conditionalConcept oven_door_switch + platform latch motor.",
+      "frozenContractFit": "range_oven.conditionalConcepts.oven_door_switch"
+    },
+    {
+      "pathId": "nv51-oven-sensor-heat-ladder",
+      "oemSection": "§4-1 C-20 / C-21",
+      "pages": [34, 35],
+      "classification": "range_oven",
+      "functionalDomain": "temperature_sensing_control",
+      "provenance": "Oven sensor open/short and over-temp ladder checking bake/broil/convection heater resistance and relays — temperature_sensor + oven_heat_generation instance scopes.",
+      "frozenContractFit": "range_oven.temperature_sensor + instanceScopes bake/broil/convection"
+    },
+    {
+      "pathId": "nv51-bake-broil-convection-components",
+      "oemSection": "§3-9 / §3-10 / §3-11",
+      "pages": [16, 17, 18],
+      "classification": "range_oven",
+      "functionalDomain": "bake_broil_convection_thermal",
+      "provenance": "Heater-bake, heater-broil, convection element/fan/motor removal paths — same functional domains as range_oven discovery witnesses.",
+      "frozenContractFit": "range_oven.oven_heat_generation instance scopes"
+    },
+    {
+      "pathId": "nv51-cooling-motor",
+      "oemSection": "§4-1 C-A2",
+      "pages": [35],
+      "classification": "implementation_specific",
+      "functionalDomain": "cooling_ventilation",
+      "provenance": "Cooling motor abnormal — electronics/cavity ventilation; maps to deferred cooling_fan platform overlay, not convection_fan conditional.",
+      "frozenContractFit": "range_oven.deferredConcepts.cooling_fan — platform overlay"
+    },
+    {
+      "pathId": "nv51-steam-optional",
+      "oemSection": "§4-1 C-70 / C-72 / §3-20 steam set",
+      "pages": [28, 35],
+      "classification": "implementation_specific",
+      "functionalDomain": "optional_steam",
+      "provenance": "Steam generator, drain pump, steam sensor — optional platform feature; same class as range steam/water valve overlays, not wall-oven-specific canonical domain.",
+      "frozenContractFit": "Platform overlay — not architectural divergence from range_oven"
+    },
+    {
+      "pathId": "nv51-meat-probe",
+      "oemSection": "§4-1 C-23",
+      "pages": [34],
+      "classification": "implementation_specific",
+      "functionalDomain": "temperature_sensing_control",
+      "provenance": "Meat probe sensor — accessory temperature feedback; platform overlay vocabulary.",
+      "frozenContractFit": "Platform probe overlay on temperature sensing — not new canonical node"
+    }
+  ],
+  "rangeSpecificDomainsAbsent": {
+    "surface_heating_system": "Not present — built-in oven only",
+    "cooktop_spark_gas_valve": "Not present"
+  },
+  "rejectedMappings": [
+    {
+      "candidate": "wall_oven.json new canonical graph",
+      "reason": "Samsung built-in electric wall oven diagnostics map to range_oven oven-compartment subgraph"
+    }
+  ]
+}

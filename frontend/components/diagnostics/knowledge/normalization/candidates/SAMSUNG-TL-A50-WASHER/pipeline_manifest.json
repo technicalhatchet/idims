@@ -1,0 +1,85 @@
+{
+  "manualId": "SAMSUNG-TL-A50-WASHER",
+  "platformId": "samsung_tl_washer_a50",
+  "templateId": "washer",
+  "label": "Samsung TL washer A50 (WA50R5200, WA51D, WF45A)",
+  "status": "candidate",
+  "ontologyId": "top_load_washer",
+  "generatedAt": "2026-09-15T21:54:17.148073+00:00",
+  "topologySignature": "motor_present_unknown_path",
+  "counts": {
+    "procedures": 15,
+    "mappingCandidates": 26,
+    "overlayCandidates": 13,
+    "conflicts": 0,
+    "extractionFiltered": 10
+  },
+  "extractionFilters": {
+    "proceduralNoise": 0,
+    "structuralNoise": 10,
+    "invalidExtraction": 0,
+    "totalFiltered": 10,
+    "samples": [
+      {
+        "rawTerm": "PC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-clutch",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "DC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-door-lock",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "BC2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-hmi-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "LC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-leak-check",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "C2",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-power-supply",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "HC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-wash-heater",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC1",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-wash-thermistor",
+        "source": "title_token"
+      },
+      {
+        "rawTerm": "TC4",
+        "blockedReason": "STRUCTURAL_TOKEN",
+        "procedureId": "samsungtla50-wash-thermistor",
+        "source": "title_token"
+      }
+    ]
+  }
+}

@@ -1,0 +1,3990 @@
+{
+  "manualId": "SAMSUNG-FLEXWASH-WASHER",
+  "procedures": [
+    {
+      "procedureId": "samsungflexwash-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Sub/main PBA communication (AC)",
+      "purpose": "Communication AC",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "comm_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Sub/main harness",
+          "body": "Verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify wire connections and contacts between sub and main PBAs. Check for moisture on sub PBA."
+        },
+        {
+          "id": "comm_verified",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Comm restored?",
+          "body": "After harness repair and power cycle, does AC clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "comm_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "comm_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pba",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pba_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PBA communication circuit."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, does AC clear?"
+        },
+        {
+          "id": "replace_pba_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "comm_path_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Communication OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "comm_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "comm_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "comm_verified"
+        },
+        {
+          "id": "replace_pba",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pba_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA communication circuit.",
+          "stepId": "comm_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Communication AC",
+        "pages": [
+          31,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-communication",
+        "pages": [
+          31,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-communication",
+            "pages": [
+              31,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-door-lock",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Lower door lock (DC, DC1)",
+      "purpose": "Lower Door Lock DC",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "dC",
+        "DC",
+        "DC1",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "door_closed",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door fully closed",
+          "body": "Ensure lower door closed with no laundry caught. During Boil cycle, pressure may trigger false DC \u2014 verify door seal.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "reed_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "close_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "close_door_out",
+              "terminal": true,
+              "oemOutcome": "Close door and clear debris from lock tray."
+            }
+          ],
+          "sourceExcerpt": "Ensure lower door closed with no laundry caught. During Boil cycle, pressure may trigger false DC \u2014 verify door seal."
+        },
+        {
+          "id": "reed_ohms",
+          "order": 3,
+          "type": "instruction",
+          "title": "Reed switch (White\u2013Green)",
+          "body": "Approx 0.2 \u03a9 at reed switch in door-closed state.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Approx 0.2 \u03a9 at reed switch in door-closed state."
+        },
+        {
+          "id": "lock_motor_ohms",
+          "order": 4,
+          "type": "instruction",
+          "title": "Lock motor (Black\u2013Brown)",
+          "body": "34\u201351 \u03a9 at lock motor in lock/unlock state.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "34\u201351 \u03a9 at lock motor in lock/unlock state."
+        },
+        {
+          "id": "lock_contact_ohms",
+          "order": 5,
+          "type": "instruction",
+          "title": "Lock/unlock contacts",
+          "body": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Lock White\u2013Red and Unlock White\u2013Blue \u2014 approx 0.2 \u03a9 in each state."
+        },
+        {
+          "id": "close_door_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Close door",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2."
+        },
+        {
+          "id": "door_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Door circuit OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "reed_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed"
+        },
+        {
+          "id": "close_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_door_out",
+          "terminal": true,
+          "oemOutcome": "Close door and clear debris from lock tray.",
+          "stepId": "door_closed"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Lower Door Lock DC",
+        "pages": [
+          38,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-door-lock",
+        "pages": [
+          38,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-door-lock",
+            "pages": [
+              38,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-drain-pump",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Drain pump (5C)",
+      "purpose": "Drain Pump 5C",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "5C",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "pump_debris",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Pump housing",
+          "body": "Check drain pump for foreign material. Verify wiring connections on main PBA and pump ASSY.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_clear",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "pump_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "clear_pump",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "clear_pump_out",
+              "terminal": true,
+              "oemOutcome": "Remove debris from pump housing."
+            }
+          ],
+          "sourceExcerpt": "Check drain pump for foreign material. Verify wiring connections on main PBA and pump ASSY."
+        },
+        {
+          "id": "pump_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Main drain pump resistance",
+          "body": "Measure main (lower) drain pump motor \u2014 13\u201316.5 \u03a9. Upper bubble pump (if equipped) is separate: 40\u201350 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlexWashDrainPumpOhms",
+              "testPoint": {
+                "connector": "Drain pump",
+                "pins": "Motor terminals",
+                "label": "Main drain pump resistance"
+              },
+              "title": "Main drain pump resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "pump_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "pump_pass",
+              "label": "13\u201316.5 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "pump_run_check",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure main (lower) drain pump motor \u2014 13\u201316.5 \u03a9. Upper bubble pump (if equipped) is separate: 40\u201350 \u03a9."
+        },
+        {
+          "id": "pump_run_check",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Pump runs",
+          "body": "Natural drain test \u2014 pump operates?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pump_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "drain_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pump_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pump_out",
+              "terminal": true,
+              "oemOutcome": "Replace drain pump motor."
+            }
+          ],
+          "sourceExcerpt": "Natural drain test \u2014 pump operates?"
+        },
+        {
+          "id": "clear_pump_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Clear pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pump_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace drain pump",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 7,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2."
+        },
+        {
+          "id": "drain_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Drain OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlexWashDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "Motor terminals",
+            "label": "Main drain pump resistance"
+          },
+          "title": "Main drain pump resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "pump_clear",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "pump_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "clear_pump",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "clear_pump_out",
+          "terminal": true,
+          "oemOutcome": "Remove debris from pump housing.",
+          "stepId": "pump_debris"
+        },
+        {
+          "id": "pump_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_pass",
+          "label": "13\u201316.5 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "pump_run_check",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_ohms"
+        },
+        {
+          "id": "pump_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "drain_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "pump_run_check"
+        },
+        {
+          "id": "replace_pump_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pump_out",
+          "terminal": true,
+          "oemOutcome": "Replace drain pump motor.",
+          "stepId": "pump_run_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Drain Pump 5C",
+        "pages": [
+          37,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-drain-pump",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-drain-pump",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-hmi-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Control panel (BC2)",
+      "purpose": "Switch Check BC2",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "BC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "button_gap",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Button gap check",
+          "body": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s. Loosen over-tightened sub PBA screws.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "gap_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "loosen_screws",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "loosen_screws_out",
+              "terminal": true,
+              "oemOutcome": "Loosen service screws; replace main PBA if IC fault."
+            }
+          ],
+          "sourceExcerpt": "Gap required between control panel buttons and tact switches \u2014 stuck button triggers BC2 after ~30 s. Loosen over-tightened sub PBA screws."
+        },
+        {
+          "id": "loosen_screws_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Adjust panel",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "gap_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "button_gap"
+        },
+        {
+          "id": "loosen_screws",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "loosen_screws_out",
+          "terminal": true,
+          "oemOutcome": "Loosen service screws; replace main PBA if IC fault.",
+          "stepId": "button_gap"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Switch Check BC2",
+        "pages": [
+          33,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-hmi-check",
+        "pages": [
+          33,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-hmi-check",
+            "pages": [
+              33,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-inlet-valves",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Water supply (4C, 4C2)",
+      "purpose": "Water Supply 4C",
+      "prerequisites": [],
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "tags": [
+        "4C",
+        "4C2",
+        "fill_issue",
+        "water_valve_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "supply_precheck",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply, hoses, and routing",
+          "body": "Verify taps open, hoses not kinked/frozen. For 4C2: confirm hot/cold hoses not swapped; Wool/Lingerie water must not exceed 50\u00b0C.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "valve_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct water supply routing and pressure."
+            }
+          ],
+          "sourceExcerpt": "Verify taps open, hoses not kinked/frozen. For 4C2: confirm hot/cold hoses not swapped; Wool/Lingerie water must not exceed 50\u00b0C."
+        },
+        {
+          "id": "valve_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Inlet valve resistance",
+          "body": "Measure inlet valve coil A\u2013B \u2014 16.05 \u00b1 0.65 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlexWashInletValveOhms",
+              "testPoint": {
+                "connector": "Inlet valve",
+                "pins": "Coil A-B",
+                "label": "Inlet valve resistance"
+              },
+              "title": "Inlet valve resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "valve_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "valve_pass",
+              "label": "16.05 \u00b1 0.65 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "smart_install_valves",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure inlet valve coil A\u2013B \u2014 16.05 \u00b1 0.65 \u03a9."
+        },
+        {
+          "id": "smart_install_valves",
+          "order": 4,
+          "type": "instruction",
+          "title": "Smart Install valve test",
+          "body": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Enter Smart Install manual check. Co and Ho steps exercise cold and hot valves."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2."
+        },
+        {
+          "id": "valve_visual",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Valves operate",
+          "body": "Do cold and hot valves open in manual check?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valves_run",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inlet_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_valve_out",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_valve_out",
+              "terminal": true,
+              "oemOutcome": "Replace valve assembly or PBA relay."
+            }
+          ],
+          "sourceExcerpt": "Do cold and hot valves open in manual check?"
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 7,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_valve_out",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inlet_verified",
+          "order": 9,
+          "type": "outcome",
+          "title": "Inlet OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlexWashInletValveOhms",
+          "testPoint": {
+            "connector": "Inlet valve",
+            "pins": "Coil A-B",
+            "label": "Inlet valve resistance"
+          },
+          "title": "Inlet valve resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "valve_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "supply_precheck"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct water supply routing and pressure.",
+          "stepId": "supply_precheck"
+        },
+        {
+          "id": "valve_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valve_pass",
+          "label": "16.05 \u00b1 0.65 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "smart_install_valves",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_ohms"
+        },
+        {
+          "id": "valves_run",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inlet_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_visual"
+        },
+        {
+          "id": "replace_valve_out",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace valve assembly or PBA relay.",
+          "stepId": "valve_visual"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Supply 4C",
+        "pages": [
+          37,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inlet-valves",
+        "pages": [
+          37,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inlet-valves",
+            "pages": [
+              37,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-interload-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Upper-lower PBA communication (AC7)",
+      "purpose": "Inter-Load Communication AC7",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC7",
+        "flexwash",
+        "flexwash_upper"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "ac7_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Upper-lower interconnect",
+          "body": "Verify CN803 harness between upper washer sub PBA and lower main PBA. Check TX_OWM/RX_OWM and power lines.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify CN803 harness between upper washer sub PBA and lower main PBA. Check TX_OWM/RX_OWM and power lines."
+        },
+        {
+          "id": "ac7_verified",
+          "order": 3,
+          "type": "visual_check",
+          "title": "AC7 cleared?",
+          "body": "After reseating interconnect harness and power cycle, does AC7 clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "ac7_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ac7_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_main",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PBA on affected compartment."
+            }
+          ],
+          "sourceExcerpt": "After reseating interconnect harness and power cycle, does AC7 clear?"
+        },
+        {
+          "id": "replace_main_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ac7_path_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Inter-load comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "ac7_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ac7_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ac7_verified"
+        },
+        {
+          "id": "replace_main",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PBA on affected compartment.",
+          "stepId": "ac7_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Inter-Load Communication AC7",
+        "pages": [
+          31,
+          33
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-interload-communication",
+        "pages": [
+          31,
+          33
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-interload-communication",
+            "pages": [
+              31,
+              33
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Inverter PBA communication (AC6)",
+      "purpose": "Inverter Communication AC6",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter"
+      ],
+      "tags": [
+        "AC6",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "inverter_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inverter CN804 harness",
+          "body": "Verify connector between inverter PBA and main PBA (CN804). Reseat TX/RX lines; inspect inverter PBA soldering.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify connector between inverter PBA and main PBA (CN804). Reseat TX/RX lines; inspect inverter PBA soldering."
+        },
+        {
+          "id": "inverter_verified",
+          "order": 3,
+          "type": "visual_check",
+          "title": "AC6 cleared?",
+          "body": "After harness repair and power cycle, does AC6 clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "inv_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "inv_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_inverter",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inverter_out",
+              "terminal": true,
+              "oemOutcome": "Replace inverter PBA."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, does AC6 clear?"
+        },
+        {
+          "id": "replace_inverter_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace inverter PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "inv_path_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Inverter comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "inv_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "inv_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "inverter_verified"
+        },
+        {
+          "id": "replace_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA.",
+          "stepId": "inverter_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Inverter Communication AC6",
+        "pages": [
+          31,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inverter-communication",
+        "pages": [
+          31,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inverter-communication",
+            "pages": [
+              31,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-inverter-thermal",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Inverter over-temperature (TC4)",
+      "purpose": "Inverter Thermal TC4",
+      "prerequisites": [],
+      "componentIds": [
+        "inverter"
+      ],
+      "tags": [
+        "TC4",
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "tc4_cooling",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Inverter cooling",
+          "body": "TC4 occurs when inverter PBA motor driver temperature is high or IPM thermistor open/short.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "cool_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tc4_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_inverter_tc4",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_inverter_tc4_out",
+              "terminal": true,
+              "oemOutcome": "Replace inverter PBA (lower) or main PBA (upper)."
+            }
+          ],
+          "sourceExcerpt": "TC4 occurs when inverter PBA motor driver temperature is high or IPM thermistor open/short."
+        },
+        {
+          "id": "replace_inverter_tc4_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace inverter/main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tc4_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "TC4 resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "cool_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tc4_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tc4_cooling"
+        },
+        {
+          "id": "replace_inverter_tc4",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_inverter_tc4_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA (lower) or main PBA (upper).",
+          "stepId": "tc4_cooling"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Inverter Thermal TC4",
+        "pages": [
+          41,
+          43
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-inverter-thermal",
+        "pages": [
+          41,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-inverter-thermal",
+            "pages": [
+              41,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-leak-check",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Water leakage (LC, LC1)",
+      "purpose": "Water Leakage LC",
+      "prerequisites": [],
+      "componentIds": [
+        "drain_pump"
+      ],
+      "tags": [
+        "LC",
+        "LC1",
+        "leak_check",
+        "drain_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "leak_inspection",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Leak source",
+          "body": "Inspect tub, hoses, valve connections, drain pump filter cover, and detergent drawer hoses. Upper LC1: detergent overflow or exterior cleaned with water.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "no_leak",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "leak_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_leak",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_leak_out",
+              "terminal": true,
+              "oemOutcome": "Repair leak path or replace drain motor."
+            }
+          ],
+          "sourceExcerpt": "Inspect tub, hoses, valve connections, drain pump filter cover, and detergent drawer hoses. Upper LC1: detergent overflow or exterior cleaned with water."
+        },
+        {
+          "id": "repair_leak_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Repair leak",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "leak_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Leak path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "no_leak",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "leak_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "leak_inspection"
+        },
+        {
+          "id": "repair_leak",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_leak_out",
+          "terminal": true,
+          "oemOutcome": "Repair leak path or replace drain motor.",
+          "stepId": "leak_inspection"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Leakage LC",
+        "pages": [
+          32,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-leak-check",
+        "pages": [
+          32,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-leak-check",
+            "pages": [
+              32,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-mems-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: MEMS sensor (8C, 8C1, 8C2)",
+      "purpose": "MEMS PBA 8C",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "8C",
+        "8C1",
+        "8C2"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "mems_wiring",
+          "order": 2,
+          "type": "visual_check",
+          "title": "MEMS harness",
+          "body": "Check wire connections to MEMS PBA (CN502). Rule out disconnection.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wiring_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "mems_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_mems",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_mems_out",
+              "terminal": true,
+              "oemOutcome": "Replace MEMS PBA."
+            }
+          ],
+          "sourceExcerpt": "Check wire connections to MEMS PBA (CN502). Rule out disconnection."
+        },
+        {
+          "id": "replace_mems_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace MEMS PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "mems_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "MEMS OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "wiring_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "mems_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "mems_wiring"
+        },
+        {
+          "id": "replace_mems",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_mems_out",
+          "terminal": true,
+          "oemOutcome": "Replace MEMS PBA.",
+          "stepId": "mems_wiring"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "MEMS PBA 8C",
+        "pages": [
+          33,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-mems-sensor",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-mems-sensor",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Lower DD motor (3C)",
+      "purpose": "Lower Washing Motor 3C",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "3C",
+        "motor_check",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "disconnect_motor",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect lower motor connector",
+          "body": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material. Verify IPM terminal on main PBA connected.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check motor connector seated. Inspect stator cover and coil for moisture or foreign material. Verify IPM terminal on main PBA connected."
+        },
+        {
+          "id": "motor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Lower motor winding resistance",
+          "body": "Disconnect connector. Measure Blue-White, White-Red, Red-Blue pairs \u2014 equal ~15 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlexWashMotorOhms",
+              "testPoint": {
+                "connector": "Lower DD motor",
+                "pins": "Blue-White / White-Red / Red-Blue",
+                "label": "Lower motor winding resistance"
+              },
+              "title": "Lower motor winding resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "motor_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_motor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "motor_pass",
+              "label": "~15 \u03a9 equal",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "reconnect_motor",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Measure Blue-White, White-Red, Red-Blue pairs \u2014 equal ~15 \u03a9."
+        },
+        {
+          "id": "reconnect_motor",
+          "order": 4,
+          "type": "instruction",
+          "title": "Reconnect motor",
+          "body": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify lower drum spin.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Reconnect harness. Use Smart Install manual check step 8 (dehydration) to verify lower drum spin."
+        },
+        {
+          "id": "service_mode_before_manual_check",
+          "order": 5,
+          "type": "instruction",
+          "title": "Continue to manual check",
+          "body": "Smart Install active. Continue below for component-specific checks.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Manual check mode \u2014 Delay End advances steps per \u00a74-2."
+        },
+        {
+          "id": "live_motor_check",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Motor runs in manual check",
+          "body": "Does lower drum spin in Smart Install dehydration test?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_runs",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "suspect_inverter",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "suspect_inverter_out",
+              "terminal": true,
+              "oemOutcome": "Replace inverter PBA or main PBA after confirming motor and harness."
+            }
+          ],
+          "sourceExcerpt": "Does lower drum spin in Smart Install dehydration test?"
+        },
+        {
+          "id": "replace_motor",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_ok",
+          "order": 8,
+          "type": "outcome",
+          "title": "Motor verified",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "suspect_inverter_out",
+          "order": 9,
+          "type": "outcome",
+          "title": "Suspect inverter/main PBA",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlexWashMotorOhms",
+          "testPoint": {
+            "connector": "Lower DD motor",
+            "pins": "Blue-White / White-Red / Red-Blue",
+            "label": "Lower motor winding resistance"
+          },
+          "title": "Lower motor winding resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "motor_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_motor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_pass",
+          "label": "~15 \u03a9 equal",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "reconnect_motor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_ohms"
+        },
+        {
+          "id": "motor_runs",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "live_motor_check"
+        },
+        {
+          "id": "suspect_inverter",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "suspect_inverter_out",
+          "terminal": true,
+          "oemOutcome": "Replace inverter PBA or main PBA after confirming motor and harness.",
+          "stepId": "live_motor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Lower Washing Motor 3C",
+        "pages": [
+          37,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-motor-circuit",
+        "pages": [
+          37,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-motor-circuit",
+            "pages": [
+              37,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-overflow",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Overflow (OC)",
+      "purpose": "Overflow OC",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor",
+        "inlet_valve"
+      ],
+      "tags": [
+        "OC",
+        "overflow"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "oc_valve",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Continuous fill check",
+          "body": "Check for frozen or obstructed inlet valve causing continuous water supply.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "valve_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "oc_level_sensor",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "service_valve",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "service_valve_out",
+              "terminal": true,
+              "oemOutcome": "Replace inlet valve or clear obstruction."
+            }
+          ],
+          "sourceExcerpt": "Check for frozen or obstructed inlet valve causing continuous water supply."
+        },
+        {
+          "id": "oc_level_sensor",
+          "order": 3,
+          "type": "instruction",
+          "title": "Water level sensor hose",
+          "body": "If inlet path OK, inspect level sensor hose for fold, cut, or damage. Replace sensor if degraded.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If inlet path OK, inspect level sensor hose for fold, cut, or damage. Replace sensor if degraded."
+        },
+        {
+          "id": "service_valve_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Service inlet valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "oc_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Overflow resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "valve_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "oc_level_sensor",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "oc_valve"
+        },
+        {
+          "id": "service_valve",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "service_valve_out",
+          "terminal": true,
+          "oemOutcome": "Replace inlet valve or clear obstruction.",
+          "stepId": "oc_valve"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Overflow OC",
+        "pages": [
+          32,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-overflow",
+        "pages": [
+          32,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-overflow",
+            "pages": [
+              32,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-power-supply",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Power (9C1, 9C2)",
+      "purpose": "Power Check 9C",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "9C1",
+        "9C2",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "voltage_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Supply voltage",
+          "body": "Verify operating voltage during Boil. Check for plug receptacle extension causing voltage drop (up to 10 V on 1 m cord).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct outlet and dedicated circuit."
+            }
+          ],
+          "sourceExcerpt": "Verify operating voltage during Boil. Check for plug receptacle extension causing voltage drop (up to 10 V on 1 m cord)."
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Power OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "voltage_check"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct outlet and dedicated circuit.",
+          "stepId": "voltage_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Power Check 9C",
+        "pages": [
+          30,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-power-supply",
+        "pages": [
+          30,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-power-supply",
+            "pages": [
+              30,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-system-fault",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: System fault (SF)",
+      "purpose": "System Fault SF",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "SF",
+        "no_power",
+        "control_board"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "sf_power_cycle",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Power cycle",
+          "body": "SF indicates microcontroller operation fail. Power cycle once; if SF returns immediately, main PCB replacement required.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sf_cleared",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "sf_resolved",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_main_sf",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_main_sf_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PCB assembly."
+            }
+          ],
+          "sourceExcerpt": "SF indicates microcontroller operation fail. Power cycle once; if SF returns immediately, main PCB replacement required."
+        },
+        {
+          "id": "replace_main_sf_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace main PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "sf_resolved",
+          "order": 4,
+          "type": "outcome",
+          "title": "SF cleared",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "sf_cleared",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "sf_resolved",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "sf_power_cycle"
+        },
+        {
+          "id": "replace_main_sf",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_main_sf_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB assembly.",
+          "stepId": "sf_power_cycle"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "System Fault SF",
+        "pages": [
+          33,
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-system-fault",
+        "pages": [
+          33,
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-system-fault",
+            "pages": [
+              33,
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-unbalance",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Unbalance (UB)",
+      "purpose": "Unbalance UB",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "UB",
+        "spin_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "load_balance",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Load distribution",
+          "body": "Redistribute laundry evenly. Single heavy items may trigger UB. Educate customer to pause, reposition, or remove items.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "load_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "ub_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "redistribute",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "redistribute_out",
+              "terminal": true,
+              "oemOutcome": "Redistribute load and verify level."
+            }
+          ],
+          "sourceExcerpt": "Redistribute laundry evenly. Single heavy items may trigger UB. Educate customer to pause, reposition, or remove items."
+        },
+        {
+          "id": "redistribute_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Redistribute load",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ub_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Unbalance resolved",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "load_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "ub_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "load_balance"
+        },
+        {
+          "id": "redistribute",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "redistribute_out",
+          "terminal": true,
+          "oemOutcome": "Redistribute load and verify level.",
+          "stepId": "load_balance"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Unbalance UB",
+        "pages": [
+          33,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-unbalance",
+        "pages": [
+          33,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-unbalance",
+            "pages": [
+              33,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-upper-door",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Upper compartment door (DC4, DC1)",
+      "purpose": "Upper Door DC4",
+      "prerequisites": [],
+      "componentIds": [
+        "door_lock"
+      ],
+      "tags": [
+        "DC4",
+        "DC1",
+        "flexwash_upper",
+        "door_lock_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "upper_door_closed",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Upper inner door closed",
+          "body": "Close upper compartment inner door. Press START/PAUSE after closing.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "upper_door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "upper_switch",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "close_upper",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "close_upper_out",
+              "terminal": true,
+              "oemOutcome": "Close upper inner door completely."
+            }
+          ],
+          "sourceExcerpt": "Close upper compartment inner door. Press START/PAUSE after closing."
+        },
+        {
+          "id": "upper_switch",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Upper door switch",
+          "body": "ASSY SWITCH-TACT: resistance ~0\u20130.3 \u03a9 when pressed. Upper door lock switch pins 1\u20133: ~175 \u03a9.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "switch_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "upper_door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_upper_lock",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_upper_lock_out",
+              "terminal": true,
+              "oemOutcome": "Replace upper door lock/switch assembly."
+            }
+          ],
+          "sourceExcerpt": "ASSY SWITCH-TACT: resistance ~0\u20130.3 \u03a9 when pressed. Upper door lock switch pins 1\u20133: ~175 \u03a9."
+        },
+        {
+          "id": "close_upper_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Close upper door",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_upper_lock_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace upper lock",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "upper_door_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Upper door OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "upper_door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "upper_switch",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "upper_door_closed"
+        },
+        {
+          "id": "close_upper",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "close_upper_out",
+          "terminal": true,
+          "oemOutcome": "Close upper inner door completely.",
+          "stepId": "upper_door_closed"
+        },
+        {
+          "id": "switch_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "upper_door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "upper_switch"
+        },
+        {
+          "id": "replace_upper_lock",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_lock_out",
+          "terminal": true,
+          "oemOutcome": "Replace upper door lock/switch assembly.",
+          "stepId": "upper_switch"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Upper Door DC4",
+        "pages": [
+          33,
+          39
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-upper-door",
+        "pages": [
+          33,
+          39
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-upper-door",
+            "pages": [
+              33,
+              39
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-upper-motor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Upper washer motor (3C)",
+      "purpose": "Upper Washing Motor 3C",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "3C",
+        "motor_check",
+        "flexwash_upper"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "upper_motor_inspect",
+          "order": 2,
+          "type": "instruction",
+          "title": "Inspect upper motor",
+          "body": "Check upper motor connector and spin net engagement. Rule out overload from too much laundry.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Check upper motor connector and spin net engagement. Rule out overload from too much laundry."
+        },
+        {
+          "id": "upper_motor_ohms",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Upper motor winding resistance",
+          "body": "Disconnect connector. Any two of three motor terminals should read 7.6\u20138.4 \u03a9 at 25\u00b0C.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "upper_ohms_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "upper_motor_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_upper_motor",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_upper_motor_out",
+              "terminal": true,
+              "oemOutcome": "Replace upper washer motor."
+            }
+          ],
+          "sourceExcerpt": "Disconnect connector. Any two of three motor terminals should read 7.6\u20138.4 \u03a9 at 25\u00b0C."
+        },
+        {
+          "id": "replace_upper_motor_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace upper motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "upper_motor_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "Upper motor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "upper_ohms_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "upper_motor_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "upper_motor_ohms"
+        },
+        {
+          "id": "replace_upper_motor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_upper_motor_out",
+          "terminal": true,
+          "oemOutcome": "Replace upper washer motor.",
+          "stepId": "upper_motor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Upper Washing Motor 3C",
+        "pages": [
+          36,
+          38
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-upper-motor",
+        "pages": [
+          36,
+          38
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-upper-motor",
+            "pages": [
+              36,
+              38
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-wash-heater",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Wash heater (HC, HC1)",
+      "purpose": "Heater Check HC",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_heater",
+        "wash_ntc"
+      ],
+      "tags": [
+        "HC",
+        "HC1",
+        "no_heat",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "heater_wiring",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Heater connections",
+          "body": "Verify wire connections to wash heater.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "heater_wired",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "heater_ohms",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "repair_wiring",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "repair_wiring_out",
+              "terminal": true,
+              "oemOutcome": "Repair heater wiring."
+            }
+          ],
+          "sourceExcerpt": "Verify wire connections to wash heater."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Heater resistance",
+          "body": "Measure heater A\u2013B \u2014 26.2\u201327.1 \u03a9 depending on wattage variant.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlexWashHeaterOhms",
+              "testPoint": {
+                "connector": "Wash heater",
+                "pins": "A-B",
+                "label": "Heater resistance"
+              },
+              "title": "Heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "heater_open",
+              "label": "Open (OL)",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_warn",
+              "label": "Outside range",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_crit",
+              "label": "Critical",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater_out",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "heater_pass",
+              "label": "26.2\u201327.1 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Measure heater A\u2013B \u2014 26.2\u201327.1 \u03a9 depending on wattage variant."
+        },
+        {
+          "id": "heater_thermistor",
+          "order": 4,
+          "type": "instruction",
+          "title": "Thermistor follow-up",
+          "body": "If heater ohms OK, replace wash thermistor (TYPE 2) at back of tub.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "If heater ohms OK, replace wash thermistor (TYPE 2) at back of tub."
+        },
+        {
+          "id": "repair_wiring_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Repair wiring",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_heater_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Heater path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlexWashHeaterOhms",
+          "testPoint": {
+            "connector": "Wash heater",
+            "pins": "A-B",
+            "label": "Heater resistance"
+          },
+          "title": "Heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "heater_wired",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "heater_ohms",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_wiring"
+        },
+        {
+          "id": "repair_wiring",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "repair_wiring_out",
+          "terminal": true,
+          "oemOutcome": "Repair heater wiring.",
+          "stepId": "heater_wiring"
+        },
+        {
+          "id": "heater_open",
+          "label": "Open (OL)",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_warn",
+          "label": "Outside range",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_crit",
+          "label": "Critical",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater_out",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "heater_pass",
+          "label": "26.2\u201327.1 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Heater Check HC",
+        "pages": [
+          39,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-heater",
+        "pages": [
+          39,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-heater",
+            "pages": [
+              39,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-wash-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Wash temperature sensor (TC1)",
+      "purpose": "Temperature Sensor TC1",
+      "prerequisites": [],
+      "componentIds": [
+        "wash_ntc"
+      ],
+      "tags": [
+        "TC1",
+        "thermistor"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "tc_connectors",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Thermistor connectors",
+          "body": "Check washing heater temperature sensor connector. Rule out winter freeze. Type 1: ~40\u201355 k\u03a9; Type 2: ~10\u201315 k\u03a9 at room temp.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "conn_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "tc_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_ntc",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_ntc_out",
+              "terminal": true,
+              "oemOutcome": "Replace faulty wash thermistor."
+            }
+          ],
+          "sourceExcerpt": "Check washing heater temperature sensor connector. Rule out winter freeze. Type 1: ~40\u201355 k\u03a9; Type 2: ~10\u201315 k\u03a9 at room temp."
+        },
+        {
+          "id": "replace_ntc_out",
+          "order": 3,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "tc_verified",
+          "order": 4,
+          "type": "outcome",
+          "title": "Thermistor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "conn_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "tc_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "tc_connectors"
+        },
+        {
+          "id": "replace_ntc",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_ntc_out",
+          "terminal": true,
+          "oemOutcome": "Replace faulty wash thermistor.",
+          "stepId": "tc_connectors"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Temperature Sensor TC1",
+        "pages": [
+          41,
+          43
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wash-thermistor",
+        "pages": [
+          41,
+          43
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wash-thermistor",
+            "pages": [
+              41,
+              43
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-water-level-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: Water level sensor (1C)",
+      "purpose": "Water Level Sensor 1C",
+      "prerequisites": [],
+      "componentIds": [
+        "water_level_sensor"
+      ],
+      "tags": [
+        "1C",
+        "fill_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "wls_hose",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Level sensor hose and terminals",
+          "body": "Check air hose not punctured, folded, or clogged. Verify sensor terminal connections and correct part code.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hose_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wls_frequency",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_hose",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_hose_out",
+              "terminal": true,
+              "oemOutcome": "Repair hose routing or replace incorrect sensor part."
+            }
+          ],
+          "sourceExcerpt": "Check air hose not punctured, folded, or clogged. Verify sensor terminal connections and correct part code."
+        },
+        {
+          "id": "wls_frequency",
+          "order": 3,
+          "type": "instruction",
+          "title": "Frequency check",
+          "body": "Connect sensor and connector. Measure frequency Pink\u2013Orange \u2014 approx 25.3 kHz without water load.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Connect sensor and connector. Measure frequency Pink\u2013Orange \u2014 approx 25.3 kHz without water load."
+        },
+        {
+          "id": "fix_hose_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Fix hose/sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wls_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Level sensor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hose_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wls_frequency",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wls_hose"
+        },
+        {
+          "id": "fix_hose",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_hose_out",
+          "terminal": true,
+          "oemOutcome": "Repair hose routing or replace incorrect sensor part.",
+          "stepId": "wls_hose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "Water Level Sensor 1C",
+        "pages": [
+          35,
+          37
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-water-level-sensor",
+        "pages": [
+          35,
+          37
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-water-level-sensor",
+            "pages": [
+              35,
+              37
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungflexwash-wifi-communication",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_flexwash",
+      "templateId": "washer",
+      "title": "\u00a74-3: WiFi module communication (AC4)",
+      "purpose": "WiFi Communication AC4",
+      "prerequisites": [],
+      "componentIds": [
+        "main_control"
+      ],
+      "tags": [
+        "AC4",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the washer or disconnect power before servicing. Discharge PBA terminals per manual.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Make sure to disconnect the power plug before servicing."
+        },
+        {
+          "id": "wifi_harness",
+          "order": 2,
+          "type": "instruction",
+          "title": "WiFi module harness",
+          "body": "Verify connector between WiFi module and main PBA. Reseat harness; inspect for faulty soldering on module.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Verify connector between WiFi module and main PBA. Reseat harness; inspect for faulty soldering on module."
+        },
+        {
+          "id": "wifi_verified",
+          "order": 3,
+          "type": "visual_check",
+          "title": "AC4 cleared?",
+          "body": "After harness repair and power cycle, does AC4 clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "wifi_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "wifi_path_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_wifi",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_wifi_out",
+              "terminal": true,
+              "oemOutcome": "Replace WiFi module or main PBA."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, does AC4 clear?"
+        },
+        {
+          "id": "replace_wifi_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace WiFi module",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "wifi_path_ok",
+          "order": 5,
+          "type": "outcome",
+          "title": "WiFi comm OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "wifi_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "wifi_path_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "wifi_verified"
+        },
+        {
+          "id": "replace_wifi",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_wifi_out",
+          "terminal": true,
+          "oemOutcome": "Replace WiFi module or main PBA.",
+          "stepId": "wifi_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "manualTitle": "Samsung FlexWash WV55M9600 Dual-Load Washer",
+        "oemTestNumber": "4-3",
+        "oemTestTitle": "WiFi Communication AC4",
+        "pages": [
+          31,
+          32
+        ],
+        "extractedTextFile": "backend/docs/manuals/wv55m9600av-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FLEXWASH-WASHER",
+        "platformId": "samsung_flexwash",
+        "procedureId": "samsungflexwash-wifi-communication",
+        "pages": [
+          31,
+          32
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FLEXWASH-WASHER",
+            "platformId": "samsung_flexwash"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungflexwash-wifi-communication",
+            "pages": [
+              31,
+              32
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_WV55M9600_WASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

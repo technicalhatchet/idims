@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_compounding_observation",
+  "manualId": "SAMSUNG-ME11-MICROWAVE",
+  "platformId": "samsung_microwave_otr",
+  "compoundingPhase": "CG-MICROWAVE-COMPOUNDING",
+  "compoundingSequence": 2,
+  "observedAt": "2026-09-17T12:50:00+00:00",
+  "normalizationArtifact": "CG_MICROWAVE_SAMSUNG_ME11_NORMALIZATION_v1.json",
+  "verdict": {
+    "canonicalInheritances": 7,
+    "conditionalBindings": 2,
+    "overlayImplementationComponents": 18,
+    "proceduresBound": 14,
+    "measurementsBound": 13,
+    "decisionBranchesExecutable": 14,
+    "functionalRealizations": 14,
+    "canonicalExpansion": 0,
+    "ontologyMutations": 0,
+    "flatFactDumpAvoided": true,
+    "staleMagnetronRealizesNotPropagated": true,
+    "lgEvidenceBorrowing": 0
+  },
+  "hierarchyObservation": "Samsung compounding chains hv_generation→transformer/capacitor/diode/relay; rf_cavity→magnetron/turntable; thermal_protection→four-TCO network; conditional ventilation_otr from §4-7 — all from ME11 manual.",
+  "independenceObservation": "Rejected LG-only pcb_thermistor, noise_filter_coil, and unevidenced hv_fuse borrowings. LG compounding success did not serve as Samsung evidence.",
+  "samsungSpecificOverlay": [
+    "four_tco_network",
+    "vent_blower_motor",
+    "temp_sensor",
+    "door_sensing_switch",
+    "power_relay_ry206"
+  ]
+}

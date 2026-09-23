@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_ingestion_governance_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T20:00:00+00:00",
+  "workstream": "CG-PRODUCTION-INGESTION-GOVERNANCE",
+  "verdict": "CLOSED / PRODUCTION_INGESTION_GOVERNANCE_LOCKED",
+  "closureStatement": "Production ingestion governance encoded in repo as executable contract, audit, frozen hash registry, validator hash gate, and regression suite. Architecture phase is complete; frozen canonical graphs are immutable to production pipeline. New architecture enters only through authorized architecture-gate workflow. Normalization batch NOT authorized — pilot contract is next disciplined step.",
+  "priorPhase": {
+    "artifact": "CG_CANONICAL_ARCHITECTURE_COMPLETE_LOCK_v1.json",
+    "verdict": "CLOSED / CANONICAL_ARCHITECTURE_COMPLETE"
+  },
+  "artifacts": {
+    "contract": "CG_PRODUCTION_INGESTION_GOVERNANCE_CONTRACT_v1.json",
+    "audit": "CG_PRODUCTION_INGESTION_GOVERNANCE_AUDIT_v1.json",
+    "frozenHashRegistry": "frozen_canonical_hashes_v1.json",
+    "regressionSuite": "cg-production-ingestion-governance.test.ts",
+    "validatorEnhancement": "backend/scripts/validate_canonical_graph.py — frozen hash gate"
+  },
+  "governanceRulesLocked": [
+    "Frozen canonical graphs immutable by production ingestion pipeline",
+    "Architecture escape hatch: fit → discovery → freeze — not silent canonical expansion",
+    "Normalization writes candidates only",
+    "Compounding publishes overlays only — no canonical promotion",
+    "CG-5.3 single-unknown-term bar preserved",
+    "UNRESOLVED_TERM and conflicts block promotion",
+    "Provenance required on all candidates"
+  ],
+  "headlineMetrics": {
+    "frozenOntologyCount": 10,
+    "canonicalExpansionAtGovernanceLock": 0,
+    "canonicalHashMutations": 0,
+    "normalizationBatchAuthorized": false,
+    "compoundingBatchAuthorized": false,
+    "diagnosticUiBuildAuthorized": false,
+    "pilotAuthorized": true,
+    "pilotWorkstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+    "pilotLockArtifact": "CG_PRODUCTION_NORMALIZATION_PILOT_LOCK_v1.json"
+  },
+  "frozenCanonicalHashes": {
+    "registry": "frozen_canonical_hashes_v1.json",
+    "ontologyCount": 10,
+    "hashesUnchangedFromArchitectureComplete": true
+  },
+  "authorizedNextWorkstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "nextDisciplinedStep": "STOP — governance locked. Authorize pilot contract with 5–10 manual cohort before any production normalization batch or UI build against production data contract."
+}

@@ -1,0 +1,62 @@
+{
+  "manualId": "SAMSUNG-DISHWASHER",
+  "gateKind": "manufacturer_boundary_first_manual",
+  "promotionId": "promo-SAMSUNG-DISHWASHER-gate-table-dry-run",
+  "publish": false,
+  "publishMode": "gate_table_authoritative",
+  "equivalent": true,
+  "equivalenceChecks": {
+    "canonicalAliases": true,
+    "procedureBindings": true,
+    "measurementBindings": true,
+    "topologyOverrides": true,
+    "topologyAdditiveOnly": true
+  },
+  "publicationPlan": {
+    "gateIntentTotal": 37,
+    "publisherAppliedTotal": 37,
+    "representationFailures": 0,
+    "appliedCounts": {
+      "manufacturerAliases": 17,
+      "procedureBindings": 10,
+      "measurementBindings": 5,
+      "platformComponents": 5
+    },
+    "expectedCounts": {
+      "procedureBindings": 10,
+      "measurementBindings": 5,
+      "platformComponents": 5
+    }
+  },
+  "checks": {
+    "dishwasherFrozenRev1": true,
+    "dishwasherSemanticallyUnchanged": true,
+    "equivalentPromotion": true,
+    "gateTableFullyApplied": true,
+    "whirlpoolUnchanged": true,
+    "tenProcedureBindings": true,
+    "fiveMeasurementBindings": true,
+    "fivePlatformComponents": true,
+    "distributorImplementsCirculation": true,
+    "noDiverterMotorAlias": true,
+    "noDiverterMotorComponent": true,
+    "mainControlAliasPresent": true,
+    "communicationNotBound": true,
+    "powerSupplyNotBound": true,
+    "drySystemDryingTest": true,
+    "overflowWaterLevelTest": true
+  },
+  "whirlpoolPreservation": {
+    "whirlpool_overlay_byte_stable": true,
+    "w11499711_ssm_binding_present": true
+  },
+  "testResults": {
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-ontology.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/cg6-dishwasher-architecture-boundary.test.ts": 0,
+    "components/diagnostics/session/__tests__/scenarios/canonical-graph-wont-spin.test.ts": 0
+  },
+  "notes": [
+    "Gate table is authoritative; ledger records audit trail only.",
+    "Dry-run writes overlay_after to promotion folder \u2014 on-disk overlay unchanged."
+  ]
+}

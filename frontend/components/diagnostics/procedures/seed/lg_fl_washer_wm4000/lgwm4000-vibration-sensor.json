@@ -1,0 +1,66 @@
+{
+  "id": "lgwm4000-vibration-sensor",
+  "version": "1.0.0",
+  "title": "\u00a78: Vibration sensor",
+  "platformId": "lg_fl_washer_wm4000",
+  "componentIds": [
+    "suspension"
+  ],
+  "tags": [
+    "vibration_unbalance",
+    "UB"
+  ],
+  "source": {
+    "manualId": "LG-FL-WASHER",
+    "manualTitle": "LG WM4000H*A Front-Load Washer (WM3400\u2013WM4000 family)",
+    "sourcePdf": "backend/docs/manuals/lg wm4000h fl washer service manual.pdf",
+    "extractedTextFile": "backend/docs/manuals/lg wm4000h fl washer service manual-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "8",
+    "oemTestTitle": "VIBRATION SENSOR (WM3600/WM4000)",
+    "pages": [
+      33,
+      53
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the washer or disconnect power before servicing. Replace all panels before operating.",
+      "sourceExcerpt": "Disconnect power before servicing the unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "vib_harness"
+    },
+    {
+      "id": "vib_harness",
+      "order": 2,
+      "type": "instruction",
+      "title": "Vibration sensor harness",
+      "body": "Verify VIBRATION SENSOR at MAIN PWB.",
+      "sourceExcerpt": "Verify VIBRATION SENSOR at MAIN PWB.",
+      "requiresInput": false,
+      "defaultNextStepId": "vib_ok"
+    },
+    {
+      "id": "replace_vib_sensor",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace vibration sensor",
+      "oemOutcome": "Replace vibration sensor when harness verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "vib_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Vibration sensor OK",
+      "oemOutcome": "Unbalance detection path verified.",
+      "requiresInput": false
+    }
+  ]
+}

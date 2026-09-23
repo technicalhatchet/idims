@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_range_compounding_audit",
+  "workstream": "CG-RANGE-COMPOUNDING",
+  "sequence": 3,
+  "targetId": "samsung_ny63t8751ss_dual_fuel",
+  "status": "closed",
+  "verdict": "GREEN / NY63_COMPOUNDING_AUDIT_PASSED",
+  "auditedAt": "2026-09-17T06:00:00+00:00",
+  "compoundingArtifact": "CG_RANGE_NY63T8751SS_COMPOUNDING_v1.json",
+  "priorSequenceAudit": "CG_RANGE_NE58R9560WS_COMPOUNDING_AUDIT_v1.json",
+  "normalizationSource": "CG_RANGE_NY63T8751SS_NORMALIZATION_v1.json",
+  "overlayFile": "samsung_range_ny63.json",
+  "summary": {
+    "proceduresBound": "23/23",
+    "measurementsBound": "20/20",
+    "decisionBranchesExecutable": "13/13",
+    "functionalRealizations": 15,
+    "canonicalExpansion": 0,
+    "hierarchicalInheritance": true,
+    "flatFactDump": false,
+    "nx60OverlayIsolated": true,
+    "ne58OverlayIsolated": true,
+    "dualDomainDistinctionPreserved": true
+  },
+  "integrityChecks": {
+    "canonicalOntologyId": "range_oven",
+    "electric_range.jsonHash": "0edfd0988fa4f782d946bc7e65089ad018bbb769851be0c6f30a701851e72d54",
+    "electricRangeRev1Unchanged": true,
+    "range_oven.jsonHash": "e29bb5fafe2afacdba3b45a1ec8e4ec0b73c78d51ff6319bb6a7c0e20a7b4fc5",
+    "rangeOvenUnchanged": true,
+    "nx60OverlayUnmodified": true,
+    "ne58OverlayUnmodified": true,
+    "noDualFuelCanonicalGraphCreated": true,
+    "gasCooktopHardwareInOverlayOnly": true,
+    "electricOvenElementsInInstanceScopes": true
+  },
+  "provenanceChecks": {
+    "normalizationToCompoundingLineage": true,
+    "cg13FitRecordNotReopened": true,
+    "everyProcedureRetainsSourcePages": true,
+    "everyMeasurementRetainsUnitsAndConditions": true,
+    "decisionBranchesRetainConditionalLogic": true,
+    "functionalRealizationsHaveProvenance": true
+  },
+  "hierarchyChecks": {
+    "canonicalFunctionToImplementationToEvidence": true,
+    "surfaceHeatingAbsorbsGasCooktopNotCanonicalPromotion": true,
+    "instanceScopesNotPromotedToComponents": true,
+    "electricOvenAndGasCooktopCoexistUnderRangeOven": true,
+    "examples": [
+      "surface_heating_system → spark_module → 120 VAC @ burner terminals in LITE",
+      "surface_heating_system → valve_cooktop → gas supply / leak paths",
+      "surface_heating_system → gas_orifice_nozzle → NG/LP diameter table",
+      "bake_heating_element → heater_bake → 19 Ω (electric oven domain)",
+      "broil_heating_element → heater_broil → 13 Ω",
+      "control_board → main_pcb → oven relays + spark module orchestration"
+    ]
+  },
+  "auditChecks": [
+    { "id": "twenty_three_procedures_bound_with_source", "status": "green" },
+    { "id": "twenty_measurements_with_provenance", "status": "green" },
+    { "id": "thirteen_decision_branches_executable", "status": "green" },
+    { "id": "functional_realization_hierarchy", "status": "green" },
+    { "id": "canonical_contract_unchanged", "status": "green" },
+    { "id": "gas_cooktop_hardware_overlay_only", "status": "green" },
+    { "id": "no_canonical_expansion", "status": "green" },
+    { "id": "prior_sequence_isolation", "status": "green" },
+    { "id": "provenance_chain_complete", "status": "green" }
+  ],
+  "gateStatus": {
+    "w11174814CompoundingBlocked": true,
+    "nextSequence": 4,
+    "nextTarget": "whirlpool_w11174814_corpus",
+    "openOnlyAfter": "NY63 audit green — satisfied"
+  },
+  "nextDisciplinedStep": "STOP — W11174814 corroboration compounding remains blocked until explicit sequence 4 open"
+}

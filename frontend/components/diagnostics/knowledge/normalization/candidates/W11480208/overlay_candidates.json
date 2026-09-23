@@ -1,0 +1,667 @@
+{
+  "manualId": "W11480208",
+  "candidates": [
+    {
+      "id": "overlay-W11480208-w11480208-dc-fan-heater_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-dc-fan",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-20: DC Fan Motor (ProDry)",
+      "componentIds": [
+        "heater"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-dc-fan",
+            "pages": [
+              62,
+              63
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-dc-fan-meas-whirlpoolDishwasherFiltrationDcFanOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-dc-fan",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-dc-fan",
+        "pages": [
+          62,
+          63
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-dc-fan",
+            "pages": [
+              62,
+              63
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDcFanOhms",
+            "stepTitle": "Fan motor \u2014 P14 pins 1 & 2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-diverter-motor-circulation_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-diverter-motor",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-14: Diverter Motor (P6)",
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-diverter-motor",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-diverter-motor",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-diverter-motor-meas-whirlpoolDishwasherFiltrationDiverterMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-diverter-motor",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-diverter-motor",
+        "pages": [
+          56,
+          57
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-diverter-motor",
+            "pages": [
+              56,
+              57
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationDiverterMotorOhms",
+            "stepTitle": "Diverter motor \u2014 P6 pins 4 & 6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-door-switch-door_switch_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-door-switch",
+      "canonicalTestTarget": "door_switch_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-8: Door Switch Circuit (P12)",
+      "componentIds": [
+        "door_gasket"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_switch_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door closed \u2014 P12 pins 9 & 11"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-door-switch-meas-dishwasherDoorLatchSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-door-switch",
+      "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+      "canonicalTestTarget": "door_switch_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-door-switch",
+        "pages": [
+          50,
+          51
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-door-switch",
+            "pages": [
+              50,
+              51
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherDoorLatchSwitchOhms",
+            "stepTitle": "Door open \u2014 P12 pins 9 & 11"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-drain-motor-vsm-drain_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-drain-motor-vsm",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-19: Drain Motor (Variable Speed platform)",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-drain-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-drain-motor-vsm",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+      "canonicalTestTarget": "drain_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-drain-motor-vsm",
+        "pages": [
+          61,
+          62
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-drain-motor-vsm",
+            "pages": [
+              61,
+              62
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmDrainMotorOhms",
+            "stepTitle": "VSM drain motor \u2014 P5 pins 5 & 6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-heater-heater_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-heater",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-11: Water Heating / Heat Dry",
+      "componentIds": [
+        "heater"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-heater",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-heater-meas-whirlpoolDishwasherAcuHeaterOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-heater",
+      "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-heater",
+        "pages": [
+          53,
+          54
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-heater",
+            "pages": [
+              53,
+              54
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherAcuHeaterOhms",
+            "stepTitle": "Heater \u2014 P4 pins 2 & 3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-interior-led-heater_command_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-interior-led",
+      "canonicalTestTarget": "heater_command_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-21: Interior LED Lighting",
+      "componentIds": [
+        "heater"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-interior-led",
+        "pages": [
+          63,
+          64
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-interior-led",
+            "pages": [
+              63,
+              64
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-overfill-switch-fill_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-overfill-switch",
+      "canonicalTestTarget": "fill_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-13: Overfill Float Switch (P11)",
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-overfill-switch",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-overfill-switch",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-overfill-switch",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "canonicalTestTarget": "fill_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-overfill-switch",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-overfill-switch",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+            "stepTitle": "Float down \u2014 P11 pins 6 & 7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-overfill-switch-meas-dishwasherFloatSwitchOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-overfill-switch",
+      "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+      "canonicalTestTarget": "fill_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-overfill-switch",
+        "pages": [
+          55,
+          56
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-overfill-switch",
+            "pages": [
+              55,
+              56
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+            "stepTitle": "Float up \u2014 P11 pins 6 & 7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-wash-motor-vsm-circulation_test",
+      "status": "candidate",
+      "candidateType": "procedureTestBinding",
+      "procedureId": "w11480208-wash-motor-vsm",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.92,
+      "displayTitle": "\u00a73-17: Wash Motor (Variable Speed)",
+      "componentIds": [
+        "circulation_pump"
+      ],
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-wash-motor-vsm",
+        "pages": [
+          59,
+          60
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-wash-motor-vsm",
+            "pages": [
+              59,
+              60
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/WHIRLPOOL_W11480208_DISHWASHER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlay-W11480208-w11480208-wash-motor-vsm-meas-whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+      "status": "candidate",
+      "candidateType": "measurementBinding",
+      "procedureId": "w11480208-wash-motor-vsm",
+      "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+      "canonicalTestTarget": "circulation_test",
+      "confidence": 0.94,
+      "provenance": {
+        "manualId": "W11480208",
+        "platformId": "whirlpool_dishwasher_acu",
+        "procedureId": "w11480208-wash-motor-vsm",
+        "pages": [
+          59,
+          60
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "W11480208",
+            "platformId": "whirlpool_dishwasher_acu"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "w11480208-wash-motor-vsm",
+            "pages": [
+              59,
+              60
+            ]
+          },
+          {
+            "type": "measurement",
+            "measurementKnowledgeId": "whirlpoolDishwasherFiltrationVsmWashMotorOhms",
+            "stepTitle": "VSM wash motor \u2014 P5 pins 1 & 2"
+          }
+        ]
+      }
+    }
+  ]
+}

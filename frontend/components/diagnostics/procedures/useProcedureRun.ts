@@ -5,6 +5,7 @@ import {
   getCurrentStep,
   submitProcedureStep,
 } from './procedureRunner';
+import { resolveProcedurePathStepIndex } from './procedureRunDisplay';
 import type {
   ProcedureRunState,
   ProcedureStepInput,
@@ -118,8 +119,7 @@ export function useProcedureRun(
     return submit({ kind: 'measurement', value: trimmed });
   }, [measurementDraft, submit]);
 
-  const stepIndex = currentStep?.order ?? 0;
-  const stepTotal = procedure?.steps.length ?? 0;
+  const stepIndex = resolveProcedurePathStepIndex(runState);
 
   return {
     procedure,
@@ -130,7 +130,7 @@ export function useProcedureRun(
     measurementDraft,
     setMeasurementDraft,
     stepIndex,
-    stepTotal,
+    stepTotal: 0,
     isRunning: Boolean(runState && runState.status === 'in_progress'),
     isComplete: runState?.status === 'completed',
     start,

@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_microwave_fit_analysis",
+  "workstream": "CG-MICROWAVE-FIT",
+  "status": "closed",
+  "verdict": "GREEN / OUTCOME_B_GENUINE_DIVERGENCE",
+  "humanBoundaryApprovedAt": "2026-09-17T09:00:00+00:00",
+  "contract": "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+  "approvedFitOutcome": {
+    "outcome": "B",
+    "label": "genuine_divergence_documented",
+    "approvalIsNotCanonicalMutation": true,
+    "approvalIsNotOntologyCreation": true,
+    "authorizesDiscoveryOnly": "CG-MICROWAVE-DISCOVERY"
+  },
+  "immutableFitInputs": {
+    "policy": "Fit artifacts are historical evidence — discovery may read but must not mutate",
+    "artifacts": [
+      "CG_MICROWAVE_FIT_TEST_CONTRACT_v1.json",
+      "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+      "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+      "CG_MICROWAVE_FIT_TRIANGULATION_v1.json",
+      "microwave_existing_family_fit_hypothesis_v1.json"
+    ]
+  },
+  "fitConclusion": {
+    "fitsExistingContract": false,
+    "bestHostContract": null,
+    "rangeOvenVariantRejected": true,
+    "rangeOvenContaminationAvoided": true,
+    "crossManufacturerFunctionalRecurrence": true,
+    "preliminaryLeanConfirmed": "genuine_divergence",
+    "note": "Divergence is functional-domain absence from frozen contracts — not unfamiliar component names alone"
+  },
+  "domainBoundaryDeterminations": [
+    {
+      "domainId": "hv_generation",
+      "fitBoundary": "DIVERGES",
+      "evidence": "LG relay→HV cascade + Samsung power-relay→§4 HV cascade; per-component tests and measurements on both",
+      "frozenHost": null
+    },
+    {
+      "domainId": "door_interlock_chain",
+      "fitBoundary": "DIVERGES",
+      "evidence": "Three-switch monitor-chain HV safety contract on both — not oven_door_switch",
+      "frozenHost": null,
+      "rangeOvenMerge": "rejected"
+    },
+    {
+      "domainId": "rf_cavity",
+      "fitBoundary": "DIVERGES",
+      "evidence": "Turntable/waveguide/cavity field path on both",
+      "frozenHost": null
+    },
+    {
+      "domainId": "thermal_protection",
+      "fitBoundary": "DIVERGES",
+      "evidence": "Recurring multi-node thermal network — broader than range conditional thermal_protection",
+      "frozenHost": null,
+      "rangeOvenMerge": "rejected"
+    },
+    {
+      "domainId": "control_and_sensing",
+      "fitBoundary": "PARTIAL_RECURRENCE",
+      "evidence": "Humidity + temp fault families on both — supportive, insufficient alone for fit-to-existing",
+      "frozenHost": null
+    },
+    {
+      "domainId": "ventilation_otr",
+      "fitBoundary": "CONDITIONAL_MICROWAVE_LAYER",
+      "evidence": "Samsung dedicated vent procedure; LG referenced — OTR-only, not range surface_heating_system",
+      "frozenHost": null
+    }
+  ],
+  "headlineMetrics": {
+    "canonicalExpansion": 0,
+    "canonicalHashMutations": 0,
+    "frozenContractsMutated": 0,
+    "r1Procedures": 12,
+    "r2Procedures": 14,
+    "manufacturersTriangulated": 2,
+    "functionalDomainsDiverging": 4,
+    "microwaveJsonCreated": false
+  },
+  "evidenceChain": {
+    "inventory": "CG_CANONICAL_FAMILY_INVENTORY_v1.json",
+    "r1Gate": "CG_MICROWAVE_FIT_R1_GATE_v1.json",
+    "r1Observation": "LG_LMHM2237_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "r2Observation": "SAMSUNG_ME11_MICROWAVE_cg_microwave_fit_observation_v1.json",
+    "triangulation": "CG_MICROWAVE_FIT_TRIANGULATION_v1.json"
+  },
+  "authorizedNextWorkstream": {
+    "id": "CG-MICROWAVE-DISCOVERY",
+    "contract": "CG_MICROWAVE_DISCOVERY_CONTRACT_v1.json",
+    "purpose": "Propose minimal canonical microwave functional contract — not component-list ontology",
+    "microwaveJsonStillBlocked": true
+  },
+  "explicitNonActions": [
+    "No microwave.json from fit approval",
+    "No canonical overlay compounding",
+    "No range_oven reopen or routing change",
+    "No retroactive fit artifact edits"
+  ]
+}

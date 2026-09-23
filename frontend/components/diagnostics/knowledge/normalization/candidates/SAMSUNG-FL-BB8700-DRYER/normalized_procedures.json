@@ -1,0 +1,2619 @@
+{
+  "manualId": "SAMSUNG-FL-BB8700-DRYER",
+  "procedures": [
+    {
+      "procedureId": "samsungbb8700-dryer-belt-cutoff",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Belt cut-off switch",
+      "purpose": "Belt safety switch",
+      "prerequisites": [],
+      "componentIds": [
+        "belt_switch"
+      ],
+      "tags": [
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "belt_intact",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Belt installed",
+          "body": "Verify belt on drum and motor pulley.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "belt_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_switch_test",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "install_belt",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "install_belt_out",
+              "terminal": true,
+              "oemOutcome": "Install or replace drive belt."
+            }
+          ],
+          "sourceExcerpt": "Verify belt on drum and motor pulley."
+        },
+        {
+          "id": "belt_switch_test",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Belt switch states",
+          "body": "Belt switch: open when belt off, closed when belt on (125 V 16 A).",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "bso_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "belt_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_belt_switch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_belt_switch_out",
+              "terminal": true,
+              "oemOutcome": "Replace belt cut-off switch."
+            }
+          ],
+          "sourceExcerpt": "Belt switch: open when belt off, closed when belt on (125 V 16 A)."
+        },
+        {
+          "id": "install_belt_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Service belt",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_belt_switch_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace belt switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "belt_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Belt safety OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "belt_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_switch_test",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_intact"
+        },
+        {
+          "id": "install_belt",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "install_belt_out",
+          "terminal": true,
+          "oemOutcome": "Install or replace drive belt.",
+          "stepId": "belt_intact"
+        },
+        {
+          "id": "bso_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "belt_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "belt_switch_test"
+        },
+        {
+          "id": "replace_belt_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_belt_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace belt cut-off switch.",
+          "stepId": "belt_switch_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Belt safety switch",
+        "pages": [
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-belt-cutoff",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-belt-cutoff",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-door-switch",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1 / \u00a74-6: Door switch (dC, dF)",
+      "purpose": "Door switch",
+      "prerequisites": [],
+      "componentIds": [
+        "door_switch"
+      ],
+      "tags": [
+        "dC",
+        "dF",
+        "door_switch_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "door_closed",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Door fully closed",
+          "body": "Close door firmly. Check door sensor unit not loose.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "door_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_switch_bench",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "secure_door",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "secure_door_out",
+              "terminal": true,
+              "oemOutcome": "Secure door sensor harness and latch."
+            }
+          ],
+          "sourceExcerpt": "Close door firmly. Check door sensor unit not loose."
+        },
+        {
+          "id": "door_switch_bench",
+          "order": 3,
+          "type": "instruction",
+          "title": "Door switch continuity",
+          "body": "Disconnect power. Door switch 125 V 10 A \u2014 measure OFF: open circuit; ON (door closed): closed circuit per \u00a74-6.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Door switch 125 V 10 A \u2014 measure OFF: open circuit; ON (door closed): closed circuit per \u00a74-6."
+        },
+        {
+          "id": "door_switch_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Switch toggles correctly?",
+          "body": "Resistance/continuity changes when door latched vs open?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "sw_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "door_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_door_switch",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_door_switch_out",
+              "terminal": true,
+              "oemOutcome": "Replace door switch assembly."
+            }
+          ],
+          "sourceExcerpt": "Resistance/continuity changes when door latched vs open?"
+        },
+        {
+          "id": "secure_door_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Secure door assembly",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_door_switch_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace door switch",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "door_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Door switch OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "door_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_switch_bench",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_closed"
+        },
+        {
+          "id": "secure_door",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "secure_door_out",
+          "terminal": true,
+          "oemOutcome": "Secure door sensor harness and latch.",
+          "stepId": "door_closed"
+        },
+        {
+          "id": "sw_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "door_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "door_switch_test"
+        },
+        {
+          "id": "replace_door_switch",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_door_switch_out",
+          "terminal": true,
+          "oemOutcome": "Replace door switch assembly.",
+          "stepId": "door_switch_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Door switch",
+        "pages": [
+          35,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-door-switch",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-door-switch",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Radiant flame sensor (10RS)",
+      "purpose": "Flame sensor",
+      "prerequisites": [],
+      "componentIds": [
+        "flame_sensor"
+      ],
+      "tags": [
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "flame_sensor_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Radiant sensor 10RS",
+          "body": "120 V radiant sensor \u2014 verify harness and sensor seated at burner.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "120 V radiant sensor \u2014 verify harness and sensor seated at burner."
+        },
+        {
+          "id": "flame_sensor_check",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Flame sense during heat",
+          "body": "During timed dry heat, does flame stay lit >20 min without HE/HC? Check terminal wiring if HC.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "flame_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "flame_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_flame_sensor",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_flame_sensor_out",
+              "terminal": true,
+              "oemOutcome": "Replace radiant flame sensor or repair harness."
+            }
+          ],
+          "sourceExcerpt": "During timed dry heat, does flame stay lit >20 min without HE/HC? Check terminal wiring if HC."
+        },
+        {
+          "id": "replace_flame_sensor_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace flame sensor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "flame_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Flame sense OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "flame_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "flame_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "flame_sensor_check"
+        },
+        {
+          "id": "replace_flame_sensor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_flame_sensor_out",
+          "terminal": true,
+          "oemOutcome": "Replace radiant flame sensor or repair harness.",
+          "stepId": "flame_sensor_check"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Flame sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+        "pages": [
+          41,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-flame-sensor",
+            "pages": [
+              41,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-gas-ignitor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Gas igniter (101D)",
+      "purpose": "Igniter",
+      "prerequisites": [],
+      "componentIds": [
+        "igniter"
+      ],
+      "tags": [
+        "igniter_check",
+        "no_heat",
+        "ignition_issue"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "ignitor_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Igniter 101D",
+          "body": "Disconnect power. Do not touch igniter element.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Do not touch igniter element."
+        },
+        {
+          "id": "ignitor_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Igniter resistance",
+          "body": "Expected 40\u2013120 \u03a9.",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerIgnitorOhms",
+              "testPoint": {
+                "connector": "Igniter 101D",
+                "pins": "Terminals",
+                "label": "Igniter resistance"
+              },
+              "title": "Igniter resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "ign_pass",
+              "label": "40\u2013120 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "ignitor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "ign_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_ignitor",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected 40\u2013120 \u03a9."
+        },
+        {
+          "id": "replace_ignitor",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace igniter",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "ignitor_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "Igniter OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerIgnitorOhms",
+          "testPoint": {
+            "connector": "Igniter 101D",
+            "pins": "Terminals",
+            "label": "Igniter resistance"
+          },
+          "title": "Igniter resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "ign_pass",
+          "label": "40\u2013120 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "ignitor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        },
+        {
+          "id": "ign_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_ignitor",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "ignitor_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Igniter",
+        "pages": [
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-ignitor",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-ignitor",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-gas-valve",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Gas valve coils (25M01A)",
+      "purpose": "Gas valve",
+      "prerequisites": [],
+      "componentIds": [
+        "gas_valve"
+      ],
+      "tags": [
+        "gas_valve_check",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "valve_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Gas valve coils",
+          "body": "Disconnect power. Measure valve coil pairs at 25M01A harness.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure valve coil pairs at 25M01A harness."
+        },
+        {
+          "id": "valve_12",
+          "order": 3,
+          "type": "measurement",
+          "title": "Valve 1\u20132",
+          "body": "~1365 \u03a9",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerGasValve12Ohms",
+              "testPoint": {
+                "connector": "Valve",
+                "pins": "1-2",
+                "label": "Valve 1\u20132"
+              },
+              "title": "Valve 1\u20132"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v12_pass",
+              "label": "~1365 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_13",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v12_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v12_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v12_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "~1365 \u03a9"
+        },
+        {
+          "id": "valve_13",
+          "order": 4,
+          "type": "measurement",
+          "title": "Valve 1\u20133",
+          "body": "~560 \u03a9",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerGasValve13Ohms",
+              "testPoint": {
+                "connector": "Valve",
+                "pins": "1-3",
+                "label": "Valve 1\u20133"
+              },
+              "title": "Valve 1\u20133"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v13_pass",
+              "label": "~560 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_45",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v13_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v13_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v13_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "~560 \u03a9"
+        },
+        {
+          "id": "valve_45",
+          "order": 5,
+          "type": "measurement",
+          "title": "Valve 4\u20135",
+          "body": "~1325 \u03a9",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerGasValve45Ohms",
+              "testPoint": {
+                "connector": "Valve",
+                "pins": "4-5",
+                "label": "Valve 4\u20135"
+              },
+              "title": "Valve 4\u20135"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v45_pass",
+              "label": "~1325 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_67",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v45_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v45_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v45_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "~1325 \u03a9"
+        },
+        {
+          "id": "valve_67",
+          "order": 6,
+          "type": "measurement",
+          "title": "Valve 6\u20137",
+          "body": "~1000 \u03a9",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerGasValve67Ohms",
+              "testPoint": {
+                "connector": "Valve",
+                "pins": "6-7",
+                "label": "Valve 6\u20137"
+              },
+              "title": "Valve 6\u20137"
+            }
+          ],
+          "branches": [
+            {
+              "id": "v67_pass",
+              "label": "~1000 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "valve_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "v67_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v67_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "v67_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_valve",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "~1000 \u03a9"
+        },
+        {
+          "id": "replace_valve",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace gas valve",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "valve_verified",
+          "order": 8,
+          "type": "outcome",
+          "title": "Gas valve OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve12Ohms",
+          "testPoint": {
+            "connector": "Valve",
+            "pins": "1-2",
+            "label": "Valve 1\u20132"
+          },
+          "title": "Valve 1\u20132"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve13Ohms",
+          "testPoint": {
+            "connector": "Valve",
+            "pins": "1-3",
+            "label": "Valve 1\u20133"
+          },
+          "title": "Valve 1\u20133"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve45Ohms",
+          "testPoint": {
+            "connector": "Valve",
+            "pins": "4-5",
+            "label": "Valve 4\u20135"
+          },
+          "title": "Valve 4\u20135"
+        },
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerGasValve67Ohms",
+          "testPoint": {
+            "connector": "Valve",
+            "pins": "6-7",
+            "label": "Valve 6\u20137"
+          },
+          "title": "Valve 6\u20137"
+        }
+      ],
+      "branches": [
+        {
+          "id": "v12_pass",
+          "label": "~1365 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_13",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_12"
+        },
+        {
+          "id": "v12_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_12"
+        },
+        {
+          "id": "v12_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_12"
+        },
+        {
+          "id": "v12_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_12"
+        },
+        {
+          "id": "v13_pass",
+          "label": "~560 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_45",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_13"
+        },
+        {
+          "id": "v13_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_13"
+        },
+        {
+          "id": "v13_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_13"
+        },
+        {
+          "id": "v13_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_13"
+        },
+        {
+          "id": "v45_pass",
+          "label": "~1325 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_67",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_45"
+        },
+        {
+          "id": "v45_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_45"
+        },
+        {
+          "id": "v45_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_45"
+        },
+        {
+          "id": "v45_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_45"
+        },
+        {
+          "id": "v67_pass",
+          "label": "~1000 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "valve_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "valve_67"
+        },
+        {
+          "id": "v67_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_67"
+        },
+        {
+          "id": "v67_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_67"
+        },
+        {
+          "id": "v67_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_valve",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "valve_67"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Gas valve",
+        "pages": [
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-gas-valve",
+        "pages": [
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-gas-valve",
+            "pages": [
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-heater-electric",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Electric heater (5300 W)",
+      "purpose": "Heater element",
+      "prerequisites": [],
+      "componentIds": [
+        "heating_element"
+      ],
+      "tags": [
+        "no_heat",
+        "HC",
+        "heating_element_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_access",
+          "order": 3,
+          "type": "instruction",
+          "title": "Access heater terminals",
+          "body": "Disconnect power. Access single 240 V 5300 W element per \u00a74-6.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Access single 240 V 5300 W element per \u00a74-6."
+        },
+        {
+          "id": "heater_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Heater resistance",
+          "body": "Expected ~10.9 \u03a9 (V\u00b2/P for 5300 W @ 240 V).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerHeaterOhms",
+              "testPoint": {
+                "connector": "Heater",
+                "pins": "Element terminals",
+                "label": "Heater resistance"
+              },
+              "title": "Heater resistance"
+            }
+          ],
+          "branches": [
+            {
+              "id": "he_pass",
+              "label": "~11 \u03a9",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "heater_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "he_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "he_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "he_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_heater",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Expected ~10.9 \u03a9 (V\u00b2/P for 5300 W @ 240 V)."
+        },
+        {
+          "id": "replace_heater",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace heater",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "heater_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Heater OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerHeaterOhms",
+          "testPoint": {
+            "connector": "Heater",
+            "pins": "Element terminals",
+            "label": "Heater resistance"
+          },
+          "title": "Heater resistance"
+        }
+      ],
+      "branches": [
+        {
+          "id": "he_pass",
+          "label": "~11 \u03a9",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "heater_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "he_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "he_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        },
+        {
+          "id": "he_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_heater",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "heater_ohms"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Heater element",
+        "pages": [
+          40,
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-heater-electric",
+        "pages": [
+          40,
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-heater-electric",
+            "pages": [
+              40,
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-hmi",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Display / buttons (bC2)",
+      "purpose": "Button state bC2",
+      "prerequisites": [],
+      "componentIds": [
+        "user_interface"
+      ],
+      "tags": [
+        "bC2",
+        "hmi_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "display_loose",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Display PCB harness",
+          "body": "Check display PCB connector seated \u2014 no loose or shorted buttons.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "hmi_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "hmi_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_display",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_display_out",
+              "terminal": true,
+              "oemOutcome": "Replace display PCB or harness."
+            }
+          ],
+          "sourceExcerpt": "Check display PCB connector seated \u2014 no loose or shorted buttons."
+        },
+        {
+          "id": "replace_display_out",
+          "order": 4,
+          "type": "outcome",
+          "title": "Replace display PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "hmi_verified",
+          "order": 5,
+          "type": "outcome",
+          "title": "HMI OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "hmi_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "hmi_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "display_loose"
+        },
+        {
+          "id": "replace_display",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_display_out",
+          "terminal": true,
+          "oemOutcome": "Replace display PCB or harness.",
+          "stepId": "display_loose"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Button state bC2",
+        "pages": [
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-hmi",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-hmi",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-motor-circuit",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Motor centrifugal switch",
+      "purpose": "Drive motor",
+      "prerequisites": [],
+      "componentIds": [
+        "drive_motor"
+      ],
+      "tags": [
+        "motor_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_centrifugal",
+          "order": 3,
+          "type": "instruction",
+          "title": "Centrifugal switch table",
+          "body": "Motor centrifugal switch: verify contact states Start vs Run for contacts 1M\u20136M per \u00a74-6 table.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Motor centrifugal switch: verify contact states Start vs Run for contacts 1M\u20136M per \u00a74-6 table."
+        },
+        {
+          "id": "motor_run_test",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Motor runs and drum turns",
+          "body": "Restore power (belt on). Motor starts and drum rotates freely?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "motor_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "motor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_motor",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_motor_out",
+              "terminal": true,
+              "oemOutcome": "Replace motor or repair centrifugal switch."
+            }
+          ],
+          "sourceExcerpt": "Restore power (belt on). Motor starts and drum rotates freely?"
+        },
+        {
+          "id": "replace_motor_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace motor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "motor_verified",
+          "order": 6,
+          "type": "outcome",
+          "title": "Motor OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "motor_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "motor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "motor_run_test"
+        },
+        {
+          "id": "replace_motor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_motor_out",
+          "terminal": true,
+          "oemOutcome": "Replace motor or repair centrifugal switch.",
+          "stepId": "motor_run_test"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Drive motor",
+        "pages": [
+          41
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-motor-circuit",
+        "pages": [
+          41
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-motor-circuit",
+            "pages": [
+              41
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-power",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Power and communication (9C1, FC, AC)",
+      "purpose": "Power / PCB",
+      "prerequisites": [],
+      "componentIds": [
+        "supply",
+        "main_control"
+      ],
+      "tags": [
+        "9C1",
+        "FC",
+        "AC",
+        "no_power"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "outlet_check",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Outlet and voltage",
+          "body": "Verify proper 120/240 V supply and frequency. Dedicated circuit.",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "supply_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "harness_pcb",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "fix_supply",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "fix_supply_out",
+              "terminal": true,
+              "oemOutcome": "Correct electrical supply and outlet."
+            }
+          ],
+          "sourceExcerpt": "Verify proper 120/240 V supply and frequency. Dedicated circuit."
+        },
+        {
+          "id": "harness_pcb",
+          "order": 3,
+          "type": "instruction",
+          "title": "PCB and harness",
+          "body": "Inspect PCB wire harness connections. AC invalid communication \u2014 check harness first.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Inspect PCB wire harness connections. AC invalid communication \u2014 check harness first."
+        },
+        {
+          "id": "power_verified",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Fault cleared?",
+          "body": "After harness repair and power cycle, do 9C1/FC/AC codes clear?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "pwr_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "power_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_pcb",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_pcb_out",
+              "terminal": true,
+              "oemOutcome": "Replace main PCB."
+            }
+          ],
+          "sourceExcerpt": "After harness repair and power cycle, do 9C1/FC/AC codes clear?"
+        },
+        {
+          "id": "fix_supply_out",
+          "order": 5,
+          "type": "outcome",
+          "title": "Fix supply",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_pcb_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace PCB",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "power_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Power path OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "supply_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "harness_pcb",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "outlet_check"
+        },
+        {
+          "id": "fix_supply",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "fix_supply_out",
+          "terminal": true,
+          "oemOutcome": "Correct electrical supply and outlet.",
+          "stepId": "outlet_check"
+        },
+        {
+          "id": "pwr_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "power_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "power_verified"
+        },
+        {
+          "id": "replace_pcb",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_pcb_out",
+          "terminal": true,
+          "oemOutcome": "Replace main PCB.",
+          "stepId": "power_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Power / PCB",
+        "pages": [
+          35
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-power",
+        "pages": [
+          35
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-power",
+            "pages": [
+              35
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-6: Thermal cutoff and hi-limit",
+      "purpose": "Thermal cut-off / hi-limit",
+      "prerequisites": [],
+      "componentIds": [
+        "thermal_fuse",
+        "high_limit_thermostat"
+      ],
+      "tags": [
+        "no_heat",
+        "thermal_fuse_check"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "thermal_access",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access thermal chain",
+          "body": "Disconnect power. Locate thermal cut-off, regulating thermostat, and hi-limit 60T21 in heat path.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Locate thermal cut-off, regulating thermostat, and hi-limit 60T21 in heat path."
+        },
+        {
+          "id": "hi_limit_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Hi-limit 60T21",
+          "body": "Resistance < 1 \u03a9 when closed (room temp).",
+          "requiresInput": true,
+          "measurements": [
+            {
+              "measurementKnowledgeId": "samsungFlBb8700DryerHiLimitOhms",
+              "testPoint": {
+                "connector": "60T21",
+                "pins": "Terminals",
+                "label": "Hi-limit 60T21"
+              },
+              "title": "Hi-limit 60T21"
+            }
+          ],
+          "branches": [
+            {
+              "id": "hl_pass",
+              "label": "< 1 \u03a9 closed",
+              "when": {
+                "kind": "measurement_normal"
+              },
+              "nextStepId": "thermal_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_open",
+              "label": "Open",
+              "when": {
+                "kind": "measurement_open"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_warn",
+              "label": "Borderline",
+              "when": {
+                "kind": "measurement_warning"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            },
+            {
+              "id": "hl_crit",
+              "label": "Out of spec",
+              "when": {
+                "kind": "measurement_critical"
+              },
+              "nextStepId": "replace_hi_limit",
+              "terminal": true,
+              "oemOutcome": null
+            }
+          ],
+          "sourceExcerpt": "Resistance < 1 \u03a9 when closed (room temp)."
+        },
+        {
+          "id": "thermal_verified",
+          "order": 4,
+          "type": "visual_check",
+          "title": "Thermal cut-off continuity",
+          "body": "Thermal cut-off and cycling thermostat show continuity at room temp?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "tc_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermal_ok",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_cutoff",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_cutoff_out",
+              "terminal": true,
+              "oemOutcome": "Replace open thermal cut-off or thermostat."
+            }
+          ],
+          "sourceExcerpt": "Thermal cut-off and cycling thermostat show continuity at room temp?"
+        },
+        {
+          "id": "replace_hi_limit",
+          "order": 5,
+          "type": "outcome",
+          "title": "Replace hi-limit",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "replace_cutoff_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermal cutoff",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermal_ok",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermal chain OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [
+        {
+          "measurementKnowledgeId": "samsungFlBb8700DryerHiLimitOhms",
+          "testPoint": {
+            "connector": "60T21",
+            "pins": "Terminals",
+            "label": "Hi-limit 60T21"
+          },
+          "title": "Hi-limit 60T21"
+        }
+      ],
+      "branches": [
+        {
+          "id": "hl_pass",
+          "label": "< 1 \u03a9 closed",
+          "when": {
+            "kind": "measurement_normal"
+          },
+          "nextStepId": "thermal_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_open",
+          "label": "Open",
+          "when": {
+            "kind": "measurement_open"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_warn",
+          "label": "Borderline",
+          "when": {
+            "kind": "measurement_warning"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "hl_crit",
+          "label": "Out of spec",
+          "when": {
+            "kind": "measurement_critical"
+          },
+          "nextStepId": "replace_hi_limit",
+          "terminal": true,
+          "oemOutcome": null,
+          "stepId": "hi_limit_ohms"
+        },
+        {
+          "id": "tc_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermal_ok",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermal_verified"
+        },
+        {
+          "id": "replace_cutoff",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_cutoff_out",
+          "terminal": true,
+          "oemOutcome": "Replace open thermal cut-off or thermostat.",
+          "stepId": "thermal_verified"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-6",
+        "oemTestTitle": "Thermal cut-off / hi-limit",
+        "pages": [
+          40,
+          42
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+        "pages": [
+          40,
+          42
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermal-cutoff",
+            "pages": [
+              40,
+              42
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    },
+    {
+      "procedureId": "samsungbb8700-dryer-thermistor",
+      "manufacturer": "Samsung",
+      "platformId": "samsung_fl_dryer_bb8700",
+      "templateId": "electric_dryer",
+      "title": "\u00a74-1: Thermistors (tC, tC5, HC)",
+      "purpose": "Thermistor faults",
+      "prerequisites": [],
+      "componentIds": [
+        "exhaust_thermistor",
+        "inlet_thermistor"
+      ],
+      "tags": [
+        "tC",
+        "tC5",
+        "HC",
+        "thermistor_check",
+        "no_heat"
+      ],
+      "steps": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power",
+          "body": "Unplug the dryer or disconnect power before servicing. Control board and inlet valve are not grounded during service.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Execute service after unplugging the power supply unit."
+        },
+        {
+          "id": "service_mode_after_smart_install",
+          "order": 2,
+          "type": "instruction",
+          "title": "Continue procedure",
+          "body": "Smart Install entered. Continue with component checks below.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "vent_precheck",
+          "order": 3,
+          "type": "instruction",
+          "title": "Vent and lint screen",
+          "body": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Clean lint screen. Verify vent not restricted \u2014 tC/tC5 often vent-related."
+        },
+        {
+          "id": "thermistor_bench",
+          "order": 4,
+          "type": "instruction",
+          "title": "Measure thermistor resistance",
+          "body": "Disconnect power. Measure thermistor1 and thermistor2 per \u00a74-6 \u2014 compare both; manual directs resistance check when code present.",
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": "Disconnect power. Measure thermistor1 and thermistor2 per \u00a74-6 \u2014 compare both; manual directs resistance check when code present."
+        },
+        {
+          "id": "thermistor_compare",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Thermistor readings plausible?",
+          "body": "Both thermistors show similar reasonable resistance (not open/shorted vs each other)?",
+          "requiresInput": true,
+          "measurements": [],
+          "branches": [
+            {
+              "id": "th_ok",
+              "label": "Yes / OK",
+              "when": {
+                "kind": "checkpoint_yes"
+              },
+              "nextStepId": "thermistor_verified",
+              "terminal": null,
+              "oemOutcome": null
+            },
+            {
+              "id": "replace_thermistor",
+              "label": "No / fault",
+              "when": {
+                "kind": "checkpoint_no"
+              },
+              "nextStepId": "replace_thermistor_out",
+              "terminal": true,
+              "oemOutcome": "Replace out-of-range thermistor; recheck vent."
+            }
+          ],
+          "sourceExcerpt": "Both thermistors show similar reasonable resistance (not open/shorted vs each other)?"
+        },
+        {
+          "id": "replace_thermistor_out",
+          "order": 6,
+          "type": "outcome",
+          "title": "Replace thermistor",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        },
+        {
+          "id": "thermistor_verified",
+          "order": 7,
+          "type": "outcome",
+          "title": "Thermistors OK",
+          "body": null,
+          "requiresInput": false,
+          "measurements": [],
+          "branches": [],
+          "sourceExcerpt": null
+        }
+      ],
+      "measurements": [],
+      "branches": [
+        {
+          "id": "th_ok",
+          "label": "Yes / OK",
+          "when": {
+            "kind": "checkpoint_yes"
+          },
+          "nextStepId": "thermistor_verified",
+          "terminal": null,
+          "oemOutcome": null,
+          "stepId": "thermistor_compare"
+        },
+        {
+          "id": "replace_thermistor",
+          "label": "No / fault",
+          "when": {
+            "kind": "checkpoint_no"
+          },
+          "nextStepId": "replace_thermistor_out",
+          "terminal": true,
+          "oemOutcome": "Replace out-of-range thermistor; recheck vent.",
+          "stepId": "thermistor_compare"
+        }
+      ],
+      "source": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "manualTitle": "Samsung Front-Load Dryer BB8700 / DV8700B Family",
+        "oemTestNumber": "4-1",
+        "oemTestTitle": "Thermistor faults",
+        "pages": [
+          35,
+          40
+        ],
+        "extractedTextFile": "backend/docs/manuals/samsung fl dryer new style dv53bb8700-extracted.txt"
+      },
+      "provenance": {
+        "manualId": "SAMSUNG-FL-BB8700-DRYER",
+        "platformId": "samsung_fl_dryer_bb8700",
+        "procedureId": "samsungbb8700-dryer-thermistor",
+        "pages": [
+          35,
+          40
+        ],
+        "sources": [
+          {
+            "type": "manual",
+            "manualId": "SAMSUNG-FL-BB8700-DRYER",
+            "platformId": "samsung_fl_dryer_bb8700"
+          },
+          {
+            "type": "procedure",
+            "procedureId": "samsungbb8700-dryer-thermistor",
+            "pages": [
+              35,
+              40
+            ]
+          },
+          {
+            "type": "extraction_doc",
+            "path": "frontend/components/diagnostics/knowledge/pattern-catalog/SAMSUNG_FL_BB8700_DRYER_EXTRACTION.md"
+          }
+        ]
+      }
+    }
+  ]
+}

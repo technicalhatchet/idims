@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "1.0.0",
+  "canonicalOntologyId": "front_load_washer",
+  "description": "Reference platform overlays for Phase 0–1 validation. Maps manufacturer procedure componentIds to canonical ids.",
+  "platforms": [
+    {
+      "platformId": "whirlpool_fl_dd",
+      "manualId": "W11169652",
+      "smokeModel": "WFW5620",
+      "label": "Whirlpool/Maytag 27\" FL direct-drive washer (combo vent/dry)",
+      "componentAliases": {},
+      "implementationNotes": [
+        "Direct-drive motor — no belt or separate motor_controller on this platform.",
+        "Combo unit includes vent/dry subsystem (TEST #13–17).",
+        "Recirc pump present on some variants — no dedicated OEM TEST # in W11169652 v1 seeds."
+      ],
+      "procedures": [
+        { "procedureId": "w11169652-test-01-acu-power", "canonicalComponents": ["supply"], "failureDomains": ["power_failure"] },
+        { "procedureId": "w11169652-test-02-hmi", "canonicalComponents": ["hmi_control"], "failureDomains": ["user_interface_failure", "communication_failure"] },
+        { "procedureId": "w11169652-test-03-motor", "seedProcedureId": "w11169652-test-03-motor-circuit", "canonicalComponents": ["drive_motor"], "failureDomains": ["drive_failure"] },
+        { "procedureId": "w11169652-test-04-door-lock", "canonicalComponents": ["door_lock"], "failureDomains": ["door_interlock_failure"] },
+        { "procedureId": "w11169652-test-05-drum-light", "canonicalComponents": ["supply"], "failureDomains": ["power_failure", "wiring_connection"] },
+        { "procedureId": "w11169652-test-06-inlet-valves", "canonicalComponents": ["inlet_valve"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "w11169652-test-07-water-level-sensor", "canonicalComponents": ["water_level_sensor", "pressure_hose", "pressure_chamber"], "failureDomains": ["water_level_failure"] },
+        { "procedureId": "w11169652-test-08-drain-pump", "canonicalComponents": ["drain_pump"], "failureDomains": ["drain_failure"] },
+        { "procedureId": "w11169652-test-09-wash-heater", "canonicalComponents": ["wash_heater"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "w11169652-test-10-wash-temp-sensor", "canonicalComponents": ["wash_ntc"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "w11169652-test-11a-single-dose-dispenser", "canonicalComponents": ["dosing_pump"], "failureDomains": ["dispense_failure"] },
+        { "procedureId": "w11169652-test-11b-dosing-pump", "canonicalComponents": ["dosing_pump"], "failureDomains": ["dispense_failure"] },
+        { "procedureId": "w11169652-test-12a-bulk-dispenser", "canonicalComponents": ["bulk_level_switch"], "failureDomains": ["dispense_failure"] },
+        { "procedureId": "w11169652-test-12b-bulk-level-sensing", "canonicalComponents": ["bulk_level_switch"], "failureDomains": ["dispense_failure"] },
+        { "procedureId": "w11169652-test-13-vent-fan", "canonicalComponents": ["vent_fan"], "failureDomains": ["vent_dry_failure"], "comboVariantOnly": true },
+        { "procedureId": "w11169652-test-14-vent-baffle", "canonicalComponents": ["vent_baffle"], "failureDomains": ["vent_dry_failure"], "comboVariantOnly": true },
+        { "procedureId": "w11169652-test-15-dry-heater", "canonicalComponents": ["dry_heater"], "failureDomains": ["vent_dry_failure"], "comboVariantOnly": true },
+        { "procedureId": "w11169652-test-16-dry-temp-sensor", "canonicalComponents": ["dry_ntc"], "failureDomains": ["vent_dry_failure"], "comboVariantOnly": true },
+        { "procedureId": "w11169652-test-17-dry-blower", "canonicalComponents": ["dry_blower"], "failureDomains": ["vent_dry_failure"], "comboVariantOnly": true }
+      ],
+      "gaps": [
+        {
+          "canonicalComponent": "recirc_pump",
+          "confidence": "unknown",
+          "source": "not-established",
+          "note": "Recirc path referenced in field guidance / measurement batch23; no dedicated W11169652 procedure seed yet."
+        },
+        {
+          "canonicalComponent": "drum_bearing",
+          "confidence": "unknown",
+          "source": "not-established",
+          "note": "Mechanical diagnosis via wizard fields only; no OEM TEST #."
+        },
+        {
+          "canonicalComponent": "suspension",
+          "confidence": "unknown",
+          "source": "not-established",
+          "note": "Mechanical diagnosis via wizard fields only; no OEM TEST #."
+        }
+      ]
+    },
+    {
+      "platformId": "whirlpool_duet_sport",
+      "manualId": "W8178558",
+      "smokeModel": "WFW8300",
+      "label": "Whirlpool Duet Sport CCU/MCU belt-drive washer",
+      "componentAliases": {},
+      "implementationNotes": [
+        "Belt-drive with MCU motor control — maps to motor_controller + drive_belt.",
+        "Pressure switch (not frequency APS) for water level.",
+        "Door lock OEM wizard integration complete (w8178558-door-lock)."
+      ],
+      "procedures": [
+        { "procedureId": "w8178558-motor-circuit", "canonicalComponents": ["drive_motor", "motor_controller", "drive_belt"], "failureDomains": ["drive_failure"] },
+        { "procedureId": "w8178558-drain-pump", "canonicalComponents": ["drain_pump"], "failureDomains": ["drain_failure"] },
+        { "procedureId": "w8178558-inlet-valves", "canonicalComponents": ["inlet_valve"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "w8178558-door-lock", "canonicalComponents": ["door_lock", "control_board"], "failureDomains": ["door_interlock_failure", "control_failure", "wiring_connection"] },
+        { "procedureId": "w8178558-wash-heater", "canonicalComponents": ["wash_heater"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "w8178558-wash-ntc", "canonicalComponents": ["wash_ntc"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "w8178558-pressure-switch", "canonicalComponents": ["water_level_sensor", "pressure_hose", "pressure_chamber"], "failureDomains": ["water_level_failure"] },
+        { "procedureId": "w8178558-dispenser-motor", "canonicalComponents": ["dosing_pump"], "failureDomains": ["dispense_failure"] },
+        { "procedureId": "w8178558-interlock-switch", "canonicalComponents": ["supply", "door_lock"], "failureDomains": ["door_interlock_failure", "wiring_connection"], "mappingNote": "Seed uses supply componentId for NC ground interlock — overlay maps to door_lock + wiring_connection." }
+      ],
+      "gaps": [
+        {
+          "canonicalComponent": "hmi_control",
+          "confidence": "unknown",
+          "source": "not-established",
+          "note": "No dedicated HMI TEST in W8178558 seeds."
+        },
+        {
+          "canonicalComponent": "recirc_pump",
+          "confidence": "not_applicable",
+          "source": "platform",
+          "note": "Duet Sport platform does not use recirc pump."
+        },
+        {
+          "canonicalComponent": "drum_bearing",
+          "confidence": "unknown",
+          "source": "not-established"
+        },
+        {
+          "canonicalComponent": "suspension",
+          "confidence": "unknown",
+          "source": "not-established"
+        }
+      ]
+    },
+    {
+      "platformId": "samsung_fl_washer_wf6000r",
+      "manualId": "SAMSUNG-FL-WF6000R-WASHER",
+      "smokeModel": "WF45T6000",
+      "label": "Samsung FL washer WF6000R (WF45T/WF45R/WF22R)",
+      "componentAliases": {
+        "main_control": "control_board",
+        "inverter": "motor_controller"
+      },
+      "implementationNotes": [
+        "Direct-drive with separate inverter board — motor_controller required.",
+        "MEMS sensor on main PCB for tilt/vibration — maps to control_board domain.",
+        "Unbalance codes (UV/UB) should involve suspension — seed currently tags drive_motor only."
+      ],
+      "procedures": [
+        { "procedureId": "samsungwf6000r-power-supply", "canonicalComponents": ["supply", "control_board"], "failureDomains": ["power_failure", "control_failure"], "seedComponentIds": ["supply", "main_control"] },
+        { "procedureId": "samsungwf6000r-hmi-switch", "canonicalComponents": ["control_board", "hmi_control"], "failureDomains": ["user_interface_failure"], "seedComponentIds": ["main_control"], "mappingNote": "Seed tags main_control; symptom is switch error BC2 — may also implicate hmi_control." },
+        { "procedureId": "samsungwf6000r-motor-circuit", "canonicalComponents": ["drive_motor", "motor_controller"], "failureDomains": ["drive_failure"], "seedComponentIds": ["drive_motor"] },
+        { "procedureId": "samsungwf6000r-door-lock", "canonicalComponents": ["door_lock"], "failureDomains": ["door_interlock_failure"] },
+        { "procedureId": "samsungwf6000r-inlet-valves", "canonicalComponents": ["inlet_valve"], "failureDomains": ["fill_failure"] },
+        { "procedureId": "samsungwf6000r-water-level-sensor", "canonicalComponents": ["water_level_sensor"], "failureDomains": ["water_level_failure"] },
+        { "procedureId": "samsungwf6000r-drain-pump", "canonicalComponents": ["drain_pump"], "failureDomains": ["drain_failure", "leak"] },
+        { "procedureId": "samsungwf6000r-wash-heater", "canonicalComponents": ["wash_heater", "wash_ntc"], "failureDomains": ["heating_failure"], "seedComponentIds": ["wash_heater", "wash_ntc"] },
+        { "procedureId": "samsungwf6000r-wash-thermistor", "canonicalComponents": ["wash_ntc"], "failureDomains": ["heating_failure"] },
+        { "procedureId": "samsungwf6000r-overflow", "canonicalComponents": ["water_level_sensor", "inlet_valve"], "failureDomains": ["water_level_failure", "fill_failure"], "seedComponentIds": ["water_level_sensor"] },
+        { "procedureId": "samsungwf6000r-communication", "canonicalComponents": ["control_board", "motor_controller"], "failureDomains": ["communication_failure"], "seedComponentIds": ["main_control", "inverter"] },
+        { "procedureId": "samsungwf6000r-mems-sensor", "canonicalComponents": ["control_board"], "failureDomains": ["control_failure", "mechanical_failure"], "seedComponentIds": ["main_control"], "mappingNote": "MEMS on main PCB — vibration/tilt path; related to suspension domain." },
+        { "procedureId": "samsungwf6000r-unbalance", "canonicalComponents": ["drive_motor", "suspension"], "failureDomains": ["mechanical_failure", "drive_failure"], "seedComponentIds": ["drive_motor"], "mappingNote": "Canonical overlay adds suspension; seed should be updated in Phase 2." }
+      ],
+      "gaps": [
+        {
+          "canonicalComponent": "recirc_pump",
+          "confidence": "not_applicable",
+          "source": "platform"
+        },
+        {
+          "canonicalComponent": "dosing_pump",
+          "confidence": "unknown",
+          "source": "not-established",
+          "note": "No dispenser procedure in WF6000R seeds."
+        },
+        {
+          "canonicalComponent": "drum_bearing",
+          "confidence": "unknown",
+          "source": "not-established"
+        }
+      ]
+    }
+  ]
+}

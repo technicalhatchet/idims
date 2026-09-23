@@ -1,0 +1,737 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_p08_flexwash_w2_fit_observation",
+  "workstream": "CG-P08-FLEXWASH-W2-FIT",
+  "status": "w2_fit_complete",
+  "generatedAt": "2026-09-17T23:30:00+00:00",
+  "gateStatus": {
+    "w2FitExecuted": true,
+    "freezeAuthorized": false,
+    "pilotClosure": "HOLD",
+    "p08ArchitectureException": "VALID — STOP preserved",
+    "canonicalMutation": false,
+    "overlayPublication": false
+  },
+  "referenceArtifacts": [
+    "CG_P08_FLEXWASH_FIT_TEST_v1.json",
+    "CG_P08_FLEXWASH_INTEGRATION_DISCOVERY_v1.json",
+    "CG_P08_FLEXWASH_ARCHITECTURE_DECISION_PACKAGE_v1.json",
+    "CG_P08_FLEXWASH_CORROBORATION_OR_W2_FIT_v1.json",
+    "backend/docs/manuals/samsungflexwv60.pdf",
+    "backend/docs/manuals/samsungflexwv60-extracted.txt"
+  ],
+  "witnessIdentity": {
+    "id": "W2",
+    "manufacturer": "Samsung",
+    "productFamily": "FlexWash / Dual Loading Washer",
+    "models": ["WV60M9900AV/A5", "WV60A9900AV/A5"],
+    "basicModelReference": "WF50K7500AV/A2 (WF7500K)",
+    "manualSource": "backend/docs/manuals/samsungflexwv60.pdf",
+    "extractedText": "backend/docs/manuals/samsungflexwv60-extracted.txt",
+    "extractedPages": 44,
+    "extractedChars": 57220,
+    "extractionMethod": "python backend/docs/manuals/extract_pdf.py",
+    "w1NotConsultedDuringManualRead": false,
+    "w1UsedOnlyForComparisonAfterW2Read": true,
+    "procedureSeedCount": 0,
+    "note": "W2 analyzed from service manual fault tables, checkpoints, disassembly, and corrective actions — no W2 procedure seeds exist in corpus"
+  },
+  "comparabilityAssessment": {
+    "verdict": "COMPARABLE",
+    "integratedDualCompartment": true,
+    "notStackedSeparateMachines": true,
+    "notLgTwinWash": true,
+    "notAio": true,
+    "evidence": [
+      "Manual title: DUAL LOADING WASHER (§cover)",
+      "Type specification: Dual loading washer with single cabinet (§2-2 p.6)",
+      "Capacity: 1.0 cu.ft upper + 5.0 cu.ft lower in one unit (§2-3 p.7)",
+      "Separate upper/lower spin, energy, and water consumption specs (§2-2 p.6)",
+      "Dual-column fault table (Upper washer / Lower washer) throughout §4-1 and §4-4",
+      "Separate disassembly paths for upper vs lower water level sensor, basket/tub, motors (§3 pp.13–28)"
+    ],
+    "architecturalWitnessClass": "Samsung integrated dual-compartment FlexWash-family implementation — independent of W1 generation but functionally comparable for corroboration gate"
+  },
+  "fitSummary": {
+    "fitResult": "partially_fits_same_reduced_model",
+    "verdict": "WV60 corroborates the two-instance FL composition and appliance-level SF supervision. WV60 does not document an AC7-class inter-instance communication failure mode. Reduced model survives W2 without requiring a third functional domain, but inter_instance_control_communication remains W1-documented only.",
+    "manualFunctionCounts": {
+      "FITS_EXISTING_INSTANCE": 4,
+      "FITS_MULTI_INSTANCE": 13,
+      "FITS_INTEGRATION_DOMAIN": 1,
+      "DOES_NOT_FIT": 1,
+      "INSUFFICIENT_EVIDENCE": 1
+    },
+    "w1IntegrationProcedureCount": 2,
+    "w2IntegrationProcedureCount": 1,
+    "verifiedW2Coverage": "18/20 manual error families fit without distortion under tested model",
+    "unexplainedBehaviors": 0,
+    "distortionRequired": false,
+    "integrationDomainAbsorptionRisk": "low"
+  },
+  "procedureFitMatrix": [
+    {
+      "functionId": "wv60-water-level-sensor",
+      "title": "§4-1/4-4: Water level sensor (1C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.water_level_sensor + FL_UPPER.water_level_sensor",
+      "relationship": "reports_level_through",
+      "sourcePages": [31, 36],
+      "evidence": "1C in both fault-table columns; separate upper/lower disassembly §3 pp.13–14",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-lower-motor-3c",
+      "title": "§4-4: Lower washing motor / hall sensor (3C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.drive_motor",
+      "relationship": "mechanically_drives + hall sensing",
+      "sourcePages": [38],
+      "evidence": "Lower column 3C; DD motor 10.2–12.4 Ω spec matches W1 lower pattern",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-upper-motor-3c",
+      "title": "§4-4: Upper washing motor (3C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "upper",
+      "canonicalTarget": "FL_UPPER.drive_motor",
+      "relationship": "mechanically_drives",
+      "sourcePages": [37, 39],
+      "evidence": "Upper column 3C; motor 7.6–8.4 Ω spec matches W1 upper pattern",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-inlet-valves",
+      "title": "§4-1/4-4: Water supply (4C, 4C2)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.inlet_valve + FL_UPPER.inlet_valve",
+      "relationship": "supplies",
+      "sourcePages": [31, 39],
+      "evidence": "4C both columns; 4C2 upper-column asymmetric (14C2/4C2 wool/lingerie warm-water guard)",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-drain-pump",
+      "title": "§4-1/4-4: Drain pump (5C)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.drain_pump + FL_UPPER.drain_pump",
+      "relationship": "drains",
+      "sourcePages": [32, 40],
+      "evidence": "Upper drain 13–16.5 Ω; lower drain 13–16.5 Ω plus Bubble 40–50 Ω — lower-specific bubble path, not integration",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-power-supply",
+      "title": "§4-1: Power error (9C1, 9C2)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.supply",
+      "relationship": "supplies (unit-level)",
+      "sourcePages": [32],
+      "evidence": "9C1/9C2 both columns — single appliance supply",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-panel-communication",
+      "title": "§4-1/4-4: Sub/main PBA communication (AC)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control ↔ control_board",
+      "relationship": "communicates_with",
+      "sourcePages": [32, 40],
+      "evidence": "AC: signals between sub and main PBAs on control panel — intra-panel, not inter-instance",
+      "distortionRisk": "low",
+      "confidence": "high",
+      "notIntegrationDomain": true
+    },
+    {
+      "functionId": "wv60-wifi-communication",
+      "title": "§4-1: WiFi module communication (AC4)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control adjunct (platform overlay)",
+      "relationship": "communicates_with control_board",
+      "sourcePages": [32],
+      "evidence": "AC4 WiFi module ↔ main PBA — connectivity adjunct",
+      "distortionRisk": "low",
+      "confidence": "high",
+      "notIntegrationDomain": true
+    },
+    {
+      "functionId": "wv60-inverter-communication",
+      "title": "§4-1: Inverter PBA communication (AC6)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.motor_controller",
+      "relationship": "communicates_with FL_LOWER.control_board",
+      "sourcePages": [32],
+      "evidence": "AC6 lower-column only: inverter PBA ↔ main PBA",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-interload-communication",
+      "title": "§4-1: Upper↔lower PBA communication (AC7 equivalent)",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "compartment": "cross-instance",
+      "canonicalTarget": "CANDIDATE.inter_instance_control_communication",
+      "relationship": "would_communicate_between_instances",
+      "sourcePages": [],
+      "evidence": "No AC7 or upper↔lower main-PBA communication fault code in WV60 §4-1 (AC6 proceeds directly to BC2). Full-text search of extracted manual found no equivalent inter-load diagnostic.",
+      "distortionRisk": "high if inferred without manual evidence",
+      "confidence": "high_that_absent_from_manual",
+      "note": "Absence is negative evidence for W2 corroboration of AC7-class responsibility — not proof that no physical link exists"
+    },
+    {
+      "functionId": "wv60-hmi-check",
+      "title": "§4-1/4-4: Control panel switch (BC2)",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control",
+      "relationship": "communicates_with control_board",
+      "sourcePages": [33, 38],
+      "evidence": "BC2 shared panel / sub PBA mounting",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-lower-door",
+      "title": "§4-1/4-4: Lower door lock (DC, DC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "lower",
+      "canonicalTarget": "FL_LOWER.door_lock",
+      "relationship": "enables (lower cycle authorization)",
+      "sourcePages": [33, 40, 41],
+      "evidence": "DC/DC1 lower-column; TYPE 1 reed/motor resistance procedure",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-upper-door",
+      "title": "§4-1/4-4: Upper door (DC4 inner door)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "upper",
+      "canonicalTarget": "FL_UPPER.door_lock",
+      "relationship": "enables (upper cycle authorization)",
+      "sourcePages": [33, 41],
+      "evidence": "DC4 upper-only: upper washer inner door open; tact switch resistance check",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-wash-heater",
+      "title": "§4-1/4-4: Wash heater (HC, HC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER.wash_heater + FL_UPPER.wash_heater",
+      "relationship": "depends_on wash_ntc per instance",
+      "sourcePages": [33, 42],
+      "evidence": "HC lower column, HC1 upper column in §4-1; separate resistance procedures",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-wash-thermistor",
+      "title": "§4-1/4-4: Wash temperature sensor (TC1)",
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "compartment": "ambiguous",
+      "canonicalTarget": "FL_*.wash_ntc",
+      "relationship": "senses",
+      "sourcePages": [35, 43],
+      "evidence": "TC1 appears in both fault-table columns without column-asymmetric attribution; corrective action does not split upper vs lower",
+      "distortionRisk": "medium if assigned to wrong instance",
+      "confidence": "medium",
+      "note": "Same evidence gap as W1 — does not challenge integration model"
+    },
+    {
+      "functionId": "wv60-inverter-thermal",
+      "title": "§4-1/4-4: Inverter over-temperature (TC4)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_UPPER.control_board + FL_LOWER.motor_controller",
+      "relationship": "thermal protection per compartment control path",
+      "sourcePages": [35, 43],
+      "evidence": "TC4 corrective: upper washer replace MAIN PBA; lower washer replace PBA inverter — compartment-specific control domains",
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-overflow",
+      "title": "§4-1/4-4: Overflow (OC)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_*.water_level_sensor + FL_*.inlet_valve",
+      "relationship": "senses + supplies per instance",
+      "sourcePages": [35, 43],
+      "evidence": "OC both columns; per-tub overflow logic",
+      "distortionRisk": "low",
+      "confidence": "medium-high"
+    },
+    {
+      "functionId": "wv60-leak-check",
+      "title": "§4-1/4-4: Water leakage (LC, LC1)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_LOWER drain/tub paths (LC) + FL_UPPER detergent/exterior paths (LC1)",
+      "relationship": "hydraulically_connects_to",
+      "sourcePages": [33, 42],
+      "evidence": "LC1 upper-column detergent overflow/exterior cleaning; LC lower tub/hose paths",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-unbalance",
+      "title": "§4-1/4-4: Unbalance (UB)",
+      "classification": "FITS_MULTI_INSTANCE",
+      "compartment": "both",
+      "canonicalTarget": "FL_*.drive_motor",
+      "relationship": "mechanically_drives (load per drum)",
+      "sourcePages": [35, 43],
+      "evidence": "UB both columns; consumer reposition guidance per compartment",
+      "distortionRisk": "low",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-system-fault",
+      "title": "§4-1: System fault (SF)",
+      "classification": "FITS_INTEGRATION_DOMAIN",
+      "compartment": "system",
+      "canonicalTarget": "CANDIDATE.system_supervision",
+      "relationship": "appliance-level microcontroller operation failure",
+      "sourcePages": [35],
+      "evidence": "System Error; Micro Controller Operation Fail; SF in both columns; replace Assy PCB",
+      "distortionRisk": "medium-high if mapped only to FL_LOWER.control_board",
+      "confidence": "high"
+    },
+    {
+      "functionId": "wv60-mems-sensor",
+      "title": "§4-1: MEMS sensor (8C, 8C1, 8C2)",
+      "classification": "DOES_NOT_FIT",
+      "compartment": "both",
+      "canonicalTarget": null,
+      "relationship": null,
+      "sourcePages": [35],
+      "evidence": "MEMS PBA not in frozen front_load_washer components; 8C family dual-column",
+      "distortionRisk": "high if forced into control_board",
+      "confidence": "high",
+      "resolution": "platform_implementation_overlay — same gap as W1",
+      "doesNotRejectIntegrationModel": true
+    },
+    {
+      "functionId": "wv60-smart-install",
+      "title": "§4-3: Smart Install / diagnostic entry",
+      "classification": "FITS_EXISTING_INSTANCE",
+      "compartment": "shared",
+      "canonicalTarget": "SHARED.hmi_control (service-mode bundle scope)",
+      "relationship": "diagnostic_entry_for composed unit",
+      "sourcePages": [37],
+      "evidence": "Single Smart Install sequence tests door, valves, pump, heater, spin per appliance — shared HMI entry, not inter-instance orchestration",
+      "distortionRisk": "low",
+      "confidence": "medium-high",
+      "notIntegrationDomain": true
+    }
+  ],
+  "instanceFit": {
+    "FL_LOWER": {
+      "verdict": "fits",
+      "evidence": [
+        "Lower 3C DD motor 10.2–12.4 Ω (§4-4 p.38)",
+        "Lower AC6 inverter ↔ main PBA comm (§4-1 p.32)",
+        "Lower DC/DC1 door lock (§4-4 pp.40–41)",
+        "Lower drain + Bubble pump 5C (§4-4 p.40)",
+        "Lower TC4 → replace PBA inverter (§4-4 p.43)",
+        "Separate lower water level sensor disassembly (§3 p.14)"
+      ],
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    "FL_UPPER": {
+      "verdict": "fits",
+      "evidence": [
+        "Upper 3C motor 7.6–8.4 Ω (§4-4 p.39)",
+        "Upper DC4 inner door (§4-4 p.41)",
+        "Upper HC1 heater column (§4-1 p.33)",
+        "Upper TC4 → replace MAIN PBA (§4-4 p.43)",
+        "Separate upper basket/tub and water level sensor disassembly (§3 pp.13, 20)",
+        "800 rpm spin vs lower 1300 rpm (§2-2 p.6)"
+      ],
+      "distortionRisk": "none with instanceId + flex_compartment metadata",
+      "confidence": "high"
+    },
+    "SHARED": {
+      "verdict": "fits",
+      "functions": ["supply (9C)", "hmi_control (BC2, Smart Install)", "panel_sub_main_comm (AC)", "wifi_adjunct (AC4)"],
+      "distortionRisk": "none",
+      "confidence": "high"
+    },
+    "ordinaryWashFunctionsEscapingInstanceScope": false
+  },
+  "integrationFit": {
+    "verdict": "fits_minimal_domain_with_w1_only_inter_instance_evidence",
+    "w2ProceduresRequiringIntegration": 1,
+    "w1ProceduresRequiringIntegration": 2,
+    "proceduresIncorrectlyAssignedToIntegration": 0,
+    "note": "WV60 documents SF as integration-domain behavior but does not document AC7-class inter-instance communication failure — integration domain count drops from 2 (W1) to 1 (W2) in fault taxonomy"
+  },
+  "ac7Fit": {
+    "responsibility": "inter_instance_control_communication",
+    "w1Verdict": "required",
+    "w2Verdict": "not_documented",
+    "w2EquivalentFound": false,
+    "w2SearchPerformed": {
+      "ac7Literal": false,
+      "upperLowerPbaCommunication": false,
+      "cn803Harness": false,
+      "fullExtractGrep": "AC6 → BC2 with no AC7 between; no 'upper washer and lower washer' PBA communication language"
+    },
+    "w1Evidence": "AC7: signals between main PBA with Upper washer and main PBA with Lower washer not sensed (wv55m9600av-extracted.txt §4-1 p.32)",
+    "architecturalSignificance": "W2 silence weakens cross-implementation corroboration of inter_instance_control_communication as a documented functional class. Does not falsify two-instance composition. Physical inter-PBA link may exist undocumented — gate prohibits inferring without functional evidence.",
+    "enableInhibitW2": "No WV60 fault routing documents upper inhibit when inter-instance comm fails (W1 extraction had AC7 complaint routing — not repeated in WV60 manual)",
+    "confidence": "high_for_absence_in_manual"
+  },
+  "sfFit": {
+    "responsibility": "system_supervision",
+    "w1Verdict": "required_on_integration_domain",
+    "w2Verdict": "required_on_integration_domain",
+    "converges": true,
+    "characterization": "Appliance-level Micro Controller Operation Fail — System Error class",
+    "w2Evidence": "SF both columns; replace Assy PCB (§4-1 p.35)",
+    "w1Evidence": "SF both columns; replace Assy PCB (wv55 §4-1)",
+    "relationshipToControllers": "Spans composed subsystems — not compartment-local",
+    "confidence": "high"
+  },
+  "coordinationFit": {
+    "independentCompartmentOperation": {
+      "status": "proven",
+      "w2Evidence": [
+        "Dual-column fault table throughout §4",
+        "Separate motor/door/heater/drain procedures per compartment",
+        "Checkpoints: 'upper or lower washer displays an information code on the respective status bar' (§4-2 p.34)",
+        "Distinct upper vs lower disassembly and specs"
+      ],
+      "convergesWithW1": true
+    },
+    "limitedCrossCompartmentCoordination": {
+      "status": "proven_at_hmi_and_supervision_level",
+      "w2Evidence": [
+        "Shared Smart Install entry (§4-3)",
+        "SF appliance-level disable",
+        "Shared control panel and unit power"
+      ],
+      "w1AdditionalEvidenceNotInW2": ["AC7 inter-instance comm failure", "W1 extraction shared-drain complaint routing"],
+      "convergesWithW1": "partial"
+    },
+    "simultaneousActiveWashOrchestration": {
+      "status": "not_proven",
+      "marketingLanguageExcluded": {
+        "found": "§2-1 Flex Wash: 'wash separate loads at the same time, or independently'",
+        "treatedAsArchitecturalEvidence": false,
+        "reason": "Gate prohibits inferring simultaneous orchestration from product marketing"
+      },
+      "serviceManualEvidence": "none — no documented simultaneous cycle orchestration, load balancing across compartments, or cross-instance wash scheduling in §4 service content",
+      "convergesWithW1": true
+    }
+  },
+  "simultaneousOperationEvidence": {
+    "proven": false,
+    "marketingMentions": [
+      {
+        "source": "§2-1 Features p.7",
+        "text": "Two washers in lets you wash separate loads at the same time, or independently.",
+        "classification": "product_marketing — excluded from architectural evidence"
+      }
+    ],
+    "serviceManualEvidence": [],
+    "verdict": "NOT_PROVEN — same evidentiary state as W1"
+  },
+  "faultAttributionFit": {
+    "verdict": "instanceId_plus_flex_compartment_sufficient",
+    "w2Evidence": [
+      "Dual-column fault table with upper/lower checkmarks per code",
+      "Asymmetric codes: DC4 upper-only, AC6/TC4 lower-inverter vs upper-main-PBA, LC1 upper detergent path",
+      "No third fault domain beyond instance + system (SF) identified"
+    ],
+    "systemLevelFaultsEscapingInstanceScope": ["SF"],
+    "tc1AttributionGap": "persists — TC1 dual-column without compartment split in corrective action",
+    "convergesWithW1": true
+  },
+  "sharedFunctionAnalysis": {
+    "power": {
+      "classification": "SHARED.supply",
+      "integrationDomain": false,
+      "evidence": "9C1/9C2 unit-level; single power plug safety instructions"
+    },
+    "hmi": {
+      "classification": "SHARED.hmi_control",
+      "integrationDomain": false,
+      "evidence": "Single control panel; BC2; Smart Install unified entry"
+    },
+    "wifi": {
+      "classification": "SHARED platform overlay (AC4)",
+      "integrationDomain": false
+    },
+    "commonDrainInfrastructure": {
+      "classification": "unclear — not documented as shared-drain failure mode",
+      "integrationDomain": false,
+      "note": "W1 had explicit shared-drain complaint routing; WV60 5C is per-compartment in fault table without 'either compartment' language"
+    },
+    "commonSupervisoryCircuitry": {
+      "classification": "CANDIDATE.system_supervision (SF)",
+      "integrationDomain": true
+    },
+    "mems": {
+      "classification": "platform overlay — not integration",
+      "integrationDomain": false
+    }
+  },
+  "w1W2Comparison": [
+    {
+      "functionBehavior": "Two FL instances (upper + lower)",
+      "w1Wv55": "PROVEN — 21 procedures, dual-column manual",
+      "w2Wv60": "PROVEN — dual-column manual, separate specs/disassembly",
+      "converges": true,
+      "architecturalSignificance": "Core composition hypothesis corroborated"
+    },
+    {
+      "functionBehavior": "AC7 / inter-instance PBA communication",
+      "w1Wv55": "DOCUMENTED — AC7 fault between upper and lower main PBAs",
+      "w2Wv60": "NOT DOCUMENTED — no AC7 or equivalent in §4-1",
+      "converges": false,
+      "architecturalSignificance": "inter_instance_control_communication not corroborated as recurring documented functional class"
+    },
+    {
+      "functionBehavior": "SF / system supervision",
+      "w1Wv55": "DOCUMENTED — System Error, both columns",
+      "w2Wv60": "DOCUMENTED — System Error, both columns",
+      "converges": true,
+      "architecturalSignificance": "system_supervision corroborated across Samsung FlexWash generations"
+    },
+    {
+      "functionBehavior": "Enable / inhibit via comm failure",
+      "w1Wv55": "INFERRED from AC7 complaint routing (extraction)",
+      "w2Wv60": "NOT DOCUMENTED",
+      "converges": false,
+      "architecturalSignificance": "enable/inhibit facet remains reducible but W2-silent"
+    },
+    {
+      "functionBehavior": "Independent compartment operation",
+      "w1Wv55": "PROVEN",
+      "w2Wv60": "PROVEN",
+      "converges": true,
+      "architecturalSignificance": "Must survive freeze"
+    },
+    {
+      "functionBehavior": "Limited coordination",
+      "w1Wv55": "PROVEN (AC7, SF, shared HMI)",
+      "w2Wv60": "PARTIAL (SF, shared HMI — no AC7)",
+      "converges": "partial",
+      "architecturalSignificance": "Coordination surface narrower in W2 documentation"
+    },
+    {
+      "functionBehavior": "Simultaneous active wash",
+      "w1Wv55": "NOT PROVEN",
+      "w2Wv60": "NOT PROVEN (marketing excluded)",
+      "converges": true,
+      "architecturalSignificance": "Must not be inferred at freeze"
+    },
+    {
+      "functionBehavior": "Shared HMI / power",
+      "w1Wv55": "PROVEN",
+      "w2Wv60": "PROVEN",
+      "converges": true,
+      "architecturalSignificance": "SHARED layer — not integration domain"
+    },
+    {
+      "functionBehavior": "MEMS 8C family",
+      "w1Wv55": "DOES_NOT_FIT — platform overlay",
+      "w2Wv60": "DOES_NOT_FIT — platform overlay",
+      "converges": true,
+      "architecturalSignificance": "Not integration expansion"
+    },
+    {
+      "functionBehavior": "Fault attribution",
+      "w1Wv55": "instanceId + flex_compartment (TC1 gap)",
+      "w2Wv60": "instanceId + flex_compartment (TC1 gap)",
+      "converges": true,
+      "architecturalSignificance": "No third fault domain required"
+    },
+    {
+      "functionBehavior": "Motor specs per compartment",
+      "w1Wv55": "Lower DD 10.2–12.4 Ω; upper 7.6–8.4 Ω",
+      "w2Wv60": "Lower DD 10.2–12.4 Ω; upper 7.6–8.4 Ω",
+      "converges": true,
+      "architecturalSignificance": "Independent instance composition — same functional pattern, same Ω bands"
+    }
+  ],
+  "convergenceAnalysis": {
+    "summary": "W1+W2 converge on two independently diagnosable front_load_washer instances, shared supply/HMI, and appliance-level SF supervision. W1+W2 do not converge on documented inter-instance communication (AC7) as a recurring functional diagnostic class.",
+    "corroboratedElements": [
+      "front_load_washer[LOWER] + front_load_washer[UPPER] composition",
+      "system_supervision (SF)",
+      "independent compartment operation",
+      "shared HMI/power layer",
+      "MEMS as platform overlay not integration",
+      "simultaneous wash NOT PROVEN in either witness"
+    ],
+    "divergentElements": [
+      "AC7 / inter_instance_control_communication documented in W1 only",
+      "W1 shared-drain complaint routing not evidenced in W2 manual"
+    ],
+    "thirdFunctionalDomainRequired": false
+  },
+  "falsificationTests": [
+    {
+      "id": "FALSIFY-THIRD-DOMAIN",
+      "description": "WV60 requires a third functional domain beyond 2×FL + minimal integration",
+      "result": "NOT_TRIGGERED",
+      "evidence": "All WV60 error families map to instance, shared, or SF integration without distortion"
+    },
+    {
+      "id": "FALSIFY-SHARED-SUBSYSTEM",
+      "description": "WV60 shared subsystem cannot be represented by FL instances or minimal integration",
+      "result": "NOT_TRIGGERED",
+      "evidence": "AC/AC4/BC2/Smart Install fit SHARED; SF fits integration domain"
+    },
+    {
+      "id": "FALSIFY-RICHER-COORDINATION",
+      "description": "WV60 coordination substantially richer than enable/inhibit",
+      "result": "NOT_TRIGGERED",
+      "evidence": "No documented orchestration beyond shared HMI entry and SF disable"
+    },
+    {
+      "id": "FALSIFY-SIMULTANEOUS-ORCHESTRATION",
+      "description": "WV60 demonstrates simultaneous wash orchestration requiring richer abstraction",
+      "result": "NOT_TRIGGERED",
+      "evidence": "Marketing language excluded; no service-manual orchestration evidence"
+    },
+    {
+      "id": "FALSIFY-AC7-SF-ARTIFACTS",
+      "description": "AC7 and SF are Samsung artifacts not reusable architecture",
+      "result": "PARTIALLY_TRIGGERED",
+      "evidence": "SF recurs in W2 — not artifact. AC7 does not recur — may be W1-generation diagnostic surfacing or undocumented in W2",
+      "architecturalImpact": "Narrows inter_instance_control_communication to W1-only documented evidence"
+    },
+    {
+      "id": "FALSIFY-NOT-INDEPENDENT-FL",
+      "description": "WV60 compartments are not independently composed FL systems",
+      "result": "NOT_TRIGGERED",
+      "evidence": "Separate motors, doors, heaters, drains, disassembly, fault columns per compartment"
+    }
+  ],
+  "minimalityTest": {
+    "retestedAgainst": "W1 + W2",
+    "responsibilityAssessment": {
+      "inter_instance_control_communication": {
+        "w1": "required",
+        "w2": "not_documented",
+        "combinedVerdict": "required_but_single_witness_documented",
+        "reducible": false,
+        "redundant": false,
+        "note": "W1 AC7 still requires integration-domain representation when W1 is in scope; W2 does not corroborate recurrence"
+      },
+      "system_supervision": {
+        "w1": "required",
+        "w2": "required",
+        "combinedVerdict": "required",
+        "reducible": false,
+        "redundant": false,
+        "note": "SF converges — strongest W2 corroboration"
+      },
+      "enable_inhibit_facet": {
+        "w1": "partially_required_reducible",
+        "w2": "not_documented",
+        "combinedVerdict": "reducible_facet_not_separate_node",
+        "reducible": true,
+        "redundant": false,
+        "note": "W2 silence further supports modeling as facet of integration comm health rather than orchestration node"
+      }
+    },
+    "minimalIntegrationContract": {
+      "unchangedFromW1Discovery": true,
+      "contract": [
+        "inter_instance_control_communication",
+        "system_supervision",
+        "enable_inhibit_facets"
+      ],
+      "humanReviewRequiredFor": [
+        "Whether W1-only AC7 evidence is sufficient to retain inter_instance_control_communication in freeze contract when W2 is silent"
+      ]
+    }
+  },
+  "newlyDiscoveredResponsibilities": [],
+  "evidenceGaps": [
+    {
+      "id": "GAP-W2-AC7",
+      "description": "No WV60-documented inter-instance communication failure mode",
+      "blocksCorroboration": true,
+      "blocksFreeze": false,
+      "resolution": "Human freeze decision — accept W1-only evidence or require additional witness/generation"
+    },
+    {
+      "id": "GAP-MEMS",
+      "description": "MEMS 8C family not in frozen front_load_washer",
+      "blocksCorroboration": false,
+      "blocksFreeze": false,
+      "resolution": "platform overlay — same as W1"
+    },
+    {
+      "id": "GAP-TC1",
+      "description": "TC1 compartment attribution ambiguous in both witnesses",
+      "blocksCorroboration": false,
+      "blocksFreeze": false,
+      "resolution": "instance overlay metadata"
+    },
+    {
+      "id": "GAP-SIMULTANEOUS",
+      "description": "Simultaneous active wash not proven in either witness",
+      "blocksCorroboration": false,
+      "blocksFreeze": true,
+      "resolution": "Must not infer at freeze — preserved distinction"
+    }
+  ],
+  "corroborationOutcome": "W2_PARTIALLY_CORROBORATES",
+  "corroborationRationale": "WV60 is a comparable integrated Samsung FlexWash witness. It independently corroborates the two-instance FL composition and SF system supervision that W1 identified. It does not corroborate AC7-class inter-instance communication as a documented functional behavior. The reduced model is not falsified, but inter_instance_control_communication lacks second-witness functional recurrence.",
+  "freezeReadiness": {
+    "verdict": "READY_FOR_HUMAN_FREEZE_DECISION",
+    "notReadyForAutomaticFreeze": true,
+    "rationale": "Two Samsung implementations converge on instance composition and SF without requiring a third domain. AC7/inter-instance comm remains W1-documented only. Human must decide whether that is sufficient for minimal contract freeze.",
+    "candidateRejected": false,
+    "requiresAdditionalWitness": false,
+    "requiresDiscoveryRevision": false
+  },
+  "humanDecisionRequired": true,
+  "humanDecisionQuestions": [
+    "Accept inter_instance_control_communication in minimal integration contract based on W1 AC7 evidence alone?",
+    "Treat AC7 absence in WV60 as undocumented (not absent) vs generation-specific removal?",
+    "Proceed to freeze review with simultaneous wash explicitly NOT PROVEN?",
+    "Register WV60 in platformRegistry as second FlexWash generation without canonical mutation?"
+  ],
+  "validation": {
+    "artifactSchemaSelfCheck": "OK — cg-p08-flexwash-w2-fit.test.ts 5/5",
+    "canonicalValidation": "OK — validate_canonical_graph.py frozen_hashes=10 verified",
+    "frozenHashesVerified": "OK — 10/10 unchanged",
+    "p08ArchitectureExceptionUnchanged": "OK — batchDisposition STOP preserved",
+    "p08Regression": "OK — W2 fit test suite",
+    "pilotRegression": "OK — cg-production-normalization-pilot.test.ts 11/11"
+  },
+  "forbiddenActionsConfirmed": {
+    "canonicalJsonMutated": false,
+    "frontLoadWasherMutated": false,
+    "architectureExceptionResolved": false,
+    "p08Closed": false,
+    "pilotClosed": false,
+    "overlayPublished": false,
+    "canonicalIdAssigned": false
+  }
+}

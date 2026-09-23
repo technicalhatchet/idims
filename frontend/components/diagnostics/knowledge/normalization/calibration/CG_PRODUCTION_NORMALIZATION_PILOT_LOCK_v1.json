@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_production_normalization_pilot_lock",
+  "status": "closed_successful",
+  "lockedAt": "2026-09-17T23:00:00+00:00",
+  "workstream": "CG-PRODUCTION-NORMALIZATION-PILOT",
+  "verdict": "CLOSED / PILOT_GATE_GREEN",
+  "closureStatement": "CG-PRODUCTION-NORMALIZATION-PILOT GATE closed GREEN. Pipeline proving gate satisfied: continue, overlay, BLOCK, and STOP behaviors demonstrated across 8-slot cohort without silent canonical promotion or frozen hash mutation. P08 architecture_exception STOP preserved; FlexWash integration boundary frozen separately. Production normalization batch remains NOT authorized until CG-PRODUCTION-NORMALIZATION-BATCH contract.",
+  "priorPhase": {
+    "artifact": "CG_PRODUCTION_INGESTION_GOVERNANCE_LOCK_v1.json",
+    "verdict": "CLOSED / PRODUCTION_INGESTION_GOVERNANCE_LOCKED"
+  },
+  "artifacts": {
+    "contract": "CG_PRODUCTION_NORMALIZATION_PILOT_CONTRACT_v1.json",
+    "cohort": "CG_PRODUCTION_NORMALIZATION_PILOT_COHORT_v1.json",
+    "results": "CG_PRODUCTION_NORMALIZATION_PILOT_RESULTS_v1.json",
+    "analysis": "CG_PRODUCTION_NORMALIZATION_PILOT_ANALYSIS_v1.json",
+    "closureAnalysis": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_ANALYSIS_v1.json",
+    "closure": "CG_PRODUCTION_NORMALIZATION_PILOT_CLOSURE_v1.json",
+    "freshRerun": "CG_PILOT_FRESH_8OF8_RERUN_REPORT_v1.json",
+    "orchestrator": "backend/scripts/run_pilot_batch.py",
+    "regressionSuite": "cg-production-normalization-pilot.test.ts"
+  },
+  "headlineMetrics": {
+    "cohortSize": 8,
+    "slotsExecuted": 8,
+    "slotsPrerequisiteBlocked": 0,
+    "pilotAuthorized": true,
+    "pilotGateClosed": true,
+    "pilotGateVerdict": "GREEN",
+    "normalizationBatchAuthorized": false,
+    "batchContractAuthorized": true,
+    "frozenCanonicalHashMutations": 0,
+    "architectureExceptionStops": 1,
+    "p05RoutingFixVerified": true,
+    "p08IntegrationBoundaryFrozen": true
+  },
+  "authorizedNextWorkstream": "CG-PRODUCTION-NORMALIZATION-BATCH",
+  "nextDisciplinedStep": "Authorize and define CG-PRODUCTION-NORMALIZATION-BATCH contract (70-manual cohort). Do not auto-start batch or FlexWash normalization from pilot closure."
+}

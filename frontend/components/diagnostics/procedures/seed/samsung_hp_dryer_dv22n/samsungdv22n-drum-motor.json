@@ -1,0 +1,66 @@
+{
+  "id": "samsungdv22n-drum-motor",
+  "version": "1.0.0",
+  "title": "\u00a74-1: BLDC drum motor (3C)",
+  "platformId": "samsung_hp_dryer_dv22n",
+  "componentIds": [
+    "drive"
+  ],
+  "tags": [
+    "3C",
+    "motor_check"
+  ],
+  "source": {
+    "manualId": "SAMSUNG-HP-DRYER-DV22N",
+    "manualTitle": "Samsung DV22N6850 Heat-Pump Dryer (DV6800N)",
+    "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+    "extractedTextFile": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+    "verifiedAt": "2026-09-17",
+    "verifiedBy": "pilot-prerequisite-ingestion",
+    "oemTestNumber": "4-1",
+    "oemTestTitle": "Drum inverter faults",
+    "pages": [
+      25,
+      26
+    ]
+  },
+  "entryStepId": "safety_power_off",
+  "steps": [
+    {
+      "id": "safety_power_off",
+      "order": 1,
+      "type": "safety",
+      "title": "Disconnect power",
+      "body": "Unplug the dryer or disconnect power before servicing unless a live test is required.",
+      "sourceExcerpt": "Execute service after unplugging the power supply unit.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_connector"
+    },
+    {
+      "id": "motor_connector",
+      "order": 2,
+      "type": "instruction",
+      "title": "Drum motor connector",
+      "body": "Verify drum motor connector and belt.",
+      "sourceExcerpt": "Verify drum motor connector and belt.",
+      "requiresInput": false,
+      "defaultNextStepId": "motor_ok"
+    },
+    {
+      "id": "replace_inverter",
+      "order": 3,
+      "type": "outcome",
+      "title": "Replace drum inverter PBA",
+      "oemOutcome": "Replace drum inverter when motor verified.",
+      "requiresInput": false
+    },
+    {
+      "id": "motor_ok",
+      "order": 4,
+      "type": "outcome",
+      "title": "Drum motor OK",
+      "oemOutcome": "Drum drive path verified.",
+      "requiresInput": false
+    }
+  ]
+}

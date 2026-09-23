@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "cg_heat_pump_dryer_fit_observation",
+  "workstream": "CG-HEAT-PUMP-DRYER-FIT-TEST",
+  "witnessId": "W1",
+  "status": "complete",
+  "generatedAt": "2026-09-17T14:52:00+00:00",
+  "contract": "CG_HEAT_PUMP_DRYER_FIT_TEST_CONTRACT_v1.json",
+  "manufacturer": "Samsung",
+  "model": "DV22N6850HX/A2",
+  "manualId": "SAMSUNG-HP-DRYER-DV22N",
+  "templateId": "electric_dryer",
+  "dryingArchitecture": "heat_pump_ventless_condenser",
+  "sourcePdf": "backend/docs/manuals/samsung heat pump dryer dv22n8650.pdf",
+  "extractedText": "backend/docs/manuals/samsung heat pump dryer dv22n8650-extracted.txt",
+  "functionalArchitectureSummary": {
+    "productClass": "Standalone front-load heat-pump clothes dryer (DV6800N project)",
+    "heatGeneration": "BLDC compressor inverter (3CA family) + refrigerant loop thermistors (tC/tC5/tC7/tC8/tCA); HC compressor overheat",
+    "moistureRemoval": "Condensation via cover condenser assembly; condensate overflow 5C / drain pump / water tank",
+    "airflow": "Sealed process airflow with case filter — not primary external exhaust vent terminal",
+    "thermalSensing": "Multiple refrigerant-circuit thermistors + drum motor inverter thermals",
+    "dryingControl": "Main PBA + drum inverter + compressor inverter; Smart Install diagnostics"
+  },
+  "classificationHistogram": {
+    "vented_dryer": 4,
+    "shared_function": 3,
+    "implementation_specific": 8,
+    "unresolved": 0
+  },
+  "diagnosticDomainClassifications": [
+    {
+      "domain": "door_authorization",
+      "oemCodes": ["dC"],
+      "classification": "vented_dryer",
+      "provenance": "§4-1 p.25 — door open while running",
+      "mapsTo": "vented_dryer.door_switch superficially"
+    },
+    {
+      "domain": "drum_drive",
+      "oemCodes": ["3C", "3C1–3C8"],
+      "classification": "shared_function",
+      "provenance": "§4-1 p.25 — BLDC drum motor inverter",
+      "mapsTo": "vented_dryer.drive — tumble present but HP-specific inverter fault family"
+    },
+    {
+      "domain": "lint_filter_restriction",
+      "oemCodes": ["tC"],
+      "classification": "shared_function",
+      "provenance": "§4-1 — clean case filter on tC",
+      "note": "Restriction concept overlaps lint_filter domain but not exhaust_path pairing"
+    },
+    {
+      "domain": "moisture_sensing",
+      "oemCodes": [],
+      "classification": "vented_dryer",
+      "provenance": "§4-3 symptom table — touch sensor check for drying",
+      "mapsTo": "vented_dryer.moisture_sensing at functional level"
+    },
+    {
+      "domain": "power_supply",
+      "oemCodes": ["9C1", "9C2", "9CA1", "9CA2"],
+      "classification": "shared_function",
+      "provenance": "§4-1 p.25 — drum and compressor inverter power faults"
+    },
+    {
+      "domain": "control_communication",
+      "oemCodes": ["AC", "AC4"],
+      "classification": "shared_function",
+      "provenance": "§4-1 p.25 — PBA communication"
+    },
+    {
+      "domain": "refrigerant_cycle_heat_transfer",
+      "oemCodes": ["3CA", "3CA1–3CA8", "HC"],
+      "classification": "implementation_specific",
+      "provenance": "§4-1 p.25–26 — compressor inverter faults; HC overheat; §4-3 check condenser",
+      "ventedDryerFit": "does_not_fit",
+      "reason": "vented_dryer heat_source is resistive/gas air-stream heating — not BLDC compressor refrigerant loop"
+    },
+    {
+      "domain": "refrigerant_thermal_sensing",
+      "oemCodes": ["tC", "tC5", "tC7", "tC8", "tCA", "tCB"],
+      "classification": "implementation_specific",
+      "provenance": "§4-1 p.26 — thermistor network on refrigerant circuit",
+      "ventedDryerFit": "does_not_fit",
+      "reason": "vented_dryer temperature_sensor senses exhaust_path air — different medium and control contract"
+    },
+    {
+      "domain": "condensation_moisture_rejection",
+      "oemCodes": ["5C"],
+      "classification": "implementation_specific",
+      "provenance": "§4-1 p.25 — overflow/drain pump/water tank; cover condenser §3 disassembly",
+      "ventedDryerFit": "does_not_fit",
+      "reason": "vented_dryer moisture terminal is exhaust_path — not condensate tank/pump"
+    },
+    {
+      "domain": "sealed_condenser_airflow_path",
+      "oemCodes": [],
+      "classification": "implementation_specific",
+      "provenance": "§4-3 p.29 — check condenser, blower impeller; §2 features 6800 Heat Pump",
+      "ventedDryerFit": "does_not_fit",
+      "reason": "heated_airflow_path requires lint_filter→blower→exhaust_path — HP uses sealed condenser loop"
+    },
+    {
+      "domain": "ui_hmi",
+      "oemCodes": ["bC2"],
+      "classification": "vented_dryer",
+      "provenance": "§4-1 — stuck button",
+      "mapsTo": "vented_dryer.user_interface"
+    }
+  ],
+  "fitAgainstVentedDryer": {
+    "superficialOverlaps": ["door_switch", "drive_tumble", "moisture_sensing_concept", "user_interface", "power"],
+    "functionalDivergences": [
+      "refrigerant_cycle_heat_transfer vs heat_source",
+      "condensation_moisture_rejection vs exhaust_path",
+      "sealed_condenser_path vs heated_airflow_path",
+      "compressor_thermal_protection vs element thermal_fuse/cutoff series"
+    ],
+    "verdict": "does_not_fit_without_mutation"
+  },
+  "aioReferenceOnly": {
+    "note": "Dry architecture parallels Samsung WD53 AIO heat-pump path — cited as downstream dependency only, not witness duplication"
+  }
+}

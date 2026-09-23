@@ -1,15 +1,22 @@
+import {
+  isExplicitProcedureFailureConfirm,
+  SOFT_CONFIRM_EVIDENCE_BOOST,
+} from '../intelligence/componentVerification';
 import type {
   ComponentEvidenceState,
   EvidenceConfig,
   EvidenceLedgerEntry,
   EvidenceRule,
 } from '../intelligence/evidenceTypes';
-import {
-  evaluateProcedureMeasurement,
-  matchProcedureBranch,
-} from './evaluateProcedureMeasurement';
+import { matchProcedureBranch } from './evaluateProcedureMeasurement';
+import { resolveProcedureStepMeasurementEvaluation } from './resolveProcedureStepMeasurementEvaluation';
+import { getPlatformRule } from '../knowledge/platformRegistry';
 import { getServiceProcedure } from './procedureRegistry';
 import { getProcedureStep } from './procedureRunner';
+import {
+  procedureComponentDisplayLabel,
+  resolveDiagnosticEffectForEvidence,
+} from './procedureComponentAliases';
 import type {
   AppliedDiagnosticEffectEntry,
   DiagnosticEffect,
@@ -50,14 +57,16 @@ export function applyProcedureDiagnosticEffects(
 }
 
 function resolveStepEffects(
+  runState: ProcedureRunState,
   step: ReturnType<typeof getProcedureStep>,
+  stepId: string,
   input?: { kind: string; value: string },
 ): { effects: DiagnosticEffect[]; branchId?: string } {
   if (!step) return { effects: [] };
 
   let matchedBranch = null;
   if (step.type === 'measurement' && input?.kind === 'measurement') {
-    const evaluation = evaluateProcedureMeasurement(step.measurementKnowledgeId, input.value);
+    const evaluation = resolveProcedureStepMeasurementEvaluation(runState, step, stepId);
     matchedBranch = matchProcedureBranch(step.branches, evaluation);
   } else if (step.branches?.length) {
     matchedBranch = matchProcedureBranch(step.branches, null, input?.value);
@@ -86,7 +95,7 @@ export function collectDiagnosticEffectsFromRun(
   for (const stepId of runState.completedStepIds) {
     const step = getProcedureStep(procedure, stepId);
     const input = runState.stepInputs[stepId];
-    const { effects, branchId } = resolveStepEffects(step, input);
+    const { effects, branchId } = resolveStepEffects(runState, step, stepId, input);
     if (!effects.length) continue;
     entries.push({
       stepId,
@@ -174,12 +183,20 @@ function applyDirectProcedureEffect(
   meta: {
     procedureId: string;
     procedureTitle: string;
+    platformId: string;
     stepId: string;
     branchId?: string;
+    seedComponentId: string;
+    runState: ProcedureRunState;
+    procedure: ReturnType<typeof getServiceProcedure>;
   },
 ): void {
   const component = config.components?.find((item) => item.id === effect.componentId);
-  const componentLabel = component?.label || effect.componentId;
+  const seedLabel = procedureComponentDisplayLabel(meta.seedComponentId);
+  const componentLabel =
+    meta.seedComponentId !== effect.componentId
+      ? seedLabel
+      : component?.label || seedLabel;
   let delta = 0;
   const current = componentScores.get(effect.componentId) ?? {
     evidence: 0,
@@ -188,9 +205,26 @@ function applyDirectProcedureEffect(
 
   let evidenceEffect: EvidenceLedgerEntry['effect'] = 'increase';
   if (effect.type === 'confirm') {
-    delta = 100 - current.evidence;
-    componentScores.set(effect.componentId, { evidence: 100, state: 'confirmed' });
-    evidenceEffect = 'confirm';
+    const explicitFailure = isExplicitProcedureFailureConfirm(effect, {
+      runState: meta.runState,
+      stepId: meta.stepId,
+      branchId: meta.branchId,
+      procedure: meta.procedure,
+    });
+    if (explicitFailure) {
+      delta = 100 - current.evidence;
+      componentScores.set(effect.componentId, { evidence: 100, state: 'confirmed' });
+      evidenceEffect = 'confirm';
+    } else {
+      const boost = Math.max(SOFT_CONFIRM_EVIDENCE_BOOST, SUSPECT_EVIDENCE_BOOST);
+      delta = boost;
+      componentScores.set(effect.componentId, {
+        ...current,
+        evidence: clampScore(Math.max(current.evidence, boost)),
+        state: 'unlikely',
+      });
+      evidenceEffect = 'increase';
+    }
   } else if (effect.type === 'eliminate') {
     const wasConfirmed = current.state === 'confirmed';
     delta = wasConfirmed ? -100 : -current.evidence;
@@ -213,9 +247,12 @@ function applyDirectProcedureEffect(
   const evidenceRule = effect.evidenceId
     ? config.rules.find((rule) => rule.id === effect.evidenceId)
     : null;
+  const confirmVerb = effect.type === 'confirm' && evidenceEffect !== 'confirm'
+    ? 'supported'
+    : effect.type;
   const explanation = evidenceRule
     ? `OEM procedure (${meta.procedureTitle}): ${evidenceRule.explanation}`
-    : `OEM procedure (${meta.procedureTitle}): ${effect.type} ${componentLabel}.`;
+    : `OEM procedure (${meta.procedureTitle}): ${confirmVerb} ${componentLabel}.`;
 
   ledger.push({
     ruleId: effect.evidenceId || `procedure:${meta.procedureId}:${meta.stepId}:${effect.type}:${effect.componentId}`,
@@ -232,7 +269,11 @@ function applyDirectProcedureEffect(
     },
   });
 
-  if (effect.type === 'confirm' && effect.evidenceId?.startsWith('confirm_')) {
+  if (
+    effect.type === 'confirm'
+    && evidenceEffect === 'confirm'
+    && effect.evidenceId?.startsWith('confirm_')
+  ) {
     const categoryRuleId = `cat_up_${effect.evidenceId.slice('confirm_'.length)}`;
     const categoryRule = config.rules.find((rule) => rule.id === categoryRuleId);
     if (categoryRule) {
@@ -264,13 +305,25 @@ export function applyProcedureRunsToIntelligence(
     if (!procedure) continue;
 
     const entries = collectDiagnosticEffectsFromRun(procedureId, runState);
+    const aliasContext = {
+      platformId: procedure.platformId,
+      templateId: getPlatformRule(procedure.platformId)?.templateId,
+      procedureId,
+    };
+
     for (const entry of entries) {
       for (const effect of entry.effects) {
-        applyDirectProcedureEffect(effect, config, categoryScores, componentScores, ledger, {
+        const seedComponentId = effect.componentId;
+        const resolvedEffect = resolveDiagnosticEffectForEvidence(effect, aliasContext);
+        applyDirectProcedureEffect(resolvedEffect, config, categoryScores, componentScores, ledger, {
           procedureId,
           procedureTitle: procedure.title,
+          platformId: procedure.platformId,
           stepId: entry.stepId,
           branchId: entry.branchId,
+          seedComponentId,
+          runState,
+          procedure,
         });
         appliedCount += 1;
       }
