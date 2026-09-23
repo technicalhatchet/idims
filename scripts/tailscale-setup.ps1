@@ -33,8 +33,9 @@ function Set-EnvLine {
         $lines = Get-Content $Path
     }
     $found = $false
+    $escapedKey = [regex]::Escape($Key)
     $out = foreach ($line in $lines) {
-        if ($line -match "^$Key=") {
+        if ($line -match "^\s*$escapedKey\s*=") {
             $found = $true
             "$Key=$Value"
         } else {
@@ -47,7 +48,9 @@ function Set-EnvLine {
     Set-Content -Path $Path -Value $out -Encoding utf8
 }
 
+# Auth0 redirect_uri must match the URL the phone uses (Tailscale IP + IDIMS port 3001).
 Set-EnvLine $frontendEnv "AUTH0_BASE_URL" $webOrigin
+Set-EnvLine $frontendEnv "NEXT_PUBLIC_BASE_URL" $webOrigin
 # Keep API on localhost — Next.js /api/proxy forwards when the phone origin differs.
 $apiUrl = "http://localhost:$ApiPort"
 Set-EnvLine $frontendEnv "NEXT_PUBLIC_API_URL" "$apiUrl/"
@@ -65,6 +68,8 @@ Write-Host "Auth0: add these in your Auth0 app settings if login fails from phon
 Write-Host "  Allowed Callback URLs:     $webOrigin/api/auth/callback"
 Write-Host "  Allowed Logout URLs:       $webOrigin"
 Write-Host "  Allowed Web Origins:       $webOrigin"
+Write-Host ""
+Write-Host "Restart Next after this script (env is read at dev server start)."
 Write-Host ""
 Write-Host "Start servers:"
 Write-Host "  Backend:  .\scripts\dev-api.ps1"
