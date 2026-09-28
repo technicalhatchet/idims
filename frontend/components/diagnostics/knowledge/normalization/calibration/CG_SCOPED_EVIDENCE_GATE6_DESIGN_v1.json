@@ -1,0 +1,337 @@
+{
+  "schemaVersion": "1.0.0",
+  "gate": 6,
+  "method": "gate6_read_only_design_v1",
+  "provenWitnessesUnchanged": [
+    "w8178558-drain-pump",
+    "w8178558-wash-heater",
+    "w8178558-wash-ntc"
+  ],
+  "designPrinciplesPreserved": [
+    "Canonical graph remains functional, not physical wiring topology",
+    "No canonical harness nodes",
+    "component_verified is not path_verified",
+    "path_open requires explicit test configuration (measurementContext + frozen snapshot)",
+    "Legacy unscoped evidence keeps existing behavior",
+    "Path faults remain separate from component confirmation",
+    "True component tests must not become path faults",
+    "OEM narrative remains secondary to structured evidence",
+    "Do not infer topology from terminology alone"
+  ],
+  "dimensionAnalysis": {
+    "A_multipleLoadsInstances": {
+      "finding": "REQUIRED loadInstanceKey (procedure-local) separate from canonical componentId.",
+      "examples": {
+        "w8178558-inlet-valves": "cold_coil VCH7 1&3 and hot_coil VCH7 5&7 share inlet_valve",
+        "w10864849-test-07-drain-recirc-pump": "drain_winding vs recirc_winding on J4; fix mis-tagged effects"
+      },
+      "ontologyRule": "Never mint canonical cold_coil; key lives on evidence only."
+    },
+    "B_multiplePathReferences": {
+      "finding": "REQUIRED \u2014 extend policy for pathRefs[] already in Gate 4 type; one conclusion per loadInstanceKey.",
+      "gate4Status": "pathRefs array exists; compound policy incomplete."
+    },
+    "C_acuFirstControlFirst": {
+      "finding": "REQUIRED evidenceSetDerivation \u2014 order-independent pairing within run.",
+      "examples": {
+        "w10864849-test-07-drain-recirc-pump": "J4 pass then later pump_terminal_ohms pass still supports path fault if harness fails",
+        "w8178558-door-lock": "CCU \u03a9 before harness \u2014 not Gate 4 path_open without isolated harness handling"
+      }
+    },
+    "D_compoundConclusions": {
+      "finding": "REQUIRED loadInstanceKey + multiplePathRefs + compoundPrimaryResolution (USEFUL tier).",
+      "minimumStructure": {
+        "unitOfDerivation": "(procedureId, componentId, loadInstanceKey?)",
+        "output": "DiagnosticConclusion[]",
+        "primary": "resolvePrimaryDiagnosticConclusion with explicit multi-fault rules"
+      }
+    },
+    "E_independentComponentAnchors": {
+      "finding": "REQUIRED evidenceSubjectKey + repairTargetHint for w11633848-overfill-switch.",
+      "example": "P6 4&6 float tests \u2192 subject overfill_float; P6 7&9 \u2192 fill_valve_coil; anchorComponentId may remain inlet_valve for valve-only or split conclusions by subject."
+    },
+    "F_statefulPositionalTests": {
+      "finding": "REQUIRED physicalTestSetup metadata; microwave negatives must use direct_at_terminals / positional_switch \u2014 never path_open.",
+      "negativeControls": [
+        "lgotrmw-door-interlock",
+        "samsungotrmw-door-interlock"
+      ]
+    },
+    "G_voltageSegmentation": {
+      "finding": "USEFUL measurementModality; do not use path_open. Keep legacy supply confirm for segment faults.",
+      "procedure": "w11169652-test-01-acu-power",
+      "futureConclusionKind": "Defer new conclusion kind; use structured supply segment metadata + existing confirm semantics."
+    },
+    "H_repairResolution": {
+      "finding": "REQUIRED repairTargetHint on conclusions; optional disjunctive targets list (USEFUL).",
+      "mappingExamples": {
+        "external_path_fault": "inspect_external_circuit (default)",
+        "isolated_harness_failure": "replace_isolated_harness",
+        "component_failed_at_load": "replace_component",
+        "control_output_failure": "verify_or_replace_control"
+      },
+      "repairUI": "Unchanged in Gate 7 \u2014 mapping layer only."
+    }
+  },
+  "proposedMinimumModel": {
+    "summary": "Extend procedure evidence metadata and derivation policy without new assertion types. Gate 4 assertions unchanged. Compound behavior via optional keys + set-based derivation.",
+    "optionalFieldsOnDiagnosticEffect": [
+      "loadInstanceKey?: string",
+      "evidenceSubjectKey?: string"
+    ],
+    "optionalFieldsOnProcedureMeasurementContext": [
+      "physicalTestSetup?: string",
+      "modality?: 'resistance' | 'voltage'"
+    ],
+    "optionalFieldsOnDiagnosticConclusion": [
+      "loadInstanceKey?: string",
+      "evidenceSubjectKey?: string",
+      "repairTargetHint?: string"
+    ],
+    "derivationRules": [
+      "external_path_fault: component_verified at_load + valid path_open for same (componentId, loadInstanceKey)",
+      "path_open valid only if measurementContext.loadInCircuit===true and physicalTestSetup is not isolated_harness_pin_pin",
+      "Do not derive external_path_fault for direct_at_terminals interlock tests",
+      "Order of steps irrelevant for pairing (evidence set)"
+    ]
+  },
+  "conceptInventory": [
+    {
+      "conceptId": "loadInstanceKey",
+      "tier": "REQUIRED",
+      "problem": "Distinguish multiple electrical loads sharing one componentId (cold/hot inlet coils; drain vs recirc on one connector).",
+      "whyCurrentModelCannotRepresent": "Gate 4 pairs component_verified + path_open per componentId only; second coil overwrites or conflates evidence.",
+      "minimumProposedRepresentation": "Optional procedure-local string on DiagnosticEffect + ScopedEvidenceRecord + PathFaultRef: loadInstanceKey (e.g. cold_coil, hot_coil, drain_winding). Not a canonical id.",
+      "interactionWithGate4Semantics": "Gate 4 witness unchanged when loadInstanceKey omitted (implicit default). Compound derivation groups by (componentId, loadInstanceKey).",
+      "avoidsCanonicalTopologyPollution": "Stays on procedure evidence records; never added to canonical ontology.",
+      "backwardCompatibilityImpact": "Omitted field = today\u2019s single-load behavior.",
+      "intelligenceRankingImpact": "Downstream interpretation only; no matcher/ranking changes in Gate 7."
+    },
+    {
+      "conceptId": "evidenceSetDerivation",
+      "tier": "REQUIRED",
+      "problem": "ACU-first procedures prove load good after control/harness steps; causal conclusion must not require step order.",
+      "whyCurrentModelCannotRepresent": "deriveForComponent implicitly allows any-order component_verified + path_open in one run, but repair headline and inconclusive rules treat missing load-before-path in OEM flow as ambiguous; multi-step seeds need documented set semantics.",
+      "minimumProposedRepresentation": "Formalize: external_path_fault when \u2203 loadInstance component_verified at_load AND \u2203 path_open through_path with loadInCircuit=true for same (componentId, loadInstanceKey); ignore step order.",
+      "interactionWithGate4Semantics": "Identical to proven Gate 4 logic, explicitly documented and tested for reversed OEM order.",
+      "avoidsCanonicalTopologyPollution": "No change when only Gate 4 witnesses run.",
+      "backwardCompatibilityImpact": "Evidence interpretation only.",
+      "intelligenceRankingImpact": "Downstream derivation only; no matcher/ranking."
+    },
+    {
+      "conceptId": "multiplePathRefsPerConclusion",
+      "tier": "REQUIRED",
+      "problem": "One run may open multiple connector pin pairs (VCH7 cold and hot; dual pumps on J4).",
+      "whyCurrentModelCannotRepresent": "pathRefs array exists but primary headline picks one conclusion; policy for multiple opens undefined.",
+      "minimumProposedRepresentation": "Keep single DiagnosticConclusion per (componentId, loadInstanceKey) with pathRefs[]; primary resolver ranks external_path_fault and merges disjunctive headline.",
+      "interactionWithGate4Semantics": "Gate 4 single pathRef is pathRefs length 1.",
+      "avoidsCanonicalTopologyPollution": "Additive.",
+      "backwardCompatibilityImpact": "Presentation/repair headline only.",
+      "intelligenceRankingImpact": "Presentation/repair headline only; no ranking."
+    },
+    {
+      "conceptId": "physicalTestSetup",
+      "tier": "REQUIRED",
+      "problem": "Stateful/positional tests (float up/down, door open/closed, isolated harness) are not through_path \u03a9.",
+      "whyCurrentModelCannotRepresent": "path_open requires loadInCircuit true; harness both-ends-open and door-state checkpoints are misclassified if forced into path_open.",
+      "minimumProposedRepresentation": "Optional measurementContext.physicalTestSetup enum-like string: isolated_harness_pin_pin | positional_switch | direct_at_terminals | supply_voltage_segment. Gating rule: path_open only when setup is through_path_in_circuit.",
+      "interactionWithGate4Semantics": "Gate 4 uses through_path + loadInCircuit true; new setups block path_open eligibility.",
+      "avoidsCanonicalTopologyPollution": "Procedure metadata only.",
+      "backwardCompatibilityImpact": "Additive optional field.",
+      "intelligenceRankingImpact": "No ranking change."
+    },
+    {
+      "conceptId": "evidenceSubjectKey",
+      "tier": "REQUIRED",
+      "problem": "Overfill procedure attributes float evidence to inlet_valve incorrectly; need repair target without new canonical node.",
+      "whyCurrentModelCannotRepresent": "Single componentId on procedure forces wrong anchor for float P6 4&6 tests.",
+      "minimumProposedRepresentation": "Optional evidenceSubjectKey on effect (procedure-local slug: fill_valve_coil, overfill_float). Maps to conclusion anchorComponentId + repairTargetHint, not ontology.",
+      "interactionWithGate4Semantics": "Gate 4 effects omit subject key \u2192 anchorComponentId only.",
+      "avoidsCanonicalTopologyPollution": "Not a canonical component.",
+      "backwardCompatibilityImpact": "Additive optional field.",
+      "intelligenceRankingImpact": "Conclusion derivation only."
+    },
+    {
+      "conceptId": "repairTargetHint",
+      "tier": "REQUIRED",
+      "problem": "Distinguish replace component vs harness vs inspect circuit vs control output vs sub-load.",
+      "whyCurrentModelCannotRepresent": "Headline uses external_path_fault generically; OEM has replace harness, replace float, suspect CCU.",
+      "minimumProposedRepresentation": "Optional on DiagnosticConclusion: repairTargetHint (procedure-local enum strings). Repair UI unchanged in Gate 7 \u2014 headline text mapping only.",
+      "interactionWithGate4Semantics": "Gate 4 path-first headline maps from external_path_fault + hint default inspect_external_circuit.",
+      "avoidsCanonicalTopologyPollution": "Hints only on scoped runs.",
+      "backwardCompatibilityImpact": "Hints only on scoped runs.",
+      "intelligenceRankingImpact": "Presentation layer only."
+    },
+    {
+      "conceptId": "compoundPrimaryResolution",
+      "tier": "USEFUL_BUT_NOT_REQUIRED",
+      "problem": "Multiple conclusions in one run (valve good, float bad; drain path + recirc path).",
+      "whyCurrentModelCannotRepresent": "resolvePrimaryDiagnosticConclusion picks one kind; disjunctive OEM not structured.",
+      "minimumProposedRepresentation": "Policy table: contradicted > component_failed > external_path_fault > inconclusive; optional disjunctiveHeadline when multiple external_path_fault instances.",
+      "interactionWithGate4Semantics": "Gate 4 single-anchor runs unchanged.",
+      "avoidsCanonicalTopologyPollution": "Additive.",
+      "backwardCompatibilityImpact": "Presentation only.",
+      "intelligenceRankingImpact": "Presentation only."
+    },
+    {
+      "conceptId": "measurementModality",
+      "tier": "USEFUL_BUT_NOT_REQUIRED",
+      "problem": "ACU power test is voltage segmentation, not \u03a9 path.",
+      "whyCurrentModelCannotRepresent": "supply confirm effects mix cord, RFI, harness; path_open inappropriate.",
+      "minimumProposedRepresentation": "measurementContext.modality: voltage | resistance on measurement steps; derivation branch supply_segment_fault (existing confirm) not external_path_fault.",
+      "interactionWithGate4Semantics": "Gate 4 resistance witnesses ignore modality.",
+      "avoidsCanonicalTopologyPollution": "Additive metadata.",
+      "backwardCompatibilityImpact": "Additive metadata.",
+      "intelligenceRankingImpact": "No ranking."
+    },
+    {
+      "conceptId": "evidencePhaseAnnotation",
+      "tier": "USEFUL_BUT_NOT_REQUIRED",
+      "problem": "Tech UX: label control-first vs load-first in UI without affecting causality.",
+      "whyCurrentModelCannotRepresent": "None required for correctness if evidenceSetDerivation is REQUIRED.",
+      "minimumProposedRepresentation": "Optional step annotation control_first | load_first for presentation.",
+      "interactionWithGate4Semantics": "No effect on Gate 4 derivation.",
+      "avoidsCanonicalTopologyPollution": "Display only.",
+      "backwardCompatibilityImpact": "Display only.",
+      "intelligenceRankingImpact": "None."
+    },
+    {
+      "conceptId": "separateCanonicalFloatNode",
+      "tier": "NOT_NEEDED",
+      "problem": "N/A \u2014 rejected approach.",
+      "whyCurrentModelCannotRepresent": "Would pollute ontology.",
+      "minimumProposedRepresentation": "Use evidenceSubjectKey instead.",
+      "interactionWithGate4Semantics": "N/A",
+      "avoidsCanonicalTopologyPollution": "N/A",
+      "backwardCompatibilityImpact": "N/A",
+      "intelligenceRankingImpact": "N/A"
+    },
+    {
+      "conceptId": "newAssertionPathWireOpen",
+      "tier": "NOT_NEEDED",
+      "problem": "Isolated harness could tempt new assertion; design uses repairTargetHint + legacy confirm or future checkpoint assertion vocabulary in later gate.",
+      "whyCurrentModelCannotRepresent": "path_open semantics tied to in-circuit through_path.",
+      "minimumProposedRepresentation": "physicalTestSetup=isolated_harness_pin_pin blocks path_open; separate checkpoint effect vocabulary deferred.",
+      "interactionWithGate4Semantics": "Gate 4 unchanged.",
+      "avoidsCanonicalTopologyPollution": "N/A",
+      "backwardCompatibilityImpact": "N/A",
+      "intelligenceRankingImpact": "N/A"
+    }
+  ],
+  "procedureExamples": {
+    "w8178558-door-lock": {
+      "role": "design_case",
+      "futureEvidenceShape": [
+        "CCU DL3 measurements: component_failed/verified with physicalTestSetup=direct_at_control_connector, NOT path_open",
+        "harness_continuity_check: physicalTestSetup=isolated_harness_pin_pin + repairTargetHint=replace_isolated_harness",
+        "live_test: repairTargetHint=verify_control_output on control_board"
+      ],
+      "mustNot": "path_open on harness_bad with loadInCircuit true"
+    },
+    "w11169652-test-01-acu-power": {
+      "role": "design_case_ambiguous",
+      "futureEvidenceShape": [
+        "measurementModality=voltage on each segment",
+        "Segment-specific repairTargetHint: cord, rfi_filter, harness_j2, acu",
+        "No component_verified at_load; no external_path_fault"
+      ]
+    },
+    "w8178558-inlet-valves": {
+      "role": "design_case",
+      "futureEvidenceShape": [
+        "valve_at_component: component_verified at_load for loadInstanceKey cold_coil and hot_coil (or two passes)",
+        "valve_cold_ccu open: path_open through_path loadInCircuit true testPointKey ... cold_coil",
+        "valve_hot_ccu open: separate pathRef hot_coil",
+        "Outcome: external_path_fault per coil or merged disjunctive headline"
+      ]
+    },
+    "w10864849-test-07-drain-recirc-pump": {
+      "role": "design_case",
+      "futureEvidenceShape": [
+        "loadInstanceKey drain_winding / recirc_winding",
+        "evidenceSetDerivation: terminal pass + J4 open qualifies path fault regardless of step order",
+        "harness ph_open: isolated harness hint, not path_open on drain_pump"
+      ]
+    },
+    "w11416787-test-07-drain-recirc-pump": {
+      "role": "design_case",
+      "note": "Same as W10864849 with J15 connector",
+      "futureEvidenceShape": "Identical compound rules to w10864849-test-07"
+    },
+    "w11633848-overfill-switch": {
+      "role": "design_case",
+      "futureEvidenceShape": [
+        "overfill_valve_ohms: evidenceSubjectKey=fill_valve_coil, component_verified/failed at control",
+        "float_down/up: evidenceSubjectKey=overfill_float, positional_switch setup",
+        "float_up pass on measurement_open is positional success, not path_open",
+        "Conclusions: separate subjects; repairTargetHint replace_float_switch vs replace_fill_valve"
+      ]
+    },
+    "lgotrmw-door-interlock": {
+      "role": "negative_control",
+      "treatment": "Remain legacy unscoped OR scoped component_failed/verified at_load with physicalTestSetup=direct_at_terminals only; never path_open; never external_path_fault."
+    },
+    "samsungotrmw-door-interlock": {
+      "role": "negative_control",
+      "treatment": "Same as LG microwave interlock."
+    }
+  },
+  "negativeControls": {
+    "procedureIds": [
+      "lgotrmw-door-interlock",
+      "samsungotrmw-door-interlock"
+    ],
+    "rule": "Scoped or legacy component-level only; block path_open and external_path_fault derivation."
+  },
+  "backwardCompatibility": {
+    "gate4Witnesses": "Unchanged seeds and behavior when new optional fields omitted.",
+    "legacyEffects": "Effects without assertion continue current confirm/eliminate and repair headline rules.",
+    "derivation": "runHasScopedDiagnosticAssertions false \u2192 empty conclusions \u2192 legacy presentation.",
+    "risk": "Mis-set loadInstanceKey on old seeds could split conclusions \u2014 Gate 7 must only add keys on migrated seeds."
+  },
+  "gate7ImplementationBoundary": {
+    "inScope": [
+      "Types + derivation policy for optional metadata fields (loadInstanceKey, physicalTestSetup, evidenceSubjectKey, repairTargetHint)",
+      "Unit tests for evidenceSetDerivation and compound pathRefs",
+      "Single-seed pilot only after design sign-off (likely w8178558-inlet-valves cold coil first)"
+    ],
+    "outOfScope": [
+      "New EffectAssertion enum values without explicit approval",
+      "Canonical ontology or harness nodes",
+      "Matcher, ranking, continuation, WizardProvider",
+      "Repair UI component changes",
+      "Corpus-wide seed migration",
+      "door-lock isolated harness until checkpoint assertion vocabulary approved",
+      "ACU power voltage conclusion kind",
+      "Microwave interlock scoping"
+    ],
+    "recommendedPilotOrder": [
+      "w8178558-inlet-valves (cold coil path only)",
+      "w10864849-test-07-drain-recirc-pump (after loadInstanceKey + evidence set)",
+      "w11633848-overfill-switch (after evidenceSubjectKey)",
+      "w8178558-door-lock (after isolated harness semantics)",
+      "w11169652-test-01-acu-power (supply modality \u2014 separate track)"
+    ]
+  },
+  "conceptsShouldNotAdd": [
+    "Canonical harness / wiring harness component nodes in the ontology graph",
+    "Inferring loadInCircuit from connector names (DP2, J#, harness) without measurementContext",
+    "Treating component_verified at CCU connector as equivalent to at_load verification",
+    "Mapping pin-for-pin harness continuity (both ends disconnected) to path_open + loadInCircuit true",
+    "Converting microwave interlock direct switch tests to external_path_fault",
+    "New canonical float_switch / recirc_pump nodes solely to fix seed attribution errors",
+    "Matcher or wizard ranking weights driven by scoped assertion fields",
+    "Automatic topology inference from OEM prose or sourceExcerpt alone",
+    "path_verified as a default outcome of checkpoint_yes harness steps",
+    "Replacing legacy confirm/eliminate behavior for unscoped effects",
+    "Single global repair resolver that ignores per-run evidence set in favor of last-writer confirm",
+    "New EffectAssertion enum values in Gate 7 unless a Gate 6 follow-up explicitly approves them"
+  ],
+  "noProposedProductionMutations": true,
+  "generatedAt": "2026-09-28T18:29:34.788385+00:00",
+  "conceptTierCounts": {
+    "REQUIRED": 6,
+    "USEFUL_BUT_NOT_REQUIRED": 3,
+    "NOT_NEEDED": 2
+  }
+}

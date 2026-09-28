@@ -2,6 +2,11 @@ import {
   collectExplicitFailureConfirms,
   isExplicitFailureEvidenceId,
 } from '../intelligence/componentVerification';
+import {
+  resolveIntegratedPrimaryDiagnosticConclusion,
+  runUsesIntegratedDiagnosticConclusions,
+} from './integratedProcedureDiagnosticConclusions';
+import { type DiagnosticConclusion } from './deriveProcedureDiagnosticConclusions';
 import { getEvidenceConfig } from '../intelligence/evidenceRegistry';
 import { getPlatformRule } from '../knowledge/platformRegistry';
 import { procedureComponentDisplayLabel } from './procedureComponentAliases';
@@ -68,10 +73,6 @@ export function repairHeadlineFromConfirm(
 }
 
 function repairHeadlineFromOutcomeStep(step: ProcedureStep): string {
-  if (step.oemOutcome) {
-    const replaceMatch = step.oemOutcome.match(/^Replace [^.]+/i);
-    if (replaceMatch) return replaceMatch[0];
-  }
   if (/^suspect/i.test(step.title)) {
     return step.title.replace(/^Suspect\s+/i, 'Replace ');
   }
@@ -79,6 +80,73 @@ function repairHeadlineFromOutcomeStep(step: ProcedureStep): string {
     return step.title;
   }
   return step.title;
+}
+
+export function repairHeadlineFromDiagnosticConclusion(
+  procedure: ServiceProcedure | null | undefined,
+  conclusion: DiagnosticConclusion,
+): string | null {
+  switch (conclusion.kind) {
+    case 'component_failed':
+      if (conclusion.repairTargetHint === 'replace_float_switch') {
+        return 'Replace overfill/float switch assembly';
+      }
+      if (conclusion.repairTargetHint === 'repair_float_harness') {
+        return 'Repair harness or connections to float switch';
+      }
+      if (conclusion.repairTargetHint === 'replace_fill_valve') {
+        return 'Replace fill valve';
+      }
+      if (conclusion.repairTargetHint === 'replace_acu') {
+        return 'Replace ACU';
+      }
+      if (conclusion.repairTargetHint === 'replace_door_lock') {
+        return 'Replace door lock';
+      }
+      if (conclusion.repairTargetHint === 'replace_door_switch') {
+        return 'Replace door switch';
+      }
+      if (conclusion.repairTargetHint === 'replace_harness_door_lock') {
+        return 'Replace door lock harness';
+      }
+      if (conclusion.repairTargetHint === 'replace_power_cord') {
+        return 'Replace power cord';
+      }
+      if (conclusion.repairTargetHint === 'replace_rfi_filter') {
+        return 'Replace RFI filter';
+      }
+      if (conclusion.repairTargetHint === 'repair_j2_harness') {
+        return 'Repair J2 harness';
+      }
+      if (conclusion.repairTargetHint === 'repair_connections') {
+        return 'Repair connections';
+      }
+      if (conclusion.evidenceSubjectKey === 'overfill_float') {
+        return conclusion.oemNarrative?.title || 'Replace overfill/float switch assembly';
+      }
+      return repairHeadlineFromConfirm(procedure, conclusion.anchorComponentId);
+    case 'external_path_fault':
+      if (
+        conclusion.anchorComponentId === 'inlet_valve'
+        && conclusion.loadInstanceKey === 'cold_coil'
+      ) {
+        return 'Inspect/repair cold inlet valve coil circuit (VCH7 connectors and wiring)';
+      }
+      if (
+        conclusion.anchorComponentId === 'drain_pump'
+        && conclusion.loadInstanceKey === 'j4_pins_1_3'
+      ) {
+        return 'Inspect/repair drain pump J4-1 to J4-3 circuit (harness and connectors)';
+      }
+      return `Inspect/repair ${componentLabel(procedure, conclusion.anchorComponentId)} circuit (connectors and wiring)`;
+    case 'contradicted':
+    case 'inconclusive':
+    case 'no_repair_target':
+    case 'component_verified':
+      return null;
+    default:
+      return null;
+  }
 }
 
 export function resolveOutcomeStepFromRun(
@@ -134,6 +202,21 @@ export function resolveProcedureRepairHeadline(
 ): string | null {
   if (!procedure) return null;
 
+  if (runUsesIntegratedDiagnosticConclusions(runState)) {
+    const primary = resolveIntegratedPrimaryDiagnosticConclusion(runState, procedure);
+    if (primary) {
+      const structured = repairHeadlineFromDiagnosticConclusion(procedure, primary);
+      if (structured) return structured;
+      if (
+        primary.kind === 'contradicted'
+        || primary.kind === 'inconclusive'
+        || primary.kind === 'no_repair_target'
+      ) {
+        return null;
+      }
+    }
+  }
+
   const explicitConfirms = collectExplicitFailureConfirms(procedure, runState);
   if (explicitConfirms.length) {
     const lastConfirm = explicitConfirms[explicitConfirms.length - 1];
@@ -160,6 +243,26 @@ export function resolveProcedureRunDisposition(
   const outcomeId = runState.currentStepId;
 
   if (isSuccessOutcomeStepId(outcomeId)) return 'success';
+
+  if (procedure && runUsesIntegratedDiagnosticConclusions(runState)) {
+    const primary = resolveIntegratedPrimaryDiagnosticConclusion(runState, procedure);
+    if (primary?.kind === 'component_failed' || primary?.kind === 'external_path_fault') {
+      return 'action_required';
+    }
+    if (
+      primary?.kind === 'contradicted'
+      || primary?.kind === 'inconclusive'
+      || primary?.kind === 'no_repair_target'
+    ) {
+      const outcomeStep = procedure.steps.find((step) => step.id === outcomeId);
+      if (outcomeStep?.type === 'outcome') {
+        const title = outcomeStep.title.toLowerCase();
+        if (title.includes('verified')) return 'success';
+        if (title.includes('replace') || title.includes('suspect')) return 'action_required';
+      }
+      return 'success';
+    }
+  }
 
   const explicitConfirms = collectExplicitFailureConfirms(procedure, runState);
   if (explicitConfirms.length) return 'action_required';

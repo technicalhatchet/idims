@@ -6,11 +6,13 @@ import {
   evaluateProcedureMeasurement,
   matchProcedureBranch,
 } from './evaluateProcedureMeasurement';
+import { buildTestPointKey } from './scopedDiagnosticEffect';
 import type {
   DecisionBranch,
   ProcedureRunState,
   ProcedureStep,
   ProcedureStepInput,
+  ProcedureStepMeasurementSnapshotContext,
   ProcedureStepResult,
   ServiceProcedure,
 } from './types';
@@ -177,10 +179,20 @@ export function submitProcedureStep(
   );
 
   if (step.type === 'measurement' && evaluation && step.measurementKnowledgeId) {
+    const measurementSnapshotContext: ProcedureStepMeasurementSnapshotContext = {
+      ...(stepInput?.context as ProcedureStepMeasurementSnapshotContext | undefined),
+      testPoint: step.testPoint,
+      measurementContext: step.measurementContext,
+      testPointKey: buildTestPointKey(
+        step.id,
+        step.testPoint?.connector,
+        step.testPoint?.pins,
+      ),
+    };
     const snapshot = buildProcedureStepEvaluationSnapshot(
       step.measurementKnowledgeId,
       evaluation,
-      stepInput?.context,
+      measurementSnapshotContext,
     );
     runWithEffects = appendStepEvaluation(runWithEffects, step.id, snapshot);
   }

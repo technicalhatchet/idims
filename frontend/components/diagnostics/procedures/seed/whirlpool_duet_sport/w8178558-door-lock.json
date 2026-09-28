@@ -54,6 +54,13 @@
       "body": "Set ohmmeter to R\u00d71. Measure DL3 pins 1 and 3 (lock solenoid). Expected 60 \u03a9.",
       "sourceExcerpt": "Set ohmmeter to R\u00d71. Measure DL3 pins 1 and 3 (lock solenoid). Expected 60 \u03a9.",
       "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "DL3 at CCU"
+        ]
+      },
       "testPoint": {
         "connector": "DL3",
         "pins": "1 & 3 (lock)",
@@ -82,7 +89,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_lock_solenoid",
+              "evidenceId": "confirm_dl3_lock_solenoid_failed"
             }
           ]
         },
@@ -97,7 +105,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_lock_solenoid",
+              "evidenceId": "confirm_dl3_lock_solenoid_failed"
             }
           ]
         },
@@ -112,7 +121,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_lock_solenoid",
+              "evidenceId": "confirm_dl3_lock_solenoid_failed"
             }
           ]
         },
@@ -127,7 +137,8 @@
             {
               "type": "eliminate",
               "componentId": "door_lock",
-              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+              "evidenceSubjectKey": "dl3_lock_solenoid",
+              "evidenceId": "eliminate_dl3_lock_solenoid_ok"
             }
           ]
         }
@@ -153,6 +164,13 @@
       "body": "Measure DL3 pins 2 and 3 (unlock solenoid). Expected 60 \u03a9.",
       "sourceExcerpt": "Measure DL3 pins 2 and 3 (unlock solenoid). Expected 60 \u03a9.",
       "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "DL3 at CCU"
+        ]
+      },
       "testPoint": {
         "connector": "DL3",
         "pins": "2 & 3 (unlock)",
@@ -181,7 +199,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_unlock_solenoid",
+              "evidenceId": "confirm_dl3_unlock_solenoid_failed"
             }
           ]
         },
@@ -196,7 +215,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_unlock_solenoid",
+              "evidenceId": "confirm_dl3_unlock_solenoid_failed"
             }
           ]
         },
@@ -211,7 +231,8 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_unlock_solenoid",
+              "evidenceId": "confirm_dl3_unlock_solenoid_failed"
             }
           ]
         },
@@ -226,7 +247,8 @@
             {
               "type": "eliminate",
               "componentId": "door_lock",
-              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+              "evidenceSubjectKey": "dl3_unlock_solenoid",
+              "evidenceId": "eliminate_dl3_unlock_solenoid_ok"
             }
           ]
         }
@@ -261,6 +283,13 @@
       "title": "Door switch DS2 \u2014 closed = 0 \u03a9",
       "body": "With ohmmeter on DS2 pins 3 and 1: does the door switch read 0 \u03a9 (continuity) when the door is fully closed, and open (OL) when the door is open?",
       "sourceExcerpt": "Door Closed = 0 \u03a9; Door Open = infinite \u2014 DS2 pins 3 and 1.",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "positional_switch",
+        "disconnectHints": [
+          "DS2 at CCU"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -274,7 +303,8 @@
             {
               "type": "eliminate",
               "componentId": "door_lock",
-              "evidenceId": "eliminate_door_lock_open_door_lock_ok"
+              "evidenceSubjectKey": "ds2_door_switch",
+              "evidenceId": "eliminate_ds2_door_switch_ok"
             }
           ]
         },
@@ -289,7 +319,9 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "ds2_door_switch",
+              "repairTargetHint": "replace_door_switch",
+              "evidenceId": "confirm_ds2_door_switch_failed"
             }
           ]
         }
@@ -335,6 +367,14 @@
       "title": "Pin-for-pin harness continuity (DL3 & DS2)",
       "body": "Set the ohmmeter to ohms (R×1). With the harness disconnected at both the CCU and the lock assembly, check each wire by itself — one meter lead on a pin at the CCU connector and the other lead on the same pin number at the lock connector.\n\nDL3 (3 wires on this platform): pin 1 ↔ pin 1, pin 2 ↔ pin 2, pin 3 ↔ pin 3. Each pair should read continuity (≈0 Ω). OL on any wire = open harness.\n\nDS2 door switch: pin 3 ↔ pin 3 and pin 1 ↔ pin 1 — same continuity expectation.\n\nAlso verify no continuity between different pins on the same connector (short). Repair or replace the harness if any wire is open or shorted.",
       "sourceExcerpt": "Check the harness of the suspected component between the CCU and door lock mechanism for continuity.",
+      "measurementContext": {
+        "scope": "at_control_connector",
+        "physicalTestSetup": "isolated_harness_pin_pin",
+        "loadInCircuit": false,
+        "disconnectHints": [
+          "DL3 and DS2 at CCU and at door lock assembly"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -358,7 +398,9 @@
             {
               "type": "confirm",
               "componentId": "door_lock",
-              "evidenceId": "confirm_door_lock_open_door_lock_failed"
+              "evidenceSubjectKey": "dl3_ds2_harness",
+              "repairTargetHint": "replace_harness_door_lock",
+              "evidenceId": "confirm_dl3_ds2_harness_failed"
             }
           ]
         }

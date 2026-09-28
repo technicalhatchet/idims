@@ -58,6 +58,13 @@
         "pins": "Sensor pins",
         "label": "Wash NTC at sensor terminals"
       },
+      "measurementContext": {
+        "scope": "at_load",
+        "loadInCircuit": false,
+        "disconnectHints": [
+          "NTC wire connector at water temperature sensor"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -116,7 +123,9 @@
             {
               "type": "eliminate",
               "componentId": "wash_ntc",
-              "evidenceId": "eliminate_wash_ntc_ol_wash_ntc_ok"
+              "assertion": "component_verified",
+              "measurementScope": "at_load",
+              "evidenceId": "component_verified_wash_ntc_at_load"
             }
           ]
         }
@@ -167,6 +176,13 @@
           }
         ]
       },
+      "measurementContext": {
+        "scope": "through_path",
+        "loadInCircuit": true,
+        "disconnectHints": [
+          "TH2 at CCU"
+        ]
+      },
       "requiresInput": true,
       "branches": [
         {
@@ -182,7 +198,10 @@
             {
               "type": "confirm",
               "componentId": "wash_ntc",
-              "evidenceId": "confirm_wash_ntc_ol_wash_ntc_failed"
+              "assertion": "path_open",
+              "measurementScope": "through_path",
+              "testPointKey": "ntc_at_ccu:TH2:1 & 2",
+              "evidenceId": "path_open_wash_ntc_through_th2"
             }
           ]
         },

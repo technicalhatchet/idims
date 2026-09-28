@@ -1,0 +1,39 @@
+{
+  "gate": 8,
+  "verdict": "GREEN",
+  "verdictLabel": "GATE 8 DIAGNOSTIC CONCLUSION INTEGRATION COMPLETE",
+  "readOnlyAuditRecord": true,
+  "gate7Status": "CLOSED_GREEN_DO_NOT_REOPEN",
+  "goldenWitnesses": [
+    "w8178558-drain-pump",
+    "w8178558-wash-heater",
+    "w8178558-wash-ntc",
+    "w8178558-inlet-valves/cold_coil",
+    "w11633848-overfill-switch",
+    "w8178558-door-lock",
+    "w11169652-test-01-acu-power"
+  ],
+  "integrationPipeline": [
+    "evidence",
+    "DiagnosticConclusion",
+    "component_intelligence",
+    "repair_target",
+    "presentation",
+    "diagnostic_journey_state",
+    "continuation",
+    "repair_outcome_boundary"
+  ],
+  "consumerFixes": [
+    {
+      "id": "G8-FIX-01",
+      "file": "frontend/components/diagnostics/procedures/integratedProcedureDiagnosticConclusions.ts",
+      "summary": "Unified primary conclusion for scoped assertions and evidenceSubjectKey runs."
+    },
+    {
+      "id": "G8-FIX-02",
+      "file": "frontend/components/diagnostics/procedures/procedureRunPresentation.ts",
+      "summary": "resolveProcedureRunDisposition uses integrated conclusions (subject-key component_failed / external_path_fault)."
+    }
+  ],
+  "regressionTest": "frontend/components/diagnostics/procedures/__tests__/gate8DiagnosticConclusionIntegration.test.ts"
+}

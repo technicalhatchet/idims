@@ -6,6 +6,7 @@ import { useSolomonDiagnosticLead } from './useSolomonDiagnosticLead';
 import {
   diagnosticStatusEyebrow,
   formatSessionLeadSecondaryLine,
+  isDisplayableLeadPercent,
 } from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 import { getDiagnosticStepProgress } from './solomonDiagnosticStepProgress';
@@ -122,7 +123,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
                     {lead.headline}
                   </span>
                 </div>
-                {lead.showPercent && lead.percent != null ? (
+                {isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
                   <>
                     <p className="mt-[0.08em] w-full truncate text-right text-[0.88em] font-bold leading-[1.05em] text-emerald-400 tabular-nums">
                       {lead.percent}% {lead.strengthWord || ''}
@@ -218,7 +219,7 @@ export default function SolomonActiveSessionCard({ target, variant = 'default' }
                 {lead.headline}
               </span>
             </div>
-            {lead.showPercent && lead.percent != null ? (
+            {isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
               <>
                 <p className={`font-bold tabular-nums ${
                   isProSession

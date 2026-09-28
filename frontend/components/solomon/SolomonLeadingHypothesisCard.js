@@ -4,7 +4,10 @@ import {
   formatDiyLeadCard,
   shouldShowLeadingHypothesis,
 } from '../diagnostics/intelligence/evidenceDisplay';
-import { diagnosticStatusEyebrow } from '../diagnostics/intelligence/diagnosticJourneyPresentation';
+import {
+  diagnosticStatusEyebrow,
+  isDisplayableLeadPercent,
+} from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 
 /**
@@ -102,7 +105,7 @@ export default function SolomonLeadingHypothesisCard({
             >
               {lead.headline}
             </p>
-            {lead.showPercent && lead.percent != null ? (
+            {isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
               <div className={`flex items-baseline gap-2 ${isCompact ? 'mt-1' : 'mt-1.5'}`}>
                 <span className={`font-bold tabular-nums text-emerald-400 leading-none ${
                   isCompact ? 'text-lg' : 'text-2xl'

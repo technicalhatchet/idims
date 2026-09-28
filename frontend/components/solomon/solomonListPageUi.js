@@ -2,6 +2,10 @@ import Link from 'next/link';
 import { FaCheckCircle, FaClock, FaMinus, FaPlus } from 'react-icons/fa';
 import { SOLOMON_DIAGNOSTIC_STATUS } from './solomonDiagnosticStatus';
 import SolomonCategoryIcon from './categoryIcons';
+import {
+  formatLeadConfidencePrimaryLine,
+  isDisplayableLeadPercent,
+} from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 
 export const SOLOMON_PAGE_SHELL_CLASS = '!bg-[var(--solomon-bg-canvas)] relative min-w-0 overflow-x-hidden !px-4 max-w-lg';
 
@@ -180,16 +184,23 @@ export function SolomonListLifecycleHeadline({
   switch (lifecycleKey) {
     case SOLOMON_DIAGNOSTIC_STATUS.diagnostic_in_progress:
       if (lead) {
-        primaryLine = `${lead.percent}% ${lead.strengthWord}`;
-        primaryClass = 'text-cyan-400';
-        showLikelihoodMeter = true;
+        primaryLine = formatLeadConfidencePrimaryLine(lead);
+        if (isDisplayableLeadPercent(lead.showPercent, lead.percent)) {
+          primaryClass = 'text-cyan-400';
+          showLikelihoodMeter = true;
+        } else if (primaryLine) {
+          primaryClass = lead.foregroundMode === 'confirmed_fault'
+            ? 'text-emerald-400'
+            : 'text-cyan-400';
+        }
       }
       break;
     case SOLOMON_DIAGNOSTIC_STATUS.repair_outcome_pending:
       primaryLine = 'OUTCOME PENDING';
       primaryClass = 'text-orange-400';
-      if (lead) {
-        secondaryLine = `Was ${lead.percent}% ${lead.strengthWord}`;
+      if (lead && isDisplayableLeadPercent(lead.showPercent, lead.percent)) {
+        const wasLine = formatLeadConfidencePrimaryLine(lead);
+        secondaryLine = wasLine ? `Was ${wasLine}` : null;
       }
       break;
     case SOLOMON_DIAGNOSTIC_STATUS.repair_successful:
@@ -241,7 +252,7 @@ export function SolomonListLifecycleHeadline({
           {primaryLine}
         </p>
       ) : null}
-      {showLikelihoodMeter && lead ? (
+      {showLikelihoodMeter && lead && isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
         <div className="mt-1 ml-auto h-1 w-full max-w-[108px] overflow-hidden rounded-full bg-white/55 ring-1 ring-inset ring-white/15">
           <div
             className={`h-full ${meterColorClass}`}

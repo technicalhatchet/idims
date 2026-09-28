@@ -1,0 +1,1517 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-09-28T18:29:34.717382+00:00",
+  "method": "gate5_read_only_human_review_v1",
+  "provenWitnesses": [
+    "w8178558-drain-pump",
+    "w8178558-wash-heater",
+    "w8178558-wash-ntc"
+  ],
+  "scope": {
+    "procedureIds": [
+      "w8178558-door-lock",
+      "w11169652-test-01-acu-power",
+      "w8178558-inlet-valves",
+      "w10864849-test-07-drain-recirc-pump",
+      "w11416787-test-07-drain-recirc-pump",
+      "w11633848-overfill-switch",
+      "lgotrmw-door-interlock",
+      "samsungotrmw-door-interlock"
+    ],
+    "note": "Eight non-trivial procedures from Gate 3; no seed or production changes."
+  },
+  "classificationCounts": {
+    "CURRENT_MODEL_SUFFICIENT": 0,
+    "NEEDS_NEW_SEMANTIC_DESIGN": 5,
+    "TRUE_COMPONENT_FAILURE": 2,
+    "INSUFFICIENT_EVIDENCE": 0,
+    "AMBIGUOUS_CONFIGURATION": 1
+  },
+  "gate5Summary": {
+    "safeForFutureSingleSeedMigration": [],
+    "requiresArchitectureOrDesignWork": [
+      "w8178558-door-lock",
+      "w11169652-test-01-acu-power",
+      "w8178558-inlet-valves",
+      "w10864849-test-07-drain-recirc-pump",
+      "w11416787-test-07-drain-recirc-pump",
+      "w11633848-overfill-switch"
+    ],
+    "shouldRemainLegacyUnscoped": [
+      "w8178558-door-lock",
+      "w11169652-test-01-acu-power",
+      "w8178558-inlet-valves",
+      "w10864849-test-07-drain-recirc-pump",
+      "w11416787-test-07-drain-recirc-pump",
+      "w11633848-overfill-switch",
+      "lgotrmw-door-interlock",
+      "samsungotrmw-door-interlock"
+    ],
+    "provenPatternReminder": "component_verified at_load \u2192 path_open through_path loadInCircuit=true \u2192 external_path_fault"
+  },
+  "procedures": [
+    {
+      "procedureId": "w8178558-door-lock",
+      "platformId": "whirlpool_duet_sport",
+      "componentIds": [
+        "door_lock"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport/w8178558-door-lock.json",
+      "gate3Bucket": "AMBIGUOUS_CONFIGURATION",
+      "classification": "NEEDS_NEW_SEMANTIC_DESIGN",
+      "analysis": {
+        "components": [
+          "door_lock",
+          "control_board (live test branch only)"
+        ],
+        "firstLoadSideVerification": null,
+        "laterTestPoints": [
+          "DL3 pins 1&3 / 2&3 at CCU (connector unplugged at CCU)",
+          "DS2 pins 3&1 at CCU (door state checkpoint)",
+          "Pin-for-pin harness DL3/DS2 with both ends disconnected",
+          "Manual Diagnostic Test energize (live)"
+        ],
+        "disconnectInstructions": [
+          "disconnect_dl3: DL3 from CCU before first \u03a9 step",
+          "disconnect_ds2: DS2 from CCU before door switch checkpoint",
+          "harness_test_prep: DL3 and DS2 unplugged at CCU and at lock assembly"
+        ],
+        "loadInCircuitDuringLaterTest": false,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "Partially \u2014 harness_bad implies wire fault, but test is isolated pin-pin continuity, not through_path with load present",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": false,
+        "modelWithoutDistortion": false,
+        "rationale": "No at-load component_verified pass precedes CCU \u03a9; first measurements are at DL3 with CCU end only disconnected (harness still carries lock). Isolated harness continuity explicitly requires both ends open \u2014 not Gate 4 loadInCircuit=true. harness_bad confirms door_lock while OEM directs replace harness. Three sub-circuits (lock/unlock solenoids, DS2) plus live CCU output test exceed single anchor + path_open pair.",
+        "designGap": "Wire-continuity checkpoint assertion (harness isolated), multi-subcircuit anchor policy, and CCU-first vs load-first sequencing \u2014 not new assertion types but compound conclusion rules.",
+        "futureMigrationNotes": "Remain legacy; do not map harness_bad to path_open without new semantics."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "disconnect_dl3",
+          "order": 2,
+          "type": "instruction",
+          "title": "Disconnect DL3 at CCU",
+          "bodyExcerpt": "Access the door lock at the CCU: remove top cover and console, remove lower front access panel, open the door, and release the bellows retaining wire to reach the lock harness. Disconnect door lock/unlock solenoids connector DL3 from the CC"
+        },
+        {
+          "id": "lock_solenoid_ohms",
+          "order": 3,
+          "type": "measurement",
+          "title": "Door lock solenoid DL3 pins 1 & 3",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "testPoint": {
+            "connector": "DL3",
+            "pins": "1 & 3 (lock)",
+            "label": "Door lock solenoid DL3 pins 1 & 3",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Door lock solenoid"
+              },
+              {
+                "pin": "3",
+                "signal": "Door lock solenoid return"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "loadInCircuit": true,
+            "disconnectHints": [
+              "DL3 at CCU"
+            ]
+          }
+        },
+        {
+          "id": "unlock_solenoid_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Door unlock solenoid DL3 pins 2 & 3",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherDoorLockSolenoidOhms",
+          "testPoint": {
+            "connector": "DL3",
+            "pins": "2 & 3 (unlock)",
+            "label": "Door unlock solenoid DL3 pins 2 & 3",
+            "pinDetails": [
+              {
+                "pin": "2",
+                "signal": "Door unlock solenoid"
+              },
+              {
+                "pin": "3",
+                "signal": "Door unlock solenoid return"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "loadInCircuit": true,
+            "disconnectHints": [
+              "DL3 at CCU"
+            ]
+          }
+        },
+        {
+          "id": "disconnect_ds2",
+          "order": 5,
+          "type": "instruction",
+          "title": "Disconnect DS2 at CCU",
+          "bodyExcerpt": "Disconnect door switch connector DS2 from the CCU."
+        },
+        {
+          "id": "door_switch_checkpoint",
+          "order": 6,
+          "type": "visual_check",
+          "title": "Door switch DS2 \u2014 closed = 0 \u03a9"
+        },
+        {
+          "id": "replace_door_lock",
+          "order": 7,
+          "type": "outcome",
+          "title": "Replace door lock"
+        },
+        {
+          "id": "replace_door_switch",
+          "order": 8,
+          "type": "outcome",
+          "title": "Replace door switch"
+        },
+        {
+          "id": "harness_test_prep",
+          "order": 9,
+          "type": "instruction",
+          "title": "Isolate harness for continuity test",
+          "bodyExcerpt": "DL3 or DS2 failed at the CCU \u2014 the fault may be the lock assembly or an open/shorted harness wire. DL3 and DS2 should still be unplugged at the CCU. At the door lock assembly, disconnect DL3 and DS2 so the harness is open on both ends. Powe"
+        },
+        {
+          "id": "harness_continuity_check",
+          "order": 10,
+          "type": "visual_check",
+          "title": "Pin-for-pin harness continuity (DL3 & DS2)"
+        },
+        {
+          "id": "reconnect_door_lock_harness",
+          "order": 11,
+          "type": "instruction",
+          "title": "Reconnect DL3 and DS2",
+          "bodyExcerpt": "Reconnect DL3 and DS2 at the door lock assembly, then at the CCU. Seat connectors fully and confirm no damaged terminals before restoring power."
+        },
+        {
+          "id": "service_mode_before_lock_test",
+          "order": 12,
+          "type": "instruction",
+          "title": "Continue to Manual Diagnostic Test",
+          "bodyExcerpt": "Restore power. Follow the Manual Diagnostic Test steps on the next screens to enter service mode and exercise the door lock from the CCU. The first step locks the door \u2014 listen for the solenoid click."
+        },
+        {
+          "id": "live_test_door_lock",
+          "order": 13,
+          "type": "visual_check",
+          "title": "Door lock energizes in Manual Diagnostic Test"
+        },
+        {
+          "id": "replace_harness_door_lock",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace door lock harness"
+        },
+        {
+          "id": "door_lock_path_verified",
+          "order": 15,
+          "type": "outcome",
+          "title": "Door lock path verified"
+        },
+        {
+          "id": "suspect_ccu_door_lock",
+          "order": 16,
+          "type": "outcome",
+          "title": "Suspect CCU / control"
+        }
+      ]
+    },
+    {
+      "procedureId": "w11169652-test-01-acu-power",
+      "platformId": "whirlpool_fl_dd",
+      "componentIds": [
+        "supply"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_fl_dd/w11169652-test-01-acu-power.json",
+      "gate3Bucket": "AMBIGUOUS_CONFIGURATION",
+      "classification": "AMBIGUOUS_CONFIGURATION",
+      "analysis": {
+        "components": [
+          "supply"
+        ],
+        "firstLoadSideVerification": null,
+        "laterTestPoints": [
+          "RFI line in",
+          "RFI line out",
+          "ACU J2 pins 1&2 (with IF connected per body)",
+          "HMI 5 VDC (downstream)"
+        ],
+        "disconnectInstructions": [
+          "No component disconnect; live voltage with power restored at restore_power_line"
+        ],
+        "loadInCircuitDuringLaterTest": null,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "j2_bad implies harness between RFI and ACU, but domain is AC voltage supply chain not \u03a9 load",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": "Mixed \u2014 j2_bad OEM is harness repair; line_out_bad is RFI replacement; all confirm supply",
+        "modelWithoutDistortion": false,
+        "rationale": "Procedure is supply segmentation (cord \u2192 RFI \u2192 J2 \u2192 ACU), not component-at-load then through_path \u03a9. No measurementContext or single anchored load. j2_bad could be read as path fault or supply segment failure; confirm_supply_critical_supply_fault collapses distinct OEM paths.",
+        "competingInterpretations": [
+          "j2_bad as external_path_fault on supply vs supply segment confirm",
+          "Whether IF-connected J2 measurement implies loadInCircuit for any scoped \u03a9 model (N/A \u2014 voltage steps)"
+        ],
+        "missingEvidence": [
+          "No at-load resistance verification of any replaceable load",
+          "No explicit through_path / loadInCircuit for voltage checkpoints"
+        ],
+        "futureMigrationNotes": "Remain legacy; supply-path semantics need separate design from Gate 4 witness."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "access_electronics",
+          "order": 2,
+          "type": "instruction",
+          "title": "Access machine electronics",
+          "bodyExcerpt": "Remove the top panel. Visually verify all RFI filter and ACU connections are fully seated."
+        },
+        {
+          "id": "visual_if_acu",
+          "order": 3,
+          "type": "visual_check",
+          "title": "RFI filter and ACU connections OK"
+        },
+        {
+          "id": "restore_power_line",
+          "order": 4,
+          "type": "instruction",
+          "title": "Restore power for voltage checks",
+          "bodyExcerpt": "Plug in or reconnect power for live voltage measurements only. Use needle probes on connectors."
+        },
+        {
+          "id": "line_if_input",
+          "order": 5,
+          "type": "measurement",
+          "title": "Line voltage at RFI filter input",
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "RFI",
+            "pins": "Line in",
+            "label": "Line voltage at RFI filter input",
+            "pinDetails": [
+              {
+                "pin": "Line",
+                "signal": "Filter input \u2014 cord line",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "Neutral",
+                "signal": "Filter input \u2014 cord neutral",
+                "wireColor": "WT",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "physicalTestSetup": "supply_voltage_segment",
+            "loadInCircuit": false
+          }
+        },
+        {
+          "id": "line_if_output",
+          "order": 6,
+          "type": "measurement",
+          "title": "Line voltage at RFI filter output",
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "RFI",
+            "pins": "Line out",
+            "label": "Line voltage at RFI filter output",
+            "pinDetails": [
+              {
+                "pin": "Line",
+                "signal": "Filter input \u2014 cord line",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "Neutral",
+                "signal": "Filter input \u2014 cord neutral",
+                "wireColor": "WT",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "physicalTestSetup": "supply_voltage_segment",
+            "loadInCircuit": false
+          }
+        },
+        {
+          "id": "line_j2",
+          "order": 7,
+          "type": "measurement",
+          "title": "AC input at ACU J2 pins 1 & 2",
+          "measurementKnowledgeId": "supplyVoltage120",
+          "testPoint": {
+            "connector": "J2",
+            "pins": "1 & 2",
+            "label": "AC input at ACU J2 pins 1 & 2",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "LINE input",
+                "wireColor": "BK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "Neutral input",
+                "wireColor": "WT",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "physicalTestSetup": "supply_voltage_segment",
+            "loadInCircuit": false
+          }
+        },
+        {
+          "id": "acu_led_status",
+          "order": 8,
+          "type": "visual_check",
+          "title": "ACU service LED healthy"
+        },
+        {
+          "id": "hmi_5v",
+          "order": 9,
+          "type": "measurement",
+          "title": "HMI 5 VDC at J19 pins 2 & 4",
+          "measurementKnowledgeId": "whirlpoolFlWasherHmi5Vdc",
+          "testPoint": {
+            "connector": "J19",
+            "pins": "2 & 4",
+            "label": "HMI 5 VDC at J19 pins 2 & 4",
+            "pinDetails": [
+              {
+                "pin": "2",
+                "signal": "5V_UI",
+                "wireColor": "BU",
+                "wireColorConfidence": "inferred"
+              },
+              {
+                "pin": "4",
+                "signal": "DGND",
+                "wireColor": "BK",
+                "wireColorConfidence": "inferred"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "physicalTestSetup": "supply_voltage_segment",
+            "loadInCircuit": false
+          }
+        },
+        {
+          "id": "hmi_12v",
+          "order": 10,
+          "type": "measurement",
+          "title": "HMI 12 VDC at J19 pins 1 & 4",
+          "measurementKnowledgeId": "whirlpoolFlWasherHmi12Vdc",
+          "testPoint": {
+            "connector": "J19",
+            "pins": "1 & 4",
+            "label": "HMI 12 VDC at J19 pins 1 & 4",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "12.7_Lim_UI",
+                "wireColor": "RD",
+                "wireColorConfidence": "inferred"
+              },
+              {
+                "pin": "4",
+                "signal": "DGND",
+                "wireColor": "BK",
+                "wireColorConfidence": "inferred"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "physicalTestSetup": "supply_voltage_segment",
+            "loadInCircuit": false
+          }
+        },
+        {
+          "id": "power_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "ACU power verified"
+        },
+        {
+          "id": "repair_connections",
+          "order": 12,
+          "type": "outcome",
+          "title": "Repair connections"
+        },
+        {
+          "id": "replace_cord",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace power cord"
+        },
+        {
+          "id": "replace_rfi",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace RFI filter"
+        },
+        {
+          "id": "repair_j2_harness",
+          "order": 15,
+          "type": "outcome",
+          "title": "Repair J2 harness"
+        },
+        {
+          "id": "replace_acu_led",
+          "order": 16,
+          "type": "outcome",
+          "title": "Replace ACU"
+        },
+        {
+          "id": "replace_acu_hmi",
+          "order": 17,
+          "type": "outcome",
+          "title": "Replace ACU"
+        }
+      ]
+    },
+    {
+      "procedureId": "w8178558-inlet-valves",
+      "platformId": "whirlpool_duet_sport",
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_duet_sport/w8178558-inlet-valves.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "NEEDS_NEW_SEMANTIC_DESIGN",
+      "analysis": {
+        "components": [
+          "inlet_valve"
+        ],
+        "firstLoadSideVerification": "valve_at_component \u2014 cold & hot coils at valve terminals (coils disconnected at valve)",
+        "laterTestPoints": [
+          "VCH7 pins 1&3 (cold)",
+          "VCH7 pins 5&7 (hot)",
+          "Manual Diagnostic Test fill (live)"
+        ],
+        "disconnectInstructions": [
+          "disconnect_valve_coils: solenoid connectors at valve",
+          "disconnect_vch7: VCH7 from CCU only before CCU \u03a9"
+        ],
+        "loadInCircuitDuringLaterTest": true,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "Yes for OL at VCH7 with good at component \u2014 structurally parallel to heater witness per coil",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": false,
+        "modelWithoutDistortion": false,
+        "rationale": "Two independent coil paths on one VCH7 connector share one componentId; single valve_comp_pass verifies both coils in one step. CCU open branches route to replace_valve (component) not harness/path OEM. Cold and hot CCU steps each re-eliminate inlet_valve on pass. Gate 4 pair rule applies per coil but compound run needs multiple pathRefs or split procedures.",
+        "designGap": "Multi-pathRef / multi-coil compound conclusion on one componentId; optional per-coil component_verified scope; path-first terminal outcome missing for CCU-only open.",
+        "futureMigrationNotes": "Per-coil migration (cold then hot) possible after compound policy; not safe as single naive seed pass."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "faucet_psi_ok",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Water supply and PSI OK"
+        },
+        {
+          "id": "disconnect_valve_coils",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect solenoid connectors at valve",
+          "bodyExcerpt": "Refer to job aid \u00a74-6 for inlet valve access. Disconnect solenoid connectors from cold and hot valve terminals."
+        },
+        {
+          "id": "valve_at_component",
+          "order": 4,
+          "type": "measurement",
+          "title": "Inlet valve coil resistance at component",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+          "testPoint": {
+            "connector": "Inlet valve",
+            "pins": "Cold & hot coils",
+            "label": "Inlet valve coil resistance at component"
+          },
+          "measurementContext": {
+            "scope": "at_load",
+            "loadInCircuit": false,
+            "disconnectHints": [
+              "Solenoid connectors at cold and hot valve terminals"
+            ]
+          }
+        },
+        {
+          "id": "disconnect_vch7",
+          "order": 5,
+          "type": "instruction",
+          "title": "Disconnect VCH7 at CCU",
+          "bodyExcerpt": "Disconnect inlet valve solenoid connector VCH7 from the CCU."
+        },
+        {
+          "id": "valve_cold_ccu",
+          "order": 6,
+          "type": "measurement",
+          "title": "Cold valve VCH7 pins 1 & 3",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+          "testPoint": {
+            "connector": "VCH7",
+            "pins": "1 & 3 (cold)",
+            "label": "Cold valve VCH7 pins 1 & 3",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Cold valve coil +"
+              },
+              {
+                "pin": "3",
+                "signal": "Cold valve coil \u2212"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "through_path",
+            "loadInCircuit": true,
+            "disconnectHints": [
+              "VCH7 at CCU"
+            ]
+          }
+        },
+        {
+          "id": "valve_hot_ccu",
+          "order": 7,
+          "type": "measurement",
+          "title": "Hot valve VCH7 pins 5 & 7",
+          "measurementKnowledgeId": "whirlpoolDuetSportWasherInletValveOhms",
+          "testPoint": {
+            "connector": "VCH7",
+            "pins": "5 & 7 (hot)",
+            "label": "Hot valve VCH7 pins 5 & 7",
+            "pinDetails": [
+              {
+                "pin": "5",
+                "signal": "Hot valve coil +"
+              },
+              {
+                "pin": "7",
+                "signal": "Hot valve coil \u2212"
+              }
+            ]
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "reconnect_valve_harness",
+          "order": 8,
+          "type": "instruction",
+          "title": "Reconnect VCH7 and restore power",
+          "bodyExcerpt": "Reconnect VCH7 at the CCU. Reassemble panels. Plug in or restore power for Manual Diagnostic Test fill steps (\u00a76-7)."
+        },
+        {
+          "id": "service_mode_before_manual_test",
+          "order": 9,
+          "type": "instruction",
+          "title": "Continue to Manual Diagnostic Test",
+          "bodyExcerpt": "You should now be in Diagnostic Test mode (error history reviewed if applicable). Continue below for Manual Diagnostic Test component exercise."
+        },
+        {
+          "id": "live_test_inlet_valves",
+          "order": 10,
+          "type": "visual_check",
+          "title": "Valves fill in Manual Diagnostic Test"
+        },
+        {
+          "id": "correct_supply",
+          "order": 11,
+          "type": "outcome",
+          "title": "Correct water supply"
+        },
+        {
+          "id": "replace_valve",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace inlet valve"
+        },
+        {
+          "id": "valve_verified",
+          "order": 13,
+          "type": "outcome",
+          "title": "Inlet valves verified"
+        },
+        {
+          "id": "suspect_ccu_valve",
+          "order": 14,
+          "type": "outcome",
+          "title": "Suspect CCU/harness"
+        }
+      ]
+    },
+    {
+      "procedureId": "w10864849-test-07-drain-recirc-pump",
+      "platformId": "whirlpool_tl_dd",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd/w10864849-test-07-drain-recirc-pump.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "NEEDS_NEW_SEMANTIC_DESIGN",
+      "analysis": {
+        "components": [
+          "drain_pump",
+          "recirculation_pump (effects mis-tagged drain_pump on recirc branches)"
+        ],
+        "firstLoadSideVerification": "pump_terminal_ohms (order 9) \u2014 after J4 and harness steps",
+        "laterTestPoints": [
+          "J4-1&3 drain (J4 disconnected)",
+          "J4-1&5 recirc optional",
+          "harness_pump_cont checkpoint",
+          "pump motor terminals"
+        ],
+        "disconnectInstructions": [
+          "j4_pump_ohms body: Disconnect J4",
+          "Harness continuity with washer tilted \u2014 continuity pump pins to J4"
+        ],
+        "loadInCircuitDuringLaterTest": "J4 \u03a9 with J4 unplugged \u2014 pump windings on harness side (similar to CCU witness) but no prior at-pump pass in step order",
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "ph_open \u2192 replace_lower_harness_pump but effect confirms drain_pump",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": false,
+        "modelWithoutDistortion": false,
+        "rationale": "ACU-first sequence: J4 pass eliminates drain_pump before harness and before pump_terminal_ohms. Cannot apply Gate 4 eliminate\u2192path_open temporal rule without reordering or branch-scoped state. Drain + recirc on one J4; recirc failures attach to drain_pump componentId.",
+        "designGap": "ACU-first vs load-first ordering, dual-motor J4, harness visual_check between connector and load measurements.",
+        "futureMigrationNotes": "Align with w11169652-test-08 pattern \u2014 design before migration."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "clear_obstructions",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clear drain path obstructions",
+          "bodyExcerpt": "Check tub sump, hose, and filter areas. Then test drain/recirc in Service Test Mode."
+        },
+        {
+          "id": "service_test_pumps",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Drain/recirc run in Service Test Mode"
+        },
+        {
+          "id": "check_j4_pump",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J4 fully seated"
+        },
+        {
+          "id": "reseat_j4_pump",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat J4 and retest",
+          "bodyExcerpt": "Reconnect J4 and repeat Service Test pump run."
+        },
+        {
+          "id": "j4_pump_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Pump resistance at J4",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "J4",
+            "pins": "1 & 3",
+            "label": "Pump resistance at J4",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Neutral",
+                "wireColor": "WT",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "3",
+                "signal": "Drain pump",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": {
+            "scope": "through_path",
+            "loadInCircuit": true,
+            "disconnectHints": [
+              "J4 at ACU"
+            ]
+          }
+        },
+        {
+          "id": "recirc_j4_optional",
+          "order": 7,
+          "type": "measurement",
+          "title": "Recirc pump J4-1 to J4-5 (if equipped)",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherRecircPumpOhms",
+          "testPoint": {
+            "connector": "J4",
+            "pins": "1 & 5",
+            "label": "Recirc pump J4-1 to J4-5 (if equipped)",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Neutral",
+                "wireColor": "WT",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "5",
+                "signal": "Recirc pump",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "harness_pump_cont",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Pump harness continuity"
+        },
+        {
+          "id": "pump_terminal_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Resistance at pump motor terminals",
+          "measurementKnowledgeId": "whirlpoolTlDdWasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "1 & 2",
+            "label": "Resistance at pump motor terminals"
+          },
+          "measurementContext": {
+            "scope": "at_load",
+            "loadInCircuit": false,
+            "disconnectHints": [
+              "Pump harness at drain pump motor"
+            ]
+          }
+        },
+        {
+          "id": "reconnect_pump_power",
+          "order": 10,
+          "type": "instruction",
+          "title": "Reconnect pumps and restore power",
+          "bodyExcerpt": "Reconnect J4 and pump harnesses. Restore power for Service Test drain."
+        },
+        {
+          "id": "service_mode_before_test",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue to Service Test Mode",
+          "bodyExcerpt": "You should now be in Service Diagnostic mode. Continue below for Service Test Mode load/function commands."
+        },
+        {
+          "id": "live_test_drain_pump",
+          "order": 12,
+          "type": "visual_check",
+          "title": "Drain pump runs in Service Test Mode"
+        },
+        {
+          "id": "pump_obstruction",
+          "order": 13,
+          "type": "outcome",
+          "title": "Clear pump obstruction"
+        },
+        {
+          "id": "replace_lower_harness_pump",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace lower harness"
+        },
+        {
+          "id": "replace_drain_pump",
+          "order": 15,
+          "type": "outcome",
+          "title": "Replace drain pump"
+        },
+        {
+          "id": "pumps_verified",
+          "order": 16,
+          "type": "outcome",
+          "title": "Pumps verified"
+        },
+        {
+          "id": "replace_acu_pump",
+          "order": 17,
+          "type": "outcome",
+          "title": "Replace ACU"
+        }
+      ]
+    },
+    {
+      "procedureId": "w11416787-test-07-drain-recirc-pump",
+      "platformId": "whirlpool_tl_dd_5100",
+      "componentIds": [
+        "drain_pump"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_tl_dd_5100/w11416787-test-07-drain-recirc-pump.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "NEEDS_NEW_SEMANTIC_DESIGN",
+      "analysis": {
+        "components": [
+          "drain_pump",
+          "recirculation_pump (effects mis-tagged drain_pump)"
+        ],
+        "firstLoadSideVerification": "pump_terminal_ohms after J15 measurements and harness checkpoint (same structure as W10864849 TEST #7)",
+        "laterTestPoints": [
+          "J15 drain/recirc \u03a9",
+          "harness_pump_cont",
+          "pump terminals"
+        ],
+        "disconnectInstructions": [
+          "Disconnect J15 for \u03a9 at control connector"
+        ],
+        "loadInCircuitDuringLaterTest": "Same as w10864849-test-07",
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "Harness open branch \u2014 same as W10864849",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": false,
+        "modelWithoutDistortion": false,
+        "rationale": "Platform delta (J15 vs J4) with identical multi-point ACU-first pump flow; same compound limitations.",
+        "designGap": "Same as w10864849-test-07-drain-recirc-pump",
+        "futureMigrationNotes": "Migrate only after shared TL DD pump-path design."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "clear_obstructions",
+          "order": 2,
+          "type": "instruction",
+          "title": "Clear drain path obstructions",
+          "bodyExcerpt": "Check tub sump, hose, and filter areas. Then test drain/recirc in Component Activation."
+        },
+        {
+          "id": "component_test_pumps",
+          "order": 3,
+          "type": "visual_check",
+          "title": "Drain/recirc run in Component Activation"
+        },
+        {
+          "id": "check_j15_pump",
+          "order": 4,
+          "type": "visual_check",
+          "title": "J15 fully seated"
+        },
+        {
+          "id": "reseat_j15_pump",
+          "order": 5,
+          "type": "instruction",
+          "title": "Reseat J15 and retest",
+          "bodyExcerpt": "Reconnect J15 and repeat Component Activation pump run."
+        },
+        {
+          "id": "j15_pump_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Drain pump resistance J15-1 to J15-2",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "J15",
+            "pins": "1 & 2",
+            "label": "Drain pump resistance J15-1 to J15-2",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Neutral",
+                "wireColor": "WH",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "Drain pump",
+                "wireColor": "PK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "3",
+                "signal": "Recirc pump",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "4",
+                "signal": "Shifter",
+                "wireColor": "OR",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "recirc_j15_optional",
+          "order": 7,
+          "type": "measurement",
+          "title": "Recirc pump J15-1 to J15-3 (if equipped)",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherRecircPumpOhms",
+          "testPoint": {
+            "connector": "J15",
+            "pins": "1 & 3",
+            "label": "Recirc pump J15-1 to J15-3 (if equipped)",
+            "pinDetails": [
+              {
+                "pin": "1",
+                "signal": "Neutral",
+                "wireColor": "WH",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "2",
+                "signal": "Drain pump",
+                "wireColor": "PK",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "3",
+                "signal": "Recirc pump",
+                "wireColor": "BU",
+                "wireColorConfidence": "verified"
+              },
+              {
+                "pin": "4",
+                "signal": "Shifter",
+                "wireColor": "OR",
+                "wireColorConfidence": "verified"
+              }
+            ]
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "harness_pump_cont",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Pump harness continuity"
+        },
+        {
+          "id": "pump_terminal_ohms",
+          "order": 9,
+          "type": "measurement",
+          "title": "Resistance at pump motor terminals",
+          "measurementKnowledgeId": "whirlpoolTlDd5100WasherDrainPumpOhms",
+          "testPoint": {
+            "connector": "Drain pump",
+            "pins": "1 & 3",
+            "label": "Resistance at pump motor terminals"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "reconnect_pump_power",
+          "order": 10,
+          "type": "instruction",
+          "title": "Reconnect pumps and restore power",
+          "bodyExcerpt": "Reconnect J15 and pump harnesses. Restore power for Component Activation drain."
+        },
+        {
+          "id": "service_mode_before_activation",
+          "order": 11,
+          "type": "instruction",
+          "title": "Continue to Component Activation",
+          "bodyExcerpt": "You should now be in Service Mode. Use Left/Right to navigate, Select/Enter to open Service Diagnostics, then Component Activation for live load tests."
+        },
+        {
+          "id": "live_test_drain_pump",
+          "order": 12,
+          "type": "visual_check",
+          "title": "Drain pump runs in Component Activation"
+        },
+        {
+          "id": "pump_obstruction",
+          "order": 13,
+          "type": "outcome",
+          "title": "Clear pump obstruction"
+        },
+        {
+          "id": "replace_lower_harness_pump",
+          "order": 14,
+          "type": "outcome",
+          "title": "Replace lower harness"
+        },
+        {
+          "id": "replace_drain_pump",
+          "order": 15,
+          "type": "outcome",
+          "title": "Replace drain pump"
+        },
+        {
+          "id": "pumps_verified",
+          "order": 16,
+          "type": "outcome",
+          "title": "Pumps verified"
+        },
+        {
+          "id": "replace_acu_pump",
+          "order": 17,
+          "type": "outcome",
+          "title": "Replace ACU"
+        }
+      ]
+    },
+    {
+      "procedureId": "w11633848-overfill-switch",
+      "platformId": "whirlpool_dishwasher_acu",
+      "componentIds": [
+        "inlet_valve"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/whirlpool_dishwasher_acu/w11633848-overfill-switch.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "NEEDS_NEW_SEMANTIC_DESIGN",
+      "analysis": {
+        "components": [
+          "inlet_valve (seed componentIds)",
+          "float switch (semantic, not separate componentId)"
+        ],
+        "firstLoadSideVerification": null,
+        "laterTestPoints": [
+          "P6 7&9 fill valve (P6 unplugged at control)",
+          "P6 4&6 float down",
+          "P6 4&6 float up (OL is pass branch)"
+        ],
+        "disconnectInstructions": [
+          "disconnect_p6_overfill: Unplug P6 from control"
+        ],
+        "loadInCircuitDuringLaterTest": false,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "No \u2014 all measurements at control connector with P6 removed; float tests are positional switch semantics",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": false,
+        "modelWithoutDistortion": false,
+        "rationale": "No at-load \u03a9 on valve or float. Float-up pass uses measurement_open as success. Effects on float faults confirm/eliminate inlet_valve incorrectly. Multiple P6 pin pairs and mechanical float state \u2014 not single-load through_path.",
+        "designGap": "Stateful switch pass/fail (OL expected), separate float_switch anchor, control-only P6 measurements.",
+        "futureMigrationNotes": "Fix component attribution and float semantics before any scoped migration."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power"
+        },
+        {
+          "id": "overfill_prereq",
+          "order": 2,
+          "type": "instruction",
+          "title": "Overfill prerequisites",
+          "bodyExcerpt": "Same fill-path checks as \u00a73-8. Inspect leak pan for water and float freedom."
+        },
+        {
+          "id": "disconnect_p6_overfill",
+          "order": 3,
+          "type": "instruction",
+          "title": "Disconnect P6",
+          "bodyExcerpt": "Power off. Unplug P6 from control."
+        },
+        {
+          "id": "overfill_valve_ohms",
+          "order": 4,
+          "type": "measurement",
+          "title": "Fill valve \u2014 P6 pins 7 & 9",
+          "measurementKnowledgeId": "whirlpoolDishwasherAcuFillValveOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "7 & 9",
+            "label": "Fill valve \u2014 P6 pins 7 & 9"
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "loadInCircuit": true,
+            "disconnectHints": [
+              "P6 at control"
+            ]
+          }
+        },
+        {
+          "id": "float_down_ohms",
+          "order": 5,
+          "type": "measurement",
+          "title": "Float down \u2014 P6 pins 4 & 6",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "4 & 6 (float down)",
+            "label": "Float down \u2014 P6 pins 4 & 6"
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "loadInCircuit": true,
+            "physicalTestSetup": "positional_switch",
+            "disconnectHints": [
+              "P6 at control"
+            ]
+          }
+        },
+        {
+          "id": "float_up_ohms",
+          "order": 6,
+          "type": "measurement",
+          "title": "Float up \u2014 P6 pins 4 & 6",
+          "measurementKnowledgeId": "dishwasherFloatSwitchOhms",
+          "testPoint": {
+            "connector": "P6",
+            "pins": "4 & 6 (float up)",
+            "label": "Float up \u2014 P6 pins 4 & 6"
+          },
+          "measurementContext": {
+            "scope": "at_control_connector",
+            "loadInCircuit": true,
+            "physicalTestSetup": "positional_switch",
+            "disconnectHints": [
+              "P6 at control"
+            ]
+          }
+        },
+        {
+          "id": "reconnect_p6_overfill",
+          "order": 7,
+          "type": "instruction",
+          "title": "Reconnect P6 and restore power",
+          "bodyExcerpt": "Reconnect P6. Restore power."
+        },
+        {
+          "id": "service_mode_before_live_test",
+          "order": 8,
+          "type": "instruction",
+          "title": "Continue after Service Diagnostics entry",
+          "bodyExcerpt": "Service Diagnostics cycle should be available (entered via key sequence; cycle starts when door closes). Continue with bench checks below."
+        },
+        {
+          "id": "live_overfill_fill",
+          "order": 9,
+          "type": "visual_check",
+          "title": "Fill valve energizes in Service Diagnostics?"
+        },
+        {
+          "id": "replace_fill_valve_overfill",
+          "order": 10,
+          "type": "outcome",
+          "title": "Replace fill valve"
+        },
+        {
+          "id": "repair_float_switch",
+          "order": 11,
+          "type": "outcome",
+          "title": "Repair float harness"
+        },
+        {
+          "id": "replace_float_switch",
+          "order": 12,
+          "type": "outcome",
+          "title": "Replace float switch"
+        },
+        {
+          "id": "replace_acu_overfill",
+          "order": 13,
+          "type": "outcome",
+          "title": "Replace ACU"
+        },
+        {
+          "id": "overfill_verified",
+          "order": 14,
+          "type": "outcome",
+          "title": "Overfill circuit verified"
+        }
+      ]
+    },
+    {
+      "procedureId": "lgotrmw-door-interlock",
+      "platformId": "lg_microwave_otr",
+      "componentIds": [
+        "door_interlock"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/lg_microwave_otr/lgotrmw-door-interlock.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "TRUE_COMPONENT_FAILURE",
+      "analysis": {
+        "components": [
+          "door_interlock"
+        ],
+        "firstLoadSideVerification": "Primary/secondary/monitor tests at switch terminals with leads disconnected per step",
+        "laterTestPoints": [
+          "Primary COM-NO (door closed) measurement",
+          "Secondary COM-NO (door closed)",
+          "Monitor COM-NC states via checkpoints"
+        ],
+        "disconnectInstructions": [
+          "primary_open: Disconnect primary switch leads",
+          "Tests are directly at interlock switches, not at a control harness connector"
+        ],
+        "loadInCircuitDuringLaterTest": false,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "No \u2014 OL/closed readings are direct switch health, not path_open through wiring",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": true,
+        "modelWithoutDistortion": true,
+        "rationale": "Sequential interlock switch tests (primary, secondary, monitor) with door state. Failures confirm door_interlock for component replacement/adjustment \u2014 not external path with verified-good load. No CCU/connector through-path step.",
+        "futureMigrationNotes": "Remain legacy unscoped; scoped path model does not apply."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV"
+        },
+        {
+          "id": "primary_open",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Primary switch open with door open?"
+        },
+        {
+          "id": "adjust_primary",
+          "order": 3,
+          "type": "instruction",
+          "title": "Adjust or replace primary switch",
+          "bodyExcerpt": "Adjust latch board (\u00a79-1) or replace primary interlock switch."
+        },
+        {
+          "id": "primary_closed",
+          "order": 4,
+          "type": "measurement",
+          "title": "Primary switch closed with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Primary interlock",
+            "pins": "COM-NO",
+            "label": "Primary switch closed with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "secondary_open",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Secondary switch open with door open?"
+        },
+        {
+          "id": "adjust_secondary",
+          "order": 6,
+          "type": "instruction",
+          "title": "Adjust or replace secondary switch",
+          "bodyExcerpt": "Adjust latch board or replace secondary interlock switch."
+        },
+        {
+          "id": "secondary_closed",
+          "order": 7,
+          "type": "measurement",
+          "title": "Secondary switch closed with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Secondary interlock",
+            "pins": "COM-NO",
+            "label": "Secondary switch closed with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "monitor_open",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Monitor switch closed with door open?"
+        },
+        {
+          "id": "replace_monitor",
+          "order": 9,
+          "type": "instruction",
+          "title": "Replace monitor switch",
+          "bodyExcerpt": "Replace interlock monitor switch (NC must close when door opens)."
+        },
+        {
+          "id": "monitor_closed",
+          "order": 10,
+          "type": "measurement",
+          "title": "Monitor switch open with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Monitor interlock",
+            "pins": "COM-NC",
+            "label": "Monitor switch open with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "interlock_verified",
+          "order": 11,
+          "type": "outcome",
+          "title": "Interlock switches verified"
+        }
+      ]
+    },
+    {
+      "procedureId": "samsungotrmw-door-interlock",
+      "platformId": "samsung_microwave_otr",
+      "componentIds": [
+        "door_interlock"
+      ],
+      "seedPath": "frontend/components/diagnostics/procedures/seed/samsung_microwave_otr/samsungotrmw-door-interlock.json",
+      "gate3Bucket": "MULTI_POINT_COMPOUND",
+      "classification": "TRUE_COMPONENT_FAILURE",
+      "analysis": {
+        "components": [
+          "door_interlock"
+        ],
+        "firstLoadSideVerification": "Same pattern as LG \u2014 primary closed measurement at switch with door shut",
+        "laterTestPoints": [
+          "Primary COM-NO",
+          "Monitor COM-NC checkpoints",
+          "Additional interlock steps"
+        ],
+        "disconnectInstructions": [
+          "Disconnect primary switch leads at switch"
+        ],
+        "loadInCircuitDuringLaterTest": false,
+        "loadInCircuitExplicitInSeed": false,
+        "laterTestEstablishesPathFault": "No",
+        "multiPointOrMultiLoad": true,
+        "oemOutcomeAgreesWithSemantics": true,
+        "modelWithoutDistortion": true,
+        "rationale": "Microwave interlock procedure tests switches in situ; path_open + external_path_fault would misrepresent direct switch failure.",
+        "futureMigrationNotes": "Remain legacy unscoped."
+      },
+      "stepIndex": [
+        {
+          "id": "safety_power_off",
+          "order": 1,
+          "type": "safety",
+          "title": "Disconnect power and discharge HV"
+        },
+        {
+          "id": "primary_open",
+          "order": 2,
+          "type": "visual_check",
+          "title": "Primary switch open with door open?"
+        },
+        {
+          "id": "adjust_latch",
+          "order": 3,
+          "type": "instruction",
+          "title": "Adjust latch body",
+          "bodyExcerpt": "Adjust latch body per \u00a74-6 \u2014 no door play; gap \u22640.5 mm when closed."
+        },
+        {
+          "id": "primary_closed",
+          "order": 4,
+          "type": "measurement",
+          "title": "Primary switch closed with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Primary interlock",
+            "pins": "COM-NO",
+            "label": "Primary switch closed with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "monitor_nc_open",
+          "order": 5,
+          "type": "visual_check",
+          "title": "Monitor COM-NC closed with door open?"
+        },
+        {
+          "id": "replace_monitor",
+          "order": 6,
+          "type": "instruction",
+          "title": "Replace monitor switch",
+          "bodyExcerpt": "Replace monitor interlock and related switches per NOTE 1."
+        },
+        {
+          "id": "monitor_nc_closed",
+          "order": 7,
+          "type": "measurement",
+          "title": "Monitor COM-NC open with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Monitor interlock",
+            "pins": "COM-NC",
+            "label": "Monitor COM-NC open with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "secondary_open",
+          "order": 8,
+          "type": "visual_check",
+          "title": "Door sensing switch open with door open?"
+        },
+        {
+          "id": "secondary_closed",
+          "order": 9,
+          "type": "measurement",
+          "title": "Door sensing switch closed with door shut",
+          "measurementKnowledgeId": "microwaveDoorInterlockSwitchOhms",
+          "testPoint": {
+            "connector": "Door sensing switch",
+            "pins": "COM-NO",
+            "label": "Door sensing switch closed with door shut"
+          },
+          "measurementContext": null
+        },
+        {
+          "id": "interlock_verified",
+          "order": 10,
+          "type": "outcome",
+          "title": "Interlock switches verified"
+        }
+      ]
+    }
+  ],
+  "noProposedProductionMutations": true
+}

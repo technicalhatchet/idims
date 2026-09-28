@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { buildReasoningPresentation } from './reasoning/reasoningPresentation';
-import { diagnosticStatusEyebrow } from '../diagnostics/intelligence/diagnosticJourneyPresentation';
+import {
+  diagnosticStatusEyebrow,
+  isDisplayableLeadPercent,
+} from '../diagnostics/intelligence/diagnosticJourneyPresentation';
 import SolomonCategoryIcon from './categoryIcons';
 import SolomonDiagnosticPath from './SolomonDiagnosticPath';
 import EliminationBanner from '../diagnostics/EliminationBanner';
@@ -237,7 +240,7 @@ export default function SolomonReasoningSheet({
                 ) : null}
                 <div className="min-w-0 flex-1">
                   <p className="text-lg font-semibold text-white">{lead.headline}</p>
-                  {lead.showPercent && lead.percent != null ? (
+                  {isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
                     <div className="flex items-baseline gap-2 mt-1">
                       <span className="text-3xl font-bold tabular-nums text-emerald-400">{lead.percent}%</span>
                       {lead.strengthWord ? (
@@ -251,7 +254,7 @@ export default function SolomonReasoningSheet({
                   )}
                 </div>
               </div>
-              {lead.showPercent && lead.percent != null ? (
+              {isDisplayableLeadPercent(lead.showPercent, lead.percent) ? (
                 <ConfidenceBar percent={lead.percent} variant={variant} />
               ) : null}
               {strength && lead.showPercent ? (
