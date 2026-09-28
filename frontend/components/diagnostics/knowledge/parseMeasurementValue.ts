@@ -4,6 +4,14 @@ export function isOpenCircuitReading(raw: string): boolean {
   return OPEN_CIRCUIT_PATTERNS.test(String(raw || '').trim());
 }
 
+/** Canonical string stored on procedure runs (e.g. OL for open circuit). */
+export function normalizeMeasurementReading(raw: string): string {
+  const trimmed = String(raw || '').trim();
+  if (!trimmed) return trimmed;
+  if (isOpenCircuitReading(trimmed)) return 'OL';
+  return trimmed;
+}
+
 /** Parse technician entry — tolerates trailing units and commas. */
 export function parseMeasurementNumber(raw: unknown): number | null {
   if (raw == null) return null;
